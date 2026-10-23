@@ -1,0 +1,181 @@
+{
+  "id": "FS8205A",
+  "mpn": "FS8205A",
+  "manufacturer": "Fortune Semiconductor",
+  "category": "mosfet",
+  "description": "Dual N-channel MOSFET, common drain, 20 V, 6 A, 25 mohm at 4.5 V gate: the switch pair of one-cell battery protection",
+  "tags": [
+    "mosfet",
+    "n-channel",
+    "dual",
+    "common drain",
+    "battery protection",
+    "li-ion",
+    "dw01a",
+    "8205"
+  ],
+  "datasheet": {
+    "url": "https://atta.szlcsc.com/upload/public/pdf/source/20140228/1457706997167.pdf",
+    "revision": "FS8205A-DS-12 Rev. 1.2, August 2009"
+  },
+  "prefix": "Q",
+  "package": {
+    "name": "TSSOP-8",
+    "family": "tssop",
+    "pins": 8,
+    "pitch": 0.65,
+    "body": {
+      "d": [
+        2.83,
+        2.93,
+        3.03
+      ],
+      "e": [
+        4.3,
+        4.4,
+        4.5
+      ],
+      "a": [
+        null,
+        1.2
+      ]
+    },
+    "span": [
+      6.2,
+      6.4,
+      6.6
+    ],
+    "lead": {
+      "b": [
+        0.2,
+        0.28
+      ],
+      "l": [
+        0.45,
+        0.6,
+        0.75
+      ]
+    },
+    "page": "p. 6, Package information (JEDEC MO-153 AA)"
+  },
+  "pins": [
+    {
+      "number": "1",
+      "name": "D12",
+      "type": "passive",
+      "description": "common drain of both MOSFETs"
+    },
+    {
+      "number": "2",
+      "name": "S1",
+      "type": "passive",
+      "description": "source of MOSFET 1"
+    },
+    {
+      "number": "3",
+      "name": "S1",
+      "type": "passive",
+      "description": "source of MOSFET 1"
+    },
+    {
+      "number": "4",
+      "name": "G1",
+      "type": "input",
+      "description": "gate of MOSFET 1"
+    },
+    {
+      "number": "5",
+      "name": "G2",
+      "type": "input",
+      "description": "gate of MOSFET 2"
+    },
+    {
+      "number": "6",
+      "name": "S2",
+      "type": "passive",
+      "description": "source of MOSFET 2"
+    },
+    {
+      "number": "7",
+      "name": "S2",
+      "type": "passive",
+      "description": "source of MOSFET 2"
+    },
+    {
+      "number": "8",
+      "name": "D12",
+      "type": "passive",
+      "description": "common drain of both MOSFETs"
+    }
+  ],
+  "ratings": {
+    "absMax": [
+      {
+        "what": "drain-source voltage",
+        "pins": [
+          "D12"
+        ],
+        "max": 20.0,
+        "unit": "V"
+      },
+      {
+        "what": "gate-source voltage",
+        "pins": [
+          "G1",
+          "G2"
+        ],
+        "min": -12.0,
+        "max": 12.0,
+        "unit": "V"
+      },
+      {
+        "what": "continuous drain current at 25 °C",
+        "max": 6.0,
+        "unit": "A"
+      },
+      {
+        "what": "pulsed drain current",
+        "max": 25.0,
+        "unit": "A"
+      },
+      {
+        "what": "operating junction temperature",
+        "min": -55.0,
+        "max": 150.0,
+        "unit": "°C"
+      }
+    ],
+    "recommended": [
+      {
+        "what": "gate threshold voltage",
+        "min": 0.5,
+        "max": 1.0,
+        "unit": "V"
+      },
+      {
+        "what": "on-resistance at VGS 4.5 V, 4 A",
+        "nom": 0.021,
+        "max": 0.025,
+        "unit": "ohm"
+      }
+    ]
+  },
+  "notes": [
+    "Pins 1 and 8 (D12) carry the full battery current through the die: give them and the source pins wide copper.",
+    "125 °C/W on 1 square inch of copper, 208 °C/W on minimal pads.",
+    "Application circuit: DW01A datasheet, Typical application circuit.",
+    "In a one-cell protection circuit: S1 to the cell's negative terminal, S2 to the pack's negative terminal (BATT-), G1 from the protection IC's discharge output (OD), G2 from its charge output (OC); D12 stays on its own net (both drains)."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "FS8205A datasheet Rev. 1.2, section 4 (pin assignment, TSSOP-8 top view)",
+      "url": "https://atta.szlcsc.com/upload/public/pdf/source/20140228/1457706997167.pdf",
+      "license": "facts transcribed from the datasheet; notes in our own words"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "computed from the datasheet's TSSOP-8 dimensions (p. 6)"
+    }
+  }
+}
