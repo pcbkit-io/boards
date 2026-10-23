@@ -946,24 +946,6 @@
         ]
       },
       {
-        "ref": "C15",
-        "kind": "cap",
-        "value": "15pF",
-        "between": [
-          "XIN",
-          "GND"
-        ]
-      },
-      {
-        "ref": "C16",
-        "kind": "cap",
-        "value": "15pF",
-        "between": [
-          "y1XoutSide",
-          "GND"
-        ]
-      },
-      {
         "ref": "R3",
         "kind": "res",
         "value": "27ohm",
@@ -993,10 +975,6 @@
       }
     ],
     "inputs": [
-      {
-        "name": "y1XoutSide",
-        "description": "The board's Y1 (XOUT side)."
-      },
       {
         "name": "connectorDP",
         "description": "The board's connector D+."

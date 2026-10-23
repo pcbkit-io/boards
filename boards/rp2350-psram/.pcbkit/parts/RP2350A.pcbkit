@@ -209,8 +209,6 @@ let Y1Crystal = crystal(12MHz, load = 10pF, package = "3225")
 block Support(
   /// The RP2350A this circuit serves (`RP2350A.Support(U1)`).
   chip: Any,
-  /// The board's Y1 (XOUT side). (`null`: its parts are left out)
-  y1XoutSide: Endpoint? = null,
   /// The board's connector D+. (`null`: its parts are left out)
   connectorDP: Endpoint? = null,
   /// The board's connector D-. (`null`: its parts are left out)
@@ -315,16 +313,6 @@ block Support(
     place = [soft(near(chip.pin.VREG_AVDD, max = 4mm), weight = 2)]
     pins { a: chip.pin.VREG_AVDD, b: chip.pin.GND }
   }
-  C15 = cap(15pF, package = "0402") {
-    place = [soft(near(chip.pin.XIN, max = 2mm), weight = 2)]
-    pins { a: chip.pin.XIN, b: chip.pin.GND }
-  }
-  C16 =
-    if y1XoutSide != null then cap(15pF, package = "0402") {
-      place = [soft(near(chip, max = 8mm), weight = 1)]
-      pins { a: y1XoutSide, b: chip.pin.GND }
-    }
-    else null
   R3 =
     if connectorDP != null then res(27ohm, package = "0402") {
       place = [soft(near(chip.pin.USB_DP, max = 5mm), weight = 1)]
