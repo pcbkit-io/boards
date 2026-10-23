@@ -24,25 +24,32 @@ than *programs*.
 `pcbkit export --format fab` succeeds without `--force`: every assembled line of the BOM has an LCSC code.
 <!-- /STATUS -->
 
+## Run it in the browser
+
+Open https://app.pcbkit.io/github/pcbkit-io/doom-handheld/tree/main/boards/v003-emu, open the
+Laboratory and press **Build & run**: the page builds both programs — `emu/` for the CH32V003
+(RV32EC) and `doom/` for the computer it emulates (pcbkit-virt, with `DOOM1.WAD` linked in) — puts
+the second in the W25Q128 and runs the board. Until the first frame the LCD shows Doom's start-up
+messages; the title screen comes after about three minutes of device time, then the demo.
+
 ## Why it can (barely) run Doom
 
-The CH32V003's job is only to be a CPU for an emulated one:
+The CH32V003's job is only to be a CPU for an emulated one (`emu/`):
 
-1. Boot: the V003's own firmware (≈ 6 KB, in its 16 KB flash) is an RV32IMA interpreter with a
-   direct-mapped cache of PSRAM lines in its SRAM (e.g. 32 lines × 32 bytes = 1 KB).
-2. It copies the guest image (Doom for a bare RV32 machine with a tiny platform layer: framebuffer
-   at a fixed address, buttons and timer as MMIO) from the W25Q128 into the PSRAM, then runs it.
-3. Guest loads/stores go through the cache; misses are SPI transactions to the PSRAM
-   (03h read / 02h write, 24 MHz SCK: ~13 µs for a 32-byte line incl. command and address).
-4. Every few hundred milliseconds the interpreter reads the guest's 320 × 200 8-bit frame,
-   downsamples it to 84 × 48, dithers it to 1 bit and sends 504 bytes to the PCD8544.
+1. Its firmware (15.6 KB of its 16 KB flash) is an RV32IMAC interpreter (`emu/rvemu.c`) with a
+   direct-mapped write-back cache of 32 lines × 16 bytes in its 2 KB of SRAM.
+2. The guest (`doom/`: Doom for pcbkit-virt, an ELF file) is in the W25Q128: its code and
+   constants, the WAD linked into them, are read where they lie; its writable segment is copied
+   into the PSRAM at boot.
+3. Guest loads and stores go through the cache; a miss is one SPI transaction (command, 24-bit
+   address and 16 bytes at 24 MHz, 6.7 µs with the chip selected: inside the PSRAM's 8 µs limit).
+4. Each guest frame (320 × 200, 8-bit) is scaled to 84 × 48 with ordered dithering and sent to
+   the PCD8544; its start-up messages are shown on the glass until then, and a stop says why.
 
-**Speed (estimate, not measured on silicon).** PCBKit's own Doom on `pcbkit-virt` needs about
-1.1 M guest instructions per frame (measured: 354 M instructions for 324 frames,
-`research/machine-framework-2026-10-23.md`). An interpreter on a 48 MHz RV32EC core costs roughly
-30–60 host cycles per guest instruction plus cache misses, i.e. 0.5–1 guest MIPS: **about one frame
-every 1–2 seconds**. It is a demonstration board, not a game console — and the reason it is
-variant 01.
+**Speed, measured in PCBKit's simulator** (instruction-accurate CH32V003 at 48 MHz, the memories'
+SPI timing): Doom's start-up messages from the first second, its title screen at about 200 s of
+device time, the demo at 300 s, then a frame every several seconds. It is a demonstration
+board, not a game console — and the reason it is variant 01.
 
 ## Power
 
@@ -97,24 +104,16 @@ The assembly solders a 1x8 female socket for the display; the module is bought s
   on the front. Boards with another pin order exist: check the order on its silkscreen against
   the board's before plugging it in.
 
-## Storage of the game data
-
-The guest image (emulated kernel-less Doom + its WAD) is written to the W25Q128 once with any
-SPI flash programmer (CH341A clip) or by the V003 firmware itself receiving it over the SDI debug
-link. 16 MB holds the shareware DOOM1.WAD (4.2 MB) uncompressed.
-
 ## Firmware: build and flash
 
-- Toolchain: `riscv-none-elf-gcc` (xPack) with `-march=rv32ec_zicsr -mabi=ilp32e`, or the
-  open-source **ch32v003fun** SDK (MIT), which is small enough for an interpreter.
-- **Flashing on arrival:** a WCH-LinkE (about $5, WCH's own programmer) on J2: its 3V3, SWDIO
-  (WCH's single-wire SWIO) and GND to J2's 3V3, SWIO and GND (marked on the back). Then
-  `minichlink -w emu.bin flash -b` (ch32v003fun) or WCH-LinkUtility. The chip arrives blank: the
-  emulator goes in this way, and the guest image too (the emulator can take it over the same link
-  and write it to the W25Q128), or with a SOIC-8 clip programmer on the W25Q128 while the board is
-  off.
-- The guest: built with `riscv32-unknown-elf-gcc -march=rv32ima`, written to the flash at
-  offset 0 (`flashrom -p ch341a_spi -w guest.bin`).
+- **Build:** in PCBKit, the Laboratory's **Build & run** builds both programs (the CH32V003's with
+  RV32EC, ilp32e, -Os; the guest for RV32IMAC with the WAD); then export the firmware
+  (`export.run { format: "firmware" }`): `U1.bin` for the CH32V003 and `U3.bin` for the W25Q128.
+- **The CH32V003, on arrival:** a WCH-LinkE (about $5, USB) on J2: its 3V3, SWIO and GND to J2's
+  (marked on the back). Then `minichlink -w U1.bin flash -b` (ch32v003fun) or WCH-LinkUtility.
+- **The W25Q128 (the guest):** hold MENU while switching on: the emulator lets go of the SPI bus
+  (every pin an input) and waits, so a USB SPI programmer (CH341A) with a SOIC-8 clip on the
+  W25Q128 writes it in place: `flashrom -p ch341a_spi -w U3.bin`. Switch off and on: Doom boots.
 
 ## Bill of materials
 

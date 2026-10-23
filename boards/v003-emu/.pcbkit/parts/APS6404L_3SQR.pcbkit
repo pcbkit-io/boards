@@ -46,6 +46,11 @@ part Part = device(footprint = soic(
     Datasheet: "https://www.pjrc.com/store/APS6404L_3SQR.pdf",
   }
   simulation = SimulationParameters {
+    behavior = Behavior {
+      model = "aps6404l"
+      ports = { "power": ["8", "4"], "spi": ["5", "6"], "cs": ["1"] }
+      height = 1.75mm
+    }
     parameters = [
       SimulationParameter {
         id = "icc-rw-133mhz"

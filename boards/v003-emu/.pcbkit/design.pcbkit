@@ -61,8 +61,13 @@ board = Board {
   outline = rect(96mm, 92mm, radius = 4mm)
 }
 
+laboratory = Laboratory { world = "input.js" }
+
 // ---- processor (back) ------------------------------------------------------------------------
-U1 = CH32V003F4P6.Part {
+// Its program is emu/: the RISC-V computer it builds from the PSRAM, the flash and the LCD.
+U1 = CH32V003F4P6.Part with {
+  simulation = CH32V003F4P6.Part.simulation with { behavior = CH32V003F4P6.Part.simulation.behavior with { firmware = "emu" } }
+} {
   at = (48mm, 67mm)
   side = .bottom
   orderCode = "C5187096"
@@ -85,7 +90,20 @@ swioLabel = Text { text = "3V3 SWIO GND"; at = (89.5mm, 64.5mm); size = 1mm; rot
 // ---- memory (back): the guest's RAM and its disk on the same SPI bus -------------------------
 U2 = APS6404L_3SQR.Part { side = .bottom; orderCode = "C5333729"; pins { CE: RAM_CS, SIO1: MISO, SIO0: MOSI, SCLK: SCK, SIO2: V3, SIO3: V3, VDD: V3, VSS: GND } }
 U2Support = APS6404L_3SQR.Support(U2) { side = .bottom }
-U3 = W25Q128JVSIQ.Part { side = .bottom; orderCode = "C97521"; pins { nCS: ROM_CS, DO: MISO, DI: MOSI, CLK: SCK, VCC: V3, GND: GND } }
+// The flash holds the guest: doom/ built for that computer (pcbkit-virt, 8 MB of RAM), with the
+// game's data, id Software's shareware DOOM1.WAD (free to share unmodified), linked in from where
+// it is published.
+U3 = W25Q128JVSIQ.Part with {
+  simulation = W25Q128JVSIQ.Part.simulation with { behavior = W25Q128JVSIQ.Part.simulation.behavior with {
+    firmware = "doom"
+    parameters = { "ram_mib": 8 }
+    data = { "DOOM1.WAD": FirmwareData {
+      url = "https://raw.githubusercontent.com/Akbar30Bill/DOOM_wads/9b384dc68add3eb2f5eb7754654cafeeaea5103b/doom1.wad"
+      sha256 = "1d7d43be501e67d927e415e0b8f3e29c3bf33075e859721816f652a526cac771"
+      bytes = 4196020
+    } }
+  } }
+} { side = .bottom; orderCode = "C97521"; pins { nCS: ROM_CS, DO: MISO, DI: MOSI, CLK: SCK, VCC: V3, GND: GND } }
 U3Support = W25Q128JVSIQ.Support(U3) { side = .bottom }
 
 // ---- display (front) -------------------------------------------------------------------------
@@ -167,15 +185,19 @@ switchLabel = Text { text = "ON / OFF"; at = (80mm, 85.5mm); size = 1mm }
 BZ1 = GPC12075YB_5V.Part { side = .bottom; orderCode = "C252948"; pins { A: BUZZ, B: GND } }
 
 // ---- input (front): 5.1 mm switches, internal pull-ups ----------------------------------------
-part Btn = button("5.1x5.1") with { orderCode = "C318884" }
-SW1 = Btn { at = (14mm, 74mm); pins { a: UP, b: GND } }
-SW2 = Btn { at = (14mm, 58mm); pins { a: DOWN, b: GND } }
-SW3 = Btn { at = (6mm, 66mm); pins { a: LEFT, b: GND } }
-SW4 = Btn { at = (22mm, 66mm); pins { a: RIGHT, b: GND } }
-SW5 = Btn { at = (89mm, 70mm); pins { a: FIRE, b: GND } }
-SW6 = Btn { at = (80mm, 62mm); pins { a: USE, b: GND } }
-SW7 = Btn { at = (80mm, 78mm); pins { a: STRAFE, b: GND } }
-SW8 = Btn { at = (87mm, 56mm); pins { a: MENU, b: GND } }
+// A switch that pulls its line to ground, operated by `code` while the device runs.
+fn key(code: String): Part = button("5.1x5.1") with {
+  orderCode = "C318884"
+  simulation = SimulationParameters { behavior = Behavior { model = "button"; ports = { output: ["1"] }; key = code } }
+}
+SW1 = key("ArrowUp") { at = (14mm, 74mm); pins { a: UP, b: GND } }
+SW2 = key("ArrowDown") { at = (14mm, 58mm); pins { a: DOWN, b: GND } }
+SW3 = key("ArrowLeft") { at = (6mm, 66mm); pins { a: LEFT, b: GND } }
+SW4 = key("ArrowRight") { at = (22mm, 66mm); pins { a: RIGHT, b: GND } }
+SW5 = key("KeyF") { at = (89mm, 70mm); pins { a: FIRE, b: GND } }
+SW6 = key("Space") { at = (80mm, 62mm); pins { a: USE, b: GND } }
+SW7 = key("KeyS") { at = (80mm, 78mm); pins { a: STRAFE, b: GND } }
+SW8 = key("KeyM") { at = (87mm, 56mm); pins { a: MENU, b: GND } }
 
 // Bring-up: the cells, the power path, 3.3 V and ground on test pads.
 tpBat = testPoint() { at = (60mm, 36mm); pins = [BAT] }

@@ -70,6 +70,33 @@ part Part = device(footprint = tssop(
     Datasheet: "https://www.wch-ic.com/downloads/CH32V003DS0_PDF.html",
   }
   simulation = SimulationParameters {
+    // The chip in PCBKit's laboratory: its GPIOs by name; SPI1 and USART1 are carried by the pins
+    // a board wires them to (their alternate functions).
+    behavior = Behavior {
+      model = "ch32v003"
+      ports = {
+        "power": ["9", "7"],
+        "PA1": ["5"],
+        "PA2": ["6"],
+        "PC0": ["10"],
+        "PC1": ["11"],
+        "PC2": ["12"],
+        "PC3": ["13"],
+        "PC4": ["14"],
+        "PC5": ["15"],
+        "PC6": ["16"],
+        "PC7": ["17"],
+        "PD0": ["8"],
+        "PD1": ["18"],
+        "PD2": ["19"],
+        "PD3": ["20"],
+        "PD4": ["1"],
+        "PD5": ["2"],
+        "PD6": ["3"],
+        "PD7": ["4"],
+      }
+      height = 1.2mm
+    }
     parameters = [
       SimulationParameter {
         id = "idd-run-48mhz-3v3"
