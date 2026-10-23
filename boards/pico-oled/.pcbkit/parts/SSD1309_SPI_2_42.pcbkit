@@ -56,4 +56,13 @@ part Part = device(footprint = moduleSocket(
     PinoutSource: "lcdwiki MSP242X: pins 1 GND, 2 VCC, 3 SCL, 4 SDA, 5 RES, 6 DC, 7 CS; outline drawing: PCB 72.00 x 43.00 mm, holes 68 x 39 mm, header 2.54 x 6 = 15.24 mm centred on the left edge (13.88 mm from the bottom), 12.39 mm total height",
     Datasheet: "https://www.lcdwiki.com/2.42inch_SPI_OLED_Module_SKU:MSP242X",
   }
+  simulation = SimulationParameters {
+    behavior = Behavior {
+      model = "ssd1309"
+      ports = { "cs": ["7"], "dc": ["6"], "power": ["2", "1"], "reset": ["5"], "spi": ["4", "3"] }
+      parameters = { "height_mm": 27.49, "offset_x_mm": 34.0, "offset_y_mm": 2.685, "width_mm": 55.01 }
+      height = 12.4mm
+    }
+    parameters = []
+  }
 }

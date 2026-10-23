@@ -47,10 +47,22 @@ board = Board {
   description = "RP2040 (Pico) · 2.42in 128x64 OLED · 8 buttons · 2 x 18650, USB charging"
   outline = rect(150mm, 100mm, radius = 6mm)
 }
+laboratory = Laboratory { world = "input.js" }
 
 // The processor: a Pico on two 20-pin sockets on the back, USB end at the top edge (charging,
 // and the firmware flashed over USB as a UF2: hold BOOTSEL while plugging in).
-U1 = RASPBERRY_PI_PICO.Part {
+// The program is doom/ (rp2040-doom's engine); its data, rp2040-doom's compressed shareware WAD
+// (DOOM1.WHX, id Software's data, free to share unmodified), is linked into the Pico's 2 MB flash.
+U1 = RASPBERRY_PI_PICO.Part with {
+  simulation = RASPBERRY_PI_PICO.Part.simulation with { behavior = RASPBERRY_PI_PICO.Part.simulation.behavior with {
+    firmware = "doom"
+    data = { "DOOM1.WHX": FirmwareData {
+      url = "https://raw.githubusercontent.com/kilograham/rp2040-doom/29a453c980918a03e40fc8b69b024e7a3bdb5dc2/doom1.whx"
+      sha256 = "87ea79020578fa2e72fc204f67ff2ce45bd73a266a369670da7a019028b0d893"
+      bytes = 1800344
+    } }
+  } }
+} {
   at = (75mm, 73.2mm)
   rotation = 0deg
   side = .bottom
@@ -126,15 +138,19 @@ R1 = res(100ohm, package = "0805") { side = .bottom; orderCode = "C17408"; pins 
 
 // Input: a d-pad on the left, fire/use on the right, strafe and menu above them. Each button
 // pulls its GPIO to ground; the RP2040's internal pull-ups hold them high.
-part Btn = button("6x6") with { orderCode = "C221880" }
-SW1 = Btn { at = (16mm, 80mm); pins { a: UP, b: GND } }
-SW2 = Btn { at = (16mm, 58mm); pins { a: DOWN, b: GND } }
-SW3 = Btn { at = (7mm, 69mm); pins { a: LEFT, b: GND } }
-SW4 = Btn { at = (25mm, 69mm); pins { a: RIGHT, b: GND } }
-SW5 = Btn { at = (136mm, 74mm); pins { a: FIRE, b: GND } }
-SW6 = Btn { at = (124mm, 64mm); pins { a: USE, b: GND } }
-SW7 = Btn { at = (124mm, 86mm); pins { a: STRAFE, b: GND } }
-SW8 = Btn { at = (140mm, 86mm); pins { a: MENU, b: GND } }
+// A tactile switch that pulls its line to ground, operated by `code` while the device runs.
+fn key(code: String): Part = button("6x6") with {
+  orderCode = "C221880"
+  simulation = SimulationParameters { behavior = Behavior { model = "button"; ports = { output: ["1"] }; key = code } }
+}
+SW1 = key("ArrowUp") { at = (16mm, 80mm); pins { a: UP, b: GND } }
+SW2 = key("ArrowDown") { at = (16mm, 58mm); pins { a: DOWN, b: GND } }
+SW3 = key("ArrowLeft") { at = (7mm, 69mm); pins { a: LEFT, b: GND } }
+SW4 = key("ArrowRight") { at = (25mm, 69mm); pins { a: RIGHT, b: GND } }
+SW5 = key("KeyF") { at = (136mm, 74mm); pins { a: FIRE, b: GND } }
+SW6 = key("Space") { at = (124mm, 64mm); pins { a: USE, b: GND } }
+SW7 = key("KeyS") { at = (124mm, 86mm); pins { a: STRAFE, b: GND } }
+SW8 = key("KeyM") { at = (140mm, 86mm); pins { a: MENU, b: GND } }
 
 // Bring-up: the cells, the power path, 3.3 V and ground on test pads.
 tpBat = testPoint() { at = (120mm, 44mm); pins = [BAT] }

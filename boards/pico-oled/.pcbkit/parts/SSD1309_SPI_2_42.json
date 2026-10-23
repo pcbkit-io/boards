@@ -109,5 +109,36 @@
       "verified": false,
       "note": "header row about 2 mm from the left edge (read from the drawing, not dimensioned); 1.0 mm holes, 1.7 mm pads"
     }
+  },
+  "simulation": {
+    "behavior": {
+      "model": "ssd1309",
+      "ports": {
+        "power": [
+          "2",
+          "1"
+        ],
+        "spi": [
+          "4",
+          "3"
+        ],
+        "reset": [
+          "5"
+        ],
+        "dc": [
+          "6"
+        ],
+        "cs": [
+          "7"
+        ]
+      },
+      "parameters": {
+        "width_mm": 55.01,
+        "height_mm": 27.49,
+        "offset_x_mm": 34.0,
+        "offset_y_mm": 2.685
+      },
+      "height": 12.4
+    }
   }
 }

@@ -21,15 +21,23 @@ Pico's 2 MB flash, 264 KB of RAM) with its VGA/DVI back end replaced by a 1-bit 
 `pcbkit export --format fab` succeeds without `--force`: every assembled line of the BOM has an LCSC code.
 <!-- /STATUS -->
 
+## Run it in the browser
+
+Open https://app.pcbkit.io/github/pcbkit-io/doom-handheld/tree/main/boards/pico-oled, open the
+Laboratory and press **Build & run**: the page builds `doom/` for the Pico's Cortex-M0+ (with
+rp2040-doom's `DOOM1.WHX` linked into the 2 MB flash), boots it the way the RP2040's boot ROM does
+and draws the OLED's frames on the board. Play with the keyboard (arrows, F fire, Space use, S held
+to strafe, M menu; fire confirms in the menus) or a gamepad (`input.js`).
+
 ## Why it runs Doom
 
-rp2040-doom (Graham Sanderson, 2021) already did the hard part: Doom's 4 MB WAD compressed into a
-custom "WHD" format (the shareware episode in about 1.1 MB), static tables in flash, the zone heap
-cut to fit 264 KB with in-place decompression, the renderer split over both cores. Its video back end
-scans out 320 × 200 through PIO. For this board the scan-out is replaced by: core 1 downsamples the
-8-bit frame to 128 × 64, Floyd–Steinberg dithers it to 1 bit, and sends 1 KB per frame over SPI at
-10 MHz (0.8 ms): the display is never the bottleneck. Expected speed: the rp2040-doom frame rate
-(about 35 fps at 270 MHz per its author; an estimate here, not measured).
+rp2040-doom (Graham Sanderson, 2021, GPL-2) did the hard part: Doom's WAD compressed into its "WHD"
+format (the shareware episode in 1.8 MB), static tables in flash, the zone heap cut to fit 264 KB.
+`doom/` is its engine on PCBKit's RP2040 kit instead of the Pico SDK: one core at 200 MHz (the core
+voltage raised to 1.15 V first, as the SDK does above 133 MHz), the WHX read in place from the
+flash. Each composed 320 × 200 frame is reduced to 128 × 64 (each pixel the mean brightness of
+what it covers), its levels stretched from the previous frame's histogram (Doom is dim and of few
+tones), dithered to one bit by Atkinson's diffusion and sent as 1 KB over SPI at 10 MHz (0.8 ms).
 
 ## Power
 
@@ -83,15 +91,17 @@ separately and plugged in:
 
 ## Storage
 
-Everything is in the Pico's 2 MB flash: code and the WHD-compressed shareware WAD (the
-registered/Ultimate WAD does not fit; use a Pico with 16 MB, e.g. Pimoroni Pico Plus 2, or variant 04).
+Everything is in the Pico's 2 MB flash: 1.8 MB of WHX and 260 KB of program, 31 KB to spare. Saving
+games is left out for that (`NO_USE_SAVEGAME` in `doom/config.h`: the menu says so); the
+registered/Ultimate WAD does not fit either: use a Pico with 16 MB (variant 04).
 
 ## Firmware: build and flash
 
-- Pico SDK 2.x + `arm-none-eabi-gcc` 13; `cmake -DPICO_BOARD=pico -DPICO_PLATFORM=rp2040`; rp2040-doom's
-  `whd_gen` tool converts DOOM1.WAD to the compressed format linked into the image.
+- **Build:** in PCBKit, the Laboratory's **Build & run** builds `doom/` (Cortex-M0+, the kit's
+  boot2 for the Pico's W25Q16 and its start-up); then export the firmware
+  (`export.run { format: "firmware" }`): `U1.uf2`, the program and the WHX.
 - **Flashing on arrival:** hold the Pico's BOOTSEL button and plug its micro-USB into a computer:
-  it appears as the RPI-RP2 drive; copy `doom.uf2` onto it and the Pico reboots into the game. No
+  it appears as the RPI-RP2 drive; copy `U1.uf2` onto it and the Pico restarts into the game. No
   programmer and nothing on the board to configure. (Or SWD with a Raspberry Pi Debug Probe on the
   Pico's three SWD pads.)
 
@@ -131,16 +141,10 @@ The assembly BOM as `pcbkit export --format fab` writes it (JLCPCB assembly: LCS
 | 1 | rTs | 10kohm | C25744 | R_0402_1005Metric |
 <!-- /BOM -->
 
-## What PCBKit's engine must model to simulate it faithfully
+## What PCBKit's simulation models
 
-- **Core:** ARMv6-M (exists) ×2 with the SIO's inter-core FIFOs, spinlocks and the hardware divider
-  and interpolators (rp2040-doom uses both cores and the interpolators).
-- **Boot:** the RP2040 boot ROM (BSD-3, `raspberrypi/pico-bootrom`) and the boot2 stage that
-  configures the SSI for XIP; UF2 as the image format (or our direct-XIP profile, which skips both).
-- **Memory:** XIP flash behind the SSI with its 16 KB cache (cycle cost of a miss matters for speed).
-- **Clocks:** XOSC, PLL_SYS to 270 MHz, clk_peri; the flash divider.
-- **Peripherals:** PL022 SPI (SPI0 TX FIFO), DMA (the OLED transfer), PWM (piezo), TIMER, IO_BANK0
-  and PADS (pull-ups), RESETS.
-- **Board components:** an SSD1309 model (command set, page addressing, 128 × 64 GDDRAM → the frame
-  the 3D board shows), a piezo as a sound source driven by a PWM pin, two 18650 cells as a discharge
-  curve behind the charger's power path and a diode into the module's buck-boost.
+The RP2040 as its boot ROM starts it (boot2 checked by its CRC and run, XIP once the SSI is set up),
+XOSC, PLL, clocks and VREG with their rules, TIMER, IO_BANK0/PADS, SIO and PL022 SPI; the SSD1309
+(command set, addressing, the glass as the module shows it); the buttons. Not modelled: the second
+core, DMA, PWM (the game is silent, as this firmware is), the XIP cache's timing, the cells and
+the charger.

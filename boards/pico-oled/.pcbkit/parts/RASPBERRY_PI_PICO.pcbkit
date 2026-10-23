@@ -124,4 +124,41 @@ part Part = device(footprint = moduleSocket(
     PinoutSource: "Raspberry Pi Pico datasheet, Figure 2 (pinout), Figure 4 (pin numbering), §2.1 (VBUS, VSYS, 3V3_EN, 3V3, ADC_VREF, AGND, RUN), Figure 3 (dimensions)",
     Datasheet: "https://datasheets.raspberrypi.com/pico/pico-datasheet.pdf",
   }
+  simulation = SimulationParameters {
+    behavior = Behavior {
+      model = "rp2040"
+      ports = {
+        "GP0": ["1"],
+        "GP1": ["2"],
+        "GP10": ["14"],
+        "GP11": ["15"],
+        "GP12": ["16"],
+        "GP13": ["17"],
+        "GP14": ["19"],
+        "GP15": ["20"],
+        "GP16": ["21"],
+        "GP17": ["22"],
+        "GP18": ["24"],
+        "GP19": ["25"],
+        "GP2": ["4"],
+        "GP20": ["26"],
+        "GP21": ["27"],
+        "GP22": ["29"],
+        "GP26": ["31"],
+        "GP27": ["32"],
+        "GP28": ["34"],
+        "GP3": ["5"],
+        "GP4": ["6"],
+        "GP5": ["7"],
+        "GP6": ["9"],
+        "GP7": ["10"],
+        "GP8": ["11"],
+        "GP9": ["12"],
+        "power": ["39", "38"],
+      }
+      parameters = { "flash_mib": 2, "xosc_hz": 12000000 }
+      height = 9mm
+    }
+    parameters = []
+  }
 }
