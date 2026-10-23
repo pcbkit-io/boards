@@ -13,8 +13,9 @@ Open them at **https://app.pcbkit.io/github/pcbkit-io/doom-handheld**.
 
 Ten more designs explore the range, from the cheapest chip that can run Doom at all to a
 Cortex-M7 at 600 MHz: different processors, screens, memories and sound, one power design. Each
-is routed, passes `check` and is ready to order; their programs are not written yet, and only the RP2040
-and RP2350 ones can run in PCBKit's simulation today (each README says what the others need).
+is routed, passes `check` and is ready to order. Every board with a `doom/` folder has its program:
+opened from its GitHub link in PCBKit, it builds in the page and plays in the simulation, and its
+README says how to flash it on arrival. `pico-oled` and `c3-pocket` have none yet.
 
 | Board | Processor | Screen | Flashing on arrival |
 |---|---|---|---|

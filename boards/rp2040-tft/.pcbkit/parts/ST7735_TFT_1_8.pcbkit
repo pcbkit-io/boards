@@ -57,4 +57,20 @@ part Part = device(footprint = moduleSocket(
     PinoutSource: "lcdwiki MSP1803: pins 1 VCC (3.3-5 V), 2 GND, 3 CS, 4 RESET, 5 A0, 6 SDA, 7 SCK, 8 LED; size picture: PCB 34.50 x 58.00 mm, holes 28.50 x 52.00 mm (Ø3.2), header row 2.50 mm from the bottom edge, centred",
     Datasheet: "http://www.lcdwiki.com/1.8inch_SPI_Module_ST7735S_SKU:MSP1803",
   }
+  simulation = SimulationParameters {
+    behavior = Behavior {
+      model = "st7735"
+      ports = {
+        "backlight": ["8"],
+        "cs": ["3"],
+        "dc": ["5"],
+        "power": ["1", "2"],
+        "reset": ["4"],
+        "spi": ["6", "7"],
+      }
+      parameters = { "height_mm": 35.04, "offset_x_mm": 0.0, "offset_y_mm": 28.98, "width_mm": 28.03 }
+      height = 14.1mm
+    }
+    parameters = []
+  }
 }

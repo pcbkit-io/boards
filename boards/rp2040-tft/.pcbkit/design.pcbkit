@@ -52,12 +52,30 @@ board = Board {
   outline = rect(132mm, 104mm, radius = 5mm)
   layers = [signal(Cu.top), power(Cu.inner[1], label = "GND"), signal(Cu.inner[2]), signal(Cu.bottom)]
 }
+laboratory = Laboratory { world = "input.js" }
 
 // A tactile switch to ground.
 part Btn = button("6x6") with { orderCode = "C221880" }
+// A tactile switch that pulls its line to ground, operated by `code` while the device runs.
+fn key(code: String): Part = button("6x6") with {
+  orderCode = "C221880"
+  simulation = SimulationParameters { behavior = Behavior { model = "button"; ports = { output: ["1"] }; key = code } }
+}
 
 // ---- processor (back) ----------------------------------------------------------------------
-U1 = RP2040.Part {
+// The program is doom/ (rp2040-doom's engine); its data, rp2040-doom's compressed shareware WAD
+// (DOOM1.WHX, id Software's data, free to share unmodified), is linked into the 16 MB flash.
+U1 = RP2040.Part with {
+  simulation = RP2040.Part.simulation with { behavior = RP2040.Part.simulation.behavior with {
+    parameters = { "flash_mib": 16 }
+    firmware = "doom"
+    data = { "DOOM1.WHX": FirmwareData {
+      url = "https://raw.githubusercontent.com/kilograham/rp2040-doom/29a453c980918a03e40fc8b69b024e7a3bdb5dc2/doom1.whx"
+      sha256 = "87ea79020578fa2e72fc204f67ff2ce45bd73a266a369670da7a019028b0d893"
+      bytes = 1800344
+    } }
+  } }
+} {
   at = (66mm, 24mm)
   side = .bottom
   orderCode = "C2040"
@@ -240,14 +258,14 @@ R12 = res(100kohm, package = "0402") { side = .bottom; orderCode = "C25741"; pla
 J5 = S2B_PH_K_S.Part { side = .bottom; orderCode = "C173752"; place = [edge(.right)]; pins { C1: SPK_N, C2: SPK_P } }
 
 // ---- input (front) ---------------------------------------------------------------------------
-SW1 = Btn { at = (20mm, 39mm); pins { a: UP, b: GND } }
-SW2 = Btn { at = (20mm, 19mm); pins { a: DOWN, b: GND } }
-SW3 = Btn { at = (10mm, 29mm); pins { a: LEFT, b: GND } }
-SW4 = Btn { at = (30mm, 29mm); pins { a: RIGHT, b: GND } }
-SW5 = Btn { at = (123mm, 34mm); pins { a: FIRE, b: GND } }
-SW6 = Btn { at = (112mm, 24mm); pins { a: USE, b: GND } }
-SW7 = Btn { at = (112mm, 47mm); pins { a: SELECT, b: GND } }
-SW8 = Btn { at = (124mm, 47mm); pins { a: START, b: GND } }
+SW1 = key("ArrowUp") { at = (20mm, 39mm); pins { a: UP, b: GND } }
+SW2 = key("ArrowDown") { at = (20mm, 19mm); pins { a: DOWN, b: GND } }
+SW3 = key("ArrowLeft") { at = (10mm, 29mm); pins { a: LEFT, b: GND } }
+SW4 = key("ArrowRight") { at = (30mm, 29mm); pins { a: RIGHT, b: GND } }
+SW5 = key("KeyF") { at = (123mm, 34mm); pins { a: FIRE, b: GND } }
+SW6 = key("Space") { at = (112mm, 24mm); pins { a: USE, b: GND } }
+SW7 = key("Enter") { at = (112mm, 47mm); pins { a: SELECT, b: GND } }
+SW8 = key("KeyM") { at = (124mm, 47mm); pins { a: START, b: GND } }
 
 // Four M3 holes for a back plate or a case.
 H1 = hole("M3") { at = (4.5mm, 4.5mm) }

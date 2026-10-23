@@ -103,6 +103,40 @@
       }
     ]
   },
+  "simulation": {
+    "behavior": {
+      "model": "st7735",
+      "ports": {
+        "power": [
+          "1",
+          "2"
+        ],
+        "cs": [
+          "3"
+        ],
+        "reset": [
+          "4"
+        ],
+        "dc": [
+          "5"
+        ],
+        "spi": [
+          "6",
+          "7"
+        ],
+        "backlight": [
+          "8"
+        ]
+      },
+      "parameters": {
+        "width_mm": 28.03,
+        "height_mm": 35.04,
+        "offset_x_mm": 0.0,
+        "offset_y_mm": 28.98
+      },
+      "height": 14.1
+    }
+  },
   "notes": [
     "SPI: SDA to MOSI, SCK to SCK, CS, RESET and A0 (DC) to GPIOs. Logic 3.3 V TTL (5 V controllers need level shifting).",
     "LED high turns the backlight on: PWM it from a GPIO for brightness, or tie it to 3.3 V."

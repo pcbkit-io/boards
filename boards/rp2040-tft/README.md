@@ -29,13 +29,24 @@ the socket it solders.
 | ready lens: thermal parameters, typical scenario | estimates of the analysis, not faults of the board |
 <!-- /STATUS -->
 
+## Run it in the browser
+
+Open https://app.pcbkit.io/github/pcbkit-io/doom-handheld/tree/main/boards/rp2040-tft, open the
+Laboratory and press **Build & run**: the page builds `doom/` for the RP2040's Cortex-M0+ (with
+rp2040-doom's `DOOM1.WHX` linked into the flash), boots it the way the chip's boot ROM does (the
+boot2 stage checked by its CRC, then the flash in place), and draws the ST7735's frames on the
+board. Play with the keyboard (arrows, F fire, Space use, M menu, Enter) or a gamepad
+(`input.js`).
+
 ## Why it runs Doom
 
-Same software as 02 (rp2040-doom), with three differences: 16 MB of flash (the full shareware WAD,
-or Doom II in WHD form, fits beside the code), the WAD can also come from the SD card (FatFs over
-SPI1, read into flash on first boot), and the video back end writes 160 × 100 (half resolution) or
-a cropped 128 × 160 portrait of the 320 × 200 frame to the ST7735 as RGB565 by DMA. 128 × 160 × 2 B =
-40 KB per frame at 31 MHz SPI: ~10 ms. Sound: Doom's mixer at 11 kHz into a PWM slice at ~120 kHz.
+`doom/` is rp2040-doom's engine (kilograham, GPL-2, its compressed level format and its
+`DOOM1.WHX`) on PCBKit's RP2040 kit instead of the Pico SDK: one core at 200 MHz (the core voltage
+raised to 1.15 V first, as the SDK does above 133 MHz), the WAD read in place from the 16 MB flash,
+the zone heap in the SRAM. Each 320 × 200 frame is halved (2 × 2 blocks averaged) into the panel's
+middle 160 × 100, landscape, RGB565 over SPI0 at 15 MHz: 32 KB per frame, ~17 ms. The eight buttons
+are read from GPIO2–9 (pulled up). The firmware does not use the microSD slot or the speaker yet:
+the WAD is in the flash and the game is silent.
 
 ## Power
 
@@ -78,31 +89,23 @@ the cells charge and goes out when they are full; the green LED (USB) is on whil
 present. The board runs from USB while it charges, switched on or off. Insert both cells with +
 at the end the back's silkscreen marks.
 
-## Flashing on arrival
-
-Nothing to solder and no programmer: the RP2040's boot ROM has a USB loader.
-
-1. Connect the USB-C to a computer.
-2. Hold **BOOT**, tap **RESET**, release BOOT (or hold BOOT while plugging in): the board appears
-   as the **RPI-RP2** drive.
-3. Copy `doom.uf2` onto it; the RP2040 writes it into the W25Q128 and reboots into it.
-
-Or over SWD: the 3-pin header on the back (SWCLK, GND, SWDIO) takes a Raspberry Pi Debug Probe:
-`openocd -f interface/cmsis-dap.cfg -f target/rp2040.cfg -c "program doom.elf verify reset exit"`.
-The game data goes on a FAT32 microSD card (DOOM1.WAD at its root).
-
 ## Modules plugged in by hand
 
 - **DS1: 1.8" 128 × 160 ST7735S SPI TFT module** (MSP1803 pinout, 8 pins: VCC, GND, CS, RESET,
   A0, SDA, SCK, LED) into the 1x8 socket JLCPCB solders on the front.
 - An **8 Ω speaker** (0.5–2 W) with a JST PH 2-pin plug into J5 at the right edge of the back.
-- Two **18650 cells** and a **microSD card**.
+- Two **18650 cells** (the microSD card is optional: the firmware does not read it yet).
 
-## Firmware: build
+## Firmware: build and flash
 
-- Pico SDK 2.x (`PICO_BOARD` a custom header: W25Q128, 12 MHz, `PICO_FLASH_SIZE_BYTES 16M`),
-  `arm-none-eabi-gcc`; rp2040-doom with an ST7735 + FatFs back end (not written yet: see the
-  repository's README).
+- **Build:** in PCBKit, the Laboratory's **Build & run** builds `doom/` (Cortex-M0+, the kit's
+  boot2 for the W25Q128 and its start-up); then export the firmware
+  (`export.run { format: "firmware" }`): `U1.uf2`, the program and the WAD.
+- **Flashing on arrival:** nothing to solder and no programmer, the RP2040's boot ROM has a USB
+  loader. Connect the USB-C to a computer, hold **BOOT**, tap **RESET**, release BOOT (or hold BOOT
+  while plugging in): the board appears as the **RPI-RP2** drive. Copy `U1.uf2` onto it; the
+  RP2040 writes it into the W25Q128 and restarts into Doom. Or over SWD: the 3-pin header on the
+  back (SWCLK, GND, SWDIO) takes a Raspberry Pi Debug Probe.
 
 ## Bill of materials
 
