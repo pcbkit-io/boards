@@ -1,0 +1,270 @@
+{
+  "id": "LCD1602",
+  "mpn": "1602 16x2 character LCD module (HD44780 compatible)",
+  "manufacturer": "generic",
+  "variants": [
+    "NHD-0216K1Z",
+    "LCD1602A",
+    "16x2 LCD"
+  ],
+  "category": "display",
+  "description": "16 x 2 character LCD module (HD44780 / ST7066U compatible, 4- or 8-bit parallel), 5 V, on a 1x16 female header along its top edge; courtyard the 80 x 36 mm module lying over the board",
+  "tags": [
+    "lcd1602",
+    "1602",
+    "16x2",
+    "lcd",
+    "character lcd",
+    "hd44780",
+    "st7066",
+    "text display",
+    "display",
+    "module",
+    "socket"
+  ],
+  "datasheet": {
+    "url": "https://newhavendisplay.com/content/specs/NHD-0216K1Z-FL-YBW.pdf",
+    "revision": "Newhaven NHD-0216K1Z-FL-YBW product specification rev. 13 (11/09/2022): mechanical drawing (the standard 1602 outline), pin description, electrical characteristics"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "16x2 character LCD module, 1 x 16 socket",
+    "family": "module",
+    "pins": 16,
+    "pitch": 2.54,
+    "body": {
+      "d": 80.0,
+      "e": 36.0,
+      "a": 13.2
+    },
+    "page": "Newhaven NHD-0216K1Z-FL-YBW rev. 13: pin assignment (1 VSS, 2 VDD, 3 V0, 4 RS, 5 R/W, 6 E, 7-14 DB0-DB7, 15 A, 16 K), mechanical drawing (PCB 80.00 x 36.00 mm, P2.54 x 15 = 38.10, first pin 8.00 mm from the left edge, row 2.00 mm from the top edge, holes 75 x 31 mm, 13.2 mm max thick), VDD 4.5-5.5 V, VIH 0.7 VDD"
+  },
+  "footprint": "moduleSocket(\"LCD_1602_Socket_1x16_P2.54mm\", socketRow(1, 16, (-19.05mm, 0mm), (2.54mm, 0mm)), box((-27.05mm, -34.0mm), (52.95mm, 2.0mm)), description = \"16x2 character LCD module on a 1x16 female header along its top edge, the display facing up over -Y: VSS, VDD, V0, RS, RW, E, DB0-DB7, A, K left to right\", parts = 8.6mm, color = \"#2e7d32\", board = 1.6mm, module = displayPanel(box((-22.6mm, -28.15mm), (48.5mm, -3.85mm)), box((-15.15mm, -21.75mm), (41.05mm, -10.25mm)), 7mm, glass = 0.3mm, frame = box((-24.05mm, -30.0mm), (49.95mm, -2.0mm)), face = \"#8fb52e\", mask = \"#4f6a14\"))",
+  "pins": [
+    {
+      "number": "1",
+      "name": "VSS",
+      "type": "ground",
+      "description": "ground"
+    },
+    {
+      "number": "2",
+      "name": "VDD",
+      "type": "power_in",
+      "description": "logic supply, 5 V"
+    },
+    {
+      "number": "3",
+      "name": "V0",
+      "type": "analog",
+      "description": "contrast voltage: the wiper of a 10 kohm potentiometer between VDD and VSS"
+    },
+    {
+      "number": "4",
+      "name": "RS",
+      "type": "input",
+      "description": "register select: 0 command, 1 data",
+      "vih": "0.7 VDD"
+    },
+    {
+      "number": "5",
+      "name": "RW",
+      "type": "input",
+      "description": "read (1) / write (0); tie to VSS to only write",
+      "vih": "0.7 VDD"
+    },
+    {
+      "number": "6",
+      "name": "E",
+      "type": "input",
+      "description": "enable, data latched on its falling edge",
+      "vih": "0.7 VDD"
+    },
+    {
+      "number": "7",
+      "name": "DB0",
+      "type": "bidirectional",
+      "description": "data bus (unused in 4-bit mode)"
+    },
+    {
+      "number": "8",
+      "name": "DB1",
+      "type": "bidirectional",
+      "description": "data bus (unused in 4-bit mode)"
+    },
+    {
+      "number": "9",
+      "name": "DB2",
+      "type": "bidirectional",
+      "description": "data bus (unused in 4-bit mode)"
+    },
+    {
+      "number": "10",
+      "name": "DB3",
+      "type": "bidirectional",
+      "description": "data bus (unused in 4-bit mode)"
+    },
+    {
+      "number": "11",
+      "name": "DB4",
+      "type": "bidirectional",
+      "description": "data bus (the 4 lines of 4-bit mode)"
+    },
+    {
+      "number": "12",
+      "name": "DB5",
+      "type": "bidirectional",
+      "description": "data bus (the 4 lines of 4-bit mode)"
+    },
+    {
+      "number": "13",
+      "name": "DB6",
+      "type": "bidirectional",
+      "description": "data bus (the 4 lines of 4-bit mode)"
+    },
+    {
+      "number": "14",
+      "name": "DB7",
+      "type": "bidirectional",
+      "description": "data bus (the 4 lines of 4-bit mode)"
+    },
+    {
+      "number": "15",
+      "name": "A",
+      "type": "passive",
+      "description": "backlight LED anode"
+    },
+    {
+      "number": "16",
+      "name": "K",
+      "type": "passive",
+      "description": "backlight LED cathode"
+    }
+  ],
+  "ratings": {
+    "recommended": [
+      {
+        "what": "supply voltage",
+        "pins": [
+          "VDD"
+        ],
+        "min": 4.5,
+        "nom": 5.0,
+        "max": 5.5,
+        "unit": "V"
+      },
+      {
+        "what": "input high level (0.7 VDD)",
+        "pins": [
+          "RS",
+          "RW",
+          "E"
+        ],
+        "min": 3.5,
+        "unit": "V"
+      },
+      {
+        "what": "backlight current at 5 V (Newhaven's yellow-green)",
+        "nom": 0.13,
+        "max": 0.156,
+        "unit": "A"
+      }
+    ]
+  },
+  "simulation": {
+    "behavior": {
+      "model": "hd44780",
+      "ports": {
+        "d0": [
+          "7"
+        ],
+        "d1": [
+          "8"
+        ],
+        "d2": [
+          "9"
+        ],
+        "d3": [
+          "10"
+        ],
+        "d4": [
+          "11"
+        ],
+        "d5": [
+          "12"
+        ],
+        "d6": [
+          "13"
+        ],
+        "d7": [
+          "14"
+        ],
+        "e": [
+          "6"
+        ],
+        "power": [
+          "2",
+          "1"
+        ],
+        "rs": [
+          "4"
+        ],
+        "rw": [
+          "5"
+        ],
+        "v0": [
+          "3"
+        ]
+      },
+      "parameters": {
+        "columns": 16.0,
+        "height_mm": 11.5,
+        "offset_x_mm": 12.95,
+        "offset_y_mm": -16.0,
+        "rows": 2.0,
+        "width_mm": 56.2
+      },
+      "height": 17.1
+    },
+    "parameters": [
+      {
+        "id": "idd-logic",
+        "quantity": "supplyCurrent",
+        "unit": "A",
+        "typ": 0.001,
+        "max": 0.003,
+        "conditions": "logic supply current into VDD (display and ST7066U controller, backlight off), VDD=5.0 V; the backlight is fed separately through LED+ (130 mA typ at 5.0 V, 156 mA max)",
+        "source": {
+          "url": "https://newhavendisplay.com/content/specs/NHD-0216K1Z-FL-YBW.pdf",
+          "revision": "NHD-0216K1Z-FL-YBW product specification, document revision 13 (11/09/2022)",
+          "location": "p. 5, Electrical Characteristics, Supply Current IDD row",
+          "confidence": "datasheet"
+        }
+      }
+    ]
+  },
+  "support": {
+    "notes": [
+      "V0 sets the contrast (about 0.5-1.3 V for a 5 V module): a 10 kohm trimmer between VDD and VSS, its wiper to V0.",
+      "Not placed by the support circuit, add it where the board needs it: RV1 10kohm between VDD, V0, VSS (contrast: the wiper to V0)."
+    ],
+    "page": "p. 4 pin description; wiring diagram"
+  },
+  "notes": [
+    "4-bit mode needs six GPIOs: RS, E, DB4-DB7 (RW to VSS). Inputs read high from 0.7 VDD = 3.5 V: a 3.3 V controller is marginal on a 5 V LCD; `LCD1602_I2C` (the PCF8574 backpack) needs two wires.",
+    "Backlight: A to 5 V and K to GND; many modules have the series resistor on board (check the module, else 100-220 ohm in series with A).",
+    "The standard outline: PCB 80 x 36 mm, Ø2.5 mm holes 75 x 31 mm; pins on 2.54 mm, pin 1 8.00 mm from the left edge."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "Newhaven NHD-0216K1Z-FL-YBW rev. 13: pin assignment (1 VSS, 2 VDD, 3 V0, 4 RS, 5 R/W, 6 E, 7-14 DB0-DB7, 15 A, 16 K), mechanical drawing (PCB 80.00 x 36.00 mm, P2.54 x 15 = 38.10, first pin 8.00 mm from the left edge, row 2.00 mm from the top edge, holes 75 x 31 mm, 13.2 mm max thick), VDD 4.5-5.5 V, VIH 0.7 VDD",
+      "url": "https://newhavendisplay.com/content/specs/NHD-0216K1Z-FL-YBW.pdf",
+      "license": "pinout and dimensions transcribed from the vendor's published documentation (facts); footprint, 3D body, descriptions and notes our own"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "the top pin row of the standard 1602 outline (Newhaven's drawing); 1.0 mm holes, 1.7 mm pads"
+    }
+  }
+}

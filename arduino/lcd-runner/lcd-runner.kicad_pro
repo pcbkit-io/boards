@@ -1,0 +1,47 @@
+{
+  "board": {
+    "design_settings": {
+      "rule_severities": {},
+      "rules": {
+        "min_clearance": 0.15,
+        "min_copper_edge_clearance": 0.3,
+        "min_hole_clearance": 0.0,
+        "min_hole_to_hole": 0.0,
+        "min_resolved_spokes": 2.0,
+        "min_through_hole_diameter": 0.3,
+        "min_track_width": 0.15,
+        "min_via_annular_width": 0.0,
+        "min_via_diameter": 0.5
+      }
+    }
+  },
+  "meta": {
+    "filename": "lcd-runner.kicad_pro",
+    "version": 1
+  },
+  "net_settings": {
+    "classes": [
+      {
+        "clearance": 0.2,
+        "name": "Default",
+        "track_width": 0.25,
+        "via_diameter": 0.6,
+        "via_drill": 0.3
+      }
+    ],
+    "netclass_assignments": {
+      "D4": "Default",
+      "D5": "Default",
+      "D6": "Default",
+      "D7": "Default",
+      "E": "Default",
+      "GND": "Default",
+      "JUMP": "Default",
+      "LED_A": "Default",
+      "RS": "Default",
+      "V0": "Default",
+      "V5": "Default"
+    },
+    "netclass_patterns": []
+  }
+}

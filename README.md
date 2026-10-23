@@ -10,7 +10,7 @@ Open them all at **https://app.pcbkit.io/github/pcbkit-io/boards**, or one folde
 | Folder | What is in it |
 |---|---|
 | [`lab/`](lab) | Interactive boards: an ATmega328P (or two) running real C firmware against sensors, buttons, knobs, displays and servos you can change while it runs |
-| [`arduino/`](arduino) | Arduino projects to play with: an Arduino Nano running a sketch with the usual libraries (Adafruit SSD1306 and SHT31, Sensirion SCD4x, Servo): a weather station, a CO₂ monitor, a thermostat, a pocket console with six games, Simon, a drawing screen |
+| [`arduino/`](arduino) | Arduino projects to play with: an Arduino Nano running a sketch with the usual libraries (Adafruit SSD1306 and SHT31, Sensirion SCD4x, LiquidCrystal, Servo): a weather station, a CO₂ monitor, a thermostat, a character-LCD runner, a pocket console with six games, Simon, a drawing screen |
 | [`examples/`](examples) | Boards to learn from: a design PCBKit placed and routed from parts and connections, circuit blocks, open boards by their authors |
 | [`doom/`](doom) | Doom handhelds: eleven boards from a 10-cent CH32V003 to a Teensy 4.1 (RP2040, RP2350, ESP32-C3, ESP32-S3, STM32F411, i.MX RT1062), each ordered at JLCPCB as it is, flashed over USB and playing Doom from two 18650 cells |
 
