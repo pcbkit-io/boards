@@ -1,0 +1,97 @@
+pcbkit 1
+// Doom handheld: a carrier for a Pimoroni Pico Plus 2 (RP2350B, 8 MB PSRAM) under a 2.8" ILI9341
+// SPI screen, with a d-pad and six buttons. Every part is orderable; the program in doom/ runs on
+// the chip as it runs here, flashed as a UF2. Powered and flashed through the Pico's USB-C.
+// Its outline is a red keycard, with a lanyard slot.
+
+use "parts/PIMORONI_PICO_PLUS_2.pcbkit" as Pico
+use "parts/ILI9341_TFT_2_8_TOUCH.pcbkit" as Screen
+
+net VSYS { voltage = 5V }
+net V3 { voltage = 3.3V }
+net GND { voltage = 0V }
+net UP, DOWN, LEFT, RIGHT, FIRE, USE, STRAFE_L, STRAFE_R, MENU, ENTER
+net LCD_CS, LCD_RESET, LCD_DC, LCD_MOSI, LCD_SCK, LCD_LED, TX, RX
+
+board = Board {
+  name = "Doom handheld"
+  description = "RP2350 (Pico Plus 2) · ILI9341 320x240 · ten buttons · USB-C"
+  outline = rect(160mm, 86mm, radius = 6mm)
+  cutouts = [rectangle((144mm, 79mm), (156mm, 82mm))]
+  fab { mask = .red; silk = .white; finish = .enig }
+}
+laboratory = Laboratory { world = "input.js" }
+
+// A tactile switch that pulls its line to ground, operated by `code` while the device runs.
+fn key(code: String): Part = button("6x6") with {
+  simulation = SimulationParameters { behavior = Behavior { model = "button"; ports = { output: ["1"] }; key = code } }
+}
+
+// The program is doom/; the game's data, id Software's shareware DOOM1.WAD (free to share
+// unmodified), is linked into its flash from where it is published.
+U1 = Pico.Part with {
+  simulation = Pico.Part.simulation with { behavior = Pico.Part.simulation.behavior with {
+    firmware = "doom"
+    data = { "DOOM1.WAD": FirmwareData {
+      url = "https://raw.githubusercontent.com/Akbar30Bill/DOOM_wads/9b384dc68add3eb2f5eb7754654cafeeaea5103b/doom1.wad"
+      sha256 = "1d7d43be501e67d927e415e0b8f3e29c3bf33075e859721816f652a526cac771"
+      bytes = 4196020
+    } }
+  } }
+} {
+  at = (80mm, 58mm)
+  side = .bottom
+  pins {
+    VSYS: VSYS, P3V3: V3, GND: GND, AGND: GND,
+    GP0: TX, GP1: RX,
+    GP2: UP, GP3: DOWN, GP4: LEFT, GP5: RIGHT, GP6: FIRE, GP7: USE, GP8: STRAFE_L, GP9: STRAFE_R, GP10: MENU, GP11: ENTER,
+    GP17: LCD_CS, GP18: LCD_SCK, GP19: LCD_MOSI, GP20: LCD_DC, GP21: LCD_RESET, GP22: LCD_LED,
+  }
+}
+
+lcd = Screen.Part {
+  at = (123mm, 43mm)
+  rotation = 90deg
+  pins {
+    VCC: VSYS, GND: GND, CS: LCD_CS, RESET: LCD_RESET, DC: LCD_DC, SDI: LCD_MOSI, SCK: LCD_SCK, LED: LCD_LED,
+    // The touch controller shares the bus, deselected (T_CS high) until firmware wants it.
+    T_CLK: LCD_SCK, T_DIN: LCD_MOSI, T_CS: V3 }
+}
+
+// The d-pad and strafe on the left, fire, use, menu and enter on the right.
+up = key("ArrowUp") { at = (20mm, 52mm); pins { a: UP, b: GND } }
+down = key("ArrowDown") { at = (20mm, 32mm); pins { a: DOWN, b: GND } }
+left = key("ArrowLeft") { at = (10mm, 42mm); pins { a: LEFT, b: GND } }
+right = key("ArrowRight") { at = (30mm, 42mm); pins { a: RIGHT, b: GND } }
+strafeLeft = key("Comma") { at = (12mm, 72mm); pins { a: STRAFE_L, b: GND } }
+strafeRight = key("Period") { at = (28mm, 72mm); pins { a: STRAFE_R, b: GND } }
+fire = key("KeyF") { at = (140mm, 46mm); pins { a: FIRE, b: GND } }
+use = key("Space") { at = (151mm, 34mm); pins { a: USE, b: GND } }
+menu = key("KeyM") { at = (138mm, 72mm); pins { a: MENU, b: GND } }
+enter = key("Enter") { at = (152mm, 72mm); pins { a: ENTER, b: GND } }
+
+// The console (UART0, 115200 baud) for a USB-serial adapter.
+J1 = header(3) { at = (146mm, 9mm); rotation = 90deg; pins = [TX, RX, GND] }
+
+// The wordmark: an original angular DOOM, the word widening upward over a bar.
+logo = [
+  Polygon { points = [(58.887mm, 5.0mm), (65.423mm, 5.0mm), (66.555mm, 6.7mm), (65.577mm, 7.6mm), (60.397mm, 7.6mm)] },
+  Polygon { points = [(66.555mm, 6.7mm), (67.761mm, 8.4mm), (67.036mm, 12.6mm), (65.08mm, 14.3mm), (64.384mm, 13.4mm), (65.577mm, 7.6mm)] },
+  Polygon { points = [(65.08mm, 14.3mm), (63.05mm, 16.0mm), (55.45mm, 16.0mm), (58.776mm, 13.4mm), (64.384mm, 13.4mm)] },
+  Polygon { points = [(55.45mm, 16.0mm), (58.887mm, 5.0mm), (60.397mm, 7.6mm), (58.776mm, 13.4mm)] },
+  Polygon { points = [(70.384mm, 5.8mm), (71.185mm, 5.0mm), (77.893mm, 5.0mm), (78.564mm, 5.8mm), (76.919mm, 7.6mm), (71.739mm, 7.6mm)] },
+  Polygon { points = [(78.564mm, 5.8mm), (79.252mm, 6.6mm), (79.167mm, 14.4mm), (78.367mm, 15.2mm), (76.664mm, 13.4mm), (76.919mm, 7.6mm)] },
+  Polygon { points = [(78.367mm, 15.2mm), (77.55mm, 16.0mm), (69.75mm, 16.0mm), (69.063mm, 15.2mm), (71.056mm, 13.4mm), (76.664mm, 13.4mm)] },
+  Polygon { points = [(69.063mm, 15.2mm), (68.391mm, 14.4mm), (69.568mm, 6.6mm), (70.384mm, 5.8mm), (71.739mm, 7.6mm), (71.056mm, 13.4mm)] },
+  Polygon { points = [(81.436mm, 5.8mm), (82.107mm, 5.0mm), (88.815mm, 5.0mm), (89.616mm, 5.8mm), (88.261mm, 7.6mm), (83.081mm, 7.6mm)] },
+  Polygon { points = [(89.616mm, 5.8mm), (90.432mm, 6.6mm), (91.609mm, 14.4mm), (90.937mm, 15.2mm), (88.944mm, 13.4mm), (88.261mm, 7.6mm)] },
+  Polygon { points = [(90.937mm, 15.2mm), (90.25mm, 16.0mm), (82.45mm, 16.0mm), (81.633mm, 15.2mm), (83.336mm, 13.4mm), (88.944mm, 13.4mm)] },
+  Polygon { points = [(81.633mm, 15.2mm), (80.833mm, 14.4mm), (80.748mm, 6.6mm), (81.436mm, 5.8mm), (83.081mm, 7.6mm), (83.336mm, 13.4mm)] },
+  Polygon { points = [(91.653mm, 5.0mm), (93.889mm, 5.0mm), (96.15mm, 16.0mm), (93.343mm, 14.8mm)] },
+  Polygon { points = [(98.877mm, 5.0mm), (101.113mm, 5.0mm), (104.175mm, 14.8mm), (101.95mm, 16.0mm)] },
+  Polygon { points = [(96.15mm, 16.0mm), (95.482mm, 12.75mm), (97.183mm, 8.3mm), (97.971mm, 11.55mm)] },
+  Polygon { points = [(101.95mm, 16.0mm), (97.971mm, 11.55mm), (97.183mm, 8.3mm), (101.042mm, 12.75mm)] },
+  Polygon { points = [(58.459mm, 2.4mm), (101.541mm, 2.4mm), (100.224mm, 3.5mm), (59.776mm, 3.5mm)] },
+]
+cheat = Text { text = "IDDQD"; at = (140mm, 58mm); size = 1.5mm }
+map = Text { text = "E1M1"; at = (20mm, 22mm); size = 1.5mm }

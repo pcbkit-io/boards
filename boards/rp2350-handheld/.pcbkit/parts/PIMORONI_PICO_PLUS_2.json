@@ -1,0 +1,508 @@
+{
+  "id": "PIMORONI_PICO_PLUS_2",
+  "mpn": "PIM724",
+  "manufacturer": "Pimoroni",
+  "variants": [
+    "Pimoroni Pico Plus 2",
+    "PIM724"
+  ],
+  "category": "module",
+  "description": "Pimoroni Pico Plus 2 (RP2350B: dual Cortex-M33 or Hazard3 RISC-V, 150 MHz, 520 KB SRAM, 16 MB flash, 8 MB PSRAM on QMI CS1 = GPIO47, USB-C) on two 20-pin female headers 0.7\" apart, the Pico's pinout (GP0-GP22, GP26-GP28, VBUS, VSYS, 3V3, 3V3_EN, RUN, ADC_VREF, AGND); courtyard the 21 x 51 mm board",
+  "tags": [
+    "pimoroni",
+    "pico plus 2",
+    "pico+ 2",
+    "pim724",
+    "rp2350",
+    "rp2350b",
+    "psram",
+    "cortex-m33",
+    "risc-v",
+    "hazard3",
+    "module",
+    "dev board",
+    "development board",
+    "socket",
+    "carrier",
+    "microcontroller",
+    "mcu",
+    "3.3v"
+  ],
+  "datasheet": {
+    "url": "https://shop.pimoroni.com/products/pimoroni-pico-plus-2",
+    "revision": "Pimoroni Pico Plus 2 product page and schematic: Pico pinout, 16 MB QSPI flash, 8 MB APS6404L PSRAM with its chip select on GPIO47 (QMI CS1), 12 MHz crystal, USB-C; RP2350 datasheet GPIO function table"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "Raspberry Pi Pico module, 2 x 20 sockets, 17.78 mm rows",
+    "family": "module",
+    "pins": 40,
+    "pitch": 2.54,
+    "body": {
+      "d": 51.0,
+      "e": 21.0,
+      "a": 13.0
+    },
+    "page": "Figure 3: 51 x 21 mm, 1 mm thick, rows 17.78 mm apart, 48.26 mm between the end pins, 1 mm holes, the micro-USB connector overhanging the top edge by 1.3 mm"
+  },
+  "footprint": "moduleSocket(\"Pimoroni_Pico_Plus_2_Socket_2x20_P2.54mm_W17.78mm\", concat(socketRow(1, 20, (-8.89mm, 24.13mm)), socketRow(21, 20, (8.89mm, -24.13mm), (0mm, 2.54mm))), box((-10.5mm, -25.5mm), (10.5mm, 26.8mm)), description = \"Pimoroni Pico Plus 2 on two 1x20 female headers 17.78 mm apart, the USB end at +Y: pin 1 (GP0) top left, 1-20 down the left row, 21-40 up the right row (Raspberry Pi's numbering)\", board = 1mm, color = \"#2e7d32\")",
+  "pins": [
+    {
+      "number": "1",
+      "name": "GP0",
+      "type": "bidirectional",
+      "functions": [
+        "UART0_TX",
+        "I2C0_SDA",
+        "SPI0_RX"
+      ]
+    },
+    {
+      "number": "2",
+      "name": "GP1",
+      "type": "bidirectional",
+      "functions": [
+        "UART0_RX",
+        "I2C0_SCL",
+        "SPI0_CSN"
+      ]
+    },
+    {
+      "number": "3",
+      "name": "GND",
+      "type": "ground"
+    },
+    {
+      "number": "4",
+      "name": "GP2",
+      "type": "bidirectional",
+      "functions": [
+        "I2C1_SDA",
+        "SPI0_SCK"
+      ]
+    },
+    {
+      "number": "5",
+      "name": "GP3",
+      "type": "bidirectional",
+      "functions": [
+        "I2C1_SCL",
+        "SPI0_TX"
+      ]
+    },
+    {
+      "number": "6",
+      "name": "GP4",
+      "type": "bidirectional",
+      "functions": [
+        "UART1_TX",
+        "I2C0_SDA",
+        "SPI0_RX"
+      ]
+    },
+    {
+      "number": "7",
+      "name": "GP5",
+      "type": "bidirectional",
+      "functions": [
+        "UART1_RX",
+        "I2C0_SCL",
+        "SPI0_CSN"
+      ]
+    },
+    {
+      "number": "8",
+      "name": "GND",
+      "type": "ground"
+    },
+    {
+      "number": "9",
+      "name": "GP6",
+      "type": "bidirectional",
+      "functions": [
+        "I2C1_SDA",
+        "SPI0_SCK"
+      ]
+    },
+    {
+      "number": "10",
+      "name": "GP7",
+      "type": "bidirectional",
+      "functions": [
+        "I2C1_SCL",
+        "SPI0_TX"
+      ]
+    },
+    {
+      "number": "11",
+      "name": "GP8",
+      "type": "bidirectional",
+      "functions": [
+        "UART1_TX",
+        "I2C0_SDA",
+        "SPI1_RX"
+      ]
+    },
+    {
+      "number": "12",
+      "name": "GP9",
+      "type": "bidirectional",
+      "functions": [
+        "UART1_RX",
+        "I2C0_SCL",
+        "SPI1_CSN"
+      ]
+    },
+    {
+      "number": "13",
+      "name": "GND",
+      "type": "ground"
+    },
+    {
+      "number": "14",
+      "name": "GP10",
+      "type": "bidirectional",
+      "functions": [
+        "I2C1_SDA",
+        "SPI1_SCK"
+      ]
+    },
+    {
+      "number": "15",
+      "name": "GP11",
+      "type": "bidirectional",
+      "functions": [
+        "I2C1_SCL",
+        "SPI1_TX"
+      ]
+    },
+    {
+      "number": "16",
+      "name": "GP12",
+      "type": "bidirectional",
+      "functions": [
+        "UART0_TX",
+        "I2C0_SDA",
+        "SPI1_RX"
+      ]
+    },
+    {
+      "number": "17",
+      "name": "GP13",
+      "type": "bidirectional",
+      "functions": [
+        "UART0_RX",
+        "I2C0_SCL",
+        "SPI1_CSN"
+      ]
+    },
+    {
+      "number": "18",
+      "name": "GND",
+      "type": "ground"
+    },
+    {
+      "number": "19",
+      "name": "GP14",
+      "type": "bidirectional",
+      "functions": [
+        "I2C1_SDA",
+        "SPI1_SCK"
+      ]
+    },
+    {
+      "number": "20",
+      "name": "GP15",
+      "type": "bidirectional",
+      "functions": [
+        "I2C1_SCL",
+        "SPI1_TX"
+      ]
+    },
+    {
+      "number": "21",
+      "name": "GP16",
+      "type": "bidirectional",
+      "functions": [
+        "UART0_TX",
+        "I2C0_SDA",
+        "SPI0_RX"
+      ]
+    },
+    {
+      "number": "22",
+      "name": "GP17",
+      "type": "bidirectional",
+      "functions": [
+        "UART0_RX",
+        "I2C0_SCL",
+        "SPI0_CSN"
+      ]
+    },
+    {
+      "number": "23",
+      "name": "GND",
+      "type": "ground"
+    },
+    {
+      "number": "24",
+      "name": "GP18",
+      "type": "bidirectional",
+      "functions": [
+        "I2C1_SDA",
+        "SPI0_SCK"
+      ]
+    },
+    {
+      "number": "25",
+      "name": "GP19",
+      "type": "bidirectional",
+      "functions": [
+        "I2C1_SCL",
+        "SPI0_TX"
+      ]
+    },
+    {
+      "number": "26",
+      "name": "GP20",
+      "type": "bidirectional",
+      "functions": [
+        "I2C0_SDA"
+      ]
+    },
+    {
+      "number": "27",
+      "name": "GP21",
+      "type": "bidirectional",
+      "functions": [
+        "I2C0_SCL"
+      ]
+    },
+    {
+      "number": "28",
+      "name": "GND",
+      "type": "ground"
+    },
+    {
+      "number": "29",
+      "name": "GP22",
+      "type": "bidirectional"
+    },
+    {
+      "number": "30",
+      "name": "RUN",
+      "type": "input_pullup",
+      "description": "RP2040 enable, pulled up inside (~50 kΩ): short to ground to reset"
+    },
+    {
+      "number": "31",
+      "name": "GP26",
+      "type": "bidirectional",
+      "functions": [
+        "ADC0",
+        "I2C1_SDA"
+      ]
+    },
+    {
+      "number": "32",
+      "name": "GP27",
+      "type": "bidirectional",
+      "functions": [
+        "ADC1",
+        "I2C1_SCL"
+      ]
+    },
+    {
+      "number": "33",
+      "name": "AGND",
+      "type": "ground",
+      "description": "analog ground for GP26-28 (join to GND when the ADC is not critical)"
+    },
+    {
+      "number": "34",
+      "name": "GP28",
+      "type": "bidirectional",
+      "functions": [
+        "ADC2"
+      ]
+    },
+    {
+      "number": "35",
+      "name": "ADC_VREF",
+      "type": "analog",
+      "description": "the ADC's reference, filtered 3.3 V on the board"
+    },
+    {
+      "number": "36",
+      "name": "3V3",
+      "type": "power_out",
+      "description": "3V3(OUT): the board's 3.3 V regulator output, keep loads under 300 mA"
+    },
+    {
+      "number": "37",
+      "name": "3V3_EN",
+      "type": "input_pullup",
+      "description": "the regulator's enable, pulled up to VSYS (100 kΩ): short to ground to switch 3.3 V off"
+    },
+    {
+      "number": "38",
+      "name": "GND",
+      "type": "ground"
+    },
+    {
+      "number": "39",
+      "name": "VSYS",
+      "type": "passive",
+      "description": "the system supply, 1.8-5.5 V: from VBUS through a Schottky diode, or feed it here (through a diode when USB is used too)"
+    },
+    {
+      "number": "40",
+      "name": "VBUS",
+      "type": "power_out",
+      "description": "USB 5 V when the USB cable is plugged in (0 V otherwise)"
+    }
+  ],
+  "ratings": {
+    "recommended": [
+      {
+        "what": "VSYS supply",
+        "pins": [
+          "VSYS"
+        ],
+        "min": 1.8,
+        "max": 5.5
+      },
+      {
+        "what": "3V3 output",
+        "pins": [
+          "3V3"
+        ],
+        "nom": 3.3
+      },
+      {
+        "what": "VBUS (USB)",
+        "pins": [
+          "VBUS"
+        ],
+        "nom": 5.0
+      },
+      {
+        "what": "3V3 load",
+        "max": 0.3,
+        "unit": "A"
+      }
+    ]
+  },
+  "simulation": {
+    "behavior": {
+      "model": "rp2350",
+      "ports": {
+        "GP0": [
+          "1"
+        ],
+        "GP1": [
+          "2"
+        ],
+        "GP10": [
+          "14"
+        ],
+        "GP11": [
+          "15"
+        ],
+        "GP12": [
+          "16"
+        ],
+        "GP13": [
+          "17"
+        ],
+        "GP14": [
+          "19"
+        ],
+        "GP15": [
+          "20"
+        ],
+        "GP16": [
+          "21"
+        ],
+        "GP17": [
+          "22"
+        ],
+        "GP18": [
+          "24"
+        ],
+        "GP19": [
+          "25"
+        ],
+        "GP2": [
+          "4"
+        ],
+        "GP20": [
+          "26"
+        ],
+        "GP21": [
+          "27"
+        ],
+        "GP22": [
+          "29"
+        ],
+        "GP26": [
+          "31"
+        ],
+        "GP27": [
+          "32"
+        ],
+        "GP28": [
+          "34"
+        ],
+        "GP3": [
+          "5"
+        ],
+        "GP4": [
+          "6"
+        ],
+        "GP5": [
+          "7"
+        ],
+        "GP6": [
+          "9"
+        ],
+        "GP7": [
+          "10"
+        ],
+        "GP8": [
+          "11"
+        ],
+        "GP9": [
+          "12"
+        ],
+        "power": [
+          "39",
+          "38"
+        ]
+      },
+      "parameters": {
+        "flash_mib": 16.0,
+        "gpios": 48.0,
+        "psram_cs": 47.0,
+        "psram_mib": 8.0
+      },
+      "height": 13.0
+    }
+  },
+  "notes": [
+    "Same header pinout and footprint as the Raspberry Pi Pico 2 (RASPBERRY_PI_PICO_2); GPIOs are 3.3 V. The RP2350B's extra GPIOs (30-47) stay on the module: GPIO47 is the PSRAM's chip select, the BOOT button doubles as a user input. In PCBKit 3V3 is `P3V3`, 3V3_EN `P3V3_EN`.",
+    "Runs firmware in PCBKit's RP2350 model (RISC-V cores): flash images with an IMAGE_DEF, flashed as a UF2 (family rp2350_riscv) onto the BOOTSEL drive; build with the rp2350 kit and name the program folder with `firmware` on the component.",
+    "Early stock uses RP2350 A2 (erratum RP2350-E9: an input with its internal pull-down can latch high; use pull-ups or external pull-downs of 8.2 kΩ or less)."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "Pimoroni Pico Plus 2 product page (Pico pinout, PSRAM on GPIO47) and the Raspberry Pi Pico 2 pinout it shares",
+      "url": "https://shop.pimoroni.com/products/pimoroni-pico-plus-2",
+      "license": "pin names, pin numbers and dimensions read from the manufacturers' public documentation (facts)"
+    },
+    "footprint": {
+      "verified": false
+    }
+  }
+}

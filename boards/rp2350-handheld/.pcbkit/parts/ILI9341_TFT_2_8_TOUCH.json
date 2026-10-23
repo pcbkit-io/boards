@@ -1,0 +1,196 @@
+{
+  "id": "ILI9341_TFT_2_8_TOUCH",
+  "mpn": "MSP2807 2.8in 240x320 SPI TFT module with touch (ILI9341)",
+  "manufacturer": "generic",
+  "variants": [
+    "2.8\" TFT touch",
+    "ILI9341 240x320"
+  ],
+  "category": "display",
+  "description": "2.8\" 240 x 320 colour TFT module (ILI9341) with resistive touch (XPT2046), SPI, on a 1x14 female header: VCC GND CS RESET DC SDI SCK LED SDO T_CLK T_CS T_DIN T_DO T_IRQ; courtyard the 50 x 86 mm module lying over the board",
+  "tags": [
+    "ili9341",
+    "2.8 tft",
+    "2.8 inch tft",
+    "2.8\" tft",
+    "tft",
+    "lcd",
+    "touch",
+    "touchscreen",
+    "xpt2046",
+    "colour display",
+    "color display",
+    "240x320",
+    "spi",
+    "module",
+    "socket"
+  ],
+  "datasheet": {
+    "url": "http://www.lcdwiki.com/2.8inch_SPI_Module_ILI9341_SKU:MSP2807",
+    "revision": "lcdwiki 2.8inch SPI Module ILI9341 SKU:MSP2807: interface definition; LCM outline drawing MSP2807 V1.0 (2024-04-11)"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "2.8\" SPI TFT module, 1 x 14 socket",
+    "family": "module",
+    "pins": 14,
+    "pitch": 2.54,
+    "body": {
+      "d": 50.0,
+      "e": 86.0,
+      "a": 5.6
+    },
+    "page": "lcdwiki MSP2807: pins 1 VCC, 2 GND, 3 CS, 4 RESET, 5 DC, 6 SDI(MOSI), 7 SCK, 8 LED, 9 SDO(MISO), 10 T_CLK, 11 T_CS, 12 T_DIN, 13 T_DO, 14 T_IRQ; outline drawing: PCB 50.00 x 86.00 mm, header J2 13 x 2.54 mm, first pin 8.49 mm from the left edge, 2.00 mm from the bottom edge; 5.6 mm thick without the header"
+  },
+  "footprint": "moduleSocket(\"TFT_2.8in_ILI9341_Socket_1x14_P2.54mm\", socketRow(1, 14, (-16.51mm, 0mm), (2.54mm, 0mm)), box((-25.0mm, -2.0mm), (25.0mm, 84.0mm)), description = \"2.8 inch ILI9341 TFT module with touch on a 1x14 female header along its bottom edge, the display facing up over +Y: VCC, GND, CS, RESET, DC, SDI, SCK, LED, SDO, T_CLK, T_CS, T_DIN, T_DO, T_IRQ left to right\", parts = 5.6mm, color = \"#15181c\")",
+  "pins": [
+    {
+      "number": "1",
+      "name": "VCC",
+      "type": "power_in",
+      "description": "supply 3.3-5 V (the module's regulator)"
+    },
+    {
+      "number": "2",
+      "name": "GND",
+      "type": "ground"
+    },
+    {
+      "number": "3",
+      "name": "CS",
+      "type": "input",
+      "description": "LCD chip select, active low"
+    },
+    {
+      "number": "4",
+      "name": "RESET",
+      "type": "input",
+      "description": "LCD reset, active low"
+    },
+    {
+      "number": "5",
+      "name": "DC",
+      "type": "input",
+      "description": "data (high) / register (low)"
+    },
+    {
+      "number": "6",
+      "name": "SDI",
+      "type": "input",
+      "description": "LCD SPI data in (MOSI)"
+    },
+    {
+      "number": "7",
+      "name": "SCK",
+      "type": "input",
+      "description": "LCD SPI clock"
+    },
+    {
+      "number": "8",
+      "name": "LED",
+      "type": "input",
+      "description": "backlight on when high (tie to 3.3 V if not dimmed)"
+    },
+    {
+      "number": "9",
+      "name": "SDO",
+      "type": "output",
+      "description": "LCD SPI data out (MISO); may stay open"
+    },
+    {
+      "number": "10",
+      "name": "T_CLK",
+      "type": "input",
+      "description": "touch controller SPI clock"
+    },
+    {
+      "number": "11",
+      "name": "T_CS",
+      "type": "input",
+      "description": "touch controller chip select, active low"
+    },
+    {
+      "number": "12",
+      "name": "T_DIN",
+      "type": "input",
+      "description": "touch controller SPI data in (MOSI)"
+    },
+    {
+      "number": "13",
+      "name": "T_DO",
+      "type": "output",
+      "description": "touch controller SPI data out (MISO)"
+    },
+    {
+      "number": "14",
+      "name": "T_IRQ",
+      "type": "output",
+      "description": "touch interrupt, low while touched"
+    }
+  ],
+  "ratings": {
+    "recommended": [
+      {
+        "what": "VCC supply",
+        "pins": [
+          "VCC"
+        ],
+        "min": 3.3,
+        "max": 5.0,
+        "unit": "V"
+      }
+    ]
+  },
+  "simulation": {
+    "behavior": {
+      "model": "ili9341",
+      "ports": {
+        "backlight": [
+          "8"
+        ],
+        "cs": [
+          "3"
+        ],
+        "dc": [
+          "5"
+        ],
+        "power": [
+          "1",
+          "2"
+        ],
+        "reset": [
+          "4"
+        ],
+        "spi": [
+          "6",
+          "7"
+        ]
+      },
+      "parameters": {
+        "height_mm": 57.6,
+        "offset_x_mm": 0.0,
+        "offset_y_mm": 44.0,
+        "width_mm": 43.2
+      },
+      "height": 14.0
+    }
+  },
+  "notes": [
+    "Logic 3.3 V TTL even with VCC at 5 V: level-shift a 5 V controller.",
+    "The LCD and the touch controller can share one SPI bus (SCK+T_CLK, SDI+T_DIN, SDO+T_DO) with separate CS and T_CS; keep T_CS high when the touch is unused.",
+    "The module's four Ø3.2 mm holes (44 x 76.08 mm, 3 mm from the top edge) take standoffs: add `hole()`s under them if it needs support.",
+    "The non-touch version (MSP2806) has the first 9 pins only."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "lcdwiki MSP2807: pins 1 VCC, 2 GND, 3 CS, 4 RESET, 5 DC, 6 SDI(MOSI), 7 SCK, 8 LED, 9 SDO(MISO), 10 T_CLK, 11 T_CS, 12 T_DIN, 13 T_DO, 14 T_IRQ; outline drawing: PCB 50.00 x 86.00 mm, header J2 13 x 2.54 mm, first pin 8.49 mm from the left edge, 2.00 mm from the bottom edge; 5.6 mm thick without the header",
+      "url": "http://www.lcdwiki.com/2.8inch_SPI_Module_ILI9341_SKU:MSP2807",
+      "license": "pinout and dimensions transcribed from the vendor's published documentation (facts); footprint, 3D body, descriptions and notes our own"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "socket pins and outline from the vendor's drawing; 1.0 mm holes, 1.7 mm pads"
+    }
+  }
+}
