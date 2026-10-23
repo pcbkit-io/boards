@@ -138,6 +138,40 @@
       }
     ]
   },
+  "simulation": {
+    "behavior": {
+      "model": "ili9488",
+      "ports": {
+        "power": [
+          "1",
+          "2"
+        ],
+        "cs": [
+          "3"
+        ],
+        "reset": [
+          "4"
+        ],
+        "dc": [
+          "5"
+        ],
+        "spi": [
+          "6",
+          "7"
+        ],
+        "backlight": [
+          "8"
+        ]
+      },
+      "parameters": {
+        "width_mm": 48.96,
+        "height_mm": 73.44,
+        "offset_x_mm": 0.0,
+        "offset_y_mm": 49.33
+      },
+      "height": 14.3
+    }
+  },
   "notes": [
     "Logic 3.3 V TTL even with VCC at 5 V.",
     "The ILI9488 SPI interface takes 18-bit colour (3 bytes a pixel): 320 x 480 x 24 bits at 60 MHz SPI is about 16 frames per second full screen; a 320 x 200 game area letterboxed is about 39.",

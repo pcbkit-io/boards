@@ -76,4 +76,20 @@ part Part = device(footprint = moduleSocket(
     PinoutSource: "lcdwiki MSP3520 interface definition and product parameters (56.34 x 98 mm)",
     Datasheet: "http://www.lcdwiki.com/3.5inch_SPI_Module_ILI9488_SKU:MSP3520",
   }
+  simulation = SimulationParameters {
+    behavior = Behavior {
+      model = "ili9488"
+      ports = {
+        "backlight": ["8"],
+        "cs": ["3"],
+        "dc": ["5"],
+        "power": ["1", "2"],
+        "reset": ["4"],
+        "spi": ["6", "7"],
+      }
+      parameters = { "height_mm": 73.44, "offset_x_mm": 0.0, "offset_y_mm": 49.33, "width_mm": 48.96 }
+      height = 14.3mm
+    }
+    parameters = []
+  }
 }

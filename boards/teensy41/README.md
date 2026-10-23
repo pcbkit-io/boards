@@ -27,14 +27,26 @@ makers publish no thermal data, and reads the Teensy's and the screen's draw fro
 Keystone 1042 holders (C5249310) are stocked in hundreds at JLCPCB: check before ordering more than
 a few boards.
 
+## Run it in the browser
+
+Open https://app.pcbkit.io/github/pcbkit-io/doom-handheld/tree/main/boards/teensy41, open the
+Laboratory and press **Build & run**: the page builds `doom/` for the i.MX RT1062's Cortex-M7
+(with `DOOM1.WAD` linked into its flash), boots it the way the chip's boot ROM boots the Teensy's
+flash, and draws the ILI9488's frames on the board. Play with the keyboard (arrows, F fire, Space
+use, comma/period strafe, M menu, Enter) or a gamepad (`input.js`).
+
 ## Why it runs Doom
 
-There is nothing to cut: 1 MB of SRAM holds Doom's zone heap for the shareware and registered games
-(Chocolate Doom's default is 16 MB, but Doom runs in 2–4 MB; the 8 MB PSRAM pads take the rest when
-fitted), the WAD streams from the SD card over 4-bit SDIO, and 600 MHz Cortex-M7 renders 320 × 200
-faster than 35 Hz with time to spare (existing Teensy 4 Doom ports run at full rate; not measured
-here). The ILI9488 over SPI takes 18-bit colour (3 bytes a pixel): a 320 × 200 game area is 192 KB,
-~26 ms at 60 MHz LPSPI with DMA — the display link, again, sets the frame rate.
+The Cortex-M7 at 600 MHz runs Doom with time to spare; the game's data, the shareware WAD, is
+linked into the Teensy's 8 MB flash with the program and read in place, so no SD card is needed.
+Its 1 MB of RAM holds the rest: the program's start-up makes the FlexRAM one OCRAM with OCRAM2
+(1 MB from 0x2020_0000) for the engine's state, two screens and a zone heap of about 600 KB (Doom's
+shareware levels need about 576 KB, measured). For that the board's copy of the engine keeps its
+trigonometric tables in flash, its visplanes' rows in bytes (as Doom's original did) and changes
+screens without the melt (`doom/doom_teensy.c` says where). Each frame goes to the ILI9488 in
+18-bit colour (its only format over SPI), 320 × 200 in the middle of its 480 × 320, on LPSPI4 at
+33 MHz: 46 ms a frame. Measured in PCBKit's simulator: the title at 4 s of device time, the demo
+at 13 s.
 
 ## Power
 
@@ -87,14 +99,12 @@ these are bought separately:
 
 ## Firmware: build and flash
 
-- Teensyduino (Arduino IDE / `arduino-cli`) or PlatformIO `teensy41`, `arm-none-eabi-gcc
-  -mcpu=cortex-m7 -mfpu=fpv5-d16 -mfloat-abi=hard`; the image is a `.hex` linked for FlexSPI XIP at
-  0x6000_0000 with the i.MX boot data: **FlexSPI configuration block (FCB) + IVT + boot data** at the
-  start of flash, which the ROM reads.
-- **Flashing on arrival:** plug the Teensy's micro-USB into a computer, open Teensy Loader (or run
-  `teensy_loader_cli --mcu=TEENSY41 -w -v doom.hex`) and press the Teensy's program button: its
-  MKL02 bootloader chip writes the image; nothing on the board to configure, no programmer. Copy
-  DOOM1.WAD onto the microSD card.
+- **Build:** in PCBKit, the Laboratory's **Build & run** builds `doom/` (Cortex-M7, hard float, the
+  kit's flash configuration block, IVT and boot data at the start of flash); then export the
+  firmware (`export.run { format: "firmware" }`): `U1.hex`.
+- **Flashing on arrival:** plug the Teensy's micro-USB into a computer, open the Teensy Loader (or
+  run `teensy_loader_cli --mcu=TEENSY41 -w -v U1.hex`) and press the Teensy's program button: its
+  MKL02 boot loader chip writes the image; nothing on the board to configure, no programmer.
 
 ## Bill of materials
 

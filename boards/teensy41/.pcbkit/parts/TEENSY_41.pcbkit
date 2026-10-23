@@ -134,4 +134,57 @@ part Part = device(footprint = moduleSocket("Teensy41_Socket_2x24_P2.54mm_W15.24
     PinoutSource: "PJRC Teensy 4.1 pinout card card11a_rev4_web.pdf (front): bottom row from USB GND,0..12,3.3V,24..32; top row from USB Vin,GND,3.3V,23..13,GND,41..33",
     Datasheet: "https://www.pjrc.com/store/teensy41.html",
   }
+  simulation = SimulationParameters {
+    behavior = Behavior {
+      model = "imxrt1062"
+      ports = {
+        "AD_B0_02": ["3"],
+        "AD_B0_03": ["2"],
+        "AD_B0_12": ["16"],
+        "AD_B0_13": ["17"],
+        "AD_B1_00": ["32"],
+        "AD_B1_01": ["33"],
+        "AD_B1_02": ["37"],
+        "AD_B1_03": ["36"],
+        "AD_B1_04": ["41"],
+        "AD_B1_05": ["40"],
+        "AD_B1_06": ["34"],
+        "AD_B1_07": ["35"],
+        "AD_B1_08": ["29"],
+        "AD_B1_09": ["28"],
+        "AD_B1_10": ["31"],
+        "AD_B1_11": ["30"],
+        "AD_B1_12": ["43"],
+        "AD_B1_13": ["42"],
+        "AD_B1_14": ["18"],
+        "AD_B1_15": ["19"],
+        "B0_00": ["12"],
+        "B0_01": ["14"],
+        "B0_02": ["13"],
+        "B0_03": ["38"],
+        "B0_10": ["8"],
+        "B0_11": ["11"],
+        "B0_12": ["24"],
+        "B1_00": ["10"],
+        "B1_01": ["9"],
+        "B1_02": ["45"],
+        "B1_03": ["44"],
+        "B1_12": ["46"],
+        "B1_13": ["47"],
+        "EMC_04": ["4"],
+        "EMC_05": ["5"],
+        "EMC_06": ["6"],
+        "EMC_07": ["48"],
+        "EMC_08": ["7"],
+        "EMC_31": ["21"],
+        "EMC_32": ["20"],
+        "EMC_36": ["23"],
+        "EMC_37": ["22"],
+        "power": ["27", "39"],
+      }
+      parameters = { "flash_mib": 8 }
+      height = 4.6mm
+    }
+    parameters = []
+  }
 }

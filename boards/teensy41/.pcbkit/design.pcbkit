@@ -64,9 +64,21 @@ board = Board {
   outline = rect(172mm, 112mm, radius = 7mm)
   layers = [signal(Cu.top), power(Cu.inner[1], label = "GND"), signal(Cu.inner[2]), signal(Cu.bottom)]
 }
+laboratory = Laboratory { world = "input.js" }
 
 // ---- processor (back): the Teensy on two 24-pin sockets, its USB end at the top edge ------------
-U1 = TEENSY_41.Part {
+// The program is doom/; the game's data, id Software's shareware DOOM1.WAD (free to share
+// unmodified), is linked into its flash from where it is published.
+U1 = TEENSY_41.Part with {
+  simulation = TEENSY_41.Part.simulation with { behavior = TEENSY_41.Part.simulation.behavior with {
+    firmware = "doom"
+    data = { "DOOM1.WAD": FirmwareData {
+      url = "https://raw.githubusercontent.com/Akbar30Bill/DOOM_wads/9b384dc68add3eb2f5eb7754654cafeeaea5103b/doom1.wad"
+      sha256 = "1d7d43be501e67d927e415e0b8f3e29c3bf33075e859721816f652a526cac771"
+      bytes = 4196020
+    } }
+  } }
+} {
   at = (62mm, 80.4mm)
   rotation = 90deg
   side = .bottom
@@ -184,17 +196,21 @@ switchLabel = Text { text = "ON / OFF"; at = (6mm, 54mm); size = 1mm; rotation =
 D1 = Schottky.Part { orderCode = "C82544"; side = .bottom; place = [soft(near(U1.pin.VIN, max = 15mm))]; pins { A: V5, K: VIN } }
 
 // ---- input (front) ---------------------------------------------------------------------------------------------
-part Btn = button("6x6") with { orderCode = "C221880" }
-SW1 = Btn { at = (20mm, 88mm); pins { a: UP, b: GND } }
-SW2 = Btn { at = (20mm, 68mm); pins { a: DOWN, b: GND } }
-SW3 = Btn { at = (10mm, 78mm); pins { a: LEFT, b: GND } }
-SW4 = Btn { at = (30mm, 78mm); pins { a: RIGHT, b: GND } }
-SW5 = Btn { at = (145mm, 102mm); pins { a: STRAFE_L, b: GND } }
-SW6 = Btn { at = (158mm, 102mm); pins { a: STRAFE_R, b: GND } }
-SW7 = Btn { at = (162mm, 81mm); pins { a: FIRE, b: GND } }
-SW8 = Btn { at = (150mm, 71mm); pins { a: USE, b: GND } }
-SW9 = Btn { at = (145mm, 54mm); pins { a: MENU, b: GND } }
-SW10 = Btn { at = (158mm, 54mm); pins { a: ENTER, b: GND } }
+// A tactile switch that pulls its line to ground, operated by `code` while the device runs.
+fn key(code: String): Part = button("6x6") with {
+  orderCode = "C221880"
+  simulation = SimulationParameters { behavior = Behavior { model = "button"; ports = { output: ["1"] }; key = code } }
+}
+SW1 = key("ArrowUp") { at = (20mm, 88mm); pins { a: UP, b: GND } }
+SW2 = key("ArrowDown") { at = (20mm, 68mm); pins { a: DOWN, b: GND } }
+SW3 = key("ArrowLeft") { at = (10mm, 78mm); pins { a: LEFT, b: GND } }
+SW4 = key("ArrowRight") { at = (30mm, 78mm); pins { a: RIGHT, b: GND } }
+SW5 = key("Comma") { at = (145mm, 102mm); pins { a: STRAFE_L, b: GND } }
+SW6 = key("Period") { at = (158mm, 102mm); pins { a: STRAFE_R, b: GND } }
+SW7 = key("KeyF") { at = (162mm, 81mm); pins { a: FIRE, b: GND } }
+SW8 = key("Space") { at = (150mm, 71mm); pins { a: USE, b: GND } }
+SW9 = key("KeyM") { at = (145mm, 54mm); pins { a: MENU, b: GND } }
+SW10 = key("Enter") { at = (158mm, 54mm); pins { a: ENTER, b: GND } }
 
 // Bring-up: the cells, the power path, 5 V, 3.3 V and ground on test pads.
 tpBat = testPoint() { at = (136mm, 38mm); pins = [BAT] }
