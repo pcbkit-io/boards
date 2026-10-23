@@ -56,19 +56,7 @@ part Part = device(footprint = Footprint {
   height = 18mm
   silk = silkOf(ps, b, 0.25mm)
   package = Package { family = .other; body = (77.1mm, 20.7mm); height = 18mm }
-  solids = [
-    slab(-38.55mm, -10.35mm, 0mm, 38.55mm, 10.35mm, 1.5mm, color = "#1a1a1a"),
-    slab(-38.55mm, -10.35mm, 1.5mm, -34.5mm, 10.35mm, 14.9mm, color = "#1a1a1a"),
-    slab(34.5mm, -10.35mm, 1.5mm, 38.55mm, 10.35mm, 14.9mm, color = "#1a1a1a"),
-    Solid {
-      shape = .cylinderX
-      size = (65mm, 18mm, 18mm)
-      at = (0mm, 0mm, 9.5mm)
-      color = "#2a6fd0"
-    },
-    slab(-43mm, -3.2mm, 0mm, -38.55mm, 3.2mm, 0.3mm, material = .gold),
-    slab(38.55mm, -3.2mm, 0mm, 43mm, 3.2mm, 0.3mm, material = .gold),
-  ]
+  solids = body.cellHolder(77.1mm, 20.7mm, tabs = 4.45mm)
 }, prefix = "BT", mpn = "1042", manufacturer = "Keystone Electronics", pinout = {
   C1: "1",
   C2: "2",
