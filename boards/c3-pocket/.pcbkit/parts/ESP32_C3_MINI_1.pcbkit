@@ -189,6 +189,29 @@ part Part = device(footprint = (
     Datasheet: "https://www.espressif.com/sites/default/files/documentation/esp32-c3-mini-1_datasheet_en.pdf",
   }
   simulation = SimulationParameters {
+    behavior = Behavior {
+      model = "esp32c3"
+      ports = {
+        "IO0": ["12"],
+        "IO1": ["13"],
+        "IO10": ["16"],
+        "IO18": ["26"],
+        "IO19": ["27"],
+        "IO2": ["5"],
+        "IO20": ["30"],
+        "IO21": ["31"],
+        "IO3": ["6"],
+        "IO4": ["18"],
+        "IO5": ["19"],
+        "IO6": ["20"],
+        "IO7": ["21"],
+        "IO8": ["22"],
+        "IO9": ["23"],
+        "power": ["3", "1"],
+      }
+      parameters = { "flash_mib": 4 }
+      height = 2.4mm
+    }
     parameters = [
       SimulationParameter {
         id = "idd-wifi-rx"

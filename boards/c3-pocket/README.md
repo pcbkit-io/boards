@@ -21,14 +21,24 @@ The C3 has no PSRAM, so Doom is cut down the way rp2040-doom cut it for the RP20
 `pcbkit export --format fab` succeeds without `--force`: every assembled line of the BOM has an LCSC code.
 <!-- /STATUS -->
 
+## Run it in the browser
+
+Open https://app.pcbkit.io/github/pcbkit-io/doom-handheld/tree/main/boards/c3-pocket, open the
+Laboratory and press **Build & run**: the page builds `doom/` for the C3's RV32IMC core (with
+rp2040-doom's `DOOM1.WHX` linked into the flash), boots it the way the chip's boot ROM boots an
+image from flash, and draws the ST7789's frames on the board. Play with the keyboard (arrows,
+F fire, Space use, S held to strafe, M menu; fire confirms in the menus) or a gamepad (`input.js`).
+
 ## How Doom fits
 
-400 KB SRAM with ~320 KB free after the radio-less IDF runtime: less than Doom's usual 4–8 MB, but
-more than the RP2040's 264 KB, so the rp2040-doom recipe applies: the WAD in a WHD-style compressed
-form memory-mapped from flash (the 4 MB flash holds code + the shareware episode), constant tables
-left in flash, a small zone heap, one 8-bit 240 × 150 frame, sent to the ST7789 as RGB565 lines by
-SPI DMA at 80 MHz (one 240 × 240 frame is 115 KB: ~12 ms). Estimate: 20–30 fps at 160 MHz (no port
-measured here; Doom ports exist for the ESP32-C3 but their numbers are not verified).
+`doom/` is rp2040-doom's engine (kilograham, GPL-2: its compressed level format and its
+`DOOM1.WHX`, the shareware episode in 1.8 MB) on PCBKit's ESP32-C3 kit instead of ESP-IDF: the
+WHX and the constant tables read in place from the flash through the cache, the zone heap in the
+DRAM (190 KB of data and bss, 70 KB of heap inside the 256 KiB its 16-bit pointers reach), the CPU
+at 160 MHz. Each 320 × 200 frame is scaled by 3/4 into the panel's middle 240 × 150 (of four
+columns or lines the middle two averaged), RGB565 over GP-SPI2 at 40 MHz in SPI mode 3 (the
+module has no chip select): 72 KB per frame, 14 ms. The eight buttons are read from their GPIOs
+(pulled up). The firmware is silent: the piezo is not driven yet.
 
 ## Power
 
@@ -89,16 +99,18 @@ The assembly solders a 1x7 female socket for the display; the module is bought s
 
 ## Firmware: build and flash
 
-- ESP-IDF 5.x (`idf.py set-target esp32c3`), GCC `riscv32-esp-elf`, `-march=rv32imc_zicsr_zifencei`.
-- The image format is Espressif's: a second-stage bootloader at 0x0, the partition table at 0x8000,
-  the app at 0x10000 (segments with load addresses, a checksum and SHA-256), the WAD in a data
-  partition mapped with `esp_partition_mmap`.
-- **Flashing on arrival:** the module comes blank (or with Espressif's test firmware): plug the
-  USB-C into a computer; the C3's built-in USB Serial/JTAG appears as a serial port
-  (`/dev/ttyACM0`, COMx) without a driver. `idf.py -p /dev/ttyACM0 flash` (or `esptool.py --chip
-  esp32c3 write_flash 0x0 bootloader.bin 0x8000 partitions.bin 0x10000 doom.bin 0x110000
-  doom1.whd`). If the port does not appear (a crashed app), hold MENU (IO9, the C3's BOOT strap)
-  and press RESET on the back: the ROM's download mode always comes up.
+- **Build:** in PCBKit, the Laboratory's **Build & run** builds `doom/` (RV32IMC, the kit's
+  start-up and link layout); then export the firmware (`export.run { format: "firmware" }`):
+  `U1.bin`, the whole flash from offset 0 (the boot image the ROM loads, then the program's code
+  and constants and the WHX at their pages). No 2nd-stage bootloader or partition table: the ROM
+  boots the image directly.
+- **Flashing on arrival:** switch the board on and plug its USB-C into a computer: the C3's USB
+  Serial/JTAG enumerates (303a:1001, `/dev/ttyACM0` or a COM port) even with the module's flash
+  blank, and `esptool` resets the chip into its ROM download mode through it by itself:
+  `esptool.py --chip esp32c3 -p /dev/ttyACM0 write_flash 0x0 U1.bin` (or the browser's ESP Web
+  Flasher at offset 0). If a running program has taken the USB pins over: hold MENU (IO9, the
+  C3's BOOT strap) and press RESET on the back: ROM download mode, then flash as above. Press
+  RESET: Doom starts.
 
 ## Bill of materials
 
@@ -144,19 +156,11 @@ The assembly BOM as `pcbkit export --format fab` writes it (JLCPCB assembly: LCS
 | 1 | rIset | 1.13kohm | C67014 | R_0402_1005Metric |
 <!-- /BOM -->
 
-## What PCBKit's engine must model to simulate it faithfully
+## What PCBKit's simulation models
 
-- **Core:** RV32IMC (the existing RV32IMAC core without A; machine mode only), Espressif's custom
-  CSRs (performance counters `mpcer`/`mpcmr`, the CPU interrupt matrix's mapping) and 32 interrupt
-  lines routed by the **interrupt matrix** (any peripheral source to any CPU line).
-- **Boot ROM:** the first-stage ROM loads the second-stage bootloader from flash by Espressif's image
-  format (segments, checksum, hash), reads strapping pins (IO2, IO8, IO9) for download mode and runs
-  the USB Serial/JTAG download protocol; a model can skip to the app image's entry like our direct
-  XIP profile, but the image format (segments with load addresses) must be understood.
-- **Memory:** the MSPI flash with the cache and **MMU** (64 KB pages mapping flash into the I/D
-  address spaces: the WAD is read through it).
-- **Clocks:** PLL 480 MHz → CPU 160 MHz, APB 80 MHz; SYSTIMER (two 52-bit counters) for FreeRTOS ticks.
-- **Peripherals:** GPSPI2 with its DMA (GDMA), the **GPIO matrix / IO MUX** (any peripheral signal to
-  any pin: the pin-mux table is the SoC description), LEDC, USB Serial/JTAG (as a serial port), TIMG
-  watchdogs (must be fed or disabled), eFuse reads (MAC, chip revision) that the IDF does at start.
-- **Board:** ST7789 controller model (CASET/RASET/RAMWR, MADCTL, RGB565), two 18650 cells behind the charger's power path and the LDO.
+The ESP32-C3 as its boot ROM leaves it after a flash boot (the image checked and loaded), the
+BBPLL and the CPU clock with their rules, the watchdogs, the cache's MMU, IO_MUX and the GPIO
+matrix's outputs, SYSTIMER and its interrupt through the interrupt matrix, GP-SPI2; the ST7789
+(command set, addressing, a module without chip select); the buttons. The same image boots through
+the chip's own ROM in Espressif's QEMU. Not modelled: GDMA, LEDC (the game is silent, as this
+firmware is), USB Serial/JTAG, the radio, cache timing, the cells and the charger.

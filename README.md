@@ -13,9 +13,9 @@ Open them at **https://app.pcbkit.io/github/pcbkit-io/doom-handheld**.
 
 Ten more designs explore the range, from the cheapest chip that can run Doom at all to a
 Cortex-M7 at 600 MHz: different processors, screens, memories and sound, one power design. Each
-is routed, passes `check` and is ready to order. Every board with a `doom/` folder has its program:
-opened from its GitHub link in PCBKit, it builds in the page and plays in the simulation, and its
-README says how to flash it on arrival. `c3-pocket` has none yet.
+is routed, passes `check` and is ready to order, and each has its program in `doom/`: opened from
+its GitHub link in PCBKit, it builds in the page and plays in the simulation, and its README says
+how to flash it over USB on arrival.
 
 | Board | Processor | Screen | Flashing on arrival |
 |---|---|---|---|

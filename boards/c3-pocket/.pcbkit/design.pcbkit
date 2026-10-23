@@ -59,9 +59,22 @@ board = Board {
   description = "ESP32-C3 RISC-V · 1.3in ST7789 240x240 · 2 x 18650, USB-C charging"
   outline = rect(52mm, 128mm, radius = 5mm)
 }
+laboratory = Laboratory { world = "input.js" }
 
 // ---- processor (back, top edge: the antenna past the edge, away from the hand) ----------------
-U1 = ESP32_C3_MINI_1.Part with { mpn = "ESP32-C3-MINI-1-H4" } {
+// The program is doom/ (rp2040-doom's engine); its data, rp2040-doom's compressed shareware WAD
+// (DOOM1.WHX, id Software's data, free to share unmodified), is linked into the module's 4 MB flash.
+U1 = ESP32_C3_MINI_1.Part with {
+  mpn = "ESP32-C3-MINI-1-H4"
+  simulation = ESP32_C3_MINI_1.Part.simulation with { behavior = ESP32_C3_MINI_1.Part.simulation.behavior with {
+    firmware = "doom"
+    data = { "DOOM1.WHX": FirmwareData {
+      url = "https://raw.githubusercontent.com/kilograham/rp2040-doom/29a453c980918a03e40fc8b69b024e7a3bdb5dc2/doom1.whx"
+      sha256 = "87ea79020578fa2e72fc204f67ff2ce45bd73a266a369670da7a019028b0d893"
+      bytes = 1800344
+    } }
+  } }
+} {
   side = .bottom
   at = (42.5mm, 119.2mm)
   // The -H4: the same module with the same 4 MB flash, rated to 105 °C (the -N4 is out of stock).
@@ -154,15 +167,19 @@ switchLabel = Text { text = "ON / OFF"; at = (46mm, 95mm); size = 1mm; rotation 
 BZ1 = GPC12075YB_5V.Part { side = .bottom; orderCode = "C252948"; at = (22mm, 104mm); pins { A: BUZZ, B: GND } }
 
 // ---- input (front) --------------------------------------------------------------------------------
-part Btn = button("5.1x5.1") with { orderCode = "C318884" }
-SW1 = Btn { at = (13mm, 54mm); pins { a: UP, b: GND } }
-SW2 = Btn { at = (13mm, 38mm); pins { a: DOWN, b: GND } }
-SW3 = Btn { at = (5mm, 46mm); pins { a: LEFT, b: GND } }
-SW4 = Btn { at = (21mm, 46mm); pins { a: RIGHT, b: GND } }
-SW5 = Btn { at = (44mm, 50mm); pins { a: FIRE, b: GND } }
-SW6 = Btn { at = (35mm, 42mm); pins { a: USE, b: GND } }
-SW7 = Btn { at = (8mm, 30.5mm); pins { a: STRAFE, b: GND } }
-SW8 = Btn { at = (44mm, 26mm); pins { a: MENU, b: GND } }
+// A tactile switch that pulls its line to ground, operated by `code` while the device runs.
+fn key(code: String): Part = button("5.1x5.1") with {
+  orderCode = "C318884"
+  simulation = SimulationParameters { behavior = Behavior { model = "button"; ports = { output: ["1"] }; key = code } }
+}
+SW1 = key("ArrowUp") { at = (13mm, 54mm); pins { a: UP, b: GND } }
+SW2 = key("ArrowDown") { at = (13mm, 38mm); pins { a: DOWN, b: GND } }
+SW3 = key("ArrowLeft") { at = (5mm, 46mm); pins { a: LEFT, b: GND } }
+SW4 = key("ArrowRight") { at = (21mm, 46mm); pins { a: RIGHT, b: GND } }
+SW5 = key("KeyF") { at = (44mm, 50mm); pins { a: FIRE, b: GND } }
+SW6 = key("Space") { at = (35mm, 42mm); pins { a: USE, b: GND } }
+SW7 = key("KeyS") { at = (8mm, 30.5mm); pins { a: STRAFE, b: GND } }
+SW8 = key("KeyM") { at = (44mm, 26mm); pins { a: MENU, b: GND } }
 
 // Bring-up: the cells, the power path, 3.3 V and ground on test pads.
 tpBat = testPoint() { at = (16mm, 61.5mm); pins = [BAT] }

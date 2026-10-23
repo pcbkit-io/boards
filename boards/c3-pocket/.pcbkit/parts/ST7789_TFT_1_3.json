@@ -113,5 +113,35 @@
       "verified": false,
       "note": "socket pins and outline from the vendor's size picture; 1.0 mm holes, 1.7 mm pads"
     }
+  },
+  "simulation": {
+    "behavior": {
+      "model": "st7789",
+      "ports": {
+        "power": [
+          "2",
+          "1"
+        ],
+        "spi": [
+          "4",
+          "3"
+        ],
+        "reset": [
+          "5"
+        ],
+        "dc": [
+          "6"
+        ]
+      },
+      "parameters": {
+        "width_mm": 23.4,
+        "height_mm": 23.4,
+        "offset_x_mm": 0.0,
+        "offset_y_mm": -15.53,
+        "columns": 240,
+        "rows": 240
+      },
+      "height": 12.0
+    }
   }
 }
