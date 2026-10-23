@@ -1,0 +1,111 @@
+{
+  "id": "KEYSTONE_1042",
+  "mpn": "1042",
+  "manufacturer": "Keystone Electronics",
+  "variants": [
+    "1042P"
+  ],
+  "category": "battery-holder",
+  "description": "18650 Li-ion cell holder, surface mount (Keystone 1042): two 7.3 x 6.4 mm pads 86 mm apart over all, three locating holes, nylon 77.1 x 20.7 mm",
+  "tags": [
+    "18650",
+    "battery holder",
+    "li-ion",
+    "lithium",
+    "battery",
+    "cell holder",
+    "keystone",
+    "holder",
+    "smd",
+    "smt",
+    "surface mount",
+    "1042"
+  ],
+  "datasheet": {
+    "url": "https://www.keyelco.com/userAssets/file/K75p29.pdf",
+    "revision": "Keystone catalog M75 p. 29, 18650 lithium-ion battery holders: 1042 drawing and pad layout"
+  },
+  "prefix": "BT",
+  "package": {
+    "name": "Keystone 1042 18650 holder, SMT",
+    "family": "other",
+    "pins": 2,
+    "body": {
+      "d": 77.1,
+      "e": 20.7,
+      "a": 18.0
+    },
+    "landPattern": {
+      "pads": [
+        {
+          "number": "1",
+          "x": -39.35,
+          "y": 0.0,
+          "w": 7.3,
+          "h": 6.4,
+          "shape": "rect"
+        },
+        {
+          "number": "2",
+          "x": 39.35,
+          "y": 0.0,
+          "w": 7.3,
+          "h": 6.4,
+          "shape": "rect"
+        }
+      ],
+      "page": "pad layout: pads 7.3 (min) x 6.4 (min) mm, 86.0 mm (min) over their outer ends; Ø3.5 holes 55.2 mm apart across a 16.0 mm diagonal, a Ø2.4 hole below the +X pad"
+    },
+    "page": "holder 77.1 x 20.7 mm, 18.0 mm to the top of the cell"
+  },
+  "footprint": "Footprint {\n    let ps = [\n      Pad { number = \"1\"; at = (-39.35mm, 0mm); shape = shape.rect(7.3mm, 6.4mm) },\n      Pad { number = \"2\"; at = (39.35mm, 0mm); shape = shape.rect(7.3mm, 6.4mm) },\n      Pad { number = \"\"; kind = .npth; at = (-27.6mm, -8mm); drill = 3.5mm; shape = shape.round(3.5mm) },\n      Pad { number = \"\"; kind = .npth; at = (27.6mm, 8mm); drill = 3.5mm; shape = shape.round(3.5mm) },\n      Pad { number = \"\"; kind = .npth; at = (35.8mm, -8mm); drill = 2.4mm; shape = shape.round(2.4mm) },\n    ]\n    let b = box((-43mm, -10.35mm), (43mm, 10.35mm))\n    name = \"BatteryHolder_Keystone_1042_1x18650\"\n    description = \"18650 holder, SMT (Keystone 1042): contact pads 7.3 x 6.4 mm, 86 mm over all; locating holes Ø3.5 at (±27.6, ∓8) mm and Ø2.4 at (35.8, -8) mm\"\n    tags = [\"18650\", \"battery holder\", \"SMD\"]\n    pads = ps\n    body = b\n    height = 18mm\n    silk = silkOf(ps, b, 0.25mm)\n    package = Package { family = .other; body = (77.1mm, 20.7mm); height = 18mm }\n    solids = [\n      slab(-38.55mm, -10.35mm, 0mm, 38.55mm, 10.35mm, 1.5mm, color = \"#1a1a1a\"),\n      slab(-38.55mm, -10.35mm, 1.5mm, -34.5mm, 10.35mm, 14.9mm, color = \"#1a1a1a\"),\n      slab(34.5mm, -10.35mm, 1.5mm, 38.55mm, 10.35mm, 14.9mm, color = \"#1a1a1a\"),\n      Solid { shape = .cylinderX; size = (65mm, 18mm, 18mm); at = (0mm, 0mm, 9.5mm); color = \"#2a6fd0\" },\n      slab(-43mm, -3.2mm, 0mm, -38.55mm, 3.2mm, 0.3mm, material = .gold),\n      slab(38.55mm, -3.2mm, 0mm, 43mm, 3.2mm, 0.3mm, material = .gold),\n    ]\n  }",
+  "pins": [
+    {
+      "number": "1",
+      "name": "C1",
+      "type": "passive",
+      "description": "contact at -X"
+    },
+    {
+      "number": "2",
+      "name": "C2",
+      "type": "passive",
+      "description": "contact at +X"
+    }
+  ],
+  "ratings": {
+    "recommended": [
+      {
+        "what": "cell voltage (one Li-ion cell)",
+        "min": 3.0,
+        "nom": 3.7,
+        "max": 4.2,
+        "unit": "V"
+      },
+      {
+        "what": "operating temperature",
+        "min": -50.0,
+        "max": 145.0,
+        "unit": "°C"
+      }
+    ]
+  },
+  "notes": [
+    "A single 18650 Li-ion cell (3.0-4.2 V, protected or bare). The holder is not polarized: the cell's orientation decides which contact is +. Print + and - on the silkscreen beside the holder (Keystone marks its base) and wire the + contact to VBAT, the other to GND.",
+    "Feed the cell through a protection circuit (DW01A + FS8205A) unless the cell has its own, and charge it with TP4056, MCP73831, BQ24074 or IP5306.",
+    "The courtyard covers the whole cell (77.1 x 20.7 mm): nothing tall under or beside it.",
+    "The pad layout gives minimum pad sizes and the minimum length over the pads; the locating holes are non-plated."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "Keystone catalog, 18650 lithium-ion battery holders (K75 p. 29): 1042 outline (77.1 x 20.7 mm, 86.0 mm over the tabs) and pad layout",
+      "url": "https://www.keyelco.com/userAssets/file/K75p29.pdf",
+      "license": "hole and pad positions and dimensions transcribed from the manufacturer's catalog drawing (facts); footprint written in PCBKit, 3D body and notes our own"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "pads at the drawing's minimum sizes; the holes' positions along X read from the scaled drawing (55.2 mm apart, symmetric; the Ø2.4 hole in line with the +X contact), across Y ±8 mm (16.0 mm apart) with the pads on the centre line as drawn"
+    }
+  }
+}
