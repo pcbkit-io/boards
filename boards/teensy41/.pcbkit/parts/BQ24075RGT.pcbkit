@@ -1,6 +1,9 @@
 pcbkit 1
 
-// BQ24074RGTR (Texas Instruments): Single-cell Li-ion linear charger with power path (system
+// BQ24075RGTR (Texas Instruments): the BQ24074RGTR's variant with SYSOFF on pin 15 (low: normal;
+// high: the battery disconnected) and a fixed, current-based termination; otherwise the same chip,
+// pins and land pattern (SLUS810N, table 7-1). From the BQ24074RGT part sheet.
+// Single-cell Li-ion linear charger with power path (system
 // output OUT at 4.4 V from the input, the battery behind it), 1.5 A charge, input 4.35-10.2 V (26
 // V tolerant, 10.5 V OVP), USB 100/500 mA or resistor-set input limit, VQFN-16 3 x 3 mm
 // Compiled from the part sheet `parts/BQ24074RGT.json` (`parts.create`); status: checked.
@@ -11,7 +14,7 @@ pcbkit 1
 // Footprint: computed per IPC-7351B from the datasheet's package dimensions
 // This file may be used, changed and shared without conditions, with the board or alone.
 
-/// BQ24074RGTR — Single-cell Li-ion linear charger with power path (system output OUT at 4.4 V
+/// BQ24075RGTR — Single-cell Li-ion linear charger with power path (system output OUT at 4.4 V
 /// from the input, the battery behind it), 1.5 A charge, input 4.35-10.2 V (26 V tolerant, 10.5 V
 /// OVP), USB 100/500 mA or resistor-set input limit, VQFN-16 3 x 3 mm
 part Part = device(footprint = rows(
@@ -29,7 +32,7 @@ part Part = device(footprint = rows(
   bodyY = tolerance(2.9mm, 3.1mm),
   bodyHeight = 1mm,
   exposedPad = (1.68mm, 1.68mm),
-), prefix = "U", mpn = "BQ24074RGTR", manufacturer = "Texas Instruments", pinout = {
+), prefix = "U", mpn = "BQ24075RGTR", manufacturer = "Texas Instruments", orderCode = "C15464", pinout = {
   TS: "1",
   BAT: ["2", "3"],
   nCE: "4",
@@ -42,22 +45,23 @@ part Part = device(footprint = rows(
   ILIM: "12",
   IN: "13",
   TMR: "14",
-  ITERM: "15",
+  SYSOFF: "15",
   ISET: "16",
 }, pinTypes = {
   TS: .passive,
-  BAT: io.powerOut(4.2V),
+  // The cell's terminal: it charges the cell and draws from it (one net with the cell).
+  BAT: .passive,
   nCE: io.input(max = 7V),
   EN2: io.input(max = 7V),
   EN1: io.input(max = 7V),
   nPGOOD: io.openDrain(max = 7V),
   VSS: .ground,
   nCHG: io.openDrain(max = 7V),
-  OUT: io.powerOut(4.4V),
+  OUT: io.powerOut(5V),
   ILIM: .passive,
   IN: io.powerIn(min = 4.35V, max = 28V),
   TMR: .passive,
-  ITERM: .passive,
+  SYSOFF: .input,
   ISET: .passive,
 }) with {
   fields {
@@ -130,75 +134,5 @@ part Part = device(footprint = rows(
         }
       },
     ]
-  }
-}
-
-/// The support circuit of the BQ24074RGTR as its datasheet shows it (p. 1 typical application
-/// circuit; pp. 33-35, section 10.2 design example): every part next to the pin it serves. Add it
-/// next to the part: `U1 = BQ24074RGT.Part { … }`, `U1Support = BQ24074RGT.Support(U1) {}`.
-///
-/// - ICHG = 890 A·ohm / RISET; input limit IIN = 1550 A·ohm / RILIM (EN2 high, EN1 low); ITERM =
-/// 0.03 x RITERM / RISET.
-///
-/// - EN1/EN2: both low 100 mA (USB100), EN1 high 500 mA (USB500), EN2 high EN1 low the ILIM
-/// resistor, both high suspend. Tie them, nCE and TS: none may float.
-///
-/// - Load the system from OUT, never from BAT: OUT keeps the system up from the input while the
-/// battery charges, and switches to the battery when the input goes.
-///
-/// - Solder the thermal pad to a VSS pour with vias: charging at 1 A from 5 V dissipates about 1 W.
-block Support(
-  /// The BQ24074RGTR this circuit serves (`BQ24074RGT.Support(U1)`).
-  chip: Any,
-) {
-  /// 16V ceramic (1-10 uF)
-  CIN = cap(1uF, package = "0402", voltage = 16V) {
-    place = [soft(near(chip.pin.IN, max = 2mm), weight = 2)]
-    pins { a: chip.pin.IN, b: chip.pin.VSS }
-  }
-  /// 10V ceramic
-  COUT = cap(4.7uF, package = "0805", voltage = 10V) {
-    place = [soft(near(chip.pin.OUT, max = 4mm), weight = 2)]
-    pins { a: chip.pin.OUT, b: chip.pin.VSS }
-  }
-  /// 10V ceramic
-  CBAT = cap(4.7uF, package = "0805", voltage = 10V) {
-    place = [soft(near(chip.pin.BAT, max = 4mm), weight = 2)]
-    pins { a: chip.pin.BAT, b: chip.pin.VSS }
-  }
-  /// 1% (about 800 mA charge)
-  RISET = res(1.13kohm, package = "0402", tolerance = 1pct) {
-    place = [soft(near(chip.pin.ISET, max = 5mm), weight = 1)]
-    pins { a: chip.pin.ISET, b: chip.pin.VSS }
-  }
-  /// 1% (1.3 A input limit with EN2 high, EN1 low)
-  RILIM = res(1.18kohm, package = "0402", tolerance = 1pct) {
-    place = [soft(near(chip.pin.ILIM, max = 5mm), weight = 1)]
-    pins { a: chip.pin.ILIM, b: chip.pin.VSS }
-  }
-  /// 110 mA termination
-  RITERM = res(4.12kohm, package = "0402") {
-    place = [soft(near(chip.pin.ITERM, max = 5mm), weight = 1)]
-    pins { a: chip.pin.ITERM, b: chip.pin.VSS }
-  }
-  /// 6.25 h fast-charge timer
-  RTMR = res(46.4kohm, package = "0402") {
-    place = [soft(near(chip.pin.TMR, max = 5mm), weight = 1)]
-    pins { a: chip.pin.TMR, b: chip.pin.VSS }
-  }
-  /// or the pack's 10 kohm NTC
-  RTS = res(10kohm, package = "0402") {
-    place = [soft(near(chip.pin.TS, max = 5mm), weight = 1)]
-    pins { a: chip.pin.TS, b: chip.pin.VSS }
-  }
-  /// with 1.5 kohm in series: on while charging
-  LED1 = led(package = "0603", color = .red) {
-    place = [soft(near(chip.pin.OUT, max = 5mm), weight = 1)]
-    pins { A: chip.pin.OUT, K: chip.pin.nCHG }
-  }
-  /// with 1.5 kohm in series: on while the input is good
-  LED2 = led(package = "0603", color = .green) {
-    place = [soft(near(chip.pin.OUT, max = 5mm), weight = 1)]
-    pins { A: chip.pin.OUT, K: chip.pin.nPGOOD }
   }
 }
