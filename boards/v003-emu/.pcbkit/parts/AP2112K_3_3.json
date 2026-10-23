@@ -1,0 +1,389 @@
+{
+  "id": "AP2112K_3_3",
+  "mpn": "AP2112K-3.3TRG1",
+  "manufacturer": "Diodes Incorporated",
+  "variants": [
+    "AP2112K-3.3"
+  ],
+  "category": "regulator",
+  "description": "Linear regulator (CMOS LDO), fixed 3.3 V, 600 mA, 2.5-6 V in, enable, 250 mV dropout",
+  "tags": [
+    "ldo",
+    "linear regulator",
+    "3.3V",
+    "3V3",
+    "enable",
+    "low dropout"
+  ],
+  "datasheet": {
+    "url": "https://www.diodes.com/assets/Datasheets/AP2112.pdf",
+    "revision": "DS39724 Rev. 2-2, June 2017"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "SOT-23-5",
+    "page": "p. 15, SOT25 package outline"
+  },
+  "symbol": {
+    "units": [
+      {
+        "shapes": [
+          {
+            "kind": "line",
+            "points": [
+              [
+                -7.62,
+                5.08
+              ],
+              [
+                7.62,
+                5.08
+              ],
+              [
+                7.62,
+                -5.08
+              ],
+              [
+                -7.62,
+                -5.08
+              ]
+            ],
+            "width": 0.254,
+            "closed": true,
+            "fill": "background"
+          },
+          {
+            "kind": "text",
+            "at": [
+              -7.62,
+              5.08
+            ],
+            "text": "${REFERENCE}",
+            "size": 2.54,
+            "angle": 0.0
+          },
+          {
+            "kind": "text",
+            "at": [
+              2.54,
+              -5.08
+            ],
+            "text": "${VALUE}",
+            "size": 2.54,
+            "angle": 0.0
+          }
+        ],
+        "pins": [
+          {
+            "number": "1",
+            "x": -10.16,
+            "y": 2.54,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "3",
+            "x": -10.16,
+            "y": -2.54,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "2",
+            "x": 0.0,
+            "y": -7.62,
+            "angle": 90.0,
+            "length": 2.54
+          },
+          {
+            "number": "5",
+            "x": 10.16,
+            "y": 2.54,
+            "angle": 180.0,
+            "length": 2.54
+          }
+        ]
+      }
+    ]
+  },
+  "model": "Package_TO_SOT_SMD:SOT-23-5",
+  "pins": [
+    {
+      "number": "1",
+      "name": "VIN",
+      "type": "power_in",
+      "description": "input"
+    },
+    {
+      "number": "2",
+      "name": "GND",
+      "type": "ground"
+    },
+    {
+      "number": "3",
+      "name": "EN",
+      "type": "input_pulldown",
+      "description": "enable, high on (3 Mohm pull-down inside)"
+    },
+    {
+      "number": "4",
+      "name": "NC",
+      "type": "nc"
+    },
+    {
+      "number": "5",
+      "name": "VOUT",
+      "type": "power_out",
+      "description": "3.3 V output"
+    }
+  ],
+  "ratings": {
+    "absMax": [
+      {
+        "what": "VIN supply voltage",
+        "pins": [
+          "VIN"
+        ],
+        "max": 6.5,
+        "unit": "V"
+      },
+      {
+        "what": "EN",
+        "pins": [
+          "EN"
+        ],
+        "max": 6.5,
+        "unit": "V"
+      }
+    ],
+    "recommended": [
+      {
+        "what": "VIN supply voltage",
+        "pins": [
+          "VIN"
+        ],
+        "min": 2.5,
+        "max": 6.0,
+        "unit": "V"
+      },
+      {
+        "what": "VOUT",
+        "pins": [
+          "VOUT"
+        ],
+        "min": 3.25,
+        "nom": 3.3,
+        "max": 3.35,
+        "unit": "V"
+      },
+      {
+        "what": "output current",
+        "pins": [
+          "VOUT"
+        ],
+        "max": 0.6,
+        "unit": "A"
+      },
+      {
+        "what": "ambient temperature",
+        "min": -40.0,
+        "max": 85.0,
+        "unit": "°C"
+      }
+    ]
+  },
+  "parameters": [
+    {
+      "name": "OUTPUT_VOLTAGE",
+      "value": "3.3V",
+      "si": 3.3,
+      "unit": "V"
+    }
+  ],
+  "simulation": {
+    "parameters": [
+      {
+        "id": "thetaJa",
+        "quantity": "thetaJa",
+        "unit": "K/W",
+        "typ": 184.0,
+        "conditions": "SOT25; no heatsink; tabulated thermal metric, not a guaranteed board value",
+        "source": {
+          "url": "https://www.diodes.com/assets/Datasheets/AP2112.pdf",
+          "revision": "DS39724 Rev. 2-2, June 2017",
+          "location": "p. 3, thermal resistance, SOT25 row",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "thetaJc",
+        "quantity": "thetaJc",
+        "unit": "K/W",
+        "typ": 96.0,
+        "conditions": "SOT25; case face unspecified by manufacturer; cannot substitute junction-to-board resistance",
+        "source": {
+          "url": "https://www.diodes.com/assets/Datasheets/AP2112.pdf",
+          "revision": "DS39724 Rev. 2-2, June 2017",
+          "location": "p. 8, AP2112-3.3 table, SOT25 row",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "tj-absolute",
+        "quantity": "junctionAbsoluteTemperature",
+        "unit": "degC",
+        "max": 150.0,
+        "conditions": "Absolute junction limit; recommended ambient range is -40 to 85 degC",
+        "source": {
+          "url": "https://www.diodes.com/assets/Datasheets/AP2112.pdf",
+          "revision": "DS39724 Rev. 2-2, June 2017",
+          "location": "p. 3, absolute maximum ratings, TJ",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "iq-4v3",
+        "quantity": "quiescentCurrent",
+        "unit": "A",
+        "typ": 0.000055,
+        "max": 0.00008,
+        "conditions": "AP2112-3.3; VIN=4.3 V, IOUT=0; CIN=COUT=1 uF ceramic; typical TA=25 degC",
+        "source": {
+          "url": "https://www.diodes.com/assets/Datasheets/AP2112.pdf",
+          "revision": "DS39724 Rev. 2-2, June 2017",
+          "location": "p. 8, AP2112-3.3 table, IQ",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "dropout-10ma",
+        "quantity": "dropoutVoltage",
+        "unit": "V",
+        "typ": 0.005,
+        "max": 0.008,
+        "conditions": "AP2112-3.3; IOUT=10 mA; CIN=COUT=1 uF ceramic; typical TA=25 degC",
+        "source": {
+          "url": "https://www.diodes.com/assets/Datasheets/AP2112.pdf",
+          "revision": "DS39724 Rev. 2-2, June 2017",
+          "location": "p. 8, AP2112-3.3 table, VDROP",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "dropout-300ma",
+        "quantity": "dropoutVoltage",
+        "unit": "V",
+        "typ": 0.125,
+        "max": 0.2,
+        "conditions": "AP2112-3.3; IOUT=300 mA; CIN=COUT=1 uF ceramic; typical TA=25 degC",
+        "source": {
+          "url": "https://www.diodes.com/assets/Datasheets/AP2112.pdf",
+          "revision": "DS39724 Rev. 2-2, June 2017",
+          "location": "p. 8, AP2112-3.3 table, VDROP",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "dropout-600ma",
+        "quantity": "dropoutVoltage",
+        "unit": "V",
+        "typ": 0.25,
+        "max": 0.4,
+        "conditions": "AP2112-3.3; IOUT=600 mA; CIN=COUT=1 uF ceramic; typical TA=25 degC",
+        "source": {
+          "url": "https://www.diodes.com/assets/Datasheets/AP2112.pdf",
+          "revision": "DS39724 Rev. 2-2, June 2017",
+          "location": "p. 8, AP2112-3.3 table, VDROP",
+          "confidence": "datasheet"
+        }
+      }
+    ]
+  },
+  "support": {
+    "parts": [
+      {
+        "ref": "CIN",
+        "kind": "cap",
+        "value": "1uF",
+        "rating": "10V X5R/X7R",
+        "between": [
+          "VIN",
+          "GND"
+        ]
+      },
+      {
+        "ref": "COUT",
+        "kind": "cap",
+        "value": "1uF",
+        "rating": "10V X5R/X7R",
+        "between": [
+          "VOUT",
+          "GND"
+        ]
+      },
+      {
+        "ref": "EN_VIN",
+        "kind": "tie",
+        "value": "",
+        "between": [
+          "EN",
+          "VIN"
+        ],
+        "option": "alwaysOn"
+      }
+    ],
+    "options": [
+      {
+        "name": "alwaysOn",
+        "default": true,
+        "description": "EN tied to VIN (`false`: drive EN from a logic output)."
+      }
+    ],
+    "notes": [
+      "EN to VIN for always on, or to a logic output (high above 1.5 V, low below 0.4 V)."
+    ],
+    "page": "p. 1, Typical applications circuit"
+  },
+  "notes": [
+    "Stable with 1 uF ceramic on input and output (X5R/X7R); larger output capacitance is fine.",
+    "For 3.3 V out at 600 mA the input must stay above about 3.7 V (400 mV maximum dropout).",
+    "Foldback current limit about 50 mA into a short; output discharged through 60 ohm when disabled."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "AP2112 datasheet DS39724 Rev. 2-2, Pin descriptions (p. 2), SOT25 column",
+      "url": "https://www.diodes.com/assets/Datasheets/AP2112.pdf",
+      "license": "facts transcribed from the datasheet; notes in our own words"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "standard SOT-23-5; the datasheet's SOT25 outline agrees (1.50-1.70 body, 2.70-3.00 span, 0.95 pitch)"
+    },
+    "symbol": {
+      "verified": false,
+      "source": "librepcb",
+      "version": "0.1.13",
+      "item": "fd175594-0a7e-443f-ae71-6126adbf106e",
+      "url": "https://github.com/LibrePCB-Libraries/LibrePCB_ICs.lplib",
+      "license": "CC0-1.0",
+      "note": "LibrePCB Integrated Circuits"
+    },
+    "model": {
+      "verified": false,
+      "source": "kicad",
+      "version": "10.0.7",
+      "item": "Package_TO_SOT_SMD.3dshapes/SOT-23-5 (the model of Package_TO_SOT_SMD:SOT-23-5: the package `SOT-23-5`)",
+      "license": "CC-BY-SA-4.0"
+    },
+    "parameters": {
+      "verified": false,
+      "source": "librepcb",
+      "version": "0.3.1",
+      "item": "c47455f3-3bd4-4c5d-916b-fd0e699469d0",
+      "url": "https://github.com/LibrePCB-Libraries/Diodes_Incorporated.lplib",
+      "license": "CC0-1.0",
+      "note": "Diodes Incorporated"
+    }
+  }
+}

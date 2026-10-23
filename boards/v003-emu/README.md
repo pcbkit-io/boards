@@ -14,12 +14,14 @@ than *programs*.
 | Display | Nokia 5110 module, PCD8544, 84 × 48 monochrome, SPI shared with the memories (CS PC3, D/C PC2), reset by RC at power-up |
 | Input | 8 tact switches (5.1 mm) to GND, internal pull-ups: PD0, PD2–PD6, PA1, PA2 (the crystal pins are free: the HSI runs the chip) |
 | Sound | passive piezo on PC1 (TIM2 CH4 remap) |
-| Power | 2 × AA alkaline → slide switch on the boost's EN → TPS61023 synchronous boost to 3.3 V (453 k / 100 k on FB: 3.29 V) |
-| Programming | WCH single-wire debug (SDI) on PD1: 3-pin header for a WCH-LinkE |
-| Board | 96 × 50 mm, 2 layers; front: LCD, buttons, switch; back: everything else |
+| Power | 2 × 18650 Li-ion in parallel (1S2P) behind reverse-cell (AO3401A) and DW01A + FS8205A protection; BQ24075 charger with power path from a USB-C port (fuse, TVS); SYS → AP2112K-3.3 LDO, its enable on the slide switch |
+| Programming | WCH single-wire debug (SDI) on PD1: J2, a 3-pin header (3V3, SWIO, GND) at the right edge of the back for a WCH-LinkE |
+| Board | 96 × 92 mm, 2 layers, four M3 holes; front: LCD, buttons, USB-C, charger, switch, test pads; back: two 18650 holders, the processor and its memories, piezo, J2 |
 
 <!-- STATUS -->
-**Board status** (`pcbkit check`, measured on the dev host): **complete** — 0 errors, 0 warnings, 0 unrouted nets; 36 components, 28 nets, 287 track segments (681 mm), 29 vias.
+**Board status** (measured on the dev host with PCBKit's CLI): `pcbkit check`: complete — 0 errors, 0 warnings, 0 unrouted nets. 67 components, 46 nets, 439 track segments (1295 mm), 38 vias.
+`analysis.run { lens: "ready" }`: Typical scenario, partial. Nothing to fix, 1 to consider, 15 ok: weigh the warnings (tell the person about the ones that are their choice), then the board is ready to order.
+`pcbkit export --format fab` succeeds without `--force`: every assembled line of the BOM has an LCSC code.
 <!-- /STATUS -->
 
 ## Why it can (barely) run Doom
@@ -50,10 +52,50 @@ variant 01.
 | PSRAM active (SPI, low clock) | ~3–5 mA (datasheet: 5.5 mA typ at 133 MHz) |
 | W25Q128 (only while booting) | ~10 mA |
 | PCD8544 + backlight through 330 Ω | ~0.3 mA + ~4 mA |
-| **Total** | **~15 mA ≈ 50 mW** |
+| **Total** | **~15–20 mA ≈ 60 mW** |
 
-From two alkaline AA cells (≈ 2.5 Wh usable at this drain) through the boost at ~85 %: **~40 h**.
-The TPS61023 starts from 1.8 V and keeps running down to ~0.5 V input, so the cells are emptied.
+Two 18650 Li-ion cells in Keystone 1042 holders on the back, in parallel (1S2P, 3.0–4.2 V). From
+the cells to the chips:
+
+- **Reverse cells:** an AO3401A P-MOSFET in the plus line, its gate at the cells' minus: cells put
+  in backwards leave it off and the board unpowered (it conducts both ways when they are right, so
+  charging goes through it too). It cannot help one cell reversed against the other: in parallel
+  they would short each other, so check both against the silkscreen's + before closing a case.
+- **Protection:** DW01A + FS8205A in the pack's minus: over-charge 4.3 V, over-discharge 2.4 V,
+  over-current about 3 A and short circuit, for the pack. Flat-top unprotected 18650 cells fit
+  the holders.
+- **USB-C input:** a power-only receptacle (5.1 kΩ on CC1 and CC2: any USB-C charger or computer
+  gives 5 V), a 750 mA resettable fuse (nSMD075) and a 5 V TVS diode (SMF5.0A) before the charger.
+- **Charger with power path:** a TI BQ24075 in USB500 mode (at most 500 mA from the port), ISET
+  for 800 mA (RISET 1.13 kΩ), RILIM 1.18 kΩ, safety timers off (two cells in parallel charge longer
+  than its longest timer; termination is by current), TS tied to 10 kΩ (no thermistor). A linear
+  charger passes on at most what it takes in, so from USB the cells charge at up to about 500 mA.
+  Its output SYS runs the board from USB when one is plugged in and from the cells otherwise.
+- **3.3 V:** an AP2112K-3.3 LDO from SYS (the old TPS61023 boost cannot make 3.3 V from a Li-ion
+  cell above it). At this board's 20 mA its dropout is a few mV, so 3.3 V holds down to about
+  3.3 V on the cells and then follows them; every chip here runs from 2.7 V.
+- **On/off:** the slide switch at the top edge drives the LDO's enable (1 MΩ pulls it off); the
+  charger charges with the switch off. Off, the board draws only the charger's and the protection's
+  few µA.
+
+Two 3000 mAh cells (about 22 Wh) at 60 mW: **about 300 h** of (very slow) play (estimate). A
+full charge of two empty cells from USB at about 500 mA takes about 12 h.
+
+## Charging
+
+Plug any USB-C charger or computer into J1 at the left edge. The red LED (CHG) is on while the
+cells charge and goes out when they are full; the green LED (USB) is on while USB power is
+present. The board runs from USB while it charges, switched on or off. Insert the cells with +
+at the end the back's silkscreen marks.
+
+## Modules plugged in by hand
+
+The assembly solders a 1x8 female socket for the display; the module is bought separately:
+
+- **DS1: Nokia 5110 LCD module** (PCD8544, 84 × 48, the common red board with an 8-pin header:
+  RST, CE, DC, DIN, CLK, VCC, BL, GND in that order), its pins soldered on as it comes, plugged in
+  on the front. Boards with another pin order exist: check the order on its silkscreen against
+  the board's before plugging it in.
 
 ## Storage of the game data
 
@@ -65,43 +107,60 @@ link. 16 MB holds the shareware DOOM1.WAD (4.2 MB) uncompressed.
 
 - Toolchain: `riscv-none-elf-gcc` (xPack) with `-march=rv32ec_zicsr -mabi=ilp32e`, or the
   open-source **ch32v003fun** SDK (MIT), which is small enough for an interpreter.
-- Flash: `minichlink -w emu.bin flash -b` (ch32v003fun) or WCH-LinkUtility, through a **WCH-LinkE**
-  on J2 (3V3, SWIO = PD1, GND).
+- **Flashing on arrival:** a WCH-LinkE (about $5, WCH's own programmer) on J2: its 3V3, SWDIO
+  (WCH's single-wire SWIO) and GND to J2's 3V3, SWIO and GND (marked on the back). Then
+  `minichlink -w emu.bin flash -b` (ch32v003fun) or WCH-LinkUtility. The chip arrives blank: the
+  emulator goes in this way, and the guest image too (the emulator can take it over the same link
+  and write it to the W25Q128), or with a SOIC-8 clip programmer on the W25Q128 while the board is
+  off.
 - The guest: built with `riscv32-unknown-elf-gcc -march=rv32ima`, written to the flash at
   offset 0 (`flashrom -p ch341a_spi -w guest.bin`).
 
 ## Bill of materials
 
 Key parts and a rough cost at 10 pieces (estimates, LCSC/AliExpress prices of 2026):
-CH32V003F4P6 $0.15 · APS6404L $1.20 · W25Q128JV $1.00 · Nokia 5110 module $2.50 · TPS61023 $0.60 ·
-JS102011SAQN $0.30 · buttons 8 × $0.05 · passives $0.50 · 2×AA holder $0.50 · PCB (2-layer, 96 × 50)
-$1.00 → **about $8 per unit** plus two AA cells.
+CH32V003F4P6 $0.30 · APS6404L $1.20 · W25Q128JV $1.00 · Nokia 5110 module $2.50 ·
+switch $0.10 · buttons 8 × $0.05 · charger, protection, LDO, USB-C and passives $2.20 · two 18650
+holders $9.80 · PCB (2-layer, 96 × 92) $1.50 → **about $20 per unit** without the cells.
 
 <!-- BOM -->
-All components as the design places them (`parts.bom`; passives are specified by value and package, the orderable codes are chosen by `pcbkit parts`):
+The assembly BOM as `pcbkit export --format fab` writes it (JLCPCB assembly: LCSC codes; the modules' lines are their sockets):
 
-| Qty | Refs | Value | Part number | Footprint |
+| Qty | Refs | Part | LCSC | Footprint |
 |---|---|---|---|---|
-| 1 | BT1 |  | 2xAA battery holder with leads | BatteryLeads_2x_D1.1mm_P3.81mm |
-| 1 | BZ1 |  | GPC12075YB-5V4000 | Buzzer_D12.0mm_H7.5mm_P6.50mm |
-| 5 | C1, C2, C5, C7, C8 | 100nF |  | C_0402_1005Metric |
-| 1 | C3 | 10uF |  | C_0603_1608Metric |
-| 1 | C4 | 22uF |  | C_0805_2012Metric |
-| 1 | C6 | 1uF |  | C_0402_1005Metric |
-| 1 | DS1 |  | Nokia 5110 84x48 LCD module (PCD8544): connector (8-pin) | PinHeader_1x08_P2.54mm_Vertical |
-| 1 | J2 | PinHeader_1x03_P2.54mm_Vertical |  | PinHeader_1x03_P2.54mm_Vertical |
-| 1 | L1 | 1uH |  | L_Power_4x4mm |
-| 6 | R1, R2, R7, R8, R9, R10 | 10kohm |  | R_0402_1005Metric |
-| 1 | R3 | 330ohm |  | R_0603_1608Metric |
-| 1 | R4 | 1Mohm |  | R_0402_1005Metric |
-| 1 | R5 | 453kohm |  | R_0402_1005Metric |
-| 1 | R6 | 100kohm |  | R_0402_1005Metric |
-| 8 | SW1, SW2, SW3, SW4, SW5, SW6, SW7, SW8 | SW_Tactile_SPST_5.1x5.1mm_SMD |  | SW_Tactile_SPST_5.1x5.1mm_SMD |
-| 1 | SW9 |  | JS102011SAQN | SW_Slide_SPDT_CK_JS102011SAQN_Horizontal |
-| 1 | U1 |  | CH32V003F4P6 | TSSOP-20_4.4x6.5mm_P0.65mm |
-| 1 | U2 |  | APS6404L-3SQR-SN | SOIC-8_3.9x4.9mm_P1.27mm |
-| 1 | U3 |  | W25Q128JVSIQ | SOIC-8_5.23x5.28mm_P1.27mm |
-| 1 | U4 |  | TPS61023DRLR | SOT-563 |
+| 2 | BT1, BT2 | 1042 | C5249310 | BatteryHolder_Keystone_1042_1x18650 |
+| 1 | BZ1 | GPC12075YB-5V4000 | C252948 | Buzzer_D12.0mm_H7.5mm_P6.50mm |
+| 7 | C1, C2, C3, C5, C7, C8, C9 | 100nF | C1525 | C_0402_1005Metric |
+| 3 | C4, C6, C10 | 1uF | C52923 | C_0402_1005Metric |
+| 1 | D1 | tvs 5V | C284108 | D_SOD-123 |
+| 1 | DS1 | Nokia 5110 84x48 LCD module (PCD8544): connector (8-pin) | C2905417 | PinHeader_1x08_P2.54mm_Vertical |
+| 1 | F1 | PTC 680mA | C70078 | Fuse_1206_3216Metric |
+| 1 | J1 | USB_C_Receptacle_USB2.0_16P | C165948 | USB_C_Receptacle_USB2.0_16P |
+| 1 | J2 | PinHeader_1x03_P2.54mm_Vertical | C49257 | PinHeader_1x03_P2.54mm_Vertical |
+| 1 | Q1 | AO3401A | C15127 | SOT-23 |
+| 1 | Q2 | FS8205A | C5148694 | TSSOP-8_4.4x2.93mm_P0.65mm |
+| 7 | R1, R2, R7, R8, R9, R10, rTs | 10kohm | C25744 | R_0402_1005Metric |
+| 1 | R3 | 330ohm | C23138 | R_0603_1608Metric |
+| 1 | R4 | 1Mohm | C26083 | R_0402_1005Metric |
+| 1 | R5 | 100kohm | C25741 | R_0402_1005Metric |
+| 1 | R6 | 100ohm | C25076 | R_0402_1005Metric |
+| 1 | R11 | 1kohm | C11702 | R_0402_1005Metric |
+| 2 | R12, R13 | 5.1kohm | C25905 | R_0402_1005Metric |
+| 8 | SW1, SW2, SW3, SW4, SW5, SW6, SW7, SW8 | TS-1187A-B-A-B | C318884 | SW_Tactile_SPST_5.1x5.1mm_SMD |
+| 1 | SW9 | MSK12C02 | C431540 | SW_Slide_SPDT_Shouhan_MSK12C02 |
+| 1 | U1 | CH32V003F4P6 | C5187096 | TSSOP-20_4.4x6.5mm_P0.65mm |
+| 1 | U2 | APS6404L-3SQR-SN | C5333729 | SOIC-8_3.9x4.9mm_P1.27mm |
+| 1 | U3 | W25Q128JVSIQ | C97521 | SOIC-8_5.23x5.28mm_P1.27mm |
+| 1 | U4 | AP2112K-3.3TRG1 | C51118 | SOT-23-5 |
+| 1 | U5 | DW01A | C351410 | SOT-6_1.6x2.9mm_P0.95mm |
+| 1 | U6 | BQ24075RGTR | C15464 | QFN-16-1EP_3x3mm_P0.5mm_EP1.68x1.68mm |
+| 2 | cBat, cSys | 4.7uF | C1779 | C_0805_2012Metric |
+| 1 | cIn | 1uF | C15849 | C_0603_1608Metric |
+| 1 | ledChg | red | C2286 | LED_0603_1608Metric |
+| 1 | ledPg | green | C12624 | LED_0603_1608Metric |
+| 2 | rChg, rPg | 1.5kohm | C25867 | R_0402_1005Metric |
+| 1 | rIlim | 1.18kohm | C270651 | R_0402_1005Metric |
+| 1 | rIset | 1.13kohm | C67014 | R_0402_1005Metric |
 <!-- /BOM -->
 
 ## What PCBKit's engine must model to simulate it faithfully
@@ -121,4 +180,4 @@ All components as the design places them (`parts.bom`; passives are specified by
   QPI enter/exit, 8 MB array) and a W25Q128 model (read, page program, sector erase, status), plus
   a PCD8544 display model (D/C pin, 84 × 48 RAM, addressing modes). The current `Link::spi` moves
   one byte without a chip select: these devices need **CS and D/C framing** on the link.
-- **Board:** TPS61023 as a voltage source with efficiency, two AA cells as a discharge curve.
+- **Board:** two 18650 cells as a discharge curve behind the charger's power path and an LDO.

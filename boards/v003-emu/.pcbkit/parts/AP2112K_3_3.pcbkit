@@ -1,0 +1,160 @@
+pcbkit 1
+
+// AP2112K-3.3TRG1 (Diodes Incorporated): Linear regulator (CMOS LDO), fixed 3.3 V, 600 mA, 2.5-6 V
+// in, enable, 250 mV dropout
+// Compiled from the part sheet `parts/AP2112K_3_3.json` (`parts.create`); status: checked.
+// Datasheet: https://www.diodes.com/assets/Datasheets/AP2112.pdf (DS39724 Rev. 2-2, June 2017)
+// Pins: AP2112 datasheet DS39724 Rev. 2-2, Pin descriptions (p. 2), SOT25 column
+// Footprint: the standard package `SOT-23-5`
+// Symbol: librepcb 0.1.13 fd175594-0a7e-443f-ae71-6126adbf106e (CC0-1.0),
+// https://github.com/LibrePCB-Libraries/LibrePCB_ICs.lplib
+// 3D model: kicad 10.0.7 Package_TO_SOT_SMD.3dshapes/SOT-23-5 (the model of
+// Package_TO_SOT_SMD:SOT-23-5: the package `SOT-23-5`) (CC-BY-SA-4.0)
+// Parameters: librepcb 0.3.1 c47455f3-3bd4-4c5d-916b-fd0e699469d0 (CC0-1.0),
+// https://github.com/LibrePCB-Libraries/Diodes_Incorporated.lplib
+// This file may be used, changed and shared without conditions, with the board or alone.
+
+// Note: Stable with 1 uF ceramic on input and output (X5R/X7R); larger output capacitance is fine.
+// Note: For 3.3 V out at 600 mA the input must stay above about 3.7 V (400 mV maximum dropout).
+// Note: Foldback current limit about 50 mA into a short; output discharged through 60 ohm when
+// disabled.
+
+/// AP2112K-3.3TRG1 — Linear regulator (CMOS LDO), fixed 3.3 V, 600 mA, 2.5-6 V in, enable, 250 mV
+/// dropout
+part Part = device(footprint = (sot23(5)) with {
+  models = [Model3d { path = "Package_TO_SOT_SMD:SOT-23-5" }]
+}, prefix = "U", mpn = "AP2112K-3.3TRG1", manufacturer = "Diodes Incorporated", pinout = {
+  VIN: "1",
+  GND: "2",
+  EN: "3",
+  NC: "4",
+  VOUT: "5",
+}, pinTypes = {
+  VIN: io.powerIn(min = 2.5V, max = 6.5V),
+  GND: .ground,
+  EN: io.input(max = 6.5V, pull = .down),
+  NC: .nc,
+  VOUT: io.powerOut(3.3V),
+}) with {
+  fields {
+    Status: "checked",
+    PinoutSource: "AP2112 datasheet DS39724 Rev. 2-2, Pin descriptions (p. 2), SOT25 column",
+    Datasheet: "https://www.diodes.com/assets/Datasheets/AP2112.pdf",
+  }
+  simulation = SimulationParameters {
+    parameters = [
+      SimulationParameter {
+        id = "thetaJa"
+        quantity = .thetaJa
+        typ = 184K/W
+        conditions = "SOT25; no heatsink; tabulated thermal metric, not a guaranteed board value"
+        source = SimulationEvidence {
+          url = "https://www.diodes.com/assets/Datasheets/AP2112.pdf"
+          revision = "DS39724 Rev. 2-2, June 2017"
+          location = "p. 3, thermal resistance, SOT25 row"
+          confidence = .datasheet
+        }
+      },
+      SimulationParameter {
+        id = "thetaJc"
+        quantity = .thetaJc
+        typ = 96K/W
+        conditions = "SOT25; case face unspecified by manufacturer; cannot substitute junction-to-board resistance"
+        source = SimulationEvidence {
+          url = "https://www.diodes.com/assets/Datasheets/AP2112.pdf"
+          revision = "DS39724 Rev. 2-2, June 2017"
+          location = "p. 8, AP2112-3.3 table, SOT25 row"
+          confidence = .datasheet
+        }
+      },
+      SimulationParameter {
+        id = "tj-absolute"
+        quantity = .junctionAbsoluteTemperature
+        max = 150degC
+        conditions = "Absolute junction limit; recommended ambient range is -40 to 85 degC"
+        source = SimulationEvidence {
+          url = "https://www.diodes.com/assets/Datasheets/AP2112.pdf"
+          revision = "DS39724 Rev. 2-2, June 2017"
+          location = "p. 3, absolute maximum ratings, TJ"
+          confidence = .datasheet
+        }
+      },
+      SimulationParameter {
+        id = "iq-4v3"
+        quantity = .quiescentCurrent
+        typ = 55uA
+        max = 80uA
+        conditions = "AP2112-3.3; VIN=4.3 V, IOUT=0; CIN=COUT=1 uF ceramic; typical TA=25 degC"
+        source = SimulationEvidence {
+          url = "https://www.diodes.com/assets/Datasheets/AP2112.pdf"
+          revision = "DS39724 Rev. 2-2, June 2017"
+          location = "p. 8, AP2112-3.3 table, IQ"
+          confidence = .datasheet
+        }
+      },
+      SimulationParameter {
+        id = "dropout-10ma"
+        quantity = .dropoutVoltage
+        typ = 5mV
+        max = 8mV
+        conditions = "AP2112-3.3; IOUT=10 mA; CIN=COUT=1 uF ceramic; typical TA=25 degC"
+        source = SimulationEvidence {
+          url = "https://www.diodes.com/assets/Datasheets/AP2112.pdf"
+          revision = "DS39724 Rev. 2-2, June 2017"
+          location = "p. 8, AP2112-3.3 table, VDROP"
+          confidence = .datasheet
+        }
+      },
+      SimulationParameter {
+        id = "dropout-300ma"
+        quantity = .dropoutVoltage
+        typ = 125mV
+        max = 200mV
+        conditions = "AP2112-3.3; IOUT=300 mA; CIN=COUT=1 uF ceramic; typical TA=25 degC"
+        source = SimulationEvidence {
+          url = "https://www.diodes.com/assets/Datasheets/AP2112.pdf"
+          revision = "DS39724 Rev. 2-2, June 2017"
+          location = "p. 8, AP2112-3.3 table, VDROP"
+          confidence = .datasheet
+        }
+      },
+      SimulationParameter {
+        id = "dropout-600ma"
+        quantity = .dropoutVoltage
+        typ = 250mV
+        max = 400mV
+        conditions = "AP2112-3.3; IOUT=600 mA; CIN=COUT=1 uF ceramic; typical TA=25 degC"
+        source = SimulationEvidence {
+          url = "https://www.diodes.com/assets/Datasheets/AP2112.pdf"
+          revision = "DS39724 Rev. 2-2, June 2017"
+          location = "p. 8, AP2112-3.3 table, VDROP"
+          confidence = .datasheet
+        }
+      },
+    ]
+  }
+}
+
+/// The support circuit of the AP2112K-3.3TRG1 as its datasheet shows it (p. 1, Typical applications
+/// circuit): every part next to the pin it serves. Add it next to the part: `U1 = AP2112K_3_3.Part
+/// { … }`, `U1Support = AP2112K_3_3.Support(U1) {}`.
+///
+/// - EN to VIN for always on, or to a logic output (high above 1.5 V, low below 0.4 V).
+block Support(
+  /// The AP2112K-3.3TRG1 this circuit serves (`AP2112K_3_3.Support(U1)`).
+  chip: Any,
+  /// EN tied to VIN (`false`: drive EN from a logic output).
+  alwaysOn: Bool = true,
+) {
+  /// 10V X5R/X7R
+  CIN = cap(1uF, package = "0402", voltage = 10V) {
+    place = [soft(near(chip.pin.VIN, max = 2mm), weight = 2)]
+    pins { a: chip.pin.VIN, b: chip.pin.GND }
+  }
+  /// 10V X5R/X7R
+  COUT = cap(1uF, package = "0402", voltage = 10V) {
+    place = [soft(near(chip.pin.VOUT, max = 2mm), weight = 2)]
+    pins { a: chip.pin.VOUT, b: chip.pin.GND }
+  }
+  connect(chip.pin.EN, if alwaysOn then chip.pin.VIN else chip.pin.EN)
+}
