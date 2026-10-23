@@ -4,8 +4,9 @@ pcbkit 1
 // high: the battery disconnected) and a fixed, current-based termination; otherwise the same chip,
 // pins and land pattern (SLUS810N, table 7-1). From the BQ24074RGT part sheet.
 // Single-cell Li-ion linear charger with power path (system
-// output OUT at 4.4 V from the input, the battery behind it), 1.5 A charge, input 4.35-10.2 V (26
-// V tolerant, 10.5 V OVP), USB 100/500 mA or resistor-set input limit, VQFN-16 3 x 3 mm
+// output OUT at 5.5 V at most from the input, the battery behind it), 1.5 A charge, input 4.35-6.4
+// V (26 V tolerant, 6.6 V OVP), USB 100/500 mA or resistor-set input limit, VQFN-16 3 x 3 mm
+// (SLUS810N section 6, device comparison table: BQ24075 VOUT(REG) 5.5 V, VOVP 6.6 V)
 // Compiled from the part sheet `parts/BQ24074RGT.json` (`parts.create`); status: checked.
 // Datasheet: https://www.ti.com/lit/ds/symlink/bq24074.pdf (SLUS810N, revised October 2021)
 // Pins: TI BQ2407x datasheet SLUS810N: Figure 7-2 and table 7-1 pin functions (BQ24074, RGT), 8.1
@@ -14,9 +15,9 @@ pcbkit 1
 // Footprint: computed per IPC-7351B from the datasheet's package dimensions
 // This file may be used, changed and shared without conditions, with the board or alone.
 
-/// BQ24075RGTR — Single-cell Li-ion linear charger with power path (system output OUT at 4.4 V
-/// from the input, the battery behind it), 1.5 A charge, input 4.35-10.2 V (26 V tolerant, 10.5 V
-/// OVP), USB 100/500 mA or resistor-set input limit, VQFN-16 3 x 3 mm
+/// BQ24075RGTR — Single-cell Li-ion linear charger with power path (system output OUT at 5.5 V
+/// at most from the input, the battery behind it), 1.5 A charge, input 4.35-6.4 V (26 V tolerant,
+/// 6.6 V OVP), USB 100/500 mA or resistor-set input limit, VQFN-16 3 x 3 mm
 part Part = device(footprint = rows(
   name = "QFN-16-1EP_3x3mm_P0.5mm_EP1.68x1.68mm",
   description = "VQFN-16 (RGT) 3x3, 16 pins, 3 x 3 mm body, 0.5 mm pitch (from the datasheet)",
