@@ -2,10 +2,6 @@
   "id": "ST7789_TFT_2_0",
   "mpn": "MSP2008 2.0in 240x320 IPS SPI module (ST7789)",
   "manufacturer": "generic",
-  "variants": [
-    "2.0\" IPS 240x320",
-    "ST7789 240x320"
-  ],
   "category": "display",
   "description": "2.0\" 240 x 320 IPS colour TFT module (ST7789), SPI, 3.3 V, on a 1x8 female header: GND VCC SCL SDA RES DC CS BLK; courtyard the 36.48 x 61.12 mm module lying over the board",
   "tags": [
@@ -104,6 +100,40 @@
       }
     ]
   },
+  "simulation": {
+    "behavior": {
+      "model": "st7789",
+      "ports": {
+        "power": [
+          "2",
+          "1"
+        ],
+        "cs": [
+          "7"
+        ],
+        "reset": [
+          "5"
+        ],
+        "dc": [
+          "6"
+        ],
+        "spi": [
+          "4",
+          "3"
+        ],
+        "backlight": [
+          "8"
+        ]
+      },
+      "parameters": {
+        "width_mm": 30.6,
+        "height_mm": 40.8,
+        "offset_x_mm": 0.0,
+        "offset_y_mm": -25.36
+      },
+      "height": 12.85
+    }
+  },
   "notes": [
     "3.3 V supply and logic only. Waveshare's 2inch LCD Module (same ST7789V, 240 x 320) has a different connector (PH2.0 cable, VCC GND DIN CLK CS DC RST BL)."
   ],
@@ -118,5 +148,9 @@
       "verified": false,
       "note": "socket pins and outline from the vendor's size picture; 1.0 mm holes, 1.7 mm pads"
     }
-  }
+  },
+  "variants": [
+    "2.0\" IPS 240x320",
+    "ST7789 240x320"
+  ]
 }

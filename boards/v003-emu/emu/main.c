@@ -79,7 +79,14 @@ static int presented;
 /* 4 × 4 ordered dither thresholds, 0…15. */
 static const uint8_t bayer[16] = {0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5};
 
-void rv_host_present(uint32_t address, uint32_t width, uint32_t height, uint32_t stride, const uint8_t *luma) {
+/* The guest's colour table as 4-bit brightness (Rec. 601 weights): all a 1-bit glass needs. */
+static uint8_t luma[256];
+void rv_host_colour(uint32_t index, uint32_t rgb) {
+    uint32_t r = rgb >> 16 & 0xffu, g = rgb >> 8 & 0xffu, b = rgb & 0xffu;
+    luma[index & 255u] = (uint8_t)((r * 77u + g * 150u + b * 29u) >> 12);
+}
+
+void rv_host_present(uint32_t address, uint32_t width, uint32_t height, uint32_t stride) {
     static const uint8_t home[2] = {0x40, 0x80};
     presented = 1;
     lcd(0, home, 2);

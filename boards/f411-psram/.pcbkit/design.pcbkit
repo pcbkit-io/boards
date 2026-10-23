@@ -2,9 +2,9 @@ pcbkit 1
 
 // Doom device 05: an STM32F411CEU6 (Arm Cortex-M4F at 100 MHz, 128 KB SRAM, 512 KB flash; the
 // "Black Pill" chip) has too little RAM for Doom's zone heap, so an 8 MB APS6404L PSRAM sits on
-// SPI1 at 50 MHz beside a 16 MB W25Q128 holding the WAD; the port keeps code, the frame and hot
-// tables in SRAM and pages the rest through a software cache (the F411 has no memory-mapped
-// QSPI). A 2.0" 240 x 320 ST7789 IPS on SPI2 (landscape 320 x 240), a MAX98357A I2S amplifier,
+// SPI1 at 50 MHz beside a 16 MB W25Q128 holding Doom and its WAD (the F411 has no memory-mapped
+// QSPI): its firmware is a RISC-V computer built from those chips, a 64 KB cache of them in its
+// SRAM, and Doom runs on that. A 2.0" 240 x 320 ST7789 IPS on SPI2 (landscape 320 x 240), a MAX98357A I2S amplifier,
 // eight buttons, two 18650 cells in parallel it charges from its USB-C. Firmware is flashed by the
 // ROM's USB DFU through the same USB-C (hold BOOT, press RESET) or over SWD.
 // Front (top): display, buttons, BOOT, RESET, switch, USB-C, charger. Back (bottom): the rest and
@@ -58,9 +58,17 @@ board = Board {
   outline = rect(140mm, 104mm, radius = 6mm)
   layers = [signal(Cu.top), power(Cu.inner[1], label = "GND"), signal(Cu.inner[2]), signal(Cu.bottom)]
 }
+laboratory = Laboratory { world = "input.js" }
 
 // ---- processor (back) ------------------------------------------------------------------------
-U1 = STM32F411CEU6.Part {
+// Its program is emu/: the RISC-V computer it builds from the PSRAM, the flash and the screen.
+U1 = STM32F411CEU6.Part with {
+  simulation = STM32F411CEU6.Part.simulation with { behavior = STM32F411CEU6.Part.simulation.behavior with {
+    firmware = "emu"
+    // The board's 25 MHz HSE crystal.
+    parameters = { "hse_hz": 25000000 }
+  } }
+} {
   at = (70mm, 66mm)
   orderCode = "C60420"
   side = .bottom
@@ -97,7 +105,20 @@ R1 = res(10kohm, package = "0402") { orderCode = "C25744"; side = .bottom; pins 
 // ---- memory (back): PSRAM and the WAD's flash on SPI1 ------------------------------------------
 U2 = APS6404L_3SQR.Part { orderCode = "C5333729"; at = (88mm, 62mm); side = .bottom; pins { CE: RAM_CS, SIO1: MEM_MISO, SIO0: MEM_MOSI, SCLK: MEM_SCK, SIO2: V3, SIO3: V3, VDD: V3, VSS: GND } }
 U2Support = APS6404L_3SQR.Support(U2) { side = .bottom }
-U3 = W25Q128JVSIQ.Part { orderCode = "C97521"; at = (88mm, 76mm); side = .bottom; pins { nCS: ROM_CS, DO: MEM_MISO, DI: MEM_MOSI, CLK: MEM_SCK, VCC: V3, GND: GND } }
+// The flash holds the guest: doom/ built for that computer (pcbkit-virt, 8 MB of RAM), with the
+// game's data, id Software's shareware DOOM1.WAD (free to share unmodified), linked in from where
+// it is published.
+U3 = W25Q128JVSIQ.Part with {
+  simulation = W25Q128JVSIQ.Part.simulation with { behavior = W25Q128JVSIQ.Part.simulation.behavior with {
+    firmware = "doom"
+    parameters = { "ram_mib": 8 }
+    data = { "DOOM1.WAD": FirmwareData {
+      url = "https://raw.githubusercontent.com/Akbar30Bill/DOOM_wads/9b384dc68add3eb2f5eb7754654cafeeaea5103b/doom1.wad"
+      sha256 = "1d7d43be501e67d927e415e0b8f3e29c3bf33075e859721816f652a526cac771"
+      bytes = 4196020
+    } }
+  } }
+} { orderCode = "C97521"; at = (88mm, 76mm); side = .bottom; pins { nCS: ROM_CS, DO: MEM_MISO, DI: MEM_MOSI, CLK: MEM_SCK, VCC: V3, GND: GND } }
 U3Support = W25Q128JVSIQ.Support(U3) { side = .bottom }
 
 // ---- display (front) ----------------------------------------------------------------------------
@@ -182,15 +203,19 @@ tpGnd = testPoint() { at = (128mm, 44mm); pins = [GND] }
 tpLabel = Text { text = "BAT SYS 3V3 GND"; at = (119mm, 40.5mm); size = 1mm }
 
 // ---- input (front) ---------------------------------------------------------------------------------
-part Btn = button("6x6") with { orderCode = "C221880" }
-SW1 = Btn { at = (16mm, 82mm); pins { a: UP, b: GND } }
-SW2 = Btn { at = (16mm, 62mm); pins { a: DOWN, b: GND } }
-SW3 = Btn { at = (6mm + 0.5mm, 72mm); pins { a: LEFT, b: GND } }
-SW4 = Btn { at = (25.5mm, 72mm); pins { a: RIGHT, b: GND } }
-SW5 = Btn { at = (131mm, 76mm); pins { a: FIRE, b: GND } }
-SW6 = Btn { at = (119mm, 66mm); pins { a: USE, b: GND } }
-SW7 = Btn { at = (119mm, 86mm); pins { a: STRAFE, b: GND } }
-SW8 = Btn { at = (131mm, 54mm); pins { a: MENU, b: GND } }
+// A tactile switch that pulls its line to ground, operated by `code` while the device runs.
+fn key(code: String): Part = button("6x6") with {
+  orderCode = "C221880"
+  simulation = SimulationParameters { behavior = Behavior { model = "button"; ports = { output: ["1"] }; key = code } }
+}
+SW1 = key("ArrowUp") { at = (16mm, 82mm); pins { a: UP, b: GND } }
+SW2 = key("ArrowDown") { at = (16mm, 62mm); pins { a: DOWN, b: GND } }
+SW3 = key("ArrowLeft") { at = (6mm + 0.5mm, 72mm); pins { a: LEFT, b: GND } }
+SW4 = key("ArrowRight") { at = (25.5mm, 72mm); pins { a: RIGHT, b: GND } }
+SW5 = key("KeyF") { at = (131mm, 76mm); pins { a: FIRE, b: GND } }
+SW6 = key("Space") { at = (119mm, 66mm); pins { a: USE, b: GND } }
+SW7 = key("KeyS") { at = (119mm, 86mm); pins { a: STRAFE, b: GND } }
+SW8 = key("KeyM") { at = (131mm, 54mm); pins { a: MENU, b: GND } }
 
 // Four M3 holes for a back plate or a case.
 H1 = hole("M3") { at = (5mm, 5mm) }

@@ -30,7 +30,6 @@ static uint32_t instret, instret_high;
 static uint32_t fetch_base = INVALID, fetch_index;
 static uint8_t *fetch_bytes;
 static struct { uint32_t ctrl, addr, width, height, stride, format, frames; } fb;
-static uint8_t luma[256];
 
 static void stop(const char *why) { rv_host_stop(why, 0, pc); }
 
@@ -178,9 +177,8 @@ static void mmio_store(uint32_t a, uint32_t v, uint32_t size) {
     case 0x10020000u: {
         uint32_t o = a & 0xfffu;
         if (o >= 0x400 && o < 0x800) {
-            /* The colour table: kept as 4-bit brightness (Rec. 601 weights). */
-            uint32_t r = v >> 16 & 0xffu, g = v >> 8 & 0xffu, b = v & 0xffu;
-            luma[(o - 0x400) / 4] = (uint8_t)((r * 77u + g * 150u + b * 29u) >> 12);
+            /* The colour table: the host keeps what its screen needs of it. */
+            rv_host_colour((o - 0x400) / 4, v & 0xffffffu);
             return;
         }
         switch (o) {
@@ -195,7 +193,7 @@ static void mmio_store(uint32_t a, uint32_t v, uint32_t size) {
             return;
         case 0x18:
             if (fb.ctrl & 1u) {
-                rv_host_present(fb.addr, fb.width, fb.height, fb.stride, luma);
+                rv_host_present(fb.addr, fb.width, fb.height, fb.stride);
                 fb.frames++;
             }
             return;

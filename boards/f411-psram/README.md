@@ -32,17 +32,24 @@ Warnings left, and why they are acceptable:
 | J1 is not on an edge | the SWD header, for a programmer's clip during development: not a cable that stays |
 | heat sources need exact thermal parameters; chips estimated by their family | the thermal estimate's own caveat: nothing on this board dissipates more than a few hundred mW |
 
+## Run it in the browser
+
+Open https://app.pcbkit.io/github/pcbkit-io/doom-handheld/tree/main/boards/f411-psram, open the
+Laboratory and press **Build & run**: the page builds both programs — `emu/` for the STM32F411
+(Cortex-M4F) and `doom/` for the computer it emulates (pcbkit-virt, with `DOOM1.WAD` linked in) —
+puts the second in the W25Q128 and runs the board.
+
 ## How Doom fits
 
-128 KB of SRAM holds the code's data, the 320 × 200 8-bit frame (64 KB), the stack and a cache;
-everything Doom normally keeps in its zone heap (levels, textures, sprites, ~2–4 MB) lives in the
-PSRAM. Without memory-mapped QSPI, the port wraps the zone allocator: `Z_Malloc` hands out PSRAM
-"handles", hot lumps (the current flats, colormaps, the visplane arrays) are pinned in SRAM, and
-everything else is read through a direct-mapped software cache of 256-byte lines; at 50 MHz SPI a
-line costs ~45 µs. The WAD stays in the W25Q128 (read-only, same cache). This is the heaviest
-software of the ten — an estimate of 10–20 fps, not measured. Display: each frame 320 × 200 × 2 B by
-SPI2 DMA at 25 MHz: ~41 ms, so the display limits it to ~24 fps; drawing in the background while
-the next frame renders.
+The F411 has 128 KB of SRAM and no memory-mapped QSPI, so its firmware (`emu/`, 19.5 KB) is a
+RISC-V computer built from the serial chips, as on doom-01: an RV32IMAC interpreter
+(`emu/rvemu.c`) with a 64 KB direct-mapped write-back cache (2048 lines of 32 bytes) in its SRAM
+over the APS6404L (the guest's 8 MB of RAM) and the W25Q128 (the guest, `doom/`: Doom for
+pcbkit-virt with the WAD linked in, its code and constants read where they lie). A miss is one
+SPI transaction at 50 MHz with fast read (0Bh): 5.9 µs with the chip selected, inside the
+PSRAM's 8 µs limit. Each guest frame (320 × 200, 8-bit) goes to the ST7789 through the guest's
+colour table as RGB565, on SPI2 at 25 MHz. Measured in PCBKit's simulator: the title screen at
+about 40 s of device time, in full colour; then the demo, a few frames a second.
 
 ## Power
 
@@ -93,15 +100,17 @@ The assembly solders a 1x8 female socket; the module is bought separately and pl
 
 ## Firmware: build and flash
 
-- STM32CubeF4 (HAL/LL) or libopencm3, `arm-none-eabi-gcc -mcpu=cortex-m4 -mfpu=fpv4-sp-d16
-  -mfloat-abi=hard`; a linker script with the 512 KB flash and 128 KB SRAM; the WAD written once into
-  the W25Q128 by the firmware from USB (a DFU alternate setting) or by a programmer.
-- **Flashing on arrival:** switch the board on, plug its USB-C into a computer, hold BOOT and press
-  and release RESET (then release BOOT): the F411's ROM bootloader enumerates as "STM32 BOOTLOADER"
-  (USB DFU, 0483:df11). Then `dfu-util -a 0 -s 0x08000000:leave -D doom.bin` (or STM32CubeProgrammer).
-  The ROM's DFU needs the 25 MHz HSE, which is fitted.
-- Or over SWD: an ST-LINK on J1 (VCC, SWDIO, SWCLK, NRST, GND), `st-flash write doom.bin 0x8000000`
-  or `openocd -f interface/stlink.cfg -f target/stm32f4x.cfg`.
+- **Build:** in PCBKit, the Laboratory's **Build & run** builds both programs (the F411's for
+  Cortex-M4F with hard float; the guest for RV32IMAC with the WAD); then export the firmware
+  (`export.run { format: "firmware" }`): `U1.bin` for the STM32F411 and `U3.bin` for the W25Q128.
+- **The STM32F411, on arrival:** switch the board on, plug its USB-C into a computer, hold BOOT and
+  press and release RESET (then release BOOT): the F411's ROM boot loader enumerates as "STM32
+  BOOTLOADER" (USB DFU, 0483:df11). Then `dfu-util -a 0 -s 0x08000000:leave -D U1.bin` (or
+  STM32CubeProgrammer). The ROM's DFU needs the 25 MHz HSE, which is fitted. Or over SWD: an
+  ST-LINK on J1 (VCC, SWDIO, SWCLK, NRST, GND), `st-flash write U1.bin 0x8000000`.
+- **The W25Q128 (the guest):** hold MENU while switching on: the firmware lets go of the memory bus
+  and waits, so a USB SPI programmer (CH341A) with a SOIC-8 clip on the W25Q128 writes it in
+  place: `flashrom -p ch341a_spi -w U3.bin`. Switch off and on: Doom boots.
 
 ## Bill of materials
 

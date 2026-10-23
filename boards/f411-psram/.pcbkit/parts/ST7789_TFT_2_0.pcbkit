@@ -56,4 +56,20 @@ part Part = device(footprint = moduleSocket(
     PinoutSource: "lcdwiki MSP2008: pins 1 GND, 2 VCC (3.3 V), 3 SCL, 4 SDA, 5 RES, 6 DC, 7 CS, 8 BLK; size picture: PCB 36.48 x 61.12 mm, header row 2.50 mm from the top edge, first pin 9.35 mm from the left (centred)",
     Datasheet: "https://www.lcdwiki.com/2.0inch_IPS_Module",
   }
+  simulation = SimulationParameters {
+    behavior = Behavior {
+      model = "st7789"
+      ports = {
+        "backlight": ["8"],
+        "cs": ["7"],
+        "dc": ["6"],
+        "power": ["2", "1"],
+        "reset": ["5"],
+        "spi": ["4", "3"],
+      }
+      parameters = { "height_mm": 40.8, "offset_x_mm": 0.0, "offset_y_mm": -25.36, "width_mm": 30.6 }
+      height = 12.85mm
+    }
+    parameters = []
+  }
 }
