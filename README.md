@@ -5,7 +5,7 @@ project (a KiCad project with its `.pcbkit/` design): open one in the app, press
 same firmware that would be flashed onto the ordered board is built in your browser and plays
 there on a simulation of its chips; order the board, flash the image, and it plays on the desk.
 
-Open them at **https://app.pcbkit.io/github/seralexeev/doom-handheld**.
+Open them at **https://app.pcbkit.io/github/pcbkit-io/doom-handheld**.
 
 | Board | What it is |
 |---|---|
