@@ -237,7 +237,7 @@ block Support(
   bootButton: Bool = true,
 ) {
   /// 10V X5R, bulk at the 3V3 pin
-  C1 = cap(22uF, package = "1206", voltage = 10V, dielectric = .X5R) {
+  C1 = cap(22uF, package = "1206", ratedVoltage = 10V, dielectric = .X5R) {
     place = [soft(near(chip.pin.P3V3, max = 4mm), weight = 2)]
     pins { a: chip.pin.P3V3, b: chip.pin.GND }
   }

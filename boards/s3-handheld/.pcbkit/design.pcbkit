@@ -152,9 +152,9 @@ U6 = Charger.Part {
   at = (40mm, 28mm)
   pins { IN: VBUS, OUT: SYS, BAT: BAT, VSS: GND, nCE: GND, EN1: SYS, EN2: GND, TMR: GND, ISET: ISET, ILIM: ILIM, SYSOFF: GND, TS: TS, nCHG: CHG_N, nPGOOD: PG_N }
 }
-cIn = cap(1uF, package = "0603", voltage = 16V) { orderCode = "C15849"; at = (41.55mm, 31mm); rotation = 180deg; place = [near(U6.pin.IN, max = 3.5mm)]; pins { a: VBUS, b: GND } }
-cSys = cap(4.7uF, package = "0805", voltage = 10V) { orderCode = "C1779"; place = [soft(near(U6.pin.OUT, max = 4mm), weight = 2)]; pins { a: SYS, b: GND } }
-cBat = cap(4.7uF, package = "0805", voltage = 10V) { orderCode = "C1779"; place = [soft(near(U6.pin.BAT, max = 4mm), weight = 2)]; pins { a: BAT, b: GND } }
+cIn = cap(1uF, package = "0603", ratedVoltage = 16V) { orderCode = "C15849"; at = (41.55mm, 31mm); rotation = 180deg; place = [near(U6.pin.IN, max = 3.5mm)]; pins { a: VBUS, b: GND } }
+cSys = cap(4.7uF, package = "0805", ratedVoltage = 10V) { orderCode = "C1779"; place = [soft(near(U6.pin.OUT, max = 4mm), weight = 2)]; pins { a: SYS, b: GND } }
+cBat = cap(4.7uF, package = "0805", ratedVoltage = 10V) { orderCode = "C1779"; place = [soft(near(U6.pin.BAT, max = 4mm), weight = 2)]; pins { a: BAT, b: GND } }
 rIset = res(1.13kohm, package = "0402", tolerance = 1pct) { orderCode = "C67014"; place = [soft(near(U6.pin.ISET, max = 5mm))]; pins { a: ISET, b: GND } }
 rIlim = res(1.18kohm, package = "0402", tolerance = 1pct) { orderCode = "C270651"; place = [soft(near(U6.pin.ILIM, max = 5mm))]; pins { a: ILIM, b: GND } }
 rTs = res(10kohm, package = "0402") { orderCode = "C25744"; place = [soft(near(U6.pin.TS, max = 5mm))]; pins { a: TS, b: GND } }
@@ -174,7 +174,7 @@ i2c = I2cPullups(sda = SDA, scl = SCL, vcc = V3, speed = 400kHz) { side = .botto
 U4 = TLV75533PDBV.Part { orderCode = "C404027"; side = .bottom; pins { IN: SYS, OUT: V3, GND: GND, EN: LDO_EN } }
 U4Support = TLV75533PDBV.Support(U4, alwaysOn = false) { side = .bottom }
 R8 = res(100kohm, package = "0402") { orderCode = "C25741"; side = .bottom; pins { a: LDO_EN, b: GND } }
-C2 = cap(22uF, package = "0805", voltage = 10V) { orderCode = "C29277"; side = .bottom; place = [near(U4.pin.OUT, max = 4mm)]; pins { a: V3, b: GND } }
+C2 = cap(22uF, package = "0805", ratedVoltage = 10V) { orderCode = "C29277"; side = .bottom; place = [near(U4.pin.OUT, max = 4mm)]; pins { a: V3, b: GND } }
 SW12 = Slide.Part { at = (1.9mm, 96mm); rotation = 90deg; pins { A: SYS, COM: LDO_EN, B: GND, SHELL: GND } }
 switchLabel = Text { text = "ON / OFF"; at = (6mm, 96mm); size = 1mm; rotation = 90deg }
 

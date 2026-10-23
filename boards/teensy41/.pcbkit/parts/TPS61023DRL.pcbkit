@@ -227,7 +227,7 @@ block Support(
   chip: Any,
 ) {
   /// 10V X5R/X7R
-  C1 = cap(10uF, package = "0805", voltage = 10V) {
+  C1 = cap(10uF, package = "0805", ratedVoltage = 10V) {
     place = [soft(near(chip.pin.VIN, max = 4mm), weight = 2)]
     pins { a: chip.pin.VIN, b: chip.pin.GND }
   }
@@ -237,12 +237,12 @@ block Support(
     pins { a: chip.pin.VIN, b: chip.pin.SW }
   }
   /// 10V X5R/X7R
-  C2A = cap(22uF, package = "1206", voltage = 10V) {
+  C2A = cap(22uF, package = "1206", ratedVoltage = 10V) {
     place = [soft(near(chip.pin.VOUT, max = 4mm), weight = 2)]
     pins { a: chip.pin.VOUT, b: chip.pin.GND }
   }
   /// 10V X5R/X7R
-  C2B = cap(22uF, package = "1206", voltage = 10V) {
+  C2B = cap(22uF, package = "1206", ratedVoltage = 10V) {
     place = [soft(near(chip.pin.VOUT, max = 4mm), weight = 2)]
     pins { a: chip.pin.VOUT, b: chip.pin.GND }
   }

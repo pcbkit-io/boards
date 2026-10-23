@@ -104,7 +104,7 @@ block Support(
     }
     else null
   /// 10V
-  C1 = cap(100nF, package = "0402", voltage = 10V) {
+  C1 = cap(100nF, package = "0402", ratedVoltage = 10V) {
     orderCode = "C1525"
     place = [soft(near(chip.pin.VCC, max = 2mm), weight = 2)]
     pins { a: chip.pin.VCC, b: chip.pin.GND }

@@ -147,12 +147,12 @@ block Support(
   alwaysOn: Bool = true,
 ) {
   /// 10V X5R/X7R
-  CIN = cap(1uF, package = "0402", voltage = 10V) {
+  CIN = cap(1uF, package = "0402", ratedVoltage = 10V) {
     place = [soft(near(chip.pin.VIN, max = 2mm), weight = 2)]
     pins { a: chip.pin.VIN, b: chip.pin.GND }
   }
   /// 10V X5R/X7R
-  COUT = cap(1uF, package = "0402", voltage = 10V) {
+  COUT = cap(1uF, package = "0402", ratedVoltage = 10V) {
     place = [soft(near(chip.pin.VOUT, max = 2mm), weight = 2)]
     pins { a: chip.pin.VOUT, b: chip.pin.GND }
   }
