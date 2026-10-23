@@ -1,6 +1,7 @@
 pcbkit 1
 
-// Falling blocks on the pocket console: left and right move, A turns, down drops; lines clear and the pace rises.
+// Falling blocks on the pocket console: left and right move, A turns, down drops; lines clear and
+// the pace rises.
 // The pocket console: a 0.96" I2C OLED in front, a D-pad on the left and A and B on the right
 // (each a tactile switch to ground, read with the sketch's INPUT_PULLUP), an Arduino Nano on the
 // back, powered from its USB. In the lab: the arrow keys, X (A) and Z (B).
@@ -20,7 +21,9 @@ board = Board {
 }
 
 NANO = ARDUINO_NANO.Part with {
-  simulation = ARDUINO_NANO.Part.simulation with { behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" } }
+  simulation = ARDUINO_NANO.Part.simulation with {
+    behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" }
+  }
 } {
   at = (50mm, 14mm)
   rotation = 90deg
@@ -34,17 +37,49 @@ DS1 = SSD1306_OLED_I2C.Part {
 }
 
 fn key(code: String): Part = button("6x6") with {
-  simulation = SimulationParameters { behavior = Behavior { model = "button"; ports = { output: ["1"] }; key = code } }
+  simulation = SimulationParameters {
+    behavior = Behavior { model = "button", ports = { output: ["1"] }, key = code }
+  }
 }
-SW1 = key("ArrowUp") { at = (16mm, 36mm); pins { a: UP, b: GND } }
-SW2 = key("ArrowDown") { at = (16mm, 16mm); pins { a: DOWN, b: GND } }
-SW3 = key("ArrowLeft") { at = (6mm, 26mm); pins { a: LEFT, b: GND } }
-SW4 = key("ArrowRight") { at = (26mm, 26mm); pins { a: RIGHT, b: GND } }
-SW5 = key("KeyX") { at = (88mm, 32mm); pins { a: A, b: GND } }
-SW6 = key("KeyZ") { at = (78mm, 20mm); pins { a: B, b: GND } }
-labelA = Text { text = "A"; at = (88mm, 38mm); size = 1.5mm }
-labelB = Text { text = "B"; at = (78mm, 26mm); size = 1.5mm }
-title = Text { text = "TETRIS"; at = (50mm, 3.5mm); size = 1.5mm }
+SW1 = key("ArrowUp") {
+  at = (16mm, 36mm)
+  pins { a: UP, b: GND }
+}
+SW2 = key("ArrowDown") {
+  at = (16mm, 16mm)
+  pins { a: DOWN, b: GND }
+}
+SW3 = key("ArrowLeft") {
+  at = (6mm, 26mm)
+  pins { a: LEFT, b: GND }
+}
+SW4 = key("ArrowRight") {
+  at = (26mm, 26mm)
+  pins { a: RIGHT, b: GND }
+}
+SW5 = key("KeyX") {
+  at = (88mm, 32mm)
+  pins { a: A, b: GND }
+}
+SW6 = key("KeyZ") {
+  at = (78mm, 20mm)
+  pins { a: B, b: GND }
+}
+labelA = Text {
+  text = "A"
+  at = (88mm, 38mm)
+  size = 1.5mm
+}
+labelB = Text {
+  text = "B"
+  at = (78mm, 26mm)
+  size = 1.5mm
+}
+title = Text {
+  text = "TETRIS"
+  at = (50mm, 3.5mm)
+  size = 1.5mm
+}
 
 H1 = hole("M3") { at = (5mm, 5mm) }
 H2 = hole("M3") { at = (95mm, 5mm) }

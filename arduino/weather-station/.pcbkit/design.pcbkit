@@ -24,7 +24,9 @@ board = Board {
 
 // The Arduino on two 15-pin sockets; its program is the sketch in firmware/.
 NANO = ARDUINO_NANO.Part with {
-  simulation = ARDUINO_NANO.Part.simulation with { behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" } }
+  simulation = ARDUINO_NANO.Part.simulation with {
+    behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" }
+  }
 } {
   // Lengthwise along the bottom, its USB at the board's left edge.
   at = (24mm, 12mm)
@@ -38,7 +40,8 @@ DS1 = SSD1306_OLED_I2C.Part {
   pins { GND: GND, VCC: V5, SCL: SCL, SDA: SDA }
 }
 
-// The sensor at the board's right edge, with its decoupling and the bus's pull-ups; ADDR low (0x44).
+// The sensor at the board's right edge, with its decoupling and the bus's pull-ups; ADDR low
+// (0x44).
 U1 = SHT31_DIS.Part {
   at = (86mm, 14mm)
   pins { VDD: V5, VSS: GND, SDA: SDA, SCL: SCL, nRESET: V5, ALERT: .nc }
@@ -47,13 +50,23 @@ U1Support = SHT31_DIS.Support(U1) {}
 
 // PAGE: a tactile switch to ground (the sketch's INPUT_PULLUP), operated by Space in the lab.
 SW1 = button("6x6") with {
-  simulation = SimulationParameters { behavior = Behavior { model = "button"; ports = { output: ["1"] }; key = "Space" } }
+  simulation = SimulationParameters {
+    behavior = Behavior { model = "button", ports = { output: ["1"] }, key = "Space" }
+  }
 } {
   at = (38mm, 40mm)
   pins { a: PAGE, b: GND }
 }
-pageLabel = Text { text = "PAGE"; at = (38mm, 45mm); size = 1.2mm }
-title = Text { text = "WEATHER STATION"; at = (20mm, 30mm); size = 1.5mm }
+pageLabel = Text {
+  text = "PAGE"
+  at = (38mm, 45mm)
+  size = 1.2mm
+}
+title = Text {
+  text = "WEATHER STATION"
+  at = (20mm, 30mm)
+  size = 1.5mm
+}
 
 H1 = hole("M3") { at = (4mm, 52mm) }
 H2 = hole("M3") { at = (50mm, 4mm) }

@@ -24,7 +24,9 @@ board = Board {
 }
 
 NANO = ARDUINO_NANO.Part with {
-  simulation = ARDUINO_NANO.Part.simulation with { behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" } }
+  simulation = ARDUINO_NANO.Part.simulation with {
+    behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" }
+  }
 } {
   at = (24mm, 12mm)
   rotation = 90deg
@@ -48,22 +50,61 @@ J1 = SERVO_HEADER.Part {
   at = (50mm, 30mm)
   pins { GND: GND, VPLUS: V5, SIG: VALVE }
 }
-valveLabel = Text { text = "VALVE"; at = (50mm, 35mm); size = 1.2mm }
-C1 = cap(100uF, package = "1206", ratedVoltage = 10V) { place = [soft(near(J1, max = 6mm))]; pins { a: V5, b: GND } }
+valveLabel = Text {
+  text = "VALVE"
+  at = (50mm, 35mm)
+  size = 1.2mm
+}
+C1 = cap(100uF, package = "1206", ratedVoltage = 10V) {
+  place = [soft(near(J1, max = 6mm))]
+  pins { a: V5, b: GND }
+}
 
 fn key(code: String): Part = button("6x6") with {
-  simulation = SimulationParameters { behavior = Behavior { model = "button"; ports = { output: ["1"] }; key = code } }
+  simulation = SimulationParameters {
+    behavior = Behavior { model = "button", ports = { output: ["1"] }, key = code }
+  }
 }
-SW1 = key("Minus") { at = (8mm, 42mm); pins { a: MINUS, b: GND } }
-SW2 = key("Equal") { at = (22mm, 42mm); pins { a: PLUS, b: GND } }
-minusLabel = Text { text = "-"; at = (8mm, 48mm); size = 2mm }
-plusLabel = Text { text = "+"; at = (22mm, 48mm); size = 2mm }
+SW1 = key("Minus") {
+  at = (8mm, 42mm)
+  pins { a: MINUS, b: GND }
+}
+SW2 = key("Equal") {
+  at = (22mm, 42mm)
+  pins { a: PLUS, b: GND }
+}
+minusLabel = Text {
+  text = "-"
+  at = (8mm, 48mm)
+  size = 2mm
+}
+plusLabel = Text {
+  text = "+"
+  at = (22mm, 48mm)
+  size = 2mm
+}
 
 D1 = led(package = "0805", color = .red) with {
-  simulation = SimulationParameters { behavior = Behavior { model = "indicator"; ports = { input: ["2"] }; parameters = { color: 2, milliamps: 3 } } }
-} { at = (36mm, 42mm); pins { A: HEAT, K: HEAT_K } }
-R1 = res(1kohm, package = "0603") { place = [soft(near(D1, max = 4mm))]; pins { a: HEAT_K, b: GND } }
-heatLabel = Text { text = "HEAT"; at = (36mm, 46mm); size = 1.2mm }
+  simulation = SimulationParameters {
+    behavior = Behavior {
+      model = "indicator"
+      ports = { input: ["2"] }
+      parameters = { color: 2, milliamps: 3 }
+    }
+  }
+} {
+  at = (36mm, 42mm)
+  pins { A: HEAT, K: HEAT_K }
+}
+R1 = res(1kohm, package = "0603") {
+  place = [soft(near(D1, max = 4mm))]
+  pins { a: HEAT_K, b: GND }
+}
+heatLabel = Text {
+  text = "HEAT"
+  at = (36mm, 46mm)
+  size = 1.2mm
+}
 
 H1 = hole("M3") { at = (4mm, 52mm) }
 H2 = hole("M3") { at = (50mm, 4mm) }

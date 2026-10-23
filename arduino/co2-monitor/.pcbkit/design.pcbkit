@@ -21,7 +21,9 @@ board = Board {
 }
 
 NANO = ARDUINO_NANO.Part with {
-  simulation = ARDUINO_NANO.Part.simulation with { behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" } }
+  simulation = ARDUINO_NANO.Part.simulation with {
+    behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" }
+  }
 } {
   // Lengthwise along the bottom, its USB at the board's left edge.
   at = (24mm, 12mm)
@@ -43,16 +45,48 @@ U1Support = SCD40.Support(U1) {}
 
 // The traffic light: each LED from its pin through 1 kΩ to ground (3 mA).
 fn light(color: LedColor, index: Number): Part = led(package = "0805", color = color) with {
-  simulation = SimulationParameters { behavior = Behavior { model = "indicator"; ports = { input: ["2"] }; parameters = { color: index, milliamps: 3 } } }
+  simulation = SimulationParameters {
+    behavior = Behavior {
+      model = "indicator"
+      ports = { input: ["2"] }
+      parameters = { color: index, milliamps: 3 }
+    }
+  }
 }
-D1 = light(.green, 0) { at = (8mm, 40mm); pins { A: GREEN, K: GREEN_K } }
-D2 = light(.orange, 1) { at = (8mm, 34mm); pins { A: AMBER, K: AMBER_K } }
-D3 = light(.red, 2) { at = (8mm, 28mm); pins { A: RED, K: RED_K } }
-R1 = res(1kohm, package = "0603") { place = [soft(near(D1, max = 4mm))]; pins { a: GREEN_K, b: GND } }
-R2 = res(1kohm, package = "0603") { place = [soft(near(D2, max = 4mm))]; pins { a: AMBER_K, b: GND } }
-R3 = res(1kohm, package = "0603") { place = [soft(near(D3, max = 4mm))]; pins { a: RED_K, b: GND } }
-lightLabel = Text { text = "OPEN A WINDOW"; at = (24mm, 46mm); size = 1.2mm }
-title = Text { text = "CO2 MONITOR"; at = (24mm, 30mm); size = 1.5mm }
+D1 = light(.green, 0) {
+  at = (8mm, 40mm)
+  pins { A: GREEN, K: GREEN_K }
+}
+D2 = light(.orange, 1) {
+  at = (8mm, 34mm)
+  pins { A: AMBER, K: AMBER_K }
+}
+D3 = light(.red, 2) {
+  at = (8mm, 28mm)
+  pins { A: RED, K: RED_K }
+}
+R1 = res(1kohm, package = "0603") {
+  place = [soft(near(D1, max = 4mm))]
+  pins { a: GREEN_K, b: GND }
+}
+R2 = res(1kohm, package = "0603") {
+  place = [soft(near(D2, max = 4mm))]
+  pins { a: AMBER_K, b: GND }
+}
+R3 = res(1kohm, package = "0603") {
+  place = [soft(near(D3, max = 4mm))]
+  pins { a: RED_K, b: GND }
+}
+lightLabel = Text {
+  text = "OPEN A WINDOW"
+  at = (24mm, 46mm)
+  size = 1.2mm
+}
+title = Text {
+  text = "CO2 MONITOR"
+  at = (24mm, 30mm)
+  size = 1.5mm
+}
 
 H1 = hole("M3") { at = (4mm, 52mm) }
 H2 = hole("M3") { at = (50mm, 4mm) }

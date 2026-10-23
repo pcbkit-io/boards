@@ -20,7 +20,9 @@ board = Board {
 }
 
 NANO = ARDUINO_NANO.Part with {
-  simulation = ARDUINO_NANO.Part.simulation with { behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" } }
+  simulation = ARDUINO_NANO.Part.simulation with {
+    behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" }
+  }
 } {
   at = (45mm, 22mm)
   rotation = 90deg
@@ -34,16 +36,28 @@ DS1 = SSD1306_OLED_I2C.Part {
 }
 
 // The knobs at the two bottom corners, their wipers into A0 and A1.
-RV1 = Pot.Part { at = (12mm, 12mm); pins { CCW: GND, W: X, CW: V5, MP: GND } }
-RV2 = Pot.Part { at = (78mm, 12mm); pins { CCW: GND, W: Y, CW: V5, MP: GND } }
+RV1 = Pot.Part {
+  at = (12mm, 12mm)
+  pins { CCW: GND, W: X, CW: V5, MP: GND }
+}
+RV2 = Pot.Part {
+  at = (78mm, 12mm)
+  pins { CCW: GND, W: Y, CW: V5, MP: GND }
+}
 
 SW1 = button("6x6") with {
-  simulation = SimulationParameters { behavior = Behavior { model = "button"; ports = { output: ["1"] }; key = "Space" } }
+  simulation = SimulationParameters {
+    behavior = Behavior { model = "button", ports = { output: ["1"] }, key = "Space" }
+  }
 } {
   at = (45mm, 8mm)
   pins { a: WIPE, b: GND }
 }
-wipeLabel = Text { text = "WIPE"; at = (55mm, 8mm); size = 1.2mm }
+wipeLabel = Text {
+  text = "WIPE"
+  at = (55mm, 8mm)
+  size = 1.2mm
+}
 
 H1 = hole("M3") { at = (6mm, 64mm) }
 H2 = hole("M3") { at = (84mm, 64mm) }
