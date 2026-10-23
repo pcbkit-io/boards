@@ -1,0 +1,54 @@
+pcbkit 1
+
+// Breakout on the pocket console: left and right move the paddle, A serves; five rows of bricks, three balls.
+// The pocket console: a 0.96" I2C OLED in front, a D-pad on the left and A and B on the right
+// (each a tactile switch to ground, read with the sketch's INPUT_PULLUP), an Arduino Nano on the
+// back, powered from its USB. In the lab: the arrow keys, X (A) and Z (B).
+
+use "parts/ARDUINO_NANO.pcbkit" as ARDUINO_NANO
+use "parts/SSD1306_OLED_I2C.pcbkit" as SSD1306_OLED_I2C
+
+net V5 { voltage = 5V }
+net GND { voltage = 0V }
+net SDA, SCL, UP, DOWN, LEFT, RIGHT, A, B
+
+board = Board {
+  name = "breakout"
+  description = "Arduino Nano · 0.96in I2C OLED · D-pad and two buttons"
+  outline = rect(100mm, 56mm, radius = 6mm)
+  fab { mask = .black }
+}
+
+NANO = ARDUINO_NANO.Part with {
+  simulation = ARDUINO_NANO.Part.simulation with { behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" } }
+} {
+  at = (50mm, 14mm)
+  rotation = 90deg
+  side = .bottom
+  pins { P5V: V5, GND: GND, A4: SDA, A5: SCL, D2: UP, D3: DOWN, D4: LEFT, D5: RIGHT, D6: A, D7: B }
+}
+
+DS1 = SSD1306_OLED_I2C.Part {
+  at = (50mm, 49.4mm)
+  pins { GND: GND, VCC: V5, SCL: SCL, SDA: SDA }
+}
+
+fn key(code: String): Part = button("6x6") with {
+  simulation = SimulationParameters { behavior = Behavior { model = "button"; ports = { output: ["1"] }; key = code } }
+}
+SW1 = key("ArrowUp") { at = (16mm, 36mm); pins { a: UP, b: GND } }
+SW2 = key("ArrowDown") { at = (16mm, 16mm); pins { a: DOWN, b: GND } }
+SW3 = key("ArrowLeft") { at = (6mm, 26mm); pins { a: LEFT, b: GND } }
+SW4 = key("ArrowRight") { at = (26mm, 26mm); pins { a: RIGHT, b: GND } }
+SW5 = key("KeyX") { at = (88mm, 32mm); pins { a: A, b: GND } }
+SW6 = key("KeyZ") { at = (78mm, 20mm); pins { a: B, b: GND } }
+labelA = Text { text = "A"; at = (88mm, 38mm); size = 1.5mm }
+labelB = Text { text = "B"; at = (78mm, 26mm); size = 1.5mm }
+title = Text { text = "BREAKOUT"; at = (50mm, 3.5mm); size = 1.5mm }
+
+H1 = hole("M3") { at = (5mm, 5mm) }
+H2 = hole("M3") { at = (95mm, 5mm) }
+H3 = hole("M3") { at = (5mm, 51mm) }
+H4 = hole("M3") { at = (95mm, 51mm) }
+
+gndPour = pour(net = GND, layers = [Cu.top, Cu.bottom]) {}

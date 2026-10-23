@@ -1,0 +1,63 @@
+pcbkit 1
+
+// A weather station on an Arduino Nano: an SHT31 reads temperature and humidity, a 0.96" OLED
+// shows them large with the dew point and how the air feels, the day's lowest and highest, and a
+// graph of the last two minutes. The button turns the pages. The sketch (firmware/) uses the
+// Arduino libraries everyone uses: Adafruit SSD1306 and SHT31 on Wire.
+// Power: the Nano's USB. The sensor sits on a slotted tab, away from the Nano's warmth.
+
+use "parts/ARDUINO_NANO.pcbkit" as ARDUINO_NANO
+use "parts/SSD1306_OLED_I2C.pcbkit" as SSD1306_OLED_I2C
+use "parts/SHT31_DIS.pcbkit" as SHT31_DIS
+
+net V5 { voltage = 5V }
+net GND { voltage = 0V }
+net SDA, SCL, PAGE
+
+board = Board {
+  name = "weather-station"
+  description = "Arduino Nano · SHT31 · 0.96in I2C OLED · temperature, humidity, dew point, history"
+  outline = rect(90mm, 56mm, radius = 3mm)
+  // A slot between the sensor and the rest keeps the board's warmth from the sensor.
+  cutouts = [rectangle((80.25mm, 4mm), (81.75mm, 23mm))]
+}
+
+// The Arduino on two 15-pin sockets; its program is the sketch in firmware/.
+NANO = ARDUINO_NANO.Part with {
+  simulation = ARDUINO_NANO.Part.simulation with { behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" } }
+} {
+  // Lengthwise along the bottom, its USB at the board's left edge.
+  at = (24mm, 12mm)
+  rotation = 90deg
+  pins { P5V: V5, GND: GND, A4: SDA, A5: SCL, D2: PAGE }
+}
+
+// The display on its 4-pin socket.
+DS1 = SSD1306_OLED_I2C.Part {
+  at = (68mm, 51.4mm)
+  pins { GND: GND, VCC: V5, SCL: SCL, SDA: SDA }
+}
+
+// The sensor at the board's right edge, with its decoupling and the bus's pull-ups; ADDR low (0x44).
+U1 = SHT31_DIS.Part {
+  at = (86mm, 14mm)
+  pins { VDD: V5, VSS: GND, SDA: SDA, SCL: SCL, nRESET: V5, ALERT: .nc }
+}
+U1Support = SHT31_DIS.Support(U1) {}
+
+// PAGE: a tactile switch to ground (the sketch's INPUT_PULLUP), operated by Space in the lab.
+SW1 = button("6x6") with {
+  simulation = SimulationParameters { behavior = Behavior { model = "button"; ports = { output: ["1"] }; key = "Space" } }
+} {
+  at = (38mm, 40mm)
+  pins { a: PAGE, b: GND }
+}
+pageLabel = Text { text = "PAGE"; at = (38mm, 45mm); size = 1.2mm }
+title = Text { text = "WEATHER STATION"; at = (20mm, 30mm); size = 1.5mm }
+
+H1 = hole("M3") { at = (4mm, 52mm) }
+H2 = hole("M3") { at = (50mm, 4mm) }
+H3 = hole("M3") { at = (86mm, 4mm) }
+H4 = hole("M3") { at = (86mm, 52mm) }
+
+gndPour = pour(net = GND, layers = [Cu.top, Cu.bottom]) {}

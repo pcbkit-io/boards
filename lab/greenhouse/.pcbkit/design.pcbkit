@@ -17,7 +17,7 @@ laboratory = Laboratory {
 U1 = labMcu(
   {
     power: ["4", "3"],
-    twi0: ["27", "28"],
+    i2c0: ["27", "28"],
     spi0: ["15", "17"],
     PB2: ["14"],
     ADC0: ["23"],

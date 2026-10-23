@@ -1,0 +1,74 @@
+pcbkit 1
+
+// PTV09A-4020F-B103 (Bourns): Potentiometer, 9 mm, carbon, 10 kΩ linear, 20 mm flatted insulated
+// shaft upright (horizontal/rear mount, bushingless), through hole: pins named CCW, W (wiper), CW
+// and two mounting tabs — the 9 mm panel pot of hobby boards (RK09 size)
+// Compiled from the part sheet `parts/PTV09A_4020F_B103.json` (`parts.create`); status: checked.
+// Datasheet: https://www.bourns.com/docs/Product-Datasheets/PTV09.pdf (Bourns PTV09 Series - 9 mm
+// Potentiometer datasheet: PTV09A-4 product dimensions and recommended PCB layout (horizontal/rear
+// mount), schematic, characteristics (p. 1-2))
+// Pins: Bourns PTV09 Series datasheet: PTV09A-4 product dimensions (front view: body 10.0, 11.4,
+// shaft 5.5 from the far edge, pins 1.5 outside), recommended PCB layout (horizontal/rear mount),
+// schematic (1, 2 wiper, 3), characteristics
+// Footprint: as given
+// This file may be used, changed and shared without conditions, with the board or alone.
+
+// Note: Into an ADC (a knob, a setting): CCW to GND, CW to the ADC's reference supply (3.3 V), W
+// to the analog input; turning clockwise raises the reading. Add 100 nF from W to GND against
+// noise.
+// Note: Bourns' schematic numbers the track's ends 1 and 3 without naming the direction; CCW and
+// CW follow the usual convention (pin 1 at left seen from the shaft side with the pins toward
+// you). If it reads backwards, swap the ends in the design.
+// Note: B in the order number is the linear taper, A audio (log); 103 = 10 kΩ. Option digit 2
+// (PTV09A-42…) adds a centre detent.
+// Note: The same 9 mm footprint size as the Alps RK09K family's vertical pots (pins at 2.5 mm,
+// tabs at the sides); check another maker's drawing before using this footprint for it.
+
+/// PTV09A-4020F-B103 — Potentiometer, 9 mm, carbon, 10 kΩ linear, 20 mm flatted insulated shaft
+/// upright (horizontal/rear mount, bushingless), through hole: pins named CCW, W (wiper), CW and
+/// two mounting tabs — the 9 mm panel pot of hobby boards (RK09 size)
+part Part = device(
+  footprint = Footprint {
+    let ps = [
+      thtPad("1", (-2.5mm, 0mm), 1mm, (1.8mm, 1.8mm), square = true),
+      thtPad("2", (0mm, 0mm), 1mm, (1.8mm, 1.8mm)),
+      thtPad("3", (2.5mm, 0mm), 1mm, (1.8mm, 1.8mm)),
+      thtPad("MP", (-5.3mm, 7mm), 1.8mm, (2.6mm, 3mm), slot = (1.8mm, 2.2mm)),
+      thtPad("MP", (5.3mm, 7mm), 1.8mm, (2.6mm, 3mm), slot = (1.8mm, 2.2mm)),
+    ]
+    let b = box((-5mm, 1.5mm), (5mm, 11.4mm))
+    name = "Potentiometer_Bourns_PTV09A-4_Vertical"
+    description = "Bourns PTV09A-4 9 mm potentiometer, shaft upright: pins 1 (CCW), 2 (wiper), 3 (CW) at 2.5 mm in front, two mounting tabs 10.6 mm apart 7 mm behind them; the shaft 5.9 mm behind the pins"
+    tags = ["potentiometer", "9mm", "PTV09", "THT"]
+    pads = ps
+    body = b
+    height = 26.8mm
+    silk = silkOf(ps, b, 0.25mm, pin1 = (-2.5mm, -1.5mm))
+    package = Package { family = .other, body = (10mm, 9.9mm), height = 6.8mm }
+    solids = [
+      solid.box((10mm, 9.9mm, 6.8mm), at = (0mm, 6.45mm, 0mm), radius = 0.3mm, color = "#1a1a1a"),
+      solid.box((10mm, 9.9mm, 0.5mm), at = (0mm, 6.45mm, 6.3mm), material = .metal),
+      solid.cylinder(6mm, 20mm, at = (0mm, 5.9mm, 6.8mm), color = "#2a2a2a"),
+    ]
+  },
+  prefix = "RV",
+  mpn = "PTV09A-4020F-B103",
+  manufacturer = "Bourns",
+  pinout = { CCW: "1", W: "2", CW: "3", MP: "MP" },
+  pinTypes = { CCW: .passive, W: .passive, CW: .passive, MP: .passive },
+) with {
+  fields {
+    Status: "checked",
+    PinoutSource: "Bourns PTV09 Series datasheet: PTV09A-4 product dimensions (front view: body 10.0, 11.4, shaft 5.5 from the far edge, pins 1.5 outside), recommended PCB layout (horizontal/rear mount), schematic (1, 2 wiper, 3), characteristics",
+    Datasheet: "https://www.bourns.com/docs/Product-Datasheets/PTV09.pdf",
+  }
+  simulation = SimulationParameters {
+    behavior = Behavior {
+      model = "potentiometer"
+      ports = { "output": ["2"], "power": ["3", "1"] }
+      parameters = { "ohms": 10000, "position": 0.5, "volts": 5 }
+      height = 6.8mm
+    }
+    parameters = []
+  }
+}

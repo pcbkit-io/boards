@@ -1,0 +1,352 @@
+{
+  "id": "SHT31_DIS",
+  "mpn": "SHT31-DIS-B2.5kS",
+  "manufacturer": "Sensirion",
+  "variants": [
+    "SHT31-DIS-B10kS",
+    "SHT31-DIS-P2.5kS",
+    "SHT30-DIS-B2.5kS",
+    "SHT35-DIS-B2.5kS"
+  ],
+  "category": "sensor",
+  "description": "Humidity and temperature sensor, ±2 %RH / ±0.2 °C typical, I2C up to 1 MHz with alert output and reset, 2.15-5.5 V (DFN-8 2.5 x 2.5 mm)",
+  "tags": [
+    "humidity",
+    "temperature",
+    "rh",
+    "hygrometer",
+    "environment",
+    "i2c",
+    "sht3x",
+    "sht30",
+    "sht35",
+    "dfn"
+  ],
+  "datasheet": {
+    "url": "https://sensirion.com/media/documents/213E6A3B/63A5A569/Datasheet_SHT3x_DIS.pdf",
+    "revision": "Version 7, December 2022"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "DFN-8 2.5 x 2.5 mm, 0.5 mm pitch, die pad",
+    "family": "dfn",
+    "pins": 8,
+    "pitch": 0.5,
+    "body": {
+      "d": [
+        2.4,
+        2.5,
+        2.6
+      ],
+      "e": [
+        2.4,
+        2.5,
+        2.6
+      ],
+      "a": [
+        0.8,
+        0.9,
+        1.0
+      ]
+    },
+    "lead": {
+      "b": [
+        0.2,
+        0.25,
+        0.3
+      ],
+      "l": [
+        0.25,
+        0.35,
+        0.45
+      ]
+    },
+    "exposedPad": {
+      "d2": [
+        1.7,
+        1.8,
+        1.9
+      ],
+      "e2": [
+        1.0,
+        1.1,
+        1.2
+      ],
+      "number": "9"
+    },
+    "landPattern": {
+      "pads": [
+        {
+          "number": "1",
+          "x": -1.175,
+          "y": 0.75,
+          "w": 0.55,
+          "h": 0.25
+        },
+        {
+          "number": "2",
+          "x": -1.175,
+          "y": 0.25,
+          "w": 0.55,
+          "h": 0.25
+        },
+        {
+          "number": "3",
+          "x": -1.175,
+          "y": -0.25,
+          "w": 0.55,
+          "h": 0.25
+        },
+        {
+          "number": "4",
+          "x": -1.175,
+          "y": -0.75,
+          "w": 0.55,
+          "h": 0.25
+        },
+        {
+          "number": "5",
+          "x": 1.175,
+          "y": -0.75,
+          "w": 0.55,
+          "h": 0.25
+        },
+        {
+          "number": "6",
+          "x": 1.175,
+          "y": -0.25,
+          "w": 0.55,
+          "h": 0.25
+        },
+        {
+          "number": "7",
+          "x": 1.175,
+          "y": 0.25,
+          "w": 0.55,
+          "h": 0.25
+        },
+        {
+          "number": "8",
+          "x": 1.175,
+          "y": 0.75,
+          "w": 0.55,
+          "h": 0.25
+        },
+        {
+          "number": "9",
+          "x": 0.0,
+          "y": 0.0,
+          "w": 1.0,
+          "h": 1.7
+        }
+      ],
+      "page": "Figure 15 recommended land pattern (p. 18): 8x 0.55 x 0.25 mm pads, rows 2.35 mm apart centre to centre (each pad 0.2 mm beyond the body), 0.5 mm pitch; centre pad 1.0 x 1.7 mm"
+    },
+    "page": "Figure 14 and Table 22 package outline (p. 17)"
+  },
+  "pins": [
+    {
+      "number": "1",
+      "name": "SDA",
+      "type": "open_drain",
+      "description": "I2C data: needs a pull-up"
+    },
+    {
+      "number": "2",
+      "name": "ADDR",
+      "type": "input",
+      "description": "address select: low = 0x44, high = 0x45; never floating"
+    },
+    {
+      "number": "3",
+      "name": "ALERT",
+      "type": "output",
+      "description": "alarm output, high when a limit is crossed; leave open if unused"
+    },
+    {
+      "number": "4",
+      "name": "SCL",
+      "type": "open_drain",
+      "description": "I2C clock (the sensor may stretch it): needs a pull-up"
+    },
+    {
+      "number": "5",
+      "name": "VDD",
+      "type": "power_in",
+      "description": "supply 2.15-5.5 V"
+    },
+    {
+      "number": "6",
+      "name": "nRESET",
+      "type": "input_pullup",
+      "description": "reset, active low, pulled up inside: leave open or tie to VDD through >= 2 kohm"
+    },
+    {
+      "number": "7",
+      "name": "R",
+      "type": "passive",
+      "description": "no electrical function: connect to VSS"
+    },
+    {
+      "number": "8",
+      "name": "VSS",
+      "type": "ground"
+    },
+    {
+      "number": "9",
+      "name": "VSS",
+      "type": "ground",
+      "description": "die pad (centre pad), internally connected to VSS: solder it"
+    }
+  ],
+  "ratings": {
+    "absMax": [
+      {
+        "what": "VDD",
+        "pins": [
+          "VDD"
+        ],
+        "min": -0.3,
+        "max": 6.0,
+        "unit": "V"
+      },
+      {
+        "what": "SDA, ADDR, ALERT, SCL, nRESET (max VDD + 0.3 V)",
+        "pins": [
+          "SDA",
+          "ADDR",
+          "SCL",
+          "nRESET"
+        ],
+        "min": -0.3,
+        "unit": "V"
+      }
+    ],
+    "recommended": [
+      {
+        "what": "VDD",
+        "pins": [
+          "VDD"
+        ],
+        "min": 2.15,
+        "nom": 3.3,
+        "max": 5.5,
+        "unit": "V"
+      },
+      {
+        "what": "operating temperature",
+        "min": -40.0,
+        "max": 125.0,
+        "unit": "°C"
+      }
+    ]
+  },
+  "simulation": {
+    "behavior": {
+      "model": "sht31",
+      "ports": {
+        "i2c": [
+          "1",
+          "4"
+        ],
+        "power": [
+          "5",
+          "8"
+        ]
+      },
+      "parameters": {
+        "address": 68.0
+      },
+      "height": 0.9
+    }
+  },
+  "support": {
+    "parts": [
+      {
+        "ref": "C1",
+        "kind": "cap",
+        "value": "100nF",
+        "rating": "X7R",
+        "between": [
+          "VDD",
+          "VSS"
+        ]
+      },
+      {
+        "ref": "RP1",
+        "kind": "res",
+        "value": "10kohm",
+        "between": [
+          "SDA",
+          "VDD"
+        ],
+        "option": "pullUps"
+      },
+      {
+        "ref": "RP2",
+        "kind": "res",
+        "value": "10kohm",
+        "between": [
+          "SCL",
+          "VDD"
+        ],
+        "option": "pullUps"
+      },
+      {
+        "ref": "R_VSS",
+        "kind": "tie",
+        "value": "",
+        "between": [
+          "R",
+          "VSS"
+        ]
+      },
+      {
+        "ref": "ADDR_VSS",
+        "kind": "tie",
+        "value": "",
+        "between": [
+          "ADDR",
+          "VSS"
+        ],
+        "option": "address44"
+      }
+    ],
+    "options": [
+      {
+        "name": "pullUps",
+        "default": true,
+        "description": "The I2C pull-ups (once per bus: `false` when another part of the bus has them)."
+      },
+      {
+        "name": "address44",
+        "default": true,
+        "description": "ADDR to VSS: address 0x44."
+      }
+    ],
+    "notes": [
+      "ADDR to VSS (0x44) or VDD (0x45); R (pin 7) and the die pad to VSS; ALERT and nRESET may stay open.",
+      "The pull-ups are per bus, not per sensor; size them for the bus capacitance and speed."
+    ],
+    "page": "Figure 11 typical application circuit (p. 8)"
+  },
+  "i2cAddress": "0x44 ADDR",
+  "notes": [
+    "I2C address by ADDR: low = 0x44 (default), high = 0x45; ADDR must not float.",
+    "Decouple VDD with 100 nF placed as close to the sensor as possible.",
+    "Solder the die pad (for mechanical strength); it is VSS.",
+    "Keep the sensor away from heat sources (regulators, MCUs), ideally on a slotted island of the board, and keep the opening on top free of conformal coat and solder flux."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "Sensirion SHT3x-DIS datasheet, Version 7 (December 2022), Table 7 pin assignment and section 3",
+      "url": "https://sensirion.com/media/documents/213E6A3B/63A5A569/Datasheet_SHT3x_DIS.pdf",
+      "license": "facts transcribed from the datasheet (pin numbers and names); notes in our own words"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "computed per IPC-7351B from Table 22; the datasheet's land pattern (Figure 15, pad centres measured from its callouts) is the cross-check; the die pad is pad 9 (unnumbered in the datasheet)"
+    }
+  }
+}
