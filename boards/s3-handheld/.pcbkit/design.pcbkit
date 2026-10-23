@@ -55,9 +55,21 @@ board = Board {
   outline = rect(156mm, 110mm, radius = 6mm)
   layers = [signal(Cu.top), power(Cu.inner[1], label = "GND"), signal(Cu.inner[2]), signal(Cu.bottom)]
 }
+laboratory = Laboratory { world = "input.js" }
 
 // ---- processor (back, top edge, antenna overhanging) ------------------------------------------
-U1 = ESP32_S3_WROOM_1.Part {
+// The program is doom/; the game's data, id Software's shareware DOOM1.WAD (free to share
+// unmodified), is linked into its flash from where it is published.
+U1 = ESP32_S3_WROOM_1.Part with {
+  simulation = ESP32_S3_WROOM_1.Part.simulation with { behavior = ESP32_S3_WROOM_1.Part.simulation.behavior with {
+    firmware = "doom"
+    data = { "DOOM1.WAD": FirmwareData {
+      url = "https://raw.githubusercontent.com/Akbar30Bill/DOOM_wads/9b384dc68add3eb2f5eb7754654cafeeaea5103b/doom1.wad"
+      sha256 = "1d7d43be501e67d927e415e0b8f3e29c3bf33075e859721816f652a526cac771"
+      bytes = 4196020
+    } }
+  } }
+} {
   at = (70mm, 103mm)
   orderCode = "C2913202"
   side = .bottom
@@ -186,17 +198,21 @@ tpGnd = testPoint() { at = (24mm, 44mm); pins = [GND] }
 tpLabel = Text { text = "BAT SYS 3V3 GND"; at = (15mm, 40.5mm); size = 1mm }
 
 // ---- input (front) ---------------------------------------------------------------------------------------
-part Btn = button("6x6") with { orderCode = "C221880" }
-SW1 = Btn { at = (20mm, 85mm); pins { a: UP, b: GND } }
-SW2 = Btn { at = (20mm, 65mm); pins { a: DOWN, b: GND } }
-SW3 = Btn { at = (10mm, 75mm); pins { a: LEFT, b: GND } }
-SW4 = Btn { at = (30mm, 75mm); pins { a: RIGHT, b: GND } }
-SW5 = Btn { at = (13mm, 52mm); pins { a: STRAFE_L, b: GND } }
-SW6 = Btn { at = (27mm, 52mm); pins { a: STRAFE_R, b: GND } }
-SW7 = Btn { at = (147mm, 79mm); pins { a: FIRE, b: GND } }
-SW8 = Btn { at = (136mm, 69mm); pins { a: USE, b: GND } }
-SW9 = Btn { at = (136mm, 96mm); pins { a: MENU, b: GND } }
-SW10 = Btn { at = (148mm, 96mm); pins { a: ENTER, b: GND } }
+// A tactile switch that pulls its line to ground, operated by `code` while the device runs.
+fn key(code: String): Part = button("6x6") with {
+  orderCode = "C221880"
+  simulation = SimulationParameters { behavior = Behavior { model = "button"; ports = { output: ["1"] }; key = code } }
+}
+SW1 = key("ArrowUp") { at = (20mm, 85mm); pins { a: UP, b: GND } }
+SW2 = key("ArrowDown") { at = (20mm, 65mm); pins { a: DOWN, b: GND } }
+SW3 = key("ArrowLeft") { at = (10mm, 75mm); pins { a: LEFT, b: GND } }
+SW4 = key("ArrowRight") { at = (30mm, 75mm); pins { a: RIGHT, b: GND } }
+SW5 = key("Comma") { at = (13mm, 52mm); pins { a: STRAFE_L, b: GND } }
+SW6 = key("Period") { at = (27mm, 52mm); pins { a: STRAFE_R, b: GND } }
+SW7 = key("KeyF") { at = (147mm, 79mm); pins { a: FIRE, b: GND } }
+SW8 = key("Space") { at = (136mm, 69mm); pins { a: USE, b: GND } }
+SW9 = key("KeyM") { at = (136mm, 96mm); pins { a: MENU, b: GND } }
+SW10 = key("Enter") { at = (148mm, 96mm); pins { a: ENTER, b: GND } }
 menuLabel = Text { text = "MENU / BOOT"; at = (136mm, 101mm); size = 1mm }
 
 // Four M3 holes for a back plate or a case.

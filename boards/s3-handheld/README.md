@@ -29,13 +29,27 @@ Warnings left, and why they are acceptable:
 | `diff-pair-uncoupled`, `skew` on DP / DN | USB full speed (12 Mbit/s): the pair runs from the connector beside the module around it to the module's USB pins, partly apart; tens of mm uncoupled and of skew are tenths of a nanosecond against 4–20 ns edges |
 | heat sources need exact thermal parameters; chips estimated by their family | the thermal estimate's own caveat: nothing on this board dissipates more than a few hundred mW |
 
+## Run it in the browser
+
+Open https://app.pcbkit.io/github/pcbkit-io/doom-handheld/tree/main/boards/s3-handheld, open the
+Laboratory and press **Build & run**: the page builds `doom/` for the ESP32-S3's Xtensa LX7 with
+Espressif's LLVM (with `DOOM1.WAD` linked into its flash), boots it the way the chip's boot ROM
+boots an image from flash, and draws the ILI9341's frames on the board. Play with the keyboard
+(arrows, F fire, Space use, comma/period strafe, M menu, Enter) or a gamepad (`input.js`).
+
 ## Why it runs Doom
 
-This is how most ESP32 Doom ports run (Espressif's own `esp32-doom` demo on the WROVER kit used the
-same idea on the original ESP32 with SPI PSRAM): PrBoom with its zone heap and caches in PSRAM, the
-WAD memory-mapped from a flash partition (or loaded from the SD card), the 320 × 200 8-bit frame in
-internal SRAM, a second core converting it to RGB565 and pushing it to the ILI9341 by SPI DMA
-(153 KB at 40 MHz: ~31 ms — the display, not the CPU, caps it near 30 fps; estimate).
+The program runs in place from the module's flash through the instruction cache, and the game's
+data, the shareware WAD, is linked into the same flash and read in place through the data cache:
+no SD card or partition table is needed. The start-up (PCBKit's ESP32-S3 kit) stops the boot ROM's
+watchdogs, moves the CPU to the PLL at 160 MHz, maps the program's flash pages and brings the octal
+PSRAM up as ESP-IDF does (20 MHz, no timing tuning), which holds the zone heap (5 MB), the four
+screens and the visplanes; internal SRAM keeps the engine's other state and the stack. The board's
+copy of the engine keeps its trigonometric tables in flash and puts two large arrays in the PSRAM
+(`doom/doom_esp32s3.c` says where). Each frame goes through Doom's palette to RGB565 and to the
+ILI9341's middle 320 × 200 (landscape) on GP-SPI2 at 40 MHz, 64 bytes a transaction: about 26 ms of
+the bus a frame, so the display, not the CPU, caps it near 25 fps. Measured in PCBKit's simulator:
+the title by 4 s of device time, the demo by 9 s; the simulator runs it faster than real time.
 
 ## Power
 
@@ -92,17 +106,17 @@ The ESP32-S3-WROOM-1-N16R8 itself is soldered by the assembly (LCSC C2913202).
 
 ## Firmware: build and flash
 
-- ESP-IDF 5.x, `idf.py set-target esp32s3`, toolchain `xtensa-esp32s3-elf-gcc`; `CONFIG_SPIRAM_MODE_OCT`,
-  heap in PSRAM (`CONFIG_SPIRAM_USE_MALLOC`); the WAD in a `data` partition (`esp_partition_mmap`)
-  or on the SD card (FatFs over SDMMC).
-- Image format: Espressif's app image (segments with load addresses, SHA-256) after the 2nd-stage
-  bootloader and the partition table.
+- **Build:** in PCBKit, the Laboratory's **Build & run** builds `doom/` (Xtensa LX7, Espressif's
+  LLVM, the kit's start-up and link layout); then export the firmware
+  (`export.run { format: "firmware" }`): `U1.bin`, the whole flash from offset 0 (the boot image the
+  ROM loads, then the program's code and constants and the WAD at their pages). No 2nd-stage
+  bootloader or partition table: the ROM boots the image directly.
 - **Flashing on arrival:** switch the board on and plug its USB-C into a computer: the S3's
   USB Serial/JTAG enumerates (303a:1001, `/dev/ttyACM0` or a COM port) even with the module's flash
   blank, and `esptool` resets the chip into its ROM download mode through it by itself:
-  `idf.py -p /dev/ttyACM0 flash monitor` or `esptool.py --chip esp32s3 -p /dev/ttyACM0 write_flash 0x0
-  doom-merged.bin`. If a running program has taken the USB pins over: hold MENU (IO0), press and
-  release RESET, release MENU: ROM download mode, then flash as above.
+  `esptool.py --chip esp32s3 -p /dev/ttyACM0 write_flash 0x0 U1.bin` (or the browser's ESP Web
+  Flasher at offset 0). If a running program has taken the USB pins over: hold MENU (IO0), press and
+  release RESET, release MENU: ROM download mode, then flash as above. Press RESET: Doom starts.
 
 ## Bill of materials
 

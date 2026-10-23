@@ -141,6 +141,40 @@
       }
     ]
   },
+  "simulation": {
+    "behavior": {
+      "model": "ili9341",
+      "ports": {
+        "backlight": [
+          "8"
+        ],
+        "cs": [
+          "3"
+        ],
+        "dc": [
+          "5"
+        ],
+        "power": [
+          "1",
+          "2"
+        ],
+        "reset": [
+          "4"
+        ],
+        "spi": [
+          "6",
+          "7"
+        ]
+      },
+      "parameters": {
+        "height_mm": 57.6,
+        "offset_x_mm": 0.0,
+        "offset_y_mm": 45.9,
+        "width_mm": 43.2
+      },
+      "height": 14.1
+    }
+  },
   "notes": [
     "Logic 3.3 V TTL even with VCC at 5 V: level-shift a 5 V controller.",
     "The LCD and the touch controller can share one SPI bus (SCK+T_CLK, SDI+T_DIN, SDO+T_DO) with separate CS and T_CS; keep T_CS high when the touch is unused.",
