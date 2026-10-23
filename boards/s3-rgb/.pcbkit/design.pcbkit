@@ -5,38 +5,62 @@ pcbkit 1
 // pixel clock) straight out of a frame buffer in the module's 8 MB octal PSRAM, by DMA; Doom
 // renders 320 x 200 and is scaled 1.36x into it. A 40 mA constant-current MT3608 boost drives
 // the backlight (25.6 V). Ten buttons on an MCP23017 I2C expander, stereo sound from a PCM5102A
-// I2S DAC into a PAM8403 amplifier and two speakers. Power: an IP5306 power-bank SoC (charger
-// from USB-C, power path, 5.1 V boost, its four-LED gauge and power key) from a LiPo pack, an
-// AMS1117 for 3.3 V. Four layers. The panel lies on the front over the board, its cable folded
-// to the connector on the back.
+// I2S DAC into a PAM8403 amplifier and two speakers. Power: two 18650 cells in parallel on the
+// back, charged from the USB-C port by a BQ24075 with power path; a low-dropout TLV75533 makes
+// 3.3 V. Four layers. The panel lies on the front over the board, its cable folded over the top
+// edge to the connector on the back.
 
 use "parts/ESP32_S3_WROOM_1.pcbkit" as ESP32_S3_WROOM_1
 use "parts/NHD43_RGB_FPC40.pcbkit" as NHD43_RGB_FPC40
 use "parts/MCP23017_E_SO.pcbkit" as MCP23017_E_SO
 use "parts/PCM5102APWR.pcbkit" as PCM5102APWR
 use "parts/PAM8403DR.pcbkit" as PAM8403DR
-use "parts/IP5306.pcbkit" as IP5306
 use "parts/MT3608.pcbkit" as MT3608
-use "parts/AMS1117_3_3.pcbkit" as AMS1117_3_3
+use "parts/TLV75533PDBV.pcbkit" as Ldo
 use "parts/S2B_PH_K_S.pcbkit" as S2B_PH_K_S
+use "parts/KEYSTONE_1042.pcbkit" as Holder
+use "parts/BQ24075RGT.pcbkit" as Charger
+use "parts/DW01A.pcbkit" as Protection
+use "parts/D_1N5819HW.pcbkit" as Schottky
+use "parts/MSK12C02.pcbkit" as Slide
+use "parts/AO3401A.pcbkit" as Pfet
 use "parts/PCBKIT_LOGO.pcbkit" as Logo
 
-net VBUS { voltage = 5V }
-net V5 { voltage = 5.1V }
-net VBAT { voltage = 4.2V }
-net V3 { voltage = 3.3V }
+// Power: USB-C 5 V (VBUS, behind a resettable fuse and a TVS) into the charger; its power path
+// (SYS: the input when there is one, else the cells) feeds the backlight driver, the amplifier
+// and the 3.3 V regulator. The two cells in parallel (1S2P, 3.0-4.2 V) behind one protection
+// circuit; the pack's minus is the board's ground.
+net VBUS { voltage = 5V; current = 500mA }
+// SYS: the backlight (about 300 mA at 3.7 V), the amplifier (up to 300 mA), 3.3 V (about 200 mA).
+net SYS { voltage = 5V; current = 900mA }
+net BAT { voltage = 4.2V; current = 1A }
+net BAT_IN { voltage = 4.2V; current = 1A }
+net CELL_N { current = 1A }
+net V3 { voltage = 3.3V; current = 200mA }
 net GND { voltage = 0V }
-net DP, DN, EN, GAUGE1, GAUGE2, GAUGE3
+// The power paths: wide tracks, vias that carry an ampere.
+powerClass = NetClass {
+  name = "power"
+  trackWidth = 0.6mm
+  viaDiameter = 0.8mm
+  viaDrill = 0.4mm
+  nets = [VBUS, SYS, BAT, BAT_IN, CELL_N]
+}
+net CHG_N, PG_N, CHG_LED, PG_LED, ISET, ILIM, TS, LDO_EN
+net DP, DN, EN
 net PCLK, DE, VSYNC, HSYNC, DISP
 net RED3, RED4, RED5, RED6, RED7, GRN2, GRN3, GRN4, GRN5, GRN6, GRN7, BLU3, BLU4, BLU5, BLU6, BLU7
 net BL_EN, BL_SW, LED_A, LED_K
+// The DAC's own rails: its 1.8 V core regulator and its charge pump's negative supply.
+net DAC_1V8 { voltage = 1.8V; current = 5mA }
+net DAC_VNEG { voltage = -3.3V }
 net SDA, SCL, KEYS_INT
 net I2S_BCK, I2S_LRCK, I2S_DIN, LINE_L, LINE_R, SPK_LP, SPK_LN, SPK_RP, SPK_RN
 net UP, DOWN, LEFT, RIGHT, FIRE, USE, STRAFE_L, STRAFE_R, MENU, ENTER
 
 board = Board {
   name = "doom-09-s3-rgb"
-  description = "ESP32-S3 + 4.3in 480x272 RGB TFT (LCD_CAM) · MCP23017 keys · PCM5102A + PAM8403 · IP5306"
+  description = "ESP32-S3 + 4.3in 480x272 RGB TFT (LCD_CAM) · MCP23017 keys · PCM5102A + PAM8403 · 2 x 18650, USB-C charging"
   outline = rect(182mm, 80mm, radius = 8mm)
   layers = [signal(Cu.top), power(Cu.inner[1], label = "GND"), signal(Cu.inner[2]), signal(Cu.bottom)]
 }
@@ -46,7 +70,7 @@ panel = Line {
   points = [(38.25mm, 6.4mm), (143.75mm, 6.4mm), (143.75mm, 73.6mm), (38.25mm, 73.6mm), (38.25mm, 6.4mm)]
   width = 0.2mm
 }
-panelLabel = Text { text = "4.3in 480x272 RGB TFT (NHD-4.3-480272EF-ASXN) on tape; cable to J1 on the back"; at = (91mm, 40mm); size = 1.5mm }
+panelLabel = Text { text = "4.3in 480x272 RGB TFT (NHD-4.3-480272EF-ASXN) on tape; its cable over the top edge to J1 on the back"; at = (91mm, 76.8mm); size = 1mm }
 // The panel itself, taped on (its outline drawing: 105.5 x 67.2 x 2.95 mm, the metal frame's
 // opening 98.7 x 57 mm, the active area 95.04 x 53.86 mm; here centred on the outline): nothing
 // to solder, on the bill of materials and in 3D.
@@ -63,7 +87,8 @@ DS1 = device(footprint = Footprint {
 
 // ---- processor (back, top edge, antenna overhanging) --------------------------------------------
 U1 = ESP32_S3_WROOM_1.Part {
-  at = (91mm, 72.75mm)
+  at = (140mm, 72.75mm)
+  orderCode = "C2913202"
   side = .bottom
   place = [edge(.top, overhang = 6mm)]
   pins {
@@ -77,13 +102,14 @@ U1 = ESP32_S3_WROOM_1.Part {
     IO35: .nc, IO36: .nc, IO37: .nc,
   }
 }
+// EN's RC and the RESET (EN) and BOOT (IO0) buttons, on the back beside the module.
 U1Support = ESP32_S3_WROOM_1.Support(U1) { side = .bottom }
 
-// ---- the panel's connector (back, under the panel) and its backlight boost ---------------------
+// ---- the panel's connector (back, at the top edge: the panel's cable folds over the edge into it)
 J1 = NHD43_RGB_FPC40.Part {
   side = .bottom
-  at = (91mm, 34mm)
-  rotation = 180deg
+  orderCode = "C505102"
+  place = [edge(.top), inside(box((70mm, 50mm), (112mm, 80mm)))]
   pins {
     LED_K: LED_K, LED_A: LED_A, GND: GND, VDD: V3, MP: GND,
     R0: GND, R1: GND, R2: GND, R3: RED3, R4: RED4, R5: RED5, R6: RED6, R7: RED7,
@@ -93,20 +119,21 @@ J1 = NHD43_RGB_FPC40.Part {
     NC35: .nc, NC37: .nc, NC38: .nc, NC39: .nc, NC40: .nc,
   }
 }
-R1 = res(10kohm, package = "0402") { side = .bottom; pins { a: DISP, b: V3 } }
-C1 = cap(10uF, package = "0603") { side = .bottom; place = [near(J1, max = 6mm)]; pins { a: V3, b: GND } }
+R1 = res(10kohm, package = "0402") { orderCode = "C25744"; side = .bottom; pins { a: DISP, b: V3 } }
+C1 = cap(10uF, package = "0603") { orderCode = "C19702"; side = .bottom; place = [near(J1, max = 6mm)]; pins { a: V3, b: GND } }
 // MT3608 as a constant-current LED driver: FB regulates 0.6 V across 15 ohm = 40 mA.
-U8 = MT3608.Part { side = .bottom; pins { VIN: V5, GND: GND, EN: BL_EN, SW: BL_SW, FB: LED_K, NC: .nc } }
-R2 = res(100kohm, package = "0402") { side = .bottom; pins { a: BL_EN, b: GND } }
-C2 = cap(22uF, package = "0805", voltage = 10V) { side = .bottom; place = [near(U8.pin.VIN, max = 3mm)]; pins { a: V5, b: GND } }
-L1 = inductor(22uH, package = "4") { side = .bottom; place = [near(U8.pin.SW, max = 5mm)]; pins { a: V5, b: BL_SW } }
-D1 = diode(kind = .schottky, package = "SOD-123", mpn = "B5819W") { side = .bottom; pins { A: BL_SW, K: LED_A } }
-C3 = cap(4.7uF, package = "1206", voltage = 50V) { side = .bottom; pins { a: LED_A, b: GND } }
-RS1 = res(15ohm, package = "0603", tolerance = 1pct) { side = .bottom; pins { a: LED_K, b: GND } }
+U8 = MT3608.Part { side = .bottom; pins { VIN: SYS, GND: GND, EN: BL_EN, SW: BL_SW, FB: LED_K, NC: .nc } }
+R2 = res(100kohm, package = "0402") { orderCode = "C25741"; side = .bottom; pins { a: BL_EN, b: GND } }
+C2 = cap(22uF, package = "0805", voltage = 10V) { orderCode = "C45783"; side = .bottom; place = [near(U8.pin.VIN, max = 3mm)]; pins { a: SYS, b: GND } }
+L1 = inductor(22uH, package = "4") { orderCode = "C83472"; side = .bottom; place = [near(U8.pin.SW, max = 5mm)]; pins { a: SYS, b: BL_SW } }
+D1 = Schottky.Part { side = .bottom; orderCode = "C82544"; place = [soft(near(U8.pin.SW, max = 6mm))]; pins { A: BL_SW, K: LED_A } }
+C3 = cap(4.7uF, package = "1206", voltage = 50V) { orderCode = "C29823"; side = .bottom; pins { a: LED_A, b: GND } }
+RS1 = res(15ohm, package = "0603", tolerance = 1pct) { orderCode = "C22810"; side = .bottom; pins { a: LED_K, b: GND } }
 
 // ---- keys: ten buttons on an MCP23017 (0x20), interrupt on change -----------------------------------
 U3 = MCP23017_E_SO.Part {
   side = .bottom
+  orderCode = "C47023"
   pins {
     VDD: V3, VSS: GND, SDA: SDA, SCL: SCL, A0: GND, A1: GND, A2: GND, INTA: KEYS_INT, INTB: .nc, NC: .nc,
     GPA0: UP, GPA1: DOWN, GPA2: LEFT, GPA3: RIGHT, GPA4: FIRE, GPA5: USE, GPA6: STRAFE_L,
@@ -119,37 +146,97 @@ U3Support = MCP23017_E_SO.Support(U3) { side = .bottom }
 // ---- sound (back): I2S -> PCM5102A -> PAM8403 -> two speakers ------------------------------------------
 U4 = PCM5102APWR.Part {
   side = .bottom
+  orderCode = "C107671"
   pins {
     AVDD: V3, CPVDD: V3, DVDD: V3, AGND: GND, CPGND: GND, DGND: GND,
-    BCK: I2S_BCK, LRCK: I2S_LRCK, DIN: I2S_DIN, SCK: GND, FLT: GND, DEMP: GND, FMT: GND, XSMT: V3,
+    BCK: I2S_BCK, LRCK: I2S_LRCK, DIN: I2S_DIN, SCK: GND, FLT: GND, DEMP: GND, FMT: GND, XSMT: V3, LDOO: DAC_1V8, VNEG: DAC_VNEG,
   }
 }
 U4Support = PCM5102APWR.Support(U4, lineL = LINE_L, lineR = LINE_R) { side = .bottom }
+// SHDN on 3.3 V: the amplifier sleeps whenever the switch turns the regulator off.
 U5 = PAM8403DR.Part {
   side = .bottom
-  pins { VDD: V5, PVDD: V5, GND: GND, PGND: GND, SHDN: .nc, MUTE: .nc, OUTLP: SPK_LP, OUTLN: SPK_LN, OUTRP: SPK_RP, OUTRN: SPK_RN, NC: .nc }
+  // PAM8403DR-H: the same chip, pins and package.
+  orderCode = "C17337"
+  pins { VDD: SYS, PVDD: SYS, GND: GND, PGND: GND, SHDN: V3, MUTE: .nc, OUTLP: SPK_LP, OUTLN: SPK_LN, OUTRP: SPK_RP, OUTRN: SPK_RN, NC: .nc }
 }
 U5Support = PAM8403DR.Support(U5, audioL = LINE_L, audioR = LINE_R) { side = .bottom }
-J5 = S2B_PH_K_S.Part { side = .bottom; pins { C1: SPK_LN, C2: SPK_LP } }
-J6 = S2B_PH_K_S.Part { side = .bottom; pins { C1: SPK_RN, C2: SPK_RP } }
+// The speakers' plugs at the left and right edges on the back, clear of the panel on the front.
+J5 = S2B_PH_K_S.Part { side = .bottom; orderCode = "C173752"; place = [edge(.left), inside(box((-8mm, 36mm), (30mm, 80mm)))]; pins { C1: SPK_LN, C2: SPK_LP } }
+J6 = S2B_PH_K_S.Part { side = .bottom; orderCode = "C173752"; place = [edge(.right), inside(box((152mm, 30mm), (190mm, 70mm)))]; pins { C1: SPK_RN, C2: SPK_RP } }
 
-// ---- power (front, top left: above the d-pad) --------------------------------------------------------
-usb = UsbC2(vbus = VBUS, gnd = GND, dp = DP, dn = DN, tvsPackage = "SOD-323") {}
-override usb.power.J.at = (20mm, 8.15mm)
-U2 = IP5306.Part { pins { VIN: VBUS, BAT: VBAT, VOUT: V5, GND: GND, LED1: GAUGE1, LED2: GAUGE2, LED3: GAUGE3 } }
-U2Support = IP5306.Support(U2) {}
-powerCorner = inside(box((2mm, 52mm), (37mm, 78mm)), parts = [U2, U2Support])
-// The four-LED gauge (the datasheet's Figure 7: antiparallel pairs).
-D2 = led(package = "0603", color = .blue) { place = [near(U2, max = 15mm)]; pins { A: GAUGE1, K: GAUGE2 } }
-D3 = led(package = "0603", color = .blue) { place = [near(U2, max = 15mm)]; pins { A: GAUGE2, K: GAUGE1 } }
-D4 = led(package = "0603", color = .blue) { place = [near(U2, max = 15mm)]; pins { A: GAUGE2, K: GAUGE3 } }
-D5 = led(package = "0603", color = .blue) { place = [near(U2, max = 15mm)]; pins { A: GAUGE3, K: GAUGE2 } }
-J2 = S2B_PH_K_S.Part { side = .bottom; pins { C1: GND, C2: VBAT } }
-U6 = AMS1117_3_3.Part { side = .bottom; pins { VIN: V5, VOUT: V3, GND: GND } }
-U6Support = AMS1117_3_3.Support(U6) { side = .bottom }
+// ---- power ----------------------------------------------------------------------------------------
+// USB-C at the top edge, left of the panel: charging, and the S3's own USB for flashing.
+usb = UsbC2(vbus = VBUS, gnd = GND, dp = DP, dn = DN, fuseHold = 750mA, tvsPackage = "SOD-323") {}
+override usb.power.J.at = (20mm, 71.85mm)
+override usb.power.J.rotation = 180deg
+
+// Two 18650 cells on the back along the bottom edge, end to end, in parallel. The holders are not
+// polarized: put each cell's + at the end the silkscreen marks.
+BT1 = Holder.Part { orderCode = "C5249310"; at = (47mm, 12.5mm); side = .bottom; pins { C2: BAT_IN, C1: CELL_N } }
+BT2 = Holder.Part { orderCode = "C5249310"; at = (135mm, 12.5mm); side = .bottom; pins { C2: BAT_IN, C1: CELL_N } }
+cellMarks = [
+  Text { text = "+"; at = (8mm, 25mm); size = 2.5mm; layer = Silk.bottom },
+  Text { text = "-"; at = (86mm, 25mm); size = 2.5mm; layer = Silk.bottom },
+  Text { text = "+"; at = (96mm, 25mm); size = 2.5mm; layer = Silk.bottom },
+  Text { text = "-"; at = (174mm, 25mm); size = 2.5mm; layer = Silk.bottom },
+  Text { text = "2 x 18650 Li-ion 3.7 V"; at = (47mm, 26mm); size = 1.5mm; layer = Silk.bottom },
+]
+
+// A cell put in the wrong way round: a P-MOSFET in the plus line, its gate at the cells' minus,
+// on (both ways: charging too) only when the cells are the right way round.
+reversed = ReversePolarity(vin = BAT_IN, vout = BAT, gnd = CELL_N, inputVoltage = 4.2V, current = 1A, rdsOn = 60mohm, maxGateVoltage = 12V, fet = Pfet.Part with { orderCode = "C15127" }) {}
+
+// Protection: over-charge 4.3 V, over-discharge 2.4 V, over-current about 3 A, in the pack's minus.
+U2 = Protection.Part { orderCode = "C351410"; side = .bottom; pins { GND: CELL_N } }
+U2Support = Protection.Support(U2, batteryPlus = BAT, packMinus = GND) { side = .bottom }
+
+// The charger (BQ24075, datasheet SLUS810): USB500 mode (EN1 high, EN2 low: at most 500 mA from
+// any port), 800 mA fast charge (RISET = 890 AΩ / 0.8 A), its current-based termination; SYSOFF
+// low (the cells always connected); the safety timers off (TMR to VSS): two cells charge longer
+// than its longest timer. TS: 10 kΩ without an NTC. Its OUT (SYS) follows VBUS (at most 5.5 V)
+// when USB is in, else the cells through its 50 mΩ battery FET.
+U7 = Charger.Part {
+  place = [inside(box((2mm, 48mm), (37mm, 70mm)))]
+  pins { IN: VBUS, OUT: SYS, BAT: BAT, VSS: GND, nCE: GND, EN1: SYS, EN2: GND, TMR: GND, ISET: ISET, ILIM: ILIM, SYSOFF: GND, TS: TS, nCHG: CHG_N, nPGOOD: PG_N }
+}
+cIn = cap(1uF, package = "0603", voltage = 16V) { orderCode = "C15849"; place = [near(U7.pin.IN, max = 2.5mm)]; pins { a: VBUS, b: GND } }
+cSys = cap(4.7uF, package = "0805", voltage = 10V) { orderCode = "C1779"; place = [soft(near(U7.pin.OUT, max = 3mm), weight = 3)]; pins { a: SYS, b: GND } }
+cBat = cap(4.7uF, package = "0805", voltage = 10V) { orderCode = "C1779"; place = [soft(near(U7.pin.BAT, max = 3mm), weight = 3)]; pins { a: BAT, b: GND } }
+rIset = res(1.13kohm, package = "0402", tolerance = 1pct) { orderCode = "C67014"; place = [soft(near(U7.pin.ISET, max = 5mm))]; pins { a: ISET, b: GND } }
+rIlim = res(1.18kohm, package = "0402", tolerance = 1pct) { orderCode = "C270651"; place = [soft(near(U7.pin.ILIM, max = 5mm))]; pins { a: ILIM, b: GND } }
+rTs = res(10kohm, package = "0402") { orderCode = "C25744"; place = [soft(near(U7.pin.TS, max = 5mm))]; pins { a: TS, b: GND } }
+// Charging (red) and USB present (green), each through 1.5 kΩ.
+ledChg = led(package = "0603", color = .red) { orderCode = "C2286"; at = (6mm, 68mm); pins { A: SYS, K: CHG_LED } }
+rChg = res(1.5kohm, package = "0402") { orderCode = "C25867"; place = [soft(near(ledChg, max = 3mm))]; pins { a: CHG_LED, b: CHG_N } }
+ledPg = led(package = "0603", color = .green) { orderCode = "C12624"; at = (6mm, 63.5mm); pins { A: SYS, K: PG_LED } }
+rPg = res(1.5kohm, package = "0402") { orderCode = "C25867"; place = [soft(near(ledPg, max = 3mm))]; pins { a: PG_LED, b: PG_N } }
+chargeLabel = [
+  Text { text = "CHG"; at = (10mm, 68mm); size = 1mm },
+  Text { text = "USB"; at = (10mm, 63.5mm); size = 1mm },
+]
+
+// 3.3 V for the module, the panel's logic, the expander and the DAC: a TLV75533 (500 mA, 238 mV
+// dropout at 500 mA, about 100 mV at this board's 200 mA), so 3.3 V holds down to about 3.4 V
+// of cell; below that the rail follows the cells (the ESP32-S3 runs from 3.0 V).
+U6 = Ldo.Part { orderCode = "C404027"; side = .bottom; pins { IN: SYS, OUT: V3, GND: GND, EN: LDO_EN } }
+U6Support = Ldo.Support(U6, alwaysOn = false) { side = .bottom }
+// EN held low between the switch's two positions.
+R14 = res(100kohm, package = "0402") { orderCode = "C25741"; side = .bottom; place = [soft(near(U6.pin.EN, max = 5mm))]; pins { a: LDO_EN, b: GND } }
+
+// On/off: the switch at the left edge enables the regulator (the cells still charge when off;
+// the backlight driver and the amplifier sleep with 3.3 V gone).
+SW11 = Slide.Part { at = (1.9mm, 55mm); rotation = 90deg; pins { COM: LDO_EN, A: SYS, B: GND, SHELL: GND } }
+switchLabel = Text { text = "ON / OFF"; at = (8mm, 55mm); size = 1mm; rotation = 90deg }
+
+// Bring-up: the cells, the power path, 3.3 V and ground on test pads on the back.
+tpBat = testPoint() { side = .bottom; pins = [BAT] }
+tpSys = testPoint() { side = .bottom; pins = [SYS] }
+tpV3 = testPoint() { side = .bottom; pins = [V3] }
+tpGnd = testPoint() { side = .bottom; pins = [GND] }
 
 // ---- input (front) ------------------------------------------------------------------------------------
-part Btn = button("6x6")
+part Btn = button("6x6") with { orderCode = "C221880" }
 SW1 = Btn { at = (20mm, 44mm); pins { a: UP, b: GND } }
 SW2 = Btn { at = (20mm, 24mm); pins { a: DOWN, b: GND } }
 SW3 = Btn { at = (10mm, 34mm); pins { a: LEFT, b: GND } }
@@ -161,12 +248,57 @@ SW8 = Btn { at = (160mm, 28mm); pins { a: USE, b: GND } }
 SW9 = Btn { at = (152mm, 12mm); pins { a: MENU, b: GND } }
 SW10 = Btn { at = (166mm, 12mm); pins { a: ENTER, b: GND } }
 
-H1 = hole("M3") { at = (5mm, 5mm) }
-H2 = hole("M3") { at = (177mm, 5mm) }
+H1 = hole("M3") { at = (5mm, 28mm) }
+H2 = hole("M3") { at = (177mm, 28mm) }
 H3 = hole("M3") { at = (5mm, 75mm) }
 H4 = hole("M3") { at = (177mm, 75mm) }
 
 gndPour = pour(net = GND, layers = [Cu.top, Cu.inner[1], Cu.bottom]) {}
 
 // PCBKit's mark and pcbkit.io, where the board has room.
-logo = Logo.Part {}
+logo = Logo.Part { side = .bottom }
+
+// The support circuits' parts, each pinned to its JLCPCB / LCSC code.
+override reversed.Rg.orderCode = "C25741"
+override usb.power.J.orderCode = "C165948"
+override usb.power.R1.orderCode = "C25905"
+override usb.power.R2.orderCode = "C25905"
+override usb.power.F.orderCode = "C20800"
+override usb.power.D.orderCode = "C918844"
+override usb.Esd.orderCode = "C7519"
+override U1Support.C1.orderCode = "C12891"
+override U1Support.C2.orderCode = "C1525"
+override U1Support.R1.orderCode = "C25744"
+override U1Support.C3.orderCode = "C52923"
+override U1Support.SW1.orderCode = "C221880"
+override U1Support.SW2.orderCode = "C221880"
+override U3Support.C1.orderCode = "C1525"
+override U3Support.R1.orderCode = "C25744"
+override U3Support.RP1.orderCode = "C25900"
+override U3Support.RP2.orderCode = "C25900"
+override U4Support.C1.orderCode = "C1525"
+override U4Support.C3.orderCode = "C1525"
+override U4Support.C5.orderCode = "C1525"
+override U4Support.C9.orderCode = "C1525"
+override U4Support.C2.orderCode = "C15850"
+override U4Support.C4.orderCode = "C15850"
+override U4Support.C6.orderCode = "C15850"
+override U4Support.C7.orderCode = "C87994"
+override U4Support.C8.orderCode = "C87994"
+override U4Support.R1.orderCode = "C25117"
+override U4Support.R2.orderCode = "C25117"
+override U4Support.C10.orderCode = "C1531"
+override U4Support.C11.orderCode = "C1531"
+override U5Support.C1.orderCode = "C52923"
+override U5Support.C2.orderCode = "C52923"
+override U5Support.C3.orderCode = "C52923"
+override U5Support.C5.orderCode = "C52923"
+override U5Support.C4.orderCode = "C12891"
+override U5Support.C6.orderCode = "C47339"
+override U5Support.C7.orderCode = "C47339"
+override U6Support.CIN.orderCode = "C15849"
+override U6Support.COUT.orderCode = "C15849"
+// The DAC's three supply pins each with its 100 nF right at the pin.
+override U4Support.C1.place = [near(U4.pin.AVDD, max = 2mm)]
+override U4Support.C3.place = [near(U4.pin.CPVDD, max = 2mm)]
+override U4Support.C5.place = [near(U4.pin.DVDD, max = 2mm)]

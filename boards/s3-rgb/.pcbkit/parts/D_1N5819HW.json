@@ -1,0 +1,137 @@
+{
+  "id": "D_1N5819HW",
+  "mpn": "1N5819HW-7-F",
+  "manufacturer": "Diodes Incorporated",
+  "variants": [
+    "1N5819HW"
+  ],
+  "category": "diode",
+  "description": "Schottky rectifier, 40 V, 1 A, 0.45 V at 1 A, SOD-123: reverse-polarity and OR-ing diodes, buck converter catch diode",
+  "tags": [
+    "diode",
+    "schottky",
+    "rectifier",
+    "1n5819",
+    "reverse polarity",
+    "or-ing",
+    "catch diode",
+    "sod-123",
+    "1a"
+  ],
+  "datasheet": {
+    "url": "https://www.diodes.com/assets/Datasheets/ds30217.pdf",
+    "revision": "DS30217 Rev. 22-2 (2026)"
+  },
+  "prefix": "D",
+  "package": {
+    "name": "SOD-123",
+    "page": "p. 1, SOD123, polarity: cathode band"
+  },
+  "pins": [
+    {
+      "number": "1",
+      "name": "K",
+      "type": "passive",
+      "description": "cathode (the band)"
+    },
+    {
+      "number": "2",
+      "name": "A",
+      "type": "passive",
+      "description": "anode"
+    }
+  ],
+  "ratings": {
+    "absMax": [
+      {
+        "what": "repetitive peak reverse voltage",
+        "max": 40.0,
+        "unit": "V"
+      },
+      {
+        "what": "average rectified current",
+        "max": 1.0,
+        "unit": "A"
+      },
+      {
+        "what": "peak forward surge current, 8.3 ms",
+        "max": 25.0,
+        "unit": "A"
+      },
+      {
+        "what": "power dissipation",
+        "max": 0.55,
+        "unit": "W"
+      },
+      {
+        "what": "junction temperature",
+        "min": -65.0,
+        "max": 150.0,
+        "unit": "°C"
+      }
+    ],
+    "recommended": [
+      {
+        "what": "forward voltage at 1 A",
+        "max": 0.45,
+        "unit": "V"
+      },
+      {
+        "what": "capacitance at 4 V",
+        "nom": 50.0,
+        "max": 60.0,
+        "unit": "pF"
+      }
+    ]
+  },
+  "parameters": [
+    {
+      "name": "Digi-Key_PN",
+      "value": "1N5819HW-FDICT-ND"
+    },
+    {
+      "name": "Category",
+      "value": "Discrete Semiconductor Products"
+    },
+    {
+      "name": "Family",
+      "value": "Diodes - Rectifiers - Single"
+    },
+    {
+      "name": "DK_Datasheet_Link",
+      "value": "https://www.diodes.com/assets/Datasheets/ds30217.pdf"
+    },
+    {
+      "name": "DK_Detail_Page",
+      "value": "/product-detail/en/diodes-incorporated/1N5819HW-7-F/1N5819HW-FDICT-ND/815283"
+    },
+    {
+      "name": "Status",
+      "value": "Active"
+    }
+  ],
+  "notes": [
+    "In series with a supply input (anode to the connector, cathode to the circuit) it blocks a reversed supply for 0.3-0.45 V of drop; or-ing USB and battery: one diode from each source, cathodes together.",
+    "Its leakage grows with temperature (up to milliamps hot): not for holding a charged capacitor or a battery for long."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "Diodes Incorporated 1N5819HW datasheet DS30217 Rev. 22-2: SOD123 package, cathode band, maximum ratings, electrical characteristics",
+      "url": "https://www.diodes.com/assets/Datasheets/ds30217.pdf",
+      "license": "pin assignment, ratings and package facts transcribed from the manufacturer's datasheet (facts, one reading); descriptions and notes our own"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "standard SOD-123; pad 1 the cathode"
+    },
+    "parameters": {
+      "verified": false,
+      "source": "digikey-kicad",
+      "version": "d4bd68f42e6ccc474526811a853a03692e170b58",
+      "item": "dk_Diodes-Rectifiers-Single:1N5819HW-7-F",
+      "url": "https://github.com/Digi-Key/digikey-kicad-library",
+      "license": "CC-BY-SA-4.0"
+    }
+  }
+}

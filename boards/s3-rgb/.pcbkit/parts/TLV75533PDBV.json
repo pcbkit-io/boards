@@ -1,0 +1,284 @@
+{
+  "id": "TLV75533PDBV",
+  "mpn": "TLV75533PDBVR",
+  "manufacturer": "Texas Instruments",
+  "variants": [
+    "TLV75533PDBVT"
+  ],
+  "category": "regulator",
+  "description": "Linear regulator (LDO), fixed 3.3 V, 500 mA, 1.45-5.5 V in, enable, 238 mV maximum dropout",
+  "tags": [
+    "ldo",
+    "linear regulator",
+    "3.3V",
+    "3V3",
+    "enable",
+    "low dropout",
+    "tlv755"
+  ],
+  "datasheet": {
+    "url": "https://www.ti.com/lit/ds/symlink/tlv755p.pdf",
+    "revision": "SBVS320D, revised September 2024"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "SOT-23-5",
+    "page": "SOT-23-5 (DBV) package outline"
+  },
+  "pins": [
+    {
+      "number": "1",
+      "name": "IN",
+      "type": "power_in",
+      "description": "input, 1 uF or more to ground"
+    },
+    {
+      "number": "2",
+      "name": "GND",
+      "type": "ground"
+    },
+    {
+      "number": "3",
+      "name": "EN",
+      "type": "input",
+      "description": "enable, high on"
+    },
+    {
+      "number": "4",
+      "name": "NC",
+      "type": "nc"
+    },
+    {
+      "number": "5",
+      "name": "OUT",
+      "type": "power_out",
+      "description": "3.3 V output, 1 uF or more to ground"
+    }
+  ],
+  "ratings": {
+    "absMax": [
+      {
+        "what": "IN supply voltage",
+        "pins": [
+          "IN"
+        ],
+        "min": -0.3,
+        "max": 6.0,
+        "unit": "V"
+      },
+      {
+        "what": "EN enable voltage",
+        "pins": [
+          "EN"
+        ],
+        "min": -0.3,
+        "max": 6.0,
+        "unit": "V"
+      }
+    ],
+    "recommended": [
+      {
+        "what": "IN input voltage",
+        "pins": [
+          "IN"
+        ],
+        "min": 1.45,
+        "max": 5.5,
+        "unit": "V"
+      },
+      {
+        "what": "EN enable voltage",
+        "pins": [
+          "EN"
+        ],
+        "min": 0.0,
+        "max": 5.5,
+        "unit": "V"
+      },
+      {
+        "what": "OUT",
+        "pins": [
+          "OUT"
+        ],
+        "nom": 3.3,
+        "unit": "V"
+      },
+      {
+        "what": "output current",
+        "pins": [
+          "OUT"
+        ],
+        "max": 0.5,
+        "unit": "A"
+      },
+      {
+        "what": "junction temperature",
+        "min": -40.0,
+        "max": 125.0,
+        "unit": "°C"
+      }
+    ]
+  },
+  "simulation": {
+    "parameters": [
+      {
+        "id": "rjb-jedec",
+        "quantity": "thetaJb",
+        "unit": "K/W",
+        "typ": 64.4,
+        "conditions": "DBV, 5 pins; JEDEC 2s2p test board, no vias to inner or bottom planes",
+        "source": {
+          "url": "https://www.ti.com/lit/ds/symlink/tlv755p.pdf",
+          "revision": "SBVS320D, revised September 2024",
+          "location": "p. 5, section 5.4, DBV / JEDEC column",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "rja-jedec",
+        "quantity": "thetaJa",
+        "unit": "K/W",
+        "typ": 231.1,
+        "conditions": "DBV, 5 pins; JEDEC 2s2p test board, no vias to inner or bottom planes",
+        "source": {
+          "url": "https://www.ti.com/lit/ds/symlink/tlv755p.pdf",
+          "revision": "SBVS320D, revised September 2024",
+          "location": "p. 5, section 5.4, DBV / JEDEC column",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "rjc-top-jedec",
+        "quantity": "thetaJcTop",
+        "unit": "K/W",
+        "typ": 118.4,
+        "conditions": "DBV, 5 pins; JEDEC case-top test",
+        "source": {
+          "url": "https://www.ti.com/lit/ds/symlink/tlv755p.pdf",
+          "revision": "SBVS320D, revised September 2024",
+          "location": "p. 5, section 5.4, DBV / JEDEC column",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "tjunction-operating",
+        "quantity": "junctionOperatingTemperature",
+        "unit": "degC",
+        "min": -40.0,
+        "max": 125.0,
+        "conditions": "DBV; recommended operation",
+        "source": {
+          "url": "https://www.ti.com/lit/ds/symlink/tlv755p.pdf",
+          "revision": "SBVS320D, revised September 2024",
+          "location": "p. 4, section 5.3",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "tjunction-absolute",
+        "quantity": "junctionAbsoluteTemperature",
+        "unit": "degC",
+        "min": -40.0,
+        "max": 150.0,
+        "conditions": "DBV; absolute rating, not a functional operating range",
+        "source": {
+          "url": "https://www.ti.com/lit/ds/symlink/tlv755p.pdf",
+          "revision": "SBVS320D, revised September 2024",
+          "location": "p. 4, section 5.1",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "iq-unloaded-25c",
+        "quantity": "quiescentCurrent",
+        "unit": "A",
+        "min": 0.000014,
+        "typ": 0.000025,
+        "max": 0.000031,
+        "conditions": "TJ=25 degC, IOUT=0 A, VIN=3.8 V, EN=VIN, CIN=COUT=1 uF",
+        "source": {
+          "url": "https://www.ti.com/lit/ds/symlink/tlv755p.pdf",
+          "revision": "SBVS320D, revised September 2024",
+          "location": "p. 5, section 5.5, IGND row",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "dropout-full-load",
+        "quantity": "dropoutVoltage",
+        "unit": "V",
+        "max": 0.238,
+        "conditions": "DBV 3.3 V output; IOUT=0.5 A; TJ=-40 to 125 degC",
+        "source": {
+          "url": "https://www.ti.com/lit/ds/symlink/tlv755p.pdf",
+          "revision": "SBVS320D, revised September 2024",
+          "location": "p. 6, section 5.5, VDO row",
+          "confidence": "datasheet"
+        }
+      }
+    ]
+  },
+  "support": {
+    "parts": [
+      {
+        "ref": "CIN",
+        "kind": "cap",
+        "value": "1uF",
+        "package": "0603",
+        "rating": "10V X5R/X7R",
+        "between": [
+          "IN",
+          "GND"
+        ]
+      },
+      {
+        "ref": "COUT",
+        "kind": "cap",
+        "value": "1uF",
+        "package": "0603",
+        "rating": "10V X5R/X7R, at most 200 uF in total",
+        "between": [
+          "OUT",
+          "GND"
+        ]
+      },
+      {
+        "ref": "EN_IN",
+        "kind": "tie",
+        "value": "",
+        "between": [
+          "EN",
+          "IN"
+        ],
+        "option": "alwaysOn"
+      }
+    ],
+    "options": [
+      {
+        "name": "alwaysOn",
+        "default": true,
+        "description": "EN tied to IN (`false`: drive EN from a logic output; it must not float)."
+      }
+    ],
+    "notes": [
+      "EN to IN for always on; EN must not be left floating."
+    ],
+    "page": "Typical application"
+  },
+  "notes": [
+    "Effective capacitance at IN and OUT must exceed 0.47 uF after DC bias, tolerance and temperature (datasheet p. 3 and section 7.1.1). The support circuit starts with 1 uF, 10 V X5R/X7R in 0603; verify the selected capacitor's derating curve. Package size alone does not guarantee effective capacitance.",
+    "The DBV package is about 231 °C/W on a JEDEC board: at 500 mA keep VIN close to 3.6 V or give GND copper."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "TLV755P datasheet SBVS320D, Table 4-1 (pin functions), DBV column",
+      "url": "https://www.ti.com/lit/ds/symlink/tlv755p.pdf",
+      "license": "facts transcribed from the datasheet; notes in our own words"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "standard SOT-23-5 (DBV, 2.9 x 2.8 mm)"
+    }
+  }
+}
