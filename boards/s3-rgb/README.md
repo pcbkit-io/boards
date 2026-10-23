@@ -31,15 +31,28 @@ What `check` and the ready lens leave to weigh, and why each is acceptable:
 | GND's copper heats up by 28 °C (1.5 A on the thinnest GND track) | the lens rates one 0.15 mm GND track alone; GND is also a pour on the top, inner and bottom layers that carries the return current beside it (the Current lens notes the pour runs it cooler) |
 | 6 heat sources need exact thermal parameters | the regulator, charger, boost, amplifier, DAC and module dissipate well under 0.5 W each in this design; the estimate uses generic package limits, as for every board here |
 
+## Run it in the browser
+
+Open https://app.pcbkit.io/github/pcbkit-io/doom-handheld/tree/main/boards/s3-rgb, open the
+Laboratory and press **Build & run**: the page builds `doom/` for the ESP32-S3's Xtensa LX7 with
+Espressif's LLVM (with `DOOM1.WAD` linked into its flash), boots it the way the chip's boot ROM
+boots an image from flash, and shows on the panel the frames LCD_CAM scans out of the PSRAM. The
+buttons reach the program through the MCP23017, as on the board. Play with the keyboard (arrows,
+F fire, Space use, comma/period strafe, M menu, Enter) or a gamepad (`input.js`).
+
 ## Why it runs Doom (and what the screen costs)
 
-Doom is the same port as variant 08. The difference is the display: the LCD_CAM peripheral in RGB
-mode streams the frame buffer from PSRAM by GDMA continuously — 480 × 272 × 2 B = 261 KB per frame,
-about 15.7 MB/s at 60 Hz, a third of the octal PSRAM's ~40–50 MB/s usable bandwidth (estimate;
-Espressif's RGB-panel guides use "bounce buffers" in SRAM to protect it). Doom renders 320 × 200 in
-SRAM, the second core scales it 1.36× (or integer 1× centred) into the PSRAM frame buffer. The
-panel never stops refreshing, which is why this design matters to the simulator: the display is a
-**timed bus master**, not a sequence of SPI commands.
+Doom is the same port as variant 08 (the program and the WAD in place in flash, the zone heap,
+screens and visplanes in the octal PSRAM, here at 40 MHz). The difference is the display: the
+LCD_CAM peripheral in RGB mode streams a 480 × 272 RGB565 frame buffer from the PSRAM by GDMA
+without end, at a 10 MHz pixel clock with the Newhaven sheet's porches (HSYNC 1 + 43 + 480 + 2,
+VSYNC 1 + 12 + 272 + 4): 66 Hz, 261 KB a frame, about 17 MB/s of the PSRAM's ~40 MB/s at 40 MHz
+octal DDR (estimate). Each Doom frame is scaled 1.36 times through the palette into the middle
+435 × 272 of that buffer and written back from the data cache (the DMA reads the PSRAM, not the
+cache). The panel never stops refreshing, which is why this design matters to the simulator: the
+display is a **timed bus master**, not a sequence of SPI commands. The ten buttons are read from
+the MCP23017 over I2C0 (400 kHz) once a tic. Measured in PCBKit's simulator: the title by 4 s of
+device time, the demo by 9 s; 16 s simulated in 12 s.
 
 ## Power
 
@@ -102,15 +115,16 @@ slowly discharge instead of charging. Insert the cells with + at the end the bac
 
 ## Firmware: build and flash
 
-- ESP-IDF 5.x with `esp_lcd_panel_rgb` (timings from the Newhaven sheet: HSYNC back porch 43, front
-  porch 2, width 1; VSYNC back porch 12, front porch 1–4; 9 MHz PCLK), bounce buffers in SRAM, the
-  frame buffer in PSRAM; `esp_lcd` I2S/PCM driver; MCP23017 over the I2C master driver.
+- **Build:** in PCBKit, the Laboratory's **Build & run** builds `doom/` (Xtensa LX7, Espressif's
+  LLVM, the kit's start-up, LCD_CAM/GDMA and I2C drivers); then export the firmware
+  (`export.run { format: "firmware" }`): `U1.bin`, the whole flash from offset 0. No 2nd-stage
+  bootloader or partition table: the ROM boots the image directly.
 - **Flashing on arrival:** switch the board on and plug the USB-C port into a computer: the
   ESP32-S3's built-in USB-Serial/JTAG appears as a serial port (no driver on Linux and macOS; on
-  Windows 10+ the class driver); `idf.py -p <port> flash` (or `esptool.py --chip esp32s3 write_flash
-  0x0 doom.bin`) resets it into the ROM loader by itself. A fresh module's flash is empty and its
-  ROM loader answers at once. If firmware ever takes the USB pins over, hold BOOT (IO0) on the back,
-  press RESET (EN), release BOOT: the ROM loader is back.
+  Windows 10+ the class driver); `esptool.py --chip esp32s3 write_flash 0x0 U1.bin` resets it into
+  the ROM loader by itself. A fresh module's flash is empty and its ROM loader answers at once. If
+  firmware ever takes the USB pins over, hold BOOT (IO0) on the back, press RESET (EN), release
+  BOOT: the ROM loader is back. Press RESET: Doom starts.
 
 ## Bill of materials
 

@@ -91,6 +91,32 @@ part Part = device(footprint = soicWide(
     Datasheet: "https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP23017-Data-Sheet-DS20001952.pdf",
   }
   simulation = SimulationParameters {
+    behavior = Behavior {
+      model = "mcp23017"
+      ports = {
+        "gpa0": ["21"],
+        "gpa1": ["22"],
+        "gpa2": ["23"],
+        "gpa3": ["24"],
+        "gpa4": ["25"],
+        "gpa5": ["26"],
+        "gpa6": ["27"],
+        "gpa7": ["28"],
+        "gpb0": ["1"],
+        "gpb1": ["2"],
+        "gpb2": ["3"],
+        "gpb3": ["4"],
+        "gpb4": ["5"],
+        "gpb5": ["6"],
+        "gpb6": ["7"],
+        "gpb7": ["8"],
+        "i2c": ["13", "12"],
+        "inta": ["20"],
+        "intb": ["19"],
+        "power": ["9", "10"],
+      }
+      height = 2.65mm
+    }
     parameters = [
       SimulationParameter {
         id = "idd-1mhz-max"
