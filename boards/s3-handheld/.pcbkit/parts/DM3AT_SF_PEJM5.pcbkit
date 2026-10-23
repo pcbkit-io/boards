@@ -50,6 +50,7 @@ part Part = device(footprint = (
     package = Package { family = .other; body = (13.85mm, 16.15mm); height = 1.83mm }
   }
 ) with {
+  models = [Model3d { path = "Connector_Card:microSD_HC_Hirose_DM3AT-SF-PEJM5" }]
   solids = [
     solid.box((13.85mm, 16.15mm, 1.68mm), at = (0mm, 0mm, 0mm), radius = 0.3mm, material = .metal),
     solid.box((11mm, 0.6mm, 1.2mm), at = (-0.425mm, -7.8mm, 0.2mm), color = "#202020"),

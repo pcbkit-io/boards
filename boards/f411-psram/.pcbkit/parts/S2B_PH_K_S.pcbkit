@@ -37,11 +37,12 @@ part Part = device(footprint = Footprint {
   mating = .down
   silk = silkOf(ps, b, 0.25mm, pin1 = (-1mm, 1.1mm))
   package = Package { family = .other; body = (5.9mm, 7.6mm); height = 4.8mm }
-  solids = [
-    slab(-2.95mm, -6.25mm, 0mm, 2.95mm, 1.35mm, 4.8mm, material = .whitePlastic),
-    slab(-1.25mm, -0.25mm, 0mm, -0.75mm, 0.25mm, 3mm, material = .tin),
-    slab(0.75mm, -0.25mm, 0mm, 1.25mm, 0.25mm, 3mm, material = .tin),
-  ]
+  solids = concat(housing(-2.95mm, -6.25mm, 2.95mm, 1.35mm, 4.8mm, 0.6mm, "#ece7da", front = true), [
+    slab(-1.25mm, -0.25mm, 0mm, -0.75mm, 0.25mm, 2.6mm, material = .tin),
+    slab(0.75mm, -0.25mm, 0mm, 1.25mm, 0.25mm, 2.6mm, material = .tin),
+    slab(-1.25mm, -5.4mm, 2.1mm, -0.75mm, 0.25mm, 2.6mm, material = .tin),
+    slab(0.75mm, -5.4mm, 2.1mm, 1.25mm, 0.25mm, 2.6mm, material = .tin),
+  ])
 }, prefix = "J", mpn = "S2B-PH-K-S(LF)(SN)", manufacturer = "J.S.T. Mfg.", pinout = {
   C1: "1",
   C2: "2",

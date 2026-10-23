@@ -26,6 +26,13 @@ part Part = device(footprint = moduleSocket(
   description = "1.3 inch ST7789 IPS module on a 1x7 female header along its top edge, the display facing up over -Y: GND, VCC, SCL, SDA, RES, DC, BLK left to right",
   parts = 3mm,
   color = "#1d3f8c",
+  module = displayPanel(
+    box((-13.08mm, -31.72mm), (13.08mm, -2.5mm)),
+    box((-11.7mm, -27.23mm), (11.7mm, -3.83mm)),
+    1.5mm,
+    glass = 0.4mm,
+    tape = 0.3mm,
+  ),
 ), prefix = "U", mpn = "MSP1308 1.3in 240x240 IPS SPI module (ST7789)", manufacturer = "generic", pinout = {
   GND: "1",
   VCC: "2",
