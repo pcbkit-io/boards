@@ -15,6 +15,7 @@ use "parts/TPS61023DRL.pcbkit" as TPS61023DRL
 use "parts/BATTERY_2XAA_LEADS.pcbkit" as BATTERY_2XAA_LEADS
 use "parts/JS102011SAQN.pcbkit" as JS102011SAQN
 use "parts/GPC12075YB_5V.pcbkit" as GPC12075YB_5V
+use "parts/PCBKIT_LOGO.pcbkit" as Logo
 
 net VBAT { voltage = 3V }
 net V3 { voltage = 3.3V }
@@ -90,3 +91,6 @@ SW7 = Btn { at = (80mm, 36mm); pins { a: STRAFE, b: GND } }
 SW8 = Btn { at = (89mm, 12mm); pins { a: MENU, b: GND } }
 
 gndPour = pour(net = GND, layers = [Cu.top, Cu.bottom]) {}
+
+// PCBKit's mark and pcbkit.io, where the board has room.
+logo = Logo.Part {}

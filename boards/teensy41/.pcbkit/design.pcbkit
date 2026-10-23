@@ -20,6 +20,7 @@ use "parts/MAX17048G.pcbkit" as MAX17048G
 use "parts/TPS61023DRL.pcbkit" as TPS61023DRL
 use "parts/JS102011SAQN.pcbkit" as JS102011SAQN
 use "parts/S2B_PH_K_S.pcbkit" as S2B_PH_K_S
+use "parts/PCBKIT_LOGO.pcbkit" as Logo
 
 net VBUS { voltage = 5V }
 net VSYS { voltage = 4.4V }
@@ -126,3 +127,6 @@ H3 = hole("M3") { at = (5mm, 63mm) }
 H4 = hole("M3") { at = (167mm, 63mm) }
 
 gndPour = pour(net = GND, layers = [Cu.top, Cu.inner[1], Cu.bottom]) {}
+
+// PCBKit's mark and pcbkit.io, where the board has room.
+logo = Logo.Part {}

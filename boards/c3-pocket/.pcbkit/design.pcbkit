@@ -16,6 +16,7 @@ use "parts/AP2112K_3_3.pcbkit" as AP2112K_3_3
 use "parts/JS102011SAQN.pcbkit" as JS102011SAQN
 use "parts/S2B_PH_K_S.pcbkit" as S2B_PH_K_S
 use "parts/GPC12075YB_5V.pcbkit" as GPC12075YB_5V
+use "parts/PCBKIT_LOGO.pcbkit" as Logo
 
 net VBUS { voltage = 5V }
 net VBAT { voltage = 4.2V }
@@ -84,3 +85,6 @@ SW7 = Btn { at = (8mm, 9mm); pins { a: STRAFE, b: GND } }
 SW8 = Btn { at = (44mm, 9mm); pins { a: MENU, b: GND } }
 
 gndPour = pour(net = GND, layers = [Cu.top, Cu.bottom]) {}
+
+// PCBKit's mark and pcbkit.io, where the board has room.
+logo = Logo.Part {}

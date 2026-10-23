@@ -1,0 +1,126 @@
+pcbkit 1
+
+// DW01A (Fortune Semiconductor): One-cell Li-Ion / Li-Po protection IC: overcharge 4.3 V,
+// overdischarge 2.4 V, overcurrent and short circuit, drives two external N-MOSFETs
+// JLCPCB codes added to the support circuit for this board.
+// Compiled from the part sheet `parts/DW01A.json` (`parts.create`); status: checked.
+// Datasheet: https://img.ozdisan.com/ETicaret_Dosya/370550_6116504.pdf (DW01A-DS-12 Rev. 1.2,
+// September 2011)
+// Pins: DW01A datasheet DW01A-DS-12 Rev. 1.2, section 6 (pin configuration)
+// Footprint: computed per IPC-7351B from the datasheet's package dimensions
+// This file may be used, changed and shared without conditions, with the board or alone.
+
+use "FS8205A.pcbkit" as FS8205A
+
+// Note: R1 and C1 filter the supply against charger ripple; R2 protects CS against latch-up and a
+// reversed charger.
+// Note: TD is a factory test pin with a pull-down inside; the datasheet's circuit leaves it open.
+
+/// DW01A — One-cell Li-Ion / Li-Po protection IC: overcharge 4.3 V, overdischarge 2.4 V,
+/// overcurrent and short circuit, drives two external N-MOSFETs
+part Part = device(footprint = rows(
+  name = "SOT-6_1.6x2.9mm_P0.95mm",
+  description = "SOT-23-6, 6 pins, 2.9 x 1.6 mm body, 0.95 mm pitch (from the datasheet)",
+  pitch = 0.95mm,
+  pinsY = 3,
+  spanX = tolerance(2.6mm, 3mm),
+  leadLength = tolerance(0.3mm, 0.6mm),
+  leadWidth = tolerance(0.3mm, 0.5mm),
+  bodyX = tolerance(1.45mm, 1.75mm),
+  bodyY = tolerance(2.75mm, 3.05mm),
+  bodyHeight = 1.45mm,
+), prefix = "U", mpn = "DW01A", manufacturer = "Fortune Semiconductor", pinout = {
+  OD: "1",
+  CS: "2",
+  OC: "3",
+  TD: "4",
+  VCC: "5",
+  GND: "6",
+}, pinTypes = {
+  OD: .output,
+  CS: .passive,
+  OC: .output,
+  TD: io.input(pull = .down),
+  VCC: io.powerIn(min = 2.4V, max = 10V),
+  GND: .ground,
+}) with {
+  fields {
+    Status: "checked",
+    PinoutSource: "DW01A datasheet DW01A-DS-12 Rev. 1.2, section 6 (pin configuration)",
+    Datasheet: "https://img.ozdisan.com/ETicaret_Dosya/370550_6116504.pdf",
+  }
+  simulation = SimulationParameters {
+    parameters = [
+      SimulationParameter {
+        id = "icc-normal-3v9"
+        quantity = .supplyCurrent
+        typ = 3uA
+        max = 6uA
+        conditions = "Normal operation supply current ICC, VCC = 3.9 V, Ta = 25 degC (overdischarge current IOD at VCC = 2.0 V: 1.5 uA typ, 3 uA max)"
+        source = SimulationEvidence {
+          url = "https://img.ozdisan.com/ETicaret_Dosya/370550_6116504.pdf"
+          revision = "DW01A-DS-12 Rev. 1.2, September 2011"
+          location = "section 10 Electrical Characteristics (PDF p. 7)"
+          confidence = .datasheet
+        }
+      },
+    ]
+  }
+}
+
+/// The support circuit of the DW01A as its datasheet shows it (p. 5, Typical application circuit):
+/// every part next to the pin it serves. Add it next to the part: `U1 = DW01A.Part { … }`,
+/// `U1Support = DW01A.Support(U1) {}`.
+///
+/// - BAT_P is the cell's positive terminal and the pack's BATT+; GND the cell's negative terminal;
+/// BATT_N the pack's negative terminal (load and charger).
+///
+/// - M1 (discharge) and M2 (charge) are in series in the negative lead with their drains joined:
+/// the FS8205A holds both.
+///
+/// - Overcurrent trips at VOI1 / (2 x RDS(on)): 150 mV with 2 x 25 mohm is about 3 A.
+block Support(
+  /// The DW01A this circuit serves (`DW01A.Support(U1)`).
+  chip: Any,
+  /// The cell's positive terminal (the pack's BATT+). (required)
+  batteryPlus: Endpoint? = null,
+  /// The pack's negative terminal (BATT-: load and charger). (required)
+  packMinus: Endpoint? = null,
+) {
+  net DRAIN
+  warn(
+    batteryPlus != null,
+    "DW01A needs `batteryPlus` (The cell's positive terminal (the pack's BATT+).): R1 are left out until it is given, `DW01A.Support(U1, batteryPlus = …)`",
+  )
+  warn(
+    packMinus != null,
+    "DW01A needs `packMinus` (The pack's negative terminal (BATT-: load and charger).): R2, M1_M2 are left out until it is given, `DW01A.Support(U1, packMinus = …)`",
+  )
+  R1 =
+    if batteryPlus != null then res(100ohm, package = "0402") {
+      orderCode = "C25076"
+      place = [soft(near(chip.pin.VCC, max = 5mm), weight = 1)]
+      pins { a: batteryPlus, b: chip.pin.VCC }
+    }
+    else null
+  /// 10V
+  C1 = cap(100nF, package = "0402", voltage = 10V) {
+    orderCode = "C1525"
+    place = [soft(near(chip.pin.VCC, max = 2mm), weight = 2)]
+    pins { a: chip.pin.VCC, b: chip.pin.GND }
+  }
+  R2 =
+    if packMinus != null then res(1kohm, package = "0402") {
+      orderCode = "C11702"
+      place = [soft(near(chip.pin.CS, max = 5mm), weight = 1)]
+      pins { a: chip.pin.CS, b: packMinus }
+    }
+    else null
+  /// dual N-MOSFET, common drain: M1 gate OD, source GND (cell -); M2 gate OC, source BATT-
+  M1_M2 = FS8205A.Part {
+    // JLCPCB stocks the TSSOP-8 8205A as C5148694.
+    orderCode = "C5148694"
+    place = [soft(near(chip, max = 8mm), weight = 1)]
+    pins { D12: DRAIN, G1: chip.pin.OD, G2: chip.pin.OC, S1: chip.pin.GND, S2: packMinus }
+  }
+}

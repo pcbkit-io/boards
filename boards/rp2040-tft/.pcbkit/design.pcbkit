@@ -15,6 +15,7 @@ use "parts/TLV75533PDBV.pcbkit" as TLV75533PDBV
 use "parts/PAM8403DR.pcbkit" as PAM8403DR
 use "parts/JS102011SAQN.pcbkit" as JS102011SAQN
 use "parts/S2B_PH_K_S.pcbkit" as S2B_PH_K_S
+use "parts/PCBKIT_LOGO.pcbkit" as Logo
 
 net VBUS { voltage = 5V }
 net VBAT { voltage = 4.2V }
@@ -114,3 +115,6 @@ H3 = hole("M2.5") { at = (4mm, 54mm) }
 H4 = hole("M2.5") { at = (128mm, 54mm) }
 
 gndPour = pour(net = GND, layers = [Cu.top, Cu.inner[1], Cu.bottom]) {}
+
+// PCBKit's mark and pcbkit.io, where the board has room.
+logo = Logo.Part {}

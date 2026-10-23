@@ -1,29 +1,57 @@
 pcbkit 1
 // Doom handheld: a carrier for a Pimoroni Pico Plus 2 (RP2350B, 8 MB PSRAM) under a 2.8" ILI9341
-// SPI screen, with a d-pad and six buttons. Every part is orderable; the program in doom/ runs on
-// the chip as it runs here, flashed as a UF2. Powered and flashed through the Pico's USB-C.
+// SPI screen, with a d-pad and six buttons, running from two 18650 cells it charges from the
+// Pico's USB-C. Every part is orderable; the program in doom/ runs on the chip as it runs here,
+// flashed as a UF2 through the same USB-C (hold BOOT while plugging in).
 // Its outline is a red keycard, with a lanyard slot.
 
 use "parts/PIMORONI_PICO_PLUS_2.pcbkit" as Pico
 use "parts/ILI9341_TFT_2_8_TOUCH.pcbkit" as Screen
+use "parts/KEYSTONE_1042.pcbkit" as Holder
+use "parts/BQ24075RGT.pcbkit" as Charger
+use "parts/DW01A.pcbkit" as Protection
+use "parts/D_1N5819HW.pcbkit" as Schottky
+use "parts/MSK12C02.pcbkit" as Slide
+use "parts/AO3401A.pcbkit" as Pfet
+use "parts/PCBKIT_LOGO.pcbkit" as Logo
 
-net VSYS { voltage = 5V }
+// Power: USB-C 5 V (the Pico's VBUS) into the charger; its power path (SYS: the input when there
+// is one, else the cells) through a Schottky into the Pico's VSYS, beside the Pico's own VBUS
+// diode. The two cells in parallel (1S2P, 3.0-4.2 V) behind one protection circuit; the pack's
+// minus is the board's ground.
+net VBUS { voltage = 5V }
+// SYS feeds the Pico (RP2350, PSRAM, flash) and the screen's backlight: about 300 mA.
+net SYS { voltage = 5V; current = 300mA }
+net VSYS { voltage = 4.2V }
+net BAT { voltage = 4.2V; current = 800mA }
+net BAT_IN { voltage = 4.2V; current = 800mA }
+net CELL_N { current = 800mA }
 net V3 { voltage = 3.3V }
 net GND { voltage = 0V }
+// The power paths: wide tracks, vias that carry an ampere.
+powerClass = NetClass {
+  name = "power"
+  trackWidth = 0.6mm
+  viaDiameter = 0.8mm
+  viaDrill = 0.4mm
+  nets = [VBUS, SYS, VSYS, BAT, BAT_IN, CELL_N]
+}
+net PWR_EN, CHG_N, PG_N, CHG_LED, PG_LED, ISET, ILIM, TS
 net UP, DOWN, LEFT, RIGHT, FIRE, USE, STRAFE_L, STRAFE_R, MENU, ENTER
 net LCD_CS, LCD_RESET, LCD_DC, LCD_MOSI, LCD_SCK, LCD_LED, TX, RX
 
 board = Board {
   name = "Doom handheld"
   description = "RP2350 (Pico Plus 2) · ILI9341 320x240 · ten buttons · USB-C"
-  outline = rect(160mm, 86mm, radius = 6mm)
-  cutouts = [rectangle((144mm, 79mm), (156mm, 82mm))]
+  outline = rect(160mm, 100mm, radius = 6mm)
+  cutouts = [rectangle((5mm, 92mm), (17mm, 95mm))]
   fab { mask = .red; silk = .white; finish = .enig }
 }
 laboratory = Laboratory { world = "input.js" }
 
 // A tactile switch that pulls its line to ground, operated by `code` while the device runs.
 fn key(code: String): Part = button("6x6") with {
+  orderCode = "C221880"
   simulation = SimulationParameters { behavior = Behavior { model = "button"; ports = { output: ["1"] }; key = code } }
 }
 
@@ -39,10 +67,13 @@ U1 = Pico.Part with {
     } }
   } }
 } {
-  at = (80mm, 58mm)
+  // On the back, its USB-C at the top edge: charging and flashing.
+  at = (138mm, 73.2mm)
+  // The two 1x20 sockets it plugs into (the module itself: Pimoroni PIM724, bought separately).
+  orderCode = "C2905423"
   side = .bottom
   pins {
-    VSYS: VSYS, P3V3: V3, GND: GND, AGND: GND,
+    VBUS: VBUS, VSYS: VSYS, P3V3: V3, P3V3_EN: PWR_EN, GND: GND, AGND: GND,
     GP0: TX, GP1: RX,
     GP2: UP, GP3: DOWN, GP4: LEFT, GP5: RIGHT, GP6: FIRE, GP7: USE, GP8: STRAFE_L, GP9: STRAFE_R, GP10: MENU, GP11: ENTER,
     GP17: LCD_CS, GP18: LCD_SCK, GP19: LCD_MOSI, GP20: LCD_DC, GP21: LCD_RESET, GP22: LCD_LED,
@@ -51,9 +82,11 @@ U1 = Pico.Part with {
 
 lcd = Screen.Part {
   at = (123mm, 43mm)
+  // The 1x14 socket it plugs into (the module: an MSP2807, bought separately).
+  orderCode = "C2905420"
   rotation = 90deg
   pins {
-    VCC: VSYS, GND: GND, CS: LCD_CS, RESET: LCD_RESET, DC: LCD_DC, SDI: LCD_MOSI, SCK: LCD_SCK, LED: LCD_LED,
+    VCC: V3, GND: GND, CS: LCD_CS, RESET: LCD_RESET, DC: LCD_DC, SDI: LCD_MOSI, SCK: LCD_SCK, LED: LCD_LED,
     // The touch controller shares the bus, deselected (T_CS high) until firmware wants it.
     T_CLK: LCD_SCK, T_DIN: LCD_MOSI, T_CS: V3 }
 }
@@ -68,30 +101,76 @@ strafeRight = key("Period") { at = (28mm, 72mm); pins { a: STRAFE_R, b: GND } }
 fire = key("KeyF") { at = (140mm, 46mm); pins { a: FIRE, b: GND } }
 use = key("Space") { at = (151mm, 34mm); pins { a: USE, b: GND } }
 menu = key("KeyM") { at = (138mm, 72mm); pins { a: MENU, b: GND } }
-enter = key("Enter") { at = (152mm, 72mm); pins { a: ENTER, b: GND } }
+enter = key("Enter") { at = (154.5mm, 72mm); pins { a: ENTER, b: GND } }
 
-// The console (UART0, 115200 baud) for a USB-serial adapter.
-J1 = header(3) { at = (146mm, 9mm); rotation = 90deg; pins = [TX, RX, GND] }
+// The console (UART0, 115200 baud): three pads for a USB-serial adapter's clips.
+tpTx = testPoint() { at = (140mm, 8mm); pins = [TX] }
+tpRx = testPoint() { at = (146mm, 8mm); pins = [RX] }
+tpGnd = testPoint() { at = (152mm, 8mm); pins = [GND] }
+consoleLabel = Text { text = "TX  RX  GND"; at = (146mm, 4mm); size = 1mm }
 
-// The wordmark: an original angular DOOM, the word widening upward over a bar.
-logo = [
-  Polygon { points = [(58.887mm, 5.0mm), (65.423mm, 5.0mm), (66.555mm, 6.7mm), (65.577mm, 7.6mm), (60.397mm, 7.6mm)] },
-  Polygon { points = [(66.555mm, 6.7mm), (67.761mm, 8.4mm), (67.036mm, 12.6mm), (65.08mm, 14.3mm), (64.384mm, 13.4mm), (65.577mm, 7.6mm)] },
-  Polygon { points = [(65.08mm, 14.3mm), (63.05mm, 16.0mm), (55.45mm, 16.0mm), (58.776mm, 13.4mm), (64.384mm, 13.4mm)] },
-  Polygon { points = [(55.45mm, 16.0mm), (58.887mm, 5.0mm), (60.397mm, 7.6mm), (58.776mm, 13.4mm)] },
-  Polygon { points = [(70.384mm, 5.8mm), (71.185mm, 5.0mm), (77.893mm, 5.0mm), (78.564mm, 5.8mm), (76.919mm, 7.6mm), (71.739mm, 7.6mm)] },
-  Polygon { points = [(78.564mm, 5.8mm), (79.252mm, 6.6mm), (79.167mm, 14.4mm), (78.367mm, 15.2mm), (76.664mm, 13.4mm), (76.919mm, 7.6mm)] },
-  Polygon { points = [(78.367mm, 15.2mm), (77.55mm, 16.0mm), (69.75mm, 16.0mm), (69.063mm, 15.2mm), (71.056mm, 13.4mm), (76.664mm, 13.4mm)] },
-  Polygon { points = [(69.063mm, 15.2mm), (68.391mm, 14.4mm), (69.568mm, 6.6mm), (70.384mm, 5.8mm), (71.739mm, 7.6mm), (71.056mm, 13.4mm)] },
-  Polygon { points = [(81.436mm, 5.8mm), (82.107mm, 5.0mm), (88.815mm, 5.0mm), (89.616mm, 5.8mm), (88.261mm, 7.6mm), (83.081mm, 7.6mm)] },
-  Polygon { points = [(89.616mm, 5.8mm), (90.432mm, 6.6mm), (91.609mm, 14.4mm), (90.937mm, 15.2mm), (88.944mm, 13.4mm), (88.261mm, 7.6mm)] },
-  Polygon { points = [(90.937mm, 15.2mm), (90.25mm, 16.0mm), (82.45mm, 16.0mm), (81.633mm, 15.2mm), (83.336mm, 13.4mm), (88.944mm, 13.4mm)] },
-  Polygon { points = [(81.633mm, 15.2mm), (80.833mm, 14.4mm), (80.748mm, 6.6mm), (81.436mm, 5.8mm), (83.081mm, 7.6mm), (83.336mm, 13.4mm)] },
-  Polygon { points = [(91.653mm, 5.0mm), (93.889mm, 5.0mm), (96.15mm, 16.0mm), (93.343mm, 14.8mm)] },
-  Polygon { points = [(98.877mm, 5.0mm), (101.113mm, 5.0mm), (104.175mm, 14.8mm), (101.95mm, 16.0mm)] },
-  Polygon { points = [(96.15mm, 16.0mm), (95.482mm, 12.75mm), (97.183mm, 8.3mm), (97.971mm, 11.55mm)] },
-  Polygon { points = [(101.95mm, 16.0mm), (97.971mm, 11.55mm), (97.183mm, 8.3mm), (101.042mm, 12.75mm)] },
-  Polygon { points = [(58.459mm, 2.4mm), (101.541mm, 2.4mm), (100.224mm, 3.5mm), (59.776mm, 3.5mm)] },
+// Two 18650 cells on the back, one above the other, in parallel. The holders are not polarized:
+// put each cell's + at the end the silkscreen marks (C2: on the back, at -X of the holder).
+BT1 = Holder.Part { orderCode = "C5249310"; at = (75mm, 11mm); side = .bottom; pins { C2: BAT_IN, C1: CELL_N } }
+BT2 = Holder.Part { orderCode = "C5249310"; at = (75mm, 33mm); side = .bottom; pins { C2: BAT_IN, C1: CELL_N } }
+cellMarks = [
+  Text { text = "+"; at = (28mm, 11mm); size = 2.5mm; layer = Silk.bottom },
+  Text { text = "-"; at = (122mm, 11mm); size = 2.5mm; layer = Silk.bottom },
+  Text { text = "+"; at = (28mm, 33mm); size = 2.5mm; layer = Silk.bottom },
+  Text { text = "-"; at = (122mm, 33mm); size = 2.5mm; layer = Silk.bottom },
+  Text { text = "2 x 18650 Li-ion 3.7 V"; at = (75mm, 47mm); size = 1.5mm; layer = Silk.bottom },
 ]
+
+// A cell put in the wrong way round: a P-MOSFET in the plus line, its gate at the cells' minus,
+// on (both ways: charging too) only when the cells are the right way round.
+reversed = ReversePolarity(vin = BAT_IN, vout = BAT, gnd = CELL_N, inputVoltage = 4.2V, current = 800mA, rdsOn = 60mohm, maxGateVoltage = 12V, fet = Pfet.Part with { orderCode = "C15127" }) {}
+
+// Protection: over-charge 4.3 V, over-discharge 2.4 V, over-current about 3 A, in the pack's minus.
+U2 = Protection.Part { orderCode = "C351410"; pins { GND: CELL_N } }
+U2Support = Protection.Support(U2, batteryPlus = BAT, packMinus = GND) {}
+
+// The charger (BQ24075, datasheet SLUS810): USB500 mode (EN1 high, EN2 low: at most 500 mA from
+// any port, the input current lowered when VBUS sags), 800 mA fast charge (RISET = 890 AΩ / 0.8 A),
+// its current-based termination; SYSOFF low (the cells always connected); the safety timers off
+// (TMR to VSS): two cells charge longer than its longest timer. TS: 10 kΩ without an NTC.
+U3 = Charger.Part {
+  at = (120.75mm, 83mm)
+  pins { IN: VBUS, OUT: SYS, BAT: BAT, VSS: GND, nCE: GND, EN1: SYS, EN2: GND, TMR: GND, ISET: ISET, ILIM: ILIM, SYSOFF: GND, TS: TS, nCHG: CHG_N, nPGOOD: PG_N }
+}
+cIn = cap(1uF, package = "0603", voltage = 16V) { orderCode = "C15849"; at = (122.3mm, 86mm); rotation = 180deg; place = [near(U3.pin.IN, max = 3.5mm)]; pins { a: VBUS, b: GND } }
+cSys = cap(4.7uF, package = "0805", voltage = 10V) { orderCode = "C1779"; place = [soft(near(U3.pin.OUT, max = 4mm), weight = 2)]; pins { a: SYS, b: GND } }
+cBat = cap(4.7uF, package = "0805", voltage = 10V) { orderCode = "C1779"; place = [soft(near(U3.pin.BAT, max = 4mm), weight = 2)]; pins { a: BAT, b: GND } }
+rIset = res(1.13kohm, package = "0402", tolerance = 1pct) { orderCode = "C67014"; place = [soft(near(U3.pin.ISET, max = 5mm))]; pins { a: ISET, b: GND } }
+rIlim = res(1.18kohm, package = "0402", tolerance = 1pct) { orderCode = "C270651"; place = [soft(near(U3.pin.ILIM, max = 5mm))]; pins { a: ILIM, b: GND } }
+rTs = res(10kohm, package = "0402") { orderCode = "C25744"; place = [soft(near(U3.pin.TS, max = 5mm))]; pins { a: TS, b: GND } }
+// Charging (red) and USB present (green), each through 1.5 kΩ.
+ledChg = led(package = "0603", color = .red) { orderCode = "C2286"; pins { A: SYS, K: CHG_LED } }
+rChg = res(1.5kohm, package = "0402") { orderCode = "C25867"; place = [soft(near(ledChg, max = 3mm))]; pins { a: CHG_LED, b: CHG_N } }
+ledPg = led(package = "0603", color = .green) { orderCode = "C12624"; pins { A: SYS, K: PG_LED } }
+rPg = res(1.5kohm, package = "0402") { orderCode = "C25867"; place = [soft(near(ledPg, max = 3mm))]; pins { a: PG_LED, b: PG_N } }
+chargeLabel = Text { text = "CHG  USB"; near = ledChg; size = 1mm }
+
+// The power path into the Pico's VSYS, beside its own VBUS diode.
+D1 = Schottky.Part { orderCode = "C82544"; place = [soft(near(U1.pin.VSYS, max = 15mm))]; pins { A: SYS, K: VSYS } }
+
+// On/off: the switch holds the Pico's 3V3_EN low (its regulator off, the cells still charging).
+SW1 = Slide.Part { at = (1.9mm, 60mm); rotation = 90deg; pins { COM: PWR_EN, A: GND, SHELL: GND } }
+switchLabel = Text { text = "ON / OFF"; at = (6mm, 64mm); size = 1mm; rotation = 90deg }
+
+// Ground on both sides around everything else: the return path, and the heat spread.
+ground = pour(net = GND, layers = [Cu.top, Cu.bottom]) {}
+
+// Four M3 holes for a back plate or a case.
+holes = [
+  hole("M3") { at = (5mm, 22mm) },
+  hole("M3") { at = (155mm, 22mm) },
+  hole("M3") { at = (26mm, 94mm) },
+  hole("M3") { at = (115mm, 94mm) },
+]
+
+// PCBKit's mark and pcbkit.io where the wordmark was.
+logo = Logo.Part { at = (80mm, 9mm) }
 cheat = Text { text = "IDDQD"; at = (140mm, 58mm); size = 1.5mm }
 map = Text { text = "E1M1"; at = (20mm, 22mm); size = 1.5mm }
+
+override reversed.Rg.orderCode = "C25741"

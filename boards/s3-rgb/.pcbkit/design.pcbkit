@@ -19,6 +19,7 @@ use "parts/IP5306.pcbkit" as IP5306
 use "parts/MT3608.pcbkit" as MT3608
 use "parts/AMS1117_3_3.pcbkit" as AMS1117_3_3
 use "parts/S2B_PH_K_S.pcbkit" as S2B_PH_K_S
+use "parts/PCBKIT_LOGO.pcbkit" as Logo
 
 net VBUS { voltage = 5V }
 net V5 { voltage = 5.1V }
@@ -153,3 +154,6 @@ H3 = hole("M3") { at = (5mm, 75mm) }
 H4 = hole("M3") { at = (177mm, 75mm) }
 
 gndPour = pour(net = GND, layers = [Cu.top, Cu.inner[1], Cu.bottom]) {}
+
+// PCBKit's mark and pcbkit.io, where the board has room.
+logo = Logo.Part {}

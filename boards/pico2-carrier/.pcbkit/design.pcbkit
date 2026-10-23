@@ -12,6 +12,7 @@ use "parts/RASPBERRY_PI_PICO_2.pcbkit" as RASPBERRY_PI_PICO_2
 use "parts/ILI9341_TFT_2_8_TOUCH.pcbkit" as ILI9341_TFT_2_8_TOUCH
 use "parts/PCM5102APWR.pcbkit" as PCM5102APWR
 use "parts/SJ1_3525N.pcbkit" as SJ1_3525N
+use "parts/PCBKIT_LOGO.pcbkit" as Logo
 
 net V3 { voltage = 3.3V }
 net GND { voltage = 0V }
@@ -88,3 +89,6 @@ H3 = hole("M2.5") { at = (4mm, 58mm) }
 H4 = hole("M2.5") { at = (156mm, 58mm) }
 
 gndPour = pour(net = GND, layers = [Cu.top, Cu.bottom]) {}
+
+// PCBKit's mark and pcbkit.io, where the board has room.
+logo = Logo.Part {}
