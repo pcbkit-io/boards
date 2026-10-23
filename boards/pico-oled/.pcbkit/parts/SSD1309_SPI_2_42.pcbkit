@@ -61,7 +61,7 @@ part Part = device(footprint = moduleSocket(
       model = "ssd1309"
       ports = { "cs": ["7"], "dc": ["6"], "power": ["2", "1"], "reset": ["5"], "spi": ["4", "3"] }
       parameters = { "height_mm": 27.49, "offset_x_mm": 34.0, "offset_y_mm": 2.685, "width_mm": 55.01 }
-      height = 12.4mm
+      height = 12.65mm
     }
     parameters = []
   }
