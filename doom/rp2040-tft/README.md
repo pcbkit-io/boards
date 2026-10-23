@@ -31,7 +31,7 @@ the socket it solders.
 
 ## Run it in the browser
 
-Open https://app.pcbkit.io/github/pcbkit-io/doom-handheld/tree/main/boards/rp2040-tft, open the
+Open https://app.pcbkit.io/github/pcbkit-io/boards/tree/main/doom/rp2040-tft, open the
 Laboratory and press **Build & run**: the page builds `doom/` for the RP2040's Cortex-M0+ (with
 rp2040-doom's `DOOM1.WHX` linked into the flash), boots it the way the chip's boot ROM does (the
 boot2 stage checked by its CRC, then the flash in place), and draws the ST7735's frames on the

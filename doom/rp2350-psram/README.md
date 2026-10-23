@@ -35,7 +35,7 @@ module, which plugs into the socket it solders.
 
 ## Run it in the browser
 
-Open https://app.pcbkit.io/github/pcbkit-io/doom-handheld/tree/main/boards/rp2350-psram, open the
+Open https://app.pcbkit.io/github/pcbkit-io/boards/tree/main/doom/rp2350-psram, open the
 Laboratory and press **Run**: the page builds `doom/` for the RP2350 (with `DOOM1.WAD` linked into
 flash), boots the image on a register-level model of the chip and its PSRAM, and draws the
 display's frames on the board. Play with the keyboard (arrows, F fire, Space use, comma/period

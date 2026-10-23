@@ -33,7 +33,7 @@ What `check` and the ready lens leave to weigh, and why each is acceptable:
 
 ## Run it in the browser
 
-Open https://app.pcbkit.io/github/pcbkit-io/doom-handheld/tree/main/boards/s3-rgb, open the
+Open https://app.pcbkit.io/github/pcbkit-io/boards/tree/main/doom/s3-rgb, open the
 Laboratory and press **Build & run**: the page builds `doom/` for the ESP32-S3's Xtensa LX7 with
 Espressif's LLVM (with `DOOM1.WAD` linked into its flash), boots it the way the chip's boot ROM
 boots an image from flash, and shows on the panel the frames LCD_CAM scans out of the PSRAM. The

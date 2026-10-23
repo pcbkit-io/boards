@@ -26,7 +26,7 @@ than *programs*.
 
 ## Run it in the browser
 
-Open https://app.pcbkit.io/github/pcbkit-io/doom-handheld/tree/main/boards/v003-emu, open the
+Open https://app.pcbkit.io/github/pcbkit-io/boards/tree/main/doom/v003-emu, open the
 Laboratory and press **Build & run**: the page builds both programs — `emu/` for the CH32V003
 (RV32EC) and `doom/` for the computer it emulates (pcbkit-virt, with `DOOM1.WAD` linked in) — puts
 the second in the W25Q128 and runs the board. Until the first frame the LCD shows Doom's start-up

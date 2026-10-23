@@ -23,7 +23,7 @@ Pico's 2 MB flash, 264 KB of RAM) with its VGA/DVI back end replaced by a 1-bit 
 
 ## Run it in the browser
 
-Open https://app.pcbkit.io/github/pcbkit-io/doom-handheld/tree/main/boards/pico-oled, open the
+Open https://app.pcbkit.io/github/pcbkit-io/boards/tree/main/doom/pico-oled, open the
 Laboratory and press **Build & run**: the page builds `doom/` for the Pico's Cortex-M0+ (with
 rp2040-doom's `DOOM1.WHX` linked into the 2 MB flash), boots it the way the RP2040's boot ROM does
 and draws the OLED's frames on the board. Play with the keyboard (arrows, F fire, Space use, S held

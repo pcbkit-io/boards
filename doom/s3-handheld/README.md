@@ -31,7 +31,7 @@ Warnings left, and why they are acceptable:
 
 ## Run it in the browser
 
-Open https://app.pcbkit.io/github/pcbkit-io/doom-handheld/tree/main/boards/s3-handheld, open the
+Open https://app.pcbkit.io/github/pcbkit-io/boards/tree/main/doom/s3-handheld, open the
 Laboratory and press **Build & run**: the page builds `doom/` for the ESP32-S3's Xtensa LX7 with
 Espressif's LLVM (with `DOOM1.WAD` linked into its flash), boots it the way the chip's boot ROM
 boots an image from flash, and draws the ILI9341's frames on the board. Play with the keyboard
@@ -63,7 +63,7 @@ cells to the board:
 - **Protection:** DW01A + FS8205A in the pack's minus: over-charge 4.3 V, over-discharge 2.4 V,
   over-current about 3 A and short circuit, for the pack.
 - **Charger with power path:** a TI BQ24075 (the BQ24074's sibling with SYSOFF and a fixed
-  termination, as on boards/rp2350-handheld) from the USB-C's VBUS (5.1 kΩ CC pull-downs), in
+  termination, as on doom/rp2350-handheld) from the USB-C's VBUS (5.1 kΩ CC pull-downs), in
   USB500 mode (at most 500 mA from the port), 800 mA fast charge (RISET 1.13 kΩ), input limit by
   RILIM 1.18 kΩ, safety timers off (two cells charge longer than its longest timer; termination is
   by current), TS tied to 10 kΩ (no thermistor). Its output SYS runs the board from USB when one is

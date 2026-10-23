@@ -34,7 +34,7 @@ Warnings left, and why they are acceptable:
 
 ## Run it in the browser
 
-Open https://app.pcbkit.io/github/pcbkit-io/doom-handheld/tree/main/boards/f411-psram, open the
+Open https://app.pcbkit.io/github/pcbkit-io/boards/tree/main/doom/f411-psram, open the
 Laboratory and press **Build & run**: the page builds both programs — `emu/` for the STM32F411
 (Cortex-M4F) and `doom/` for the computer it emulates (pcbkit-virt, with `DOOM1.WAD` linked in) —
 puts the second in the W25Q128 and runs the board.

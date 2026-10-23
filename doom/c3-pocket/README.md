@@ -23,7 +23,7 @@ The C3 has no PSRAM, so Doom is cut down the way rp2040-doom cut it for the RP20
 
 ## Run it in the browser
 
-Open https://app.pcbkit.io/github/pcbkit-io/doom-handheld/tree/main/boards/c3-pocket, open the
+Open https://app.pcbkit.io/github/pcbkit-io/boards/tree/main/doom/c3-pocket, open the
 Laboratory and press **Build & run**: the page builds `doom/` for the C3's RV32IMC core (with
 rp2040-doom's `DOOM1.WHX` linked into the flash), boots it the way the chip's boot ROM boots an
 image from flash, and draws the ST7789's frames on the board. Play with the keyboard (arrows,

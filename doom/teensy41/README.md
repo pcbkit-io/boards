@@ -29,7 +29,7 @@ a few boards.
 
 ## Run it in the browser
 
-Open https://app.pcbkit.io/github/pcbkit-io/doom-handheld/tree/main/boards/teensy41, open the
+Open https://app.pcbkit.io/github/pcbkit-io/boards/tree/main/doom/teensy41, open the
 Laboratory and press **Build & run**: the page builds `doom/` for the i.MX RT1062's Cortex-M7
 (with `DOOM1.WAD` linked into its flash), boots it the way the chip's boot ROM boots the Teensy's
 flash, and draws the ILI9488's frames on the board. Play with the keyboard (arrows, F fire, Space
@@ -51,7 +51,7 @@ at 13 s.
 ## Power
 
 Two 18650 Li-ion cells in Keystone 1042 holders on the back, in parallel (1S2P, 3.0–4.2 V), the
-power section of `boards/rp2350-handheld` with this board's own USB-C, boost and fuel gauge:
+power section of `doom/rp2350-handheld` with this board's own USB-C, boost and fuel gauge:
 
 - **Reverse cells:** an AO3401A P-MOSFET in the plus line, its gate at the cells' minus: cells put
   in backwards leave it off and the board unpowered (it conducts both ways when they are right, so

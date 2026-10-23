@@ -30,7 +30,7 @@ check before ordering more than a few boards.
 
 ## Run it in the browser
 
-Open https://app.pcbkit.io/github/pcbkit-io/doom-handheld/tree/main/boards/pico2-carrier, open the
+Open https://app.pcbkit.io/github/pcbkit-io/boards/tree/main/doom/pico2-carrier, open the
 Laboratory and press **Run**: the page builds `doom/` for the RP2350 (with `DOOM1.WAD` linked into
 flash), boots the image on a register-level model of the chip and its PSRAM, and draws the
 display's frames on the board. Play with the keyboard (arrows, F fire, Space use, comma/period
@@ -45,7 +45,7 @@ Hazard3 core at 150 MHz. The display takes each 320 × 200 frame as RGB565 over 
 ## Power
 
 Two 18650 Li-ion cells in Keystone 1042 holders on the back, in parallel (1S2P, 3.0–4.2 V), the same
-power section as `boards/rp2350-handheld`:
+power section as `doom/rp2350-handheld`:
 
 - **Reverse cells:** an AO3401A P-MOSFET in the plus line, its gate at the cells' minus: cells put
   in backwards leave it off and the board unpowered (it conducts both ways when they are right, so
