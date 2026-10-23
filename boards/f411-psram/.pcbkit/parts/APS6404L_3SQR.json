@@ -1,0 +1,181 @@
+{
+  "id": "APS6404L_3SQR",
+  "mpn": "APS6404L-3SQR-SN",
+  "manufacturer": "AP Memory",
+  "variants": [
+    "APS6404L-3SQR-ZR"
+  ],
+  "category": "memory",
+  "description": "64 Mbit (8 MB) SPI/QPI pseudo-SRAM with self-managed refresh, up to 133 MHz, 2.7-3.6 V (SOP-8 150 mil)",
+  "tags": [
+    "aps6404l",
+    "psram",
+    "qspi psram",
+    "qpi",
+    "8mb",
+    "64mbit",
+    "ram",
+    "memory",
+    "soic-8"
+  ],
+  "datasheet": {
+    "url": "https://www.pjrc.com/store/APS6404L_3SQR.pdf",
+    "revision": "APM SPI 3V PSRAM Datasheet Rev. 2.3, 2020-04-30: §3.1 package types (pinout), §4.1 SOP-8L(150) outline, §14.3 decoupling, §14.5 DC characteristics"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "SOIC-8"
+  },
+  "pins": [
+    {
+      "number": "1",
+      "name": "CE",
+      "type": "input",
+      "description": "chip enable, active low (/CE)"
+    },
+    {
+      "number": "2",
+      "name": "SIO1",
+      "type": "bidirectional",
+      "functions": [
+        "SO",
+        "SPI_MISO"
+      ],
+      "description": "SPI data out, QPI data 1"
+    },
+    {
+      "number": "3",
+      "name": "SIO2",
+      "type": "bidirectional",
+      "description": "QPI data 2"
+    },
+    {
+      "number": "4",
+      "name": "VSS",
+      "type": "ground"
+    },
+    {
+      "number": "5",
+      "name": "SIO0",
+      "type": "bidirectional",
+      "functions": [
+        "SI",
+        "SPI_MOSI"
+      ],
+      "description": "SPI data in, QPI data 0"
+    },
+    {
+      "number": "6",
+      "name": "SCLK",
+      "type": "input",
+      "functions": [
+        "SPI_SCK"
+      ],
+      "description": "serial clock"
+    },
+    {
+      "number": "7",
+      "name": "SIO3",
+      "type": "bidirectional",
+      "description": "QPI data 3"
+    },
+    {
+      "number": "8",
+      "name": "VDD",
+      "type": "power_in",
+      "description": "supply 2.7-3.6 V"
+    }
+  ],
+  "ratings": {
+    "recommended": [
+      {
+        "what": "VDD",
+        "pins": [
+          "VDD"
+        ],
+        "min": 2.7,
+        "max": 3.6,
+        "unit": "V"
+      },
+      {
+        "what": "operating temperature (standard range)",
+        "min": -40.0,
+        "max": 85.0,
+        "unit": "°C"
+      }
+    ]
+  },
+  "simulation": {
+    "parameters": [
+      {
+        "id": "icc-rw-133mhz",
+        "quantity": "supplyCurrent",
+        "unit": "A",
+        "typ": 0.0055,
+        "max": 0.007,
+        "conditions": "read/write at 133 MHz, output load not included",
+        "source": {
+          "url": "https://www.pjrc.com/store/APS6404L_3SQR.pdf",
+          "revision": "Rev. 2.3",
+          "location": "§14.5 Table 9, ICC and note 2",
+          "confidence": "datasheet"
+        }
+      }
+    ]
+  },
+  "support": {
+    "parts": [
+      {
+        "ref": "C1",
+        "kind": "cap",
+        "value": "1uF",
+        "rating": "low-ESR ceramic as close to VDD as possible (required)",
+        "between": [
+          "VDD",
+          "VSS"
+        ]
+      },
+      {
+        "ref": "C2",
+        "kind": "cap",
+        "value": "100nF",
+        "rating": "optional high-frequency decoupling at VDD",
+        "between": [
+          "VDD",
+          "VSS"
+        ]
+      },
+      {
+        "ref": "R1",
+        "kind": "res",
+        "value": "10kohm",
+        "rating": "keeps the PSRAM deselected while the host boots",
+        "between": [
+          "CE",
+          "VDD"
+        ]
+      }
+    ],
+    "notes": [
+      "Wait 150 us after power-up before the first command; the device then answers in SPI mode until Enter Quad Mode (35h)."
+    ],
+    "page": "§14.3 decoupling capacitor requirement"
+  },
+  "notes": [
+    "8M x 8 bits, 1024-byte pages; linear bursts up to 84 MHz, wrapped 32-byte bursts to 133 MHz at 3.0 V.",
+    "Memory-mapped on the RP2350's QMI (chip select 1), the ESP32-S3's SPI0/1 cache, or read through a software cache over a plain SPI peripheral."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "AP Memory APS6404L-3SQR datasheet Rev. 2.3, §3.1 (1 /CE, 2 SO/SIO1, 3 SIO2, 4 VSS, 5 SI/SIO0, 6 SCLK, 7 SIO3, 8 VDD); §4.1 outline refers to JEDEC MS-012 AA (SOIC-8: D 4.90, E1 3.90, E 6.00 BSC, e 1.27)",
+      "url": "https://www.pjrc.com/store/APS6404L_3SQR.pdf",
+      "license": "pin numbers and names, package and ratings transcribed from the manufacturer's datasheet (facts); descriptions and notes our own"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "the standard SOIC-8 footprint (the drawing cites JEDEC MS-012 AA)"
+    },
+    "by": "user"
+  }
+}

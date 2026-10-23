@@ -1,0 +1,151 @@
+pcbkit 1
+
+// TP4056 (TPOWER (Top Power)): Single-cell Li-Ion linear charger, 4.2 V, up to 1 A set by one
+// resistor, charging and done status outputs, battery NTC input
+// Compiled from the part sheet `parts/TP4056.json` (`parts.create`); status: checked.
+// Datasheet: https://www.lcsc.com/datasheet/C382139.pdf (Shenzhen TPOWER TP4056 V1.3 (7 pages,
+// with the SOP8-PP outline))
+// Pins: TPOWER TP4056 datasheet V1.3, pin diagram (p. 2) and pin functions (p. 5); the NanJing Top
+// Power 3-page English datasheet gives the same pins 1-8
+// Footprint: computed per IPC-7351B from the datasheet's package dimensions
+// This file may be used, changed and shared without conditions, with the board or alone.
+
+// Note: The exposed pad carries the heat (up to about 1 W at 1 A from 5 V): solder it to a GND
+// copper area with vias.
+// Note: Status outputs are open drain: pull up (an LED from VCC, or a resistor to the logic
+// supply); unused ones to GND.
+// Note: Floating PROG or CE low stops charging.
+
+/// TP4056 — Single-cell Li-Ion linear charger, 4.2 V, up to 1 A set by one resistor, charging and
+/// done status outputs, battery NTC input
+part Part = device(footprint = rows(
+  name = "SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.413x3.302mm",
+  description = "SOP-8-PP (SOIC-8 with exposed pad), 8 pins, 4.9 x 3.9 mm body, 1.27 mm pitch (from the datasheet)",
+  pitch = 1.27mm,
+  pinsY = 4,
+  spanX = tolerance(5.8mm, 6.2mm),
+  leadLength = tolerance(0.4mm, 1.27mm),
+  leadWidth = tolerance(0.33mm, 0.51mm),
+  bodyX = tolerance(3.8mm, 4mm),
+  bodyY = tolerance(4.7mm, 5.1mm),
+  bodyHeight = 1.75mm,
+  exposedPad = (2.413mm, 3.302mm),
+), prefix = "U", mpn = "TP4056", manufacturer = "TPOWER (Top Power)", pinout = {
+  TEMP: "1",
+  PROG: "2",
+  GND: ["3", "9"],
+  VCC: "4",
+  BAT: "5",
+  nSTDBY: "6",
+  nCHRG: "7",
+  CE: "8",
+}, pinTypes = {
+  TEMP: .passive,
+  PROG: .passive,
+  GND: .ground,
+  VCC: io.powerIn(min = 4V, max = 7V),
+  BAT: io.powerOut(4.2V),
+  nSTDBY: io.openDrain(max = 7V),
+  nCHRG: io.openDrain(max = 7V),
+  CE: io.input(max = 7V),
+}) with {
+  fields {
+    Status: "checked",
+    PinoutSource: "TPOWER TP4056 datasheet V1.3, pin diagram (p. 2) and pin functions (p. 5); the NanJing Top Power 3-page English datasheet gives the same pins 1-8",
+    Datasheet: "https://www.lcsc.com/datasheet/C382139.pdf",
+  }
+  simulation = SimulationParameters {
+    parameters = [
+      SimulationParameter {
+        id = "icc-charge-mode"
+        quantity = .quiescentCurrent
+        typ = 150uA
+        max = 500uA
+        conditions = "Input supply current in charge mode, RPROG = 1.2 kohm, TA = 25 degC, VCC = 5 V; standby (charge terminated) and shutdown are 55 uA typ / 100 uA max; this is the chip's own draw, the charge current is separate"
+        source = SimulationEvidence {
+          url = "https://dlnmh9ip6v2uc.cloudfront.net/datasheets/Prototyping/TP4056.pdf"
+          revision = "NanJing Top Power ASIC TP4056 datasheet (3 pages, no revision printed)"
+          location = "p. 2, Electrical Characteristics, ICC (input supply current) row, charge mode"
+          confidence = .datasheet
+        }
+      },
+      SimulationParameter {
+        id = "tj-absolute"
+        quantity = .junctionAbsoluteTemperature
+        max = 145degC
+        conditions = "Maximum junction temperature; the thermal-regulation limit TLIM is 145 degC typ"
+        source = SimulationEvidence {
+          url = "https://dlnmh9ip6v2uc.cloudfront.net/datasheets/Prototyping/TP4056.pdf"
+          revision = "NanJing Top Power ASIC TP4056 datasheet (3 pages, no revision printed)"
+          location = "p. 1, Absolute Maximum Ratings, Maximum Junction Temperature"
+          confidence = .datasheet
+        }
+      },
+    ]
+  }
+}
+
+/// The support circuit of the TP4056 as its datasheet shows it (p. 1, typical application circuit):
+/// every part next to the pin it serves. Add it next to the part: `U1 = TP4056.Part { … }`,
+/// `U1Support = TP4056.Support(U1) {}`.
+///
+/// - CE to VCC (always enabled). TEMP to GND when the battery has no NTC; with one, R1 from VCC and
+/// R2 to GND set the window with the NTC (charging stops outside 45-80 % of VCC).
+///
+/// - Charge current: IBAT = 1100 V / RPROG by the V1.3 document; the original 3-page document's
+/// table: 1.2 kohm 1000 mA, 2.4 kohm 500 mA, 10 kohm 130 mA (the two differ by about 10 %).
+///
+/// - Both LEDs share one 1 kohm resistor from VCC: red (nCHRG) lit while charging, green (nSTDBY)
+/// lit when done.
+block Support(
+  /// The TP4056 this circuit serves (`TP4056.Support(U1)`).
+  chip: Any,
+  /// The red (charging) and green (charged) LEDs through one 1 kohm resistor from VCC.
+  statusLeds: Bool = true,
+  /// TEMP to GND: the battery has no NTC.
+  noNtc: Bool = true,
+) {
+  net C1_P, LED_A
+  /// in series with C1 (damps the input when a cable is plugged in)
+  R3 = res(1ohm, package = "0603") {
+    place = [soft(near(chip.pin.VCC, max = 5mm), weight = 1)]
+    pins { a: chip.pin.VCC, b: C1_P }
+  }
+  /// 10V
+  C1 = cap(10uF, package = "0805", voltage = 10V) {
+    place = [soft(near(chip, max = 8mm), weight = 1)]
+    pins { a: C1_P, b: chip.pin.GND }
+  }
+  /// 10V
+  C2 = cap(10uF, package = "0805", voltage = 10V) {
+    place = [soft(near(chip.pin.BAT, max = 4mm), weight = 2)]
+    pins { a: chip.pin.BAT, b: chip.pin.GND }
+  }
+  /// 1% (about 1 A; 2.4 kohm about 500 mA, 10 kohm about 130 mA)
+  RPROG = res(1.2kohm, package = "0402", tolerance = 1pct) {
+    place = [soft(near(chip.pin.PROG, max = 5mm), weight = 1)]
+    pins { a: chip.pin.PROG, b: chip.pin.GND }
+  }
+  R4 =
+    if statusLeds then res(1kohm, package = "0402") {
+      place = [soft(near(chip.pin.VCC, max = 5mm), weight = 1)]
+      pins { a: chip.pin.VCC, b: LED_A }
+    }
+    else null
+  /// on while charging
+  LED1 =
+    if statusLeds then led(package = "0603", color = .red) {
+      place = [soft(near(chip.pin.nCHRG, max = 5mm), weight = 1)]
+      pins { A: LED_A, K: chip.pin.nCHRG }
+    }
+    else null
+  /// on when charged
+  LED2 =
+    if statusLeds then led(package = "0603", color = .green) {
+      place = [soft(near(chip.pin.nSTDBY, max = 5mm), weight = 1)]
+      pins { A: LED_A, K: chip.pin.nSTDBY }
+    }
+    else null
+  connect(chip.pin.CE, chip.pin.VCC)
+  connect(chip.pin.TEMP, if noNtc then chip.pin.GND else chip.pin.TEMP)
+}

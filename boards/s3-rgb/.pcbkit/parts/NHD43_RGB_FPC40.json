@@ -1,0 +1,272 @@
+{
+  "id": "NHD43_RGB_FPC40",
+  "mpn": "54132-4062",
+  "manufacturer": "Molex",
+  "category": "connector",
+  "description": "40-contact 0.5 mm FFC connector for the Newhaven NHD-4.3-480272EF-ASXN 4.3\" 480 x 272 24-bit RGB TFT (pins named as the panel's: backlight, R0-R7, G0-G7, B0-B7, CLK, DISP, HSYNC, VSYNC, DEN)",
+  "tags": [
+    "fpc",
+    "ffc",
+    "40 pin",
+    "rgb tft",
+    "4.3 inch",
+    "480x272",
+    "newhaven",
+    "lcd"
+  ],
+  "datasheet": {
+    "url": "https://newhavendisplay.com/content/specs/NHD-4.3-480272EF-ASXN.pdf",
+    "revision": "NHD-4.3-480272EF-ASXN specification rev. 5 (2021-03-02): pin description, electrical characteristics (VDD 3.0-3.6 V, IDD 25 mA typ; backlight 25.6 V at 40 mA), timing (DCLK 9-15 MHz), recommended connector Molex 54132-4062"
+  },
+  "prefix": "J",
+  "package": {
+    "name": "FFC/FPC 40 contacts 0.5 mm, right angle",
+    "family": "connector",
+    "pins": 40,
+    "pitch": 0.5
+  },
+  "footprint": "fpc(40, pitch = 0.5mm)",
+  "pins": [
+    {
+      "number": "1",
+      "name": "LED_K",
+      "type": "passive",
+      "description": "backlight cathode (LED-)"
+    },
+    {
+      "number": "2",
+      "name": "LED_A",
+      "type": "passive",
+      "description": "backlight anode (LED+), 25.6 V typ at 40 mA"
+    },
+    {
+      "number": "3",
+      "name": "GND",
+      "type": "ground"
+    },
+    {
+      "number": "4",
+      "name": "VDD",
+      "type": "power_in"
+    },
+    {
+      "number": "5",
+      "name": "R0",
+      "type": "input"
+    },
+    {
+      "number": "6",
+      "name": "R1",
+      "type": "input"
+    },
+    {
+      "number": "7",
+      "name": "R2",
+      "type": "input"
+    },
+    {
+      "number": "8",
+      "name": "R3",
+      "type": "input"
+    },
+    {
+      "number": "9",
+      "name": "R4",
+      "type": "input"
+    },
+    {
+      "number": "10",
+      "name": "R5",
+      "type": "input"
+    },
+    {
+      "number": "11",
+      "name": "R6",
+      "type": "input"
+    },
+    {
+      "number": "12",
+      "name": "R7",
+      "type": "input"
+    },
+    {
+      "number": "13",
+      "name": "G0",
+      "type": "input"
+    },
+    {
+      "number": "14",
+      "name": "G1",
+      "type": "input"
+    },
+    {
+      "number": "15",
+      "name": "G2",
+      "type": "input"
+    },
+    {
+      "number": "16",
+      "name": "G3",
+      "type": "input"
+    },
+    {
+      "number": "17",
+      "name": "G4",
+      "type": "input"
+    },
+    {
+      "number": "18",
+      "name": "G5",
+      "type": "input"
+    },
+    {
+      "number": "19",
+      "name": "G6",
+      "type": "input"
+    },
+    {
+      "number": "20",
+      "name": "G7",
+      "type": "input"
+    },
+    {
+      "number": "21",
+      "name": "B0",
+      "type": "input"
+    },
+    {
+      "number": "22",
+      "name": "B1",
+      "type": "input"
+    },
+    {
+      "number": "23",
+      "name": "B2",
+      "type": "input"
+    },
+    {
+      "number": "24",
+      "name": "B3",
+      "type": "input"
+    },
+    {
+      "number": "25",
+      "name": "B4",
+      "type": "input"
+    },
+    {
+      "number": "26",
+      "name": "B5",
+      "type": "input"
+    },
+    {
+      "number": "27",
+      "name": "B6",
+      "type": "input"
+    },
+    {
+      "number": "28",
+      "name": "B7",
+      "type": "input"
+    },
+    {
+      "number": "29",
+      "name": "GND",
+      "type": "ground"
+    },
+    {
+      "number": "30",
+      "name": "CLK",
+      "type": "input"
+    },
+    {
+      "number": "31",
+      "name": "DISP",
+      "type": "input"
+    },
+    {
+      "number": "32",
+      "name": "HSYNC",
+      "type": "input"
+    },
+    {
+      "number": "33",
+      "name": "VSYNC",
+      "type": "input"
+    },
+    {
+      "number": "34",
+      "name": "DEN",
+      "type": "input"
+    },
+    {
+      "number": "35",
+      "name": "NC35",
+      "type": "nc"
+    },
+    {
+      "number": "36",
+      "name": "GND",
+      "type": "ground"
+    },
+    {
+      "number": "37",
+      "name": "NC37",
+      "type": "nc"
+    },
+    {
+      "number": "38",
+      "name": "NC38",
+      "type": "nc"
+    },
+    {
+      "number": "39",
+      "name": "NC39",
+      "type": "nc"
+    },
+    {
+      "number": "40",
+      "name": "NC40",
+      "type": "nc"
+    },
+    {
+      "number": "MP",
+      "name": "MP",
+      "type": "passive",
+      "description": "the connector's two mounting tabs"
+    }
+  ],
+  "ratings": {
+    "recommended": [
+      {
+        "what": "VDD",
+        "pins": [
+          "VDD"
+        ],
+        "min": 3.0,
+        "nom": 3.3,
+        "max": 3.6,
+        "unit": "V"
+      }
+    ]
+  },
+  "notes": [
+    "The panel is a raw dot-clock display without a controller or frame memory: the host refreshes it continuously (about 60 Hz at a 9-15 MHz pixel clock) from a frame buffer.",
+    "With 16 colour lines (RGB565) tie R0-R2, G0-G1 and B0-B2 to ground.",
+    "The white LED backlight (12 LEDs) needs a constant-current boost to about 25.6 V at 40 mA: MT3608 with a 15 ohm sense resistor on FB (0.6 V).",
+    "DISP high (or open on this panel: default on) shows the image; low is standby."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "Newhaven NHD-4.3-480272EF-ASXN specification, Pin Description table (1 LED-, 2 LED+, 3 GND, 4 VDD, 5-12 R0-R7, 13-20 G0-G7, 21-28 B0-B7, 29 GND, 30 CLK, 31 DISP, 32 HSYNC, 33 VSYNC, 34 DEN, 35 NC, 36 GND, 37-40 NC)",
+      "url": "https://newhavendisplay.com/content/specs/NHD-4.3-480272EF-ASXN.pdf",
+      "license": "pin numbers and names transcribed from the manufacturer's specification (facts); descriptions our own"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "the standard 0.5 mm FFC/FPC connector footprint (fpc(40)); check against Molex 54132-4062's drawing before ordering"
+    },
+    "by": "user"
+  }
+}

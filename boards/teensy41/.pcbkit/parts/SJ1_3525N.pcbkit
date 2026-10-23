@@ -1,0 +1,100 @@
+pcbkit 1
+
+// SJ1-3525N (Same Sky (CUI Devices)): 3.5 mm stereo audio jack (TRS), right angle, through hole,
+// with tip and ring switches: pins SLEEVE, TIP, RING, TIP_SW, RING_SW — headphones, line in/out
+// Compiled from the part sheet `parts/SJ1_3525N.json` (`parts.create`); status: checked.
+// Datasheet: https://www.cuidevices.com/product/resource/sj1-352xn.pdf (Same Sky SJ1-352XN
+// datasheet dated 09/12/2024: mechanical drawing, recommended PCB layout (top view), schematic and
+// pin table (p. 2), specifications (p. 1))
+// Pins: Same Sky SJ1-352XN datasheet (09/12/2024), p. 2: pin table (1 sleeve, 2 tip, 3 ring, 10
+// tip switch, 11 ring switch; SJ1-3525N), recommended PCB layout top view (slots 1.5 x 0.8, pegs
+// dia. 1.2), mechanical drawing
+// Footprint: as given
+// This file may be used, changed and shared without conditions, with the board or alone.
+
+// Note: Put it at the board edge with the plug side (+Y) facing out: the housing's front at y = 0
+// on the edge line, the bushing (3.3 mm) overhanging it.
+// Note: Plug detect: TIP_SW to a GPIO with a pull-up and TIP driven or grounded through the
+// source; or simply leave TIP_SW and RING_SW unconnected (SJ1-3523N has no switches: the same
+// footprint without pins 10 and 11).
+// Note: Headphones from a DAC or amplifier: TIP left, RING right, SLEEVE ground; a mono signal:
+// TIP and SLEEVE.
+// Note: The five 1.2 mm holes take the housing's plastic pegs: non-plated.
+
+/// SJ1-3525N — 3.5 mm stereo audio jack (TRS), right angle, through hole, with tip and ring
+/// switches: pins SLEEVE, TIP, RING, TIP_SW, RING_SW — headphones, line in/out
+part Part = device(footprint = Footprint {
+  let ps = [
+    thtPad("1", (0mm, -3.5mm), 0.8mm, (2.3mm, 1.6mm), slot = (1.5mm, 0.8mm)),
+    thtPad("2", (-5mm, -8.5mm), 0.8mm, (1.6mm, 2.3mm), slot = (0.8mm, 1.5mm)),
+    thtPad("10", (-2.5mm, -8.5mm), 0.8mm, (1.6mm, 2.3mm), slot = (0.8mm, 1.5mm)),
+    thtPad("11", (2.5mm, -8.5mm), 0.8mm, (1.6mm, 2.3mm), slot = (0.8mm, 1.5mm)),
+    thtPad("3", (5mm, -8.5mm), 0.8mm, (1.6mm, 2.3mm), slot = (0.8mm, 1.5mm)),
+    Pad { number = ""; kind = .npth; at = (-5mm, -1mm); drill = 1.2mm; shape = shape.round(1.2mm) },
+    Pad { number = ""; kind = .npth; at = (5mm, -1mm); drill = 1.2mm; shape = shape.round(1.2mm) },
+    Pad {
+      number = ""
+      kind = .npth
+      at = (-5mm, -3.5mm)
+      drill = 1.2mm
+      shape = shape.round(1.2mm)
+    },
+    Pad {
+      number = ""
+      kind = .npth
+      at = (5mm, -3.5mm)
+      drill = 1.2mm
+      shape = shape.round(1.2mm)
+    },
+    Pad {
+      number = ""
+      kind = .npth
+      at = (0mm, -8.5mm)
+      drill = 1.2mm
+      shape = shape.round(1.2mm)
+    },
+  ]
+  let b = box((-6mm, -11mm), (6mm, 3.3mm))
+  name = "Jack_3.5mm_SameSky_SJ1-352XN_Horizontal"
+  description = "3.5 mm audio jack, right angle, through hole (Same Sky SJ1-352XN): 1 sleeve, 2 tip, 3 ring, 10 tip switch, 11 ring switch; five peg holes; the plug enters from +Y, the bushing 3.3 mm beyond the housing's front at y = 0"
+  tags = ["audio jack", "3.5mm", "TRS", "connector", "THT"]
+  pads = ps
+  body = b
+  height = 5.5mm
+  mating = .up
+  silk = silkOf(ps, b, 0.25mm)
+  package = Package { family = .other; body = (12mm, 14.3mm); height = 5.5mm }
+  solids = [
+    solid.box((12mm, 11mm, 5mm), at = (0mm, -5.5mm, 0mm), radius = 0.3mm, color = "#1a1a1a"),
+    Solid {
+      shape = .cylinderY
+      size = (6mm, 3.3mm, 6mm)
+      at = (0mm, 1.65mm, 2.5mm)
+      material = .metal
+    },
+    Solid {
+      shape = .cylinderY
+      size = (3.6mm, 3.4mm, 3.6mm)
+      at = (0mm, 1.7mm, 2.5mm)
+      color = "#050505"
+    },
+  ]
+}, prefix = "J", mpn = "SJ1-3525N", manufacturer = "Same Sky (CUI Devices)", pinout = {
+  SLEEVE: "1",
+  TIP: "2",
+  RING: "3",
+  TIP_SW: "10",
+  RING_SW: "11",
+}, pinTypes = {
+  SLEEVE: .passive,
+  TIP: .passive,
+  RING: .passive,
+  TIP_SW: .passive,
+  RING_SW: .passive,
+}) with {
+  fields {
+    Status: "checked",
+    PinoutSource: "Same Sky SJ1-352XN datasheet (09/12/2024), p. 2: pin table (1 sleeve, 2 tip, 3 ring, 10 tip switch, 11 ring switch; SJ1-3525N), recommended PCB layout top view (slots 1.5 x 0.8, pegs dia. 1.2), mechanical drawing",
+    Datasheet: "https://www.cuidevices.com/product/resource/sj1-352xn.pdf",
+  }
+}

@@ -1,0 +1,71 @@
+pcbkit 1
+
+// MSP2807 2.8in 240x320 SPI TFT module with touch (ILI9341) (generic): 2.8" 240 x 320 colour TFT
+// module (ILI9341) with resistive touch (XPT2046), SPI, on a 1x14 female header: VCC GND CS RESET
+// DC SDI SCK LED SDO T_CLK T_CS T_DIN T_DO T_IRQ; courtyard the 50 x 86 mm module lying over the
+// board
+// Compiled from the part sheet `parts/ILI9341_TFT_2_8_TOUCH.json` (`parts.create`); status:
+// checked.
+// Datasheet: http://www.lcdwiki.com/2.8inch_SPI_Module_ILI9341_SKU:MSP2807 (lcdwiki 2.8inch SPI
+// Module ILI9341 SKU:MSP2807: interface definition; LCM outline drawing MSP2807 V1.0 (2024-04-11))
+// Pins: lcdwiki MSP2807: pins 1 VCC, 2 GND, 3 CS, 4 RESET, 5 DC, 6 SDI(MOSI), 7 SCK, 8 LED, 9
+// SDO(MISO), 10 T_CLK, 11 T_CS, 12 T_DIN, 13 T_DO, 14 T_IRQ; outline drawing: PCB 50.00 x 86.00
+// mm, header J2 13 x 2.54 mm, first pin 8.49 mm from the left edge, 2.00 mm from the bottom edge;
+// 5.6 mm thick without the header
+// Footprint: as given
+// This file may be used, changed and shared without conditions, with the board or alone.
+
+// Note: Logic 3.3 V TTL even with VCC at 5 V: level-shift a 5 V controller.
+// Note: The LCD and the touch controller can share one SPI bus (SCK+T_CLK, SDI+T_DIN, SDO+T_DO)
+// with separate CS and T_CS; keep T_CS high when the touch is unused.
+// Note: The module's four Ø3.2 mm holes (44 x 76.08 mm, 3 mm from the top edge) take standoffs:
+// add `hole()`s under them if it needs support.
+// Note: The non-touch version (MSP2806) has the first 9 pins only.
+
+/// MSP2807 2.8in 240x320 SPI TFT module with touch (ILI9341) — 2.8" 240 x 320 colour TFT module
+/// (ILI9341) with resistive touch (XPT2046), SPI, on a 1x14 female header: VCC GND CS RESET DC SDI
+/// SCK LED SDO T_CLK T_CS T_DIN T_DO T_IRQ; courtyard the 50 x 86 mm module lying over the board
+part Part = device(footprint = moduleSocket(
+  "TFT_2.8in_ILI9341_Socket_1x14_P2.54mm",
+  socketRow(1, 14, (-16.51mm, 0mm), (2.54mm, 0mm)),
+  box((-25.0mm, -2.0mm), (25.0mm, 84.0mm)),
+  description = "2.8 inch ILI9341 TFT module with touch on a 1x14 female header along its bottom edge, the display facing up over +Y: VCC, GND, CS, RESET, DC, SDI, SCK, LED, SDO, T_CLK, T_CS, T_DIN, T_DO, T_IRQ left to right",
+  parts = 5.6mm,
+  color = "#b02020",
+), prefix = "U", mpn = "MSP2807 2.8in 240x320 SPI TFT module with touch (ILI9341)", manufacturer = "generic", pinout = {
+  VCC: "1",
+  GND: "2",
+  CS: "3",
+  RESET: "4",
+  DC: "5",
+  SDI: "6",
+  SCK: "7",
+  LED: "8",
+  SDO: "9",
+  T_CLK: "10",
+  T_CS: "11",
+  T_DIN: "12",
+  T_DO: "13",
+  T_IRQ: "14",
+}, pinTypes = {
+  VCC: io.powerIn(min = 3.3V, max = 5V),
+  GND: .ground,
+  CS: io.input(),
+  RESET: io.input(),
+  DC: io.input(),
+  SDI: io.input(),
+  SCK: io.input(),
+  LED: io.input(),
+  SDO: .output,
+  T_CLK: io.input(),
+  T_CS: io.input(),
+  T_DIN: io.input(),
+  T_DO: .output,
+  T_IRQ: .output,
+}) with {
+  fields {
+    Status: "checked",
+    PinoutSource: "lcdwiki MSP2807: pins 1 VCC, 2 GND, 3 CS, 4 RESET, 5 DC, 6 SDI(MOSI), 7 SCK, 8 LED, 9 SDO(MISO), 10 T_CLK, 11 T_CS, 12 T_DIN, 13 T_DO, 14 T_IRQ; outline drawing: PCB 50.00 x 86.00 mm, header J2 13 x 2.54 mm, first pin 8.49 mm from the left edge, 2.00 mm from the bottom edge; 5.6 mm thick without the header",
+    Datasheet: "http://www.lcdwiki.com/2.8inch_SPI_Module_ILI9341_SKU:MSP2807",
+  }
+}

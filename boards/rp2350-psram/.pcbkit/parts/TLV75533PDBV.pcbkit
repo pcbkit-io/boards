@@ -1,0 +1,156 @@
+pcbkit 1
+
+// TLV75533PDBVR (Texas Instruments): Linear regulator (LDO), fixed 3.3 V, 500 mA, 1.45-5.5 V in,
+// enable, 238 mV maximum dropout
+// Compiled from the part sheet `parts/TLV75533PDBV.json` (`parts.create`); status: checked.
+// Datasheet: https://www.ti.com/lit/ds/symlink/tlv755p.pdf (SBVS320D, revised September 2024)
+// Pins: TLV755P datasheet SBVS320D, Table 4-1 (pin functions), DBV column
+// Footprint: the standard package `SOT-23-5`
+// This file may be used, changed and shared without conditions, with the board or alone.
+
+// Note: Effective capacitance at IN and OUT must exceed 0.47 uF after DC bias, tolerance and
+// temperature (datasheet p. 3 and section 7.1.1). The support circuit starts with 1 uF, 10 V
+// X5R/X7R in 0603; verify the selected capacitor's derating curve. Package size alone does not
+// guarantee effective capacitance.
+// Note: The DBV package is about 231 °C/W on a JEDEC board: at 500 mA keep VIN close to 3.6 V or
+// give GND copper.
+
+/// TLV75533PDBVR — Linear regulator (LDO), fixed 3.3 V, 500 mA, 1.45-5.5 V in, enable, 238 mV
+/// maximum dropout
+part Part = device(footprint = sot23(
+  5,
+), prefix = "U", mpn = "TLV75533PDBVR", manufacturer = "Texas Instruments", pinout = {
+  IN: "1",
+  GND: "2",
+  EN: "3",
+  NC: "4",
+  OUT: "5",
+}, pinTypes = {
+  IN: io.powerIn(min = 1.45V, max = 6V),
+  GND: .ground,
+  EN: io.input(max = 6V),
+  NC: .nc,
+  OUT: io.powerOut(3.3V),
+}) with {
+  fields {
+    Status: "checked",
+    PinoutSource: "TLV755P datasheet SBVS320D, Table 4-1 (pin functions), DBV column",
+    Datasheet: "https://www.ti.com/lit/ds/symlink/tlv755p.pdf",
+  }
+  simulation = SimulationParameters {
+    parameters = [
+      SimulationParameter {
+        id = "rjb-jedec"
+        quantity = .thetaJb
+        typ = 64.4K/W
+        conditions = "DBV, 5 pins; JEDEC 2s2p test board, no vias to inner or bottom planes"
+        source = SimulationEvidence {
+          url = "https://www.ti.com/lit/ds/symlink/tlv755p.pdf"
+          revision = "SBVS320D, revised September 2024"
+          location = "p. 5, section 5.4, DBV / JEDEC column"
+          confidence = .datasheet
+        }
+      },
+      SimulationParameter {
+        id = "rja-jedec"
+        quantity = .thetaJa
+        typ = 231.1K/W
+        conditions = "DBV, 5 pins; JEDEC 2s2p test board, no vias to inner or bottom planes"
+        source = SimulationEvidence {
+          url = "https://www.ti.com/lit/ds/symlink/tlv755p.pdf"
+          revision = "SBVS320D, revised September 2024"
+          location = "p. 5, section 5.4, DBV / JEDEC column"
+          confidence = .datasheet
+        }
+      },
+      SimulationParameter {
+        id = "rjc-top-jedec"
+        quantity = .thetaJcTop
+        typ = 118.4K/W
+        conditions = "DBV, 5 pins; JEDEC case-top test"
+        source = SimulationEvidence {
+          url = "https://www.ti.com/lit/ds/symlink/tlv755p.pdf"
+          revision = "SBVS320D, revised September 2024"
+          location = "p. 5, section 5.4, DBV / JEDEC column"
+          confidence = .datasheet
+        }
+      },
+      SimulationParameter {
+        id = "tjunction-operating"
+        quantity = .junctionOperatingTemperature
+        min = -40degC
+        max = 125degC
+        conditions = "DBV; recommended operation"
+        source = SimulationEvidence {
+          url = "https://www.ti.com/lit/ds/symlink/tlv755p.pdf"
+          revision = "SBVS320D, revised September 2024"
+          location = "p. 4, section 5.3"
+          confidence = .datasheet
+        }
+      },
+      SimulationParameter {
+        id = "tjunction-absolute"
+        quantity = .junctionAbsoluteTemperature
+        min = -40degC
+        max = 150degC
+        conditions = "DBV; absolute rating, not a functional operating range"
+        source = SimulationEvidence {
+          url = "https://www.ti.com/lit/ds/symlink/tlv755p.pdf"
+          revision = "SBVS320D, revised September 2024"
+          location = "p. 4, section 5.1"
+          confidence = .datasheet
+        }
+      },
+      SimulationParameter {
+        id = "iq-unloaded-25c"
+        quantity = .quiescentCurrent
+        min = 14uA
+        typ = 25uA
+        max = 31uA
+        conditions = "TJ=25 degC, IOUT=0 A, VIN=3.8 V, EN=VIN, CIN=COUT=1 uF"
+        source = SimulationEvidence {
+          url = "https://www.ti.com/lit/ds/symlink/tlv755p.pdf"
+          revision = "SBVS320D, revised September 2024"
+          location = "p. 5, section 5.5, IGND row"
+          confidence = .datasheet
+        }
+      },
+      SimulationParameter {
+        id = "dropout-full-load"
+        quantity = .dropoutVoltage
+        max = 238mV
+        conditions = "DBV 3.3 V output; IOUT=0.5 A; TJ=-40 to 125 degC"
+        source = SimulationEvidence {
+          url = "https://www.ti.com/lit/ds/symlink/tlv755p.pdf"
+          revision = "SBVS320D, revised September 2024"
+          location = "p. 6, section 5.5, VDO row"
+          confidence = .datasheet
+        }
+      },
+    ]
+  }
+}
+
+/// The support circuit of the TLV75533PDBVR as its datasheet shows it (Typical application): every
+/// part next to the pin it serves. Add it next to the part: `U1 = TLV75533PDBV.Part { … }`,
+/// `U1Support = TLV75533PDBV.Support(U1) {}`.
+///
+/// - EN to IN for always on; EN must not be left floating.
+block Support(
+  /// The TLV75533PDBVR this circuit serves (`TLV75533PDBV.Support(U1)`).
+  chip: Any,
+  /// EN tied to IN (`false`: drive EN from a logic output; it must not float).
+  alwaysOn: Bool = true,
+) {
+  /// 10V X5R/X7R
+  CIN = cap(1uF, package = "0603", voltage = 10V) {
+    place = [soft(near(chip.pin.IN, max = 2mm), weight = 2)]
+    pins { a: chip.pin.IN, b: chip.pin.GND }
+  }
+  /// 10V X5R/X7R, at most 200 uF in total
+  COUT = cap(1uF, package = "0603", voltage = 10V) {
+    place = [soft(near(chip.pin.OUT, max = 2mm), weight = 2)]
+    pins { a: chip.pin.OUT, b: chip.pin.GND }
+  }
+  connect(chip.pin.EN, if alwaysOn then chip.pin.IN else chip.pin.EN)
+}

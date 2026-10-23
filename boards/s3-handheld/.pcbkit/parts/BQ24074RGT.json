@@ -1,0 +1,472 @@
+{
+  "id": "BQ24074RGT",
+  "mpn": "BQ24074RGTR",
+  "manufacturer": "Texas Instruments",
+  "variants": [
+    "BQ24074RGTT"
+  ],
+  "category": "battery-charger",
+  "description": "Single-cell Li-ion linear charger with power path (system output OUT at 4.4 V from the input, the battery behind it), 1.5 A charge, input 4.35-10.2 V (26 V tolerant, 10.5 V OVP), USB 100/500 mA or resistor-set input limit, VQFN-16 3 x 3 mm",
+  "tags": [
+    "charger",
+    "bq24074",
+    "li-ion",
+    "lipo",
+    "battery",
+    "power path",
+    "load sharing",
+    "linear charger",
+    "usb charging",
+    "solar",
+    "4.2V",
+    "single cell",
+    "1.5A",
+    "qfn-16"
+  ],
+  "datasheet": {
+    "url": "https://www.ti.com/lit/ds/symlink/bq24074.pdf",
+    "revision": "SLUS810N, revised October 2021"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "VQFN-16 (RGT) 3x3",
+    "family": "qfn",
+    "pins": 16,
+    "pitch": 0.5,
+    "body": {
+      "d": [
+        2.9,
+        3.1
+      ],
+      "e": [
+        2.9,
+        3.1
+      ],
+      "a": [
+        0.8,
+        1.0
+      ]
+    },
+    "lead": {
+      "b": [
+        0.18,
+        0.3
+      ],
+      "l": [
+        0.3,
+        0.5
+      ]
+    },
+    "exposedPad": {
+      "d2": [
+        1.61,
+        1.68,
+        1.75
+      ],
+      "e2": [
+        1.61,
+        1.68,
+        1.75
+      ],
+      "number": "17"
+    },
+    "page": "pp. 47-49, RGT0016C package outline (the RGT drawing the datasheet carries): 3 x 3 mm, 0.5 mm pitch, terminals 0.18-0.30 wide and 0.3-0.5 long, thermal pad 1.68 ± 0.07 mm"
+  },
+  "pins": [
+    {
+      "number": "1",
+      "name": "TS",
+      "type": "analog",
+      "description": "battery NTC input (10 kohm 103AT-2); without one, 10 kohm to VSS"
+    },
+    {
+      "number": "2",
+      "name": "BAT",
+      "type": "power_out",
+      "description": "charger output and battery sense: to the cell's +, 4.7-47 uF to VSS"
+    },
+    {
+      "number": "3",
+      "name": "BAT",
+      "type": "power_out",
+      "description": "charger output and battery sense (second pin)"
+    },
+    {
+      "number": "4",
+      "name": "nCE",
+      "type": "input",
+      "description": "charge enable, active low (285 kohm pull-down inside): do not leave open"
+    },
+    {
+      "number": "5",
+      "name": "EN2",
+      "type": "input",
+      "description": "input current limit select with EN1 (285 kohm pull-down): do not leave open"
+    },
+    {
+      "number": "6",
+      "name": "EN1",
+      "type": "input",
+      "description": "input current limit select with EN2: 00 100 mA, 01 500 mA, 10 set by ILIM, 11 suspend"
+    },
+    {
+      "number": "7",
+      "name": "nPGOOD",
+      "type": "open_drain",
+      "description": "low while a valid input is present"
+    },
+    {
+      "number": "8",
+      "name": "VSS",
+      "type": "ground"
+    },
+    {
+      "number": "9",
+      "name": "nCHG",
+      "type": "open_drain",
+      "description": "low while charging"
+    },
+    {
+      "number": "10",
+      "name": "OUT",
+      "type": "power_out",
+      "description": "system supply: 4.4 V from the input, the battery when the input is gone; 4.7-47 uF to VSS"
+    },
+    {
+      "number": "11",
+      "name": "OUT",
+      "type": "power_out",
+      "description": "system supply (second pin)"
+    },
+    {
+      "number": "12",
+      "name": "ILIM",
+      "type": "analog",
+      "description": "input current limit resistor to VSS, 1.1-8 kohm (IIN = 1550 A·ohm / R); open disables charging"
+    },
+    {
+      "number": "13",
+      "name": "IN",
+      "type": "power_in",
+      "description": "input from USB or an adapter, 1-10 uF to VSS"
+    },
+    {
+      "number": "14",
+      "name": "TMR",
+      "type": "analog",
+      "description": "safety timer: 18-72 kohm to VSS, open for the defaults, VSS disables the timers"
+    },
+    {
+      "number": "15",
+      "name": "ITERM",
+      "type": "analog",
+      "description": "termination current: 0-15 kohm to VSS, open for 10 %"
+    },
+    {
+      "number": "16",
+      "name": "ISET",
+      "type": "analog",
+      "description": "fast charge current resistor to VSS, 590 ohm-8.9 kohm (ICHG = 890 A·ohm / R)"
+    },
+    {
+      "number": "17",
+      "name": "VSS",
+      "type": "ground",
+      "description": "exposed thermal pad: to VSS"
+    }
+  ],
+  "ratings": {
+    "absMax": [
+      {
+        "what": "IN with respect to VSS",
+        "pins": [
+          "IN"
+        ],
+        "min": -0.3,
+        "max": 28.0,
+        "unit": "V"
+      },
+      {
+        "what": "BAT with respect to VSS",
+        "pins": [
+          "BAT"
+        ],
+        "min": -0.3,
+        "max": 5.0,
+        "unit": "V"
+      },
+      {
+        "what": "OUT, EN1, EN2, CE, TS, ISET, PGOOD, CHG, ILIM, TMR, ITERM",
+        "pins": [
+          "OUT",
+          "EN1",
+          "EN2",
+          "nCE",
+          "TS",
+          "ISET",
+          "nPGOOD",
+          "nCHG",
+          "ILIM",
+          "TMR",
+          "ITERM"
+        ],
+        "min": -0.3,
+        "max": 7.0,
+        "unit": "V"
+      },
+      {
+        "what": "input current, IN",
+        "pins": [
+          "IN"
+        ],
+        "max": 1.6,
+        "unit": "A"
+      },
+      {
+        "what": "junction temperature",
+        "min": -40.0,
+        "max": 150.0,
+        "unit": "°C"
+      }
+    ],
+    "recommended": [
+      {
+        "what": "IN operating voltage (BQ24074)",
+        "pins": [
+          "IN"
+        ],
+        "min": 4.35,
+        "max": 10.2,
+        "unit": "V"
+      },
+      {
+        "what": "battery charge voltage",
+        "pins": [
+          "BAT"
+        ],
+        "min": 4.16,
+        "nom": 4.2,
+        "max": 4.23,
+        "unit": "V"
+      },
+      {
+        "what": "OUT regulation voltage with a valid input",
+        "nom": 4.4,
+        "unit": "V"
+      },
+      {
+        "what": "charge current, BAT",
+        "max": 1.5,
+        "unit": "A"
+      },
+      {
+        "what": "current, OUT pin",
+        "pins": [
+          "OUT"
+        ],
+        "max": 4.5,
+        "unit": "A"
+      },
+      {
+        "what": "junction temperature",
+        "min": -40.0,
+        "max": 125.0,
+        "unit": "°C"
+      }
+    ]
+  },
+  "simulation": {
+    "parameters": [
+      {
+        "id": "icc-active",
+        "quantity": "quiescentCurrent",
+        "unit": "A",
+        "typ": 0.0011,
+        "max": 0.0015,
+        "conditions": "active supply current into IN pin: CE=LO, VIN=6 V, no load on OUT, VBAT>VBAT(REG), (EN1,EN2) not (HI,HI); 0 to 125 degC junction",
+        "source": {
+          "url": "https://www.ti.com/lit/ds/symlink/bq24074.pdf",
+          "revision": "SLUS810N, revised October 2021",
+          "location": "p. 12, section 8.5 Electrical Characteristics, QUIESCENT CURRENT, ICC row",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "theta-jb-rgt",
+        "quantity": "thetaJb",
+        "unit": "K/W",
+        "typ": 17.2,
+        "conditions": "RGT (VQFN) package, RthetaJB",
+        "source": {
+          "url": "https://www.ti.com/lit/ds/symlink/bq24074.pdf",
+          "revision": "SLUS810N, revised October 2021",
+          "location": "p. 11, section 8.4 Thermal Information",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "theta-ja-rgt",
+        "quantity": "thetaJa",
+        "unit": "K/W",
+        "typ": 44.5,
+        "conditions": "RGT (VQFN) package",
+        "source": {
+          "url": "https://www.ti.com/lit/ds/symlink/bq24074.pdf",
+          "revision": "SLUS810N, revised October 2021",
+          "location": "p. 11, section 8.4 Thermal Information",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "tj-operating",
+        "quantity": "junctionOperatingTemperature",
+        "unit": "degC",
+        "min": -40.0,
+        "max": 125.0,
+        "conditions": "recommended operating junction temperature",
+        "source": {
+          "url": "https://www.ti.com/lit/ds/symlink/bq24074.pdf",
+          "revision": "SLUS810N, revised October 2021",
+          "location": "p. 10, section 8.3 Recommended Operating Conditions",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "tj-absolute",
+        "quantity": "junctionAbsoluteTemperature",
+        "unit": "degC",
+        "max": 150.0,
+        "conditions": "absolute maximum junction temperature",
+        "source": {
+          "url": "https://www.ti.com/lit/ds/symlink/bq24074.pdf",
+          "revision": "SLUS810N, revised October 2021",
+          "location": "p. 10, section 8.1 Absolute Maximum Ratings",
+          "confidence": "datasheet"
+        }
+      }
+    ]
+  },
+  "support": {
+    "parts": [
+      {
+        "ref": "CIN",
+        "kind": "cap",
+        "value": "1uF",
+        "rating": "16V ceramic (1-10 uF)",
+        "between": [
+          "IN",
+          "VSS"
+        ]
+      },
+      {
+        "ref": "COUT",
+        "kind": "cap",
+        "value": "4.7uF",
+        "rating": "10V ceramic",
+        "between": [
+          "OUT",
+          "VSS"
+        ]
+      },
+      {
+        "ref": "CBAT",
+        "kind": "cap",
+        "value": "4.7uF",
+        "rating": "10V ceramic",
+        "between": [
+          "BAT",
+          "VSS"
+        ]
+      },
+      {
+        "ref": "RISET",
+        "kind": "res",
+        "value": "1.13kohm",
+        "rating": "1% (about 800 mA charge)",
+        "between": [
+          "ISET",
+          "VSS"
+        ]
+      },
+      {
+        "ref": "RILIM",
+        "kind": "res",
+        "value": "1.18kohm",
+        "rating": "1% (1.3 A input limit with EN2 high, EN1 low)",
+        "between": [
+          "ILIM",
+          "VSS"
+        ]
+      },
+      {
+        "ref": "RITERM",
+        "kind": "res",
+        "value": "4.12kohm",
+        "rating": "110 mA termination",
+        "between": [
+          "ITERM",
+          "VSS"
+        ]
+      },
+      {
+        "ref": "RTMR",
+        "kind": "res",
+        "value": "46.4kohm",
+        "rating": "6.25 h fast-charge timer",
+        "between": [
+          "TMR",
+          "VSS"
+        ]
+      },
+      {
+        "ref": "RTS",
+        "kind": "res",
+        "value": "10kohm",
+        "rating": "or the pack's 10 kohm NTC",
+        "between": [
+          "TS",
+          "VSS"
+        ]
+      },
+      {
+        "ref": "LED1",
+        "kind": "led",
+        "value": "red",
+        "rating": "with 1.5 kohm in series: on while charging",
+        "between": [
+          "OUT",
+          "nCHG"
+        ]
+      },
+      {
+        "ref": "LED2",
+        "kind": "led",
+        "value": "green",
+        "rating": "with 1.5 kohm in series: on while the input is good",
+        "between": [
+          "OUT",
+          "nPGOOD"
+        ]
+      }
+    ],
+    "notes": [
+      "ICHG = 890 A·ohm / RISET; input limit IIN = 1550 A·ohm / RILIM (EN2 high, EN1 low); ITERM = 0.03 x RITERM / RISET.",
+      "EN1/EN2: both low 100 mA (USB100), EN1 high 500 mA (USB500), EN2 high EN1 low the ILIM resistor, both high suspend. Tie them, nCE and TS: none may float.",
+      "Load the system from OUT, never from BAT: OUT keeps the system up from the input while the battery charges, and switches to the battery when the input goes.",
+      "Solder the thermal pad to a VSS pour with vias: charging at 1 A from 5 V dissipates about 1 W."
+    ],
+    "page": "p. 1 typical application circuit; pp. 33-35, section 10.2 design example"
+  },
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "TI BQ2407x datasheet SLUS810N: Figure 7-2 and table 7-1 pin functions (BQ24074, RGT), 8.1 absolute maximum ratings, 8.3 recommended operating conditions, 8.5 electrical characteristics, 10.2 design example, RGT0016C package outline",
+      "url": "https://www.ti.com/lit/ds/symlink/bq24074.pdf",
+      "license": "pin numbers and names, package dimensions, ratings and application values transcribed from the manufacturer's datasheet (facts, one reading); descriptions and notes our own"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "IPC footprint from the RGT0016C outline in the datasheet (the BQ24074's own drawing is RGT0016B, not in the datasheet: same 3 x 3 mm body, 16 terminals at 0.5 mm)"
+    }
+  }
+}

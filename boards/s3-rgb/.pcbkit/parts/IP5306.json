@@ -1,0 +1,382 @@
+{
+  "id": "IP5306",
+  "mpn": "IP5306",
+  "manufacturer": "Injoinic Technology",
+  "orderCodes": [
+    "C181692"
+  ],
+  "category": "battery-charger",
+  "description": "Power bank SoC: 2.1 A switching Li-ion charger from 5 V and a 5.1 V 2.1 A boost on one inductor, power path, 1-4 LED fuel gauge, push button, flashlight driver, eSOP-8",
+  "tags": [
+    "power bank",
+    "ip5306",
+    "li-ion",
+    "lipo",
+    "charger",
+    "boost",
+    "18650",
+    "5V from battery",
+    "usb power",
+    "battery management",
+    "single cell",
+    "esop-8"
+  ],
+  "datasheet": {
+    "url": "https://datasheet.lcsc.com/datasheet/pdf/309666add984eaea02a8f06d99102496.pdf",
+    "revision": "IP5306 datasheet V1.10 (Injoinic, 2016)"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "eSOP-8",
+    "family": "soic",
+    "pins": 8,
+    "pitch": 1.27,
+    "body": {
+      "d": [
+        4.7,
+        4.9,
+        5.1
+      ],
+      "e": [
+        3.7,
+        3.9,
+        4.1
+      ],
+      "a": [
+        null,
+        1.65
+      ]
+    },
+    "span": [
+      5.8,
+      6.0,
+      6.2
+    ],
+    "lead": {
+      "b": [
+        0.39,
+        0.48
+      ],
+      "l": [
+        0.5,
+        0.6,
+        0.8
+      ]
+    },
+    "exposedPad": {
+      "d2": 2.09,
+      "e2": 2.09,
+      "number": "9"
+    },
+    "page": "p. 10, package information (eSOP8: D 4.70-5.10, E1 3.70-4.10, E 5.80-6.20, b 0.39-0.48, L 0.50-0.80, e 1.27, D1 = E2 = 2.09 nominal)"
+  },
+  "pins": [
+    {
+      "number": "1",
+      "name": "VIN",
+      "type": "power_in",
+      "description": "5 V charger input"
+    },
+    {
+      "number": "2",
+      "name": "LED1",
+      "type": "passive",
+      "description": "fuel gauge LED drive 1 (charlieplexed with LED2, LED3: see the application)"
+    },
+    {
+      "number": "3",
+      "name": "LED2",
+      "type": "passive",
+      "description": "fuel gauge LED drive 2"
+    },
+    {
+      "number": "4",
+      "name": "LED3",
+      "type": "passive",
+      "description": "fuel gauge LED drive 3"
+    },
+    {
+      "number": "5",
+      "name": "KEY",
+      "type": "input",
+      "description": "push button to GND (short press on, long press off, double press flashlight); also drives the flashlight LED"
+    },
+    {
+      "number": "6",
+      "name": "BAT",
+      "type": "power_in",
+      "description": "battery voltage sense: to the cell's +"
+    },
+    {
+      "number": "7",
+      "name": "SW",
+      "type": "passive",
+      "description": "switch node, to the 1 uH inductor whose other end is the battery"
+    },
+    {
+      "number": "8",
+      "name": "VOUT",
+      "type": "power_out",
+      "description": "boosted 5.1 V output (and the charger's input path)"
+    },
+    {
+      "number": "9",
+      "name": "GND",
+      "type": "ground",
+      "description": "exposed pad: the only ground, solder it"
+    }
+  ],
+  "ratings": {
+    "absMax": [
+      {
+        "what": "port input voltage",
+        "pins": [
+          "VIN"
+        ],
+        "min": -0.3,
+        "max": 5.5,
+        "unit": "V"
+      },
+      {
+        "what": "operating free-air temperature",
+        "min": 0.0,
+        "max": 70.0,
+        "unit": "°C"
+      },
+      {
+        "what": "junction temperature",
+        "min": -40.0,
+        "max": 150.0,
+        "unit": "°C"
+      }
+    ],
+    "recommended": [
+      {
+        "what": "input voltage",
+        "pins": [
+          "VIN"
+        ],
+        "min": 4.75,
+        "nom": 5.0,
+        "max": 5.5,
+        "unit": "V"
+      },
+      {
+        "what": "load current",
+        "pins": [
+          "VOUT"
+        ],
+        "min": 0.0,
+        "nom": 2.1,
+        "max": 2.6,
+        "unit": "A"
+      },
+      {
+        "what": "battery operation voltage",
+        "pins": [
+          "BAT"
+        ],
+        "min": 3.0,
+        "max": 4.4,
+        "unit": "V"
+      },
+      {
+        "what": "DC-DC output voltage at VBAT 3.7 V",
+        "pins": [
+          "VOUT"
+        ],
+        "nom": 5.1,
+        "unit": "V"
+      },
+      {
+        "what": "charge current",
+        "nom": 2.1,
+        "unit": "A"
+      },
+      {
+        "what": "target charge voltage",
+        "nom": 4.2,
+        "unit": "V"
+      }
+    ]
+  },
+  "simulation": {
+    "parameters": [
+      {
+        "id": "ivin-charging",
+        "quantity": "quiescentCurrent",
+        "unit": "A",
+        "typ": 0.002,
+        "conditions": "Controller input current while charging, VIN=5 V, fs=500 kHz, TA=25 degC, L=1 uH (standby with device not switching: 100 uA; boost battery operation current 3 mA at VBAT=3.7 V, VOUT=5.1 V)",
+        "source": {
+          "url": "https://datasheet.lcsc.com/datasheet/pdf/309666add984eaea02a8f06d99102496.pdf",
+          "revision": "IP5306 datasheet V1.10 (Injoinic, 2016)",
+          "location": "p. 5, Electrical Characteristics, Charger system, Input current (charging) row",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "tj-absolute",
+        "quantity": "junctionAbsoluteTemperature",
+        "unit": "degC",
+        "min": -40.0,
+        "max": 150.0,
+        "conditions": "Junction temperature TJ in the absolute maximum ratings table",
+        "source": {
+          "url": "https://datasheet.lcsc.com/datasheet/pdf/309666add984eaea02a8f06d99102496.pdf",
+          "revision": "IP5306 datasheet V1.10 (Injoinic, 2016)",
+          "location": "p. 4, Absolute maximum ratings",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "thetaja",
+        "quantity": "thetaJa",
+        "unit": "K/W",
+        "typ": 40.0,
+        "conditions": "Thermal resistance from junction to ambient air, eSOP-8",
+        "source": {
+          "url": "https://datasheet.lcsc.com/datasheet/pdf/309666add984eaea02a8f06d99102496.pdf",
+          "revision": "IP5306 datasheet V1.10 (Injoinic, 2016)",
+          "location": "p. 4, Absolute maximum ratings",
+          "confidence": "datasheet"
+        }
+      }
+    ]
+  },
+  "support": {
+    "parts": [
+      {
+        "ref": "C1",
+        "kind": "cap",
+        "value": "10uF",
+        "rating": "10V",
+        "between": [
+          "VIN",
+          "GND"
+        ]
+      },
+      {
+        "ref": "R3",
+        "kind": "res",
+        "value": "2ohm",
+        "rating": "with C6: damps the input",
+        "between": [
+          "VIN",
+          "C6_P"
+        ]
+      },
+      {
+        "ref": "C6",
+        "kind": "cap",
+        "value": "10uF",
+        "between": [
+          "C6_P",
+          "GND"
+        ]
+      },
+      {
+        "ref": "L1",
+        "kind": "inductor",
+        "value": "1uH",
+        "rating": "saturation above 4 A, low DCR",
+        "between": [
+          "SW",
+          "BAT"
+        ]
+      },
+      {
+        "ref": "C2",
+        "kind": "cap",
+        "value": "22uF",
+        "rating": "10V",
+        "between": [
+          "BAT",
+          "GND"
+        ]
+      },
+      {
+        "ref": "R4",
+        "kind": "res",
+        "value": "2ohm",
+        "rating": "with C7: damps the battery node",
+        "between": [
+          "BAT",
+          "C7_P"
+        ]
+      },
+      {
+        "ref": "C7",
+        "kind": "cap",
+        "value": "10uF",
+        "between": [
+          "C7_P",
+          "GND"
+        ]
+      },
+      {
+        "ref": "C3A",
+        "kind": "cap",
+        "value": "22uF",
+        "rating": "10V",
+        "between": [
+          "VOUT",
+          "GND"
+        ]
+      },
+      {
+        "ref": "C3B",
+        "kind": "cap",
+        "value": "22uF",
+        "rating": "10V",
+        "between": [
+          "VOUT",
+          "GND"
+        ]
+      },
+      {
+        "ref": "C3C",
+        "kind": "cap",
+        "value": "22uF",
+        "rating": "10V",
+        "between": [
+          "VOUT",
+          "GND"
+        ]
+      },
+      {
+        "ref": "S1",
+        "kind": "button",
+        "value": "push button",
+        "rating": "through R1 10 kohm in the datasheet's figure",
+        "between": [
+          "KEY",
+          "GND"
+        ]
+      }
+    ],
+    "nets": [
+      "C6_P",
+      "C7_P"
+    ],
+    "notes": [
+      "One inductor does both directions: charging steps 5 V on VIN down to the battery, discharging steps the battery up to 5.1 V on VOUT; VIN passes to VOUT while charging.",
+      "The datasheet's figure adds a flashlight LED from KEY through 20 ohm, and USB data-line dividers (43k/75k, 51k/51k) so phones draw full current; leave out what you do not need.",
+      "Heat leaves through the exposed pad: a GND pour with vias under it; keep SW - L1 - C2 and VOUT - C3 loops short.",
+      "Not placed by the support circuit, add it where the board needs it: D1_D4 4 LEDs between LED1, LED2, LED3 (25/50/75/100 % gauge: D1 and D2 antiparallel between LED1 and LED2, D3 and D4 antiparallel between LED2 and LED3 (Figure 7))."
+    ],
+    "page": "p. 9, Figure 7 (4 LEDs SOC indicator typical application schematic)"
+  },
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "Injoinic IP5306 datasheet V1.10: pin definition (eSOP8: 1 VIN, 2 LED1, 3 LED2, 4 LED3, 5 KEY, 6 BAT, 7 SW, 8 VOUT, power pad GND), absolute maximum ratings, recommended operation conditions, electrical characteristics, package information",
+      "url": "https://datasheet.lcsc.com/datasheet/pdf/309666add984eaea02a8f06d99102496.pdf",
+      "license": "pin numbers and names, package dimensions, ratings and application values transcribed from the manufacturer's datasheet (facts, one reading); descriptions and notes our own"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "IPC footprint from the eSOP8 dimensions; the exposed pad's size is the drawing's nominal 2.09 x 2.09 mm (no tolerance given)"
+    }
+  }
+}

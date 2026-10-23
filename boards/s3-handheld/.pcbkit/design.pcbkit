@@ -1,0 +1,130 @@
+pcbkit 1
+
+// Doom device 08: an ESP32-S3-WROOM-1-N16R8 (dual-core Xtensa LX7 at 240 MHz, 512 KB SRAM,
+// 16 MB quad flash, 8 MB octal PSRAM in the module): the well-trodden ESP32 Doom port (prboom
+// with the zone heap in PSRAM, the full shareware WAD in a flash partition or on microSD).
+// A 2.8" 240 x 320 ILI9341 with touch on SPI2 at 40 MHz, a microSD slot on SDMMC (1-bit), ten
+// buttons (BOOT is MENU), a MAX98357A I2S amplifier, a LiPo with a BQ24074 power-path charger, a
+// MAX17048 fuel gauge and a TLV75533 LDO. USB-C reaches the S3's own USB (esptool, USB
+// Serial/JTAG, TinyUSB). The module sits on the back at the top edge, its antenna past the edge.
+// Four layers.
+
+use "parts/ESP32_S3_WROOM_1.pcbkit" as ESP32_S3_WROOM_1
+use "parts/ILI9341_TFT_2_8_TOUCH.pcbkit" as ILI9341_TFT_2_8_TOUCH
+use "parts/DM3AT_SF_PEJM5.pcbkit" as DM3AT_SF_PEJM5
+use "parts/MAX98357AETE.pcbkit" as MAX98357AETE
+use "parts/BQ24074RGT.pcbkit" as BQ24074RGT
+use "parts/MAX17048G.pcbkit" as MAX17048G
+use "parts/TLV75533PDBV.pcbkit" as TLV75533PDBV
+use "parts/JS102011SAQN.pcbkit" as JS102011SAQN
+use "parts/S2B_PH_K_S.pcbkit" as S2B_PH_K_S
+
+net VBUS { voltage = 5V }
+net VSYS { voltage = 4.4V }
+net VBAT { voltage = 4.2V }
+net V3 { voltage = 3.3V }
+net GND { voltage = 0V }
+net LDO_EN, DP, DN, EN
+net SCK, MOSI, MISO, LCD_CS, LCD_DC, LCD_RST, LCD_BL, T_CS, T_IRQ
+net SD_CLK, SD_CMD, SD_D0, SD_D1, SD_D2, SD_D3
+net I2S_BCK, I2S_LRCK, I2S_DIN, SPK_P, SPK_N, SDA, SCL
+net UP, DOWN, LEFT, RIGHT, FIRE, USE, STRAFE_L, STRAFE_R, MENU, ENTER
+
+board = Board {
+  name = "doom-08-s3-handheld"
+  description = "ESP32-S3 Xtensa LX7 · 8 MB PSRAM · 2.8in ILI9341 touch · SDMMC · I2S · BQ24074 + MAX17048"
+  outline = rect(156mm, 66mm, radius = 6mm)
+  layers = [signal(Cu.top), power(Cu.inner[1], label = "GND"), signal(Cu.inner[2]), signal(Cu.bottom)]
+}
+
+// ---- processor (back, top edge, antenna overhanging) ------------------------------------------
+U1 = ESP32_S3_WROOM_1.Part {
+  at = (70mm, 59mm)
+  side = .bottom
+  place = [edge(.top, overhang = 6mm)]
+  pins {
+    GND: GND, P3V3: V3, EN: EN, IO19: DN, IO20: DP,
+    IO12: SCK, IO11: MOSI, IO13: MISO, IO10: LCD_CS, IO9: LCD_DC, IO14: LCD_RST, IO21: LCD_BL,
+    IO47: T_CS, IO48: T_IRQ,
+    IO39: SD_CLK, IO38: SD_CMD, IO40: SD_D0,
+    IO4: I2S_BCK, IO5: I2S_LRCK, IO6: I2S_DIN, IO8: SDA, IO18: SCL,
+    IO15: UP, IO16: DOWN, IO17: LEFT, IO7: RIGHT, IO2: FIRE, IO41: USE, IO42: STRAFE_L, IO1: STRAFE_R,
+    IO0: MENU, RXD0: ENTER,
+    IO35: .nc, IO36: .nc, IO37: .nc,
+  }
+}
+// EN RC, decoupling, RESET (back); BOOT is the MENU button on the front.
+U1Support = ESP32_S3_WROOM_1.Support(U1, bootButton = false) { side = .bottom }
+
+// ---- display (front) ------------------------------------------------------------------------------
+DS1 = ILI9341_TFT_2_8_TOUCH.Part {
+  at = (122mm, 35mm)
+  rotation = 90deg
+  pins {
+    VCC: V3, GND: GND, CS: LCD_CS, RESET: LCD_RST, DC: LCD_DC, SDI: MOSI, SCK: SCK, LED: LCD_BL, SDO: MISO,
+    T_CLK: SCK, T_CS: T_CS, T_DIN: MOSI, T_DO: MISO, T_IRQ: T_IRQ,
+  }
+}
+R1 = res(10kohm, package = "0402") { side = .bottom; pins { a: T_CS, b: V3 } }
+R2 = res(10kohm, package = "0402") { side = .bottom; pins { a: T_IRQ, b: V3 } }
+
+// ---- storage (back, bottom edge): SDMMC 1-bit, DAT1-DAT3 held high -------------------------------
+J4 = DM3AT_SF_PEJM5.Part {
+  side = .bottom
+  place = [edge(.bottom)]
+  pins { DAT2: SD_D2, CD_DAT3: SD_D3, CMD: SD_CMD, VDD: V3, CLK: SD_CLK, VSS: GND, DAT0: SD_D0, DAT1: SD_D1, CD_A: .nc, CD_B: .nc, SH: GND }
+}
+R3 = res(10kohm, package = "0402") { side = .bottom; pins { a: SD_CMD, b: V3 } }
+R4 = res(10kohm, package = "0402") { side = .bottom; pins { a: SD_D0, b: V3 } }
+R5 = res(10kohm, package = "0402") { side = .bottom; pins { a: SD_D1, b: V3 } }
+R6 = res(10kohm, package = "0402") { side = .bottom; pins { a: SD_D2, b: V3 } }
+R7 = res(10kohm, package = "0402") { side = .bottom; pins { a: SD_D3, b: V3 } }
+C1 = cap(10uF, package = "0603") { side = .bottom; pins { a: V3, b: GND } }
+
+// ---- audio (back) ---------------------------------------------------------------------------------
+U5 = MAX98357AETE.Part {
+  side = .bottom
+  pins { BCLK: I2S_BCK, LRCLK: I2S_LRCK, DIN: I2S_DIN, VDD: VSYS, GND: GND, EP: GND, GAIN_SLOT: .nc, OUTP: SPK_P, OUTN: SPK_N, NC5: .nc, NC6: .nc, NC12: .nc, NC13: .nc }
+}
+U5Support = MAX98357AETE.Support(U5, vio = V3) { side = .bottom }
+J5 = S2B_PH_K_S.Part { side = .bottom; pins { C1: SPK_N, C2: SPK_P } }
+
+// ---- USB-C (front, bottom edge) ---------------------------------------------------------------------
+usb = UsbC2(vbus = VBUS, gnd = GND, dp = DP, dn = DN, tvsPackage = "SOD-323") {}
+override usb.power.J.at = (78mm, 8.15mm)
+
+// ---- power (back) -------------------------------------------------------------------------------------
+U6 = BQ24074RGT.Part {
+  side = .bottom
+  pins { IN: VBUS, OUT: VSYS, BAT: VBAT, VSS: GND, nCE: GND, EN2: VSYS, EN1: GND }
+}
+U6Support = BQ24074RGT.Support(U6) { side = .bottom }
+J2 = S2B_PH_K_S.Part { side = .bottom; pins { C1: GND, C2: VBAT } }
+U7 = MAX17048G.Part { side = .bottom; pins { VDD: VBAT, CELL: VBAT, GND: GND, CTG: GND, EP: GND, QSTRT: GND, SDA: SDA, SCL: SCL, ALRT: .nc } }
+U7Support = MAX17048G.Support(U7) { side = .bottom }
+i2c = I2cPullups(sda = SDA, scl = SCL, vcc = V3, speed = 400kHz) { side = .bottom }
+U4 = TLV75533PDBV.Part { side = .bottom; pins { IN: VSYS, OUT: V3, GND: GND, EN: LDO_EN } }
+U4Support = TLV75533PDBV.Support(U4, alwaysOn = false) { side = .bottom }
+R8 = res(100kohm, package = "0402") { side = .bottom; pins { a: LDO_EN, b: GND } }
+C2 = cap(22uF, package = "0805", voltage = 10V) { side = .bottom; place = [near(U4.pin.OUT, max = 4mm)]; pins { a: V3, b: GND } }
+SW12 = JS102011SAQN.Part { at = (20mm, 63.2mm); rotation = 180deg; pins { A: VSYS, COM: LDO_EN, B: GND } }
+
+// ---- input (front) ---------------------------------------------------------------------------------------
+part Btn = button("6x6")
+SW1 = Btn { at = (20mm, 41mm); pins { a: UP, b: GND } }
+SW2 = Btn { at = (20mm, 21mm); pins { a: DOWN, b: GND } }
+SW3 = Btn { at = (10mm, 31mm); pins { a: LEFT, b: GND } }
+SW4 = Btn { at = (30mm, 31mm); pins { a: RIGHT, b: GND } }
+SW5 = Btn { at = (13mm, 8mm); pins { a: STRAFE_L, b: GND } }
+SW6 = Btn { at = (27mm, 8mm); pins { a: STRAFE_R, b: GND } }
+SW7 = Btn { at = (147mm, 35mm); pins { a: FIRE, b: GND } }
+SW8 = Btn { at = (136mm, 25mm); pins { a: USE, b: GND } }
+SW9 = Btn { at = (136mm, 52mm); pins { a: MENU, b: GND } }
+SW10 = Btn { at = (148mm, 52mm); pins { a: ENTER, b: GND } }
+
+H1 = hole("M2.5") { at = (4mm, 4mm) }
+H2 = hole("M2.5") { at = (152mm, 4mm) }
+H3 = hole("M2.5") { at = (4mm, 62mm) }
+H4 = hole("M2.5") { at = (152mm, 62mm) }
+
+gndPour = pour(net = GND, layers = [Cu.top, Cu.inner[1], Cu.bottom]) {}

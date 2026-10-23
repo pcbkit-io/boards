@@ -1,0 +1,394 @@
+{
+  "id": "DM3AT_SF_PEJM5",
+  "mpn": "DM3AT-SF-PEJM5",
+  "manufacturer": "Hirose",
+  "category": "connector",
+  "description": "microSD (TF) card socket, push-push, SMD, 1.68 mm high, with card-detect switch; contacts in SD order DAT2, CD/DAT3, CMD, VDD, CLK, VSS, DAT0, DAT1 (SPI: CS = CD/DAT3, DI = CMD, DO = DAT0)",
+  "tags": [
+    "microsd",
+    "micro sd",
+    "micro-sd",
+    "tf card",
+    "tf",
+    "sd card",
+    "sdcard",
+    "card socket",
+    "memory card",
+    "push-push",
+    "storage",
+    "dm3at",
+    "hirose",
+    "connector",
+    "smd"
+  ],
+  "datasheet": {
+    "url": "https://www.hirose.com/en/product/p/CL0609-0033-6-00",
+    "revision": "DM3AT-SF-PEJM5 drawing EDC-325165-00-00 (CL0609-0031-0-00, revision 4, 2024-09-02): recommended PCB layout (mounting side), outline, contact assignment, card detection switch"
+  },
+  "prefix": "J",
+  "package": {
+    "name": "Hirose DM3AT microSD socket, push-push",
+    "family": "connector",
+    "pins": 10,
+    "pitch": 1.1,
+    "body": {
+      "d": [
+        13.65,
+        13.85,
+        14.05
+      ],
+      "e": [
+        15.95,
+        16.15,
+        16.35
+      ],
+      "a": [
+        1.53,
+        1.68,
+        1.83
+      ]
+    },
+    "landPattern": {
+      "pads": [
+        {
+          "number": "1",
+          "x": 2.775,
+          "y": 7.975,
+          "w": 0.7,
+          "h": 1.2
+        },
+        {
+          "number": "2",
+          "x": 1.675,
+          "y": 7.975,
+          "w": 0.7,
+          "h": 1.2
+        },
+        {
+          "number": "3",
+          "x": 0.575,
+          "y": 7.975,
+          "w": 0.7,
+          "h": 1.2
+        },
+        {
+          "number": "4",
+          "x": -0.525,
+          "y": 7.975,
+          "w": 0.7,
+          "h": 1.2
+        },
+        {
+          "number": "5",
+          "x": -1.625,
+          "y": 7.975,
+          "w": 0.7,
+          "h": 1.2
+        },
+        {
+          "number": "6",
+          "x": -2.725,
+          "y": 7.975,
+          "w": 0.7,
+          "h": 1.2
+        },
+        {
+          "number": "7",
+          "x": -3.825,
+          "y": 7.975,
+          "w": 0.7,
+          "h": 1.2
+        },
+        {
+          "number": "8",
+          "x": -4.925,
+          "y": 7.975,
+          "w": 0.7,
+          "h": 1.2
+        },
+        {
+          "number": "10",
+          "x": -5.875,
+          "y": 7.975,
+          "w": 0.7,
+          "h": 1.2
+        },
+        {
+          "number": "9",
+          "x": -6.825,
+          "y": -2.525,
+          "w": 1.0,
+          "h": 0.8
+        },
+        {
+          "number": "SH",
+          "x": 4.325,
+          "y": 7.975,
+          "w": 1.0,
+          "h": 1.2
+        },
+        {
+          "number": "SH",
+          "x": -6.825,
+          "y": 3.675,
+          "w": 1.0,
+          "h": 1.2
+        },
+        {
+          "number": "SH",
+          "x": -6.825,
+          "y": -6.675,
+          "w": 1.0,
+          "h": 2.8
+        },
+        {
+          "number": "SH",
+          "x": 6.675,
+          "y": -7.125,
+          "w": 1.3,
+          "h": 1.9
+        }
+      ],
+      "page": "recommended PCB layout (mounting side): contacts 0.7 x 1.2 at P = 1.1 (contact 1 nearest the switch side, 8 at 7.7 from it), card detection switch B 0.7 x 1.2 at 8.65 from contact 1 in the contact row, shell tab 1.0 x 1.2 at 1.55 beyond contact 1; left column 1.0 wide, 9.6 from contact 1: shell 1.2 high at 3.7, switch A 0.8 high at 9.9, shell 2.8 high at 14.05 below the contacts' inner edge; shell 1.3 x 1.9 at 3.25-4.55 beyond contact 1, 14.5 down. Origin at the outline's centre (13.85 x 16.15, 0.7 above the contacts' inner edge)"
+    },
+    "page": "outline: 13.85 +-0.2 wide, 16.15 +-0.2 deep with the contacts, 1.68 +-0.15 high; the card enters from -Y (away from the contacts) and stands out about 2.4 mm when locked"
+  },
+  "solids": "[solid.box((13.85mm, 16.15mm, 1.68mm), at = (0mm, 0mm, 0mm), radius = 0.3mm, material = .metal), solid.box((11mm, 0.6mm, 1.2mm), at = (-0.425mm, -7.8mm, 0.2mm), color = \"#202020\")]",
+  "keepouts": [
+    {
+      "name": "no copper (drawing note 3, hatched): across the socket under the card",
+      "x0": -5.425,
+      "y0": 2.975,
+      "x1": 3.275,
+      "y1": 1.375,
+      "layers": "top",
+      "forbid": [
+        "tracks",
+        "vias",
+        "pours"
+      ],
+      "page": "recommended PCB layout, note 3: no patterns in the oblique-hatched areas"
+    },
+    {
+      "name": "no copper (drawing note 3, hatched): beside the switch A side",
+      "x0": -6.125,
+      "y0": 1.675,
+      "x1": -5.425,
+      "y1": -5.925,
+      "layers": "top",
+      "forbid": [
+        "tracks",
+        "vias",
+        "pours"
+      ],
+      "page": "recommended PCB layout, note 3: no patterns in the oblique-hatched areas"
+    },
+    {
+      "name": "no copper (drawing note 3, hatched): beside the right shell tab",
+      "x0": 2.925,
+      "y0": -6.725,
+      "x1": 5.475,
+      "y1": -8.075,
+      "layers": "top",
+      "forbid": [
+        "tracks",
+        "vias",
+        "pours"
+      ],
+      "page": "recommended PCB layout, note 3: no patterns in the oblique-hatched areas"
+    }
+  ],
+  "pins": [
+    {
+      "number": "1",
+      "name": "DAT2",
+      "type": "passive",
+      "description": "DAT2 (SPI: unused, pull up)"
+    },
+    {
+      "number": "2",
+      "name": "CD_DAT3",
+      "type": "passive",
+      "description": "CD/DAT3 (SPI: CS)"
+    },
+    {
+      "number": "3",
+      "name": "CMD",
+      "type": "passive",
+      "description": "CMD (SPI: DI / MOSI)"
+    },
+    {
+      "number": "4",
+      "name": "VDD",
+      "type": "passive",
+      "description": "card supply 2.7-3.6 V"
+    },
+    {
+      "number": "5",
+      "name": "CLK",
+      "type": "passive",
+      "description": "CLK (SPI: SCK)"
+    },
+    {
+      "number": "6",
+      "name": "VSS",
+      "type": "passive",
+      "description": "card ground"
+    },
+    {
+      "number": "7",
+      "name": "DAT0",
+      "type": "passive",
+      "description": "DAT0 (SPI: DO / MISO)"
+    },
+    {
+      "number": "8",
+      "name": "DAT1",
+      "type": "passive",
+      "description": "DAT1 (SPI: unused, pull up)"
+    },
+    {
+      "number": "9",
+      "name": "CD_A",
+      "type": "passive",
+      "description": "card detection switch terminal A: closes to B when a card is in"
+    },
+    {
+      "number": "10",
+      "name": "CD_B",
+      "type": "passive",
+      "description": "card detection switch terminal B"
+    },
+    {
+      "number": "SH",
+      "name": "SH",
+      "type": "passive",
+      "description": "the four shell tabs (all numbered SH): solder them, tie them to ground"
+    }
+  ],
+  "ratings": {
+    "recommended": [
+      {
+        "what": "card supply (the card's, SD specification)",
+        "pins": [
+          "VDD"
+        ],
+        "min": 2.7,
+        "max": 3.6,
+        "unit": "V"
+      },
+      {
+        "what": "operating temperature",
+        "min": -25.0,
+        "max": 85.0,
+        "unit": "°C"
+      }
+    ]
+  },
+  "support": {
+    "parts": [
+      {
+        "ref": "C1",
+        "kind": "cap",
+        "value": "10uF",
+        "rating": "bulk at the socket (card inrush)",
+        "between": [
+          "VDD",
+          "VSS"
+        ]
+      },
+      {
+        "ref": "C2",
+        "kind": "cap",
+        "value": "100nF",
+        "rating": "at the socket",
+        "between": [
+          "VDD",
+          "VSS"
+        ]
+      },
+      {
+        "ref": "R1",
+        "kind": "res",
+        "value": "47kohm",
+        "rating": "pull-up",
+        "between": [
+          "CMD",
+          "VDD"
+        ]
+      },
+      {
+        "ref": "R2",
+        "kind": "res",
+        "value": "47kohm",
+        "rating": "pull-up",
+        "between": [
+          "DAT0",
+          "VDD"
+        ]
+      },
+      {
+        "ref": "R3",
+        "kind": "res",
+        "value": "47kohm",
+        "rating": "pull-up",
+        "between": [
+          "DAT1",
+          "VDD"
+        ]
+      },
+      {
+        "ref": "R4",
+        "kind": "res",
+        "value": "47kohm",
+        "rating": "pull-up",
+        "between": [
+          "DAT2",
+          "VDD"
+        ]
+      },
+      {
+        "ref": "R5",
+        "kind": "res",
+        "value": "47kohm",
+        "rating": "pull-up (SPI: keeps the card deselected)",
+        "between": [
+          "CD_DAT3",
+          "VDD"
+        ]
+      },
+      {
+        "ref": "R6",
+        "kind": "res",
+        "value": "10kohm",
+        "rating": "card-detect pull-up, CD_B to ground",
+        "between": [
+          "CD_A",
+          "VDD"
+        ]
+      }
+    ],
+    "notes": [
+      "Cards are 3.3 V only: from a 5 V controller, shift CLK, CMD and CD/DAT3 down and DAT0 up.",
+      "SD mode (4-bit, SDIO/SDMMC): every data line and CMD pulled up (10-100 kOhm); SPI mode: CS = CD/DAT3, MOSI = CMD, SCK = CLK, MISO = DAT0, DAT1/DAT2 pulled up.",
+      "Card detect: CD_B to GND and CD_A to a GPIO with a pull-up: low with a card in."
+    ],
+    "page": "drawing notes (card detection switch open without card, closed with card); the SD specification for the card side"
+  },
+  "notes": [
+    "The drawing forbids copper in three hatched areas on the mounting side (the footprint's keepouts); keep other tracks out from under the socket too.",
+    "Put the socket at a board edge with the card slot (-Y) facing out, so a card can be pushed in and out."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "Hirose drawing EDC-325165-00-00 for DM3AT-SF-PEJM5 (CL0609-0031-0-00, revision 4): contact assignment #1 DAT2, #2 CD/DAT3, #3 CMD, #4 VDD, #5 CLK, #6 VSS, #7 DAT0, #8 DAT1; card detection switch A/B; recommended PCB layout; pad numbers 9, 10 and SH are ours (the drawing names them only)",
+      "url": "https://www.hirose.com/en/product/p/CL0609-0033-6-00",
+      "license": "pin numbers and names, package dimensions, ratings and application values transcribed from the manufacturer's datasheet (facts, one reading); descriptions and notes our own"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "the drawing's recommended PCB layout (mounting side): pad centres from its callouts, origin at the outline's centre"
+    }
+  }
+}

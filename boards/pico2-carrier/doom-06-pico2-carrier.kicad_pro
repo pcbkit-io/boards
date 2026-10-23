@@ -1,0 +1,67 @@
+{
+  "board": {
+    "design_settings": {
+      "rule_severities": {},
+      "rules": {
+        "min_clearance": 0.15,
+        "min_copper_edge_clearance": 0.3,
+        "min_hole_clearance": 0.0,
+        "min_hole_to_hole": 0.0,
+        "min_resolved_spokes": 2.0,
+        "min_track_width": 0.15,
+        "min_via_annular_width": 0.0
+      }
+    }
+  },
+  "meta": {
+    "filename": "doom-06-pico2-carrier.kicad_pro",
+    "version": 1
+  },
+  "net_settings": {
+    "classes": [
+      {
+        "clearance": 0.2,
+        "name": "Default",
+        "track_width": 0.25,
+        "via_diameter": 0.6,
+        "via_drill": 0.3
+      }
+    ],
+    "netclass_assignments": {
+      "DAC_MUTE": "Default",
+      "DOWN": "Default",
+      "ENTER": "Default",
+      "FIRE": "Default",
+      "GND": "Default",
+      "I2S_BCK": "Default",
+      "I2S_DIN": "Default",
+      "I2S_LRCK": "Default",
+      "LCD_BL": "Default",
+      "LCD_CS": "Default",
+      "LCD_DC": "Default",
+      "LCD_RST": "Default",
+      "LEFT": "Default",
+      "LINE_L": "Default",
+      "LINE_R": "Default",
+      "MENU": "Default",
+      "MISO": "Default",
+      "MOSI": "Default",
+      "Net-(C7-1)": "Default",
+      "Net-(C7-2)": "Default",
+      "Net-(C8-1)": "Default",
+      "Net-(C9-1)": "Default",
+      "Net-(R5-1)": "Default",
+      "Net-(R6-1)": "Default",
+      "RIGHT": "Default",
+      "SCK": "Default",
+      "STRAFE_L": "Default",
+      "STRAFE_R": "Default",
+      "T_CS": "Default",
+      "T_IRQ": "Default",
+      "UP": "Default",
+      "USE": "Default",
+      "V3": "Default"
+    },
+    "netclass_patterns": []
+  }
+}

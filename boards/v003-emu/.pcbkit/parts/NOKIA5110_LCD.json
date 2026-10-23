@@ -1,0 +1,115 @@
+{
+  "id": "NOKIA5110_LCD",
+  "mpn": "Nokia 5110 84x48 LCD module (PCD8544): connector (8-pin)",
+  "manufacturer": "generic",
+  "variants": [
+    "Nokia 5110 LCD",
+    "PCD8544 module"
+  ],
+  "category": "display",
+  "description": "Connector for the Nokia 5110 / 3310 84 x 48 monochrome LCD module (PCD8544 controller, SPI, 3.3 V): a 1x8 2.54 mm pin header, RST CE DC DIN CLK VCC BL GND as the common red module prints them",
+  "tags": [
+    "nokia 5110",
+    "5110",
+    "nokia 3310",
+    "pcd8544",
+    "84x48",
+    "lcd",
+    "monochrome lcd",
+    "display",
+    "spi",
+    "header"
+  ],
+  "datasheet": {
+    "url": "https://cdn-shop.adafruit.com/datasheets/pcd8544.pdf",
+    "revision": "the common red module's silkscreen; Philips PCD8544 product specification (1999 Apr 12)"
+  },
+  "prefix": "J",
+  "package": {
+    "name": "pin header 1x08 2.54mm",
+    "family": "connector",
+    "pins": 8,
+    "pitch": 2.54,
+    "page": "a 1x8 pin header at 2.54 mm for the cable to the module: pin 1 square"
+  },
+  "footprint": "pinHeader(8)",
+  "pins": [
+    {
+      "number": "1",
+      "name": "RST",
+      "type": "input",
+      "description": "reset, active low"
+    },
+    {
+      "number": "2",
+      "name": "CE",
+      "type": "input",
+      "description": "chip enable (SPI chip select), active low"
+    },
+    {
+      "number": "3",
+      "name": "DC",
+      "type": "input",
+      "description": "data (high) / command (low)"
+    },
+    {
+      "number": "4",
+      "name": "DIN",
+      "type": "input",
+      "description": "serial data in (MOSI), up to 4 Mbit/s"
+    },
+    {
+      "number": "5",
+      "name": "CLK",
+      "type": "input",
+      "description": "serial clock"
+    },
+    {
+      "number": "6",
+      "name": "VCC",
+      "type": "power_in",
+      "description": "supply 3.3 V (PCD8544: 2.7-3.3 V)"
+    },
+    {
+      "number": "7",
+      "name": "BL",
+      "type": "passive",
+      "description": "backlight LEDs (through a resistor; some boards switch them to GND, others to VCC)"
+    },
+    {
+      "number": "8",
+      "name": "GND",
+      "type": "ground"
+    }
+  ],
+  "ratings": {
+    "recommended": [
+      {
+        "what": "VCC supply (PCD8544 logic 2.7-3.3 V)",
+        "pins": [
+          "VCC"
+        ],
+        "min": 2.7,
+        "max": 3.3,
+        "unit": "V"
+      }
+    ]
+  },
+  "notes": [
+    "3.3 V supply and logic: from a 5 V controller put 10 kohm in series with each signal line or a level shifter.",
+    "Two pin orders exist: this one (RST CE DC DIN CLK VCC BL GND, the red module) and the blue SparkFun one (VCC GND SCE RST D/C DN SCLK LED). Read the silkscreen.",
+    "The backlight pin's polarity differs between boards: drive it through about 330 ohm and check whether yours lights with BL high or low."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "the red Nokia 5110 module's silkscreen as sellers and tutorials document it (RST, CE, DC, DIN, CLK, VCC, BL/LIGHT, GND); Philips PCD8544 specification: VDD 2.7-3.3 V, serial interface up to 4.0 Mbit/s",
+      "url": "https://cdn-shop.adafruit.com/datasheets/pcd8544.pdf",
+      "license": "pinout and dimensions transcribed from the vendor's published documentation (facts); footprint, 3D body, descriptions and notes our own"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "a plain 1x8 2.54 mm header for the module's cable or a socket"
+    }
+  }
+}

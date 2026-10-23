@@ -1,0 +1,54 @@
+pcbkit 1
+
+// 3xAA battery holder with leads (generic): 3 x AA battery holder (box or pack, cells in series,
+// 4.5 V) on wire leads: two plated holes for its red (+, VBAT) and black (−, GND) wires
+// Compiled from the part sheet `parts/BATTERY_3XAA_LEADS.json` (`parts.create`); status: checked.
+// Datasheet: https://data.energizer.com/pdfs/e91.pdf (Energizer E91 (AA alkaline) product
+// datasheet: 1.5 V nominal, 0.8 V cut-off)
+// Pins: the holder's leads (red +, black −) by the usual colour code; cell voltages from
+// Energizer's E91 datasheet
+// Footprint: as given
+// This file may be used, changed and shared without conditions, with the board or alone.
+
+// Note: 3 alkaline AA cells in series: 4.5 V nominal, 4.95 V fresh, about 2.7 V empty; NiMH cells
+// give 3.6 V. Choose the regulator for the whole range (a boost or buck-boost converter, or an LDO
+// with low dropout).
+// Note: Pass the wires through a strain-relief hole or tie them down; mark + and − on the
+// silkscreen (the footprint prints them).
+
+/// 3xAA battery holder with leads — 3 x AA battery holder (box or pack, cells in series, 4.5 V)
+/// on wire leads: two plated holes for its red (+, VBAT) and black (−, GND) wires
+part Part = device(footprint = Footprint {
+  let ps = [
+    thtPad("1", (-1.905mm, 0mm), 1.1mm, (2.2mm, 2.2mm), square = true),
+    thtPad("2", (1.905mm, 0mm), 1.1mm, (2.2mm, 2.2mm)),
+  ]
+  let b = centered(7.62mm, 3mm)
+  name = "BatteryLeads_2x_D1.1mm_P3.81mm"
+  description = "Two plated holes for a battery holder's wires: + (square) on the left, − on the right, 1.1 mm for 22-26 AWG"
+  tags = ["battery", "wire", "solder pads", "THT"]
+  pads = ps
+  body = b
+  height = 1mm
+  silk = silkOf(ps, b, 0.25mm, extra = [
+    Text { text = "+"; at = (-1.905mm, 2.2mm); size = 1mm },
+    Text { text = "-"; at = (1.905mm, 2.2mm); size = 1mm },
+  ])
+  package = Package { family = .other; body = (7.62mm, 3mm); height = 1mm }
+  solids = [
+    solid.cylinder(1.6mm, 1mm, at = (-1.905mm, 0mm, 0mm), color = "#c62828"),
+    solid.cylinder(1.6mm, 1mm, at = (1.905mm, 0mm, 0mm), color = "#1a1a1a"),
+  ]
+}, prefix = "BT", mpn = "3xAA battery holder with leads", manufacturer = "generic", pinout = {
+  VBAT: "1",
+  GND: "2",
+}, pinTypes = {
+  VBAT: io.powerOut(4.5V),
+  GND: .ground,
+}) with {
+  fields {
+    Status: "checked",
+    PinoutSource: "the holder's leads (red +, black −) by the usual colour code; cell voltages from Energizer's E91 datasheet",
+    Datasheet: "https://data.energizer.com/pdfs/e91.pdf",
+  }
+}

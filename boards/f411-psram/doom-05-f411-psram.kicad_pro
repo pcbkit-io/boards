@@ -1,0 +1,99 @@
+{
+  "board": {
+    "design_settings": {
+      "rule_severities": {},
+      "rules": {
+        "min_clearance": 0.15,
+        "min_copper_edge_clearance": 0.3,
+        "min_hole_clearance": 0.0,
+        "min_hole_to_hole": 0.0,
+        "min_resolved_spokes": 2.0,
+        "min_through_hole_diameter": 0.3,
+        "min_track_width": 0.15,
+        "min_via_annular_width": 0.0,
+        "min_via_diameter": 0.5
+      }
+    }
+  },
+  "meta": {
+    "filename": "doom-05-f411-psram.kicad_pro",
+    "version": 1
+  },
+  "net_settings": {
+    "classes": [
+      {
+        "clearance": 0.2,
+        "name": "Default",
+        "track_width": 0.25,
+        "via_diameter": 0.6,
+        "via_drill": 0.3
+      },
+      {
+        "clearance": 0.15,
+        "diff_pair_gap": 0.15,
+        "name": "usb/usbPair",
+        "track_width": 0.25,
+        "via_diameter": 0.6,
+        "via_drill": 0.3
+      }
+    ],
+    "netclass_assignments": {
+      "BAT_N": "Default",
+      "BOOT0": "Default",
+      "DN": "usb/usbPair",
+      "DOWN": "Default",
+      "DP": "usb/usbPair",
+      "FIRE": "Default",
+      "GND": "Default",
+      "I2S_CK": "Default",
+      "I2S_SD": "Default",
+      "I2S_WS": "Default",
+      "LCD_BL": "Default",
+      "LCD_CS": "Default",
+      "LCD_DC": "Default",
+      "LCD_MOSI": "Default",
+      "LCD_RST": "Default",
+      "LCD_SCK": "Default",
+      "LDO_EN": "Default",
+      "LEFT": "Default",
+      "MEM_MISO": "Default",
+      "MEM_MOSI": "Default",
+      "MEM_SCK": "Default",
+      "MENU": "Default",
+      "NRST": "Default",
+      "Net-(C1-1)": "Default",
+      "Net-(C19-1)": "Default",
+      "Net-(C2-1)": "Default",
+      "Net-(C7-1)": "Default",
+      "Net-(D2-1)": "Default",
+      "Net-(D3-1)": "Default",
+      "Net-(Q1-4)": "Default",
+      "Net-(Q1-5)": "Default",
+      "Net-(R12-1)": "Default",
+      "Net-(R15-1)": "Default",
+      "Net-(R6-1)": "Default",
+      "Net-(R7-1)": "Default",
+      "Net-(R8-1)": "Default",
+      "RAM_CS": "Default",
+      "RIGHT": "Default",
+      "ROM_CS": "Default",
+      "SPK_N": "Default",
+      "SPK_P": "Default",
+      "STRAFE": "Default",
+      "SWCLK": "Default",
+      "SWDIO": "Default",
+      "U6Support/C1_P": "Default",
+      "U6Support/LED_A": "Default",
+      "U7Support/DRAIN": "Default",
+      "UP": "Default",
+      "USE": "Default",
+      "V3": "Default",
+      "VBAT": "Default",
+      "VBUS": "Default",
+      "usb/power/cc1": "Default",
+      "usb/power/cc2": "Default",
+      "usb/power/raw": "Default"
+    },
+    "netclass_patterns": []
+  }
+}

@@ -1,0 +1,362 @@
+{
+  "id": "CH32V003F4P6",
+  "mpn": "CH32V003F4P6",
+  "manufacturer": "WCH (Nanjing Qinheng Microelectronics)",
+  "variants": [
+    "CH32V003F4U6"
+  ],
+  "category": "mcu",
+  "description": "CH32V003 32-bit RISC-V (QingKe V2A) MCU, 48 MHz, 16 KB flash, 2 KB SRAM, USART, SPI, I2C, 8-channel 10-bit ADC, op-amp, single-wire debug, 2.7-5.5 V, TSSOP-20",
+  "tags": [
+    "mcu",
+    "ch32v003",
+    "ch32v",
+    "ch32",
+    "wch",
+    "risc-v",
+    "riscv",
+    "cheap",
+    "5v",
+    "tssop-20"
+  ],
+  "datasheet": {
+    "url": "https://www.wch-ic.com/downloads/CH32V003DS0_PDF.html",
+    "revision": "CH32V003 datasheet V1.8 (Chinese edition, via LCSC)"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "TSSOP-20",
+    "page": "4.1 TSSOP20 package (4.4 x 6.5 mm, 0.65 mm pitch, table of packages in 1.x)"
+  },
+  "pins": [
+    {
+      "number": "1",
+      "name": "PD4",
+      "type": "bidirectional",
+      "functions": [
+        "A7",
+        "UCK",
+        "T2CH1ETR",
+        "OPO",
+        "T1CH4ETR_"
+      ]
+    },
+    {
+      "number": "2",
+      "name": "PD5",
+      "type": "bidirectional",
+      "functions": [
+        "A5",
+        "UTX",
+        "T2CH4_",
+        "URX_"
+      ],
+      "description": "USART TX (default mapping)"
+    },
+    {
+      "number": "3",
+      "name": "PD6",
+      "type": "bidirectional",
+      "functions": [
+        "A6",
+        "URX",
+        "T2CH3_",
+        "UTX_"
+      ],
+      "description": "USART RX (default mapping)"
+    },
+    {
+      "number": "4",
+      "name": "PD7",
+      "type": "bidirectional",
+      "functions": [
+        "NRST",
+        "T2CH4",
+        "OPP1",
+        "UCK_"
+      ],
+      "description": "GPIO, or NRST (active low reset) when enabled in the user option bytes"
+    },
+    {
+      "number": "5",
+      "name": "PA1",
+      "type": "bidirectional",
+      "functions": [
+        "OSCI",
+        "A1",
+        "T1CH2",
+        "OPN0"
+      ],
+      "description": "GPIO, or the crystal input (4-25 MHz)"
+    },
+    {
+      "number": "6",
+      "name": "PA2",
+      "type": "bidirectional",
+      "functions": [
+        "OSCO",
+        "A0",
+        "T1CH2N",
+        "OPP0",
+        "AETR2_"
+      ],
+      "description": "GPIO, or the crystal output"
+    },
+    {
+      "number": "7",
+      "name": "VSS",
+      "type": "ground"
+    },
+    {
+      "number": "8",
+      "name": "PD0",
+      "type": "bidirectional",
+      "functions": [
+        "T1CH1N",
+        "OPN1",
+        "SDA_",
+        "UTX_"
+      ]
+    },
+    {
+      "number": "9",
+      "name": "VDD",
+      "type": "power_in",
+      "description": "supply 2.7-5.5 V (2.8 V min with the ADC)"
+    },
+    {
+      "number": "10",
+      "name": "PC0",
+      "type": "bidirectional",
+      "functions": [
+        "T2CH3",
+        "UTX_",
+        "NSS_",
+        "T1CH3_"
+      ]
+    },
+    {
+      "number": "11",
+      "name": "PC1",
+      "type": "bidirectional",
+      "functions": [
+        "SDA",
+        "NSS",
+        "T2CH4_",
+        "T2CH1ETR_",
+        "T1BKIN_",
+        "URX_"
+      ],
+      "description": "I2C SDA (default mapping)"
+    },
+    {
+      "number": "12",
+      "name": "PC2",
+      "type": "bidirectional",
+      "functions": [
+        "SCL",
+        "URTS",
+        "T1BKIN",
+        "AETR_",
+        "T2CH2_",
+        "T1ETR_"
+      ],
+      "description": "I2C SCL (default mapping)"
+    },
+    {
+      "number": "13",
+      "name": "PC3",
+      "type": "bidirectional",
+      "functions": [
+        "T1CH3",
+        "T1CH1N_",
+        "UCTS_"
+      ]
+    },
+    {
+      "number": "14",
+      "name": "PC4",
+      "type": "bidirectional",
+      "functions": [
+        "A2",
+        "T1CH4",
+        "MCO",
+        "T1CH1CH2N_"
+      ]
+    },
+    {
+      "number": "15",
+      "name": "PC5",
+      "type": "bidirectional",
+      "functions": [
+        "SCK",
+        "T1ETR",
+        "T2CH1ETR_",
+        "SCL_",
+        "UCK_",
+        "T1CH3_"
+      ]
+    },
+    {
+      "number": "16",
+      "name": "PC6",
+      "type": "bidirectional",
+      "functions": [
+        "MOSI",
+        "T1CH1CH3N_",
+        "UCTS_",
+        "SDA_"
+      ]
+    },
+    {
+      "number": "17",
+      "name": "PC7",
+      "type": "bidirectional",
+      "functions": [
+        "MISO",
+        "T1CH2_",
+        "T2CH2_",
+        "URTS_"
+      ]
+    },
+    {
+      "number": "18",
+      "name": "PD1",
+      "type": "bidirectional",
+      "functions": [
+        "SWIO",
+        "AETR2",
+        "T1CH3N",
+        "SCL_",
+        "URX_"
+      ],
+      "description": "SWIO: the single-wire debug and programming pin (WCH-LinkE); keep it free"
+    },
+    {
+      "number": "19",
+      "name": "PD2",
+      "type": "bidirectional",
+      "functions": [
+        "A3",
+        "T1CH1",
+        "T2CH3_",
+        "T1CH2N_"
+      ]
+    },
+    {
+      "number": "20",
+      "name": "PD3",
+      "type": "bidirectional",
+      "functions": [
+        "A4",
+        "T2CH2",
+        "AETR",
+        "UCTS",
+        "T1CH4_"
+      ]
+    }
+  ],
+  "ratings": {
+    "absMax": [
+      {
+        "what": "VDD-VSS",
+        "pins": [
+          "VDD"
+        ],
+        "min": -0.3,
+        "max": 5.5,
+        "unit": "V"
+      },
+      {
+        "what": "sink or source current per I/O pin",
+        "max": 20.0,
+        "unit": "mA"
+      }
+    ],
+    "recommended": [
+      {
+        "what": "VDD (2.8 V min with the ADC)",
+        "pins": [
+          "VDD"
+        ],
+        "min": 2.7,
+        "nom": 3.3,
+        "max": 5.5,
+        "unit": "V"
+      },
+      {
+        "what": "ambient temperature",
+        "min": -40.0,
+        "max": 85.0,
+        "unit": "°C"
+      }
+    ]
+  },
+  "simulation": {
+    "parameters": [
+      {
+        "id": "idd-run-48mhz-3v3",
+        "quantity": "supplyCurrent",
+        "unit": "A",
+        "typ": 0.0064,
+        "conditions": "Run mode from internal Flash, 48 MHz from the high-speed internal RC (HSI), all peripherals enabled, VDD=3.3 V, room temperature; 4.0 mA with all peripherals disabled; at VDD=5 V 7.4 mA / 5.1 mA",
+        "source": {
+          "url": "https://www.electrokit.com/upload/quick/97/f1/422a_41036464-tds.pdf",
+          "revision": "CH32V003 Datasheet V1.8 (title page; the page footers of the copy read V1.7 from p. 14)",
+          "location": "p. 17, section 3.6, Table 3-6-1 Typical current consumption in Run mode (VDD = 3.3V)",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "tj-operating",
+        "quantity": "junctionOperatingTemperature",
+        "unit": "degC",
+        "min": -40.0,
+        "max": 105.0,
+        "conditions": "junction temperature range in the general operating conditions",
+        "source": {
+          "url": "https://www.electrokit.com/upload/quick/97/f1/422a_41036464-tds.pdf",
+          "revision": "CH32V003 Datasheet V1.8 (title page; the page footers of the copy read V1.7 from p. 14)",
+          "location": "p. 15, section 3.3.1, Table 3-2 General operating conditions",
+          "confidence": "datasheet"
+        }
+      }
+    ]
+  },
+  "support": {
+    "parts": [
+      {
+        "ref": "C1",
+        "kind": "cap",
+        "value": "100nF",
+        "rating": "next to pins 9 and 7",
+        "between": [
+          "VDD",
+          "VSS"
+        ]
+      }
+    ],
+    "notes": [
+      "Programming and debug over one wire: PD1 (SWIO), VDD and GND to a WCH-LinkE; a 3-pin header is enough.",
+      "No crystal needed: the internal 24 MHz RC (48 MHz with the PLL); a 4-25 MHz crystal goes on PA1/PA2 when timing must be precise."
+    ],
+    "page": "3.1 figure 3-1 typical supply circuit; 3.3.x figure 3-11 analog supply decoupling; 2.2 table 2-1 pin definitions"
+  },
+  "notes": [
+    "Runs from 5 V or 3.3 V directly; I/Os follow VDD.",
+    "Peripherals remap (the `_` suffix in the function names is a remapped position): check AFIO before choosing pins.",
+    "One supply pin: a single 100 nF next to pins 7 and 9."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "WCH CH32V003 datasheet V1.8 (Chinese, from LCSC's mirror): 2.1 pin arrangement (CH32V003F4P6), 2.2 table 2-1 pin definitions, 3.1 figure 3-1, 3.2 table 3-1 absolute maximum, 3.3.1 table 3-2 operating conditions, 4.1 TSSOP20 package",
+      "url": "https://datasheet.lcsc.com/datasheet/pdf/0ee0c77ddc50063d144978a55793d7fa.pdf",
+      "license": "pin numbers and names, ratings and application values transcribed from the manufacturer's datasheet (facts, one reading); descriptions and notes our own"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "the standard TSSOP-20 footprint (4.4 x 6.5 mm body, 0.65 mm pitch, as the datasheet's package table states)"
+    }
+  }
+}

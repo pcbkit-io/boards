@@ -1,0 +1,83 @@
+{
+  "id": "BATTERY_3XAA_LEADS",
+  "mpn": "3xAA battery holder with leads",
+  "manufacturer": "generic",
+  "category": "battery-holder",
+  "description": "3 x AA battery holder (box or pack, cells in series, 4.5 V) on wire leads: two plated holes for its red (+, VBAT) and black (−, GND) wires",
+  "tags": [
+    "aa",
+    "3xaa",
+    "3 x aa",
+    "3aa",
+    "battery",
+    "battery holder",
+    "battery pack",
+    "battery box",
+    "alkaline",
+    "nimh",
+    "wire",
+    "leads",
+    "solder pads",
+    "4.5v"
+  ],
+  "datasheet": {
+    "url": "https://data.energizer.com/pdfs/e91.pdf",
+    "revision": "Energizer E91 (AA alkaline) product datasheet: 1.5 V nominal, 0.8 V cut-off"
+  },
+  "prefix": "BT",
+  "package": {
+    "name": "3xAA holder, wire pads",
+    "family": "other",
+    "pins": 2,
+    "pitch": 3.81,
+    "body": {
+      "d": 7.62,
+      "e": 3.0,
+      "a": 1.0
+    }
+  },
+  "footprint": "Footprint {\n    let ps = [\n      thtPad(\"1\", (-1.905mm, 0mm), 1.1mm, (2.2mm, 2.2mm), square = true),\n      thtPad(\"2\", (1.905mm, 0mm), 1.1mm, (2.2mm, 2.2mm)),\n    ]\n    let b = centered(7.62mm, 3mm)\n    name = \"BatteryLeads_2x_D1.1mm_P3.81mm\"\n    description = \"Two plated holes for a battery holder's wires: + (square) on the left, − on the right, 1.1 mm for 22-26 AWG\"\n    tags = [\"battery\", \"wire\", \"solder pads\", \"THT\"]\n    pads = ps\n    body = b\n    height = 1mm\n    silk = silkOf(ps, b, 0.25mm, extra = [Text { text = \"+\"; at = (-1.905mm, 2.2mm); size = 1mm }, Text { text = \"-\"; at = (1.905mm, 2.2mm); size = 1mm }])\n    package = Package { family = .other; body = (7.62mm, 3mm); height = 1mm }\n    solids = [\n      solid.cylinder(1.6mm, 1mm, at = (-1.905mm, 0mm, 0mm), color = \"#c62828\"),\n      solid.cylinder(1.6mm, 1mm, at = (1.905mm, 0mm, 0mm), color = \"#1a1a1a\"),\n    ]\n  }",
+  "pins": [
+    {
+      "number": "1",
+      "name": "VBAT",
+      "type": "power_out",
+      "description": "the pack's positive (red wire), 4.5 V nominal with fresh alkaline cells"
+    },
+    {
+      "number": "2",
+      "name": "GND",
+      "type": "ground",
+      "description": "the cell's negative"
+    }
+  ],
+  "ratings": {
+    "recommended": [
+      {
+        "what": "pack voltage",
+        "pins": [
+          "VBAT"
+        ],
+        "min": 2.7,
+        "nom": 4.5,
+        "max": 4.95
+      }
+    ]
+  },
+  "notes": [
+    "3 alkaline AA cells in series: 4.5 V nominal, 4.95 V fresh, about 2.7 V empty; NiMH cells give 3.6 V. Choose the regulator for the whole range (a boost or buck-boost converter, or an LDO with low dropout).",
+    "Pass the wires through a strain-relief hole or tie them down; mark + and − on the silkscreen (the footprint prints them)."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "the holder's leads (red +, black −) by the usual colour code; cell voltages from Energizer's E91 datasheet",
+      "url": "https://data.energizer.com/pdfs/e91.pdf",
+      "license": "voltages (facts); footprint, descriptions and notes our own"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "wire pads of our own: 1.1 mm holes, 2.2 mm pads, 3.81 mm apart"
+    }
+  }
+}

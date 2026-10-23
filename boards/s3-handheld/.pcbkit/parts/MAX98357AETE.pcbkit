@@ -1,0 +1,146 @@
+pcbkit 1
+
+// MAX98357AETE+T (Analog Devices (Maxim Integrated)): MAX98357A I2S digital-input class-D mono
+// amplifier, 3.2 W into 4 Ω at 5 V, 2.5-5.5 V, no MCLK, gain 3-15 dB by GAIN_SLOT, channel and
+// shutdown by SD_MODE, TQFN-16 3 x 3 mm
+// Compiled from the part sheet `parts/MAX98357AETE.json` (`parts.create`); status: checked.
+// Datasheet:
+// https://www.analog.com/media/en/technical-documentation/data-sheets/MAX98357A-MAX98357B.pdf
+// (19-6779 Rev 13, 7/19)
+// Pins: MAX98357A/MAX98357B datasheet 19-6779 Rev 13: pin configurations and pin description (TQFN
+// column), absolute maximum ratings, electrical characteristics (supply range), Tables 5, 6 and 8,
+// power-supply input, package information (T1633+4, 21-0136)
+// Footprint: as given
+// This file may be used, changed and shared without conditions, with the board or alone.
+
+// Note: The B version (MAX98357B) takes left-justified data with the same pinout.
+// Note: Exposed pad: no electrical connection but the main heat path; pour ground under it with
+// vias.
+
+/// MAX98357AETE+T — MAX98357A I2S digital-input class-D mono amplifier, 3.2 W into 4 Ω at 5 V,
+/// 2.5-5.5 V, no MCLK, gain 3-15 dB by GAIN_SLOT, channel and shutdown by SD_MODE, TQFN-16 3 x 3 mm
+part Part = device(footprint = qfn(
+  16,
+  size = (3mm, 3mm),
+  ep = (1.1mm, 1.1mm),
+  pitch = 0.5mm,
+), prefix = "U", mpn = "MAX98357AETE+T", manufacturer = "Analog Devices (Maxim Integrated)", pinout = {
+  DIN: "1",
+  GAIN_SLOT: "2",
+  GND: ["3", "11", "15"],
+  SD_MODE: "4",
+  NC5: "5",
+  NC6: "6",
+  VDD: ["7", "8"],
+  OUTP: "9",
+  OUTN: "10",
+  NC12: "12",
+  NC13: "13",
+  LRCLK: "14",
+  BCLK: "16",
+  EP: "17",
+}, pinTypes = {
+  DIN: io.input(max = 6V),
+  GAIN_SLOT: .passive,
+  GND: .ground,
+  SD_MODE: io.input(),
+  NC5: .nc,
+  NC6: .nc,
+  VDD: io.powerIn(min = 2.5V, max = 6V),
+  OUTP: .output,
+  OUTN: .output,
+  NC12: .nc,
+  NC13: .nc,
+  LRCLK: io.input(max = 6V),
+  BCLK: io.input(max = 6V),
+  EP: .passive,
+}) with {
+  fields {
+    Status: "checked",
+    PinoutSource: "MAX98357A/MAX98357B datasheet 19-6779 Rev 13: pin configurations and pin description (TQFN column), absolute maximum ratings, electrical characteristics (supply range), Tables 5, 6 and 8, power-supply input, package information (T1633+4, 21-0136)",
+    Datasheet: "https://www.analog.com/media/en/technical-documentation/data-sheets/MAX98357A-MAX98357B.pdf",
+  }
+  simulation = SimulationParameters {
+    parameters = [
+      SimulationParameter {
+        id = "idd-quiescent-5v"
+        quantity = .supplyCurrent
+        typ = 2.75mA
+        max = 3.35mA
+        conditions = "quiescent (idle, no signal) supply current, VDD=5 V, BCLK=3.072 MHz, LRCLK=48 kHz, TA=25 degC; 2.4 mA typ at VDD=3.7 V; the speaker's load power is not included"
+        source = SimulationEvidence {
+          url = "https://cdn-shop.adafruit.com/product-files/3006/MAX98357A-MAX98357B.pdf"
+          revision = "MAX98357A/MAX98357B datasheet 19-6779; Rev 7; 2/16 (the Adafruit copy that was opened; the sheet cites Rev 13)"
+          location = "p. 4, Electrical Characteristics, Quiescent Current IDD row"
+          confidence = .datasheet
+        }
+      },
+      SimulationParameter {
+        id = "theta-ja-tqfn"
+        quantity = .thetaJa
+        typ = 48K/W
+        conditions = "TQFN package, JEDEC JESD51-7 four-layer board"
+        source = SimulationEvidence {
+          url = "https://cdn-shop.adafruit.com/product-files/3006/MAX98357A-MAX98357B.pdf"
+          revision = "MAX98357A/MAX98357B datasheet 19-6779; Rev 7; 2/16 (the Adafruit copy that was opened; the sheet cites Rev 13)"
+          location = "p. 4, Package Thermal Characteristics"
+          confidence = .datasheet
+        }
+      },
+      SimulationParameter {
+        id = "tj-absolute"
+        quantity = .junctionAbsoluteTemperature
+        max = 150degC
+        conditions = "junction temperature, absolute maximum ratings"
+        source = SimulationEvidence {
+          url = "https://cdn-shop.adafruit.com/product-files/3006/MAX98357A-MAX98357B.pdf"
+          revision = "MAX98357A/MAX98357B datasheet 19-6779; Rev 7; 2/16 (the Adafruit copy that was opened; the sheet cites Rev 13)"
+          location = "p. 4, Absolute Maximum Ratings"
+          confidence = .datasheet
+        }
+      },
+    ]
+  }
+}
+
+/// The support circuit of the MAX98357AETE+T as its datasheet shows it (Typical application
+/// circuits; Table 5 SD_MODE control, Table 6 SD_MODE pull-up values, Table 8 gain selection;
+/// power-supply input (p. 33)): every part next to the pin it serves. Add it next to the part: `U1
+/// = MAX98357AETE.Part { … }`, `U1Support = MAX98357AETE.Support(U1) {}`.
+///
+/// - SD_MODE: driven low = shutdown; high = left channel; pull-up through RSMALL (kΩ) = 94.0 x
+/// VDDIO - 100 (210 kΩ at 3.3 V) = right; through RLARGE = 222.2 x VDDIO - 100 (634 kΩ at 3.3 V)
+/// = (left + right) / 2. If VDDIO can exceed VDD, add ~2 kΩ in series when driving it high.
+///
+/// - GAIN_SLOT open = 9 dB; to GND = 12 dB; 100 kΩ to GND = 15 dB; to VDD = 6 dB; 100 kΩ to VDD =
+/// 3 dB. Do not change it while audio plays.
+///
+/// - No MCLK needed: BCLK, LRCLK and DIN from the controller (ESP32, RP2040, Pi). LRCLK only at 8,
+/// 16, 32, 44.1, 48, 88.2 or 96 kHz; never stop LRCLK while BCLK runs.
+///
+/// - Filterless bridge-tied output: the speaker between OUTP and OUTN (never to ground), speaker
+/// inductance > 10 µH; short wide output and supply traces, ferrite beads on long speaker leads.
+block Support(
+  /// The MAX98357AETE+T this circuit serves (`MAX98357AETE.Support(U1)`).
+  chip: Any,
+  /// The board's VIO. (`null`: its parts are left out)
+  vio: Endpoint? = null,
+) {
+  /// VDD bypass
+  C1 = cap(10uF, package = "0805") {
+    place = [soft(near(chip.pin.VDD, max = 4mm), weight = 2)]
+    pins { a: chip.pin.VDD, b: chip.pin.GND }
+  }
+  /// VDD bypass, close to pins 7-8
+  C2 = cap(100nF, package = "0402") {
+    place = [soft(near(chip.pin.VDD, max = 2mm), weight = 2)]
+    pins { a: chip.pin.VDD, b: chip.pin.GND }
+  }
+  /// RLARGE for 3.3 V logic: (L+R)/2 mono mix (210 kΩ = right only; tied high = left)
+  R1 =
+    if vio != null then res(634kohm, package = "0402") {
+      place = [soft(near(chip.pin.SD_MODE, max = 5mm), weight = 1)]
+      pins { a: chip.pin.SD_MODE, b: vio }
+    }
+    else null
+}

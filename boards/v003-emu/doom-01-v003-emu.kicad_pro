@@ -1,0 +1,64 @@
+{
+  "board": {
+    "design_settings": {
+      "rule_severities": {},
+      "rules": {
+        "min_clearance": 0.15,
+        "min_copper_edge_clearance": 0.3,
+        "min_hole_clearance": 0.0,
+        "min_hole_to_hole": 0.0,
+        "min_resolved_spokes": 2.0,
+        "min_through_hole_diameter": 0.3,
+        "min_track_width": 0.15,
+        "min_via_annular_width": 0.0,
+        "min_via_diameter": 0.5
+      }
+    }
+  },
+  "meta": {
+    "filename": "doom-01-v003-emu.kicad_pro",
+    "version": 1
+  },
+  "net_settings": {
+    "classes": [
+      {
+        "clearance": 0.2,
+        "name": "Default",
+        "track_width": 0.25,
+        "via_diameter": 0.6,
+        "via_drill": 0.3
+      }
+    ],
+    "netclass_assignments": {
+      "BOOST_EN": "Default",
+      "BUZZ": "Default",
+      "DOWN": "Default",
+      "FB": "Default",
+      "FIRE": "Default",
+      "GND": "Default",
+      "LCD_BL": "Default",
+      "LCD_CS": "Default",
+      "LCD_DC": "Default",
+      "LCD_RST": "Default",
+      "LEFT": "Default",
+      "MENU": "Default",
+      "MISO": "Default",
+      "MOSI": "Default",
+      "NRST": "Default",
+      "Net-(R10-1)": "Default",
+      "Net-(R9-1)": "Default",
+      "RAM_CS": "Default",
+      "RIGHT": "Default",
+      "ROM_CS": "Default",
+      "SCK": "Default",
+      "STRAFE": "Default",
+      "SWIO": "Default",
+      "SW_NODE": "Default",
+      "UP": "Default",
+      "USE": "Default",
+      "V3": "Default",
+      "VBAT": "Default"
+    },
+    "netclass_patterns": []
+  }
+}

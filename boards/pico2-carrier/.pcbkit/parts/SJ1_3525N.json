@@ -1,0 +1,169 @@
+{
+  "id": "SJ1_3525N",
+  "mpn": "SJ1-3525N",
+  "manufacturer": "Same Sky (CUI Devices)",
+  "variants": [
+    "SJ1-3523N",
+    "SJ1-3524N"
+  ],
+  "category": "connector",
+  "description": "3.5 mm stereo audio jack (TRS), right angle, through hole, with tip and ring switches: pins SLEEVE, TIP, RING, TIP_SW, RING_SW — headphones, line in/out",
+  "tags": [
+    "audio jack",
+    "3.5mm",
+    "3.5 mm",
+    "headphone jack",
+    "headphone",
+    "trs",
+    "stereo jack",
+    "phone jack",
+    "aux",
+    "line out",
+    "line in",
+    "sj1-3525n",
+    "connector",
+    "tht",
+    "right angle"
+  ],
+  "datasheet": {
+    "url": "https://www.cuidevices.com/product/resource/sj1-352xn.pdf",
+    "revision": "Same Sky SJ1-352XN datasheet dated 09/12/2024: mechanical drawing, recommended PCB layout (top view), schematic and pin table (p. 2), specifications (p. 1)"
+  },
+  "prefix": "J",
+  "package": {
+    "name": "SJ1-352XN (3.5 mm jack, right angle)",
+    "family": "connector",
+    "body": {
+      "d": 12.0,
+      "e": 11.0,
+      "a": 5.0
+    },
+    "landPattern": {
+      "pads": [
+        {
+          "number": "1",
+          "x": 0.0,
+          "y": -3.5,
+          "w": 2.3,
+          "h": 1.6,
+          "shape": "oval",
+          "drill": 0.8
+        },
+        {
+          "number": "2",
+          "x": -5.0,
+          "y": -8.5,
+          "w": 1.6,
+          "h": 2.3,
+          "shape": "oval",
+          "drill": 0.8
+        },
+        {
+          "number": "10",
+          "x": -2.5,
+          "y": -8.5,
+          "w": 1.6,
+          "h": 2.3,
+          "shape": "oval",
+          "drill": 0.8
+        },
+        {
+          "number": "11",
+          "x": 2.5,
+          "y": -8.5,
+          "w": 1.6,
+          "h": 2.3,
+          "shape": "oval",
+          "drill": 0.8
+        },
+        {
+          "number": "3",
+          "x": 5.0,
+          "y": -8.5,
+          "w": 1.6,
+          "h": 2.3,
+          "shape": "oval",
+          "drill": 0.8
+        }
+      ],
+      "page": "p. 2, recommended PCB layout, top view: the housing's front (connector edge) at y = 0; 5 slots 1.5 x 0.8: pin 1 (horizontal) on the centre line 3.5 behind the front, pins 2, 10, 11, 3 (vertical) at x = -5, -2.5, 2.5, 5 (10.0 and 5.0 apart) 8.5 behind the front; 5 peg holes dia. 1.2: x = +-5 at 1.0 and 3.5 behind the front, and x = 0 at 8.5. Pads 0.4 mm around the slots our choice"
+    },
+    "page": "p. 2: housing 12.0 wide, 11.0 deep, 5.0 high, the bushing dia. 6.0 standing 3.3 ahead of the housing's front, the plug's axis 2.5 above the board; pins 3.0 long"
+  },
+  "footprint": "Footprint {\n    let ps = [\n      thtPad(\"1\", (0mm, -3.5mm), 0.8mm, (2.3mm, 1.6mm), slot = (1.5mm, 0.8mm)),\n      thtPad(\"2\", (-5mm, -8.5mm), 0.8mm, (1.6mm, 2.3mm), slot = (0.8mm, 1.5mm)),\n      thtPad(\"10\", (-2.5mm, -8.5mm), 0.8mm, (1.6mm, 2.3mm), slot = (0.8mm, 1.5mm)),\n      thtPad(\"11\", (2.5mm, -8.5mm), 0.8mm, (1.6mm, 2.3mm), slot = (0.8mm, 1.5mm)),\n      thtPad(\"3\", (5mm, -8.5mm), 0.8mm, (1.6mm, 2.3mm), slot = (0.8mm, 1.5mm)),\n      Pad { number = \"\"; kind = .npth; at = (-5mm, -1mm); drill = 1.2mm; shape = shape.round(1.2mm) },\n      Pad { number = \"\"; kind = .npth; at = (5mm, -1mm); drill = 1.2mm; shape = shape.round(1.2mm) },\n      Pad { number = \"\"; kind = .npth; at = (-5mm, -3.5mm); drill = 1.2mm; shape = shape.round(1.2mm) },\n      Pad { number = \"\"; kind = .npth; at = (5mm, -3.5mm); drill = 1.2mm; shape = shape.round(1.2mm) },\n      Pad { number = \"\"; kind = .npth; at = (0mm, -8.5mm); drill = 1.2mm; shape = shape.round(1.2mm) },\n    ]\n    let b = box((-6mm, -11mm), (6mm, 3.3mm))\n    name = \"Jack_3.5mm_SameSky_SJ1-352XN_Horizontal\"\n    description = \"3.5 mm audio jack, right angle, through hole (Same Sky SJ1-352XN): 1 sleeve, 2 tip, 3 ring, 10 tip switch, 11 ring switch; five peg holes; the plug enters from +Y, the bushing 3.3 mm beyond the housing's front at y = 0\"\n    tags = [\"audio jack\", \"3.5mm\", \"TRS\", \"connector\", \"THT\"]\n    pads = ps\n    body = b\n    height = 5.5mm\n    mating = .up\n    silk = silkOf(ps, b, 0.25mm)\n    package = Package { family = .other; body = (12mm, 14.3mm); height = 5.5mm }\n    solids = [\n      solid.box((12mm, 11mm, 5mm), at = (0mm, -5.5mm, 0mm), radius = 0.3mm, color = \"#1a1a1a\"),\n      Solid { shape = .cylinderY; size = (6mm, 3.3mm, 6mm); at = (0mm, 1.65mm, 2.5mm); material = .metal },\n      Solid { shape = .cylinderY; size = (3.6mm, 3.4mm, 3.6mm); at = (0mm, 1.7mm, 2.5mm); color = \"#050505\" },\n    ]\n  }",
+  "pins": [
+    {
+      "number": "1",
+      "name": "SLEEVE",
+      "type": "passive",
+      "description": "sleeve (the plug's base): audio ground"
+    },
+    {
+      "number": "2",
+      "name": "TIP",
+      "type": "passive",
+      "description": "tip: left channel (stereo) or the signal (mono)"
+    },
+    {
+      "number": "3",
+      "name": "RING",
+      "type": "passive",
+      "description": "ring: right channel"
+    },
+    {
+      "number": "10",
+      "name": "TIP_SW",
+      "type": "passive",
+      "description": "tip switch: touches TIP while no plug is in, opens when a plug enters (plug detect, or a speaker cut-off)"
+    },
+    {
+      "number": "11",
+      "name": "RING_SW",
+      "type": "passive",
+      "description": "ring switch: touches RING while no plug is in"
+    }
+  ],
+  "ratings": {
+    "recommended": [
+      {
+        "what": "rated voltage DC",
+        "max": 12.0,
+        "unit": "V"
+      },
+      {
+        "what": "rated current",
+        "max": 1.0,
+        "unit": "A"
+      },
+      {
+        "what": "contact resistance (terminal to plug)",
+        "max": 0.05,
+        "unit": "Ω"
+      },
+      {
+        "what": "operating temperature",
+        "min": -25.0,
+        "max": 85.0,
+        "unit": "°C"
+      }
+    ]
+  },
+  "notes": [
+    "Put it at the board edge with the plug side (+Y) facing out: the housing's front at y = 0 on the edge line, the bushing (3.3 mm) overhanging it.",
+    "Plug detect: TIP_SW to a GPIO with a pull-up and TIP driven or grounded through the source; or simply leave TIP_SW and RING_SW unconnected (SJ1-3523N has no switches: the same footprint without pins 10 and 11).",
+    "Headphones from a DAC or amplifier: TIP left, RING right, SLEEVE ground; a mono signal: TIP and SLEEVE.",
+    "The five 1.2 mm holes take the housing's plastic pegs: non-plated."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "Same Sky SJ1-352XN datasheet (09/12/2024), p. 2: pin table (1 sleeve, 2 tip, 3 ring, 10 tip switch, 11 ring switch; SJ1-3525N), recommended PCB layout top view (slots 1.5 x 0.8, pegs dia. 1.2), mechanical drawing",
+      "url": "https://www.cuidevices.com/product/resource/sj1-352xn.pdf",
+      "license": "pin numbers and roles, hole positions, dimensions and ratings transcribed from the manufacturer's datasheet (facts); footprint, 3D body, descriptions and notes our own"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "slot positions read from the layout's dimensions (10.0, 5.0, 3.5, 8.5, the pegs on the outer pins' lines, the upper pegs 1.0 behind the front); pads 0.4 mm around the slots our choice"
+    }
+  }
+}

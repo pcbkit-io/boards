@@ -1,0 +1,333 @@
+{
+  "id": "MCP73831T_2ACI_OT",
+  "mpn": "MCP73831T-2ACI/OT",
+  "manufacturer": "Microchip Technology",
+  "variants": [
+    "MCP73831-2ACI/OT",
+    "MCP73831-2-OT"
+  ],
+  "category": "battery-charger",
+  "description": "Single-cell Li-Ion / Li-Po linear charger, 4.20 V, 15-500 mA set by one resistor, tri-state status output",
+  "tags": [
+    "charger",
+    "li-ion",
+    "lipo",
+    "battery",
+    "linear charger",
+    "usb charging",
+    "4.2V",
+    "single cell"
+  ],
+  "datasheet": {
+    "url": "https://ww1.microchip.com/downloads/en/DeviceDoc/MCP73831-Family-Data-Sheet-DS20001984H.pdf",
+    "revision": "DS20001984H, 2020"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "SOT-23-5",
+    "page": "5-lead SOT-23 (OT) package drawing"
+  },
+  "symbol": {
+    "units": [
+      {
+        "shapes": [
+          {
+            "kind": "rect",
+            "from": [
+              7.62,
+              2.54
+            ],
+            "to": [
+              -7.62,
+              -7.62
+            ],
+            "width": 0.0,
+            "fill": "background"
+          }
+        ],
+        "pins": [
+          {
+            "number": "1",
+            "x": 10.16,
+            "y": -2.54,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "2",
+            "x": 0.0,
+            "y": -10.16,
+            "angle": 90.0,
+            "length": 2.54
+          },
+          {
+            "number": "3",
+            "x": 10.16,
+            "y": 0.0,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "4",
+            "x": 0.0,
+            "y": 5.08,
+            "angle": 270.0,
+            "length": 2.54
+          },
+          {
+            "number": "5",
+            "x": -10.16,
+            "y": -2.54,
+            "angle": 0.0,
+            "length": 2.54
+          }
+        ]
+      }
+    ],
+    "name_offset": 1.016
+  },
+  "model": "Package_TO_SOT_SMD:SOT-23-5",
+  "pins": [
+    {
+      "number": "1",
+      "name": "STAT",
+      "type": "output",
+      "description": "charge status: low while charging, high when complete, high-Z in shutdown or without battery"
+    },
+    {
+      "number": "2",
+      "name": "VSS",
+      "type": "ground"
+    },
+    {
+      "number": "3",
+      "name": "VBAT",
+      "type": "power_out",
+      "description": "to the battery's positive terminal"
+    },
+    {
+      "number": "4",
+      "name": "VDD",
+      "type": "power_in",
+      "description": "input supply (USB 5 V)"
+    },
+    {
+      "number": "5",
+      "name": "PROG",
+      "type": "analog",
+      "description": "charge current set resistor to VSS; open disables charging"
+    }
+  ],
+  "ratings": {
+    "absMax": [
+      {
+        "what": "VDD",
+        "pins": [
+          "VDD"
+        ],
+        "max": 7.0,
+        "unit": "V"
+      },
+      {
+        "what": "all inputs and outputs w.r.t. VSS",
+        "pins": [
+          "STAT",
+          "PROG",
+          "VBAT"
+        ],
+        "min": -0.3,
+        "unit": "V"
+      }
+    ],
+    "recommended": [
+      {
+        "what": "VDD supply voltage (VREG + 0.3 V to 6 V)",
+        "pins": [
+          "VDD"
+        ],
+        "min": 4.5,
+        "max": 6.0,
+        "unit": "V"
+      },
+      {
+        "what": "VBAT regulation voltage",
+        "pins": [
+          "VBAT"
+        ],
+        "min": 4.168,
+        "nom": 4.2,
+        "max": 4.232,
+        "unit": "V"
+      },
+      {
+        "what": "charge current",
+        "pins": [
+          "VBAT"
+        ],
+        "min": 0.015,
+        "max": 0.5,
+        "unit": "A"
+      },
+      {
+        "what": "ambient temperature",
+        "min": -40.0,
+        "max": 85.0,
+        "unit": "°C"
+      }
+    ]
+  },
+  "parameters": [
+    {
+      "name": "Digi-Key_PN",
+      "value": "MCP73831T-2ACI/OTCT-ND"
+    },
+    {
+      "name": "Category",
+      "value": "Integrated Circuits (ICs)"
+    },
+    {
+      "name": "Family",
+      "value": "PMIC - Battery Chargers"
+    },
+    {
+      "name": "DK_Datasheet_Link",
+      "value": "http://ww1.microchip.com/downloads/en/DeviceDoc/20001984g.pdf"
+    },
+    {
+      "name": "DK_Detail_Page",
+      "value": "/product-detail/en/microchip-technology/MCP73831T-2ACI-OT/MCP73831T-2ACI-OTCT-ND/1979802"
+    },
+    {
+      "name": "Status",
+      "value": "Active"
+    }
+  ],
+  "simulation": {
+    "parameters": [
+      {
+        "id": "iss-charging",
+        "quantity": "quiescentCurrent",
+        "unit": "A",
+        "typ": 0.00051,
+        "max": 0.0015,
+        "conditions": "Supply current ISS while charging; VDD = VREG + 1.0 V to 6 V, TA -40 to 85 degC, typical at 25 degC (charge complete, no battery: 53 uA typ; PROG floating: 25 uA typ)",
+        "source": {
+          "url": "https://ww1.microchip.com/downloads/en/DeviceDoc/MCP73831-Family-Data-Sheet-DS20001984H.pdf",
+          "revision": "DS20001984H, 2020",
+          "location": "p. 3, DC Characteristics, Supply Input, Supply Current row",
+          "confidence": "datasheet"
+        }
+      }
+    ]
+  },
+  "support": {
+    "parts": [
+      {
+        "ref": "CIN",
+        "kind": "cap",
+        "value": "4.7uF",
+        "rating": "10V X7R",
+        "between": [
+          "VDD",
+          "VSS"
+        ]
+      },
+      {
+        "ref": "COUT",
+        "kind": "cap",
+        "value": "4.7uF",
+        "rating": "10V X7R",
+        "between": [
+          "VBAT",
+          "VSS"
+        ]
+      },
+      {
+        "ref": "RPROG",
+        "kind": "res",
+        "value": "2kohm",
+        "rating": "1% (500 mA; IREG = 1000 V / RPROG, 10 kohm for 100 mA)",
+        "between": [
+          "PROG",
+          "VSS"
+        ]
+      },
+      {
+        "ref": "LED1",
+        "kind": "led",
+        "value": "red",
+        "rating": "on while charging",
+        "between": [
+          "VDD",
+          "LED_K"
+        ],
+        "option": "statusLed"
+      },
+      {
+        "ref": "RLED",
+        "kind": "res",
+        "value": "470ohm",
+        "between": [
+          "LED_K",
+          "STAT"
+        ],
+        "option": "statusLed"
+      }
+    ],
+    "nets": [
+      "LED_K"
+    ],
+    "options": [
+      {
+        "name": "statusLed",
+        "default": true,
+        "description": "The charge LED from VDD through 470 ohm into STAT."
+      }
+    ],
+    "notes": [
+      "Charge current IREG (mA) = 1000 / RPROG (kohm): 2 kohm 500 mA, 10 kohm 100 mA.",
+      "The datasheet's front page wires the LED from VDD through 470 ohm into STAT (lit while charging, STAT low); STAT can instead drive a microcontroller input with a pull-up."
+    ],
+    "page": "p. 1, Typical application (500 mA Li-Ion battery charger)"
+  },
+  "notes": [
+    "VBAT needs at least 4.7 uF to stay stable without a battery.",
+    "At 500 mA from 5 V the SOT-23 dissipates up to about 0.6 W: thermal regulation lowers the current; give the pins copper.",
+    "The -2ACI option: 4.20 V regulation, 10% preconditioning, 7.5% end of charge, 96.5% recharge threshold (Product Identification System)."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "MCP73831/2 datasheet DS20001984H, Table 3-1 (pin function tables), SOT-23-5 column",
+      "url": "https://ww1.microchip.com/downloads/en/DeviceDoc/MCP73831-Family-Data-Sheet-DS20001984H.pdf",
+      "license": "facts transcribed from the datasheet; notes in our own words"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "standard SOT-23-5"
+    },
+    "symbol": {
+      "verified": false,
+      "source": "digikey-kicad",
+      "version": "d4bd68f42e6ccc474526811a853a03692e170b58",
+      "item": "dk_PMIC-Battery-Chargers:MCP73831T-2ACI_OT",
+      "url": "https://github.com/Digi-Key/digikey-kicad-library",
+      "license": "CC-BY-SA-4.0"
+    },
+    "model": {
+      "verified": false,
+      "source": "kicad",
+      "version": "10.0.7",
+      "item": "Package_TO_SOT_SMD.3dshapes/SOT-23-5 (the model of Package_TO_SOT_SMD:SOT-23-5: the package `SOT-23-5`)",
+      "license": "CC-BY-SA-4.0"
+    },
+    "parameters": {
+      "verified": false,
+      "source": "digikey-kicad",
+      "version": "d4bd68f42e6ccc474526811a853a03692e170b58",
+      "item": "dk_PMIC-Battery-Chargers:MCP73831T-2ACI_OT",
+      "url": "https://github.com/Digi-Key/digikey-kicad-library",
+      "license": "CC-BY-SA-4.0"
+    }
+  }
+}

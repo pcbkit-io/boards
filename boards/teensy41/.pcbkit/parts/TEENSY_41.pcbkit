@@ -1,0 +1,131 @@
+pcbkit 1
+
+// TEENSY41 (PJRC): Teensy 4.1 (NXP i.MX RT1062 Cortex-M7 600 MHz, 1 MB RAM, 8 MB flash, PSRAM
+// pads, microSD) on two 24-pin female headers 0.6" apart; pins named as its card (D0-D41, VIN,
+// 3V3, GND)
+// Compiled from the part sheet `parts/TEENSY_41.json` (`parts.create`); status: checked.
+// Datasheet: https://www.pjrc.com/store/teensy41.html (PJRC Teensy 4.1 product page and pinout
+// card card11a_rev4 (front): outer pins, VIN 3.6-5.5 V, 3.3 V out 250 mA max)
+// Pins: PJRC Teensy 4.1 pinout card card11a_rev4_web.pdf (front): bottom row from USB
+// GND,0..12,3.3V,24..32; top row from USB Vin,GND,3.3V,23..13,GND,41..33
+// Footprint: as given
+// This file may be used, changed and shared without conditions, with the board or alone.
+
+// Note: VIN and VUSB are joined on the Teensy: cut the VUSB-VIN pads on its bottom before powering
+// VIN while USB is plugged, or feed VIN through a diode/ideal-diode as here.
+// Note: Programming: the separate MKL02 bootloader chip (HalfKay) loads a .hex over USB with
+// Teensy Loader / teensy_loader_cli; the program button forces it.
+// Note: The microSD socket (4-bit SDIO, BUILTIN_SDCARD) and the two QSPI PSRAM pads (APS6404L, 8
+// MB each; FlexSPI2) are on the module itself.
+
+/// TEENSY41 — Teensy 4.1 (NXP i.MX RT1062 Cortex-M7 600 MHz, 1 MB RAM, 8 MB flash, PSRAM pads,
+/// microSD) on two 24-pin female headers 0.6" apart; pins named as its card (D0-D41, VIN, 3V3, GND)
+part Part = device(footprint = moduleSocket(
+  "Teensy41_Socket_2x24_P2.54mm_W15.24mm",
+  concat(
+    socketRow(1, 24, (-29.21mm, -7.62mm), (2.54mm, 0mm)),
+    socketRow(25, 24, (-29.21mm, 7.62mm), (2.54mm, 0mm)),
+  ),
+  box((-31.5mm, -9mm), (30.5mm, 9mm)),
+  description = "Teensy 4.1 on two 1x24 female headers 15.24 mm apart, the USB end at -X: pins 1-24 the bottom row from the USB end (GND, 0-12, 3.3V, 24-32), 25-48 the top row from the USB end (VIN, GND, 3.3V, 23-13, GND, 41-33)",
+  board = 1.6mm,
+  color = "#2e7d32",
+), prefix = "U", mpn = "TEENSY41", manufacturer = "PJRC", pinout = {
+  GND: ["1", "26", "39"],
+  D0: "2",
+  D1: "3",
+  D2: "4",
+  D3: "5",
+  D4: "6",
+  D5: "7",
+  D6: "8",
+  D7: "9",
+  D8: "10",
+  D9: "11",
+  D10: "12",
+  D11: "13",
+  D12: "14",
+  P3V3: ["15", "27"],
+  D24: "16",
+  D25: "17",
+  D26: "18",
+  D27: "19",
+  D28: "20",
+  D29: "21",
+  D30: "22",
+  D31: "23",
+  D32: "24",
+  VIN: "25",
+  D23: "28",
+  D22: "29",
+  D21: "30",
+  D20: "31",
+  D19: "32",
+  D18: "33",
+  D17: "34",
+  D16: "35",
+  D15: "36",
+  D14: "37",
+  D13: "38",
+  D41: "40",
+  D40: "41",
+  D39: "42",
+  D38: "43",
+  D37: "44",
+  D36: "45",
+  D35: "46",
+  D34: "47",
+  D33: "48",
+}, pinTypes = {
+  GND: .ground,
+  D0: io.bidirectional(),
+  D1: io.bidirectional(),
+  D2: io.bidirectional(),
+  D3: io.bidirectional(),
+  D4: io.bidirectional(),
+  D5: io.bidirectional(),
+  D6: io.bidirectional(),
+  D7: io.bidirectional(),
+  D8: io.bidirectional(),
+  D9: io.bidirectional(),
+  D10: io.bidirectional(),
+  D11: io.bidirectional(),
+  D12: io.bidirectional(),
+  P3V3: .powerOut,
+  D24: io.bidirectional(),
+  D25: io.bidirectional(),
+  D26: io.bidirectional(),
+  D27: io.bidirectional(),
+  D28: io.bidirectional(),
+  D29: io.bidirectional(),
+  D30: io.bidirectional(),
+  D31: io.bidirectional(),
+  D32: io.bidirectional(),
+  VIN: io.powerIn(min = 3.6V, max = 5.5V),
+  D23: io.bidirectional(),
+  D22: io.bidirectional(),
+  D21: io.bidirectional(),
+  D20: io.bidirectional(),
+  D19: io.bidirectional(),
+  D18: io.bidirectional(),
+  D17: io.bidirectional(),
+  D16: io.bidirectional(),
+  D15: io.bidirectional(),
+  D14: io.bidirectional(),
+  D13: io.bidirectional(),
+  D41: io.bidirectional(),
+  D40: io.bidirectional(),
+  D39: io.bidirectional(),
+  D38: io.bidirectional(),
+  D37: io.bidirectional(),
+  D36: io.bidirectional(),
+  D35: io.bidirectional(),
+  D34: io.bidirectional(),
+  D33: io.bidirectional(),
+}) with {
+  fields {
+    Status: "checked",
+    PinoutSource: "PJRC Teensy 4.1 pinout card card11a_rev4_web.pdf (front): bottom row from USB GND,0..12,3.3V,24..32; top row from USB Vin,GND,3.3V,23..13,GND,41..33",
+    Datasheet: "https://www.pjrc.com/store/teensy41.html",
+  }
+}

@@ -1,0 +1,1042 @@
+{
+  "id": "RP2350A",
+  "mpn": "RP2350A",
+  "manufacturer": "Raspberry Pi",
+  "variants": [
+    "RP2354A",
+    "SC1316",
+    "RP2350A0A2"
+  ],
+  "category": "mcu",
+  "description": "RP2350A dual Arm Cortex-M33 / Hazard3 RISC-V MCU, 150 MHz, 520 KB SRAM, external QSPI flash, USB 1.1 device/host, 3 PIO blocks (12 state machines), HSTX, 4 ADC inputs, 30 GPIO, internal 1.1 V switching regulator, QFN-60 7 x 7 mm (the Raspberry Pi Pico 2's chip)",
+  "tags": [
+    "mcu",
+    "rp2350",
+    "rp2350a",
+    "rp2354",
+    "raspberry pi",
+    "pico 2",
+    "arm cortex-m33",
+    "risc-v",
+    "hazard3",
+    "usb",
+    "pio",
+    "dual core",
+    "qfn-60"
+  ],
+  "datasheet": {
+    "url": "https://datasheets.raspberrypi.com/rp2350/rp2350-datasheet.pdf",
+    "revision": "RP2350 datasheet build 06a7f75e58a1; Hardware design with RP2350 build 06a7f75e58a1 (2026-08-20)"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "QFN-60 7 x 7 mm, 0.4 mm pitch, 3.4 mm exposed pad",
+    "family": "qfn",
+    "pins": 60,
+    "pitch": 0.4,
+    "body": {
+      "d": 7.0,
+      "e": 7.0,
+      "a": [
+        0.8,
+        0.85,
+        0.9
+      ]
+    },
+    "lead": {
+      "b": [
+        0.13,
+        0.18,
+        0.23
+      ],
+      "l": [
+        0.35,
+        0.4,
+        0.45
+      ]
+    },
+    "exposedPad": {
+      "d2": [
+        3.35,
+        3.4,
+        3.45
+      ],
+      "e2": [
+        3.35,
+        3.4,
+        3.45
+      ],
+      "number": "61"
+    },
+    "page": "14.1 QFN-60 package (figure 147 and its table); 14.8.1.1 pinout (figure 152)"
+  },
+  "pins": [
+    {
+      "number": "1",
+      "name": "IOVDD",
+      "type": "power_in",
+      "description": "GPIO supply 1.62-3.63 V; 100 nF each"
+    },
+    {
+      "number": "2",
+      "name": "GPIO0",
+      "type": "bidirectional",
+      "functions": [
+        "SPI0_RX",
+        "UART0_TX",
+        "I2C0_SDA",
+        "PWM0_A",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "PIO2"
+      ]
+    },
+    {
+      "number": "3",
+      "name": "GPIO1",
+      "type": "bidirectional",
+      "functions": [
+        "SPI0_CSn",
+        "UART0_RX",
+        "I2C0_SCL",
+        "PWM0_B",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "PIO2"
+      ]
+    },
+    {
+      "number": "4",
+      "name": "GPIO2",
+      "type": "bidirectional",
+      "functions": [
+        "SPI0_SCK",
+        "UART0_CTS",
+        "I2C1_SDA",
+        "PWM1_A",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "PIO2"
+      ]
+    },
+    {
+      "number": "5",
+      "name": "GPIO3",
+      "type": "bidirectional",
+      "functions": [
+        "SPI0_TX",
+        "UART0_RTS",
+        "I2C1_SCL",
+        "PWM1_B",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "PIO2"
+      ]
+    },
+    {
+      "number": "6",
+      "name": "DVDD",
+      "type": "power_in",
+      "description": "digital core supply 1.1 V: from the internal regulator (VREG_FB net); 100 nF each"
+    },
+    {
+      "number": "7",
+      "name": "GPIO4",
+      "type": "bidirectional",
+      "functions": [
+        "SPI0_RX",
+        "UART1_TX",
+        "I2C0_SDA",
+        "PWM2_A",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "PIO2"
+      ]
+    },
+    {
+      "number": "8",
+      "name": "GPIO5",
+      "type": "bidirectional",
+      "functions": [
+        "SPI0_CSn",
+        "UART1_RX",
+        "I2C0_SCL",
+        "PWM2_B",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "PIO2"
+      ]
+    },
+    {
+      "number": "9",
+      "name": "GPIO6",
+      "type": "bidirectional",
+      "functions": [
+        "SPI0_SCK",
+        "UART1_CTS",
+        "I2C1_SDA",
+        "PWM3_A",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "PIO2"
+      ]
+    },
+    {
+      "number": "10",
+      "name": "GPIO7",
+      "type": "bidirectional",
+      "functions": [
+        "SPI0_TX",
+        "UART1_RTS",
+        "I2C1_SCL",
+        "PWM3_B",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "PIO2"
+      ]
+    },
+    {
+      "number": "11",
+      "name": "IOVDD",
+      "type": "power_in",
+      "description": "GPIO supply 1.62-3.63 V; 100 nF each"
+    },
+    {
+      "number": "12",
+      "name": "GPIO8",
+      "type": "bidirectional",
+      "functions": [
+        "SPI1_RX",
+        "UART1_TX",
+        "I2C0_SDA",
+        "PWM4_A",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "PIO2"
+      ]
+    },
+    {
+      "number": "13",
+      "name": "GPIO9",
+      "type": "bidirectional",
+      "functions": [
+        "SPI1_CSn",
+        "UART1_RX",
+        "I2C0_SCL",
+        "PWM4_B",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "PIO2"
+      ]
+    },
+    {
+      "number": "14",
+      "name": "GPIO10",
+      "type": "bidirectional",
+      "functions": [
+        "SPI1_SCK",
+        "UART1_CTS",
+        "I2C1_SDA",
+        "PWM5_A",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "PIO2"
+      ]
+    },
+    {
+      "number": "15",
+      "name": "GPIO11",
+      "type": "bidirectional",
+      "functions": [
+        "SPI1_TX",
+        "UART1_RTS",
+        "I2C1_SCL",
+        "PWM5_B",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "PIO2"
+      ]
+    },
+    {
+      "number": "16",
+      "name": "GPIO12",
+      "type": "bidirectional",
+      "functions": [
+        "HSTX",
+        "SPI1_RX",
+        "UART0_TX",
+        "I2C0_SDA",
+        "PWM6_A",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "PIO2"
+      ]
+    },
+    {
+      "number": "17",
+      "name": "GPIO13",
+      "type": "bidirectional",
+      "functions": [
+        "HSTX",
+        "SPI1_CSn",
+        "UART0_RX",
+        "I2C0_SCL",
+        "PWM6_B",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "PIO2"
+      ]
+    },
+    {
+      "number": "18",
+      "name": "GPIO14",
+      "type": "bidirectional",
+      "functions": [
+        "HSTX",
+        "SPI1_SCK",
+        "UART0_CTS",
+        "I2C1_SDA",
+        "PWM7_A",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "PIO2"
+      ]
+    },
+    {
+      "number": "19",
+      "name": "GPIO15",
+      "type": "bidirectional",
+      "functions": [
+        "HSTX",
+        "SPI1_TX",
+        "UART0_RTS",
+        "I2C1_SCL",
+        "PWM7_B",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "PIO2"
+      ]
+    },
+    {
+      "number": "20",
+      "name": "IOVDD",
+      "type": "power_in",
+      "description": "GPIO supply 1.62-3.63 V; 100 nF each"
+    },
+    {
+      "number": "21",
+      "name": "XIN",
+      "type": "analog",
+      "description": "crystal input (12 MHz for the USB bootloader) or a CMOS clock"
+    },
+    {
+      "number": "22",
+      "name": "XOUT",
+      "type": "analog",
+      "description": "crystal output: through 1 kohm to the crystal"
+    },
+    {
+      "number": "23",
+      "name": "DVDD",
+      "type": "power_in",
+      "description": "digital core supply 1.1 V: from the internal regulator (VREG_FB net); 100 nF each"
+    },
+    {
+      "number": "24",
+      "name": "SWCLK",
+      "type": "input_pullup",
+      "description": "SWD clock (internal pull-up)"
+    },
+    {
+      "number": "25",
+      "name": "SWDIO",
+      "type": "bidirectional",
+      "description": "SWD data"
+    },
+    {
+      "number": "26",
+      "name": "RUN",
+      "type": "input_pullup",
+      "description": "global reset, active low, internal pull-up: a reset button to GND, or tie to IOVDD"
+    },
+    {
+      "number": "27",
+      "name": "GPIO16",
+      "type": "bidirectional",
+      "functions": [
+        "HSTX",
+        "SPI0_RX",
+        "UART0_TX",
+        "I2C0_SDA",
+        "PWM0_A",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "PIO2"
+      ]
+    },
+    {
+      "number": "28",
+      "name": "GPIO17",
+      "type": "bidirectional",
+      "functions": [
+        "HSTX",
+        "SPI0_CSn",
+        "UART0_RX",
+        "I2C0_SCL",
+        "PWM0_B",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "PIO2"
+      ]
+    },
+    {
+      "number": "29",
+      "name": "GPIO18",
+      "type": "bidirectional",
+      "functions": [
+        "HSTX",
+        "SPI0_SCK",
+        "UART0_CTS",
+        "I2C1_SDA",
+        "PWM1_A",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "PIO2"
+      ]
+    },
+    {
+      "number": "30",
+      "name": "IOVDD",
+      "type": "power_in",
+      "description": "GPIO supply 1.62-3.63 V; 100 nF each"
+    },
+    {
+      "number": "31",
+      "name": "GPIO19",
+      "type": "bidirectional",
+      "functions": [
+        "HSTX",
+        "SPI0_TX",
+        "UART0_RTS",
+        "I2C1_SCL",
+        "PWM1_B",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "PIO2"
+      ]
+    },
+    {
+      "number": "32",
+      "name": "GPIO20",
+      "type": "bidirectional",
+      "functions": [
+        "SPI0_RX",
+        "UART1_TX",
+        "I2C0_SDA",
+        "PWM2_A",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "PIO2"
+      ]
+    },
+    {
+      "number": "33",
+      "name": "GPIO21",
+      "type": "bidirectional",
+      "functions": [
+        "SPI0_CSn",
+        "UART1_RX",
+        "I2C0_SCL",
+        "PWM2_B",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "PIO2"
+      ]
+    },
+    {
+      "number": "34",
+      "name": "GPIO22",
+      "type": "bidirectional",
+      "functions": [
+        "SPI0_SCK",
+        "UART1_CTS",
+        "I2C1_SDA",
+        "PWM3_A",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "PIO2"
+      ]
+    },
+    {
+      "number": "35",
+      "name": "GPIO23",
+      "type": "bidirectional",
+      "functions": [
+        "SPI0_TX",
+        "UART1_RTS",
+        "I2C1_SCL",
+        "PWM3_B",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "PIO2"
+      ]
+    },
+    {
+      "number": "36",
+      "name": "GPIO24",
+      "type": "bidirectional",
+      "functions": [
+        "SPI1_RX",
+        "UART1_TX",
+        "I2C0_SDA",
+        "PWM4_A",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "PIO2"
+      ]
+    },
+    {
+      "number": "37",
+      "name": "GPIO25",
+      "type": "bidirectional",
+      "functions": [
+        "SPI1_CSn",
+        "UART1_RX",
+        "I2C0_SCL",
+        "PWM4_B",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "PIO2"
+      ],
+      "description": "Pico 2: the LED"
+    },
+    {
+      "number": "38",
+      "name": "IOVDD",
+      "type": "power_in",
+      "description": "GPIO supply 1.62-3.63 V; 100 nF each"
+    },
+    {
+      "number": "39",
+      "name": "DVDD",
+      "type": "power_in",
+      "description": "digital core supply 1.1 V: from the internal regulator (VREG_FB net); 100 nF each"
+    },
+    {
+      "number": "40",
+      "name": "GPIO26_ADC0",
+      "type": "bidirectional",
+      "functions": [
+        "SPI1_SCK",
+        "UART1_CTS",
+        "I2C1_SDA",
+        "PWM5_A",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "PIO2",
+        "ADC0"
+      ]
+    },
+    {
+      "number": "41",
+      "name": "GPIO27_ADC1",
+      "type": "bidirectional",
+      "functions": [
+        "SPI1_TX",
+        "UART1_RTS",
+        "I2C1_SCL",
+        "PWM5_B",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "PIO2",
+        "ADC1"
+      ]
+    },
+    {
+      "number": "42",
+      "name": "GPIO28_ADC2",
+      "type": "bidirectional",
+      "functions": [
+        "SPI1_RX",
+        "UART0_TX",
+        "I2C0_SDA",
+        "PWM6_A",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "PIO2",
+        "ADC2"
+      ]
+    },
+    {
+      "number": "43",
+      "name": "GPIO29_ADC3",
+      "type": "bidirectional",
+      "functions": [
+        "SPI1_CSn",
+        "UART0_RX",
+        "I2C0_SCL",
+        "PWM6_B",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "PIO2",
+        "ADC3"
+      ]
+    },
+    {
+      "number": "44",
+      "name": "ADC_AVDD",
+      "type": "power_in",
+      "description": "ADC supply 1.62-3.63 V"
+    },
+    {
+      "number": "45",
+      "name": "IOVDD",
+      "type": "power_in",
+      "description": "GPIO supply 1.62-3.63 V; 100 nF each"
+    },
+    {
+      "number": "46",
+      "name": "VREG_AVDD",
+      "type": "power_in",
+      "description": "regulator analog supply 3.135-3.63 V: through 33 ohm, 4.7 uF to GND"
+    },
+    {
+      "number": "47",
+      "name": "VREG_PGND",
+      "type": "ground",
+      "description": "regulator power ground: to GND, switching currents straight back to it"
+    },
+    {
+      "number": "48",
+      "name": "VREG_LX",
+      "type": "passive",
+      "description": "switching node: 3.3 uH inductor to the DVDD rail (200 mA max)"
+    },
+    {
+      "number": "49",
+      "name": "VREG_VIN",
+      "type": "power_in",
+      "description": "regulator input 2.7-5.5 V; 4.7 uF to VREG_PGND right at the pin"
+    },
+    {
+      "number": "50",
+      "name": "VREG_FB",
+      "type": "power_out",
+      "description": "regulator feedback on the filtered 1.1 V output: the DVDD rail (typed as its source)"
+    },
+    {
+      "number": "51",
+      "name": "USB_DM",
+      "type": "bidirectional",
+      "description": "USB D-: 27 ohm series resistor next to the chip"
+    },
+    {
+      "number": "52",
+      "name": "USB_DP",
+      "type": "bidirectional",
+      "description": "USB D+: 27 ohm series resistor next to the chip"
+    },
+    {
+      "number": "53",
+      "name": "USB_OTP_VDD",
+      "type": "power_in",
+      "description": "USB PHY and OTP supply 3.135-3.63 V"
+    },
+    {
+      "number": "54",
+      "name": "QSPI_IOVDD",
+      "type": "power_in",
+      "description": "QSPI I/O supply 1.62-3.63 V"
+    },
+    {
+      "number": "55",
+      "name": "QSPI_SD3",
+      "type": "bidirectional",
+      "description": "QSPI flash SD3"
+    },
+    {
+      "number": "56",
+      "name": "QSPI_SCLK",
+      "type": "bidirectional",
+      "description": "QSPI flash SCLK"
+    },
+    {
+      "number": "57",
+      "name": "QSPI_SD0",
+      "type": "bidirectional",
+      "description": "QSPI flash SD0"
+    },
+    {
+      "number": "58",
+      "name": "QSPI_SD2",
+      "type": "bidirectional",
+      "description": "QSPI flash SD2"
+    },
+    {
+      "number": "59",
+      "name": "QSPI_SD1",
+      "type": "bidirectional",
+      "description": "QSPI flash SD1"
+    },
+    {
+      "number": "60",
+      "name": "QSPI_SS",
+      "type": "bidirectional",
+      "description": "flash chip select; low at reset = BOOTSEL (USB boot): 1 kohm to the BOOTSEL button"
+    },
+    {
+      "number": "61",
+      "name": "GND",
+      "type": "ground",
+      "description": "exposed pad: the only ground connection of the die"
+    }
+  ],
+  "ratings": {
+    "recommended": [
+      {
+        "what": "IOVDD",
+        "pins": [
+          "IOVDD"
+        ],
+        "min": 1.62,
+        "nom": 3.3,
+        "max": 3.63,
+        "unit": "V"
+      },
+      {
+        "what": "QSPI_IOVDD (RP2354: 2.97 V min)",
+        "pins": [
+          "QSPI_IOVDD"
+        ],
+        "min": 1.62,
+        "nom": 3.3,
+        "max": 3.63,
+        "unit": "V"
+      },
+      {
+        "what": "DVDD",
+        "pins": [
+          "DVDD"
+        ],
+        "min": 1.05,
+        "nom": 1.1,
+        "max": 1.16,
+        "unit": "V"
+      },
+      {
+        "what": "VREG_VIN",
+        "pins": [
+          "VREG_VIN"
+        ],
+        "min": 2.7,
+        "nom": 3.3,
+        "max": 5.5,
+        "unit": "V"
+      },
+      {
+        "what": "VREG_AVDD",
+        "pins": [
+          "VREG_AVDD"
+        ],
+        "min": 3.135,
+        "nom": 3.3,
+        "max": 3.63,
+        "unit": "V"
+      },
+      {
+        "what": "USB_OTP_VDD",
+        "pins": [
+          "USB_OTP_VDD"
+        ],
+        "min": 3.135,
+        "nom": 3.3,
+        "max": 3.63,
+        "unit": "V"
+      },
+      {
+        "what": "ADC_AVDD",
+        "pins": [
+          "ADC_AVDD"
+        ],
+        "min": 1.62,
+        "nom": 3.3,
+        "max": 3.63,
+        "unit": "V"
+      },
+      {
+        "what": "operating temperature",
+        "min": -40.0,
+        "max": 85.0,
+        "unit": "°C"
+      }
+    ]
+  },
+  "simulation": {
+    "parameters": [
+      {
+        "id": "idd-hello-serial-3v3",
+        "quantity": "supplyCurrent",
+        "unit": "A",
+        "typ": 0.0155,
+        "conditions": "hello_serial example, 3.3 V on all supplies, DVDD from the on-chip regulator at 1.1 V, room temperature, QSPI flash W25Q16JVSSIQ, USB connected; sum of the supply columns VREG_VIN 14690 + VREG_AVDD 216 + IOVDD 506 + QSPI_IOVDD 22 + ADC_IOVDD 1 + USB_OTP_VDD 62 uA = 15.5 mA (total 51.1 mW); CoreMark on one core at 150 MHz is 11.0 mA on VREG_VIN",
+        "source": {
+          "url": "https://datasheets.raspberrypi.com/rp2350/rp2350-datasheet.pdf",
+          "revision": "RP2350 datasheet build 06a7f75e58a1",
+          "location": "PDF p. 1345, section 14.9.7.3 Power consumption for typical user cases, Table 1693, hello_serial row",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "tj-absolute",
+        "quantity": "junctionAbsoluteTemperature",
+        "unit": "degC",
+        "max": 125.0,
+        "conditions": "Absolute maximum junction temperature (minimum -40 degC); the ambient (case) operating range -40 to 85 degC in Table 1682 is not a junction rating",
+        "source": {
+          "url": "https://datasheets.raspberrypi.com/rp2350/rp2350-datasheet.pdf",
+          "revision": "RP2350 datasheet build 06a7f75e58a1",
+          "location": "PDF p. 1336, section 14.9.1 Absolute maximum ratings, Table 1680, Junction temperature row",
+          "confidence": "datasheet"
+        }
+      }
+    ]
+  },
+  "support": {
+    "parts": [
+      {
+        "ref": "R2",
+        "kind": "res",
+        "value": "1kohm",
+        "rating": "in series between XOUT and the crystal",
+        "between": [
+          "XOUT",
+          "XO"
+        ]
+      },
+      {
+        "ref": "Y1",
+        "kind": "crystal",
+        "value": "12MHz",
+        "rating": "Abracon ABM8-272-T3 (10 pF CL, ESR 50 ohm max)",
+        "between": [
+          "XIN",
+          "XO",
+          "VREG_PGND"
+        ],
+        "load": "10pF"
+      },
+      {
+        "ref": "C1-C6",
+        "kind": "cap",
+        "value": "100nF",
+        "rating": "one per IOVDD pin (1, 11, 20, 30, 38, 45)",
+        "between": [
+          "IOVDD",
+          "GND"
+        ],
+        "each": true
+      },
+      {
+        "ref": "C7-C9",
+        "kind": "cap",
+        "value": "100nF",
+        "rating": "one per DVDD pin (6, 23, 39)",
+        "between": [
+          "DVDD",
+          "GND"
+        ],
+        "each": true
+      },
+      {
+        "ref": "C10",
+        "kind": "cap",
+        "value": "100nF",
+        "rating": "QSPI_IOVDD and USB_OTP_VDD (pins 53, 54) may share it",
+        "between": [
+          "QSPI_IOVDD",
+          "GND"
+        ]
+      },
+      {
+        "ref": "C11",
+        "kind": "cap",
+        "value": "100nF",
+        "between": [
+          "ADC_AVDD",
+          "GND"
+        ]
+      },
+      {
+        "ref": "C12",
+        "kind": "cap",
+        "value": "4.7uF",
+        "rating": "0402, at the pins",
+        "between": [
+          "VREG_VIN",
+          "VREG_PGND"
+        ]
+      },
+      {
+        "ref": "L1",
+        "kind": "inductor",
+        "value": "3.3uH",
+        "rating": "0806 (2016) with a polarity dot, e.g. Abracon AOTA-B201610S3R3-101-T, in the orientation of the reference layout",
+        "between": [
+          "VREG_LX",
+          "VREG_FB"
+        ]
+      },
+      {
+        "ref": "C13",
+        "kind": "cap",
+        "value": "4.7uF",
+        "rating": "regulator output, 0402",
+        "between": [
+          "VREG_FB",
+          "VREG_PGND"
+        ]
+      },
+      {
+        "ref": "R1",
+        "kind": "res",
+        "value": "33ohm",
+        "rating": "VREG_AVDD RC filter from 3.3 V",
+        "between": [
+          "VREG_AVDD",
+          "IOVDD"
+        ]
+      },
+      {
+        "ref": "C14",
+        "kind": "cap",
+        "value": "4.7uF",
+        "between": [
+          "VREG_AVDD",
+          "GND"
+        ]
+      },
+      {
+        "ref": "C15",
+        "kind": "cap",
+        "value": "15pF",
+        "between": [
+          "XIN",
+          "GND"
+        ]
+      },
+      {
+        "ref": "C16",
+        "kind": "cap",
+        "value": "15pF",
+        "between": [
+          "y1XoutSide",
+          "GND"
+        ]
+      },
+      {
+        "ref": "R3",
+        "kind": "res",
+        "value": "27ohm",
+        "between": [
+          "USB_DP",
+          "connectorDP"
+        ]
+      },
+      {
+        "ref": "R4",
+        "kind": "res",
+        "value": "27ohm",
+        "between": [
+          "USB_DM",
+          "connectorDN"
+        ]
+      },
+      {
+        "ref": "R5",
+        "kind": "res",
+        "value": "1kohm",
+        "rating": "to the BOOTSEL button (to GND)",
+        "between": [
+          "QSPI_SS",
+          "bootsel"
+        ]
+      }
+    ],
+    "inputs": [
+      {
+        "name": "y1XoutSide",
+        "description": "The board's Y1 (XOUT side)."
+      },
+      {
+        "name": "connectorDP",
+        "description": "The board's connector D+."
+      },
+      {
+        "name": "connectorDN",
+        "description": "The board's connector D-."
+      },
+      {
+        "name": "bootsel",
+        "description": "The board's BOOTSEL."
+      }
+    ],
+    "nets": [
+      "XO"
+    ],
+    "notes": [
+      "The core regulator's layout matters: copy Raspberry Pi's reference layout (inductor orientation, C12/C13 next to VREG_VIN/VREG_PGND, short LX node); VREG_PGND joins GND so the switching current returns straight to the pin.",
+      "DVDD pins all connect to the regulator's filtered output (the VREG_FB net): there is no separate 1.1 V supply to provide.",
+      "RP2350A has no internal flash (RP2354A has 2 MB): add a QSPI NOR flash on the six QSPI pins; QSPI_SS low at reset enters BOOTSEL (USB mass storage).",
+      "USB needs no pull-ups: only the 27 ohm series resistors next to the chip, 90 ohm differential routing.",
+      "Also in the datasheet's circuit: U2 W25Q128JVSIQ (or any W25Q QSPI flash) between QSPI_SS and QSPI_SCLK and QSPI_SD0 and QSPI_SD1 and QSPI_SD2 and QSPI_SD3."
+    ],
+    "page": "Hardware design with RP2350 (minimal design): 2.1 core regulator, 2.3 decoupling, 3 flash, 4 crystal, 5 USB; RP2350 datasheet 14.9.5 power supplies, 1.2.2 pin descriptions"
+  },
+  "notes": [
+    "As on the Raspberry Pi Pico 2: GPIO25 drives the LED, GPIO26-GPIO29 are the four ADC inputs, the USB bootloader expects a 12 MHz crystal.",
+    "All GPIOs are on IOVDD; they are 5 V tolerant while powered and 3.3 V failsafe unpowered, except as analog inputs.",
+    "The exposed pad (pin 61) is the only ground of the die: solder it with vias to the ground plane."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "Raspberry Pi RP2350 datasheet (build 06a7f75e58a1): figure 152 QFN-60 pinout (label positions read from the PDF), 1.2.2 pin descriptions, table 3 GPIO functions, 14.1 QFN-60 package dimensions, 14.9.5 table 1688 power supplies; Hardware design with RP2350 (same build): regulator, decoupling, crystal, flash and USB components",
+      "url": "https://datasheets.raspberrypi.com/rp2350/rp2350-datasheet.pdf",
+      "license": "pin numbers and names, package dimensions, ratings and application values transcribed from the manufacturer's datasheet (facts, one reading); descriptions and notes our own"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "computed per IPC-7351B from the QFN-60 dimensions (14.1); the datasheet's recommended footprint (figure 148) is the cross-check"
+    }
+  }
+}

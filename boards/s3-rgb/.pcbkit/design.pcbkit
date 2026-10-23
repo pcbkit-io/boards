@@ -1,0 +1,155 @@
+pcbkit 1
+
+// Doom device 09: a big-screen ESP32-S3 handheld. The S3's LCD_CAM peripheral scans a raw 4.3"
+// 480 x 272 RGB TFT (Newhaven NHD-4.3-480272EF-ASXN, 16 colour lines RGB565, DE mode, ~9 MHz
+// pixel clock) straight out of a frame buffer in the module's 8 MB octal PSRAM, by DMA; Doom
+// renders 320 x 200 and is scaled 1.36x into it. A 40 mA constant-current MT3608 boost drives
+// the backlight (25.6 V). Ten buttons on an MCP23017 I2C expander, stereo sound from a PCM5102A
+// I2S DAC into a PAM8403 amplifier and two speakers. Power: an IP5306 power-bank SoC (charger
+// from USB-C, power path, 5.1 V boost, its four-LED gauge and power key) from a LiPo pack, an
+// AMS1117 for 3.3 V. Four layers. The panel lies on the front over the board, its cable folded
+// to the connector on the back.
+
+use "parts/ESP32_S3_WROOM_1.pcbkit" as ESP32_S3_WROOM_1
+use "parts/NHD43_RGB_FPC40.pcbkit" as NHD43_RGB_FPC40
+use "parts/MCP23017_E_SO.pcbkit" as MCP23017_E_SO
+use "parts/PCM5102APWR.pcbkit" as PCM5102APWR
+use "parts/PAM8403DR.pcbkit" as PAM8403DR
+use "parts/IP5306.pcbkit" as IP5306
+use "parts/MT3608.pcbkit" as MT3608
+use "parts/AMS1117_3_3.pcbkit" as AMS1117_3_3
+use "parts/S2B_PH_K_S.pcbkit" as S2B_PH_K_S
+
+net VBUS { voltage = 5V }
+net V5 { voltage = 5.1V }
+net VBAT { voltage = 4.2V }
+net V3 { voltage = 3.3V }
+net GND { voltage = 0V }
+net DP, DN, EN, GAUGE1, GAUGE2, GAUGE3
+net PCLK, DE, VSYNC, HSYNC, DISP
+net RED3, RED4, RED5, RED6, RED7, GRN2, GRN3, GRN4, GRN5, GRN6, GRN7, BLU3, BLU4, BLU5, BLU6, BLU7
+net BL_EN, BL_SW, LED_A, LED_K
+net SDA, SCL, KEYS_INT
+net I2S_BCK, I2S_LRCK, I2S_DIN, LINE_L, LINE_R, SPK_LP, SPK_LN, SPK_RP, SPK_RN
+net UP, DOWN, LEFT, RIGHT, FIRE, USE, STRAFE_L, STRAFE_R, MENU, ENTER
+
+board = Board {
+  name = "doom-09-s3-rgb"
+  description = "ESP32-S3 + 4.3in 480x272 RGB TFT (LCD_CAM) · MCP23017 keys · PCM5102A + PAM8403 · IP5306"
+  outline = rect(182mm, 80mm, radius = 8mm)
+  layers = [signal(Cu.top), power(Cu.inner[1], label = "GND"), signal(Cu.inner[2]), signal(Cu.bottom)]
+}
+
+// Where the panel lies on the front (105.5 x 67.2 mm, its active area centred).
+panel = Line {
+  points = [(38.25mm, 6.4mm), (143.75mm, 6.4mm), (143.75mm, 73.6mm), (38.25mm, 73.6mm), (38.25mm, 6.4mm)]
+  width = 0.2mm
+}
+panelLabel = Text { text = "4.3in 480x272 RGB TFT (NHD-4.3-480272EF-ASXN) on tape; cable to J1 on the back"; at = (91mm, 40mm); size = 1.5mm }
+
+// ---- processor (back, top edge, antenna overhanging) --------------------------------------------
+U1 = ESP32_S3_WROOM_1.Part {
+  at = (91mm, 72.75mm)
+  side = .bottom
+  place = [edge(.top, overhang = 6mm)]
+  pins {
+    GND: GND, P3V3: V3, EN: EN, IO19: DN, IO20: DP,
+    IO42: PCLK, IO40: DE, IO41: VSYNC, IO39: HSYNC,
+    IO1: RED3, IO2: RED4, IO4: RED5, IO5: RED6, IO6: RED7,
+    IO7: GRN2, IO15: GRN3, IO16: GRN4, IO17: GRN5, IO18: GRN6, IO8: GRN7,
+    IO9: BLU3, IO10: BLU4, IO11: BLU5, IO12: BLU6, IO13: BLU7,
+    IO46: BL_EN, IO14: SDA, IO38: SCL, IO3: KEYS_INT,
+    IO47: I2S_BCK, IO48: I2S_LRCK, IO21: I2S_DIN,
+    IO35: .nc, IO36: .nc, IO37: .nc,
+  }
+}
+U1Support = ESP32_S3_WROOM_1.Support(U1) { side = .bottom }
+
+// ---- the panel's connector (back, under the panel) and its backlight boost ---------------------
+J1 = NHD43_RGB_FPC40.Part {
+  side = .bottom
+  at = (91mm, 34mm)
+  rotation = 180deg
+  pins {
+    LED_K: LED_K, LED_A: LED_A, GND: GND, VDD: V3, MP: GND,
+    R0: GND, R1: GND, R2: GND, R3: RED3, R4: RED4, R5: RED5, R6: RED6, R7: RED7,
+    G0: GND, G1: GND, G2: GRN2, G3: GRN3, G4: GRN4, G5: GRN5, G6: GRN6, G7: GRN7,
+    B0: GND, B1: GND, B2: GND, B3: BLU3, B4: BLU4, B5: BLU5, B6: BLU6, B7: BLU7,
+    CLK: PCLK, DISP: DISP, HSYNC: HSYNC, VSYNC: VSYNC, DEN: DE,
+    NC35: .nc, NC37: .nc, NC38: .nc, NC39: .nc, NC40: .nc,
+  }
+}
+R1 = res(10kohm, package = "0402") { side = .bottom; pins { a: DISP, b: V3 } }
+C1 = cap(10uF, package = "0603") { side = .bottom; place = [near(J1, max = 6mm)]; pins { a: V3, b: GND } }
+// MT3608 as a constant-current LED driver: FB regulates 0.6 V across 15 ohm = 40 mA.
+U8 = MT3608.Part { side = .bottom; pins { VIN: V5, GND: GND, EN: BL_EN, SW: BL_SW, FB: LED_K, NC: .nc } }
+R2 = res(100kohm, package = "0402") { side = .bottom; pins { a: BL_EN, b: GND } }
+C2 = cap(22uF, package = "0805", voltage = 10V) { side = .bottom; place = [near(U8.pin.VIN, max = 3mm)]; pins { a: V5, b: GND } }
+L1 = inductor(22uH, package = "4") { side = .bottom; place = [near(U8.pin.SW, max = 5mm)]; pins { a: V5, b: BL_SW } }
+D1 = diode(kind = .schottky, package = "SOD-123", mpn = "B5819W") { side = .bottom; pins { A: BL_SW, K: LED_A } }
+C3 = cap(4.7uF, package = "1206", voltage = 50V) { side = .bottom; pins { a: LED_A, b: GND } }
+RS1 = res(15ohm, package = "0603", tolerance = 1pct) { side = .bottom; pins { a: LED_K, b: GND } }
+
+// ---- keys: ten buttons on an MCP23017 (0x20), interrupt on change -----------------------------------
+U3 = MCP23017_E_SO.Part {
+  side = .bottom
+  pins {
+    VDD: V3, VSS: GND, SDA: SDA, SCL: SCL, A0: GND, A1: GND, A2: GND, INTA: KEYS_INT, INTB: .nc, NC: .nc,
+    GPA0: UP, GPA1: DOWN, GPA2: LEFT, GPA3: RIGHT, GPA4: FIRE, GPA5: USE, GPA6: STRAFE_L,
+    GPB0: STRAFE_R, GPB1: MENU, GPB2: ENTER,
+    GPA7: .nc, GPB3: .nc, GPB4: .nc, GPB5: .nc, GPB6: .nc, GPB7: .nc,
+  }
+}
+U3Support = MCP23017_E_SO.Support(U3) { side = .bottom }
+
+// ---- sound (back): I2S -> PCM5102A -> PAM8403 -> two speakers ------------------------------------------
+U4 = PCM5102APWR.Part {
+  side = .bottom
+  pins {
+    AVDD: V3, CPVDD: V3, DVDD: V3, AGND: GND, CPGND: GND, DGND: GND,
+    BCK: I2S_BCK, LRCK: I2S_LRCK, DIN: I2S_DIN, SCK: GND, FLT: GND, DEMP: GND, FMT: GND, XSMT: V3,
+  }
+}
+U4Support = PCM5102APWR.Support(U4, lineL = LINE_L, lineR = LINE_R) { side = .bottom }
+U5 = PAM8403DR.Part {
+  side = .bottom
+  pins { VDD: V5, PVDD: V5, GND: GND, PGND: GND, SHDN: .nc, MUTE: .nc, OUTLP: SPK_LP, OUTLN: SPK_LN, OUTRP: SPK_RP, OUTRN: SPK_RN, NC: .nc }
+}
+U5Support = PAM8403DR.Support(U5, audioL = LINE_L, audioR = LINE_R) { side = .bottom }
+J5 = S2B_PH_K_S.Part { side = .bottom; pins { C1: SPK_LN, C2: SPK_LP } }
+J6 = S2B_PH_K_S.Part { side = .bottom; pins { C1: SPK_RN, C2: SPK_RP } }
+
+// ---- power (front, top left: above the d-pad) --------------------------------------------------------
+usb = UsbC2(vbus = VBUS, gnd = GND, dp = DP, dn = DN, tvsPackage = "SOD-323") {}
+override usb.power.J.at = (20mm, 8.15mm)
+U2 = IP5306.Part { pins { VIN: VBUS, BAT: VBAT, VOUT: V5, GND: GND, LED1: GAUGE1, LED2: GAUGE2, LED3: GAUGE3 } }
+U2Support = IP5306.Support(U2) {}
+powerCorner = inside(box((2mm, 52mm), (37mm, 78mm)), parts = [U2, U2Support])
+// The four-LED gauge (the datasheet's Figure 7: antiparallel pairs).
+D2 = led(package = "0603", color = .blue) { place = [near(U2, max = 15mm)]; pins { A: GAUGE1, K: GAUGE2 } }
+D3 = led(package = "0603", color = .blue) { place = [near(U2, max = 15mm)]; pins { A: GAUGE2, K: GAUGE1 } }
+D4 = led(package = "0603", color = .blue) { place = [near(U2, max = 15mm)]; pins { A: GAUGE2, K: GAUGE3 } }
+D5 = led(package = "0603", color = .blue) { place = [near(U2, max = 15mm)]; pins { A: GAUGE3, K: GAUGE2 } }
+J2 = S2B_PH_K_S.Part { side = .bottom; pins { C1: GND, C2: VBAT } }
+U6 = AMS1117_3_3.Part { side = .bottom; pins { VIN: V5, VOUT: V3, GND: GND } }
+U6Support = AMS1117_3_3.Support(U6) { side = .bottom }
+
+// ---- input (front) ------------------------------------------------------------------------------------
+part Btn = button("6x6")
+SW1 = Btn { at = (20mm, 44mm); pins { a: UP, b: GND } }
+SW2 = Btn { at = (20mm, 24mm); pins { a: DOWN, b: GND } }
+SW3 = Btn { at = (10mm, 34mm); pins { a: LEFT, b: GND } }
+SW4 = Btn { at = (30mm, 34mm); pins { a: RIGHT, b: GND } }
+SW5 = Btn { at = (152mm, 66mm); pins { a: STRAFE_L, b: GND } }
+SW6 = Btn { at = (166mm, 66mm); pins { a: STRAFE_R, b: GND } }
+SW7 = Btn { at = (172mm, 38mm); pins { a: FIRE, b: GND } }
+SW8 = Btn { at = (160mm, 28mm); pins { a: USE, b: GND } }
+SW9 = Btn { at = (152mm, 12mm); pins { a: MENU, b: GND } }
+SW10 = Btn { at = (166mm, 12mm); pins { a: ENTER, b: GND } }
+
+H1 = hole("M3") { at = (5mm, 5mm) }
+H2 = hole("M3") { at = (177mm, 5mm) }
+H3 = hole("M3") { at = (5mm, 75mm) }
+H4 = hole("M3") { at = (177mm, 75mm) }
+
+gndPour = pour(net = GND, layers = [Cu.top, Cu.inner[1], Cu.bottom]) {}

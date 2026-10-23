@@ -1,0 +1,1573 @@
+{
+  "id": "RP2040",
+  "mpn": "RP2040",
+  "manufacturer": "Raspberry Pi",
+  "variants": [
+    "SC0914(7)",
+    "SC0914(13)"
+  ],
+  "category": "mcu",
+  "description": "Dual Arm Cortex-M0+ MCU, 133 MHz, 264 KB SRAM, external QSPI flash, USB 1.1 device/host, 2 PIO blocks (8 state machines), 4-channel 12-bit ADC, 1.8-3.3 V IO, internal 1.1 V core regulator",
+  "tags": [
+    "mcu",
+    "rp2040",
+    "raspberry pi",
+    "ARM Cortex-M0+",
+    "usb",
+    "pio",
+    "dual core"
+  ],
+  "datasheet": {
+    "url": "https://datasheets.raspberrypi.com/rp2040/rp2040-datasheet.pdf",
+    "revision": "build 2025-02-20 (3184e62)"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "QFN-56 7x7 mm, 0.4 mm pitch, 3.1 mm exposed pad",
+    "family": "qfn",
+    "pins": 56,
+    "pitch": 0.4,
+    "body": {
+      "d": 7.0,
+      "e": 7.0,
+      "a": [
+        null,
+        0.9
+      ]
+    },
+    "lead": {
+      "b": [
+        0.13,
+        0.18,
+        0.23
+      ],
+      "l": [
+        0.3,
+        0.4,
+        0.5
+      ]
+    },
+    "exposedPad": {
+      "d2": [
+        3.0,
+        3.1,
+        3.2
+      ],
+      "e2": [
+        3.0,
+        3.1,
+        3.2
+      ],
+      "number": "57"
+    },
+    "landPattern": {
+      "pads": [
+        {
+          "number": "1",
+          "x": -3.4375,
+          "y": 2.6,
+          "w": 0.875,
+          "h": 0.2
+        },
+        {
+          "number": "2",
+          "x": -3.4375,
+          "y": 2.2,
+          "w": 0.875,
+          "h": 0.2
+        },
+        {
+          "number": "3",
+          "x": -3.4375,
+          "y": 1.8,
+          "w": 0.875,
+          "h": 0.2
+        },
+        {
+          "number": "4",
+          "x": -3.4375,
+          "y": 1.4,
+          "w": 0.875,
+          "h": 0.2
+        },
+        {
+          "number": "5",
+          "x": -3.4375,
+          "y": 1.0,
+          "w": 0.875,
+          "h": 0.2
+        },
+        {
+          "number": "6",
+          "x": -3.4375,
+          "y": 0.6,
+          "w": 0.875,
+          "h": 0.2
+        },
+        {
+          "number": "7",
+          "x": -3.4375,
+          "y": 0.2,
+          "w": 0.875,
+          "h": 0.2
+        },
+        {
+          "number": "8",
+          "x": -3.4375,
+          "y": -0.2,
+          "w": 0.875,
+          "h": 0.2
+        },
+        {
+          "number": "9",
+          "x": -3.4375,
+          "y": -0.6,
+          "w": 0.875,
+          "h": 0.2
+        },
+        {
+          "number": "10",
+          "x": -3.4375,
+          "y": -1.0,
+          "w": 0.875,
+          "h": 0.2
+        },
+        {
+          "number": "11",
+          "x": -3.4375,
+          "y": -1.4,
+          "w": 0.875,
+          "h": 0.2
+        },
+        {
+          "number": "12",
+          "x": -3.4375,
+          "y": -1.8,
+          "w": 0.875,
+          "h": 0.2
+        },
+        {
+          "number": "13",
+          "x": -3.4375,
+          "y": -2.2,
+          "w": 0.875,
+          "h": 0.2
+        },
+        {
+          "number": "14",
+          "x": -3.4375,
+          "y": -2.6,
+          "w": 0.875,
+          "h": 0.2
+        },
+        {
+          "number": "15",
+          "x": -2.6,
+          "y": -3.4375,
+          "w": 0.2,
+          "h": 0.875
+        },
+        {
+          "number": "16",
+          "x": -2.2,
+          "y": -3.4375,
+          "w": 0.2,
+          "h": 0.875
+        },
+        {
+          "number": "17",
+          "x": -1.8,
+          "y": -3.4375,
+          "w": 0.2,
+          "h": 0.875
+        },
+        {
+          "number": "18",
+          "x": -1.4,
+          "y": -3.4375,
+          "w": 0.2,
+          "h": 0.875
+        },
+        {
+          "number": "19",
+          "x": -1.0,
+          "y": -3.4375,
+          "w": 0.2,
+          "h": 0.875
+        },
+        {
+          "number": "20",
+          "x": -0.6,
+          "y": -3.4375,
+          "w": 0.2,
+          "h": 0.875
+        },
+        {
+          "number": "21",
+          "x": -0.2,
+          "y": -3.4375,
+          "w": 0.2,
+          "h": 0.875
+        },
+        {
+          "number": "22",
+          "x": 0.2,
+          "y": -3.4375,
+          "w": 0.2,
+          "h": 0.875
+        },
+        {
+          "number": "23",
+          "x": 0.6,
+          "y": -3.4375,
+          "w": 0.2,
+          "h": 0.875
+        },
+        {
+          "number": "24",
+          "x": 1.0,
+          "y": -3.4375,
+          "w": 0.2,
+          "h": 0.875
+        },
+        {
+          "number": "25",
+          "x": 1.4,
+          "y": -3.4375,
+          "w": 0.2,
+          "h": 0.875
+        },
+        {
+          "number": "26",
+          "x": 1.8,
+          "y": -3.4375,
+          "w": 0.2,
+          "h": 0.875
+        },
+        {
+          "number": "27",
+          "x": 2.2,
+          "y": -3.4375,
+          "w": 0.2,
+          "h": 0.875
+        },
+        {
+          "number": "28",
+          "x": 2.6,
+          "y": -3.4375,
+          "w": 0.2,
+          "h": 0.875
+        },
+        {
+          "number": "29",
+          "x": 3.4375,
+          "y": -2.6,
+          "w": 0.875,
+          "h": 0.2
+        },
+        {
+          "number": "30",
+          "x": 3.4375,
+          "y": -2.2,
+          "w": 0.875,
+          "h": 0.2
+        },
+        {
+          "number": "31",
+          "x": 3.4375,
+          "y": -1.8,
+          "w": 0.875,
+          "h": 0.2
+        },
+        {
+          "number": "32",
+          "x": 3.4375,
+          "y": -1.4,
+          "w": 0.875,
+          "h": 0.2
+        },
+        {
+          "number": "33",
+          "x": 3.4375,
+          "y": -1.0,
+          "w": 0.875,
+          "h": 0.2
+        },
+        {
+          "number": "34",
+          "x": 3.4375,
+          "y": -0.6,
+          "w": 0.875,
+          "h": 0.2
+        },
+        {
+          "number": "35",
+          "x": 3.4375,
+          "y": -0.2,
+          "w": 0.875,
+          "h": 0.2
+        },
+        {
+          "number": "36",
+          "x": 3.4375,
+          "y": 0.2,
+          "w": 0.875,
+          "h": 0.2
+        },
+        {
+          "number": "37",
+          "x": 3.4375,
+          "y": 0.6,
+          "w": 0.875,
+          "h": 0.2
+        },
+        {
+          "number": "38",
+          "x": 3.4375,
+          "y": 1.0,
+          "w": 0.875,
+          "h": 0.2
+        },
+        {
+          "number": "39",
+          "x": 3.4375,
+          "y": 1.4,
+          "w": 0.875,
+          "h": 0.2
+        },
+        {
+          "number": "40",
+          "x": 3.4375,
+          "y": 1.8,
+          "w": 0.875,
+          "h": 0.2
+        },
+        {
+          "number": "41",
+          "x": 3.4375,
+          "y": 2.2,
+          "w": 0.875,
+          "h": 0.2
+        },
+        {
+          "number": "42",
+          "x": 3.4375,
+          "y": 2.6,
+          "w": 0.875,
+          "h": 0.2
+        },
+        {
+          "number": "43",
+          "x": 2.6,
+          "y": 3.4375,
+          "w": 0.2,
+          "h": 0.875
+        },
+        {
+          "number": "44",
+          "x": 2.2,
+          "y": 3.4375,
+          "w": 0.2,
+          "h": 0.875
+        },
+        {
+          "number": "45",
+          "x": 1.8,
+          "y": 3.4375,
+          "w": 0.2,
+          "h": 0.875
+        },
+        {
+          "number": "46",
+          "x": 1.4,
+          "y": 3.4375,
+          "w": 0.2,
+          "h": 0.875
+        },
+        {
+          "number": "47",
+          "x": 1.0,
+          "y": 3.4375,
+          "w": 0.2,
+          "h": 0.875
+        },
+        {
+          "number": "48",
+          "x": 0.6,
+          "y": 3.4375,
+          "w": 0.2,
+          "h": 0.875
+        },
+        {
+          "number": "49",
+          "x": 0.2,
+          "y": 3.4375,
+          "w": 0.2,
+          "h": 0.875
+        },
+        {
+          "number": "50",
+          "x": -0.2,
+          "y": 3.4375,
+          "w": 0.2,
+          "h": 0.875
+        },
+        {
+          "number": "51",
+          "x": -0.6,
+          "y": 3.4375,
+          "w": 0.2,
+          "h": 0.875
+        },
+        {
+          "number": "52",
+          "x": -1.0,
+          "y": 3.4375,
+          "w": 0.2,
+          "h": 0.875
+        },
+        {
+          "number": "53",
+          "x": -1.4,
+          "y": 3.4375,
+          "w": 0.2,
+          "h": 0.875
+        },
+        {
+          "number": "54",
+          "x": -1.8,
+          "y": 3.4375,
+          "w": 0.2,
+          "h": 0.875
+        },
+        {
+          "number": "55",
+          "x": -2.2,
+          "y": 3.4375,
+          "w": 0.2,
+          "h": 0.875
+        },
+        {
+          "number": "56",
+          "x": -2.6,
+          "y": 3.4375,
+          "w": 0.2,
+          "h": 0.875
+        },
+        {
+          "number": "57",
+          "x": 0.0,
+          "y": 0.0,
+          "w": 3.2,
+          "h": 3.2
+        }
+      ],
+      "page": "Figure 167, recommended PCB footprint: pads 0.2 x 0.875 mm from 6.00 to 7.75 mm across, 0.4 mm pitch, 3.2 mm centre pad"
+    },
+    "page": "5.1 Package, Figure 166"
+  },
+  "pins": [
+    {
+      "number": "1",
+      "name": "IOVDD",
+      "type": "power_in",
+      "description": "IO supply 1.8-3.3 V; 100 nF each"
+    },
+    {
+      "number": "2",
+      "name": "GPIO0",
+      "type": "bidirectional",
+      "functions": [
+        "SPI0_RX",
+        "UART0_TX",
+        "I2C0_SDA",
+        "PWM0_A",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "USB_OVCUR_DET"
+      ]
+    },
+    {
+      "number": "3",
+      "name": "GPIO1",
+      "type": "bidirectional",
+      "functions": [
+        "SPI0_CSn",
+        "UART0_RX",
+        "I2C0_SCL",
+        "PWM0_B",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "USB_VBUS_DET"
+      ]
+    },
+    {
+      "number": "4",
+      "name": "GPIO2",
+      "type": "bidirectional",
+      "functions": [
+        "SPI0_SCK",
+        "UART0_CTS",
+        "I2C1_SDA",
+        "PWM1_A",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "USB_VBUS_EN"
+      ]
+    },
+    {
+      "number": "5",
+      "name": "GPIO3",
+      "type": "bidirectional",
+      "functions": [
+        "SPI0_TX",
+        "UART0_RTS",
+        "I2C1_SCL",
+        "PWM1_B",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "USB_OVCUR_DET"
+      ]
+    },
+    {
+      "number": "6",
+      "name": "GPIO4",
+      "type": "bidirectional",
+      "functions": [
+        "SPI0_RX",
+        "UART1_TX",
+        "I2C0_SDA",
+        "PWM2_A",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "USB_VBUS_DET"
+      ]
+    },
+    {
+      "number": "7",
+      "name": "GPIO5",
+      "type": "bidirectional",
+      "functions": [
+        "SPI0_CSn",
+        "UART1_RX",
+        "I2C0_SCL",
+        "PWM2_B",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "USB_VBUS_EN"
+      ]
+    },
+    {
+      "number": "8",
+      "name": "GPIO6",
+      "type": "bidirectional",
+      "functions": [
+        "SPI0_SCK",
+        "UART1_CTS",
+        "I2C1_SDA",
+        "PWM3_A",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "USB_OVCUR_DET"
+      ]
+    },
+    {
+      "number": "9",
+      "name": "GPIO7",
+      "type": "bidirectional",
+      "functions": [
+        "SPI0_TX",
+        "UART1_RTS",
+        "I2C1_SCL",
+        "PWM3_B",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "USB_VBUS_DET"
+      ]
+    },
+    {
+      "number": "10",
+      "name": "IOVDD",
+      "type": "power_in",
+      "description": "IO supply 1.8-3.3 V; 100 nF each"
+    },
+    {
+      "number": "11",
+      "name": "GPIO8",
+      "type": "bidirectional",
+      "functions": [
+        "SPI1_RX",
+        "UART1_TX",
+        "I2C0_SDA",
+        "PWM4_A",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "USB_VBUS_EN"
+      ]
+    },
+    {
+      "number": "12",
+      "name": "GPIO9",
+      "type": "bidirectional",
+      "functions": [
+        "SPI1_CSn",
+        "UART1_RX",
+        "I2C0_SCL",
+        "PWM4_B",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "USB_OVCUR_DET"
+      ]
+    },
+    {
+      "number": "13",
+      "name": "GPIO10",
+      "type": "bidirectional",
+      "functions": [
+        "SPI1_SCK",
+        "UART1_CTS",
+        "I2C1_SDA",
+        "PWM5_A",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "USB_VBUS_DET"
+      ]
+    },
+    {
+      "number": "14",
+      "name": "GPIO11",
+      "type": "bidirectional",
+      "functions": [
+        "SPI1_TX",
+        "UART1_RTS",
+        "I2C1_SCL",
+        "PWM5_B",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "USB_VBUS_EN"
+      ]
+    },
+    {
+      "number": "15",
+      "name": "GPIO12",
+      "type": "bidirectional",
+      "functions": [
+        "SPI1_RX",
+        "UART0_TX",
+        "I2C0_SDA",
+        "PWM6_A",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "USB_OVCUR_DET"
+      ]
+    },
+    {
+      "number": "16",
+      "name": "GPIO13",
+      "type": "bidirectional",
+      "functions": [
+        "SPI1_CSn",
+        "UART0_RX",
+        "I2C0_SCL",
+        "PWM6_B",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "USB_VBUS_DET"
+      ]
+    },
+    {
+      "number": "17",
+      "name": "GPIO14",
+      "type": "bidirectional",
+      "functions": [
+        "SPI1_SCK",
+        "UART0_CTS",
+        "I2C1_SDA",
+        "PWM7_A",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "USB_VBUS_EN"
+      ]
+    },
+    {
+      "number": "18",
+      "name": "GPIO15",
+      "type": "bidirectional",
+      "functions": [
+        "SPI1_TX",
+        "UART0_RTS",
+        "I2C1_SCL",
+        "PWM7_B",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "USB_OVCUR_DET"
+      ]
+    },
+    {
+      "number": "19",
+      "name": "TESTEN",
+      "type": "input",
+      "description": "factory test: tie to GND"
+    },
+    {
+      "number": "20",
+      "name": "XIN",
+      "type": "analog",
+      "description": "12 MHz crystal (or CMOS clock in)"
+    },
+    {
+      "number": "21",
+      "name": "XOUT",
+      "type": "analog",
+      "description": "12 MHz crystal"
+    },
+    {
+      "number": "22",
+      "name": "IOVDD",
+      "type": "power_in",
+      "description": "IO supply 1.8-3.3 V; 100 nF each"
+    },
+    {
+      "number": "23",
+      "name": "DVDD",
+      "type": "power_in",
+      "description": "core supply 1.1 V (from VREG_VOUT)"
+    },
+    {
+      "number": "24",
+      "name": "SWCLK",
+      "type": "input",
+      "functions": [
+        "SWD_SWCLK"
+      ],
+      "description": "debug clock"
+    },
+    {
+      "number": "25",
+      "name": "SWDIO",
+      "type": "bidirectional",
+      "functions": [
+        "SWD_SWDIO"
+      ],
+      "description": "debug data"
+    },
+    {
+      "number": "26",
+      "name": "RUN",
+      "type": "input_pullup",
+      "description": "reset when low; an on-chip pull-up of about 50 kohm holds it high (the Raspberry Pi Pico datasheet: RUN is the RP2040 enable pin, pulled up on the chip), so a button to ground resets it"
+    },
+    {
+      "number": "27",
+      "name": "GPIO16",
+      "type": "bidirectional",
+      "functions": [
+        "SPI0_RX",
+        "UART0_TX",
+        "I2C0_SDA",
+        "PWM0_A",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "USB_VBUS_DET"
+      ]
+    },
+    {
+      "number": "28",
+      "name": "GPIO17",
+      "type": "bidirectional",
+      "functions": [
+        "SPI0_CSn",
+        "UART0_RX",
+        "I2C0_SCL",
+        "PWM0_B",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "USB_VBUS_EN"
+      ]
+    },
+    {
+      "number": "29",
+      "name": "GPIO18",
+      "type": "bidirectional",
+      "functions": [
+        "SPI0_SCK",
+        "UART0_CTS",
+        "I2C1_SDA",
+        "PWM1_A",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "USB_OVCUR_DET"
+      ]
+    },
+    {
+      "number": "30",
+      "name": "GPIO19",
+      "type": "bidirectional",
+      "functions": [
+        "SPI0_TX",
+        "UART0_RTS",
+        "I2C1_SCL",
+        "PWM1_B",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "USB_VBUS_DET"
+      ]
+    },
+    {
+      "number": "31",
+      "name": "GPIO20",
+      "type": "bidirectional",
+      "functions": [
+        "SPI0_RX",
+        "UART1_TX",
+        "I2C0_SDA",
+        "PWM2_A",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "CLOCK_GPIN0",
+        "USB_VBUS_EN"
+      ]
+    },
+    {
+      "number": "32",
+      "name": "GPIO21",
+      "type": "bidirectional",
+      "functions": [
+        "SPI0_CSn",
+        "UART1_RX",
+        "I2C0_SCL",
+        "PWM2_B",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "CLOCK_GPOUT0",
+        "USB_OVCUR_DET"
+      ]
+    },
+    {
+      "number": "33",
+      "name": "IOVDD",
+      "type": "power_in",
+      "description": "IO supply 1.8-3.3 V; 100 nF each"
+    },
+    {
+      "number": "34",
+      "name": "GPIO22",
+      "type": "bidirectional",
+      "functions": [
+        "SPI0_SCK",
+        "UART1_CTS",
+        "I2C1_SDA",
+        "PWM3_A",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "CLOCK_GPIN1",
+        "USB_VBUS_DET"
+      ]
+    },
+    {
+      "number": "35",
+      "name": "GPIO23",
+      "type": "bidirectional",
+      "functions": [
+        "SPI0_TX",
+        "UART1_RTS",
+        "I2C1_SCL",
+        "PWM3_B",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "CLOCK_GPOUT1",
+        "USB_VBUS_EN"
+      ]
+    },
+    {
+      "number": "36",
+      "name": "GPIO24",
+      "type": "bidirectional",
+      "functions": [
+        "SPI1_RX",
+        "UART1_TX",
+        "I2C0_SDA",
+        "PWM4_A",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "CLOCK_GPOUT2",
+        "USB_OVCUR_DET"
+      ]
+    },
+    {
+      "number": "37",
+      "name": "GPIO25",
+      "type": "bidirectional",
+      "functions": [
+        "SPI1_CSn",
+        "UART1_RX",
+        "I2C0_SCL",
+        "PWM4_B",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "CLOCK_GPOUT3",
+        "USB_VBUS_DET"
+      ]
+    },
+    {
+      "number": "38",
+      "name": "GPIO26",
+      "type": "bidirectional",
+      "functions": [
+        "SPI1_SCK",
+        "UART1_CTS",
+        "I2C1_SDA",
+        "PWM5_A",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "USB_VBUS_EN",
+        "ADC0"
+      ],
+      "description": "GPIO26, ADC input 0"
+    },
+    {
+      "number": "39",
+      "name": "GPIO27",
+      "type": "bidirectional",
+      "functions": [
+        "SPI1_TX",
+        "UART1_RTS",
+        "I2C1_SCL",
+        "PWM5_B",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "USB_OVCUR_DET",
+        "ADC1"
+      ],
+      "description": "GPIO27, ADC input 1"
+    },
+    {
+      "number": "40",
+      "name": "GPIO28",
+      "type": "bidirectional",
+      "functions": [
+        "SPI1_RX",
+        "UART0_TX",
+        "I2C0_SDA",
+        "PWM6_A",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "USB_VBUS_DET",
+        "ADC2"
+      ],
+      "description": "GPIO28, ADC input 2"
+    },
+    {
+      "number": "41",
+      "name": "GPIO29",
+      "type": "bidirectional",
+      "functions": [
+        "SPI1_CSn",
+        "UART0_RX",
+        "I2C0_SCL",
+        "PWM6_B",
+        "SIO",
+        "PIO0",
+        "PIO1",
+        "USB_VBUS_EN",
+        "ADC3"
+      ],
+      "description": "GPIO29, ADC input 3"
+    },
+    {
+      "number": "42",
+      "name": "IOVDD",
+      "type": "power_in",
+      "description": "IO supply 1.8-3.3 V; 100 nF each"
+    },
+    {
+      "number": "43",
+      "name": "ADC_AVDD",
+      "type": "power_in",
+      "description": "ADC supply 3.3 V"
+    },
+    {
+      "number": "44",
+      "name": "VREG_VIN",
+      "type": "power_in",
+      "description": "core regulator input 1.8-3.3 V"
+    },
+    {
+      "number": "45",
+      "name": "VREG_VOUT",
+      "type": "power_out",
+      "description": "core regulator output 1.1 V, 100 mA"
+    },
+    {
+      "number": "46",
+      "name": "USB_DM",
+      "type": "bidirectional",
+      "functions": [
+        "USB_DM"
+      ],
+      "description": "USB D-, 27 ohm series"
+    },
+    {
+      "number": "47",
+      "name": "USB_DP",
+      "type": "bidirectional",
+      "functions": [
+        "USB_DP"
+      ],
+      "description": "USB D+, 27 ohm series"
+    },
+    {
+      "number": "48",
+      "name": "USB_VDD",
+      "type": "power_in",
+      "description": "USB PHY supply 3.3 V"
+    },
+    {
+      "number": "49",
+      "name": "IOVDD",
+      "type": "power_in",
+      "description": "IO supply 1.8-3.3 V; 100 nF each"
+    },
+    {
+      "number": "50",
+      "name": "DVDD",
+      "type": "power_in",
+      "description": "core supply 1.1 V (from VREG_VOUT)"
+    },
+    {
+      "number": "51",
+      "name": "QSPI_SD3",
+      "type": "bidirectional",
+      "functions": [
+        "QSPI_SD3"
+      ],
+      "description": "flash QSPI"
+    },
+    {
+      "number": "52",
+      "name": "QSPI_SCLK",
+      "type": "bidirectional",
+      "functions": [
+        "QSPI_SCLK"
+      ],
+      "description": "flash QSPI"
+    },
+    {
+      "number": "53",
+      "name": "QSPI_SD0",
+      "type": "bidirectional",
+      "functions": [
+        "QSPI_SD0"
+      ],
+      "description": "flash QSPI"
+    },
+    {
+      "number": "54",
+      "name": "QSPI_SD2",
+      "type": "bidirectional",
+      "functions": [
+        "QSPI_SD2"
+      ],
+      "description": "flash QSPI"
+    },
+    {
+      "number": "55",
+      "name": "QSPI_SD1",
+      "type": "bidirectional",
+      "functions": [
+        "QSPI_SD1"
+      ],
+      "description": "flash QSPI"
+    },
+    {
+      "number": "56",
+      "name": "QSPI_SS",
+      "type": "bidirectional",
+      "functions": [
+        "QSPI_SS"
+      ],
+      "description": "flash chip select (pull low at reset: USB boot)"
+    },
+    {
+      "number": "57",
+      "name": "GND",
+      "type": "ground",
+      "description": "exposed pad: the only ground connection"
+    }
+  ],
+  "ratings": {
+    "absMax": [
+      {
+        "what": "IOVDD",
+        "pins": [
+          "IOVDD"
+        ],
+        "min": -0.5,
+        "max": 3.63,
+        "unit": "V"
+      },
+      {
+        "what": "voltage at IO pins (at most IOVDD + 0.5 V)",
+        "pins": [
+          "GPIO0",
+          "GPIO1",
+          "GPIO2",
+          "GPIO3",
+          "GPIO4",
+          "GPIO5",
+          "GPIO6",
+          "GPIO7",
+          "GPIO8",
+          "GPIO9",
+          "GPIO10",
+          "GPIO11",
+          "GPIO12",
+          "GPIO13",
+          "GPIO14",
+          "GPIO15",
+          "GPIO16",
+          "GPIO17",
+          "GPIO18",
+          "GPIO19",
+          "GPIO20",
+          "GPIO21",
+          "GPIO22",
+          "GPIO23",
+          "GPIO24",
+          "GPIO25",
+          "GPIO26",
+          "GPIO27",
+          "GPIO28",
+          "GPIO29",
+          "QSPI_SD0",
+          "QSPI_SD1",
+          "QSPI_SD2",
+          "QSPI_SD3",
+          "QSPI_SCLK",
+          "QSPI_SS",
+          "SWCLK",
+          "SWDIO",
+          "RUN",
+          "TESTEN"
+        ],
+        "min": -0.5,
+        "max": 3.63,
+        "unit": "V"
+      }
+    ],
+    "recommended": [
+      {
+        "what": "IOVDD",
+        "pins": [
+          "IOVDD"
+        ],
+        "min": 1.62,
+        "max": 3.63,
+        "unit": "V"
+      },
+      {
+        "what": "DVDD",
+        "pins": [
+          "DVDD"
+        ],
+        "min": 1.05,
+        "nom": 1.1,
+        "max": 1.16,
+        "unit": "V"
+      },
+      {
+        "what": "VREG_VIN",
+        "pins": [
+          "VREG_VIN"
+        ],
+        "min": 1.62,
+        "max": 3.63,
+        "unit": "V"
+      },
+      {
+        "what": "VREG_VOUT",
+        "pins": [
+          "VREG_VOUT"
+        ],
+        "nom": 1.1,
+        "unit": "V"
+      },
+      {
+        "what": "USB_VDD",
+        "pins": [
+          "USB_VDD"
+        ],
+        "min": 3.135,
+        "max": 3.63,
+        "unit": "V"
+      },
+      {
+        "what": "ADC_AVDD (ADC accuracy suffers below 2.97 V)",
+        "pins": [
+          "ADC_AVDD"
+        ],
+        "min": 1.62,
+        "max": 3.63,
+        "unit": "V"
+      },
+      {
+        "what": "IO pin voltage (up to IOVDD)",
+        "pins": [
+          "GPIO0",
+          "GPIO1",
+          "GPIO2",
+          "GPIO3",
+          "GPIO4",
+          "GPIO5",
+          "GPIO6",
+          "GPIO7",
+          "GPIO8",
+          "GPIO9",
+          "GPIO10",
+          "GPIO11",
+          "GPIO12",
+          "GPIO13",
+          "GPIO14",
+          "GPIO15",
+          "GPIO16",
+          "GPIO17",
+          "GPIO18",
+          "GPIO19",
+          "GPIO20",
+          "GPIO21",
+          "GPIO22",
+          "GPIO23",
+          "GPIO24",
+          "GPIO25",
+          "GPIO26",
+          "GPIO27",
+          "GPIO28",
+          "GPIO29",
+          "QSPI_SD0",
+          "QSPI_SD1",
+          "QSPI_SD2",
+          "QSPI_SD3",
+          "QSPI_SCLK",
+          "QSPI_SS",
+          "SWCLK",
+          "SWDIO",
+          "RUN",
+          "TESTEN"
+        ],
+        "min": 0.0,
+        "max": 3.63,
+        "unit": "V"
+      }
+    ]
+  },
+  "simulation": {
+    "parameters": [
+      {
+        "id": "theta-jb",
+        "quantity": "thetaJb",
+        "unit": "K/W",
+        "typ": 29.03,
+        "conditions": "QFN-56 package thermal data (table also lists thetaJA 48.00, psiJT 0.80, psiJB 29.20, thetaJC 19.01 K/W)",
+        "source": {
+          "url": "https://datasheets.raspberrypi.com/rp2040/rp2040-datasheet.pdf",
+          "revision": "build 2025-02-20 (3184e62)",
+          "location": "p. 608 (PDF p. 609), section 5.1.1, Table 611",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "idd-bootsel-active-3v3",
+        "quantity": "supplyCurrent",
+        "unit": "A",
+        "typ": 0.012,
+        "max": 0.021,
+        "conditions": "BOOTSEL mode, USB active (cores running ROM code), all supplies from one 3.3 V rail; typ = DVDD 9.4 + IOVDD 1.2 + USB_VDD 1.4 mA (the internal regulator passes DVDD current from VREG_VIN), max = 14.7 + 4.3 + 2.0 mA worst-case averages; room temperature, nominal voltage",
+        "source": {
+          "url": "https://datasheets.raspberrypi.com/rp2040/rp2040-datasheet.pdf",
+          "revision": "build 2025-02-20 (3184e62)",
+          "location": "p. 623 (PDF p. 624), section 5.7.2, Table 637",
+          "confidence": "datasheet"
+        }
+      }
+    ]
+  },
+  "support": {
+    "parts": [
+      {
+        "ref": "C_IOVDD",
+        "kind": "cap",
+        "value": "100nF",
+        "rating": "one per IOVDD pin (6)",
+        "between": [
+          "IOVDD",
+          "GND"
+        ],
+        "each": true
+      },
+      {
+        "ref": "C_VIN",
+        "kind": "cap",
+        "value": "1uF",
+        "between": [
+          "VREG_VIN",
+          "GND"
+        ]
+      },
+      {
+        "ref": "C_VOUT",
+        "kind": "cap",
+        "value": "1uF",
+        "between": [
+          "VREG_VOUT",
+          "GND"
+        ]
+      },
+      {
+        "ref": "C_DVDD",
+        "kind": "cap",
+        "value": "100nF",
+        "rating": "one per DVDD pin (2)",
+        "between": [
+          "DVDD",
+          "GND"
+        ],
+        "each": true
+      },
+      {
+        "ref": "C_USB",
+        "kind": "cap",
+        "value": "100nF",
+        "between": [
+          "USB_VDD",
+          "GND"
+        ]
+      },
+      {
+        "ref": "C_ADC",
+        "kind": "cap",
+        "value": "100nF",
+        "between": [
+          "ADC_AVDD",
+          "GND"
+        ]
+      },
+      {
+        "ref": "VREG_DVDD",
+        "kind": "tie",
+        "value": "",
+        "between": [
+          "VREG_VOUT",
+          "DVDD"
+        ]
+      },
+      {
+        "ref": "VIN_IOVDD",
+        "kind": "tie",
+        "value": "",
+        "between": [
+          "VREG_VIN",
+          "IOVDD"
+        ],
+        "option": "oneSupply"
+      },
+      {
+        "ref": "USB_IOVDD",
+        "kind": "tie",
+        "value": "",
+        "between": [
+          "USB_VDD",
+          "IOVDD"
+        ],
+        "option": "oneSupply"
+      },
+      {
+        "ref": "ADC_IOVDD",
+        "kind": "tie",
+        "value": "",
+        "between": [
+          "ADC_AVDD",
+          "IOVDD"
+        ],
+        "option": "oneSupply"
+      },
+      {
+        "ref": "TESTEN_GND",
+        "kind": "tie",
+        "value": "",
+        "between": [
+          "TESTEN",
+          "GND"
+        ]
+      },
+      {
+        "ref": "Y1",
+        "kind": "crystal",
+        "value": "12MHz",
+        "rating": "ESR 50 ohm max, CL 10-15 pF (the minimal design's 15 pF load capacitors)",
+        "between": [
+          "XIN",
+          "XO",
+          "GND"
+        ],
+        "load": "10pF"
+      },
+      {
+        "ref": "R_X",
+        "kind": "res",
+        "value": "1kohm",
+        "rating": "series, limits crystal drive",
+        "between": [
+          "XOUT",
+          "XO"
+        ]
+      },
+      {
+        "ref": "R_DP",
+        "kind": "res",
+        "value": "27ohm",
+        "between": [
+          "USB_DP",
+          "dp"
+        ]
+      },
+      {
+        "ref": "R_DM",
+        "kind": "res",
+        "value": "27ohm",
+        "between": [
+          "USB_DM",
+          "dm"
+        ]
+      },
+      {
+        "ref": "U_FLASH",
+        "kind": "part",
+        "value": "W25Q128JVSIQ",
+        "rating": "QSPI NOR flash, 3.3 V, SOIC-8 208 mil",
+        "pins": {
+          "/CS": "QSPI_SS",
+          "/HOLD": "QSPI_SD3",
+          "/WP": "QSPI_SD2",
+          "CLK": "QSPI_SCLK",
+          "DI": "QSPI_SD0",
+          "DO": "QSPI_SD1",
+          "GND": "GND",
+          "VCC": "IOVDD"
+        },
+        "support": {
+          "ioPullUps": false
+        }
+      },
+      {
+        "ref": "R_BOOT",
+        "kind": "res",
+        "value": "1kohm",
+        "rating": "boot select: hold low at reset for the USB bootloader",
+        "between": [
+          "QSPI_SS",
+          "BOOTSEL"
+        ],
+        "option": "bootButton"
+      },
+      {
+        "ref": "SW_BOOT",
+        "kind": "button",
+        "value": "BOOTSEL",
+        "between": [
+          "BOOTSEL",
+          "GND"
+        ],
+        "option": "bootButton"
+      },
+      {
+        "ref": "R_RUN",
+        "kind": "res",
+        "value": "10kohm",
+        "between": [
+          "RUN",
+          "IOVDD"
+        ]
+      }
+    ],
+    "inputs": [
+      {
+        "name": "dp",
+        "description": "The USB connector's D+ (through 27 ohm)."
+      },
+      {
+        "name": "dm",
+        "description": "The USB connector's D- (through 27 ohm)."
+      }
+    ],
+    "nets": [
+      "XO",
+      "BOOTSEL"
+    ],
+    "options": [
+      {
+        "name": "oneSupply",
+        "default": true,
+        "description": "VREG_VIN, USB_VDD and ADC_AVDD on the IOVDD rail (3.3 V)."
+      },
+      {
+        "name": "bootButton",
+        "default": true,
+        "description": "The BOOTSEL button: QSPI_SS through 1 kohm to GND, held at reset for the USB bootloader."
+      }
+    ],
+    "notes": [
+      "The core regulator: VREG_VIN from 3.3 V, VREG_VOUT straight to both DVDD pins, 1 uF at its input and output.",
+      "Keep the flash next to the QSPI pins with short traces; QSPI_SS pulled low at reset (BOOTSEL) starts the USB mass-storage bootloader."
+    ],
+    "page": "Hardware design with RP2040 (minimal design example); datasheet 2.9 Power supplies, 2.16 Crystal oscillator"
+  },
+  "notes": [
+    "The exposed pad (57) is the chip's only ground: solder it, with several vias to the ground plane.",
+    "The ePad is smaller than common QFN-56 footprints: use the datasheet's 3.2 mm pad, it leaves room to route between it and the pins.",
+    "Program memory is external: a QSPI NOR flash (W25Q-series, up to 16 MB) is required.",
+    "The USB bootloader needs a 12 MHz crystal or clock on XIN; USB_DP/USB_DM need 27 ohm series resistors, pull-ups are internal.",
+    "TESTEN to GND. RUN low resets; SWCLK/SWDIO to a debug header.",
+    "GPIO26-29 are the ADC inputs (ADC0-3), powered from ADC_AVDD; any GPIO can carry SIO, PIO0 or PIO1."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "Raspberry Pi RP2040 datasheet (build 2025-02-20), 1.4 Pinout reference (Tables 1-2) and 5.5.2 Pin list (Tables 615-621)",
+      "url": "https://datasheets.raspberrypi.com/rp2040/rp2040-datasheet.pdf",
+      "license": "facts transcribed from the datasheet (pin numbers, names, functions); notes in our own words"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "computed per IPC-7351B from the QFN-56 drawing (Figure 166); the datasheet's recommended footprint (Figure 167) is the land pattern cross-check"
+    }
+  }
+}

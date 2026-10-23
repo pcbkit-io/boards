@@ -1,0 +1,51 @@
+pcbkit 1
+
+// Nokia 5110 84x48 LCD module (PCD8544): connector (8-pin) (generic): Connector for the Nokia 5110
+// / 3310 84 x 48 monochrome LCD module (PCD8544 controller, SPI, 3.3 V): a 1x8 2.54 mm pin header,
+// RST CE DC DIN CLK VCC BL GND as the common red module prints them
+// Compiled from the part sheet `parts/NOKIA5110_LCD.json` (`parts.create`); status: checked.
+// Datasheet: https://cdn-shop.adafruit.com/datasheets/pcd8544.pdf (the common red module's
+// silkscreen; Philips PCD8544 product specification (1999 Apr 12))
+// Pins: the red Nokia 5110 module's silkscreen as sellers and tutorials document it (RST, CE, DC,
+// DIN, CLK, VCC, BL/LIGHT, GND); Philips PCD8544 specification: VDD 2.7-3.3 V, serial interface up
+// to 4.0 Mbit/s
+// Footprint: as given
+// This file may be used, changed and shared without conditions, with the board or alone.
+
+// Note: 3.3 V supply and logic: from a 5 V controller put 10 kohm in series with each signal line
+// or a level shifter.
+// Note: Two pin orders exist: this one (RST CE DC DIN CLK VCC BL GND, the red module) and the blue
+// SparkFun one (VCC GND SCE RST D/C DN SCLK LED). Read the silkscreen.
+// Note: The backlight pin's polarity differs between boards: drive it through about 330 ohm and
+// check whether yours lights with BL high or low.
+
+/// Nokia 5110 84x48 LCD module (PCD8544): connector (8-pin) — Connector for the Nokia 5110 / 3310
+/// 84 x 48 monochrome LCD module (PCD8544 controller, SPI, 3.3 V): a 1x8 2.54 mm pin header, RST CE
+/// DC DIN CLK VCC BL GND as the common red module prints them
+part Part = device(footprint = pinHeader(
+  8,
+), prefix = "J", mpn = "Nokia 5110 84x48 LCD module (PCD8544): connector (8-pin)", manufacturer = "generic", pinout = {
+  RST: "1",
+  CE: "2",
+  DC: "3",
+  DIN: "4",
+  CLK: "5",
+  VCC: "6",
+  BL: "7",
+  GND: "8",
+}, pinTypes = {
+  RST: io.input(),
+  CE: io.input(),
+  DC: io.input(),
+  DIN: io.input(),
+  CLK: io.input(),
+  VCC: io.powerIn(min = 2.7V, max = 3.3V),
+  BL: .passive,
+  GND: .ground,
+}) with {
+  fields {
+    Status: "checked",
+    PinoutSource: "the red Nokia 5110 module's silkscreen as sellers and tutorials document it (RST, CE, DC, DIN, CLK, VCC, BL/LIGHT, GND); Philips PCD8544 specification: VDD 2.7-3.3 V, serial interface up to 4.0 Mbit/s",
+    Datasheet: "https://cdn-shop.adafruit.com/datasheets/pcd8544.pdf",
+  }
+}

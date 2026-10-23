@@ -1,0 +1,486 @@
+{
+  "id": "TEENSY_41",
+  "mpn": "TEENSY41",
+  "manufacturer": "PJRC",
+  "variants": [
+    "Teensy 4.1 (no Ethernet chip)"
+  ],
+  "category": "module",
+  "description": "Teensy 4.1 (NXP i.MX RT1062 Cortex-M7 600 MHz, 1 MB RAM, 8 MB flash, PSRAM pads, microSD) on two 24-pin female headers 0.6\" apart; pins named as its card (D0-D41, VIN, 3V3, GND)",
+  "tags": [
+    "teensy",
+    "teensy 4.1",
+    "imxrt1062",
+    "i.mx rt1062",
+    "cortex-m7",
+    "module",
+    "dev board",
+    "socket"
+  ],
+  "datasheet": {
+    "url": "https://www.pjrc.com/store/teensy41.html",
+    "revision": "PJRC Teensy 4.1 product page and pinout card card11a_rev4 (front): outer pins, VIN 3.6-5.5 V, 3.3 V out 250 mA max"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "Teensy 4.1 module, 2 x 24 sockets, 15.24 mm rows",
+    "family": "module",
+    "pins": 48,
+    "pitch": 2.54,
+    "body": {
+      "d": 61.0,
+      "e": 18.0,
+      "a": 12.0
+    },
+    "page": "card11a: 24 pins per long edge at 2.54 mm, rows 0.6 in apart; the board 2.4 x 0.7 in; micro-USB at the left end"
+  },
+  "footprint": "moduleSocket(\"Teensy41_Socket_2x24_P2.54mm_W15.24mm\", concat(socketRow(1, 24, (-29.21mm, -7.62mm), (2.54mm, 0mm)), socketRow(25, 24, (-29.21mm, 7.62mm), (2.54mm, 0mm))), box((-31.5mm, -9mm), (30.5mm, 9mm)), description = \"Teensy 4.1 on two 1x24 female headers 15.24 mm apart, the USB end at -X: pins 1-24 the bottom row from the USB end (GND, 0-12, 3.3V, 24-32), 25-48 the top row from the USB end (VIN, GND, 3.3V, 23-13, GND, 41-33)\", board = 1.6mm, color = \"#2e7d32\")",
+  "pins": [
+    {
+      "number": "1",
+      "name": "GND",
+      "type": "ground"
+    },
+    {
+      "number": "2",
+      "name": "D0",
+      "type": "bidirectional",
+      "functions": [
+        "UART1_RX",
+        "CAN2_RX",
+        "PWM"
+      ]
+    },
+    {
+      "number": "3",
+      "name": "D1",
+      "type": "bidirectional",
+      "functions": [
+        "UART1_TX",
+        "CAN2_TX",
+        "PWM"
+      ]
+    },
+    {
+      "number": "4",
+      "name": "D2",
+      "type": "bidirectional",
+      "functions": [
+        "PWM"
+      ]
+    },
+    {
+      "number": "5",
+      "name": "D3",
+      "type": "bidirectional",
+      "functions": [
+        "PWM"
+      ]
+    },
+    {
+      "number": "6",
+      "name": "D4",
+      "type": "bidirectional",
+      "functions": [
+        "PWM"
+      ]
+    },
+    {
+      "number": "7",
+      "name": "D5",
+      "type": "bidirectional",
+      "functions": [
+        "PWM"
+      ]
+    },
+    {
+      "number": "8",
+      "name": "D6",
+      "type": "bidirectional",
+      "functions": [
+        "PWM"
+      ]
+    },
+    {
+      "number": "9",
+      "name": "D7",
+      "type": "bidirectional",
+      "functions": [
+        "UART2_RX",
+        "I2S1_OUT1A",
+        "PWM"
+      ]
+    },
+    {
+      "number": "10",
+      "name": "D8",
+      "type": "bidirectional",
+      "functions": [
+        "UART2_TX",
+        "I2S1_IN1",
+        "PWM"
+      ]
+    },
+    {
+      "number": "11",
+      "name": "D9",
+      "type": "bidirectional",
+      "functions": [
+        "PWM"
+      ]
+    },
+    {
+      "number": "12",
+      "name": "D10",
+      "type": "bidirectional",
+      "functions": [
+        "SPI_CS",
+        "PWM"
+      ]
+    },
+    {
+      "number": "13",
+      "name": "D11",
+      "type": "bidirectional",
+      "functions": [
+        "SPI_MOSI",
+        "PWM"
+      ]
+    },
+    {
+      "number": "14",
+      "name": "D12",
+      "type": "bidirectional",
+      "functions": [
+        "SPI_MISO",
+        "PWM"
+      ]
+    },
+    {
+      "number": "15",
+      "name": "3V3",
+      "type": "power_out"
+    },
+    {
+      "number": "16",
+      "name": "D24",
+      "type": "bidirectional",
+      "functions": [
+        "UART6_TX",
+        "SCL2",
+        "A10",
+        "PWM"
+      ]
+    },
+    {
+      "number": "17",
+      "name": "D25",
+      "type": "bidirectional",
+      "functions": [
+        "UART6_RX",
+        "SDA2",
+        "A11",
+        "PWM"
+      ]
+    },
+    {
+      "number": "18",
+      "name": "D26",
+      "type": "bidirectional",
+      "functions": [
+        "SPI1_MOSI",
+        "A12"
+      ]
+    },
+    {
+      "number": "19",
+      "name": "D27",
+      "type": "bidirectional",
+      "functions": [
+        "SPI1_SCK",
+        "A13"
+      ]
+    },
+    {
+      "number": "20",
+      "name": "D28",
+      "type": "bidirectional",
+      "functions": [
+        "UART7_RX",
+        "PWM"
+      ]
+    },
+    {
+      "number": "21",
+      "name": "D29",
+      "type": "bidirectional",
+      "functions": [
+        "UART7_TX",
+        "PWM"
+      ]
+    },
+    {
+      "number": "22",
+      "name": "D30",
+      "type": "bidirectional",
+      "functions": [
+        "CAN3_RX"
+      ]
+    },
+    {
+      "number": "23",
+      "name": "D31",
+      "type": "bidirectional",
+      "functions": [
+        "CAN3_TX"
+      ]
+    },
+    {
+      "number": "24",
+      "name": "D32",
+      "type": "bidirectional",
+      "functions": [
+        "I2S1_OUT1B"
+      ]
+    },
+    {
+      "number": "25",
+      "name": "VIN",
+      "type": "power_in"
+    },
+    {
+      "number": "26",
+      "name": "GND",
+      "type": "ground"
+    },
+    {
+      "number": "27",
+      "name": "3V3",
+      "type": "power_out"
+    },
+    {
+      "number": "28",
+      "name": "D23",
+      "type": "bidirectional",
+      "functions": [
+        "CAN1_RX",
+        "I2S1_MCLK",
+        "A9",
+        "PWM"
+      ]
+    },
+    {
+      "number": "29",
+      "name": "D22",
+      "type": "bidirectional",
+      "functions": [
+        "CAN1_TX",
+        "A8",
+        "PWM"
+      ]
+    },
+    {
+      "number": "30",
+      "name": "D21",
+      "type": "bidirectional",
+      "functions": [
+        "I2S1_BCLK",
+        "UART5_RX",
+        "A7"
+      ]
+    },
+    {
+      "number": "31",
+      "name": "D20",
+      "type": "bidirectional",
+      "functions": [
+        "I2S1_LRCLK",
+        "UART5_TX",
+        "A6"
+      ]
+    },
+    {
+      "number": "32",
+      "name": "D19",
+      "type": "bidirectional",
+      "functions": [
+        "SCL",
+        "A5",
+        "PWM"
+      ]
+    },
+    {
+      "number": "33",
+      "name": "D18",
+      "type": "bidirectional",
+      "functions": [
+        "SDA",
+        "A4",
+        "PWM"
+      ]
+    },
+    {
+      "number": "34",
+      "name": "D17",
+      "type": "bidirectional",
+      "functions": [
+        "UART4_TX",
+        "SDA1",
+        "A3"
+      ]
+    },
+    {
+      "number": "35",
+      "name": "D16",
+      "type": "bidirectional",
+      "functions": [
+        "UART4_RX",
+        "SCL1",
+        "A2"
+      ]
+    },
+    {
+      "number": "36",
+      "name": "D15",
+      "type": "bidirectional",
+      "functions": [
+        "UART3_RX",
+        "A1"
+      ]
+    },
+    {
+      "number": "37",
+      "name": "D14",
+      "type": "bidirectional",
+      "functions": [
+        "UART3_TX",
+        "A0"
+      ]
+    },
+    {
+      "number": "38",
+      "name": "D13",
+      "type": "bidirectional",
+      "functions": [
+        "SPI_SCK",
+        "LED"
+      ]
+    },
+    {
+      "number": "39",
+      "name": "GND",
+      "type": "ground"
+    },
+    {
+      "number": "40",
+      "name": "D41",
+      "type": "bidirectional",
+      "functions": [
+        "A17"
+      ]
+    },
+    {
+      "number": "41",
+      "name": "D40",
+      "type": "bidirectional",
+      "functions": [
+        "A16"
+      ]
+    },
+    {
+      "number": "42",
+      "name": "D39",
+      "type": "bidirectional",
+      "functions": [
+        "SPI1_MISO",
+        "A15"
+      ]
+    },
+    {
+      "number": "43",
+      "name": "D38",
+      "type": "bidirectional",
+      "functions": [
+        "SPI1_CS",
+        "A14"
+      ]
+    },
+    {
+      "number": "44",
+      "name": "D37",
+      "type": "bidirectional",
+      "functions": [
+        "PWM"
+      ]
+    },
+    {
+      "number": "45",
+      "name": "D36",
+      "type": "bidirectional",
+      "functions": [
+        "PWM"
+      ]
+    },
+    {
+      "number": "46",
+      "name": "D35",
+      "type": "bidirectional",
+      "functions": [
+        "UART8_TX"
+      ]
+    },
+    {
+      "number": "47",
+      "name": "D34",
+      "type": "bidirectional",
+      "functions": [
+        "UART8_RX"
+      ]
+    },
+    {
+      "number": "48",
+      "name": "D33",
+      "type": "bidirectional",
+      "functions": [
+        "I2S2_MCLK",
+        "PWM"
+      ]
+    }
+  ],
+  "ratings": {
+    "recommended": [
+      {
+        "what": "VIN supply",
+        "pins": [
+          "VIN"
+        ],
+        "min": 3.6,
+        "max": 5.5,
+        "unit": "V"
+      },
+      {
+        "what": "3.3V output load",
+        "max": 0.25,
+        "unit": "A"
+      }
+    ]
+  },
+  "notes": [
+    "VIN and VUSB are joined on the Teensy: cut the VUSB-VIN pads on its bottom before powering VIN while USB is plugged, or feed VIN through a diode/ideal-diode as here.",
+    "Programming: the separate MKL02 bootloader chip (HalfKay) loads a .hex over USB with Teensy Loader / teensy_loader_cli; the program button forces it.",
+    "The microSD socket (4-bit SDIO, BUILTIN_SDCARD) and the two QSPI PSRAM pads (APS6404L, 8 MB each; FlexSPI2) are on the module itself."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "PJRC Teensy 4.1 pinout card card11a_rev4_web.pdf (front): bottom row from USB GND,0..12,3.3V,24..32; top row from USB Vin,GND,3.3V,23..13,GND,41..33",
+      "url": "https://www.pjrc.com/teensy/card11a_rev4_web.pdf",
+      "license": "pin names and positions read from the maker's card (facts); descriptions our own"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "rows and pitch from the card; module outline 61 x 18 mm"
+    },
+    "by": "user"
+  }
+}

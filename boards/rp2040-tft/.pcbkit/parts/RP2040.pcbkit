@@ -1,0 +1,329 @@
+pcbkit 1
+
+// RP2040 (Raspberry Pi): Dual Arm Cortex-M0+ MCU, 133 MHz, 264 KB SRAM, external QSPI flash, USB
+// 1.1 device/host, 2 PIO blocks (8 state machines), 4-channel 12-bit ADC, 1.8-3.3 V IO, internal
+// 1.1 V core regulator
+// Compiled from the part sheet `parts/RP2040.json` (`parts.create`); status: checked.
+// Datasheet: https://datasheets.raspberrypi.com/rp2040/rp2040-datasheet.pdf (build 2025-02-20
+// (3184e62))
+// Pins: Raspberry Pi RP2040 datasheet (build 2025-02-20), 1.4 Pinout reference (Tables 1-2) and
+// 5.5.2 Pin list (Tables 615-621)
+// Footprint: computed per IPC-7351B from the datasheet's package dimensions
+// This file may be used, changed and shared without conditions, with the board or alone.
+
+use "W25Q128JVSIQ.pcbkit" as W25Q128JVSIQ
+
+// Note: The exposed pad (57) is the chip's only ground: solder it, with several vias to the ground
+// plane.
+// Note: The ePad is smaller than common QFN-56 footprints: use the datasheet's 3.2 mm pad, it
+// leaves room to route between it and the pins.
+// Note: Program memory is external: a QSPI NOR flash (W25Q-series, up to 16 MB) is required.
+// Note: The USB bootloader needs a 12 MHz crystal or clock on XIN; USB_DP/USB_DM need 27 ohm
+// series resistors, pull-ups are internal.
+// Note: TESTEN to GND. RUN low resets; SWCLK/SWDIO to a debug header.
+// Note: GPIO26-29 are the ADC inputs (ADC0-3), powered from ADC_AVDD; any GPIO can carry SIO, PIO0
+// or PIO1.
+
+/// RP2040 — Dual Arm Cortex-M0+ MCU, 133 MHz, 264 KB SRAM, external QSPI flash, USB 1.1
+/// device/host, 2 PIO blocks (8 state machines), 4-channel 12-bit ADC, 1.8-3.3 V IO, internal 1.1 V
+/// core regulator
+part Part = device(footprint = rows(
+  name = "QFN-56-1EP_7x7mm_P0.4mm_EP3.1x3.1mm",
+  description = "QFN-56 7x7 mm, 0.4 mm pitch, 3.1 mm exposed pad, 56 pins, 7 x 7 mm body, 0.4 mm pitch (from the datasheet)",
+  pitch = 0.4mm,
+  leadType = .nolead,
+  pinsY = 14,
+  pinsX = 14,
+  spanX = tolerance(7mm, 7mm),
+  spanY = tolerance(7mm, 7mm),
+  leadLength = tolerance(0.3mm, 0.5mm),
+  leadWidth = tolerance(0.13mm, 0.23mm),
+  bodyX = tolerance(7mm, 7mm),
+  bodyY = tolerance(7mm, 7mm),
+  bodyHeight = 0.9mm,
+  exposedPad = (3.1mm, 3.1mm),
+), prefix = "U", mpn = "RP2040", manufacturer = "Raspberry Pi", pinout = {
+  IOVDD: ["1", "10", "22", "33", "42", "49"],
+  GPIO0: "2",
+  GPIO1: "3",
+  GPIO2: "4",
+  GPIO3: "5",
+  GPIO4: "6",
+  GPIO5: "7",
+  GPIO6: "8",
+  GPIO7: "9",
+  GPIO8: "11",
+  GPIO9: "12",
+  GPIO10: "13",
+  GPIO11: "14",
+  GPIO12: "15",
+  GPIO13: "16",
+  GPIO14: "17",
+  GPIO15: "18",
+  TESTEN: "19",
+  XIN: "20",
+  XOUT: "21",
+  DVDD: ["23", "50"],
+  SWCLK: "24",
+  SWDIO: "25",
+  RUN: "26",
+  GPIO16: "27",
+  GPIO17: "28",
+  GPIO18: "29",
+  GPIO19: "30",
+  GPIO20: "31",
+  GPIO21: "32",
+  GPIO22: "34",
+  GPIO23: "35",
+  GPIO24: "36",
+  GPIO25: "37",
+  GPIO26: "38",
+  GPIO27: "39",
+  GPIO28: "40",
+  GPIO29: "41",
+  ADC_AVDD: "43",
+  VREG_VIN: "44",
+  VREG_VOUT: "45",
+  USB_DM: "46",
+  USB_DP: "47",
+  USB_VDD: "48",
+  QSPI_SD3: "51",
+  QSPI_SCLK: "52",
+  QSPI_SD0: "53",
+  QSPI_SD2: "54",
+  QSPI_SD1: "55",
+  QSPI_SS: "56",
+  GND: "57",
+}, pinTypes = {
+  IOVDD: io.powerIn(min = 1.62V, max = 3.63V),
+  GPIO0: io.bidirectional(max = 3.63V),
+  GPIO1: io.bidirectional(max = 3.63V),
+  GPIO2: io.bidirectional(max = 3.63V),
+  GPIO3: io.bidirectional(max = 3.63V),
+  GPIO4: io.bidirectional(max = 3.63V),
+  GPIO5: io.bidirectional(max = 3.63V),
+  GPIO6: io.bidirectional(max = 3.63V),
+  GPIO7: io.bidirectional(max = 3.63V),
+  GPIO8: io.bidirectional(max = 3.63V),
+  GPIO9: io.bidirectional(max = 3.63V),
+  GPIO10: io.bidirectional(max = 3.63V),
+  GPIO11: io.bidirectional(max = 3.63V),
+  GPIO12: io.bidirectional(max = 3.63V),
+  GPIO13: io.bidirectional(max = 3.63V),
+  GPIO14: io.bidirectional(max = 3.63V),
+  GPIO15: io.bidirectional(max = 3.63V),
+  TESTEN: io.input(max = 3.63V),
+  XIN: .passive,
+  XOUT: .passive,
+  DVDD: io.powerIn(min = 1.05V, max = 1.16V),
+  SWCLK: io.input(max = 3.63V),
+  SWDIO: io.bidirectional(max = 3.63V),
+  RUN: io.input(max = 3.63V, pull = .up),
+  GPIO16: io.bidirectional(max = 3.63V),
+  GPIO17: io.bidirectional(max = 3.63V),
+  GPIO18: io.bidirectional(max = 3.63V),
+  GPIO19: io.bidirectional(max = 3.63V),
+  GPIO20: io.bidirectional(max = 3.63V),
+  GPIO21: io.bidirectional(max = 3.63V),
+  GPIO22: io.bidirectional(max = 3.63V),
+  GPIO23: io.bidirectional(max = 3.63V),
+  GPIO24: io.bidirectional(max = 3.63V),
+  GPIO25: io.bidirectional(max = 3.63V),
+  GPIO26: io.bidirectional(max = 3.63V),
+  GPIO27: io.bidirectional(max = 3.63V),
+  GPIO28: io.bidirectional(max = 3.63V),
+  GPIO29: io.bidirectional(max = 3.63V),
+  ADC_AVDD: io.powerIn(min = 1.62V, max = 3.63V),
+  VREG_VIN: io.powerIn(min = 1.62V, max = 3.63V),
+  VREG_VOUT: io.powerOut(1.1V),
+  USB_DM: io.bidirectional(),
+  USB_DP: io.bidirectional(),
+  USB_VDD: io.powerIn(min = 3.135V, max = 3.63V),
+  QSPI_SD3: io.bidirectional(max = 3.63V),
+  QSPI_SCLK: io.bidirectional(max = 3.63V),
+  QSPI_SD0: io.bidirectional(max = 3.63V),
+  QSPI_SD2: io.bidirectional(max = 3.63V),
+  QSPI_SD1: io.bidirectional(max = 3.63V),
+  QSPI_SS: io.bidirectional(max = 3.63V),
+  GND: .ground,
+}) with {
+  fields {
+    Status: "checked",
+    PinoutSource: "Raspberry Pi RP2040 datasheet (build 2025-02-20), 1.4 Pinout reference (Tables 1-2) and 5.5.2 Pin list (Tables 615-621)",
+    Datasheet: "https://datasheets.raspberrypi.com/rp2040/rp2040-datasheet.pdf",
+  }
+  simulation = SimulationParameters {
+    parameters = [
+      SimulationParameter {
+        id = "theta-jb"
+        quantity = .thetaJb
+        typ = 29.03K/W
+        conditions = "QFN-56 package thermal data (table also lists thetaJA 48.00, psiJT 0.80, psiJB 29.20, thetaJC 19.01 K/W)"
+        source = SimulationEvidence {
+          url = "https://datasheets.raspberrypi.com/rp2040/rp2040-datasheet.pdf"
+          revision = "build 2025-02-20 (3184e62)"
+          location = "p. 608 (PDF p. 609), section 5.1.1, Table 611"
+          confidence = .datasheet
+        }
+      },
+      SimulationParameter {
+        id = "idd-bootsel-active-3v3"
+        quantity = .supplyCurrent
+        typ = 12mA
+        max = 21mA
+        conditions = "BOOTSEL mode, USB active (cores running ROM code), all supplies from one 3.3 V rail; typ = DVDD 9.4 + IOVDD 1.2 + USB_VDD 1.4 mA (the internal regulator passes DVDD current from VREG_VIN), max = 14.7 + 4.3 + 2.0 mA worst-case averages; room temperature, nominal voltage"
+        source = SimulationEvidence {
+          url = "https://datasheets.raspberrypi.com/rp2040/rp2040-datasheet.pdf"
+          revision = "build 2025-02-20 (3184e62)"
+          location = "p. 623 (PDF p. 624), section 5.7.2, Table 637"
+          confidence = .datasheet
+        }
+      },
+    ]
+  }
+}
+
+let Y1Crystal = crystal(12MHz, load = 10pF, package = "3225")
+
+/// The support circuit of the RP2040 as its datasheet shows it (Hardware design with RP2040
+/// (minimal design example); datasheet 2.9 Power supplies, 2.16 Crystal oscillator): every part
+/// next to the pin it serves. Add it next to the part: `U1 = RP2040.Part { … }`, `U1Support =
+/// RP2040.Support(U1) {}`.
+///
+/// - The core regulator: VREG_VIN from 3.3 V, VREG_VOUT straight to both DVDD pins, 1 uF at its
+/// input and output.
+///
+/// - Keep the flash next to the QSPI pins with short traces; QSPI_SS pulled low at reset (BOOTSEL)
+/// starts the USB mass-storage bootloader.
+block Support(
+  /// The RP2040 this circuit serves (`RP2040.Support(U1)`).
+  chip: Any,
+  /// The USB connector's D+ (through 27 ohm). (`null`: its parts are left out)
+  dp: Endpoint? = null,
+  /// The USB connector's D- (through 27 ohm). (`null`: its parts are left out)
+  dm: Endpoint? = null,
+  /// VREG_VIN, USB_VDD and ADC_AVDD on the IOVDD rail (3.3 V).
+  oneSupply: Bool = true,
+  /// The BOOTSEL button: QSPI_SS through 1 kohm to GND, held at reset for the USB bootloader.
+  bootButton: Bool = true,
+) {
+  net XO, BOOTSEL
+  /// one per IOVDD pin (6)
+  C_IOVDD_1 = cap(100nF, package = "0402") {
+    place = [soft(near(chip["1"], max = 2mm), weight = 2)]
+    pins { a: chip["1"], b: chip.pin.GND }
+  }
+  /// one per IOVDD pin (6)
+  C_IOVDD_10 = cap(100nF, package = "0402") {
+    place = [soft(near(chip["10"], max = 2mm), weight = 2)]
+    pins { a: chip["10"], b: chip.pin.GND }
+  }
+  /// one per IOVDD pin (6)
+  C_IOVDD_22 = cap(100nF, package = "0402") {
+    place = [soft(near(chip["22"], max = 2mm), weight = 2)]
+    pins { a: chip["22"], b: chip.pin.GND }
+  }
+  /// one per IOVDD pin (6)
+  C_IOVDD_33 = cap(100nF, package = "0402") {
+    place = [soft(near(chip["33"], max = 2mm), weight = 2)]
+    pins { a: chip["33"], b: chip.pin.GND }
+  }
+  /// one per IOVDD pin (6)
+  C_IOVDD_42 = cap(100nF, package = "0402") {
+    place = [soft(near(chip["42"], max = 2mm), weight = 2)]
+    pins { a: chip["42"], b: chip.pin.GND }
+  }
+  /// one per IOVDD pin (6)
+  C_IOVDD_49 = cap(100nF, package = "0402") {
+    place = [soft(near(chip["49"], max = 2mm), weight = 2)]
+    pins { a: chip["49"], b: chip.pin.GND }
+  }
+  C_VIN = cap(1uF, package = "0402") {
+    place = [soft(near(chip.pin.VREG_VIN, max = 2mm), weight = 2)]
+    pins { a: chip.pin.VREG_VIN, b: chip.pin.GND }
+  }
+  C_VOUT = cap(1uF, package = "0402") {
+    place = [soft(near(chip.pin.VREG_VOUT, max = 2mm), weight = 2)]
+    pins { a: chip.pin.VREG_VOUT, b: chip.pin.GND }
+  }
+  /// one per DVDD pin (2)
+  C_DVDD_23 = cap(100nF, package = "0402") {
+    place = [soft(near(chip["23"], max = 2mm), weight = 2)]
+    pins { a: chip["23"], b: chip.pin.GND }
+  }
+  /// one per DVDD pin (2)
+  C_DVDD_50 = cap(100nF, package = "0402") {
+    place = [soft(near(chip["50"], max = 2mm), weight = 2)]
+    pins { a: chip["50"], b: chip.pin.GND }
+  }
+  C_USB = cap(100nF, package = "0402") {
+    place = [soft(near(chip.pin.USB_VDD, max = 2mm), weight = 2)]
+    pins { a: chip.pin.USB_VDD, b: chip.pin.GND }
+  }
+  C_ADC = cap(100nF, package = "0402") {
+    place = [soft(near(chip.pin.ADC_AVDD, max = 2mm), weight = 2)]
+    pins { a: chip.pin.ADC_AVDD, b: chip.pin.GND }
+  }
+  connect(chip.pin.VREG_VOUT, chip.pin.DVDD)
+  connect(chip.pin.VREG_VIN, if oneSupply then chip.pin.IOVDD else chip.pin.VREG_VIN)
+  connect(chip.pin.USB_VDD, if oneSupply then chip.pin.IOVDD else chip.pin.USB_VDD)
+  connect(chip.pin.ADC_AVDD, if oneSupply then chip.pin.IOVDD else chip.pin.ADC_AVDD)
+  connect(chip.pin.TESTEN, chip.pin.GND)
+  /// ESR 50 ohm max, CL 10-15 pF (the minimal design's 15 pF load capacitors)
+  Y1 = Y1Crystal {
+    place = [soft(near(chip, max = 4mm), weight = 2)]
+    pins { X1: chip.pin.XIN, X2: XO, GND: chip.pin.GND }
+  }
+  Y1_C1 = cap(loadCapacitor(10pF, stray = 3pF), package = "0402") {
+    place = [soft(near(Y1.pin.X1, max = 2.5mm), weight = 2)]
+    pins { a: chip.pin.XIN, b: chip.pin.GND }
+  }
+  Y1_C2 = cap(loadCapacitor(10pF, stray = 3pF), package = "0402") {
+    place = [soft(near(Y1.pin.X2, max = 2.5mm), weight = 2)]
+    pins { a: XO, b: chip.pin.GND }
+  }
+  /// series, limits crystal drive
+  R_X = res(1kohm, package = "0402") {
+    place = [soft(near(chip.pin.XOUT, max = 5mm), weight = 1)]
+    pins { a: chip.pin.XOUT, b: XO }
+  }
+  R_DP =
+    if dp != null then res(27ohm, package = "0402") {
+      place = [soft(near(chip.pin.USB_DP, max = 5mm), weight = 1)]
+      pins { a: chip.pin.USB_DP, b: dp }
+    }
+    else null
+  R_DM =
+    if dm != null then res(27ohm, package = "0402") {
+      place = [soft(near(chip.pin.USB_DM, max = 5mm), weight = 1)]
+      pins { a: chip.pin.USB_DM, b: dm }
+    }
+    else null
+  /// QSPI NOR flash, 3.3 V, SOIC-8 208 mil
+  U_FLASH = W25Q128JVSIQ.Part {
+    place = [soft(near(chip, max = 8mm), weight = 1)]
+    pins {
+      nCS: chip.pin.QSPI_SS,
+      nHOLD: chip.pin.QSPI_SD3,
+      nWP: chip.pin.QSPI_SD2,
+      CLK: chip.pin.QSPI_SCLK,
+      DI: chip.pin.QSPI_SD0,
+      DO: chip.pin.QSPI_SD1,
+      GND: chip.pin.GND,
+      VCC: chip.pin.IOVDD,
+    }
+  }
+  U_FLASH_support = W25Q128JVSIQ.Support(U_FLASH, ioPullUps = false) {}
+  /// boot select: hold low at reset for the USB bootloader
+  R_BOOT =
+    if bootButton then res(1kohm, package = "0402") {
+      place = [soft(near(chip.pin.QSPI_SS, max = 5mm), weight = 1)]
+      pins { a: chip.pin.QSPI_SS, b: BOOTSEL }
+    }
+    else null
+  SW_BOOT = if bootButton then button("6x6") { pins { a: BOOTSEL, b: chip.pin.GND } } else null
+  R_RUN = res(10kohm, package = "0402") {
+    place = [soft(near(chip.pin.RUN, max = 5mm), weight = 1)]
+    pins { a: chip.pin.RUN, b: chip.pin.IOVDD }
+  }
+}

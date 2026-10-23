@@ -1,0 +1,133 @@
+pcbkit 1
+
+// SC1631 (Raspberry Pi): Raspberry Pi Pico 2 (RP2350: dual Cortex-M33 or Hazard3 RISC-V, 150 MHz,
+// 520 KB SRAM, 4 MB flash) on two 20-pin female headers 0.7" apart, the Pico's pinout (GP0-GP22,
+// GP26-GP28, VBUS, VSYS, 3V3, 3V3_EN, RUN, ADC_VREF, AGND); courtyard the 21 x 51 mm board
+// Compiled from the part sheet `parts/RASPBERRY_PI_PICO_2.json` (`parts.create`); status: checked.
+// Datasheet: https://datasheets.raspberrypi.com/pico/pico-2-datasheet.pdf (Raspberry Pi Pico 2
+// datasheet: pinout figure, mechanical drawing, §2.1 pin descriptions; RP2350 datasheet GPIO
+// function table)
+// Pins: Raspberry Pi Pico 2 datasheet: pinout figure (the Pico's 40 header pins), §2.1 pin
+// descriptions, mechanical drawing (51 x 21 mm, rows 17.78 mm); RP2350 datasheet, GPIO functions
+// (F1-F4 shared with RP2040), erratum RP2350-E9
+// Footprint: as given
+// This file may be used, changed and shared without conditions, with the board or alone.
+
+// Note: Same header pinout and footprint as the Pico (RASPBERRY_PI_PICO); GPIOs are 3.3 V
+// (RP2350's IOs tolerate 5 V only while powered, as inputs: do not rely on it). In PCBKit 3V3 is
+// `P3V3`, 3V3_EN `P3V3_EN`.
+// Note: The UART, I2C and SPI functions listed are those RP2040 and RP2350 share on each pin;
+// RP2350 adds UART on more pins (its function F11), PIO2 and HSTX on GP12-GP19.
+// Note: RP2350 A2 (early Pico 2 boards) erratum E9: an input with the internal pull-down can latch
+// near 2.2 V; use an external pull-down of 8.2 kΩ or less where a pulled-down input matters.
+// Note: Power: USB (VBUS → diode → VSYS), or 1.8-5.5 V into VSYS (through its own Schottky
+// diode when USB is used too). 3V3 can feed sensors (under 300 mA).
+// Note: Raspberry Pi Pico 2 W (SC1633) has this header pinout too, with GP23-GP25 and GP29 taken
+// by its radio like the Pico W.
+
+/// SC1631 — Raspberry Pi Pico 2 (RP2350: dual Cortex-M33 or Hazard3 RISC-V, 150 MHz, 520 KB SRAM,
+/// 4 MB flash) on two 20-pin female headers 0.7" apart, the Pico's pinout (GP0-GP22, GP26-GP28,
+/// VBUS, VSYS, 3V3, 3V3_EN, RUN, ADC_VREF, AGND); courtyard the 21 x 51 mm board
+part Part = device(footprint = moduleSocket(
+  "Raspberry_Pi_Pico_2_Socket_2x20_P2.54mm_W17.78mm",
+  concat(
+    socketRow(1, 20, (-8.89mm, 24.13mm)),
+    socketRow(21, 20, (8.89mm, -24.13mm), (0mm, 2.54mm)),
+  ),
+  box((-10.5mm, -25.5mm), (10.5mm, 26.8mm)),
+  description = "Raspberry Pi Pico 2 on two 1x20 female headers 17.78 mm apart, the USB end at +Y: pin 1 (GP0) top left, 1-20 down the left row, 21-40 up the right row (Raspberry Pi's numbering)",
+  board = 1mm,
+  color = "#2e7d32",
+), prefix = "U", mpn = "SC1631", manufacturer = "Raspberry Pi", pinout = {
+  GP0: "1",
+  GP1: "2",
+  GND: ["3", "8", "13", "18", "23", "28", "38"],
+  GP2: "4",
+  GP3: "5",
+  GP4: "6",
+  GP5: "7",
+  GP6: "9",
+  GP7: "10",
+  GP8: "11",
+  GP9: "12",
+  GP10: "14",
+  GP11: "15",
+  GP12: "16",
+  GP13: "17",
+  GP14: "19",
+  GP15: "20",
+  GP16: "21",
+  GP17: "22",
+  GP18: "24",
+  GP19: "25",
+  GP20: "26",
+  GP21: "27",
+  GP22: "29",
+  RUN: "30",
+  GP26: "31",
+  GP27: "32",
+  AGND: "33",
+  GP28: "34",
+  ADC_VREF: "35",
+  P3V3: "36",
+  P3V3_EN: "37",
+  VSYS: "39",
+  VBUS: "40",
+}, pinTypes = {
+  GP0: io.bidirectional(),
+  GP1: io.bidirectional(),
+  GND: .ground,
+  GP2: io.bidirectional(),
+  GP3: io.bidirectional(),
+  GP4: io.bidirectional(),
+  GP5: io.bidirectional(),
+  GP6: io.bidirectional(),
+  GP7: io.bidirectional(),
+  GP8: io.bidirectional(),
+  GP9: io.bidirectional(),
+  GP10: io.bidirectional(),
+  GP11: io.bidirectional(),
+  GP12: io.bidirectional(),
+  GP13: io.bidirectional(),
+  GP14: io.bidirectional(),
+  GP15: io.bidirectional(),
+  GP16: io.bidirectional(),
+  GP17: io.bidirectional(),
+  GP18: io.bidirectional(),
+  GP19: io.bidirectional(),
+  GP20: io.bidirectional(),
+  GP21: io.bidirectional(),
+  GP22: io.bidirectional(),
+  RUN: io.input(pull = .up),
+  GP26: io.bidirectional(),
+  GP27: io.bidirectional(),
+  AGND: .ground,
+  GP28: io.bidirectional(),
+  ADC_VREF: .passive,
+  P3V3: io.powerOut(3.3V),
+  P3V3_EN: io.input(pull = .up),
+  VSYS: .passive,
+  VBUS: io.powerOut(5V),
+}) with {
+  fields {
+    Status: "checked",
+    PinoutSource: "Raspberry Pi Pico 2 datasheet: pinout figure (the Pico's 40 header pins), §2.1 pin descriptions, mechanical drawing (51 x 21 mm, rows 17.78 mm); RP2350 datasheet, GPIO functions (F1-F4 shared with RP2040), erratum RP2350-E9",
+    Datasheet: "https://datasheets.raspberrypi.com/pico/pico-2-datasheet.pdf",
+  }
+  simulation = SimulationParameters {
+    parameters = [
+      SimulationParameter {
+        id = "ivbus-hello-serial"
+        quantity = .supplyCurrent
+        typ = 12.427mA
+        conditions = "whole board current from VBUS (5 V) running the hello_serial example (continuously transmitting characters), USB connected, GPIOs unconnected except GPIO0/1 to a debug probe; typical, not guaranteed; includes the on-board regulator's losses; the datasheet gives no clock or temperature for it"
+        source = SimulationEvidence {
+          url = "https://datasheets.raspberrypi.com/pico/pico-2-datasheet.pdf"
+          revision = "Raspberry Pi Pico 2 Datasheet, release 5, build date 03/07/2026"
+          location = "document p. 13, section 4.1.2 Typical Use Cases, Table 2, Hello_serial row"
+          confidence = .datasheet
+        }
+      },
+    ]
+  }
+}

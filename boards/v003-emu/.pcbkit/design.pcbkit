@@ -1,0 +1,92 @@
+pcbkit 1
+
+// Doom device 01: the most primitive. A 10-cent WCH CH32V003 (RISC-V RV32EC, 48 MHz, 2 KB SRAM,
+// 16 KB flash) cannot hold Doom, so its firmware is a small RV32IMA emulator: the guest (Doom
+// built for a plain RV32 machine) lives in an 8 MB APS6404L PSRAM and boots from a 16 MB W25Q128
+// flash, all on one SPI bus with a tiny cache in the 2 KB of SRAM. It plays, slowly, on an
+// 84 x 48 Nokia 5110 LCD. Two AA cells and a TPS61023 boost to 3.3 V. Programming: WCH's
+// one-wire SDI (PD1) from a WCH-LinkE. Front: the LCD and eight buttons. Back: the rest.
+
+use "parts/CH32V003F4P6.pcbkit" as CH32V003F4P6
+use "parts/APS6404L_3SQR.pcbkit" as APS6404L_3SQR
+use "parts/W25Q128JVSIQ.pcbkit" as W25Q128JVSIQ
+use "parts/NOKIA5110_LCD.pcbkit" as NOKIA5110_LCD
+use "parts/TPS61023DRL.pcbkit" as TPS61023DRL
+use "parts/BATTERY_2XAA_LEADS.pcbkit" as BATTERY_2XAA_LEADS
+use "parts/JS102011SAQN.pcbkit" as JS102011SAQN
+use "parts/GPC12075YB_5V.pcbkit" as GPC12075YB_5V
+
+net VBAT { voltage = 3V }
+net V3 { voltage = 3.3V }
+net GND { voltage = 0V }
+net BOOST_EN, SW_NODE, FB, NRST, SWIO
+net SCK, MOSI, MISO, RAM_CS, ROM_CS, LCD_CS, LCD_DC, LCD_RST, LCD_BL, BUZZ
+net UP, DOWN, LEFT, RIGHT, FIRE, USE, STRAFE, MENU
+
+board = Board {
+  name = "doom-01-v003-emu"
+  description = "CH32V003 RISC-V · RV32 emulator over 8 MB SPI PSRAM · Nokia 5110 · 2xAA"
+  outline = rect(96mm, 50mm, radius = 4mm)
+}
+
+// ---- processor (back) ------------------------------------------------------------------------
+U1 = CH32V003F4P6.Part {
+  at = (48mm, 25mm)
+  side = .bottom
+  pins {
+    VDD: V3, VSS: GND, PD7: NRST, PD1: SWIO,
+    PC5: SCK, PC6: MOSI, PC7: MISO, PC0: RAM_CS, PC4: ROM_CS, PC3: LCD_CS, PC2: LCD_DC, PC1: BUZZ,
+    PD0: UP, PD2: DOWN, PD3: LEFT, PD4: RIGHT, PD5: FIRE, PD6: USE, PA1: STRAFE, PA2: MENU,
+  }
+}
+U1Support = CH32V003F4P6.Support(U1) { side = .bottom }
+// Reset: RC on NRST (it has an internal pull-up), also the LCD's reset.
+R1 = res(10kohm, package = "0402") { side = .bottom; pins { a: NRST, b: V3 } }
+C1 = cap(100nF, package = "0402") { side = .bottom; pins { a: NRST, b: GND } }
+R2 = res(10kohm, package = "0402") { side = .bottom; pins { a: LCD_RST, b: V3 } }
+C2 = cap(100nF, package = "0402") { side = .bottom; pins { a: LCD_RST, b: GND } }
+// WCH-LinkE: 3V3, SWIO, GND.
+J2 = header(3) { side = .bottom; pins = [V3, SWIO, GND] }
+
+// ---- memory (back): the guest's RAM and its disk on the same SPI bus -------------------------
+U2 = APS6404L_3SQR.Part { side = .bottom; pins { CE: RAM_CS, SIO1: MISO, SIO0: MOSI, SCLK: SCK, SIO2: V3, SIO3: V3, VDD: V3, VSS: GND } }
+U2Support = APS6404L_3SQR.Support(U2) { side = .bottom }
+U3 = W25Q128JVSIQ.Part { side = .bottom; pins { nCS: ROM_CS, DO: MISO, DI: MOSI, CLK: SCK, VCC: V3, GND: GND } }
+U3Support = W25Q128JVSIQ.Support(U3) { side = .bottom }
+
+// ---- display (front) -------------------------------------------------------------------------
+DS1 = NOKIA5110_LCD.Part {
+  at = (48mm, 44mm)
+  rotation = 90deg
+  pins { RST: LCD_RST, CE: LCD_CS, DC: LCD_DC, DIN: MOSI, CLK: SCK, VCC: V3, BL: LCD_BL, GND: GND }
+}
+// Backlight: about 330 ohm to ground (the red module lights with BL low).
+R3 = res(330ohm, package = "0603") { side = .bottom; pins { a: LCD_BL, b: GND } }
+
+// ---- power (back): 2 x AA -> switch -> TPS61023 boost to 3.3 V -------------------------------
+BT1 = BATTERY_2XAA_LEADS.Part { side = .bottom; pins { VBAT: VBAT, GND: GND } }
+SW9 = JS102011SAQN.Part { at = (80mm, 47.2mm); rotation = 180deg; pins { A: VBAT, COM: BOOST_EN, B: GND } }
+R4 = res(1Mohm, package = "0402") { side = .bottom; pins { a: BOOST_EN, b: GND } }
+U4 = TPS61023DRL.Part { side = .bottom; pins { VIN: VBAT, EN: BOOST_EN, SW: SW_NODE, VOUT: V3, FB: FB, GND: GND } }
+C3 = cap(10uF, package = "0603", voltage = 10V) { side = .bottom; place = [near(U4.pin.VIN, max = 3mm)]; pins { a: VBAT, b: GND } }
+L1 = inductor(1uH, package = "4") { side = .bottom; place = [near(U4.pin.SW, max = 6mm)]; pins { a: VBAT, b: SW_NODE } }
+C4 = cap(22uF, package = "0805", voltage = 10V) { side = .bottom; place = [near(U4.pin.VOUT, max = 3mm)]; pins { a: V3, b: GND } }
+// VOUT = 0.595 V x (1 + R5 / R6) = 3.29 V.
+R5 = res(453kohm, package = "0402", tolerance = 1pct) { side = .bottom; pins { a: V3, b: FB } }
+R6 = res(100kohm, package = "0402", tolerance = 1pct) { side = .bottom; pins { a: FB, b: GND } }
+
+// ---- sound (back): a piezo from a timer channel -----------------------------------------------
+BZ1 = GPC12075YB_5V.Part { side = .bottom; pins { A: BUZZ, B: GND } }
+
+// ---- input (front): PTS526 5.2 mm switches, internal pull-ups ---------------------------------
+part Btn = button("5.1x5.1")
+SW1 = Btn { at = (14mm, 32mm); pins { a: UP, b: GND } }
+SW2 = Btn { at = (14mm, 16mm); pins { a: DOWN, b: GND } }
+SW3 = Btn { at = (6mm, 24mm); pins { a: LEFT, b: GND } }
+SW4 = Btn { at = (22mm, 24mm); pins { a: RIGHT, b: GND } }
+SW5 = Btn { at = (89mm, 28mm); pins { a: FIRE, b: GND } }
+SW6 = Btn { at = (80mm, 20mm); pins { a: USE, b: GND } }
+SW7 = Btn { at = (80mm, 36mm); pins { a: STRAFE, b: GND } }
+SW8 = Btn { at = (89mm, 12mm); pins { a: MENU, b: GND } }
+
+gndPour = pour(net = GND, layers = [Cu.top, Cu.bottom]) {}

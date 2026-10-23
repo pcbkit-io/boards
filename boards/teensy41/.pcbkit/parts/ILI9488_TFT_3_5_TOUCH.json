@@ -1,0 +1,161 @@
+{
+  "id": "ILI9488_TFT_3_5_TOUCH",
+  "mpn": "MSP3520 3.5in 320x480 SPI TFT module with touch (ILI9488)",
+  "manufacturer": "generic",
+  "variants": [
+    "3.5\" TFT touch",
+    "ILI9488 320x480"
+  ],
+  "category": "display",
+  "description": "3.5\" 320 x 480 colour TFT module (ILI9488) with resistive touch (XPT2046), SPI, on a 1x14 female header: VCC GND CS RESET DC SDI SCK LED SDO T_CLK T_CS T_DIN T_DO T_IRQ; courtyard the 56.34 x 98 mm module lying over the board",
+  "tags": [
+    "ili9488",
+    "3.5 tft",
+    "3.5 inch tft",
+    "tft",
+    "lcd",
+    "touch",
+    "xpt2046",
+    "320x480",
+    "480x320",
+    "spi",
+    "module",
+    "socket"
+  ],
+  "datasheet": {
+    "url": "http://www.lcdwiki.com/3.5inch_SPI_Module_ILI9488_SKU:MSP3520",
+    "revision": "lcdwiki 3.5inch SPI Module ILI9488 SKU:MSP3520: interface definition (14 pins), product parameters (module PCB 56.34 x 98 mm, VCC 3.3-5 V, 3.3 V logic)"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "3.5\" SPI TFT module, 1 x 14 socket",
+    "family": "module",
+    "pins": 14,
+    "pitch": 2.54,
+    "body": {
+      "d": 56.34,
+      "e": 98.0,
+      "a": 5.6
+    },
+    "page": "lcdwiki MSP3520: pins 1 VCC, 2 GND, 3 CS, 4 RESET, 5 DC/RS, 6 SDI(MOSI), 7 SCK, 8 LED, 9 SDO(MISO), 10 T_CLK, 11 T_CS, 12 T_DIN, 13 T_DO, 14 T_IRQ; module PCB 56.34 x 98 mm. The header position is assumed as on the MSP2807 (a centred row 2 mm from the bottom short edge): not read from MSP3520_Size.pdf"
+  },
+  "footprint": "moduleSocket(\"TFT_3.5in_ILI9488_Socket_1x14_P2.54mm\", socketRow(1, 14, (-16.51mm, 0mm), (2.54mm, 0mm)), box((-28.17mm, -2.0mm), (28.17mm, 96.0mm)), description = \"3.5 inch ILI9488 TFT module with touch on a 1x14 female header along its bottom edge, the display facing up over +Y: VCC, GND, CS, RESET, DC, SDI, SCK, LED, SDO, T_CLK, T_CS, T_DIN, T_DO, T_IRQ left to right\", parts = 5.6mm, color = \"#b02020\")",
+  "pins": [
+    {
+      "number": "1",
+      "name": "VCC",
+      "type": "power_in",
+      "description": "supply 3.3-5 V (the module's regulator)"
+    },
+    {
+      "number": "2",
+      "name": "GND",
+      "type": "ground"
+    },
+    {
+      "number": "3",
+      "name": "CS",
+      "type": "input",
+      "description": "LCD chip select, active low"
+    },
+    {
+      "number": "4",
+      "name": "RESET",
+      "type": "input",
+      "description": "LCD reset, active low"
+    },
+    {
+      "number": "5",
+      "name": "DC",
+      "type": "input",
+      "description": "data (high) / register (low)"
+    },
+    {
+      "number": "6",
+      "name": "SDI",
+      "type": "input",
+      "description": "LCD SPI data in (MOSI)"
+    },
+    {
+      "number": "7",
+      "name": "SCK",
+      "type": "input",
+      "description": "LCD SPI clock"
+    },
+    {
+      "number": "8",
+      "name": "LED",
+      "type": "input",
+      "description": "backlight on when high (tie to 3.3 V if not dimmed)"
+    },
+    {
+      "number": "9",
+      "name": "SDO",
+      "type": "output",
+      "description": "LCD SPI data out (MISO); may stay open"
+    },
+    {
+      "number": "10",
+      "name": "T_CLK",
+      "type": "input",
+      "description": "touch controller SPI clock"
+    },
+    {
+      "number": "11",
+      "name": "T_CS",
+      "type": "input",
+      "description": "touch controller chip select, active low"
+    },
+    {
+      "number": "12",
+      "name": "T_DIN",
+      "type": "input",
+      "description": "touch controller SPI data in (MOSI)"
+    },
+    {
+      "number": "13",
+      "name": "T_DO",
+      "type": "output",
+      "description": "touch controller SPI data out (MISO)"
+    },
+    {
+      "number": "14",
+      "name": "T_IRQ",
+      "type": "output",
+      "description": "touch interrupt, low while touched"
+    }
+  ],
+  "ratings": {
+    "recommended": [
+      {
+        "what": "VCC supply",
+        "pins": [
+          "VCC"
+        ],
+        "min": 3.3,
+        "max": 5.0,
+        "unit": "V"
+      }
+    ]
+  },
+  "notes": [
+    "Logic 3.3 V TTL even with VCC at 5 V.",
+    "The ILI9488 SPI interface takes 18-bit colour (3 bytes a pixel): 320 x 480 x 24 bits at 60 MHz SPI is about 16 frames per second full screen; a 320 x 200 game area letterboxed is about 39.",
+    "The LCD and the touch controller share one SPI bus with separate CS and T_CS; keep T_CS high when unused.",
+    "LED high lights the backlight (module resistor); PWM it from a GPIO.",
+    "Check the header position against the vendor drawing MSP3520_Size.pdf before ordering: here it is assumed as on the 2.8\" MSP2807."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "lcdwiki MSP3520 interface definition and product parameters (56.34 x 98 mm)",
+      "url": "http://www.lcdwiki.com/3.5inch_SPI_Module_ILI9488_SKU:MSP3520",
+      "license": "pinout and dimensions transcribed from the vendor's published documentation (facts); footprint, descriptions and notes our own"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "socket row assumed centred 2 mm from the bottom edge as on MSP2807; outline 56.34 x 98 mm"
+    },
+    "by": "user"
+  }
+}

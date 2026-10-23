@@ -1,0 +1,315 @@
+{
+  "id": "MAX98357AETE",
+  "mpn": "MAX98357AETE+T",
+  "manufacturer": "Analog Devices (Maxim Integrated)",
+  "variants": [
+    "MAX98357AETE+",
+    "MAX98357BETE+T",
+    "MAX98357AGTE/V+"
+  ],
+  "category": "audio-amplifier",
+  "description": "MAX98357A I2S digital-input class-D mono amplifier, 3.2 W into 4 Ω at 5 V, 2.5-5.5 V, no MCLK, gain 3-15 dB by GAIN_SLOT, channel and shutdown by SD_MODE, TQFN-16 3 x 3 mm",
+  "tags": [
+    "max98357a",
+    "max98357",
+    "max98357b",
+    "i2s amplifier",
+    "i2s",
+    "class d",
+    "class-d",
+    "audio amplifier",
+    "amplifier",
+    "speaker",
+    "dac",
+    "mono",
+    "3w",
+    "esp32 audio",
+    "tqfn-16"
+  ],
+  "datasheet": {
+    "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/MAX98357A-MAX98357B.pdf",
+    "revision": "19-6779 Rev 13, 7/19"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "TQFN-16 3 x 3 mm, 0.5 mm pitch, exposed pad (T1633+4, 21-0136)",
+    "family": "qfn",
+    "pins": 16,
+    "pitch": 0.5,
+    "body": {
+      "d": 3.0,
+      "e": 3.0,
+      "a": 0.75
+    },
+    "exposedPad": {
+      "d2": [
+        0.95,
+        1.1,
+        1.25
+      ],
+      "e2": [
+        0.95,
+        1.1,
+        1.25
+      ],
+      "number": "17"
+    },
+    "page": "Package information: 16 TQFN, package code T1633+4, outline 21-0136, land pattern 90-0031; 3 x 3 x 0.75 mm"
+  },
+  "footprint": "qfn(16, size = (3mm, 3mm), ep = (1.1mm, 1.1mm), pitch = 0.5mm)",
+  "pins": [
+    {
+      "number": "1",
+      "name": "DIN",
+      "type": "input",
+      "description": "I2S / TDM data"
+    },
+    {
+      "number": "2",
+      "name": "GAIN_SLOT",
+      "type": "analog",
+      "description": "gain (I2S/LJ): 100 kΩ to GND 15 dB, GND 12 dB, open 9 dB, VDD 6 dB, 100 kΩ to VDD 3 dB; TDM: slot select"
+    },
+    {
+      "number": "3",
+      "name": "GND",
+      "type": "ground"
+    },
+    {
+      "number": "4",
+      "name": "SD_MODE",
+      "type": "input",
+      "description": "shutdown (low) and channel select: high = left, pull-up through RSMALL = right, through RLARGE = (L+R)/2"
+    },
+    {
+      "number": "5",
+      "name": "NC5",
+      "type": "nc"
+    },
+    {
+      "number": "6",
+      "name": "NC6",
+      "type": "nc"
+    },
+    {
+      "number": "7",
+      "name": "VDD",
+      "type": "power_in",
+      "description": "supply 2.5-5.5 V"
+    },
+    {
+      "number": "8",
+      "name": "VDD",
+      "type": "power_in",
+      "description": "supply 2.5-5.5 V"
+    },
+    {
+      "number": "9",
+      "name": "OUTP",
+      "type": "output",
+      "description": "speaker +"
+    },
+    {
+      "number": "10",
+      "name": "OUTN",
+      "type": "output",
+      "description": "speaker -"
+    },
+    {
+      "number": "11",
+      "name": "GND",
+      "type": "ground"
+    },
+    {
+      "number": "12",
+      "name": "NC12",
+      "type": "nc"
+    },
+    {
+      "number": "13",
+      "name": "NC13",
+      "type": "nc"
+    },
+    {
+      "number": "14",
+      "name": "LRCLK",
+      "type": "input",
+      "description": "I2S word (frame) clock"
+    },
+    {
+      "number": "15",
+      "name": "GND",
+      "type": "ground"
+    },
+    {
+      "number": "16",
+      "name": "BCLK",
+      "type": "input",
+      "description": "I2S bit clock"
+    },
+    {
+      "number": "17",
+      "name": "EP",
+      "type": "passive",
+      "description": "exposed pad, not connected inside: solder to the ground plane for heat"
+    }
+  ],
+  "ratings": {
+    "absMax": [
+      {
+        "what": "VDD to GND",
+        "pins": [
+          "VDD"
+        ],
+        "min": -0.3,
+        "max": 6.0,
+        "unit": "V"
+      },
+      {
+        "what": "LRCLK, BCLK, DIN to GND",
+        "pins": [
+          "LRCLK",
+          "BCLK",
+          "DIN"
+        ],
+        "min": -0.3,
+        "max": 6.0,
+        "unit": "V"
+      },
+      {
+        "what": "all other pins (to VDD + 0.3 V)",
+        "pins": [
+          "SD_MODE",
+          "GAIN_SLOT"
+        ],
+        "min": -0.3,
+        "unit": "V"
+      }
+    ],
+    "recommended": [
+      {
+        "what": "supply voltage range VDD",
+        "pins": [
+          "VDD"
+        ],
+        "min": 2.5,
+        "nom": 5.0,
+        "max": 5.5,
+        "unit": "V"
+      },
+      {
+        "what": "operating temperature",
+        "min": -40.0,
+        "max": 85.0,
+        "unit": "°C"
+      }
+    ]
+  },
+  "simulation": {
+    "parameters": [
+      {
+        "id": "idd-quiescent-5v",
+        "quantity": "supplyCurrent",
+        "unit": "A",
+        "typ": 0.00275,
+        "max": 0.00335,
+        "conditions": "quiescent (idle, no signal) supply current, VDD=5 V, BCLK=3.072 MHz, LRCLK=48 kHz, TA=25 degC; 2.4 mA typ at VDD=3.7 V; the speaker's load power is not included",
+        "source": {
+          "url": "https://cdn-shop.adafruit.com/product-files/3006/MAX98357A-MAX98357B.pdf",
+          "revision": "MAX98357A/MAX98357B datasheet 19-6779; Rev 7; 2/16 (the Adafruit copy that was opened; the sheet cites Rev 13)",
+          "location": "p. 4, Electrical Characteristics, Quiescent Current IDD row",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "theta-ja-tqfn",
+        "quantity": "thetaJa",
+        "unit": "K/W",
+        "typ": 48.0,
+        "conditions": "TQFN package, JEDEC JESD51-7 four-layer board",
+        "source": {
+          "url": "https://cdn-shop.adafruit.com/product-files/3006/MAX98357A-MAX98357B.pdf",
+          "revision": "MAX98357A/MAX98357B datasheet 19-6779; Rev 7; 2/16 (the Adafruit copy that was opened; the sheet cites Rev 13)",
+          "location": "p. 4, Package Thermal Characteristics",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "tj-absolute",
+        "quantity": "junctionAbsoluteTemperature",
+        "unit": "degC",
+        "max": 150.0,
+        "conditions": "junction temperature, absolute maximum ratings",
+        "source": {
+          "url": "https://cdn-shop.adafruit.com/product-files/3006/MAX98357A-MAX98357B.pdf",
+          "revision": "MAX98357A/MAX98357B datasheet 19-6779; Rev 7; 2/16 (the Adafruit copy that was opened; the sheet cites Rev 13)",
+          "location": "p. 4, Absolute Maximum Ratings",
+          "confidence": "datasheet"
+        }
+      }
+    ]
+  },
+  "support": {
+    "parts": [
+      {
+        "ref": "C1",
+        "kind": "cap",
+        "value": "10uF",
+        "rating": "VDD bypass",
+        "between": [
+          "VDD",
+          "GND"
+        ]
+      },
+      {
+        "ref": "C2",
+        "kind": "cap",
+        "value": "100nF",
+        "rating": "VDD bypass, close to pins 7-8",
+        "between": [
+          "VDD",
+          "GND"
+        ]
+      },
+      {
+        "ref": "R1",
+        "kind": "res",
+        "value": "634kohm",
+        "rating": "RLARGE for 3.3 V logic: (L+R)/2 mono mix (210 kΩ = right only; tied high = left)",
+        "between": [
+          "SD_MODE",
+          "vio"
+        ]
+      }
+    ],
+    "inputs": [
+      {
+        "name": "vio",
+        "description": "The board's VIO."
+      }
+    ],
+    "notes": [
+      "SD_MODE: driven low = shutdown; high = left channel; pull-up through RSMALL (kΩ) = 94.0 x VDDIO - 100 (210 kΩ at 3.3 V) = right; through RLARGE = 222.2 x VDDIO - 100 (634 kΩ at 3.3 V) = (left + right) / 2. If VDDIO can exceed VDD, add ~2 kΩ in series when driving it high.",
+      "GAIN_SLOT open = 9 dB; to GND = 12 dB; 100 kΩ to GND = 15 dB; to VDD = 6 dB; 100 kΩ to VDD = 3 dB. Do not change it while audio plays.",
+      "No MCLK needed: BCLK, LRCLK and DIN from the controller (ESP32, RP2040, Pi). LRCLK only at 8, 16, 32, 44.1, 48, 88.2 or 96 kHz; never stop LRCLK while BCLK runs.",
+      "Filterless bridge-tied output: the speaker between OUTP and OUTN (never to ground), speaker inductance > 10 µH; short wide output and supply traces, ferrite beads on long speaker leads."
+    ],
+    "page": "Typical application circuits; Table 5 SD_MODE control, Table 6 SD_MODE pull-up values, Table 8 gain selection; power-supply input (p. 33)"
+  },
+  "notes": [
+    "The B version (MAX98357B) takes left-justified data with the same pinout.",
+    "Exposed pad: no electrical connection but the main heat path; pour ground under it with vias."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "MAX98357A/MAX98357B datasheet 19-6779 Rev 13: pin configurations and pin description (TQFN column), absolute maximum ratings, electrical characteristics (supply range), Tables 5, 6 and 8, power-supply input, package information (T1633+4, 21-0136)",
+      "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/MAX98357A-MAX98357B.pdf",
+      "license": "pin numbers and names, ratings and application values transcribed from the manufacturer's datasheet (facts, one reading); descriptions and notes our own"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "QFN-16 3 x 3 mm, 0.5 mm pitch with a 1.1 mm exposed pad; the exposed-pad size (0.95-1.25 mm) from outline 21-0136 as read through a search extraction, not from the drawing itself: check against 21-0136 / land pattern 90-0031 before fabrication"
+    }
+  }
+}

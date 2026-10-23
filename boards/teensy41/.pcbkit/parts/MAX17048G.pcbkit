@@ -1,0 +1,88 @@
+pcbkit 1
+
+// MAX17048G+T10 (Analog Devices (Maxim)): 1-cell Li-ion fuel gauge (ModelGauge: state of charge
+// from the cell voltage, no sense resistor), I2C 0x36, 3 uA hibernate (TDFN-8 2x2 mm)
+// Compiled from the part sheet `parts/MAX17048G.json` (`parts.create`); status: checked.
+// Datasheet:
+// https://cdn-learn.adafruit.com/assets/assets/000/114/607/original/MAX17048-MAX17049.pdf (19-6171
+// Rev 7, 11/16: Pin/Bump Descriptions, Figure 14 application circuit, Table 3, Electrical
+// Characteristics, Package Information (T822+3, outline 21-0168))
+// Pins: MAX17048/MAX17049 datasheet 19-6171 Rev 7, Pin/Bump Descriptions (TDFN 1 CTG, 2 CELL, 3
+// VDD, 4 GND, 5 ALRT, 6 QSTRT, 7 SCL, 8 SDA, EP); package T822+3, outline 21-0168 (2 x 2 mm, 0.5
+// mm pitch; exposed pad 0.8 x 1.2 mm as KiCad's footprint for 21-0168 gives it)
+// Footprint: the standard package `DFN-8-1EP_2x2mm_P0.5mm_EP0.8x1.2mm`; assumed: terminal length
+// 0.3–0.5 mm (not in the name)
+// This file may be used, changed and shared without conditions, with the board or alone.
+
+// Note: The I2C address is fixed: 0x6C write / 0x6D read, i.e. 7-bit 0x36.
+// Note: SOC register 0x04 (1/256 %), VCELL 0x02 (78.125 uV/cell), CRATE 0x16 (0.208 %/h).
+
+/// MAX17048G+T10 — 1-cell Li-ion fuel gauge (ModelGauge: state of charge from the cell voltage,
+/// no sense resistor), I2C 0x36, 3 uA hibernate (TDFN-8 2x2 mm)
+part Part = device(footprint = dfn(
+  8,
+  size = (2mm, 2mm),
+  ep = (0.8mm, 1.2mm),
+  pitch = 0.5mm,
+), prefix = "U", mpn = "MAX17048G+T10", manufacturer = "Analog Devices (Maxim)", pinout = {
+  CTG: "1",
+  CELL: "2",
+  VDD: "3",
+  GND: "4",
+  ALRT: "5",
+  QSTRT: "6",
+  SCL: "7",
+  SDA: "8",
+  EP: "9",
+}, pinTypes = {
+  CTG: .ground,
+  CELL: .passive,
+  VDD: io.powerIn(min = 2.5V, max = 6V),
+  GND: .ground,
+  ALRT: io.openDrain(),
+  QSTRT: io.input(),
+  SCL: io.input(),
+  SDA: io.openDrain(),
+  EP: .ground,
+}) with {
+  fields {
+    Status: "checked",
+    PinoutSource: "MAX17048/MAX17049 datasheet 19-6171 Rev 7, Pin/Bump Descriptions (TDFN 1 CTG, 2 CELL, 3 VDD, 4 GND, 5 ALRT, 6 QSTRT, 7 SCL, 8 SDA, EP); package T822+3, outline 21-0168 (2 x 2 mm, 0.5 mm pitch; exposed pad 0.8 x 1.2 mm as KiCad's footprint for 21-0168 gives it)",
+    Datasheet: "https://cdn-learn.adafruit.com/assets/assets/000/114/607/original/MAX17048-MAX17049.pdf",
+    I2cAddress: "0x36",
+  }
+  simulation = SimulationParameters {
+    parameters = [
+      SimulationParameter {
+        id = "idd1-active"
+        quantity = .supplyCurrent
+        typ = 23uA
+        max = 40uA
+        conditions = "active mode"
+        source = SimulationEvidence {
+          url = "https://cdn-learn.adafruit.com/assets/assets/000/114/607/original/MAX17048-MAX17049.pdf"
+          revision = "19-6171 Rev 7"
+          location = "Electrical Characteristics, IDD1"
+          confidence = .datasheet
+        }
+      },
+    ]
+  }
+}
+
+/// The support circuit of the MAX17048G+T10 as its datasheet shows it (Figure 14 (1S cell pack),
+/// Table 3): every part next to the pin it serves. Add it next to the part: `U1 = MAX17048G.Part {
+/// … }`, `U1Support = MAX17048G.Support(U1) {}`.
+///
+/// - 1S pack-side: VDD and CELL from the battery directly, QSTRT to GND; ALRT to a GPIO (it needs a
+/// pull-up) or open.
+block Support(
+  /// The MAX17048G+T10 this circuit serves (`MAX17048G.Support(U1)`).
+  chip: Any,
+) {
+  /// bypass at VDD
+  C1 = cap(100nF, package = "0402") {
+    place = [soft(near(chip.pin.VDD, max = 2mm), weight = 2)]
+    pins { a: chip.pin.VDD, b: chip.pin.GND }
+  }
+}

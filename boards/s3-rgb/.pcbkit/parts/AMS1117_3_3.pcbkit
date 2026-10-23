@@ -1,0 +1,89 @@
+pcbkit 1
+
+// AMS1117-3.3 (Advanced Monolithic Systems): Linear regulator (LDO), fixed 3.3 V, 1 A, input up to
+// 15 V, about 1.1 V dropout
+// Compiled from the part sheet `parts/AMS1117_3_3.json` (`parts.create`); status: checked.
+// Datasheet: http://www.advanced-monolithic.com/pdf/ds1117.pdf (AMS1117 datasheet (8 pages,
+// SOT-223 drawing AMS DRW# 042292))
+// Pins: AMS1117 datasheet, Pin connections (p. 1): SOT-223 1 GND/ADJ, 2 VOUT, 3 VIN, tab VOUT
+// Footprint: the standard package `SOT-223`
+// This file may be used, changed and shared without conditions, with the board or alone.
+
+// Note: Dropout up to 1.3 V at 0.8 A: from 5 V in, 3.3 V out is near the limit at full load.
+// Note: Dissipation (VIN - VOUT) x IOUT goes out through the tab: give the VOUT tab copper (the
+// datasheet's table: about 55 °C/W with 1000 mm² on top).
+// Note: The input capacitor is not in the datasheet's schematic; 10 uF close to VIN is the usual
+// practice.
+
+/// AMS1117-3.3 — Linear regulator (LDO), fixed 3.3 V, 1 A, input up to 15 V, about 1.1 V dropout
+part Part = device(footprint = sot(
+  "SOT-223",
+), prefix = "U", mpn = "AMS1117-3.3", manufacturer = "Advanced Monolithic Systems", pinout = {
+  GND: "1",
+  VOUT: ["2", "4"],
+  VIN: "3",
+}, pinTypes = {
+  GND: .ground,
+  VOUT: io.powerOut(3.3V),
+  VIN: io.powerIn(min = 4.75V, max = 15V),
+}) with {
+  fields {
+    Status: "checked",
+    PinoutSource: "AMS1117 datasheet, Pin connections (p. 1): SOT-223 1 GND/ADJ, 2 VOUT, 3 VIN, tab VOUT",
+    Datasheet: "http://www.advanced-monolithic.com/pdf/ds1117.pdf",
+  }
+  simulation = SimulationParameters {
+    parameters = [
+      SimulationParameter {
+        id = "iq-3v3"
+        quantity = .quiescentCurrent
+        typ = 5mA
+        max = 11mA
+        conditions = "AMS1117-3.3; IOUT=0 mA bias, (VIN-VOUT)=1.5 V, TJ=25 degC; datasheet row lists the fixed-voltage versions together"
+        source = SimulationEvidence {
+          url = "https://www.advanced-monolithic.com/pdf/ds1117.pdf"
+          revision = "AMS1117 datasheet (8 pages, as downloaded 2026-10-20; no revision date printed)"
+          location = "p. 3, Electrical Characteristics, Quiescent Current row"
+          confidence = .datasheet
+        }
+      },
+      SimulationParameter {
+        id = "tj-range"
+        quantity = .junctionOperatingTemperature
+        min = -40degC
+        max = 125degC
+        conditions = "Operating junction temperature range, control section and power transistor; printed in the Absolute Maximum Ratings box"
+        source = SimulationEvidence {
+          url = "https://www.advanced-monolithic.com/pdf/ds1117.pdf"
+          revision = "AMS1117 datasheet (8 pages, as downloaded 2026-10-20; no revision date printed)"
+          location = "p. 2, Absolute Maximum Ratings"
+          confidence = .datasheet
+        }
+      },
+    ]
+  }
+}
+
+/// The support circuit of the AMS1117-3.3 as its datasheet shows it (p. 4, Figure 1): every part
+/// next to the pin it serves. Add it next to the part: `U1 = AMS1117_3_3.Part { … }`, `U1Support
+/// = AMS1117_3_3.Support(U1) {}`.
+///
+/// - The output capacitor is part of the regulator's compensation: 22 uF on VOUT keeps it stable in
+/// all conditions (the datasheet's figure uses solid tantalum).
+///
+/// - It needs about 10 mA of load to regulate within specification.
+block Support(
+  /// The AMS1117-3.3 this circuit serves (`AMS1117_3_3.Support(U1)`).
+  chip: Any,
+) {
+  /// 25V
+  CIN = cap(10uF, package = "0805", voltage = 25V) {
+    place = [soft(near(chip.pin.VIN, max = 4mm), weight = 2)]
+    pins { a: chip.pin.VIN, b: chip.pin.GND }
+  }
+  /// 10V, low ESR (the datasheet uses tantalum)
+  COUT = cap(22uF, package = "1206", voltage = 10V) {
+    place = [soft(near(chip.pin.VOUT, max = 4mm), weight = 2)]
+    pins { a: chip.pin.VOUT, b: chip.pin.GND }
+  }
+}

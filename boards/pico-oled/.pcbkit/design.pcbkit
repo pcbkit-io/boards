@@ -1,0 +1,75 @@
+pcbkit 1
+
+// Doom device 02: a beginner's through-hole kit. A Raspberry Pi Pico (RP2040, dual Cortex-M0+,
+// 264 KB SRAM, 2 MB flash) on sockets behind a 2.42" 128 x 64 monochrome OLED (SSD1309, SPI),
+// eight buttons, a piezo, three AA cells. The Pico's own buck-boost (RT6150) makes 3.3 V from
+// anything between 1.8 and 5.5 V on VSYS, so the cells need no regulator of ours.
+// Front (top): the OLED, the buttons, the power switch. Back (bottom): the Pico, the piezo.
+
+use "parts/RASPBERRY_PI_PICO.pcbkit" as RASPBERRY_PI_PICO
+use "parts/SSD1309_SPI_2_42.pcbkit" as SSD1309_SPI_2_42
+use "parts/BATTERY_3XAA_LEADS.pcbkit" as BATTERY_3XAA_LEADS
+use "parts/JS102011SAQN.pcbkit" as JS102011SAQN
+use "parts/GPC12075YB_5V.pcbkit" as GPC12075YB_5V
+
+net VBAT { voltage = 4.5V }
+net VSW, VSYS
+net V3 { voltage = 3.3V }
+net GND { voltage = 0V }
+net SCK, MOSI, OLED_CS, OLED_DC, OLED_RES, BUZZ, BUZZ_R
+net UP, DOWN, LEFT, RIGHT, FIRE, USE, STRAFE, MENU
+
+board = Board {
+  name = "doom-02-pico-oled"
+  description = "RP2040 (Pico) · 2.42in 128x64 OLED · 8 buttons · 3xAA"
+  outline = rect(150mm, 62mm, radius = 6mm)
+}
+
+// The processor: a Pico on two 20-pin sockets on the back, USB end at the top edge (firmware
+// is flashed over USB as a UF2: hold BOOTSEL while plugging in).
+U1 = RASPBERRY_PI_PICO.Part {
+  at = (75mm, 35.2mm)
+  rotation = 0deg
+  side = .bottom
+  pins {
+    GND: GND, VSYS: VSYS, P3V3: V3, P3V3_EN: .nc, VBUS: .nc, RUN: .nc, ADC_VREF: .nc, AGND: GND,
+    GP18: SCK, GP19: MOSI, GP17: OLED_CS, GP20: OLED_DC, GP21: OLED_RES,
+    GP2: UP, GP3: DOWN, GP4: LEFT, GP5: RIGHT, GP6: FIRE, GP7: USE, GP8: STRAFE, GP9: MENU,
+    GP15: BUZZ,
+  }
+}
+
+// The screen on the front: its 1x7 socket at the left of the module, the glass to its right.
+DS1 = SSD1309_SPI_2_42.Part {
+  at = (41mm, 31mm)
+  pins { GND: GND, VCC: V3, SCL: SCK, SDA: MOSI, RES: OLED_RES, DC: OLED_DC, CS: OLED_CS }
+}
+
+// Power: three AA cells in a holder on the back (wire leads), a slide switch, and a Schottky into
+// VSYS as the Pico datasheet asks for a second supply (USB's VBUS has its own diode on the Pico).
+BT1 = BATTERY_3XAA_LEADS.Part { at = (128mm, 8mm); side = .bottom; pins { VBAT: VBAT, GND: GND } }
+SW9 = JS102011SAQN.Part { at = (128mm, 59.5mm); rotation = 180deg; pins { A: VBAT, COM: VSW, B: .nc } }
+D1 = diode(kind = .schottky, package = "SOD-123", mpn = "B5819W") { side = .bottom; pins { A: VSW, K: VSYS } }
+
+// Sound: a passive piezo driven by PWM through a series resistor.
+BZ1 = GPC12075YB_5V.Part { side = .bottom; pins { A: BUZZ_R, B: GND } }
+R1 = res(100ohm, package = "0805") { side = .bottom; pins { a: BUZZ, b: BUZZ_R } }
+
+// Input: a d-pad on the left, fire/use on the right, strafe and menu above them. Each button
+// pulls its GPIO to ground; the RP2040's internal pull-ups hold them high.
+part Btn = button("6x6")
+SW1 = Btn { at = (16mm, 42mm); pins { a: UP, b: GND } }
+SW2 = Btn { at = (16mm, 20mm); pins { a: DOWN, b: GND } }
+SW3 = Btn { at = (7mm, 31mm); pins { a: LEFT, b: GND } }
+SW4 = Btn { at = (25mm, 31mm); pins { a: RIGHT, b: GND } }
+SW5 = Btn { at = (136mm, 36mm); pins { a: FIRE, b: GND } }
+SW6 = Btn { at = (124mm, 26mm); pins { a: USE, b: GND } }
+SW7 = Btn { at = (124mm, 48mm); pins { a: STRAFE, b: GND } }
+SW8 = Btn { at = (140mm, 48mm); pins { a: MENU, b: GND } }
+
+H1 = hole("M2.5") { at = (4.5mm, 4.5mm) }
+H2 = hole("M2.5") { at = (145.5mm, 4.5mm) }
+H3 = hole("M2.5") { at = (4.5mm, 57.5mm) }
+H4 = hole("M2.5") { at = (145.5mm, 57.5mm) }
+
+gndPour = pour(net = GND, layers = [Cu.top, Cu.bottom]) {}

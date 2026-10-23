@@ -1,0 +1,122 @@
+{
+  "id": "ST7735_TFT_1_8",
+  "mpn": "MSP1803 1.8in 128x160 SPI TFT module (ST7735S)",
+  "manufacturer": "generic",
+  "variants": [
+    "1.8\" TFT",
+    "ST7735 128x160"
+  ],
+  "category": "display",
+  "description": "1.8\" 128 x 160 colour TFT module (ST7735S), SPI, on a 1x8 female header along its bottom edge: VCC GND CS RESET A0 SDA SCK LED; courtyard the 34.5 x 58 mm module lying over the board (its SD card header not used)",
+  "tags": [
+    "st7735",
+    "st7735s",
+    "1.8 tft",
+    "1.8 inch tft",
+    "1.8\" tft",
+    "tft",
+    "lcd",
+    "colour display",
+    "color display",
+    "128x160",
+    "spi",
+    "module",
+    "socket"
+  ],
+  "datasheet": {
+    "url": "http://www.lcdwiki.com/1.8inch_SPI_Module_ST7735S_SKU:MSP1803",
+    "revision": "lcdwiki 1.8inch SPI Module ST7735S SKU:MSP1803: interface definition and size picture (MSP1803-005.png)"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "1.8\" SPI TFT module, 1 x 8 socket",
+    "family": "module",
+    "pins": 8,
+    "pitch": 2.54,
+    "body": {
+      "d": 34.5,
+      "e": 58.0,
+      "a": 6.0
+    },
+    "page": "lcdwiki MSP1803: pins 1 VCC (3.3-5 V), 2 GND, 3 CS, 4 RESET, 5 A0, 6 SDA, 7 SCK, 8 LED; size picture: PCB 34.50 x 58.00 mm, holes 28.50 x 52.00 mm (Ø3.2), header row 2.50 mm from the bottom edge, centred"
+  },
+  "footprint": "moduleSocket(\"TFT_1.8in_ST7735_Socket_1x08_P2.54mm\", socketRow(1, 8, (-8.89mm, 0mm), (2.54mm, 0mm)), box((-17.25mm, -2.5mm), (17.25mm, 55.5mm)), description = \"1.8 inch ST7735 TFT module on a 1x8 female header along its bottom edge, the display facing up over +Y: VCC, GND, CS, RESET, A0, SDA, SCK, LED left to right\", parts = 4mm, color = \"#b02020\")",
+  "pins": [
+    {
+      "number": "1",
+      "name": "VCC",
+      "type": "power_in",
+      "description": "supply 3.3-5 V (the module's regulator)"
+    },
+    {
+      "number": "2",
+      "name": "GND",
+      "type": "ground"
+    },
+    {
+      "number": "3",
+      "name": "CS",
+      "type": "input",
+      "description": "chip select, active low"
+    },
+    {
+      "number": "4",
+      "name": "RESET",
+      "type": "input",
+      "description": "reset, active low"
+    },
+    {
+      "number": "5",
+      "name": "A0",
+      "type": "input",
+      "description": "data (high) / command (low), DC"
+    },
+    {
+      "number": "6",
+      "name": "SDA",
+      "type": "input",
+      "description": "SPI data MOSI"
+    },
+    {
+      "number": "7",
+      "name": "SCK",
+      "type": "input",
+      "description": "SPI clock"
+    },
+    {
+      "number": "8",
+      "name": "LED",
+      "type": "input",
+      "description": "backlight on when high (tie to 3.3 V if not dimmed)"
+    }
+  ],
+  "ratings": {
+    "recommended": [
+      {
+        "what": "VCC supply",
+        "pins": [
+          "VCC"
+        ],
+        "min": 3.3,
+        "max": 5.0,
+        "unit": "V"
+      }
+    ]
+  },
+  "notes": [
+    "SPI: SDA to MOSI, SCK to SCK, CS, RESET and A0 (DC) to GPIOs. Logic 3.3 V TTL (5 V controllers need level shifting).",
+    "LED high turns the backlight on: PWM it from a GPIO for brightness, or tie it to 3.3 V."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "lcdwiki MSP1803: pins 1 VCC (3.3-5 V), 2 GND, 3 CS, 4 RESET, 5 A0, 6 SDA, 7 SCK, 8 LED; size picture: PCB 34.50 x 58.00 mm, holes 28.50 x 52.00 mm (Ø3.2), header row 2.50 mm from the bottom edge, centred",
+      "url": "http://www.lcdwiki.com/1.8inch_SPI_Module_ST7735S_SKU:MSP1803",
+      "license": "pinout and dimensions transcribed from the vendor's published documentation (facts); footprint, 3D body, descriptions and notes our own"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "socket pins and outline from the vendor's size picture; 1.0 mm holes, 1.7 mm pads"
+    }
+  }
+}

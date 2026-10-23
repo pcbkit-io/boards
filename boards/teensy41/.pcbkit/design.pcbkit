@@ -1,0 +1,128 @@
+pcbkit 1
+
+// Doom device 10: the most capable. A Teensy 4.1 (NXP i.MX RT1062, Cortex-M7 at 600 MHz with
+// double-precision FPU, 1 MB tightly-coupled SRAM, 8 MB flash, a microSD socket on 4-bit SDIO,
+// optional 8 MB PSRAM pads on FlexSPI2) runs Doom (and Doom II) at full speed from the WAD on
+// its SD card. A 3.5" 320 x 480 ILI9488 with touch (MSP3520) on LPSPI4 by DMA, ten buttons, CD
+// quality sound from SAI1 (I2S) into a PCM5102A DAC with a headphone jack and a PAM8403
+// amplifier to a speaker. Power: a LiPo pack, BQ24074 power-path charger on its own USB-C, a
+// MAX17048 fuel gauge, a TPS61023 boost to 5 V into the Teensy's VIN through a Schottky (VIN and
+// VUSB are joined on the Teensy). Firmware is loaded over the Teensy's micro-USB with Teensy
+// Loader (its MKL02 bootloader chip). Four layers.
+
+use "parts/TEENSY_41.pcbkit" as TEENSY_41
+use "parts/ILI9488_TFT_3_5_TOUCH.pcbkit" as ILI9488_TFT_3_5_TOUCH
+use "parts/PCM5102APWR.pcbkit" as PCM5102APWR
+use "parts/PAM8403DR.pcbkit" as PAM8403DR
+use "parts/SJ1_3525N.pcbkit" as SJ1_3525N
+use "parts/BQ24074RGT.pcbkit" as BQ24074RGT
+use "parts/MAX17048G.pcbkit" as MAX17048G
+use "parts/TPS61023DRL.pcbkit" as TPS61023DRL
+use "parts/JS102011SAQN.pcbkit" as JS102011SAQN
+use "parts/S2B_PH_K_S.pcbkit" as S2B_PH_K_S
+
+net VBUS { voltage = 5V }
+net VSYS { voltage = 4.4V }
+net VBAT { voltage = 4.2V }
+net V5 { voltage = 5V }
+net VIN, V3, BOOST_EN
+net GND { voltage = 0V }
+net SCK, MOSI, MISO, LCD_CS, LCD_DC, LCD_RST, LCD_BL, T_CS, T_IRQ
+net I2S_BCK, I2S_LRCK, I2S_DIN, LINE_L, LINE_R, AMP_SD, SPK_P, SPK_N
+net SDA, SCL, FUEL_ALRT
+net UP, DOWN, LEFT, RIGHT, FIRE, USE, STRAFE_L, STRAFE_R, MENU, ENTER
+
+board = Board {
+  name = "doom-10-teensy41"
+  description = "Teensy 4.1 (i.MX RT1062 Cortex-M7 600 MHz) · 3.5in ILI9488 touch · PCM5102A + PAM8403 · BQ24074 + MAX17048 + boost"
+  outline = rect(172mm, 68mm, radius = 7mm)
+  layers = [signal(Cu.top), power(Cu.inner[1], label = "GND"), signal(Cu.inner[2]), signal(Cu.bottom)]
+}
+
+// ---- processor (back): the Teensy on two 24-pin sockets, its USB end at the top edge ------------
+U1 = TEENSY_41.Part {
+  at = (62mm, 36.4mm)
+  rotation = 90deg
+  side = .bottom
+  pins {
+    GND: GND, VIN: VIN, P3V3: V3,
+    D13: SCK, D11: MOSI, D12: MISO, D10: LCD_CS, D9: LCD_DC, D8: LCD_RST, D6: LCD_BL, D5: T_CS, D4: T_IRQ,
+    D21: I2S_BCK, D20: I2S_LRCK, D7: I2S_DIN, D26: AMP_SD,
+    D18: SDA, D19: SCL, D25: FUEL_ALRT,
+    D0: UP, D1: DOWN, D2: LEFT, D3: RIGHT, D14: FIRE, D15: USE, D16: STRAFE_L, D17: STRAFE_R, D22: MENU, D24: ENTER,
+  }
+}
+
+// ---- display (front) ----------------------------------------------------------------------------------
+DS1 = ILI9488_TFT_3_5_TOUCH.Part {
+  at = (135mm, 34mm)
+  rotation = 90deg
+  pins {
+    VCC: V3, GND: GND, CS: LCD_CS, RESET: LCD_RST, DC: LCD_DC, SDI: MOSI, SCK: SCK, LED: LCD_BL, SDO: MISO,
+    T_CLK: SCK, T_CS: T_CS, T_DIN: MOSI, T_DO: MISO, T_IRQ: T_IRQ,
+  }
+}
+R1 = res(10kohm, package = "0402") { side = .bottom; pins { a: T_CS, b: V3 } }
+R2 = res(10kohm, package = "0402") { side = .bottom; pins { a: T_IRQ, b: V3 } }
+R3 = res(10kohm, package = "0402") { side = .bottom; pins { a: LCD_CS, b: V3 } }
+
+// ---- sound (back): SAI1 -> PCM5102A -> jack and PAM8403 -> speaker ---------------------------------------
+U2 = PCM5102APWR.Part {
+  side = .bottom
+  pins {
+    AVDD: V3, CPVDD: V3, DVDD: V3, AGND: GND, CPGND: GND, DGND: GND,
+    BCK: I2S_BCK, LRCK: I2S_LRCK, DIN: I2S_DIN, SCK: GND, FLT: GND, DEMP: GND, FMT: GND, XSMT: V3,
+  }
+}
+U2Support = PCM5102APWR.Support(U2, lineL = LINE_L, lineR = LINE_R) { side = .bottom }
+J1 = SJ1_3525N.Part {
+  side = .bottom
+  place = [edge(.bottom)]
+  pins { SLEEVE: GND, TIP: LINE_L, RING: LINE_R, TIP_SW: .nc, RING_SW: .nc }
+}
+U3 = PAM8403DR.Part {
+  side = .bottom
+  pins { VDD: VSYS, PVDD: VSYS, GND: GND, PGND: GND, SHDN: AMP_SD, MUTE: .nc, OUTLP: SPK_P, OUTLN: SPK_N, OUTRP: .nc, OUTRN: .nc, NC: .nc }
+}
+U3Support = PAM8403DR.Support(U3, audioL = LINE_L) { side = .bottom }
+J5 = S2B_PH_K_S.Part { side = .bottom; pins { C1: SPK_N, C2: SPK_P } }
+
+// ---- power (back) -------------------------------------------------------------------------------------------
+usb = UsbCPower(vbus = VBUS, gnd = GND, tvsPackage = "SOD-323") {}
+override usb.J.at = (20mm, 8.15mm)
+U4 = BQ24074RGT.Part {
+  side = .bottom
+  pins { IN: VBUS, OUT: VSYS, BAT: VBAT, VSS: GND, nCE: GND, EN2: VSYS, EN1: GND }
+}
+U4Support = BQ24074RGT.Support(U4) { side = .bottom }
+J2 = S2B_PH_K_S.Part { side = .bottom; pins { C1: GND, C2: VBAT } }
+U5 = MAX17048G.Part { side = .bottom; pins { VDD: VBAT, CELL: VBAT, GND: GND, CTG: GND, EP: GND, QSTRT: GND, SDA: SDA, SCL: SCL, ALRT: FUEL_ALRT } }
+U5Support = MAX17048G.Support(U5) { side = .bottom }
+i2c = I2cPullups(sda = SDA, scl = SCL, vcc = V3, speed = 400kHz) { side = .bottom }
+R4 = res(10kohm, package = "0402") { side = .bottom; pins { a: FUEL_ALRT, b: V3 } }
+// TPS61023: VSYS (3.0-4.4 V) up to 5 V (the datasheet's 732k / 100k divider), switched by its EN.
+U6 = TPS61023DRL.Part { side = .bottom; pins { VIN: VSYS, VOUT: V5, GND: GND, EN: BOOST_EN } }
+U6Support = TPS61023DRL.Support(U6) { side = .bottom }
+R5 = res(1Mohm, package = "0402") { side = .bottom; pins { a: BOOST_EN, b: GND } }
+SW12 = JS102011SAQN.Part { at = (20mm, 65.2mm); rotation = 180deg; pins { A: VSYS, COM: BOOST_EN, B: GND } }
+D1 = diode(kind = .schottky, package = "SOD-123", mpn = "B5819W") { side = .bottom; pins { A: V5, K: VIN } }
+
+// ---- input (front) ---------------------------------------------------------------------------------------------
+part Btn = button("6x6")
+SW1 = Btn { at = (20mm, 44mm); pins { a: UP, b: GND } }
+SW2 = Btn { at = (20mm, 24mm); pins { a: DOWN, b: GND } }
+SW3 = Btn { at = (10mm, 34mm); pins { a: LEFT, b: GND } }
+SW4 = Btn { at = (30mm, 34mm); pins { a: RIGHT, b: GND } }
+SW5 = Btn { at = (145mm, 58mm); pins { a: STRAFE_L, b: GND } }
+SW6 = Btn { at = (158mm, 58mm); pins { a: STRAFE_R, b: GND } }
+SW7 = Btn { at = (162mm, 37mm); pins { a: FIRE, b: GND } }
+SW8 = Btn { at = (150mm, 27mm); pins { a: USE, b: GND } }
+SW9 = Btn { at = (145mm, 10mm); pins { a: MENU, b: GND } }
+SW10 = Btn { at = (158mm, 10mm); pins { a: ENTER, b: GND } }
+
+H1 = hole("M3") { at = (5mm, 5mm) }
+H2 = hole("M3") { at = (167mm, 5mm) }
+H3 = hole("M3") { at = (5mm, 63mm) }
+H4 = hole("M3") { at = (167mm, 63mm) }
+
+gndPour = pour(net = GND, layers = [Cu.top, Cu.inner[1], Cu.bottom]) {}

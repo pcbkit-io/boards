@@ -1,0 +1,448 @@
+{
+  "id": "PCM5102APWR",
+  "mpn": "PCM5102APWR",
+  "manufacturer": "Texas Instruments",
+  "variants": [
+    "PCM5102APW",
+    "PCM5101APWR",
+    "PCM5100APWR"
+  ],
+  "category": "audio-dac",
+  "description": "PCM5102A stereo audio DAC, I2S / left-justified up to 384 kHz 32-bit, 2.1 Vrms ground-centred line outputs (charge pump), 112 dB, hardware controlled, 3.3 V, TSSOP-20",
+  "tags": [
+    "pcm5102a",
+    "pcm5102",
+    "pcm5101a",
+    "dac",
+    "audio dac",
+    "i2s",
+    "i2s dac",
+    "line out",
+    "stereo",
+    "hifi",
+    "audio",
+    "tssop-20"
+  ],
+  "datasheet": {
+    "url": "https://www.ti.com/lit/ds/symlink/pcm5102a.pdf",
+    "revision": "SLAS859C, revised May 2015"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "TSSOP-20 (PW)",
+    "page": "PW (TSSOP-20) package outline"
+  },
+  "pins": [
+    {
+      "number": "1",
+      "name": "CPVDD",
+      "type": "power_in",
+      "description": "charge pump supply 3.3 V"
+    },
+    {
+      "number": "2",
+      "name": "CAPP",
+      "type": "passive",
+      "description": "charge pump flying capacitor, positive terminal"
+    },
+    {
+      "number": "3",
+      "name": "CPGND",
+      "type": "ground",
+      "description": "charge pump ground"
+    },
+    {
+      "number": "4",
+      "name": "CAPM",
+      "type": "passive",
+      "description": "charge pump flying capacitor, negative terminal"
+    },
+    {
+      "number": "5",
+      "name": "VNEG",
+      "type": "power_out",
+      "description": "negative charge pump rail (-3.3 V): decoupling capacitor only"
+    },
+    {
+      "number": "6",
+      "name": "OUTL",
+      "type": "output",
+      "description": "left analog output"
+    },
+    {
+      "number": "7",
+      "name": "OUTR",
+      "type": "output",
+      "description": "right analog output"
+    },
+    {
+      "number": "8",
+      "name": "AVDD",
+      "type": "power_in",
+      "description": "analog supply 3.3 V"
+    },
+    {
+      "number": "9",
+      "name": "AGND",
+      "type": "ground",
+      "description": "analog ground"
+    },
+    {
+      "number": "10",
+      "name": "DEMP",
+      "type": "input",
+      "description": "de-emphasis for 44.1 kHz: low off, high on"
+    },
+    {
+      "number": "11",
+      "name": "FLT",
+      "type": "input",
+      "description": "filter: low normal latency, high low latency"
+    },
+    {
+      "number": "12",
+      "name": "SCK",
+      "type": "input",
+      "description": "system clock (tie low to use the internal PLL from BCK)"
+    },
+    {
+      "number": "13",
+      "name": "BCK",
+      "type": "input",
+      "description": "I2S bit clock"
+    },
+    {
+      "number": "14",
+      "name": "DIN",
+      "type": "input",
+      "description": "I2S data"
+    },
+    {
+      "number": "15",
+      "name": "LRCK",
+      "type": "input",
+      "description": "I2S word clock"
+    },
+    {
+      "number": "16",
+      "name": "FMT",
+      "type": "input",
+      "description": "format: low I2S, high left-justified"
+    },
+    {
+      "number": "17",
+      "name": "XSMT",
+      "type": "input",
+      "description": "soft mute: low mute, high play"
+    },
+    {
+      "number": "18",
+      "name": "LDOO",
+      "type": "power_out",
+      "description": "internal 1.8 V logic rail: 0.1 µF to DGND (or an external 1.8 V)"
+    },
+    {
+      "number": "19",
+      "name": "DGND",
+      "type": "ground",
+      "description": "digital ground"
+    },
+    {
+      "number": "20",
+      "name": "DVDD",
+      "type": "power_in",
+      "description": "digital supply 1.8 V or 3.3 V (the I/O level)"
+    }
+  ],
+  "ratings": {
+    "absMax": [
+      {
+        "what": "supply voltage",
+        "pins": [
+          "AVDD",
+          "CPVDD",
+          "DVDD"
+        ],
+        "min": -0.3,
+        "max": 3.9,
+        "unit": "V"
+      },
+      {
+        "what": "digital input voltage (DVDD at 3.3 V)",
+        "pins": [
+          "DEMP",
+          "FLT",
+          "SCK",
+          "BCK",
+          "DIN",
+          "LRCK",
+          "FMT",
+          "XSMT"
+        ],
+        "min": -0.3,
+        "max": 3.9,
+        "unit": "V"
+      }
+    ],
+    "recommended": [
+      {
+        "what": "analog supply AVDD",
+        "pins": [
+          "AVDD"
+        ],
+        "min": 3.0,
+        "nom": 3.3,
+        "max": 3.46,
+        "unit": "V"
+      },
+      {
+        "what": "charge pump supply CPVDD",
+        "pins": [
+          "CPVDD"
+        ],
+        "min": 3.1,
+        "nom": 3.3,
+        "max": 3.46,
+        "unit": "V"
+      },
+      {
+        "what": "digital supply DVDD (3.3 V; 1.65-1.95 V in 1.8 V mode)",
+        "pins": [
+          "DVDD"
+        ],
+        "min": 1.65,
+        "nom": 3.3,
+        "max": 3.46,
+        "unit": "V"
+      },
+      {
+        "what": "line output load resistance (minimum)",
+        "min": 1000.0,
+        "unit": "Ω"
+      },
+      {
+        "what": "operating junction temperature",
+        "min": -40.0,
+        "max": 130.0,
+        "unit": "°C"
+      }
+    ]
+  },
+  "simulation": {
+    "parameters": [
+      {
+        "id": "idd-total-48khz-3v3",
+        "quantity": "supplyCurrent",
+        "unit": "A",
+        "typ": 0.03,
+        "conditions": "Playback, 1 kHz -1 dBFS data, fS=48 kHz, 24-bit, AVDD=CPVDD=DVDD=3.3 V, TA=25 degC: sum of AVDD/CPVDD 22 mA and DVDD 8 mA (typ rows (6)); consistent with 99 mW power dissipation row",
+        "source": {
+          "url": "https://www.ti.com/lit/ds/symlink/pcm5102a.pdf",
+          "revision": "SLAS859C, revised May 2015",
+          "location": "p. 9-10, Electrical Characteristics, Power Supply Requirements IDD rows (6)",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "rthjb-pw",
+        "quantity": "thetaJb",
+        "unit": "K/W",
+        "typ": 42.0,
+        "conditions": "RthetaJB junction-to-board, PW 20-pin TSSOP, JEDEC board",
+        "source": {
+          "url": "https://www.ti.com/lit/ds/symlink/pcm5102a.pdf",
+          "revision": "SLAS859C, revised May 2015",
+          "location": "p. 6, section 8.4 Thermal Information",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "tj-operating",
+        "quantity": "junctionOperatingTemperature",
+        "unit": "degC",
+        "min": -40.0,
+        "max": 130.0,
+        "conditions": "TJ operating junction temperature range",
+        "source": {
+          "url": "https://www.ti.com/lit/ds/symlink/pcm5102a.pdf",
+          "revision": "SLAS859C, revised May 2015",
+          "location": "p. 6, section 8.3 Recommended Operating Conditions",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "tj-absolute",
+        "quantity": "junctionAbsoluteTemperature",
+        "unit": "degC",
+        "max": 130.0,
+        "conditions": "Operating junction temperature range listed in Absolute Maximum Ratings (-40 to 130 degC)",
+        "source": {
+          "url": "https://www.ti.com/lit/ds/symlink/pcm5102a.pdf",
+          "revision": "SLAS859C, revised May 2015",
+          "location": "p. 6, section 8.1 Absolute Maximum Ratings",
+          "confidence": "datasheet"
+        }
+      }
+    ]
+  },
+  "support": {
+    "parts": [
+      {
+        "ref": "C1",
+        "kind": "cap",
+        "value": "100nF",
+        "between": [
+          "AVDD",
+          "AGND"
+        ]
+      },
+      {
+        "ref": "C2",
+        "kind": "cap",
+        "value": "10uF",
+        "between": [
+          "AVDD",
+          "AGND"
+        ]
+      },
+      {
+        "ref": "C3",
+        "kind": "cap",
+        "value": "100nF",
+        "between": [
+          "CPVDD",
+          "CPGND"
+        ]
+      },
+      {
+        "ref": "C4",
+        "kind": "cap",
+        "value": "10uF",
+        "between": [
+          "CPVDD",
+          "CPGND"
+        ]
+      },
+      {
+        "ref": "C5",
+        "kind": "cap",
+        "value": "100nF",
+        "between": [
+          "DVDD",
+          "DGND"
+        ]
+      },
+      {
+        "ref": "C6",
+        "kind": "cap",
+        "value": "10uF",
+        "between": [
+          "DVDD",
+          "DGND"
+        ]
+      },
+      {
+        "ref": "C7",
+        "kind": "cap",
+        "value": "2.2uF",
+        "rating": "charge pump flying capacitor",
+        "between": [
+          "CAPP",
+          "CAPM"
+        ]
+      },
+      {
+        "ref": "C8",
+        "kind": "cap",
+        "value": "2.2uF",
+        "rating": "negative rail decoupling",
+        "between": [
+          "VNEG",
+          "AGND"
+        ]
+      },
+      {
+        "ref": "C9",
+        "kind": "cap",
+        "value": "100nF",
+        "rating": "internal LDO decoupling",
+        "between": [
+          "LDOO",
+          "DGND"
+        ]
+      },
+      {
+        "ref": "R1",
+        "kind": "res",
+        "value": "470ohm",
+        "rating": "output RC filter, left",
+        "between": [
+          "OUTL",
+          "lineL"
+        ]
+      },
+      {
+        "ref": "C10",
+        "kind": "cap",
+        "value": "2.2nF",
+        "rating": "output RC filter, left",
+        "between": [
+          "lineL",
+          "AGND"
+        ]
+      },
+      {
+        "ref": "R2",
+        "kind": "res",
+        "value": "470ohm",
+        "rating": "output RC filter, right",
+        "between": [
+          "OUTR",
+          "lineR"
+        ]
+      },
+      {
+        "ref": "C11",
+        "kind": "cap",
+        "value": "2.2nF",
+        "rating": "output RC filter, right",
+        "between": [
+          "lineR",
+          "AGND"
+        ]
+      }
+    ],
+    "inputs": [
+      {
+        "name": "lineL",
+        "description": "The board's LINE_L."
+      },
+      {
+        "name": "lineR",
+        "description": "The board's LINE_R."
+      }
+    ],
+    "notes": [
+      "Hardware mode: FLT, DEMP and FMT low (normal latency filter, no de-emphasis, I2S); SCK to ground uses the internal PLL from BCK (3-wire I2S: BCK, LRCK, DIN).",
+      "XSMT high to play: a pull-up to 3.3 V (10 kΩ) or a GPIO; pulling it low before power is removed avoids a pop.",
+      "The outputs are ground-centred (charge pump): no DC-blocking capacitors; the 470 Ω + 2.2 nF RC on each output filters out-of-band noise.",
+      "Separate AGND and DGND near the part, joined under it on one ground plane."
+    ],
+    "page": "Figure 33 simplified schematic, hardware-controlled subsystem; 10.1.1.2; 11.1 power supply pin descriptions"
+  },
+  "notes": [
+    "PCM5101A (lower SNR) and PCM5100A share the pinout. All digital inputs are failsafe Schmitt-trigger inputs: 3.3 V I2S from an ESP32 or a Pi works directly."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "PCM510xA datasheet SLAS859C: pin functions (p. 5), 8.1 absolute maximum ratings, 8.3 recommended operating conditions, Figure 33 typical application, 11.1",
+      "url": "https://www.ti.com/lit/ds/symlink/pcm5102a.pdf",
+      "license": "pin numbers and names, ratings and application values transcribed from the manufacturer's datasheet (facts, one reading); descriptions and notes our own"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "standard TSSOP-20 (PW, 4.4 mm body, 0.65 mm pitch)"
+    }
+  }
+}

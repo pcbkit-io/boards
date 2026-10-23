@@ -1,0 +1,113 @@
+{
+  "id": "SSD1309_SPI_2_42",
+  "mpn": "MSP242X 2.42in 128x64 SPI module (SSD1309)",
+  "manufacturer": "generic",
+  "variants": [
+    "2.42\" OLED",
+    "SSD1309 128x64"
+  ],
+  "category": "display",
+  "description": "2.42\" 128 x 64 OLED display module (SSD1309), 4-wire SPI (or I2C), on a 1x7 female header along its left edge: GND VCC SCL SDA RES DC CS; courtyard the 72 x 43 mm module lying over the board",
+  "tags": [
+    "ssd1309",
+    "2.42 oled",
+    "2.42 inch oled",
+    "2.42\" oled",
+    "display",
+    "screen",
+    "128x64",
+    "spi",
+    "module",
+    "socket"
+  ],
+  "datasheet": {
+    "url": "https://www.lcdwiki.com/2.42inch_SPI_OLED_Module_SKU:MSP242X",
+    "revision": "lcdwiki MSP242X: interface definition and LCM outline drawing V1.0 (2023-07-22)"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "2.42\" SPI OLED module, 1 x 7 socket",
+    "family": "module",
+    "pins": 7,
+    "pitch": 2.54,
+    "body": {
+      "d": 72.0,
+      "e": 43.0,
+      "a": 12.4
+    },
+    "page": "lcdwiki MSP242X: pins 1 GND, 2 VCC, 3 SCL, 4 SDA, 5 RES, 6 DC, 7 CS; outline drawing: PCB 72.00 x 43.00 mm, holes 68 x 39 mm, header 2.54 x 6 = 15.24 mm centred on the left edge (13.88 mm from the bottom), 12.39 mm total height"
+  },
+  "footprint": "moduleSocket(\"OLED_2.42in_SPI_Socket_1x07_P2.54mm\", socketRow(1, 7, (0mm, -7.62mm), (0mm, 2.54mm)), box((-2.0mm, -21.5mm), (70.0mm, 21.5mm)), description = \"2.42 inch SPI OLED module (SSD1309) on a 1x7 female header along its left edge, the display facing up over +X: pin 1 GND at the bottom, CS at the top\", parts = 3mm, color = \"#1d3f8c\")",
+  "pins": [
+    {
+      "number": "1",
+      "name": "GND",
+      "type": "ground"
+    },
+    {
+      "number": "2",
+      "name": "VCC",
+      "type": "power_in",
+      "description": "supply 3.3-5 V"
+    },
+    {
+      "number": "3",
+      "name": "SCL",
+      "type": "input",
+      "description": "SPI clock (I2C clock)"
+    },
+    {
+      "number": "4",
+      "name": "SDA",
+      "type": "input",
+      "description": "SPI data MOSI (I2C data)"
+    },
+    {
+      "number": "5",
+      "name": "RES",
+      "type": "input",
+      "description": "reset, active low"
+    },
+    {
+      "number": "6",
+      "name": "DC",
+      "type": "input",
+      "description": "data (high) / command (low); in I2C mode the address bit (0x3D/0x3C)"
+    },
+    {
+      "number": "7",
+      "name": "CS",
+      "type": "input",
+      "description": "chip select, active low"
+    }
+  ],
+  "ratings": {
+    "recommended": [
+      {
+        "what": "VCC supply",
+        "pins": [
+          "VCC"
+        ],
+        "min": 3.0,
+        "max": 5.0,
+        "unit": "V"
+      }
+    ]
+  },
+  "notes": [
+    "Default 4-wire SPI: SCL to SCK, SDA to MOSI, RES, DC and CS to GPIOs. I2C needs resistors moved on the module (see the vendor's page).",
+    "Use SSD1309 drivers (U8g2 `SSD1309_128X64`); SSD1306 code mostly works."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "lcdwiki MSP242X: pins 1 GND, 2 VCC, 3 SCL, 4 SDA, 5 RES, 6 DC, 7 CS; outline drawing: PCB 72.00 x 43.00 mm, holes 68 x 39 mm, header 2.54 x 6 = 15.24 mm centred on the left edge (13.88 mm from the bottom), 12.39 mm total height",
+      "url": "https://www.lcdwiki.com/2.42inch_SPI_OLED_Module_SKU:MSP242X",
+      "license": "pinout and dimensions transcribed from the vendor's published documentation (facts); footprint, 3D body, descriptions and notes our own"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "header row about 2 mm from the left edge (read from the drawing, not dimensioned); 1.0 mm holes, 1.7 mm pads"
+    }
+  }
+}

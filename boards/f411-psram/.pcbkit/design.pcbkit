@@ -1,0 +1,114 @@
+pcbkit 1
+
+// Doom device 05: an STM32F411CEU6 (Arm Cortex-M4F at 100 MHz, 128 KB SRAM, 512 KB flash; the
+// "Black Pill" chip) has too little RAM for Doom's zone heap, so an 8 MB APS6404L PSRAM sits on
+// SPI1 at 50 MHz beside a 16 MB W25Q128 holding the WAD; the port keeps code, the frame and hot
+// tables in SRAM and pages the rest through a software cache (the F411 has no memory-mapped
+// QSPI). A 2.0" 240 x 320 ST7789 IPS on SPI2 (landscape 320 x 240), a MAX98357A I2S amplifier,
+// eight buttons, one 18650 cell with a TP4056 charger and DW01A protection. Firmware is flashed
+// by the ROM's USB DFU (hold BOOT, plug USB-C) or over SWD.
+// Front (top): display, buttons, BOOT, switch, USB-C. Back (bottom): the rest and the cell.
+
+use "parts/STM32F411CEU6.pcbkit" as STM32F411CEU6
+use "parts/APS6404L_3SQR.pcbkit" as APS6404L_3SQR
+use "parts/W25Q128JVSIQ.pcbkit" as W25Q128JVSIQ
+use "parts/ST7789_TFT_2_0.pcbkit" as ST7789_TFT_2_0
+use "parts/MAX98357AETE.pcbkit" as MAX98357AETE
+use "parts/TP4056.pcbkit" as TP4056
+use "parts/DW01A.pcbkit" as DW01A
+use "parts/TLV75533PDBV.pcbkit" as TLV75533PDBV
+use "parts/KEYSTONE_1042.pcbkit" as KEYSTONE_1042
+use "parts/JS102011SAQN.pcbkit" as JS102011SAQN
+use "parts/S2B_PH_K_S.pcbkit" as S2B_PH_K_S
+
+net VBUS { voltage = 5V }
+net VBAT { voltage = 4.2V }
+net V3 { voltage = 3.3V }
+net GND { voltage = 0V }
+net BAT_N, LDO_EN, DP, DN, NRST, BOOT0, SWDIO, SWCLK
+net MEM_SCK, MEM_MOSI, MEM_MISO, RAM_CS, ROM_CS
+net LCD_SCK, LCD_MOSI, LCD_CS, LCD_DC, LCD_RST, LCD_BL
+net I2S_CK, I2S_WS, I2S_SD, SPK_P, SPK_N
+net UP, DOWN, LEFT, RIGHT, FIRE, USE, STRAFE, MENU
+
+board = Board {
+  name = "doom-05-f411-psram"
+  description = "STM32F411 Cortex-M4F · 8 MB SPI PSRAM · 2.0in ST7789 · I2S amp · 18650"
+  outline = rect(140mm, 64mm, radius = 6mm)
+  layers = [signal(Cu.top), power(Cu.inner[1], label = "GND"), signal(Cu.inner[2]), signal(Cu.bottom)]
+}
+
+// ---- processor (back) ------------------------------------------------------------------------
+U1 = STM32F411CEU6.Part {
+  at = (70mm, 18mm)
+  side = .bottom
+  pins {
+    VDD: V3, VSS: GND, VDDA: V3, VSSA: GND, VBAT: V3, NRST: NRST, BOOT0: BOOT0,
+    PA13: SWDIO, PA14: SWCLK, PA11: DN, PA12: DP,
+    PA5: MEM_SCK, PA6: MEM_MISO, PA7: MEM_MOSI, PA4: RAM_CS, PB2: ROM_CS,
+    PB13: LCD_SCK, PB15: LCD_MOSI, PB12: LCD_CS, PB14: LCD_DC, PB1: LCD_RST, PB10: LCD_BL,
+    PB3: I2S_CK, PA15: I2S_WS, PB5: I2S_SD,
+    PA1: UP, PA2: DOWN, PA3: LEFT, PB4: RIGHT, PB6: FIRE, PB7: USE, PB8: STRAFE, PB9: MENU,
+  }
+}
+// Decoupling per VDD pin, VCAP1, VDDA, the 25 MHz HSE (USB DFU needs it), BOOT0 pull-down.
+U1Support = STM32F411CEU6.Support(U1) { side = .bottom }
+swd = SwdHeader(vcc = V3, gnd = GND, swdio = SWDIO, swclk = SWCLK, nrst = NRST) { side = .bottom }
+// BOOT on the front: held at reset, the ROM's DFU bootloader enumerates on USB.
+SW10 = button("5.1x5.1") { at = (104mm, 58mm); pins { a: BOOT0, b: V3 } }
+R1 = res(10kohm, package = "0402") { side = .bottom; pins { a: NRST, b: V3 } }
+
+// ---- memory (back): PSRAM and the WAD's flash on SPI1 ------------------------------------------
+U2 = APS6404L_3SQR.Part { side = .bottom; pins { CE: RAM_CS, SIO1: MEM_MISO, SIO0: MEM_MOSI, SCLK: MEM_SCK, SIO2: V3, SIO3: V3, VDD: V3, VSS: GND } }
+U2Support = APS6404L_3SQR.Support(U2) { side = .bottom }
+U3 = W25Q128JVSIQ.Part { side = .bottom; pins { nCS: ROM_CS, DO: MEM_MISO, DI: MEM_MOSI, CLK: MEM_SCK, VCC: V3, GND: GND } }
+U3Support = W25Q128JVSIQ.Support(U3) { side = .bottom }
+
+// ---- display (front) ----------------------------------------------------------------------------
+DS1 = ST7789_TFT_2_0.Part {
+  at = (40mm, 32mm)
+  rotation = 90deg
+  pins { GND: GND, VCC: V3, SCL: LCD_SCK, SDA: LCD_MOSI, RES: LCD_RST, DC: LCD_DC, CS: LCD_CS, BLK: LCD_BL }
+}
+
+// ---- audio (back): I2S3 -> MAX98357A -> 8 ohm speaker -------------------------------------------
+U5 = MAX98357AETE.Part {
+  side = .bottom
+  pins { BCLK: I2S_CK, LRCLK: I2S_WS, DIN: I2S_SD, VDD: VBAT, GND: GND, EP: GND, GAIN_SLOT: .nc, OUTP: SPK_P, OUTN: SPK_N, NC5: .nc, NC6: .nc, NC12: .nc, NC13: .nc }
+}
+U5Support = MAX98357AETE.Support(U5, vio = V3) { side = .bottom }   // 634k pull-up on SD_MODE: (L+R)/2
+J5 = S2B_PH_K_S.Part { side = .bottom; pins { C1: SPK_N, C2: SPK_P } }
+
+// ---- USB-C (front, bottom edge) -----------------------------------------------------------------
+usb = UsbC2(vbus = VBUS, gnd = GND, dp = DP, dn = DN, tvsPackage = "SOD-323") {}
+override usb.power.J.at = (70mm, 8.15mm)
+
+// ---- power (back): one 18650 cell, TP4056 1 A charger, DW01A protection, LDO ------------------------
+BT1 = KEYSTONE_1042.Part { at = (70mm, 46mm); side = .bottom; pins { C1: VBAT, C2: BAT_N } }
+U6 = TP4056.Part { side = .bottom; pins { VCC: VBUS, BAT: VBAT, GND: GND } }
+U6Support = TP4056.Support(U6) { side = .bottom }
+C9 = cap(1uF, package = "0603", voltage = 10V) { side = .bottom; place = [near(U6.pin.VCC, max = 3mm)]; pins { a: VBUS, b: GND } }
+U7 = DW01A.Part { side = .bottom; pins { GND: BAT_N } }
+U7Support = DW01A.Support(U7, batteryPlus = VBAT, packMinus = GND) { side = .bottom }
+U4 = TLV75533PDBV.Part { side = .bottom; pins { IN: VBAT, OUT: V3, GND: GND, EN: LDO_EN } }
+U4Support = TLV75533PDBV.Support(U4, alwaysOn = false) { side = .bottom }
+R2 = res(100kohm, package = "0402") { side = .bottom; pins { a: LDO_EN, b: GND } }
+SW9 = JS102011SAQN.Part { at = (20mm, 61.2mm); rotation = 180deg; pins { A: VBAT, COM: LDO_EN, B: GND } }
+
+// ---- input (front) ---------------------------------------------------------------------------------
+part Btn = button("6x6")
+SW1 = Btn { at = (16mm, 42mm); pins { a: UP, b: GND } }
+SW2 = Btn { at = (16mm, 22mm); pins { a: DOWN, b: GND } }
+SW3 = Btn { at = (6mm + 0.5mm, 32mm); pins { a: LEFT, b: GND } }
+SW4 = Btn { at = (25.5mm, 32mm); pins { a: RIGHT, b: GND } }
+SW5 = Btn { at = (131mm, 36mm); pins { a: FIRE, b: GND } }
+SW6 = Btn { at = (119mm, 26mm); pins { a: USE, b: GND } }
+SW7 = Btn { at = (119mm, 46mm); pins { a: STRAFE, b: GND } }
+SW8 = Btn { at = (131mm, 14mm); pins { a: MENU, b: GND } }
+
+H1 = hole("M2.5") { at = (4mm, 4mm) }
+H2 = hole("M2.5") { at = (136mm, 4mm) }
+H3 = hole("M2.5") { at = (4mm, 60mm) }
+H4 = hole("M2.5") { at = (136mm, 60mm) }
+
+gndPour = pour(net = GND, layers = [Cu.top, Cu.inner[1], Cu.bottom]) {}

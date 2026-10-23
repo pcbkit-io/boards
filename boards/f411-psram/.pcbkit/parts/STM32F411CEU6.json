@@ -1,0 +1,1210 @@
+{
+  "id": "STM32F411CEU6",
+  "mpn": "STM32F411CEU6",
+  "manufacturer": "STMicroelectronics",
+  "variants": [
+    "STM32F411CEU6TR",
+    "STM32F411CCU6"
+  ],
+  "category": "mcu",
+  "description": "Arm Cortex-M4 MCU with FPU, 100 MHz, 512 KB flash, 128 KB RAM, USB OTG full speed, 12-bit ADC, 3 USART, 5 SPI/I2S, 3 I2C, SDIO, 1.7-3.6 V, UFQFPN48 (the WeAct Black Pill chip)",
+  "tags": [
+    "mcu",
+    "stm32",
+    "stm32f4",
+    "stm32f411",
+    "f411",
+    "black pill",
+    "blackpill",
+    "weact",
+    "arm cortex-m4",
+    "usb",
+    "ufqfpn48",
+    "qfn-48"
+  ],
+  "datasheet": {
+    "url": "https://www.st.com/resource/en/datasheet/stm32f411ce.pdf",
+    "revision": "DocID026289 Rev 4 (February 2015)"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "UFQFPN48 7 x 7 mm, 0.5 mm pitch, exposed pad",
+    "family": "qfn",
+    "pins": 48,
+    "pitch": 0.5,
+    "body": {
+      "d": [
+        6.9,
+        7.0,
+        7.1
+      ],
+      "e": [
+        6.9,
+        7.0,
+        7.1
+      ],
+      "a": [
+        0.5,
+        0.55,
+        0.6
+      ]
+    },
+    "lead": {
+      "b": [
+        0.2,
+        0.25,
+        0.3
+      ],
+      "l": [
+        0.3,
+        0.4,
+        0.5
+      ]
+    },
+    "exposedPad": {
+      "d2": [
+        5.5,
+        5.6,
+        5.7
+      ],
+      "e2": [
+        5.5,
+        5.6,
+        5.7
+      ],
+      "number": "49"
+    },
+    "page": "7.1.2 UFQFPN48 package outline (figure 49) and mechanical data (table 81); note 3: exposed die pad to PCB ground"
+  },
+  "footprint": "qfn(48, size = (7mm, 7mm), ep = (5.6mm, 5.6mm))",
+  "symbol": {
+    "units": [
+      {
+        "shapes": [
+          {
+            "kind": "rect",
+            "from": [
+              -15.24,
+              -38.1
+            ],
+            "to": [
+              15.24,
+              40.64
+            ],
+            "width": 0.254,
+            "fill": "background"
+          }
+        ],
+        "pins": [
+          {
+            "number": "1",
+            "x": -5.08,
+            "y": 43.18,
+            "angle": 270.0,
+            "length": 2.54
+          },
+          {
+            "number": "2",
+            "x": -17.78,
+            "y": 17.78,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "3",
+            "x": -17.78,
+            "y": 15.24,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "4",
+            "x": -17.78,
+            "y": 12.7,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "5",
+            "x": -17.78,
+            "y": 25.4,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "6",
+            "x": -17.78,
+            "y": 22.86,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "7",
+            "x": -17.78,
+            "y": 35.56,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "8",
+            "x": 2.54,
+            "y": -40.64,
+            "angle": 90.0,
+            "length": 2.54
+          },
+          {
+            "number": "9",
+            "x": 5.08,
+            "y": 43.18,
+            "angle": 270.0,
+            "length": 2.54
+          },
+          {
+            "number": "10",
+            "x": 17.78,
+            "y": 35.56,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "11",
+            "x": 17.78,
+            "y": 33.02,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "12",
+            "x": 17.78,
+            "y": 30.48,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "13",
+            "x": 17.78,
+            "y": 27.94,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "14",
+            "x": 17.78,
+            "y": 25.4,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "15",
+            "x": 17.78,
+            "y": 22.86,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "16",
+            "x": 17.78,
+            "y": 20.32,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "17",
+            "x": 17.78,
+            "y": 17.78,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "18",
+            "x": -17.78,
+            "y": 7.62,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "19",
+            "x": -17.78,
+            "y": 5.08,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "20",
+            "x": -17.78,
+            "y": 2.54,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "21",
+            "x": -17.78,
+            "y": -17.78,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "22",
+            "x": -17.78,
+            "y": -33.02,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "23",
+            "x": 0.0,
+            "y": -40.64,
+            "angle": 90.0,
+            "length": 2.54
+          },
+          {
+            "number": "24",
+            "x": -2.54,
+            "y": 43.18,
+            "angle": 270.0,
+            "length": 2.54
+          },
+          {
+            "number": "25",
+            "x": -17.78,
+            "y": -20.32,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "26",
+            "x": -17.78,
+            "y": -22.86,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "27",
+            "x": -17.78,
+            "y": -25.4,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "28",
+            "x": -17.78,
+            "y": -27.94,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "29",
+            "x": 17.78,
+            "y": 15.24,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "30",
+            "x": 17.78,
+            "y": 12.7,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "31",
+            "x": 17.78,
+            "y": 10.16,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "32",
+            "x": 17.78,
+            "y": 7.62,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "33",
+            "x": 17.78,
+            "y": 5.08,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "34",
+            "x": 17.78,
+            "y": 2.54,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "35",
+            "x": 0.0,
+            "y": -40.64,
+            "angle": 90.0,
+            "length": 2.54,
+            "hidden": true
+          },
+          {
+            "number": "36",
+            "x": 0.0,
+            "y": 43.18,
+            "angle": 270.0,
+            "length": 2.54
+          },
+          {
+            "number": "37",
+            "x": 17.78,
+            "y": 0.0,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "38",
+            "x": 17.78,
+            "y": -2.54,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "39",
+            "x": -17.78,
+            "y": 0.0,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "40",
+            "x": -17.78,
+            "y": -2.54,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "41",
+            "x": -17.78,
+            "y": -5.08,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "42",
+            "x": -17.78,
+            "y": -7.62,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "43",
+            "x": -17.78,
+            "y": -10.16,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "44",
+            "x": -17.78,
+            "y": 30.48,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "45",
+            "x": -17.78,
+            "y": -12.7,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "46",
+            "x": -17.78,
+            "y": -15.24,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "47",
+            "x": 0.0,
+            "y": -40.64,
+            "angle": 90.0,
+            "length": 2.54,
+            "hidden": true
+          },
+          {
+            "number": "48",
+            "x": 2.54,
+            "y": 43.18,
+            "angle": 270.0,
+            "length": 2.54
+          },
+          {
+            "number": "49",
+            "x": 0.0,
+            "y": -40.64,
+            "angle": 90.0,
+            "length": 2.54,
+            "hidden": true
+          }
+        ]
+      }
+    ]
+  },
+  "pins": [
+    {
+      "number": "1",
+      "name": "VBAT",
+      "type": "power_in",
+      "description": "RTC backup supply 1.65-3.6 V: to VDD without a battery"
+    },
+    {
+      "number": "2",
+      "name": "PC13",
+      "type": "bidirectional",
+      "functions": [
+        "RTC_AF1"
+      ],
+      "description": "PC13-ANTI_TAMP: low drive (3 mA), the Black Pill LED"
+    },
+    {
+      "number": "3",
+      "name": "PC14-OSC32_IN",
+      "type": "bidirectional",
+      "functions": [
+        "RCC_OSC32_IN"
+      ]
+    },
+    {
+      "number": "4",
+      "name": "PC15-OSC32_OUT",
+      "type": "bidirectional",
+      "functions": [
+        "ADC1_EXTI15",
+        "RCC_OSC32_OUT"
+      ]
+    },
+    {
+      "number": "5",
+      "name": "PH0-OSC_IN",
+      "type": "bidirectional",
+      "functions": [
+        "RCC_OSC_IN"
+      ]
+    },
+    {
+      "number": "6",
+      "name": "PH1-OSC_OUT",
+      "type": "bidirectional",
+      "functions": [
+        "RCC_OSC_OUT"
+      ]
+    },
+    {
+      "number": "7",
+      "name": "NRST",
+      "type": "input_pullup",
+      "description": "reset, active low, internal pull-up"
+    },
+    {
+      "number": "8",
+      "name": "VSSA",
+      "type": "ground"
+    },
+    {
+      "number": "9",
+      "name": "VDDA",
+      "type": "power_in"
+    },
+    {
+      "number": "10",
+      "name": "PA0",
+      "type": "bidirectional",
+      "functions": [
+        "ADC1_IN0",
+        "SYS_WKUP",
+        "TIM2_CH1",
+        "TIM2_ETR",
+        "TIM5_CH1",
+        "USART2_CTS"
+      ]
+    },
+    {
+      "number": "11",
+      "name": "PA1",
+      "type": "bidirectional",
+      "functions": [
+        "ADC1_IN1",
+        "I2S4_SD",
+        "SPI4_MOSI",
+        "TIM2_CH2",
+        "TIM5_CH2",
+        "USART2_RTS"
+      ]
+    },
+    {
+      "number": "12",
+      "name": "PA2",
+      "type": "bidirectional",
+      "functions": [
+        "ADC1_IN2",
+        "I2S_CKIN",
+        "TIM2_CH3",
+        "TIM5_CH3",
+        "TIM9_CH1",
+        "USART2_TX"
+      ]
+    },
+    {
+      "number": "13",
+      "name": "PA3",
+      "type": "bidirectional",
+      "functions": [
+        "ADC1_IN3",
+        "I2S2_MCK",
+        "TIM2_CH4",
+        "TIM5_CH4",
+        "TIM9_CH2",
+        "USART2_RX"
+      ]
+    },
+    {
+      "number": "14",
+      "name": "PA4",
+      "type": "bidirectional",
+      "functions": [
+        "ADC1_IN4",
+        "I2S1_WS",
+        "I2S3_WS",
+        "SPI1_NSS",
+        "SPI3_NSS",
+        "USART2_CK"
+      ]
+    },
+    {
+      "number": "15",
+      "name": "PA5",
+      "type": "bidirectional",
+      "functions": [
+        "ADC1_IN5",
+        "I2S1_CK",
+        "SPI1_SCK",
+        "TIM2_CH1",
+        "TIM2_ETR"
+      ]
+    },
+    {
+      "number": "16",
+      "name": "PA6",
+      "type": "bidirectional",
+      "functions": [
+        "ADC1_IN6",
+        "I2S2_MCK",
+        "SDIO_CMD",
+        "SPI1_MISO",
+        "TIM1_BKIN",
+        "TIM3_CH1"
+      ]
+    },
+    {
+      "number": "17",
+      "name": "PA7",
+      "type": "bidirectional",
+      "functions": [
+        "ADC1_IN7",
+        "I2S1_SD",
+        "SPI1_MOSI",
+        "TIM1_CH1N",
+        "TIM3_CH2"
+      ]
+    },
+    {
+      "number": "18",
+      "name": "PB0",
+      "type": "bidirectional",
+      "functions": [
+        "ADC1_IN8",
+        "I2S5_CK",
+        "SPI5_SCK",
+        "TIM1_CH2N",
+        "TIM3_CH3"
+      ]
+    },
+    {
+      "number": "19",
+      "name": "PB1",
+      "type": "bidirectional",
+      "functions": [
+        "ADC1_IN9",
+        "I2S5_WS",
+        "SPI5_NSS",
+        "TIM1_CH3N",
+        "TIM3_CH4"
+      ]
+    },
+    {
+      "number": "20",
+      "name": "PB2",
+      "type": "bidirectional"
+    },
+    {
+      "number": "21",
+      "name": "PB10",
+      "type": "bidirectional",
+      "functions": [
+        "I2C2_SCL",
+        "I2S2_CK",
+        "I2S3_MCK",
+        "SDIO_D7",
+        "SPI2_SCK",
+        "TIM2_CH3"
+      ]
+    },
+    {
+      "number": "22",
+      "name": "VCAP1",
+      "type": "power_out",
+      "description": "internal 1.2 V core regulator output: 4.7 uF (ESR < 1 ohm) to VSS, nothing else"
+    },
+    {
+      "number": "23",
+      "name": "VSS",
+      "type": "ground"
+    },
+    {
+      "number": "24",
+      "name": "VDD",
+      "type": "power_in"
+    },
+    {
+      "number": "25",
+      "name": "PB12",
+      "type": "bidirectional",
+      "functions": [
+        "I2C2_SMBA",
+        "I2S2_WS",
+        "I2S3_CK",
+        "I2S4_WS",
+        "SPI2_NSS",
+        "SPI3_SCK",
+        "SPI4_NSS",
+        "TIM1_BKIN"
+      ]
+    },
+    {
+      "number": "26",
+      "name": "PB13",
+      "type": "bidirectional",
+      "functions": [
+        "I2S2_CK",
+        "I2S4_CK",
+        "SPI2_SCK",
+        "SPI4_SCK",
+        "TIM1_CH1N"
+      ]
+    },
+    {
+      "number": "27",
+      "name": "PB14",
+      "type": "bidirectional",
+      "functions": [
+        "I2S2_ext_SD",
+        "SDIO_D6",
+        "SPI2_MISO",
+        "TIM1_CH2N"
+      ]
+    },
+    {
+      "number": "28",
+      "name": "PB15",
+      "type": "bidirectional",
+      "functions": [
+        "ADC1_EXTI15",
+        "I2S2_SD",
+        "RTC_REFIN",
+        "SDIO_CK",
+        "SPI2_MOSI",
+        "TIM1_CH3N"
+      ]
+    },
+    {
+      "number": "29",
+      "name": "PA8",
+      "type": "bidirectional",
+      "functions": [
+        "I2C3_SCL",
+        "RCC_MCO_1",
+        "SDIO_D1",
+        "TIM1_CH1",
+        "USART1_CK",
+        "USB_OTG_FS_SOF"
+      ]
+    },
+    {
+      "number": "30",
+      "name": "PA9",
+      "type": "bidirectional",
+      "functions": [
+        "I2C3_SMBA",
+        "SDIO_D2",
+        "TIM1_CH2",
+        "USART1_TX",
+        "USB_OTG_FS_VBUS"
+      ]
+    },
+    {
+      "number": "31",
+      "name": "PA10",
+      "type": "bidirectional",
+      "functions": [
+        "I2S5_SD",
+        "SPI5_MOSI",
+        "TIM1_CH3",
+        "USART1_RX",
+        "USB_OTG_FS_ID"
+      ]
+    },
+    {
+      "number": "32",
+      "name": "PA11",
+      "type": "bidirectional",
+      "functions": [
+        "ADC1_EXTI11",
+        "SPI4_MISO",
+        "TIM1_CH4",
+        "USART1_CTS",
+        "USART6_TX",
+        "USB_OTG_FS_DM"
+      ]
+    },
+    {
+      "number": "33",
+      "name": "PA12",
+      "type": "bidirectional",
+      "functions": [
+        "SPI5_MISO",
+        "TIM1_ETR",
+        "USART1_RTS",
+        "USART6_RX",
+        "USB_OTG_FS_DP"
+      ]
+    },
+    {
+      "number": "34",
+      "name": "PA13",
+      "type": "bidirectional",
+      "functions": [
+        "SYS_JTMS-SWDIO"
+      ]
+    },
+    {
+      "number": "35",
+      "name": "VSS",
+      "type": "ground"
+    },
+    {
+      "number": "36",
+      "name": "VDD",
+      "type": "power_in"
+    },
+    {
+      "number": "37",
+      "name": "PA14",
+      "type": "bidirectional",
+      "functions": [
+        "SYS_JTCK-SWCLK"
+      ]
+    },
+    {
+      "number": "38",
+      "name": "PA15",
+      "type": "bidirectional",
+      "functions": [
+        "ADC1_EXTI15",
+        "I2S1_WS",
+        "I2S3_WS",
+        "SPI1_NSS",
+        "SPI3_NSS",
+        "SYS_JTDI",
+        "TIM2_CH1",
+        "TIM2_ETR",
+        "USART1_TX"
+      ]
+    },
+    {
+      "number": "39",
+      "name": "PB3",
+      "type": "bidirectional",
+      "functions": [
+        "I2C2_SDA",
+        "I2S1_CK",
+        "I2S3_CK",
+        "SPI1_SCK",
+        "SPI3_SCK",
+        "SYS_JTDO-SWO",
+        "TIM2_CH2",
+        "USART1_RX"
+      ]
+    },
+    {
+      "number": "40",
+      "name": "PB4",
+      "type": "bidirectional",
+      "functions": [
+        "I2C3_SDA",
+        "I2S3_ext_SD",
+        "SDIO_D0",
+        "SPI1_MISO",
+        "SPI3_MISO",
+        "SYS_JTRST",
+        "TIM3_CH1"
+      ]
+    },
+    {
+      "number": "41",
+      "name": "PB5",
+      "type": "bidirectional",
+      "functions": [
+        "I2C1_SMBA",
+        "I2S1_SD",
+        "I2S3_SD",
+        "SDIO_D3",
+        "SPI1_MOSI",
+        "SPI3_MOSI",
+        "TIM3_CH2"
+      ]
+    },
+    {
+      "number": "42",
+      "name": "PB6",
+      "type": "bidirectional",
+      "functions": [
+        "I2C1_SCL",
+        "TIM4_CH1",
+        "USART1_TX"
+      ]
+    },
+    {
+      "number": "43",
+      "name": "PB7",
+      "type": "bidirectional",
+      "functions": [
+        "I2C1_SDA",
+        "SDIO_D0",
+        "TIM4_CH2",
+        "USART1_RX"
+      ]
+    },
+    {
+      "number": "44",
+      "name": "BOOT0",
+      "type": "input",
+      "description": "boot select: 10 kohm to GND boots from flash, high starts the system bootloader (USART1, USB DFU)"
+    },
+    {
+      "number": "45",
+      "name": "PB8",
+      "type": "bidirectional",
+      "functions": [
+        "I2C1_SCL",
+        "I2C3_SDA",
+        "I2S5_SD",
+        "SDIO_D4",
+        "SPI5_MOSI",
+        "TIM10_CH1",
+        "TIM4_CH3"
+      ]
+    },
+    {
+      "number": "46",
+      "name": "PB9",
+      "type": "bidirectional",
+      "functions": [
+        "I2C1_SDA",
+        "I2C2_SDA",
+        "I2S2_WS",
+        "SDIO_D5",
+        "SPI2_NSS",
+        "TIM11_CH1",
+        "TIM4_CH4"
+      ]
+    },
+    {
+      "number": "47",
+      "name": "VSS",
+      "type": "ground"
+    },
+    {
+      "number": "48",
+      "name": "VDD",
+      "type": "power_in"
+    },
+    {
+      "number": "49",
+      "name": "VSS",
+      "type": "ground",
+      "description": "exposed die pad"
+    }
+  ],
+  "ratings": {
+    "absMax": [
+      {
+        "what": "VDD-VSS (VDDA, VBAT included)",
+        "pins": [
+          "VDD",
+          "VDDA",
+          "VBAT"
+        ],
+        "min": -0.3,
+        "max": 4.0,
+        "unit": "V"
+      }
+    ],
+    "recommended": [
+      {
+        "what": "VDD",
+        "pins": [
+          "VDD"
+        ],
+        "min": 1.7,
+        "nom": 3.3,
+        "max": 3.6,
+        "unit": "V"
+      },
+      {
+        "what": "VDDA (same potential as VDD; 2.4 V min for the full ADC rate)",
+        "pins": [
+          "VDDA"
+        ],
+        "min": 1.7,
+        "max": 3.6,
+        "unit": "V"
+      },
+      {
+        "what": "VBAT",
+        "pins": [
+          "VBAT"
+        ],
+        "min": 1.65,
+        "max": 3.6,
+        "unit": "V"
+      },
+      {
+        "what": "operating temperature (suffix 6)",
+        "min": -40.0,
+        "max": 85.0,
+        "unit": "°C"
+      }
+    ]
+  },
+  "parameters": [
+    {
+      "name": "Core",
+      "value": "Arm Cortex-M4"
+    },
+    {
+      "name": "Frequency (max)",
+      "value": "100 MHz",
+      "si": 100000000.0,
+      "unit": "Hz"
+    },
+    {
+      "name": "Flash",
+      "value": "512 KB",
+      "si": 524288.0,
+      "unit": "B"
+    },
+    {
+      "name": "Flash (variants)",
+      "value": "256 KB, 512 KB"
+    },
+    {
+      "name": "RAM",
+      "value": "128 KB",
+      "si": 131072.0,
+      "unit": "B"
+    },
+    {
+      "name": "Supply voltage (min)",
+      "value": "1.7 V",
+      "si": 1.7,
+      "unit": "V"
+    },
+    {
+      "name": "Supply voltage (max)",
+      "value": "3.6 V",
+      "si": 3.6,
+      "unit": "V"
+    },
+    {
+      "name": "Operating temperature (min)",
+      "value": "-40 °C",
+      "si": -40.0,
+      "unit": "degC"
+    },
+    {
+      "name": "Operating temperature (max)",
+      "value": "105 °C",
+      "si": 105.0,
+      "unit": "degC"
+    },
+    {
+      "name": "I/O pins",
+      "value": "36",
+      "si": 36.0
+    },
+    {
+      "name": "Package",
+      "value": "UFQFPN48"
+    }
+  ],
+  "support": {
+    "parts": [
+      {
+        "ref": "Y1",
+        "kind": "crystal",
+        "value": "25MHz",
+        "rating": "HSE crystal, load capacitors per its CL; its CL: 10pF here, change `load` to the chosen crystal's",
+        "between": [
+          "PH0-OSC_IN",
+          "PH1-OSC_OUT",
+          "VSSA"
+        ],
+        "option": "crystal",
+        "load": "10pF"
+      },
+      {
+        "ref": "Y2",
+        "kind": "crystal",
+        "value": "32.768kHz",
+        "rating": "optional LSE for the RTC; its CL: 12.5pF here, change `load` to the chosen crystal's",
+        "between": [
+          "PC14-OSC32_IN",
+          "PC15-OSC32_OUT",
+          "VSSA"
+        ],
+        "option": "lse",
+        "load": "12.5pF"
+      },
+      {
+        "ref": "C1-C3",
+        "kind": "cap",
+        "value": "100nF",
+        "rating": "X7R, one per VDD pin (24, 36, 48)",
+        "between": [
+          "VDD",
+          "VSS"
+        ],
+        "each": true
+      },
+      {
+        "ref": "C4",
+        "kind": "cap",
+        "value": "4.7uF",
+        "rating": "ceramic, on one VDD pin",
+        "between": [
+          "VDD",
+          "VSS"
+        ]
+      },
+      {
+        "ref": "C5",
+        "kind": "cap",
+        "value": "4.7uF",
+        "rating": "ceramic, ESR < 1 ohm",
+        "between": [
+          "VCAP1",
+          "VSS"
+        ]
+      },
+      {
+        "ref": "C6",
+        "kind": "cap",
+        "value": "100nF",
+        "between": [
+          "VDDA",
+          "VSSA"
+        ]
+      },
+      {
+        "ref": "C7",
+        "kind": "cap",
+        "value": "1uF",
+        "between": [
+          "VDDA",
+          "VSSA"
+        ]
+      },
+      {
+        "ref": "C8",
+        "kind": "cap",
+        "value": "100nF",
+        "rating": "optional, reset filter",
+        "between": [
+          "NRST",
+          "VSS"
+        ]
+      },
+      {
+        "ref": "R1",
+        "kind": "res",
+        "value": "10kohm",
+        "between": [
+          "BOOT0",
+          "VSS"
+        ]
+      }
+    ],
+    "options": [
+      {
+        "name": "crystal",
+        "default": true,
+        "description": "The 25MHz crystal."
+      },
+      {
+        "name": "lse",
+        "default": false,
+        "description": "The 32.768 kHz crystal."
+      }
+    ],
+    "notes": [
+      "VDDA must be at the same potential as VDD: to VDD through a ferrite bead or directly, with 100 nF + 1 uF next to the pin.",
+      "VCAP1 is the internal regulator's output: only its 4.7 uF low-ESR ceramic, never a load or another supply.",
+      "USB device: PA11 = D-, PA12 = D+ straight to the connector (the OTG FS PHY has its own pull-up); USB needs the HSE crystal for a 48 MHz clock.",
+      "SWD programming: PA13 SWDIO, PA14 SWCLK, NRST, 3V3, GND on a header."
+    ],
+    "page": "6.1.6 power supply scheme (figure 17), 6.3.2 VCAP1 external capacitor (table 16), 6.1.1x HSE"
+  },
+  "notes": [
+    "Each VDD pin gets its own 100 nF next to it, one 4.7 uF for all; solder the exposed pad to ground.",
+    "BOOT0 low boots from flash; BOOT0 high at reset starts the ROM bootloader (USART1 PA9/PA10, USB DFU on PA11/PA12), the Black Pill's BOOT button.",
+    "PC13, PC14, PC15 sink or source 3 mA at most: an LED at most.",
+    "Most I/Os are 5 V tolerant (FT); the analog-capable pins are not when used as analog.",
+    "The WeAct Black Pill uses a 25 MHz HSE and a 32.768 kHz LSE."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": true,
+      "source": "STM32_open_pin_data STM32F411C(C-E)Ux (7d1f1514ed55); pad 49 (the exposed die pad, to ground) from the datasheet note to the UFQFPN48 outline; STM32F411xC/xE datasheet DocID026289 Rev 4: power supply scheme, VCAP1, UFQFPN48 mechanical data and exposed pad note",
+      "url": "https://github.com/STMicroelectronics/STM32_open_pin_data",
+      "license": "BSD-3-Clause",
+      "notice": "Copyright (c) 2020, STMicroelectronics. All rights reserved. Redistributed under the BSD 3-Clause License (see crates/pcbkit-parts/registry/LICENSES.md)."
+    },
+    "footprint": {
+      "verified": false,
+      "note": "QFN-48 7 x 7 mm, 0.5 mm pitch, exposed pad 5.6 x 5.6 mm from the UFQFPN48 package mechanical data (DocID026289 table 81); the IPC-7351B footprint is computed from them"
+    },
+    "symbol": {
+      "verified": false,
+      "source": "kicad",
+      "version": "10.0.7",
+      "item": "MCU_ST_STM32F4:STM32F411CCUx",
+      "url": "https://gitlab.com/kicad/libraries",
+      "license": "CC-BY-SA-4.0"
+    },
+    "parameters": {
+      "verified": true,
+      "source": "stm32-open-pin-data",
+      "version": "7d1f1514ed5583ec5007ad91236b4e1d377295b1",
+      "item": "mcu/STM32F411C(C-E)Ux.xml",
+      "url": "https://github.com/STMicroelectronics/STM32_open_pin_data",
+      "license": "BSD-3-Clause",
+      "notice": "Copyright (c) 2021 STMicroelectronics. All rights reserved. Redistributed under the BSD 3-Clause License."
+    }
+  }
+}

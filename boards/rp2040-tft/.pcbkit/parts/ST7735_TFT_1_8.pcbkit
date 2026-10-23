@@ -1,0 +1,53 @@
+pcbkit 1
+
+// MSP1803 1.8in 128x160 SPI TFT module (ST7735S) (generic): 1.8" 128 x 160 colour TFT module
+// (ST7735S), SPI, on a 1x8 female header along its bottom edge: VCC GND CS RESET A0 SDA SCK LED;
+// courtyard the 34.5 x 58 mm module lying over the board (its SD card header not used)
+// Compiled from the part sheet `parts/ST7735_TFT_1_8.json` (`parts.create`); status: checked.
+// Datasheet: http://www.lcdwiki.com/1.8inch_SPI_Module_ST7735S_SKU:MSP1803 (lcdwiki 1.8inch SPI
+// Module ST7735S SKU:MSP1803: interface definition and size picture (MSP1803-005.png))
+// Pins: lcdwiki MSP1803: pins 1 VCC (3.3-5 V), 2 GND, 3 CS, 4 RESET, 5 A0, 6 SDA, 7 SCK, 8 LED;
+// size picture: PCB 34.50 x 58.00 mm, holes 28.50 x 52.00 mm (Ø3.2), header row 2.50 mm from the
+// bottom edge, centred
+// Footprint: as given
+// This file may be used, changed and shared without conditions, with the board or alone.
+
+// Note: SPI: SDA to MOSI, SCK to SCK, CS, RESET and A0 (DC) to GPIOs. Logic 3.3 V TTL (5 V
+// controllers need level shifting).
+// Note: LED high turns the backlight on: PWM it from a GPIO for brightness, or tie it to 3.3 V.
+
+/// MSP1803 1.8in 128x160 SPI TFT module (ST7735S) — 1.8" 128 x 160 colour TFT module (ST7735S),
+/// SPI, on a 1x8 female header along its bottom edge: VCC GND CS RESET A0 SDA SCK LED; courtyard
+/// the 34.5 x 58 mm module lying over the board (its SD card header not used)
+part Part = device(footprint = moduleSocket(
+  "TFT_1.8in_ST7735_Socket_1x08_P2.54mm",
+  socketRow(1, 8, (-8.89mm, 0mm), (2.54mm, 0mm)),
+  box((-17.25mm, -2.5mm), (17.25mm, 55.5mm)),
+  description = "1.8 inch ST7735 TFT module on a 1x8 female header along its bottom edge, the display facing up over +Y: VCC, GND, CS, RESET, A0, SDA, SCK, LED left to right",
+  parts = 4mm,
+  color = "#b02020",
+), prefix = "U", mpn = "MSP1803 1.8in 128x160 SPI TFT module (ST7735S)", manufacturer = "generic", pinout = {
+  VCC: "1",
+  GND: "2",
+  CS: "3",
+  RESET: "4",
+  A0: "5",
+  SDA: "6",
+  SCK: "7",
+  LED: "8",
+}, pinTypes = {
+  VCC: io.powerIn(min = 3.3V, max = 5V),
+  GND: .ground,
+  CS: io.input(),
+  RESET: io.input(),
+  A0: io.input(),
+  SDA: io.input(),
+  SCK: io.input(),
+  LED: io.input(),
+}) with {
+  fields {
+    Status: "checked",
+    PinoutSource: "lcdwiki MSP1803: pins 1 VCC (3.3-5 V), 2 GND, 3 CS, 4 RESET, 5 A0, 6 SDA, 7 SCK, 8 LED; size picture: PCB 34.50 x 58.00 mm, holes 28.50 x 52.00 mm (Ø3.2), header row 2.50 mm from the bottom edge, centred",
+    Datasheet: "http://www.lcdwiki.com/1.8inch_SPI_Module_ST7735S_SKU:MSP1803",
+  }
+}

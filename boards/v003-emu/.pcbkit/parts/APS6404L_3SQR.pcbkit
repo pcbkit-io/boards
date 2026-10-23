@@ -1,0 +1,92 @@
+pcbkit 1
+
+// APS6404L-3SQR-SN (AP Memory): 64 Mbit (8 MB) SPI/QPI pseudo-SRAM with self-managed refresh, up
+// to 133 MHz, 2.7-3.6 V (SOP-8 150 mil)
+// Compiled from the part sheet `parts/APS6404L_3SQR.json` (`parts.create`); status: checked.
+// Datasheet: https://www.pjrc.com/store/APS6404L_3SQR.pdf (APM SPI 3V PSRAM Datasheet Rev. 2.3,
+// 2020-04-30: §3.1 package types (pinout), §4.1 SOP-8L(150) outline, §14.3 decoupling, §14.5
+// DC characteristics)
+// Pins: AP Memory APS6404L-3SQR datasheet Rev. 2.3, §3.1 (1 /CE, 2 SO/SIO1, 3 SIO2, 4 VSS, 5
+// SI/SIO0, 6 SCLK, 7 SIO3, 8 VDD); §4.1 outline refers to JEDEC MS-012 AA (SOIC-8: D 4.90, E1
+// 3.90, E 6.00 BSC, e 1.27)
+// Footprint: the standard package `SOIC-8`
+// This file may be used, changed and shared without conditions, with the board or alone.
+
+// Note: 8M x 8 bits, 1024-byte pages; linear bursts up to 84 MHz, wrapped 32-byte bursts to 133
+// MHz at 3.0 V.
+// Note: Memory-mapped on the RP2350's QMI (chip select 1), the ESP32-S3's SPI0/1 cache, or read
+// through a software cache over a plain SPI peripheral.
+
+/// APS6404L-3SQR-SN — 64 Mbit (8 MB) SPI/QPI pseudo-SRAM with self-managed refresh, up to 133
+/// MHz, 2.7-3.6 V (SOP-8 150 mil)
+part Part = device(footprint = soic(
+  8,
+), prefix = "U", mpn = "APS6404L-3SQR-SN", manufacturer = "AP Memory", pinout = {
+  CE: "1",
+  SIO1: "2",
+  SIO2: "3",
+  VSS: "4",
+  SIO0: "5",
+  SCLK: "6",
+  SIO3: "7",
+  VDD: "8",
+}, pinTypes = {
+  CE: io.input(),
+  SIO1: io.bidirectional(),
+  SIO2: io.bidirectional(),
+  VSS: .ground,
+  SIO0: io.bidirectional(),
+  SCLK: io.input(),
+  SIO3: io.bidirectional(),
+  VDD: io.powerIn(min = 2.7V, max = 3.6V),
+}) with {
+  fields {
+    Status: "checked",
+    PinoutSource: "AP Memory APS6404L-3SQR datasheet Rev. 2.3, §3.1 (1 /CE, 2 SO/SIO1, 3 SIO2, 4 VSS, 5 SI/SIO0, 6 SCLK, 7 SIO3, 8 VDD); §4.1 outline refers to JEDEC MS-012 AA (SOIC-8: D 4.90, E1 3.90, E 6.00 BSC, e 1.27)",
+    Datasheet: "https://www.pjrc.com/store/APS6404L_3SQR.pdf",
+  }
+  simulation = SimulationParameters {
+    parameters = [
+      SimulationParameter {
+        id = "icc-rw-133mhz"
+        quantity = .supplyCurrent
+        typ = 5.5mA
+        max = 7mA
+        conditions = "read/write at 133 MHz, output load not included"
+        source = SimulationEvidence {
+          url = "https://www.pjrc.com/store/APS6404L_3SQR.pdf"
+          revision = "Rev. 2.3"
+          location = "§14.5 Table 9, ICC and note 2"
+          confidence = .datasheet
+        }
+      },
+    ]
+  }
+}
+
+/// The support circuit of the APS6404L-3SQR-SN as its datasheet shows it (§14.3 decoupling
+/// capacitor requirement): every part next to the pin it serves. Add it next to the part: `U1 =
+/// APS6404L_3SQR.Part { … }`, `U1Support = APS6404L_3SQR.Support(U1) {}`.
+///
+/// - Wait 150 us after power-up before the first command; the device then answers in SPI mode until
+/// Enter Quad Mode (35h).
+block Support(
+  /// The APS6404L-3SQR-SN this circuit serves (`APS6404L_3SQR.Support(U1)`).
+  chip: Any,
+) {
+  /// low-ESR ceramic as close to VDD as possible (required)
+  C1 = cap(1uF, package = "0402") {
+    place = [soft(near(chip.pin.VDD, max = 2mm), weight = 2)]
+    pins { a: chip.pin.VDD, b: chip.pin.VSS }
+  }
+  /// optional high-frequency decoupling at VDD
+  C2 = cap(100nF, package = "0402") {
+    place = [soft(near(chip.pin.VDD, max = 2mm), weight = 2)]
+    pins { a: chip.pin.VDD, b: chip.pin.VSS }
+  }
+  /// keeps the PSRAM deselected while the host boots
+  R1 = res(10kohm, package = "0402") {
+    place = [soft(near(chip.pin.CE, max = 5mm), weight = 1)]
+    pins { a: chip.pin.CE, b: chip.pin.VDD }
+  }
+}

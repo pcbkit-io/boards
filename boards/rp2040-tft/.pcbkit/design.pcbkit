@@ -1,0 +1,116 @@
+pcbkit 1
+
+// Doom device 04: the bare RP2040 (dual Cortex-M0+ at 133 MHz, 264 KB SRAM) with its datasheet's
+// minimal circuit (12 MHz crystal, 16 MB W25Q128 QSPI flash, BOOTSEL), a 1.8" 128 x 160 ST7735
+// TFT on SPI0, a microSD socket on SPI1 for the game data, eight buttons, PWM audio into a
+// PAM8403 class-D amplifier and a speaker, and a protected one-cell LiPo with a TP4056 charger.
+// Front (top): the display, the buttons, the power switch, USB-C. Back (bottom): the rest.
+
+use "parts/RP2040.pcbkit" as RP2040
+use "parts/ST7735_TFT_1_8.pcbkit" as ST7735_TFT_1_8
+use "parts/DM3AT_SF_PEJM5.pcbkit" as DM3AT_SF_PEJM5
+use "parts/TP4056.pcbkit" as TP4056
+use "parts/DW01A.pcbkit" as DW01A
+use "parts/TLV75533PDBV.pcbkit" as TLV75533PDBV
+use "parts/PAM8403DR.pcbkit" as PAM8403DR
+use "parts/JS102011SAQN.pcbkit" as JS102011SAQN
+use "parts/S2B_PH_K_S.pcbkit" as S2B_PH_K_S
+
+net VBUS { voltage = 5V }
+net VBAT { voltage = 4.2V }
+net V3 { voltage = 3.3V }
+net GND { voltage = 0V }
+net BAT_N, LDO_EN, CONN_DP, CONN_DN
+net SCK, MOSI, LCD_CS, LCD_DC, LCD_RST, LCD_BL
+net SD_SCK, SD_MOSI, SD_MISO, SD_CS, SD_CD
+net UP, DOWN, LEFT, RIGHT, FIRE, USE, START, SELECT
+net PWM_L, AUDIO, AMP_SD, SPK_P, SPK_N, SWDIO, SWCLK
+
+board = Board {
+  name = "doom-04-rp2040-tft"
+  description = "RP2040 bare chip · 16 MB flash · 1.8in ST7735 · microSD · LiPo + TP4056"
+  outline = rect(132mm, 58mm, radius = 5mm)
+  layers = [signal(Cu.top), power(Cu.inner[1], label = "GND"), signal(Cu.inner[2]), signal(Cu.bottom)]
+}
+
+// ---- processor (back) ----------------------------------------------------------------------
+U1 = RP2040.Part {
+  at = (66mm, 24mm)
+  side = .bottom
+  pins {
+    IOVDD: V3, GND: GND,
+    GPIO18: SCK, GPIO19: MOSI, GPIO17: LCD_CS, GPIO20: LCD_DC, GPIO21: LCD_RST, GPIO22: LCD_BL,
+    GPIO10: SD_SCK, GPIO11: SD_MOSI, GPIO12: SD_MISO, GPIO13: SD_CS, GPIO14: SD_CD,
+    GPIO2: UP, GPIO3: DOWN, GPIO4: LEFT, GPIO5: RIGHT, GPIO6: FIRE, GPIO7: USE, GPIO8: START, GPIO9: SELECT,
+    GPIO15: PWM_L, GPIO16: AMP_SD,
+    SWDIO: SWDIO, SWCLK: SWCLK,
+  }
+}
+// The datasheet's minimal design: decoupling, the core regulator, crystal, 16 MB flash, BOOTSEL,
+// the 27 ohm USB series resistors.
+U1Support = RP2040.Support(U1, dp = CONN_DP, dm = CONN_DN) { side = .bottom }
+
+// Debug: SWD on three pads of a header on the back (a Raspberry Pi Debug Probe or picoprobe).
+J3 = header(3) { side = .bottom; pins = [SWCLK, GND, SWDIO] }
+
+// ---- USB-C (front, bottom edge): charging and UF2 flashing over the boot ROM's USB -----------
+usb = UsbC2(vbus = VBUS, gnd = GND, dp = CONN_DP, dn = CONN_DN, tvsPackage = "SOD-323") {}
+override usb.power.J.at = (66mm, 8.15mm)
+
+// ---- power (back): TP4056 charger, DW01A + FS8205A protection, switch -> LDO enable ---------
+U2 = TP4056.Part { side = .bottom; pins { VCC: VBUS, BAT: VBAT, GND: GND } }
+U2Support = TP4056.Support(U2) { side = .bottom }
+C8 = cap(1uF, package = "0603", voltage = 10V) { side = .bottom; place = [near(U2.pin.VCC, max = 3mm)]; pins { a: VBUS, b: GND } }
+U3 = DW01A.Part { side = .bottom; pins { GND: BAT_N } }
+U3Support = DW01A.Support(U3, batteryPlus = VBAT, packMinus = GND) { side = .bottom }
+J2 = S2B_PH_K_S.Part { side = .bottom; pins { C1: BAT_N, C2: VBAT } }
+U4 = TLV75533PDBV.Part { side = .bottom; pins { IN: VBAT, OUT: V3, GND: GND, EN: LDO_EN } }
+U4Support = TLV75533PDBV.Support(U4, alwaysOn = false) { side = .bottom }
+R11 = res(100kohm, package = "0402") { side = .bottom; pins { a: LDO_EN, b: GND } }
+SW9 = JS102011SAQN.Part { at = (20mm, 55.2mm); rotation = 180deg; pins { A: VBAT, COM: LDO_EN, B: GND } }
+
+// ---- display (front) -------------------------------------------------------------------------
+DS1 = ST7735_TFT_1_8.Part {
+  at = (94mm, 29mm)
+  rotation = 90deg
+  pins { VCC: V3, GND: GND, CS: LCD_CS, RESET: LCD_RST, A0: LCD_DC, SDA: MOSI, SCK: SCK, LED: LCD_BL }
+}
+
+// ---- storage (back, right edge): the WAD on a microSD card --------------------------------
+J4 = DM3AT_SF_PEJM5.Part {
+  side = .bottom
+  place = [edge(.right)]
+  pins { DAT2: .nc, CD_DAT3: SD_CS, CMD: SD_MOSI, VDD: V3, CLK: SD_SCK, VSS: GND, DAT0: SD_MISO, DAT1: .nc, CD_A: SD_CD, CD_B: GND, SH: GND }
+}
+R7 = res(10kohm, package = "0402") { side = .bottom; pins { a: SD_CD, b: V3 } }
+R8 = res(10kohm, package = "0402") { side = .bottom; pins { a: SD_CS, b: V3 } }
+R9 = res(10kohm, package = "0402") { side = .bottom; pins { a: SD_MISO, b: V3 } }
+C6 = cap(10uF, package = "0603") { side = .bottom; pins { a: V3, b: GND } }
+
+// ---- audio (back): PWM -> RC low-pass -> PAM8403 (left channel) -> 8 ohm speaker -------------
+R10 = res(1kohm, package = "0402") { side = .bottom; pins { a: PWM_L, b: AUDIO } }
+C7 = cap(10nF, package = "0402") { side = .bottom; pins { a: AUDIO, b: GND } }
+U5 = PAM8403DR.Part {
+  side = .bottom
+  pins { VDD: VBAT, PVDD: VBAT, GND: GND, PGND: GND, SHDN: AMP_SD, MUTE: .nc, OUTLP: SPK_P, OUTLN: SPK_N, OUTRP: .nc, OUTRN: .nc, NC: .nc }
+}
+U5Support = PAM8403DR.Support(U5, audioL = AUDIO) { side = .bottom }
+J5 = S2B_PH_K_S.Part { side = .bottom; pins { C1: SPK_N, C2: SPK_P } }
+
+// ---- input (front) ---------------------------------------------------------------------------
+part Btn = button("6x6")
+SW1 = Btn { at = (20mm, 39mm); pins { a: UP, b: GND } }
+SW2 = Btn { at = (20mm, 19mm); pins { a: DOWN, b: GND } }
+SW3 = Btn { at = (10mm, 29mm); pins { a: LEFT, b: GND } }
+SW4 = Btn { at = (30mm, 29mm); pins { a: RIGHT, b: GND } }
+SW5 = Btn { at = (123mm, 34mm); pins { a: FIRE, b: GND } }
+SW6 = Btn { at = (112mm, 24mm); pins { a: USE, b: GND } }
+SW7 = Btn { at = (112mm, 47mm); pins { a: SELECT, b: GND } }
+SW8 = Btn { at = (124mm, 47mm); pins { a: START, b: GND } }
+
+H1 = hole("M2.5") { at = (4mm, 4mm) }
+H2 = hole("M2.5") { at = (128mm, 4mm) }
+H3 = hole("M2.5") { at = (4mm, 54mm) }
+H4 = hole("M2.5") { at = (128mm, 54mm) }
+
+gndPour = pour(net = GND, layers = [Cu.top, Cu.inner[1], Cu.bottom]) {}

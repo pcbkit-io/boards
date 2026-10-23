@@ -1,0 +1,86 @@
+pcbkit 1
+
+// Doom device 03: a pocket handheld on an ESP32-C3-MINI-1 module (single-core RISC-V RV32IMC at
+// 160 MHz, 400 KB SRAM, 4 MB flash in the module): the RP2040-style cut-down Doom (compressed
+// WAD in flash, tables in flash, a single-buffered 8-bit frame). A 1.3" 240 x 240 ST7789 IPS on
+// SPI, eight buttons, a piezo, a 1000 mAh LiPo with an MCP73831 charger, DW01A/FS8205A cell
+// protection and an AP2112K LDO switched by its enable. USB-C goes straight to the C3's
+// USB Serial/JTAG: esptool flashes it, no bridge chip. Portrait, Game Boy style.
+// Front (top): display, buttons, switch, USB-C. Back (bottom): the module and the power.
+
+use "parts/ESP32_C3_MINI_1.pcbkit" as ESP32_C3_MINI_1
+use "parts/ST7789_TFT_1_3.pcbkit" as ST7789_TFT_1_3
+use "parts/MCP73831T_2ACI_OT.pcbkit" as MCP73831T_2ACI_OT
+use "parts/DW01A.pcbkit" as DW01A
+use "parts/AP2112K_3_3.pcbkit" as AP2112K_3_3
+use "parts/JS102011SAQN.pcbkit" as JS102011SAQN
+use "parts/S2B_PH_K_S.pcbkit" as S2B_PH_K_S
+use "parts/GPC12075YB_5V.pcbkit" as GPC12075YB_5V
+
+net VBUS { voltage = 5V }
+net VBAT { voltage = 4.2V }
+net V3 { voltage = 3.3V }
+net GND { voltage = 0V }
+net BAT_N, LDO_EN, DP, DN, EN
+net SCK, MOSI, LCD_DC, LCD_RST, BUZZ
+net UP, DOWN, LEFT, RIGHT, FIRE, USE, STRAFE, MENU
+
+board = Board {
+  name = "doom-03-c3-pocket"
+  description = "ESP32-C3 RISC-V · 1.3in ST7789 240x240 · LiPo + MCP73831 + DW01A"
+  outline = rect(52mm, 92mm, radius = 5mm)
+}
+
+// ---- processor (back, top edge: the antenna past the edge, away from the hand) ----------------
+U1 = ESP32_C3_MINI_1.Part {
+  side = .bottom
+  at = (42.5mm, 83.2mm)
+  pins {
+    GND: GND, P3V3: V3, EN: EN, NC: .nc,
+    IO18: DN, IO19: DP,
+    IO6: SCK, IO7: MOSI, IO5: LCD_DC, IO4: LCD_RST, IO8: BUZZ,
+    IO0: UP, IO1: DOWN, IO2: LEFT, IO3: RIGHT, IO10: FIRE, RXD0: USE, TXD0: STRAFE, IO9: MENU,
+  }
+}
+// The datasheet's peripheral circuit: decoupling, the EN RC, pull-ups on IO2 and IO8, RESET.
+// BOOT is the MENU button on the front (IO9 low at reset = download mode).
+U1Support = ESP32_C3_MINI_1.Support(U1, bootButton = false) { side = .bottom }
+// 100 nF at the 3V3 pin, just below the module (out of its antenna keepout).
+override U1Support.C2.at = (-47.5mm, 73.2mm)   // the block is on the back: its frame is mirrored
+
+// ---- display (front, upper half) -------------------------------------------------------------
+DS1 = ST7789_TFT_1_3.Part {
+  at = (26mm, 80mm)
+  pins { GND: GND, VCC: V3, SCL: SCK, SDA: MOSI, RES: LCD_RST, DC: LCD_DC, BLK: V3 }
+}
+
+// ---- USB-C (front, bottom edge): VBUS to the charger, D+/D- to the C3 -------------------------
+usb = UsbC2(vbus = VBUS, gnd = GND, dp = DP, dn = DN, tvsPackage = "SOD-323") {}
+override usb.power.J.place = [edge(.bottom)]
+
+// ---- power (back) ------------------------------------------------------------------------------
+U2 = MCP73831T_2ACI_OT.Part { side = .bottom; pins { VDD: VBUS, VBAT: VBAT, VSS: GND } }
+U2Support = MCP73831T_2ACI_OT.Support(U2) { side = .bottom }
+U3 = DW01A.Part { side = .bottom; pins { GND: BAT_N } }
+U3Support = DW01A.Support(U3, batteryPlus = VBAT, packMinus = GND) { side = .bottom }
+J2 = S2B_PH_K_S.Part { side = .bottom; pins { C1: BAT_N, C2: VBAT } }
+U4 = AP2112K_3_3.Part { side = .bottom; pins { VIN: VBAT, VOUT: V3, GND: GND, EN: LDO_EN, NC: .nc } }
+U4Support = AP2112K_3_3.Support(U4, alwaysOn = false) { side = .bottom }
+R1 = res(100kohm, package = "0402") { side = .bottom; pins { a: LDO_EN, b: GND } }
+SW9 = JS102011SAQN.Part { at = (49.2mm, 60mm); rotation = 90deg; pins { A: VBAT, COM: LDO_EN, B: GND } }
+
+// ---- sound (back) --------------------------------------------------------------------------------
+BZ1 = GPC12075YB_5V.Part { side = .bottom; pins { A: BUZZ, B: GND } }
+
+// ---- input (front) --------------------------------------------------------------------------------
+part Btn = button("5.1x5.1")
+SW1 = Btn { at = (13mm, 38mm); pins { a: UP, b: GND } }
+SW2 = Btn { at = (13mm, 22mm); pins { a: DOWN, b: GND } }
+SW3 = Btn { at = (5mm, 30mm); pins { a: LEFT, b: GND } }
+SW4 = Btn { at = (21mm, 30mm); pins { a: RIGHT, b: GND } }
+SW5 = Btn { at = (44mm, 34mm); pins { a: FIRE, b: GND } }
+SW6 = Btn { at = (35mm, 26mm); pins { a: USE, b: GND } }
+SW7 = Btn { at = (8mm, 9mm); pins { a: STRAFE, b: GND } }
+SW8 = Btn { at = (44mm, 9mm); pins { a: MENU, b: GND } }
+
+gndPour = pour(net = GND, layers = [Cu.top, Cu.bottom]) {}

@@ -1,0 +1,403 @@
+{
+  "id": "TPS61023DRL",
+  "mpn": "TPS61023DRLR",
+  "manufacturer": "Texas Instruments",
+  "variants": [
+    "TPS61023DRLT"
+  ],
+  "category": "regulator",
+  "description": "Synchronous boost converter, 0.5-5.5 V in (1.8 V to start), 2.2-5.5 V adjustable out, 3.7 A valley switch limit, 1 MHz, true output disconnect, SOT-563",
+  "tags": [
+    "boost",
+    "tps61023",
+    "step-up",
+    "dc-dc",
+    "switching regulator",
+    "synchronous",
+    "li-ion to 5V",
+    "3.7V to 5V",
+    "single cell",
+    "power bank",
+    "sot-563"
+  ],
+  "datasheet": {
+    "url": "https://www.ti.com/lit/ds/symlink/tps61023.pdf",
+    "revision": "SLVSF14B, revised August 2020"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "SOT-563 (DRL)",
+    "page": "p. 3, DRL package, 6-pin SOT563, 1.2 x 1.6 mm"
+  },
+  "pins": [
+    {
+      "number": "1",
+      "name": "FB",
+      "type": "analog",
+      "description": "feedback from the output divider (595 mV)"
+    },
+    {
+      "number": "2",
+      "name": "EN",
+      "type": "input",
+      "description": "enable, high = on; low disconnects the output from the input",
+      "vih": 1.2
+    },
+    {
+      "number": "3",
+      "name": "VIN",
+      "type": "power_in",
+      "description": "supply input, and one end of the inductor"
+    },
+    {
+      "number": "4",
+      "name": "GND",
+      "type": "ground"
+    },
+    {
+      "number": "5",
+      "name": "SW",
+      "type": "passive",
+      "description": "switch node, to the inductor"
+    },
+    {
+      "number": "6",
+      "name": "VOUT",
+      "type": "power_out",
+      "description": "boosted output, set by the divider on FB"
+    }
+  ],
+  "ratings": {
+    "absMax": [
+      {
+        "what": "VIN, EN, FB, SW, VOUT",
+        "pins": [
+          "VIN",
+          "EN",
+          "FB",
+          "VOUT"
+        ],
+        "min": -0.3,
+        "max": 7.0,
+        "unit": "V"
+      },
+      {
+        "what": "operating junction temperature",
+        "min": -40.0,
+        "max": 150.0,
+        "unit": "°C"
+      }
+    ],
+    "recommended": [
+      {
+        "what": "input voltage (1.8 V needed to start)",
+        "pins": [
+          "VIN"
+        ],
+        "min": 0.5,
+        "max": 5.5,
+        "unit": "V"
+      },
+      {
+        "what": "output voltage setting range",
+        "pins": [
+          "VOUT"
+        ],
+        "min": 2.2,
+        "max": 5.5,
+        "unit": "V"
+      },
+      {
+        "what": "effective inductance",
+        "min": 0.37,
+        "nom": 1.0,
+        "max": 2.9,
+        "unit": "µH"
+      },
+      {
+        "what": "valley switch current limit",
+        "min": 2.7,
+        "nom": 3.7,
+        "unit": "A"
+      },
+      {
+        "what": "operating junction temperature",
+        "min": -40.0,
+        "max": 125.0,
+        "unit": "°C"
+      }
+    ]
+  },
+  "simulation": {
+    "parameters": [
+      {
+        "id": "thetaJa-standard",
+        "quantity": "thetaJa",
+        "unit": "K/W",
+        "typ": 142.7,
+        "conditions": "DRL SOT563 6-pin package; Standard column; tabulated package thermal metric, not a guaranteed value for the application board",
+        "source": {
+          "url": "https://www.ti.com/lit/ds/symlink/tps61023.pdf",
+          "revision": "SLVSF14B, revised August 2020",
+          "location": "p. 4, section 6.4, Standard column",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "thetaJc-standard",
+        "quantity": "thetaJc",
+        "unit": "K/W",
+        "typ": 55.7,
+        "conditions": "DRL SOT563 6-pin package; Standard column; tabulated package thermal metric, not a guaranteed value for the application board; case face unspecified",
+        "source": {
+          "url": "https://www.ti.com/lit/ds/symlink/tps61023.pdf",
+          "revision": "SLVSF14B, revised August 2020",
+          "location": "p. 4, section 6.4, Standard column",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "thetaJb-standard",
+        "quantity": "thetaJb",
+        "unit": "K/W",
+        "typ": 31.0,
+        "conditions": "DRL SOT563 6-pin package; Standard column; tabulated package thermal metric, not a guaranteed value for the application board",
+        "source": {
+          "url": "https://www.ti.com/lit/ds/symlink/tps61023.pdf",
+          "revision": "SLVSF14B, revised August 2020",
+          "location": "p. 4, section 6.4, Standard column",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "psiJt-standard",
+        "quantity": "psiJt",
+        "unit": "K/W",
+        "typ": 1.4,
+        "conditions": "DRL SOT563 6-pin package; Standard column; tabulated package thermal metric, not a guaranteed value for the application board",
+        "source": {
+          "url": "https://www.ti.com/lit/ds/symlink/tps61023.pdf",
+          "revision": "SLVSF14B, revised August 2020",
+          "location": "p. 4, section 6.4, Standard column",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "psiJb-standard",
+        "quantity": "psiJb",
+        "unit": "K/W",
+        "typ": 30.7,
+        "conditions": "DRL SOT563 6-pin package; Standard column; tabulated package thermal metric, not a guaranteed value for the application board",
+        "source": {
+          "url": "https://www.ti.com/lit/ds/symlink/tps61023.pdf",
+          "revision": "SLVSF14B, revised August 2020",
+          "location": "p. 4, section 6.4, Standard column",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "thetaJa-evm",
+        "quantity": "thetaJa",
+        "unit": "K/W",
+        "typ": 91.4,
+        "conditions": "DRL SOT563 6-pin package; measured on TPS61023EVM, four-layer 2 oz copper, 50 x 38 mm PCB; not the application board",
+        "source": {
+          "url": "https://www.ti.com/lit/ds/symlink/tps61023.pdf",
+          "revision": "SLVSF14B, revised August 2020",
+          "location": "p. 4, section 6.4, EVM column and footnote 2",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "psiJt-evm",
+        "quantity": "psiJt",
+        "unit": "K/W",
+        "typ": 5.3,
+        "conditions": "DRL SOT563 6-pin package; measured on TPS61023EVM, four-layer 2 oz copper, 50 x 38 mm PCB; not the application board",
+        "source": {
+          "url": "https://www.ti.com/lit/ds/symlink/tps61023.pdf",
+          "revision": "SLVSF14B, revised August 2020",
+          "location": "p. 4, section 6.4, EVM column and footnote 2",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "psiJb-evm",
+        "quantity": "psiJb",
+        "unit": "K/W",
+        "typ": 38.1,
+        "conditions": "DRL SOT563 6-pin package; measured on TPS61023EVM, four-layer 2 oz copper, 50 x 38 mm PCB; not the application board",
+        "source": {
+          "url": "https://www.ti.com/lit/ds/symlink/tps61023.pdf",
+          "revision": "SLVSF14B, revised August 2020",
+          "location": "p. 4, section 6.4, EVM column and footnote 2",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "tj-operating",
+        "quantity": "junctionOperatingTemperature",
+        "unit": "degC",
+        "min": -40.0,
+        "max": 125.0,
+        "conditions": "Recommended junction temperature range",
+        "source": {
+          "url": "https://www.ti.com/lit/ds/symlink/tps61023.pdf",
+          "revision": "SLVSF14B, revised August 2020",
+          "location": "p. 4, section 6.3, TJ",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "tj-absolute",
+        "quantity": "junctionAbsoluteTemperature",
+        "unit": "degC",
+        "min": -40.0,
+        "max": 150.0,
+        "conditions": "Absolute junction limits; these stress ratings do not establish normal operating conditions",
+        "source": {
+          "url": "https://www.ti.com/lit/ds/symlink/tps61023.pdf",
+          "revision": "SLVSF14B, revised August 2020",
+          "location": "p. 4, section 6.1, TJ",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "iq-vin",
+        "quantity": "quiescentCurrent",
+        "unit": "A",
+        "typ": 9e-7,
+        "max": 3e-6,
+        "conditions": "Current into VIN pin; enabled, no load, no switching; VIN=1.8 to 5.5 V, VOUT=5 V, VFB=VREF+0.1 V; TJ=-40 to 85 degC, typical at 25 degC",
+        "source": {
+          "url": "https://www.ti.com/lit/ds/symlink/tps61023.pdf",
+          "revision": "SLVSF14B, revised August 2020",
+          "location": "p. 5, section 6.5, IQ into VIN",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "iq-vout",
+        "quantity": "quiescentCurrent",
+        "unit": "A",
+        "typ": 0.00002,
+        "max": 0.00003,
+        "conditions": "Current into VOUT pin; enabled, no load, no switching; VIN=3.6 V, VOUT=2.2 to 5.5 V, VFB=VREF+0.1 V; TJ=-40 to 85 degC, typical at 25 degC",
+        "source": {
+          "url": "https://www.ti.com/lit/ds/symlink/tps61023.pdf",
+          "revision": "SLVSF14B, revised August 2020",
+          "location": "p. 5, section 6.5, IQ into VOUT",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "ron-high",
+        "quantity": "onResistance",
+        "unit": "ohm",
+        "typ": 0.068,
+        "conditions": "High-side MOSFET; VIN=3.6 V, VOUT=5 V, typical TJ=25 degC",
+        "source": {
+          "url": "https://www.ti.com/lit/ds/symlink/tps61023.pdf",
+          "revision": "SLVSF14B, revised August 2020",
+          "location": "p. 5, section 6.5, high-side RDS(on)",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "ron-low",
+        "quantity": "onResistance",
+        "unit": "ohm",
+        "typ": 0.047,
+        "conditions": "Low-side MOSFET; VIN=3.6 V, VOUT=5 V, typical TJ=25 degC",
+        "source": {
+          "url": "https://www.ti.com/lit/ds/symlink/tps61023.pdf",
+          "revision": "SLVSF14B, revised August 2020",
+          "location": "p. 5, section 6.5, low-side RDS(on)",
+          "confidence": "datasheet"
+        }
+      }
+    ]
+  },
+  "support": {
+    "parts": [
+      {
+        "ref": "C1",
+        "kind": "cap",
+        "value": "10uF",
+        "rating": "10V X5R/X7R",
+        "between": [
+          "VIN",
+          "GND"
+        ]
+      },
+      {
+        "ref": "L1",
+        "kind": "inductor",
+        "value": "1uH",
+        "rating": "saturation above the peak current (about 4.5 A for 5 V 1.5 A from 2.7 V)",
+        "between": [
+          "VIN",
+          "SW"
+        ]
+      },
+      {
+        "ref": "C2A",
+        "kind": "cap",
+        "value": "22uF",
+        "rating": "10V X5R/X7R",
+        "between": [
+          "VOUT",
+          "GND"
+        ]
+      },
+      {
+        "ref": "C2B",
+        "kind": "cap",
+        "value": "22uF",
+        "rating": "10V X5R/X7R",
+        "between": [
+          "VOUT",
+          "GND"
+        ]
+      },
+      {
+        "ref": "R1",
+        "kind": "res",
+        "value": "732kohm",
+        "rating": "1% (5 V out)",
+        "between": [
+          "VOUT",
+          "FB"
+        ]
+      },
+      {
+        "ref": "R2",
+        "kind": "res",
+        "value": "100kohm",
+        "rating": "1%",
+        "between": [
+          "FB",
+          "GND"
+        ]
+      }
+    ],
+    "notes": [
+      "VOUT = 0.595 V x (1 + R1 / R2); keep R2 under 300 kohm. 732k / 100k gives 5 V.",
+      "One Li-ion cell (2.7-4.35 V) to 5 V at 1.5 A is the datasheet's example; when VIN rises above the set output it passes VIN through.",
+      "Keep the loop VIN capacitor - SW - VOUT capacitor - GND as small as possible; the output capacitors right at VOUT and GND."
+    ],
+    "page": "p. 12, Figure 8-1 (Li-ion battery to 5 V boost converter)"
+  },
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "TI TPS61023 datasheet SLVSF14B: pin functions (DRL), 6.1 absolute maximum ratings, 6.3 recommended operating conditions, 6.5 electrical characteristics (VREF 595 mV, EN high 1.2 V)",
+      "url": "https://www.ti.com/lit/ds/symlink/tps61023.pdf",
+      "license": "pin numbers and names, ratings and application values transcribed from the manufacturer's datasheet (facts, one reading); descriptions and notes our own"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "the standard SOT-563 footprint"
+    }
+  }
+}

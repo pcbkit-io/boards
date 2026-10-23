@@ -1,0 +1,593 @@
+{
+  "id": "MCP23017_E_SO",
+  "mpn": "MCP23017-E/SO",
+  "manufacturer": "Microchip",
+  "variants": [
+    "MCP23017T-E/SO",
+    "MCP23017-I/SO"
+  ],
+  "category": "interface",
+  "description": "16-bit I2C GPIO expander, 1.8-5.5 V, addresses 0x20-0x27 by A2-A0, two interrupt outputs, 25 mA per pin (SOIC-28 wide)",
+  "tags": [
+    "mcp23017",
+    "mcp23017-e/so",
+    "io expander",
+    "gpio expander",
+    "port expander",
+    "i2c",
+    "16-bit",
+    "interface",
+    "soic-28"
+  ],
+  "datasheet": {
+    "url": "https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP23017-Data-Sheet-DS20001952.pdf",
+    "revision": "DS20001952D (2005-2022): table 2-1 pinout description (SOIC), absolute maximum ratings, 1.6 address pins, 3.1 power-on reset"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "SOIC-28 wide (7.50 mm, SO)"
+  },
+  "symbol": {
+    "units": [
+      {
+        "shapes": [
+          {
+            "kind": "rect",
+            "from": [
+              -5.08,
+              17.78
+            ],
+            "to": [
+              10.16,
+              -38.1
+            ],
+            "width": 0.0,
+            "fill": "background"
+          }
+        ],
+        "pins": [
+          {
+            "number": "1",
+            "x": -7.62,
+            "y": 15.24,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "2",
+            "x": -7.62,
+            "y": 12.7,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "3",
+            "x": -7.62,
+            "y": 10.16,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "4",
+            "x": -7.62,
+            "y": 7.62,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "5",
+            "x": -7.62,
+            "y": 5.08,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "6",
+            "x": -7.62,
+            "y": 2.54,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "7",
+            "x": -7.62,
+            "y": 0.0,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "8",
+            "x": -7.62,
+            "y": -2.54,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "9",
+            "x": 2.54,
+            "y": 20.32,
+            "angle": 270.0,
+            "length": 2.54
+          },
+          {
+            "number": "10",
+            "x": 2.54,
+            "y": -40.64,
+            "angle": 90.0,
+            "length": 2.54
+          },
+          {
+            "number": "20",
+            "x": 12.7,
+            "y": 5.08,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "11",
+            "x": 12.7,
+            "y": 0.0,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "21",
+            "x": -7.62,
+            "y": -5.08,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "12",
+            "x": -7.62,
+            "y": -27.94,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "22",
+            "x": -7.62,
+            "y": -7.62,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "13",
+            "x": -7.62,
+            "y": -25.4,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "23",
+            "x": -7.62,
+            "y": -10.16,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "14",
+            "x": 12.7,
+            "y": -2.54,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "24",
+            "x": -7.62,
+            "y": -12.7,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "15",
+            "x": -7.62,
+            "y": -30.48,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "25",
+            "x": -7.62,
+            "y": -15.24,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "16",
+            "x": -7.62,
+            "y": -33.02,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "26",
+            "x": -7.62,
+            "y": -17.78,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "17",
+            "x": -7.62,
+            "y": -35.56,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "27",
+            "x": -7.62,
+            "y": -20.32,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "18",
+            "x": 12.7,
+            "y": 10.16,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "28",
+            "x": -7.62,
+            "y": -22.86,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "19",
+            "x": 12.7,
+            "y": 7.62,
+            "angle": 180.0,
+            "length": 2.54
+          }
+        ]
+      }
+    ],
+    "name_offset": 1.016
+  },
+  "pins": [
+    {
+      "number": "1",
+      "name": "GPB0",
+      "type": "bidirectional",
+      "description": "I/O with optional weak pull-up and interrupt-on-change"
+    },
+    {
+      "number": "2",
+      "name": "GPB1",
+      "type": "bidirectional",
+      "description": "I/O with optional weak pull-up and interrupt-on-change"
+    },
+    {
+      "number": "3",
+      "name": "GPB2",
+      "type": "bidirectional",
+      "description": "I/O with optional weak pull-up and interrupt-on-change"
+    },
+    {
+      "number": "4",
+      "name": "GPB3",
+      "type": "bidirectional",
+      "description": "I/O with optional weak pull-up and interrupt-on-change"
+    },
+    {
+      "number": "5",
+      "name": "GPB4",
+      "type": "bidirectional",
+      "description": "I/O with optional weak pull-up and interrupt-on-change"
+    },
+    {
+      "number": "6",
+      "name": "GPB5",
+      "type": "bidirectional",
+      "description": "I/O with optional weak pull-up and interrupt-on-change"
+    },
+    {
+      "number": "7",
+      "name": "GPB6",
+      "type": "bidirectional",
+      "description": "I/O with optional weak pull-up and interrupt-on-change"
+    },
+    {
+      "number": "8",
+      "name": "GPB7",
+      "type": "output",
+      "description": "GPB7: output only on the MCP23017 (datasheet revision D)"
+    },
+    {
+      "number": "9",
+      "name": "VDD",
+      "type": "power_in",
+      "description": "supply 1.8-5.5 V"
+    },
+    {
+      "number": "10",
+      "name": "VSS",
+      "type": "ground"
+    },
+    {
+      "number": "11",
+      "name": "NC",
+      "type": "nc",
+      "description": "not connected (CS on the SPI MCP23S17)"
+    },
+    {
+      "number": "12",
+      "name": "SCL",
+      "type": "input",
+      "description": "I2C clock"
+    },
+    {
+      "number": "13",
+      "name": "SDA",
+      "type": "open_drain",
+      "description": "I2C data"
+    },
+    {
+      "number": "14",
+      "name": "NC",
+      "type": "nc",
+      "description": "not connected (SO on the MCP23S17)"
+    },
+    {
+      "number": "15",
+      "name": "A0",
+      "type": "input",
+      "description": "address bit 0: tie to VSS or VDD"
+    },
+    {
+      "number": "16",
+      "name": "A1",
+      "type": "input",
+      "description": "address bit 1: tie to VSS or VDD"
+    },
+    {
+      "number": "17",
+      "name": "A2",
+      "type": "input",
+      "description": "address bit 2: tie to VSS or VDD"
+    },
+    {
+      "number": "18",
+      "name": "RESET",
+      "type": "input",
+      "description": "reset, active low, no internal pull-up: tie high"
+    },
+    {
+      "number": "19",
+      "name": "INTB",
+      "type": "output",
+      "description": "interrupt for port B (active high, active low or open drain by IOCON)"
+    },
+    {
+      "number": "20",
+      "name": "INTA",
+      "type": "output",
+      "description": "interrupt for port A (active high, active low or open drain by IOCON)"
+    },
+    {
+      "number": "21",
+      "name": "GPA0",
+      "type": "bidirectional",
+      "description": "I/O with optional weak pull-up and interrupt-on-change"
+    },
+    {
+      "number": "22",
+      "name": "GPA1",
+      "type": "bidirectional",
+      "description": "I/O with optional weak pull-up and interrupt-on-change"
+    },
+    {
+      "number": "23",
+      "name": "GPA2",
+      "type": "bidirectional",
+      "description": "I/O with optional weak pull-up and interrupt-on-change"
+    },
+    {
+      "number": "24",
+      "name": "GPA3",
+      "type": "bidirectional",
+      "description": "I/O with optional weak pull-up and interrupt-on-change"
+    },
+    {
+      "number": "25",
+      "name": "GPA4",
+      "type": "bidirectional",
+      "description": "I/O with optional weak pull-up and interrupt-on-change"
+    },
+    {
+      "number": "26",
+      "name": "GPA5",
+      "type": "bidirectional",
+      "description": "I/O with optional weak pull-up and interrupt-on-change"
+    },
+    {
+      "number": "27",
+      "name": "GPA6",
+      "type": "bidirectional",
+      "description": "I/O with optional weak pull-up and interrupt-on-change"
+    },
+    {
+      "number": "28",
+      "name": "GPA7",
+      "type": "output",
+      "description": "GPA7: output only on the MCP23017 (datasheet revision D)"
+    }
+  ],
+  "ratings": {
+    "absMax": [
+      {
+        "what": "VDD",
+        "pins": [
+          "VDD"
+        ],
+        "min": -0.3,
+        "max": 5.5,
+        "unit": "V"
+      },
+      {
+        "what": "current per output pin",
+        "max": 0.025,
+        "unit": "A"
+      },
+      {
+        "what": "current into VDD",
+        "max": 0.125,
+        "unit": "A"
+      }
+    ],
+    "recommended": [
+      {
+        "what": "VDD",
+        "pins": [
+          "VDD"
+        ],
+        "min": 1.8,
+        "max": 5.5,
+        "unit": "V"
+      },
+      {
+        "what": "operating temperature",
+        "min": -40.0,
+        "max": 125.0,
+        "unit": "°C"
+      }
+    ]
+  },
+  "parameters": [
+    {
+      "name": "Digi-Key_PN",
+      "value": "MCP23017-E/SO-ND"
+    },
+    {
+      "name": "Category",
+      "value": "Integrated Circuits (ICs)"
+    },
+    {
+      "name": "Family",
+      "value": "Interface - I/O Expanders"
+    },
+    {
+      "name": "DK_Datasheet_Link",
+      "value": "http://www.microchip.com/mymicrochip/filehandler.aspx?ddocname=en023709"
+    },
+    {
+      "name": "DK_Detail_Page",
+      "value": "/product-detail/en/microchip-technology/MCP23017-E-SO/MCP23017-E-SO-ND/894271"
+    },
+    {
+      "name": "Status",
+      "value": "Active"
+    }
+  ],
+  "simulation": {
+    "parameters": [
+      {
+        "id": "idd-1mhz-max",
+        "quantity": "supplyCurrent",
+        "unit": "A",
+        "max": 0.001,
+        "conditions": "Supply current IDD at SCL = 1 MHz, 1.8 V <= VDD <= 5.5 V, TA -40 to 125 degC; the datasheet gives only a maximum, no typical value",
+        "source": {
+          "url": "https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP23017-Data-Sheet-DS20001952.pdf",
+          "revision": "DS20001952D (2005-2022)",
+          "location": "section 1.1, Table 1-1 DC Characteristics, D004 (PDF p. 4)",
+          "confidence": "datasheet"
+        }
+      }
+    ]
+  },
+  "support": {
+    "parts": [
+      {
+        "ref": "C1",
+        "kind": "cap",
+        "value": "100nF",
+        "rating": "next to pin 9",
+        "between": [
+          "VDD",
+          "VSS"
+        ]
+      },
+      {
+        "ref": "R1",
+        "kind": "res",
+        "value": "10kohm",
+        "rating": "reset pull-up",
+        "between": [
+          "RESET",
+          "VDD"
+        ]
+      },
+      {
+        "ref": "RP1",
+        "kind": "res",
+        "value": "4.7kohm",
+        "rating": "I2C pull-up, once per bus",
+        "between": [
+          "SDA",
+          "VDD"
+        ],
+        "option": "pullUps"
+      },
+      {
+        "ref": "RP2",
+        "kind": "res",
+        "value": "4.7kohm",
+        "rating": "I2C pull-up, once per bus",
+        "between": [
+          "SCL",
+          "VDD"
+        ],
+        "option": "pullUps"
+      }
+    ],
+    "options": [
+      {
+        "name": "pullUps",
+        "default": true,
+        "description": "The I2C pull-ups (once per bus: `false` when another part of the bus has them)."
+      }
+    ],
+    "notes": [
+      "A2, A1, A0 straight to VSS or VDD: address 0x20 + (A2 A1 A0), so up to eight on one bus. They must never float, even when hardware addressing is off.",
+      "RESET has no internal pull-up: tie it to VDD (or drive it from the controller)."
+    ],
+    "page": "table 2-1 (address and reset pins must be biased); 1.6 serial interface"
+  },
+  "notes": [
+    "I2C address 0100 A2 A1 A0: 0x20-0x27.",
+    "GPA7 and GPB7 are outputs only on this part (current datasheet): put inputs on the other 14 pins.",
+    "INTA/INTB can be mirrored into one interrupt (IOCON.MIRROR) and set open drain (IOCON.ODR) to share a line with a pull-up."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "Microchip MCP23017/MCP23S17 datasheet DS20001952D, table 2-1 pinout description (SOIC/SSOP/SPDIP column), absolute maximum ratings, 1.6 and 3.1",
+      "url": "https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP23017-Data-Sheet-DS20001952.pdf",
+      "license": "pin numbers and names, package dimensions, ratings and application values transcribed from the manufacturer's datasheet (facts, one reading); descriptions and notes our own"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "the standard footprint for the package name (IPC-7351B, nominal density)"
+    },
+    "symbol": {
+      "verified": false,
+      "source": "digikey-kicad",
+      "version": "d4bd68f42e6ccc474526811a853a03692e170b58",
+      "item": "dk_Interface-I-O-Expanders:MCP23017-E_SO",
+      "url": "https://github.com/Digi-Key/digikey-kicad-library",
+      "license": "CC-BY-SA-4.0"
+    },
+    "parameters": {
+      "verified": false,
+      "source": "digikey-kicad",
+      "version": "d4bd68f42e6ccc474526811a853a03692e170b58",
+      "item": "dk_Interface-I-O-Expanders:MCP23017-E_SO",
+      "url": "https://github.com/Digi-Key/digikey-kicad-library",
+      "license": "CC-BY-SA-4.0"
+    }
+  }
+}

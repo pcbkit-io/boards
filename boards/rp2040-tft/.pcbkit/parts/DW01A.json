@@ -1,0 +1,253 @@
+{
+  "id": "DW01A",
+  "mpn": "DW01A",
+  "manufacturer": "Fortune Semiconductor",
+  "variants": [
+    "DW01A-G"
+  ],
+  "category": "battery-protection",
+  "description": "One-cell Li-Ion / Li-Po protection IC: overcharge 4.3 V, overdischarge 2.4 V, overcurrent and short circuit, drives two external N-MOSFETs",
+  "tags": [
+    "battery protection",
+    "li-ion",
+    "lipo",
+    "single cell",
+    "overcharge",
+    "overdischarge",
+    "bms",
+    "fs8205a"
+  ],
+  "datasheet": {
+    "url": "https://img.ozdisan.com/ETicaret_Dosya/370550_6116504.pdf",
+    "revision": "DW01A-DS-12 Rev. 1.2, September 2011"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "SOT-23-6",
+    "family": "sot",
+    "pins": 6,
+    "pitch": 0.95,
+    "body": {
+      "d": [
+        2.75,
+        2.9,
+        3.05
+      ],
+      "e": [
+        1.45,
+        1.6,
+        1.75
+      ],
+      "a": [
+        null,
+        1.45
+      ]
+    },
+    "span": [
+      2.6,
+      2.8,
+      3.0
+    ],
+    "lead": {
+      "b": [
+        0.3,
+        0.5
+      ],
+      "l": [
+        0.3,
+        0.45,
+        0.6
+      ]
+    },
+    "page": "p. 13, Package outline"
+  },
+  "pins": [
+    {
+      "number": "1",
+      "name": "OD",
+      "type": "output",
+      "description": "gate of the discharge-control MOSFET"
+    },
+    {
+      "number": "2",
+      "name": "CS",
+      "type": "analog",
+      "description": "current sense and charger detect, through 1 kohm to BATT- (the pack's negative terminal)"
+    },
+    {
+      "number": "3",
+      "name": "OC",
+      "type": "output",
+      "description": "gate of the charge-control MOSFET"
+    },
+    {
+      "number": "4",
+      "name": "TD",
+      "type": "input_pulldown",
+      "description": "test pin (delay shortening), pulled down inside: leave unconnected"
+    },
+    {
+      "number": "5",
+      "name": "VCC",
+      "type": "power_in",
+      "description": "supply from the cell's positive terminal through 100 ohm"
+    },
+    {
+      "number": "6",
+      "name": "GND",
+      "type": "ground",
+      "description": "the cell's negative terminal"
+    }
+  ],
+  "ratings": {
+    "absMax": [
+      {
+        "what": "VCC to GND",
+        "pins": [
+          "VCC"
+        ],
+        "min": -0.3,
+        "max": 10.0,
+        "unit": "V"
+      },
+      {
+        "what": "operating temperature",
+        "min": -40.0,
+        "max": 85.0,
+        "unit": "°C"
+      }
+    ],
+    "recommended": [
+      {
+        "what": "VCC (one Li-Ion cell)",
+        "pins": [
+          "VCC"
+        ],
+        "min": 2.4,
+        "max": 4.3,
+        "unit": "V"
+      },
+      {
+        "what": "overcharge detection voltage",
+        "min": 4.25,
+        "nom": 4.3,
+        "max": 4.35,
+        "unit": "V"
+      },
+      {
+        "what": "overdischarge detection voltage",
+        "min": 2.3,
+        "nom": 2.4,
+        "max": 2.5,
+        "unit": "V"
+      },
+      {
+        "what": "overcurrent detection voltage (CS)",
+        "min": 0.12,
+        "nom": 0.15,
+        "max": 0.18,
+        "unit": "V"
+      }
+    ]
+  },
+  "simulation": {
+    "parameters": [
+      {
+        "id": "icc-normal-3v9",
+        "quantity": "supplyCurrent",
+        "unit": "A",
+        "typ": 3e-6,
+        "max": 6e-6,
+        "conditions": "Normal operation supply current ICC, VCC = 3.9 V, Ta = 25 degC (overdischarge current IOD at VCC = 2.0 V: 1.5 uA typ, 3 uA max)",
+        "source": {
+          "url": "https://img.ozdisan.com/ETicaret_Dosya/370550_6116504.pdf",
+          "revision": "DW01A-DS-12 Rev. 1.2, September 2011",
+          "location": "section 10 Electrical Characteristics (PDF p. 7)",
+          "confidence": "datasheet"
+        }
+      }
+    ]
+  },
+  "support": {
+    "parts": [
+      {
+        "ref": "R1",
+        "kind": "res",
+        "value": "100ohm",
+        "between": [
+          "batteryPlus",
+          "VCC"
+        ]
+      },
+      {
+        "ref": "C1",
+        "kind": "cap",
+        "value": "100nF",
+        "rating": "10V",
+        "between": [
+          "VCC",
+          "GND"
+        ]
+      },
+      {
+        "ref": "R2",
+        "kind": "res",
+        "value": "1kohm",
+        "between": [
+          "CS",
+          "packMinus"
+        ]
+      },
+      {
+        "ref": "M1_M2",
+        "kind": "part",
+        "value": "FS8205A",
+        "rating": "dual N-MOSFET, common drain: M1 gate OD, source GND (cell -); M2 gate OC, source BATT-",
+        "pins": {
+          "D12": "DRAIN",
+          "G1": "OD",
+          "G2": "OC",
+          "S1": "GND",
+          "S2": "packMinus"
+        }
+      }
+    ],
+    "inputs": [
+      {
+        "name": "batteryPlus",
+        "description": "The cell's positive terminal (the pack's BATT+).",
+        "required": true
+      },
+      {
+        "name": "packMinus",
+        "description": "The pack's negative terminal (BATT-: load and charger).",
+        "required": true
+      }
+    ],
+    "nets": [
+      "DRAIN"
+    ],
+    "notes": [
+      "BAT_P is the cell's positive terminal and the pack's BATT+; GND the cell's negative terminal; BATT_N the pack's negative terminal (load and charger).",
+      "M1 (discharge) and M2 (charge) are in series in the negative lead with their drains joined: the FS8205A holds both.",
+      "Overcurrent trips at VOI1 / (2 x RDS(on)): 150 mV with 2 x 25 mohm is about 3 A."
+    ],
+    "page": "p. 5, Typical application circuit"
+  },
+  "notes": [
+    "R1 and C1 filter the supply against charger ripple; R2 protects CS against latch-up and a reversed charger.",
+    "TD is a factory test pin with a pull-down inside; the datasheet's circuit leaves it open."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "DW01A datasheet DW01A-DS-12 Rev. 1.2, section 6 (pin configuration)",
+      "url": "https://img.ozdisan.com/ETicaret_Dosya/370550_6116504.pdf",
+      "license": "facts transcribed from the datasheet; notes in our own words"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "computed from the datasheet's SOT-23-6 outline (p. 13)"
+    }
+  }
+}

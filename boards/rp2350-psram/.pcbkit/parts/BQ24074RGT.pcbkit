@@ -1,0 +1,204 @@
+pcbkit 1
+
+// BQ24074RGTR (Texas Instruments): Single-cell Li-ion linear charger with power path (system
+// output OUT at 4.4 V from the input, the battery behind it), 1.5 A charge, input 4.35-10.2 V (26
+// V tolerant, 10.5 V OVP), USB 100/500 mA or resistor-set input limit, VQFN-16 3 x 3 mm
+// Compiled from the part sheet `parts/BQ24074RGT.json` (`parts.create`); status: checked.
+// Datasheet: https://www.ti.com/lit/ds/symlink/bq24074.pdf (SLUS810N, revised October 2021)
+// Pins: TI BQ2407x datasheet SLUS810N: Figure 7-2 and table 7-1 pin functions (BQ24074, RGT), 8.1
+// absolute maximum ratings, 8.3 recommended operating conditions, 8.5 electrical characteristics,
+// 10.2 design example, RGT0016C package outline
+// Footprint: computed per IPC-7351B from the datasheet's package dimensions
+// This file may be used, changed and shared without conditions, with the board or alone.
+
+/// BQ24074RGTR — Single-cell Li-ion linear charger with power path (system output OUT at 4.4 V
+/// from the input, the battery behind it), 1.5 A charge, input 4.35-10.2 V (26 V tolerant, 10.5 V
+/// OVP), USB 100/500 mA or resistor-set input limit, VQFN-16 3 x 3 mm
+part Part = device(footprint = rows(
+  name = "QFN-16-1EP_3x3mm_P0.5mm_EP1.68x1.68mm",
+  description = "VQFN-16 (RGT) 3x3, 16 pins, 3 x 3 mm body, 0.5 mm pitch (from the datasheet)",
+  pitch = 0.5mm,
+  leadType = .nolead,
+  pinsY = 4,
+  pinsX = 4,
+  spanX = tolerance(2.9mm, 3.1mm),
+  spanY = tolerance(2.9mm, 3.1mm),
+  leadLength = tolerance(0.3mm, 0.5mm),
+  leadWidth = tolerance(0.18mm, 0.3mm),
+  bodyX = tolerance(2.9mm, 3.1mm),
+  bodyY = tolerance(2.9mm, 3.1mm),
+  bodyHeight = 1mm,
+  exposedPad = (1.68mm, 1.68mm),
+), prefix = "U", mpn = "BQ24074RGTR", manufacturer = "Texas Instruments", pinout = {
+  TS: "1",
+  BAT: ["2", "3"],
+  nCE: "4",
+  EN2: "5",
+  EN1: "6",
+  nPGOOD: "7",
+  VSS: ["8", "17"],
+  nCHG: "9",
+  OUT: ["10", "11"],
+  ILIM: "12",
+  IN: "13",
+  TMR: "14",
+  ITERM: "15",
+  ISET: "16",
+}, pinTypes = {
+  TS: .passive,
+  BAT: io.powerOut(4.2V),
+  nCE: io.input(max = 7V),
+  EN2: io.input(max = 7V),
+  EN1: io.input(max = 7V),
+  nPGOOD: io.openDrain(max = 7V),
+  VSS: .ground,
+  nCHG: io.openDrain(max = 7V),
+  OUT: io.powerOut(4.4V),
+  ILIM: .passive,
+  IN: io.powerIn(min = 4.35V, max = 28V),
+  TMR: .passive,
+  ITERM: .passive,
+  ISET: .passive,
+}) with {
+  fields {
+    Status: "checked",
+    PinoutSource: "TI BQ2407x datasheet SLUS810N: Figure 7-2 and table 7-1 pin functions (BQ24074, RGT), 8.1 absolute maximum ratings, 8.3 recommended operating conditions, 8.5 electrical characteristics, 10.2 design example, RGT0016C package outline",
+    Datasheet: "https://www.ti.com/lit/ds/symlink/bq24074.pdf",
+  }
+  simulation = SimulationParameters {
+    parameters = [
+      SimulationParameter {
+        id = "icc-active"
+        quantity = .quiescentCurrent
+        typ = 1.1mA
+        max = 1.5mA
+        conditions = "active supply current into IN pin: CE=LO, VIN=6 V, no load on OUT, VBAT>VBAT(REG), (EN1,EN2) not (HI,HI); 0 to 125 degC junction"
+        source = SimulationEvidence {
+          url = "https://www.ti.com/lit/ds/symlink/bq24074.pdf"
+          revision = "SLUS810N, revised October 2021"
+          location = "p. 12, section 8.5 Electrical Characteristics, QUIESCENT CURRENT, ICC row"
+          confidence = .datasheet
+        }
+      },
+      SimulationParameter {
+        id = "theta-jb-rgt"
+        quantity = .thetaJb
+        typ = 17.2K/W
+        conditions = "RGT (VQFN) package, RthetaJB"
+        source = SimulationEvidence {
+          url = "https://www.ti.com/lit/ds/symlink/bq24074.pdf"
+          revision = "SLUS810N, revised October 2021"
+          location = "p. 11, section 8.4 Thermal Information"
+          confidence = .datasheet
+        }
+      },
+      SimulationParameter {
+        id = "theta-ja-rgt"
+        quantity = .thetaJa
+        typ = 44.5K/W
+        conditions = "RGT (VQFN) package"
+        source = SimulationEvidence {
+          url = "https://www.ti.com/lit/ds/symlink/bq24074.pdf"
+          revision = "SLUS810N, revised October 2021"
+          location = "p. 11, section 8.4 Thermal Information"
+          confidence = .datasheet
+        }
+      },
+      SimulationParameter {
+        id = "tj-operating"
+        quantity = .junctionOperatingTemperature
+        min = -40degC
+        max = 125degC
+        conditions = "recommended operating junction temperature"
+        source = SimulationEvidence {
+          url = "https://www.ti.com/lit/ds/symlink/bq24074.pdf"
+          revision = "SLUS810N, revised October 2021"
+          location = "p. 10, section 8.3 Recommended Operating Conditions"
+          confidence = .datasheet
+        }
+      },
+      SimulationParameter {
+        id = "tj-absolute"
+        quantity = .junctionAbsoluteTemperature
+        max = 150degC
+        conditions = "absolute maximum junction temperature"
+        source = SimulationEvidence {
+          url = "https://www.ti.com/lit/ds/symlink/bq24074.pdf"
+          revision = "SLUS810N, revised October 2021"
+          location = "p. 10, section 8.1 Absolute Maximum Ratings"
+          confidence = .datasheet
+        }
+      },
+    ]
+  }
+}
+
+/// The support circuit of the BQ24074RGTR as its datasheet shows it (p. 1 typical application
+/// circuit; pp. 33-35, section 10.2 design example): every part next to the pin it serves. Add it
+/// next to the part: `U1 = BQ24074RGT.Part { … }`, `U1Support = BQ24074RGT.Support(U1) {}`.
+///
+/// - ICHG = 890 A·ohm / RISET; input limit IIN = 1550 A·ohm / RILIM (EN2 high, EN1 low); ITERM =
+/// 0.03 x RITERM / RISET.
+///
+/// - EN1/EN2: both low 100 mA (USB100), EN1 high 500 mA (USB500), EN2 high EN1 low the ILIM
+/// resistor, both high suspend. Tie them, nCE and TS: none may float.
+///
+/// - Load the system from OUT, never from BAT: OUT keeps the system up from the input while the
+/// battery charges, and switches to the battery when the input goes.
+///
+/// - Solder the thermal pad to a VSS pour with vias: charging at 1 A from 5 V dissipates about 1 W.
+block Support(
+  /// The BQ24074RGTR this circuit serves (`BQ24074RGT.Support(U1)`).
+  chip: Any,
+) {
+  /// 16V ceramic (1-10 uF)
+  CIN = cap(1uF, package = "0402", voltage = 16V) {
+    place = [soft(near(chip.pin.IN, max = 2mm), weight = 2)]
+    pins { a: chip.pin.IN, b: chip.pin.VSS }
+  }
+  /// 10V ceramic
+  COUT = cap(4.7uF, package = "0805", voltage = 10V) {
+    place = [soft(near(chip.pin.OUT, max = 4mm), weight = 2)]
+    pins { a: chip.pin.OUT, b: chip.pin.VSS }
+  }
+  /// 10V ceramic
+  CBAT = cap(4.7uF, package = "0805", voltage = 10V) {
+    place = [soft(near(chip.pin.BAT, max = 4mm), weight = 2)]
+    pins { a: chip.pin.BAT, b: chip.pin.VSS }
+  }
+  /// 1% (about 800 mA charge)
+  RISET = res(1.13kohm, package = "0402", tolerance = 1pct) {
+    place = [soft(near(chip.pin.ISET, max = 5mm), weight = 1)]
+    pins { a: chip.pin.ISET, b: chip.pin.VSS }
+  }
+  /// 1% (1.3 A input limit with EN2 high, EN1 low)
+  RILIM = res(1.18kohm, package = "0402", tolerance = 1pct) {
+    place = [soft(near(chip.pin.ILIM, max = 5mm), weight = 1)]
+    pins { a: chip.pin.ILIM, b: chip.pin.VSS }
+  }
+  /// 110 mA termination
+  RITERM = res(4.12kohm, package = "0402") {
+    place = [soft(near(chip.pin.ITERM, max = 5mm), weight = 1)]
+    pins { a: chip.pin.ITERM, b: chip.pin.VSS }
+  }
+  /// 6.25 h fast-charge timer
+  RTMR = res(46.4kohm, package = "0402") {
+    place = [soft(near(chip.pin.TMR, max = 5mm), weight = 1)]
+    pins { a: chip.pin.TMR, b: chip.pin.VSS }
+  }
+  /// or the pack's 10 kohm NTC
+  RTS = res(10kohm, package = "0402") {
+    place = [soft(near(chip.pin.TS, max = 5mm), weight = 1)]
+    pins { a: chip.pin.TS, b: chip.pin.VSS }
+  }
+  /// with 1.5 kohm in series: on while charging
+  LED1 = led(package = "0603", color = .red) {
+    place = [soft(near(chip.pin.OUT, max = 5mm), weight = 1)]
+    pins { A: chip.pin.OUT, K: chip.pin.nCHG }
+  }
+  /// with 1.5 kohm in series: on while the input is good
+  LED2 = led(package = "0603", color = .green) {
+    place = [soft(near(chip.pin.OUT, max = 5mm), weight = 1)]
+    pins { A: chip.pin.OUT, K: chip.pin.nPGOOD }
+  }
+}

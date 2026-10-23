@@ -1,0 +1,122 @@
+{
+  "id": "ST7789_TFT_2_0",
+  "mpn": "MSP2008 2.0in 240x320 IPS SPI module (ST7789)",
+  "manufacturer": "generic",
+  "variants": [
+    "2.0\" IPS 240x320",
+    "ST7789 240x320"
+  ],
+  "category": "display",
+  "description": "2.0\" 240 x 320 IPS colour TFT module (ST7789), SPI, 3.3 V, on a 1x8 female header: GND VCC SCL SDA RES DC CS BLK; courtyard the 36.48 x 61.12 mm module lying over the board",
+  "tags": [
+    "st7789",
+    "2.0 tft",
+    "2 inch tft",
+    "2.0\" tft",
+    "2.0 ips",
+    "ips",
+    "tft",
+    "lcd",
+    "colour display",
+    "color display",
+    "240x320",
+    "spi",
+    "module",
+    "socket"
+  ],
+  "datasheet": {
+    "url": "https://www.lcdwiki.com/2.0inch_IPS_Module",
+    "revision": "lcdwiki 2.0inch IPS Module SKU:MSP2008: interface definition and size picture (MSP2008_Size.png)"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "2.0\" IPS SPI module, 1 x 8 socket",
+    "family": "module",
+    "pins": 8,
+    "pitch": 2.54,
+    "body": {
+      "d": 36.48,
+      "e": 61.12,
+      "a": 4.0
+    },
+    "page": "lcdwiki MSP2008: pins 1 GND, 2 VCC (3.3 V), 3 SCL, 4 SDA, 5 RES, 6 DC, 7 CS, 8 BLK; size picture: PCB 36.48 x 61.12 mm, header row 2.50 mm from the top edge, first pin 9.35 mm from the left (centred)"
+  },
+  "footprint": "moduleSocket(\"TFT_2.0in_ST7789_Socket_1x08_P2.54mm\", socketRow(1, 8, (-8.89mm, 0mm), (2.54mm, 0mm)), box((-18.24mm, -58.62mm), (18.24mm, 2.5mm)), description = \"2.0 inch ST7789 IPS module on a 1x8 female header along its top edge, the display facing up over -Y: GND, VCC, SCL, SDA, RES, DC, CS, BLK left to right\", parts = 3mm, color = \"#1d3f8c\")",
+  "pins": [
+    {
+      "number": "1",
+      "name": "GND",
+      "type": "ground"
+    },
+    {
+      "number": "2",
+      "name": "VCC",
+      "type": "power_in",
+      "description": "supply 3.3 V"
+    },
+    {
+      "number": "3",
+      "name": "SCL",
+      "type": "input",
+      "description": "SPI clock"
+    },
+    {
+      "number": "4",
+      "name": "SDA",
+      "type": "input",
+      "description": "SPI data MOSI"
+    },
+    {
+      "number": "5",
+      "name": "RES",
+      "type": "input",
+      "description": "reset, active low"
+    },
+    {
+      "number": "6",
+      "name": "DC",
+      "type": "input",
+      "description": "data (high) / register (low)"
+    },
+    {
+      "number": "7",
+      "name": "CS",
+      "type": "input",
+      "description": "chip select, active low"
+    },
+    {
+      "number": "8",
+      "name": "BLK",
+      "type": "input",
+      "description": "backlight on when high (tie to 3.3 V if not dimmed)"
+    }
+  ],
+  "ratings": {
+    "recommended": [
+      {
+        "what": "VCC supply (3.3 V)",
+        "pins": [
+          "VCC"
+        ],
+        "min": 3.0,
+        "max": 3.6,
+        "unit": "V"
+      }
+    ]
+  },
+  "notes": [
+    "3.3 V supply and logic only. Waveshare's 2inch LCD Module (same ST7789V, 240 x 320) has a different connector (PH2.0 cable, VCC GND DIN CLK CS DC RST BL)."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "lcdwiki MSP2008: pins 1 GND, 2 VCC (3.3 V), 3 SCL, 4 SDA, 5 RES, 6 DC, 7 CS, 8 BLK; size picture: PCB 36.48 x 61.12 mm, header row 2.50 mm from the top edge, first pin 9.35 mm from the left (centred)",
+      "url": "https://www.lcdwiki.com/2.0inch_IPS_Module",
+      "license": "pinout and dimensions transcribed from the vendor's published documentation (facts); footprint, 3D body, descriptions and notes our own"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "socket pins and outline from the vendor's size picture; 1.0 mm holes, 1.7 mm pads"
+    }
+  }
+}

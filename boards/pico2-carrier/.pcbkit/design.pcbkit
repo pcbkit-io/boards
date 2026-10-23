@@ -1,0 +1,90 @@
+pcbkit 1
+
+// Doom device 06: the reference device of PCBKit's machine work, as an orderable carrier. A
+// Raspberry Pi Pico 2 footprint (RP2350A) that takes the pin-compatible Pimoroni Pico Plus 2
+// (RP2350B, 16 MB flash, 8 MB PSRAM on QMI chip select 1, GPIO47) for the full game, a 2.8"
+// 240 x 320 ILI9341 TFT with resistive touch (MSP2807) on SPI0, ten buttons, and a PCM5102A
+// I2S DAC (driven by a PIO program) into a 3.5 mm headphone jack. Power: USB only, through the
+// module's own USB connector and its buck-boost; a power bank makes it portable.
+// Front (top): display, ten buttons. Back (bottom): the module, the DAC and the jack.
+
+use "parts/RASPBERRY_PI_PICO_2.pcbkit" as RASPBERRY_PI_PICO_2
+use "parts/ILI9341_TFT_2_8_TOUCH.pcbkit" as ILI9341_TFT_2_8_TOUCH
+use "parts/PCM5102APWR.pcbkit" as PCM5102APWR
+use "parts/SJ1_3525N.pcbkit" as SJ1_3525N
+
+net V3 { voltage = 3.3V }
+net GND { voltage = 0V }
+net SCK, MOSI, MISO, LCD_CS, LCD_DC, LCD_RST, LCD_BL, T_CS, T_IRQ
+net I2S_BCK, I2S_LRCK, I2S_DIN, DAC_MUTE, LINE_L, LINE_R
+net UP, DOWN, LEFT, RIGHT, FIRE, USE, STRAFE_L, STRAFE_R, MENU, ENTER
+
+board = Board {
+  name = "doom-06-pico2-carrier"
+  description = "Pico 2 / Pico Plus 2 carrier (RP2350) · 2.8in ILI9341 touch · 10 buttons · PCM5102A"
+  outline = rect(160mm, 62mm, radius = 6mm)
+}
+
+// ---- processor (back): the module on two 20-pin sockets under the display, USB at the top edge ----
+U1 = RASPBERRY_PI_PICO_2.Part {
+  at = (48mm, 35.2mm)
+  rotation = 0deg
+  side = .bottom
+  pins {
+    GND: GND, AGND: GND, P3V3: V3, VSYS: .nc, VBUS: .nc, P3V3_EN: .nc, RUN: .nc, ADC_VREF: .nc,
+    GP18: SCK, GP19: MOSI, GP16: MISO, GP17: LCD_CS, GP20: LCD_DC, GP21: LCD_RST, GP22: LCD_BL,
+    GP13: T_CS, GP14: T_IRQ,
+    GP10: I2S_BCK, GP11: I2S_LRCK, GP12: I2S_DIN, GP15: DAC_MUTE,
+    GP0: UP, GP1: DOWN, GP2: LEFT, GP3: RIGHT, GP4: FIRE, GP5: USE, GP6: STRAFE_L, GP7: STRAFE_R,
+    GP8: MENU, GP9: ENTER,
+  }
+}
+
+// ---- display (front): the LCD and the touch controller share SPI0 -------------------------------
+DS1 = ILI9341_TFT_2_8_TOUCH.Part {
+  at = (122mm, 31mm)
+  rotation = 90deg
+  pins {
+    VCC: V3, GND: GND, CS: LCD_CS, RESET: LCD_RST, DC: LCD_DC, SDI: MOSI, SCK: SCK, LED: LCD_BL, SDO: MISO,
+    T_CLK: SCK, T_CS: T_CS, T_DIN: MOSI, T_DO: MISO, T_IRQ: T_IRQ,
+  }
+}
+R1 = res(10kohm, package = "0603") { side = .bottom; pins { a: T_CS, b: V3 } }
+R2 = res(10kohm, package = "0603") { side = .bottom; pins { a: LCD_CS, b: V3 } }
+R3 = res(10kohm, package = "0603") { side = .bottom; pins { a: T_IRQ, b: V3 } }
+
+// ---- audio (back): PCM5102A in hardware mode (I2S, PLL from BCK) -> headphone jack --------------
+U2 = PCM5102APWR.Part {
+  side = .bottom
+  pins {
+    AVDD: V3, CPVDD: V3, DVDD: V3, AGND: GND, CPGND: GND, DGND: GND,
+    BCK: I2S_BCK, LRCK: I2S_LRCK, DIN: I2S_DIN, SCK: GND, FLT: GND, DEMP: GND, FMT: GND, XSMT: DAC_MUTE,
+  }
+}
+U2Support = PCM5102APWR.Support(U2, lineL = LINE_L, lineR = LINE_R) { side = .bottom }
+R4 = res(10kohm, package = "0603") { side = .bottom; pins { a: DAC_MUTE, b: V3 } }
+J1 = SJ1_3525N.Part {
+  side = .bottom
+  place = [edge(.bottom)]
+  pins { SLEEVE: GND, TIP: LINE_L, RING: LINE_R, TIP_SW: .nc, RING_SW: .nc }
+}
+
+// ---- input (front): d-pad, strafe pair above it, fire/use, menu/enter ----------------------------
+part Btn = button("6x6")
+SW1 = Btn { at = (20mm, 38mm); pins { a: UP, b: GND } }
+SW2 = Btn { at = (20mm, 18mm); pins { a: DOWN, b: GND } }
+SW3 = Btn { at = (10mm, 28mm); pins { a: LEFT, b: GND } }
+SW4 = Btn { at = (30mm, 28mm); pins { a: RIGHT, b: GND } }
+SW5 = Btn { at = (13mm, 52mm); pins { a: STRAFE_L, b: GND } }
+SW6 = Btn { at = (27mm, 52mm); pins { a: STRAFE_R, b: GND } }
+SW7 = Btn { at = (151mm, 33mm); pins { a: FIRE, b: GND } }
+SW8 = Btn { at = (140mm, 23mm); pins { a: USE, b: GND } }
+SW9 = Btn { at = (138mm, 50mm); pins { a: MENU, b: GND } }
+SW10 = Btn { at = (151mm, 50mm); pins { a: ENTER, b: GND } }
+
+H1 = hole("M2.5") { at = (4mm, 4mm) }
+H2 = hole("M2.5") { at = (156mm, 4mm) }
+H3 = hole("M2.5") { at = (4mm, 58mm) }
+H4 = hole("M2.5") { at = (156mm, 58mm) }
+
+gndPour = pour(net = GND, layers = [Cu.top, Cu.bottom]) {}

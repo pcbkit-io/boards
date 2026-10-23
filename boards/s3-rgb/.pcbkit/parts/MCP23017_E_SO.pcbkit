@@ -1,0 +1,149 @@
+pcbkit 1
+
+// MCP23017-E/SO (Microchip): 16-bit I2C GPIO expander, 1.8-5.5 V, addresses 0x20-0x27 by A2-A0,
+// two interrupt outputs, 25 mA per pin (SOIC-28 wide)
+// Compiled from the part sheet `parts/MCP23017_E_SO.json` (`parts.create`); status: checked.
+// Datasheet:
+// https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP23017-Data-Sheet-DS20001952.pdf
+// (DS20001952D (2005-2022): table 2-1 pinout description (SOIC), absolute maximum ratings, 1.6
+// address pins, 3.1 power-on reset)
+// Pins: Microchip MCP23017/MCP23S17 datasheet DS20001952D, table 2-1 pinout description
+// (SOIC/SSOP/SPDIP column), absolute maximum ratings, 1.6 and 3.1
+// Footprint: the standard package `SOIC-28 wide (7.50 mm, SO)`
+// Symbol: digikey-kicad d4bd68f42e6ccc474526811a853a03692e170b58
+// dk_Interface-I-O-Expanders:MCP23017-E_SO (CC-BY-SA-4.0),
+// https://github.com/Digi-Key/digikey-kicad-library
+// Parameters: digikey-kicad d4bd68f42e6ccc474526811a853a03692e170b58
+// dk_Interface-I-O-Expanders:MCP23017-E_SO (CC-BY-SA-4.0),
+// https://github.com/Digi-Key/digikey-kicad-library
+// This file may be used, changed and shared without conditions, with the board or alone.
+
+// Note: I2C address 0100 A2 A1 A0: 0x20-0x27.
+// Note: GPA7 and GPB7 are outputs only on this part (current datasheet): put inputs on the other
+// 14 pins.
+// Note: INTA/INTB can be mirrored into one interrupt (IOCON.MIRROR) and set open drain (IOCON.ODR)
+// to share a line with a pull-up.
+
+/// MCP23017-E/SO — 16-bit I2C GPIO expander, 1.8-5.5 V, addresses 0x20-0x27 by A2-A0, two
+/// interrupt outputs, 25 mA per pin (SOIC-28 wide)
+part Part = device(footprint = soicWide(
+  28,
+), prefix = "U", mpn = "MCP23017-E/SO", manufacturer = "Microchip", pinout = {
+  GPB0: "1",
+  GPB1: "2",
+  GPB2: "3",
+  GPB3: "4",
+  GPB4: "5",
+  GPB5: "6",
+  GPB6: "7",
+  GPB7: "8",
+  VDD: "9",
+  VSS: "10",
+  NC: ["11", "14"],
+  SCL: "12",
+  SDA: "13",
+  A0: "15",
+  A1: "16",
+  A2: "17",
+  RESET: "18",
+  INTB: "19",
+  INTA: "20",
+  GPA0: "21",
+  GPA1: "22",
+  GPA2: "23",
+  GPA3: "24",
+  GPA4: "25",
+  GPA5: "26",
+  GPA6: "27",
+  GPA7: "28",
+}, pinTypes = {
+  GPB0: io.bidirectional(),
+  GPB1: io.bidirectional(),
+  GPB2: io.bidirectional(),
+  GPB3: io.bidirectional(),
+  GPB4: io.bidirectional(),
+  GPB5: io.bidirectional(),
+  GPB6: io.bidirectional(),
+  GPB7: .output,
+  VDD: io.powerIn(min = 1.8V, max = 5.5V),
+  VSS: .ground,
+  NC: .nc,
+  SCL: io.input(),
+  SDA: io.openDrain(),
+  A0: io.input(),
+  A1: io.input(),
+  A2: io.input(),
+  RESET: io.input(),
+  INTB: .output,
+  INTA: .output,
+  GPA0: io.bidirectional(),
+  GPA1: io.bidirectional(),
+  GPA2: io.bidirectional(),
+  GPA3: io.bidirectional(),
+  GPA4: io.bidirectional(),
+  GPA5: io.bidirectional(),
+  GPA6: io.bidirectional(),
+  GPA7: .output,
+}) with {
+  fields {
+    Status: "checked",
+    PinoutSource: "Microchip MCP23017/MCP23S17 datasheet DS20001952D, table 2-1 pinout description (SOIC/SSOP/SPDIP column), absolute maximum ratings, 1.6 and 3.1",
+    Datasheet: "https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP23017-Data-Sheet-DS20001952.pdf",
+  }
+  simulation = SimulationParameters {
+    parameters = [
+      SimulationParameter {
+        id = "idd-1mhz-max"
+        quantity = .supplyCurrent
+        max = 1mA
+        conditions = "Supply current IDD at SCL = 1 MHz, 1.8 V <= VDD <= 5.5 V, TA -40 to 125 degC; the datasheet gives only a maximum, no typical value"
+        source = SimulationEvidence {
+          url = "https://ww1.microchip.com/downloads/aemDocuments/documents/APID/ProductDocuments/DataSheets/MCP23017-Data-Sheet-DS20001952.pdf"
+          revision = "DS20001952D (2005-2022)"
+          location = "section 1.1, Table 1-1 DC Characteristics, D004 (PDF p. 4)"
+          confidence = .datasheet
+        }
+      },
+    ]
+  }
+}
+
+/// The support circuit of the MCP23017-E/SO as its datasheet shows it (table 2-1 (address and reset
+/// pins must be biased); 1.6 serial interface): every part next to the pin it serves. Add it next
+/// to the part: `U1 = MCP23017_E_SO.Part { … }`, `U1Support = MCP23017_E_SO.Support(U1) {}`.
+///
+/// - A2, A1, A0 straight to VSS or VDD: address 0x20 + (A2 A1 A0), so up to eight on one bus. They
+/// must never float, even when hardware addressing is off.
+///
+/// - RESET has no internal pull-up: tie it to VDD (or drive it from the controller).
+block Support(
+  /// The MCP23017-E/SO this circuit serves (`MCP23017_E_SO.Support(U1)`).
+  chip: Any,
+  /// The I2C pull-ups (once per bus: `false` when another part of the bus has them).
+  pullUps: Bool = true,
+) {
+  /// next to pin 9
+  C1 = cap(100nF, package = "0402") {
+    place = [soft(near(chip.pin.VDD, max = 2mm), weight = 2)]
+    pins { a: chip.pin.VDD, b: chip.pin.VSS }
+  }
+  /// reset pull-up
+  R1 = res(10kohm, package = "0402") {
+    place = [soft(near(chip.pin.RESET, max = 5mm), weight = 1)]
+    pins { a: chip.pin.RESET, b: chip.pin.VDD }
+  }
+  /// I2C pull-up, once per bus
+  RP1 =
+    if pullUps then res(4.7kohm, package = "0402") {
+      place = [soft(near(chip.pin.SDA, max = 5mm), weight = 1)]
+      pins { a: chip.pin.SDA, b: chip.pin.VDD }
+    }
+    else null
+  /// I2C pull-up, once per bus
+  RP2 =
+    if pullUps then res(4.7kohm, package = "0402") {
+      place = [soft(near(chip.pin.SCL, max = 5mm), weight = 1)]
+      pins { a: chip.pin.SCL, b: chip.pin.VDD }
+    }
+    else null
+}

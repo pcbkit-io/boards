@@ -1,0 +1,118 @@
+{
+  "board": {
+    "design_settings": {
+      "rule_severities": {},
+      "rules": {
+        "min_clearance": 0.15,
+        "min_copper_edge_clearance": 0.3,
+        "min_hole_clearance": 0.0,
+        "min_hole_to_hole": 0.0,
+        "min_resolved_spokes": 2.0,
+        "min_through_hole_diameter": 0.2,
+        "min_track_width": 0.15,
+        "min_via_annular_width": 0.0,
+        "min_via_diameter": 0.45
+      }
+    }
+  },
+  "meta": {
+    "filename": "doom-07-rp2350-psram.kicad_pro",
+    "version": 1
+  },
+  "net_settings": {
+    "classes": [
+      {
+        "clearance": 0.15,
+        "name": "Default",
+        "track_width": 0.15,
+        "via_diameter": 0.45,
+        "via_drill": 0.2
+      },
+      {
+        "clearance": 0.15,
+        "name": "supply",
+        "track_width": 0.3,
+        "via_diameter": 0.6,
+        "via_drill": 0.3
+      },
+      {
+        "clearance": 0.15,
+        "diff_pair_gap": 0.15,
+        "name": "usb/usbPair",
+        "track_width": 0.25,
+        "via_diameter": 0.6,
+        "via_drill": 0.3
+      }
+    ],
+    "netclass_assignments": {
+      "BOOTSEL": "Default",
+      "DN": "usb/usbPair",
+      "DOWN": "Default",
+      "DP": "usb/usbPair",
+      "ENTER": "Default",
+      "FIRE": "Default",
+      "FUEL_ALRT": "Default",
+      "GND": "Default",
+      "I2S_BCK": "Default",
+      "I2S_DIN": "Default",
+      "I2S_LRCK": "Default",
+      "LCD_BL": "Default",
+      "LCD_CS": "Default",
+      "LCD_DC": "Default",
+      "LCD_RST": "Default",
+      "LDO_EN": "Default",
+      "LEFT": "Default",
+      "MENU": "Default",
+      "MOSI": "Default",
+      "Net-(C17-1)": "Default",
+      "Net-(C2-1)": "Default",
+      "Net-(D2-1)": "Default",
+      "Net-(D3-1)": "Default",
+      "Net-(L1-1)": "Default",
+      "Net-(R10-1)": "Default",
+      "Net-(R13-1)": "Default",
+      "Net-(R16-1)": "Default",
+      "Net-(R17-1)": "Default",
+      "Net-(R18-1)": "Default",
+      "Net-(R19-1)": "Default",
+      "Net-(R20-1)": "Default",
+      "Net-(R7-1)": "Default",
+      "Net-(R9-1)": "Default",
+      "PSRAM_CS": "Default",
+      "QSPI_SCLK": "Default",
+      "QSPI_SD0": "Default",
+      "QSPI_SD1": "Default",
+      "QSPI_SD2": "Default",
+      "QSPI_SD3": "Default",
+      "QSPI_SS": "Default",
+      "RIGHT": "Default",
+      "RUN": "Default",
+      "SCK": "Default",
+      "SCL": "Default",
+      "SDA": "Default",
+      "SD_CD": "Default",
+      "SD_CS": "Default",
+      "SD_MISO": "Default",
+      "SD_MOSI": "Default",
+      "SD_SCK": "Default",
+      "SPK_N": "Default",
+      "SPK_P": "Default",
+      "STRAFE_L": "Default",
+      "STRAFE_R": "Default",
+      "SWCLK": "Default",
+      "SWDIO": "Default",
+      "U1Support/XO": "Default",
+      "UP": "Default",
+      "USE": "Default",
+      "V1V1": "supply",
+      "V3": "supply",
+      "VBAT": "supply",
+      "VBUS": "supply",
+      "VSYS": "supply",
+      "usb/power/cc1": "Default",
+      "usb/power/cc2": "Default",
+      "usb/power/raw": "Default"
+    },
+    "netclass_patterns": []
+  }
+}

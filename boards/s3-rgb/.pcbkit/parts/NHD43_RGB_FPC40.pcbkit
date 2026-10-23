@@ -1,0 +1,116 @@
+pcbkit 1
+
+// 54132-4062 (Molex): 40-contact 0.5 mm FFC connector for the Newhaven NHD-4.3-480272EF-ASXN 4.3"
+// 480 x 272 24-bit RGB TFT (pins named as the panel's: backlight, R0-R7, G0-G7, B0-B7, CLK, DISP,
+// HSYNC, VSYNC, DEN)
+// Compiled from the part sheet `parts/NHD43_RGB_FPC40.json` (`parts.create`); status: checked.
+// Datasheet: https://newhavendisplay.com/content/specs/NHD-4.3-480272EF-ASXN.pdf
+// (NHD-4.3-480272EF-ASXN specification rev. 5 (2021-03-02): pin description, electrical
+// characteristics (VDD 3.0-3.6 V, IDD 25 mA typ; backlight 25.6 V at 40 mA), timing (DCLK 9-15
+// MHz), recommended connector Molex 54132-4062)
+// Pins: Newhaven NHD-4.3-480272EF-ASXN specification, Pin Description table (1 LED-, 2 LED+, 3
+// GND, 4 VDD, 5-12 R0-R7, 13-20 G0-G7, 21-28 B0-B7, 29 GND, 30 CLK, 31 DISP, 32 HSYNC, 33 VSYNC,
+// 34 DEN, 35 NC, 36 GND, 37-40 NC)
+// Footprint: as given
+// This file may be used, changed and shared without conditions, with the board or alone.
+
+// Note: The panel is a raw dot-clock display without a controller or frame memory: the host
+// refreshes it continuously (about 60 Hz at a 9-15 MHz pixel clock) from a frame buffer.
+// Note: With 16 colour lines (RGB565) tie R0-R2, G0-G1 and B0-B2 to ground.
+// Note: The white LED backlight (12 LEDs) needs a constant-current boost to about 25.6 V at 40 mA:
+// MT3608 with a 15 ohm sense resistor on FB (0.6 V).
+// Note: DISP high (or open on this panel: default on) shows the image; low is standby.
+
+/// 54132-4062 — 40-contact 0.5 mm FFC connector for the Newhaven NHD-4.3-480272EF-ASXN 4.3" 480 x
+/// 272 24-bit RGB TFT (pins named as the panel's: backlight, R0-R7, G0-G7, B0-B7, CLK, DISP, HSYNC,
+/// VSYNC, DEN)
+part Part = device(footprint = fpc(
+  40,
+  pitch = 0.5mm,
+), prefix = "J", mpn = "54132-4062", manufacturer = "Molex", pinout = {
+  LED_K: "1",
+  LED_A: "2",
+  GND: ["3", "29", "36"],
+  VDD: "4",
+  R0: "5",
+  R1: "6",
+  R2: "7",
+  R3: "8",
+  R4: "9",
+  R5: "10",
+  R6: "11",
+  R7: "12",
+  G0: "13",
+  G1: "14",
+  G2: "15",
+  G3: "16",
+  G4: "17",
+  G5: "18",
+  G6: "19",
+  G7: "20",
+  B0: "21",
+  B1: "22",
+  B2: "23",
+  B3: "24",
+  B4: "25",
+  B5: "26",
+  B6: "27",
+  B7: "28",
+  CLK: "30",
+  DISP: "31",
+  HSYNC: "32",
+  VSYNC: "33",
+  DEN: "34",
+  NC35: "35",
+  NC37: "37",
+  NC38: "38",
+  NC39: "39",
+  NC40: "40",
+  MP: "MP",
+}, pinTypes = {
+  LED_K: .passive,
+  LED_A: .passive,
+  GND: .ground,
+  VDD: io.powerIn(min = 3V, max = 3.6V),
+  R0: io.input(),
+  R1: io.input(),
+  R2: io.input(),
+  R3: io.input(),
+  R4: io.input(),
+  R5: io.input(),
+  R6: io.input(),
+  R7: io.input(),
+  G0: io.input(),
+  G1: io.input(),
+  G2: io.input(),
+  G3: io.input(),
+  G4: io.input(),
+  G5: io.input(),
+  G6: io.input(),
+  G7: io.input(),
+  B0: io.input(),
+  B1: io.input(),
+  B2: io.input(),
+  B3: io.input(),
+  B4: io.input(),
+  B5: io.input(),
+  B6: io.input(),
+  B7: io.input(),
+  CLK: io.input(),
+  DISP: io.input(),
+  HSYNC: io.input(),
+  VSYNC: io.input(),
+  DEN: io.input(),
+  NC35: .nc,
+  NC37: .nc,
+  NC38: .nc,
+  NC39: .nc,
+  NC40: .nc,
+  MP: .passive,
+}) with {
+  fields {
+    Status: "checked",
+    PinoutSource: "Newhaven NHD-4.3-480272EF-ASXN specification, Pin Description table (1 LED-, 2 LED+, 3 GND, 4 VDD, 5-12 R0-R7, 13-20 G0-G7, 21-28 B0-B7, 29 GND, 30 CLK, 31 DISP, 32 HSYNC, 33 VSYNC, 34 DEN, 35 NC, 36 GND, 37-40 NC)",
+    Datasheet: "https://newhavendisplay.com/content/specs/NHD-4.3-480272EF-ASXN.pdf",
+  }
+}
