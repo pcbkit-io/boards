@@ -58,8 +58,10 @@ Two 18650 Li-ion cells in Keystone 1042 holders on the back, in parallel (1S2P, 
 | SSD1309, half the pixels lit | ~15–25 mA |
 | **Total** | **~70 mA at 3.3 V ≈ 0.25 W with losses → ~65 mA from 3.7 V** |
 
-Two 3000 mAh cells → **about 90 h** of play (estimate). A full charge of two empty cells at 800 mA
-takes about 8 h (500 mA from a USB 2.0 port: longer, as the port limits it).
+Two 3000 mAh cells → **about 90 h** of play (estimate). In USB500 mode the charger takes at most
+500 mA from the port, the board's own draw included, so the cells charge at somewhat under 500 mA
+(the 800 mA ISET setting is the ceiling, not reached): about 13 h for two empty cells, longer while
+playing.
 
 ## Charging
 
