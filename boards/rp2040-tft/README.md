@@ -19,14 +19,13 @@ the socket it solders.
 
 <!-- STATUS -->
 **Board status** (measured on the dev host with PCBKit's CLI): `pcbkit check`: complete — 0 errors, 4 warnings (track-width-class ×2, diff-pair-uncoupled, skew), 0 unrouted nets; `issues` has 4 of 4. 92 components, 69 nets, 938 track segments (2507 mm), 123 vias.
-`analysis.run { lens: "ready" }`: Typical scenario, partly by family estimates. Nothing to fix, 5 to consider, 13 ok: weigh the warnings (tell the person about the ones that are their choice), then the board is ready to order.
+`analysis.run { lens: "ready" }`: Typical scenario, partly by family estimates. Nothing to fix, 4 to consider, 14 ok: weigh the warnings (tell the person about the ones that are their choice), then the board is ready to order.
 `pcbkit export --format fab` succeeds without `--force`: every assembled line of the BOM has an LCSC code.
 
 | Warning | Why it stays |
 |---|---|
 | `diff-pair-uncoupled`, `skew` (CONN_DP / CONN_DN, ~48 mm) | USB full speed (12 Mbit/s): the connector is on the front edge, the RP2040 on the back; tens of mm uncoupled and a millimetre of skew are harmless against 4–20 ns edges |
 | `track-width-class` (CONN_DP / CONN_DN necked to 0.15–0.19 mm) | short necks at the 0.4 mm pitch pads of the QFN-56 and the USB-C; signals only |
-| ready lens: GND's copper heats up by ~20 °C | the estimate sends the whole pack current through one 0.2 mm stub of a decoupling capacitor near the RP2040; the pack's return runs through the solid GND plane on In1 and the GND pours on both outer layers (the lens notes a pour shares the current) |
 | ready lens: thermal parameters, typical scenario | estimates of the analysis, not faults of the board |
 <!-- /STATUS -->
 
