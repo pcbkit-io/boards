@@ -4,8 +4,8 @@ PCBKit's reference Doom device, made orderable: a carrier for any Pico-2-footpri
 Raspberry Pi Pico 2 (RP2350A, 4 MB flash, 520 KB SRAM) or, for the full game, the pin-compatible
 **Pimoroni Pico Plus 2** (RP2350B, 16 MB flash, **8 MB PSRAM** on QMI chip select 1 = GPIO47) — with
 the same 2.8" ILI9341 touch TFT (MSP2807) and ten buttons as the reference, plus a PCM5102A DAC and a
-headphone jack. Power is USB only (the module's own USB connector and buck-boost): the simplest power
-design of the ten; a power bank makes it portable.
+headphone jack. It runs from two 18650 Li-ion cells on its back, charged from the module's USB.
+JLCPCB assembles everything but the two modules, which plug into the sockets it solders.
 
 | | |
 |---|---|
@@ -13,13 +13,20 @@ design of the ten; a power bank makes it portable.
 | Display | 2.8" 240 × 320 ILI9341 with XPT2046 resistive touch on SPI0 (GP18 SCK, GP19 MOSI, GP16 MISO, GP17 CS, GP20 DC, GP21 RESET, GP22 backlight; touch CS GP13, IRQ GP14) |
 | Input | 10 × 6 mm tact switches, as the reference: d-pad GP0–GP3, fire GP4, use GP5, strafe L/R GP6/GP7, menu GP8, enter GP9 |
 | Sound | PIO I2S (GP10 BCK, GP11 LRCK, GP12 DIN) → PCM5102A (hardware mode, PLL from BCK, mute on GP15) → 470 Ω / 2.2 nF → 3.5 mm stereo jack |
-| Power | USB 5 V into the module (VBUS → its diode → VSYS → RT6150/TPS63000-class buck-boost → 3.3 V, up to 300 mA for the carrier) |
-| Programming | the module's USB: BOOTSEL + plug → UF2 (RP2350's ROM accepts ARM and RISC-V images); SWD on the module's debug pads |
-| Board | 160 × 62 mm, 2 layers; front: display, ten buttons; back: module (USB at the top edge), DAC, jack |
+| Power | 2 × 18650 Li-ion in parallel (1S2P, 3.0–4.2 V) behind reverse-cell (AO3401A) and DW01A + FS8205A protection; BQ24075 charger with power path from the module's USB; SYS → 1N5819HW → module VSYS; the module's buck-boost makes 3.3 V (up to 300 mA for the carrier) |
+| Programming | the module's USB: BOOTSEL + plug → UF2 (RP2350's ROM accepts ARM and RISC-V images); SWD on the module's debug pads; the same port charges |
+| Board | 160 × 100 mm, 2 layers, four M3 holes; front: display, ten buttons, charger, on/off switch, test pads; back: module (USB at the top edge), two 18650 holders, DAC, jack (right edge) |
 
 <!-- STATUS -->
-**Board status** (`pcbkit check`, measured on the dev host): **complete** — 0 errors, 0 warnings, 0 unrouted nets; 35 components, 33 nets, 286 track segments (2024 mm), 29 vias.
+**Board status** (measured on the dev host with PCBKit's CLI): `pcbkit check`: complete — 0 errors, 0 warnings, 0 unrouted nets. 62 components, 53 nets, 504 track segments (2876 mm), 54 vias.
+`analysis.run { lens: "ready" }`: Typical scenario, partly by family estimates. Nothing to fix, 1 to consider, 13 ok: weigh the warnings (tell the person about the ones that are their choice), then the board is ready to order.
+`pcbkit export --format fab` succeeds without `--force`: every assembled line of the BOM has an LCSC code.
 <!-- /STATUS -->
+
+The ready lens's two notes are not faults: it estimates heat with generic package limits where the
+modules' makers publish no thermal data, and reads the module's draw from its family (the board
+dissipates well under 1 W). Keystone 1042 holders (C5249310) are stocked in hundreds at JLCPCB:
+check before ordering more than a few boards.
 
 ## Why it runs Doom
 
@@ -32,15 +39,51 @@ PSRAM), rp2040-doom's RP2350 build applies (520 KB SRAM is twice the RP2040's). 
 
 ## Power
 
-| State | Current from USB 5 V (estimate) |
+Two 18650 Li-ion cells in Keystone 1042 holders on the back, in parallel (1S2P, 3.0–4.2 V), the same
+power section as `boards/rp2350-handheld`:
+
+- **Reverse cells:** an AO3401A P-MOSFET in the plus line, its gate at the cells' minus: cells put
+  in backwards leave it off and the board unpowered (it conducts both ways when they are right, so
+  charging goes through it too). It cannot help one cell reversed against the other: in parallel
+  they would short each other, so check both against the silkscreen's + before closing a case.
+- **Protection:** DW01A + FS8205A in the pack's minus: over-charge 4.3 V, over-discharge 2.4 V,
+  over-current about 3 A and short circuit, for the pack. Flat-top unprotected 18650 cells fit the
+  holders.
+- **Charger with power path:** a TI BQ24075 from the module's VBUS, in USB500 mode (at most 500 mA
+  from the port), 800 mA fast charge (RISET 1.13 kΩ), input limit set by RILIM 1.18 kΩ, safety
+  timers off (two cells in parallel charge longer than its longest timer; termination is by
+  current), TS tied to 10 kΩ (no thermistor). Its output SYS runs the board from USB when one is
+  plugged in and from the cells otherwise; SYS reaches the module's VSYS through a 1N5819HW
+  Schottky, beside the module's own VBUS diode.
+- **On/off:** the slide switch on the left edge pulls the module's 3V3_EN low (its buck-boost off;
+  the charger still charges with the switch off).
+
+| State | Current at 3.3 V (estimate) |
 |---|---|
-| RP2350 at 150 MHz + PSRAM | ~40 mA at 3.3 V |
+| RP2350 at 150 MHz + PSRAM | ~40 mA |
 | ILI9341 2.8" with backlight | ~60–80 mA |
 | PCM5102A | ~20 mA |
-| **Total** | **~130 mA at 3.3 V ≈ 100 mA from 5 V** |
+| **Total** | **~130 mA at 3.3 V ≈ 0.5 W with losses → ~130 mA from 3.7 V** |
 
-A 5000 mAh power bank (≈ 18 Wh) → **~30 h**. Many power banks switch off below ~50–100 mA; this
-board stays above that while the backlight is on.
+Two 3000 mAh cells → **about 45 h** of play (estimate). A full charge of two empty cells at 800 mA
+takes about 8 h (longer from a USB 2.0 port, which the charger limits to 500 mA).
+
+## Charging
+
+Plug a USB charger or computer into the module's USB. The red LED (CHG) is on while the cells
+charge and goes out when they are full; the green LED (USB) is on while USB power is present. The
+board runs from USB while it charges, switched on or off. Insert the cells with + at the end the
+back's silkscreen marks.
+
+## Modules plugged in by hand
+
+The assembly solders two 1x20 female sockets and one 1x14 female socket; the modules are bought
+separately and plugged in:
+
+- **U1: Raspberry Pi Pico 2** (SC1631; the Pico 2 H has its headers) **or Pimoroni Pico Plus 2**
+  (PIM724, with headers) for the full game: on the back, components facing the board, the USB end
+  at the top edge.
+- **DS1: 2.8" ILI9341 SPI TFT with touch, MSP2807** (14 pins), on the front.
 
 ## Firmware: build and flash
 
@@ -48,33 +91,54 @@ board stays above that while the backlight is on.
   `arm-none-eabi-gcc`) or `-DPICO_PLATFORM=rp2350-riscv` (Hazard3, `riscv32-unknown-elf-gcc` with
   `-march=rv32imac_zicsr_zifencei_zba_zbb_zbs_zbkb`); the image carries an **IMAGE_DEF block** that
   the boot ROM reads to pick the architecture.
-- Flash: BOOTSEL + USB → copy the UF2 (family ID `rp2350-arm-s` or `rp2350-riscv`); `picotool load
-  -x doom.uf2`; or SWD with a Debug Probe.
+- **Flashing on arrival:** hold the module's BOOTSEL button and plug its USB into a computer: it
+  appears as the RP2350 drive; copy `doom.uf2` onto it (family ID `rp2350-arm-s` or
+  `rp2350-riscv`) and it reboots into the game; or `picotool load -x doom.uf2`; or SWD with a
+  Raspberry Pi Debug Probe. Nothing on the board to configure.
 - In PCBKit: this is the board the RP2350 machine model is being written against; `firmware = "doom"`
   on the module once the RP2350 SoC is registered (`docs/adr/0025-machine-framework.md`).
 
 ## Bill of materials
 
 Rough cost at 10 pieces (estimates): Pimoroni Pico Plus 2 $13 (Pico 2: $5) · 2 × 20-pin sockets
-$0.60 · ILI9341 2.8" touch module $7.00 · PCM5102A $2.00 · jack $0.60 · 10 buttons $0.50 · passives
-$0.60 · PCB $2.00 → **about $26** with the Plus 2.
+$0.50 · ILI9341 2.8" touch module $7.00 · PCM5102A $2.00 · jack $0.60 · 10 buttons $2.90 · charger,
+protection and passives $2.00 · two 18650 holders $9.80 · PCB $2.00 → **about $40** with the Plus 2,
+without the cells.
 
 <!-- BOM -->
-All components as the design places them (`parts.bom`; passives are specified by value and package, the orderable codes are chosen by `pcbkit parts`):
+The assembly BOM as `pcbkit export --format fab` writes it (JLCPCB assembly: LCSC codes; the modules' lines are their sockets):
 
-| Qty | Refs | Value | Part number | Footprint |
+| Qty | Refs | Part | LCSC | Footprint |
 |---|---|---|---|---|
-| 4 | C1, C3, C5, C9 | 100nF |  | C_0402_1005Metric |
-| 3 | C2, C4, C6 | 10uF |  | C_0805_2012Metric |
-| 2 | C7, C8 | 2.2uF |  | C_0805_2012Metric |
-| 2 | C10, C11 | 2.2nF |  | C_0402_1005Metric |
-| 1 | DS1 |  | MSP2807 2.8in 240x320 SPI TFT module with touch (ILI9341) | TFT_2.8in_ILI9341_Socket_1x14_P2.54mm |
-| 1 | J1 |  | SJ1-3525N | Jack_3.5mm_SameSky_SJ1-352XN_Horizontal |
-| 4 | R1, R2, R3, R4 | 10kohm |  | R_0603_1608Metric |
-| 2 | R5, R6 | 470ohm |  | R_0402_1005Metric |
-| 10 | SW1, SW2, SW3, SW4, SW5, SW6, SW7, SW8, SW9, SW10 | SW_Tactile_SPST_6x6mm_SMD |  | SW_Tactile_SPST_6x6mm_SMD |
-| 1 | U1 |  | SC1631 | Raspberry_Pi_Pico_2_Socket_2x20_P2.54mm_W17.78mm |
-| 1 | U2 |  | PCM5102APWR | TSSOP-20_4.4x6.5mm_P0.65mm |
+| 2 | BT1, BT2 | 1042 | C5249310 | BatteryHolder_Keystone_1042_1x18650 |
+| 5 | C1, C3, C5, C9, C12 | 100nF | C1525 | C_0402_1005Metric |
+| 3 | C2, C4, C6 | 10uF | C15850 | C_0805_2012Metric |
+| 2 | C7, C8 | 2.2uF | C87994 | C_0805_2012Metric |
+| 2 | C10, C11 | 2.2nF | C1531 | C_0402_1005Metric |
+| 1 | D1 | 1N5819HW-7-F | C82544 | D_SOD-123 |
+| 1 | DS1 | Female header 1x14 2.54 mm | C2905420 | TFT_2.8in_ILI9341_Socket_1x14_P2.54mm |
+| 1 | J1 | SJ1-3525N | C4991936 | Jack_3.5mm_SameSky_SJ1-352XN_Horizontal |
+| 1 | Q1 | AO3401A | C15127 | SOT-23 |
+| 1 | Q2 | FS8205A | C5148694 | TSSOP-8_4.4x2.93mm_P0.65mm |
+| 4 | R1, R2, R3, R4 | 10kohm | C25804 | R_0603_1608Metric |
+| 2 | R5, R6 | 470ohm | C25117 | R_0402_1005Metric |
+| 1 | R7 | 100kohm | C25741 | R_0402_1005Metric |
+| 1 | R8 | 100ohm | C25076 | R_0402_1005Metric |
+| 1 | R9 | 1kohm | C11702 | R_0402_1005Metric |
+| 10 | SW1, SW2, SW3, SW4, SW5, SW6, SW7, SW8, SW9, SW10 | PTS645SM43SMTR92 LFS | C221880 | SW_Tactile_SPST_6x6mm_SMD |
+| 1 | SW11 | MSK12C02 | C431540 | SW_Slide_SPDT_Shouhan_MSK12C02 |
+| 2 | U1 | Female header 1x20 2.54 mm | C2905423 | Raspberry_Pi_Pico_2_Socket_2x20_P2.54mm_W17.78mm |
+| 1 | U2 | PCM5102APWR | C107671 | TSSOP-20_4.4x6.5mm_P0.65mm |
+| 1 | U3 | DW01A | C351410 | SOT-6_1.6x2.9mm_P0.95mm |
+| 1 | U4 | BQ24075RGTR | C15464 | QFN-16-1EP_3x3mm_P0.5mm_EP1.68x1.68mm |
+| 2 | cBat, cSys | 4.7uF | C1779 | C_0805_2012Metric |
+| 1 | cIn | 1uF | C15849 | C_0603_1608Metric |
+| 1 | ledChg | red | C2286 | LED_0603_1608Metric |
+| 1 | ledPg | green | C12624 | LED_0603_1608Metric |
+| 2 | rChg, rPg | 1.5kohm | C25867 | R_0402_1005Metric |
+| 1 | rIlim | 1.18kohm | C270651 | R_0402_1005Metric |
+| 1 | rIset | 1.13kohm | C67014 | R_0402_1005Metric |
+| 1 | rTs | 10kohm | C25744 | R_0402_1005Metric |
 <!-- /BOM -->
 
 ## What PCBKit's engine must model to simulate it faithfully
@@ -94,4 +158,4 @@ All components as the design places them (`parts.bom`; passives are specified by
   the RP2350's funcsel table, SIO (FIFOs, spinlocks, the RISC-V/ARM-agnostic doorbells), RESETS,
   the watchdog's scratch registers (the ROM's reboot path).
 - **Board:** ILI9341 + XPT2046 models on one SPI bus with two chip selects, the PCM5102A as an I2S
-  sink, and USB 5 V as an ideal source.
+  sink, and two 18650 cells as a discharge curve behind the charger's power path.
