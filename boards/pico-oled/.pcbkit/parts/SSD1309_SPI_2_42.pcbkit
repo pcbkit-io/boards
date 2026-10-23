@@ -24,8 +24,16 @@ part Part = device(footprint = moduleSocket(
   socketRow(1, 7, (0mm, -7.62mm), (0mm, 2.54mm)),
   box((-2.0mm, -21.5mm), (70.0mm, 21.5mm)),
   description = "2.42 inch SPI OLED module (SSD1309) on a 1x7 female header along its left edge, the display facing up over +X: pin 1 GND at the bottom, CS at the top",
+  board = 1.2mm,
   parts = 3mm,
   color = "#1d3f8c",
+  module = displayPanel(
+    box((3.75mm, -18.5mm), (64.25mm, 18.5mm)),
+    box((6.49mm, -11.06mm), (61.5mm, 16.43mm)),
+    2.85mm,
+    frame = box((2.95mm, -19.4mm), (65.05mm, 19.4mm)),
+    face = "#040506",
+  ),
 ), prefix = "U", mpn = "MSP242X 2.42in 128x64 SPI module (SSD1309)", manufacturer = "generic", pinout = {
   GND: "1",
   VCC: "2",

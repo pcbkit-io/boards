@@ -37,7 +37,7 @@
     },
     "page": "lcdwiki MSP242X: pins 1 GND, 2 VCC, 3 SCL, 4 SDA, 5 RES, 6 DC, 7 CS; outline drawing: PCB 72.00 x 43.00 mm, holes 68 x 39 mm, header 2.54 x 6 = 15.24 mm centred on the left edge (13.88 mm from the bottom), 12.39 mm total height"
   },
-  "footprint": "moduleSocket(\"OLED_2.42in_SPI_Socket_1x07_P2.54mm\", socketRow(1, 7, (0mm, -7.62mm), (0mm, 2.54mm)), box((-2.0mm, -21.5mm), (70.0mm, 21.5mm)), description = \"2.42 inch SPI OLED module (SSD1309) on a 1x7 female header along its left edge, the display facing up over +X: pin 1 GND at the bottom, CS at the top\", parts = 3mm, color = \"#1d3f8c\")",
+  "footprint": "moduleSocket(\"OLED_2.42in_SPI_Socket_1x07_P2.54mm\", socketRow(1, 7, (0mm, -7.62mm), (0mm, 2.54mm)), box((-2.0mm, -21.5mm), (70.0mm, 21.5mm)), description = \"2.42 inch SPI OLED module (SSD1309) on a 1x7 female header along its left edge, the display facing up over +X: pin 1 GND at the bottom, CS at the top\", board = 1.2mm, parts = 3mm, color = \"#1d3f8c\", module = displayPanel(box((3.75mm, -18.5mm), (64.25mm, 18.5mm)), box((6.49mm, -11.06mm), (61.5mm, 16.43mm)), 2.85mm, frame = box((2.95mm, -19.4mm), (65.05mm, 19.4mm)), face = \"#040506\"))",
   "pins": [
     {
       "number": "1",

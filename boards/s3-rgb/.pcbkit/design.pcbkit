@@ -47,6 +47,19 @@ panel = Line {
   width = 0.2mm
 }
 panelLabel = Text { text = "4.3in 480x272 RGB TFT (NHD-4.3-480272EF-ASXN) on tape; cable to J1 on the back"; at = (91mm, 40mm); size = 1.5mm }
+// The panel itself, taped on (its outline drawing: 105.5 x 67.2 x 2.95 mm, the metal frame's
+// opening 98.7 x 57 mm, the active area 95.04 x 53.86 mm; here centred on the outline): nothing
+// to solder, on the bill of materials and in 3D.
+DS1 = device(footprint = Footprint {
+  name = "Newhaven_NHD-4.3-480272EF_Panel"
+  description = "4.3 inch 480 x 272 RGB TFT panel taped to the board, its FPC folded to J1 on the back"
+  pads = []
+  height = 2.95mm
+  noCourtyard = true
+  solids = displayPanel(centered(98.7mm, 57mm), centered(95.04mm, 53.86mm), 2.95mm, glass = 0.5mm, frame = centered(105.5mm, 67.2mm))
+}, prefix = "DS", mpn = "NHD-4.3-480272EF-ASXN#", manufacturer = "Newhaven Display") {
+  at = (91mm, 40mm)
+}
 
 // ---- processor (back, top edge, antenna overhanging) --------------------------------------------
 U1 = ESP32_S3_WROOM_1.Part {

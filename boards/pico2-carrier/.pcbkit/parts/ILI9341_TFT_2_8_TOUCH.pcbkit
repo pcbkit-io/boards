@@ -32,6 +32,15 @@ part Part = device(footprint = moduleSocket(
   description = "2.8 inch ILI9341 TFT module with touch on a 1x14 female header along its bottom edge, the display facing up over +Y: VCC, GND, CS, RESET, DC, SDI, SCK, LED, SDO, T_CLK, T_CS, T_DIN, T_DO, T_IRQ left to right",
   parts = 5.6mm,
   color = "#b02020",
+  module = concat(displayPanel(
+    box((-25mm, 8.4mm), (25mm, 77.6mm)),
+    box((-21.6mm, 17.1mm), (21.6mm, 74.7mm)),
+    3.5mm,
+    glass = 1.2mm,
+    tape = 0.5mm,
+  ), [
+    slab(-25mm, 27mm, -3.8mm, -5.6mm, 57mm, -1.6mm, material = .metal),
+  ]),
 ), prefix = "U", mpn = "MSP2807 2.8in 240x320 SPI TFT module with touch (ILI9341)", manufacturer = "generic", pinout = {
   VCC: "1",
   GND: "2",

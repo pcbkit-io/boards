@@ -38,6 +38,21 @@ part Part = device(footprint = moduleSocket(
   description = "Raspberry Pi Pico 2 on two 1x20 female headers 17.78 mm apart, the USB end at +Y: pin 1 (GP0) top left, 1-20 down the left row, 21-40 up the right row (Raspberry Pi's numbering)",
   board = 1mm,
   color = "#2e7d32",
+  module = [
+    solid.box((7mm, 7mm, 0.9mm), at = (0mm, 2.5mm, 0mm), radius = 0.05mm, material = .epoxy),
+    solid.box((3mm, 2mm, 0.55mm), at = (-3.6mm, -7.2mm, 0mm), material = .epoxy),
+    solid.box((3.2mm, 2.5mm, 0.8mm), at = (3.4mm, -7.4mm, 0mm), radius = 0.1mm, material = .metal),
+    solid.box((3mm, 3mm, 1.5mm), at = (5mm, 14mm, 0mm), radius = 0.2mm, color = "#3a3b3d"),
+    solid.box((4.2mm, 3.2mm, 0.9mm), at = (-4.2mm, 16.2mm, 0mm), radius = 0.1mm, material = .metal),
+    solid.box((1.6mm, 1.2mm, 0.5mm), at = (-4.2mm, 16.2mm, 0.9mm), material = .whitePlastic),
+    solid.box(
+      (1.6mm, 0.8mm, 0.6mm),
+      at = (-6.6mm, 21.6mm, 0mm),
+      material = .led,
+      color = "#9be8b0",
+    ),
+    solid.shell((7.5mm, 5.6mm, 2.6mm), wall = 0.25mm, at = (0mm, 24mm, 0mm), radius = 0.3mm),
+  ],
 ), prefix = "U", mpn = "SC1631", manufacturer = "Raspberry Pi", pinout = {
   GP0: "1",
   GP1: "2",

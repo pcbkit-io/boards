@@ -101,6 +101,7 @@ part Part = device(footprint = (
     package = Package { family = .other; body = (18mm, 25.5mm); height = 3.25mm }
   }
 ) with {
+  models = [Model3d { path = "RF_Module:ESP32-S3-WROOM-1" }]
   solids = [
     solid.box((18mm, 25.5mm, 0.8mm), at = (0mm, 0mm, 0mm), color = "#1f3f8a"),
     solid.box((15.8mm, 17.6mm, 2.3mm), at = (0mm, -3mm, 0.8mm), material = .metal),

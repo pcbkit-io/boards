@@ -390,5 +390,6 @@
       "verified": false,
       "note": "the drawing's recommended PCB layout (mounting side): pad centres from its callouts, origin at the outline's centre"
     }
-  }
+  },
+  "model": "Connector_Card:microSD_HC_Hirose_DM3AT-SF-PEJM5"
 }

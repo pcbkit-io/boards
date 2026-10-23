@@ -1494,5 +1494,6 @@
       "verified": false,
       "note": "the datasheet's recommended land pattern (Figure 11-1) as pads; check the antenna keepout on the board"
     }
-  }
+  },
+  "model": "RF_Module:ESP32-S3-WROOM-1"
 }
