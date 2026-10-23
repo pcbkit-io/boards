@@ -1,0 +1,732 @@
+pcbkit 1
+// Imported (`pcbkit import`). Edit freely: `pcbkit check` verifies the design.
+
+use "footprints.pcbkit" as fp
+
+net P3_3V named "+3.3V"
+net P5V named "+5V"
+net PBATT named "+BATT"
+net EN
+net EN_SCREEN
+net GND
+net GPIO0
+net I2C_scl
+net I2C_sda
+net LEVEL_BATTERY
+net NEOPIXEL
+net Net_D1_A named "Net-(D1-A)"
+net Net_D2_A named "Net-(D2-A)"
+net Net_D3_A named "Net-(D3-A)"
+net Net_D4_A named "Net-(D4-A)"
+net Net_D5_K named "Net-(D5-K)"
+net Net_D8_DIN named "Net-(D8-DIN)"
+net Net_D8_DOUT named "Net-(D8-DOUT)"
+net Net_J1_Pin_1 named "Net-(J1-Pin_1)"
+net Net_J4_Pin_1 named "Net-(J4-Pin_1)"
+net Net_J4_Pin_2 named "Net-(J4-Pin_2)"
+net Net_J8_CC1 named "Net-(J8-CC1)"
+net Net_J8_CC2 named "Net-(J8-CC2)"
+net Net_J11_Pin_1 named "Net-(J11-Pin_1)"
+net Net_J11_Pin_6 named "Net-(J11-Pin_6)"
+net Net_J12_Pin_1 named "Net-(J12-Pin_1)"
+net Net_J12_Pin_6 named "Net-(J12-Pin_6)"
+net Net_SW3_A named "Net-(SW3-A)"
+net Net_U1_VCP named "Net-(U1-VCP)"
+net Net_U1_VINT named "Net-(U1-VINT)"
+net RX0
+net RX_lidar
+net SERVO1
+net SERVO2
+net TX0
+net TX_lidar
+net button_user
+net motor_a named "motor_a+"
+net motor_a_2 named "motor_a-"
+net motor_a_sense
+net motor_b named "motor_b+"
+net motor_b_2 named "motor_b-"
+net motor_b_sense
+net motor_enable
+net motor_enc_a named "motor_enc_a+"
+net motor_enc_a_2 named "motor_enc_a-"
+net motor_enc_b named "motor_enc_b+"
+net motor_enc_b_2 named "motor_enc_b-"
+net motor_fault
+net sw_team
+net sw_tirette
+net tft_cs
+net tft_dc
+net tft_rst
+net tft_scl
+net tft_sda
+net unconnected_U2_IO40_Pad36 named "unconnected-(U2-IO40-Pad36)"
+net unconnected_U2_IO41_Pad37 named "unconnected-(U2-IO41-Pad37)"
+net unconnected_U2_IO42_Pad38 named "unconnected-(U2-IO42-Pad38)"
+net unconnected_U2_IO45_Pad41 named "unconnected-(U2-IO45-Pad41)"
+net unconnected_U2_IO46_Pad44 named "unconnected-(U2-IO46-Pad44)"
+net usb_d named "usb_d+"
+net usb_d_2 named "usb_d-"
+
+board = Board {
+  name = "pami_2026"
+  description = "Imported from KiCad (pami_2026.kicad_pcb)"
+  outline = polygon([
+    (30mm, 80mm),
+    (30mm, 70mm),
+    (20mm, 70mm),
+    (20mm, 80mm),
+    (0mm, 80mm),
+    (0mm, 0mm),
+    (50mm, 0mm),
+    (50mm, 80mm),
+  ])
+  layers = [signal(Cu.top), signal(Cu.inner[1]), signal(Cu.inner[2]), signal(Cu.bottom)]
+}
+
+part NMOSPart = device(footprint = fp.SOT_23_Handsoldering_nchannel, displayValue = "NMOS") with {
+  fields { "Sim.Device": "NMOS", "Sim.Pins": "1=D 2=G 3=S", "Sim.Type": "VDMOS" }
+}
+
+C1 = fp.C_0805_2012Metric_Pad1_18x1_45mm_HandSolder {
+  displayValue = "2.2u"
+  at = (27.392mm, 12.3125mm)
+  rotation = 90deg
+  side = .bottom
+  pins { "1": GND, "2": Net_U1_VINT }
+}
+
+C2 = fp.C_0805_2012Metric_Pad1_18x1_45mm_HandSolder {
+  displayValue = "10u"
+  at = (29.949mm, 12.3125mm)
+  rotation = 270deg
+  side = .bottom
+  pins { "1": GND, "2": P5V }
+}
+
+C3 = fp.C_0805_2012Metric_Pad1_18x1_45mm_HandSolder {
+  displayValue = "10n"
+  at = (32.472mm, 12.3125mm)
+  rotation = 90deg
+  side = .bottom
+  pins { "1": P5V, "2": Net_U1_VCP }
+}
+
+C4 = fp.C_0805_2012Metric_Pad1_18x1_45mm_HandSolder {
+  displayValue = "100n"
+  at = (41.0865mm, 30.943mm)
+  side = .bottom
+  pins { "1": P3_3V, "2": GND }
+}
+
+C5 = fp.C_0805_2012Metric_Pad1_18x1_45mm_HandSolder {
+  displayValue = "100n"
+  at = (47.138mm, 70.835mm)
+  side = .bottom
+  pins { "1": GPIO0, "2": GND }
+}
+
+C6 = fp.C_0805_2012Metric_Pad1_18x1_45mm_HandSolder {
+  displayValue = "100n"
+  at = (35.7295mm, 55.976mm)
+  side = .bottom
+  pins { "1": EN, "2": GND }
+}
+
+C7 = fp.C_0805_2012Metric_Pad1_18x1_45mm_HandSolder {
+  displayValue = "100n"
+  at = (39.33mm, 67.228557mm)
+  rotation = 270deg
+  side = .bottom
+  pins { "1": button_user, "2": GND }
+}
+
+C9 = fp.C_0805_2012Metric_Pad1_18x1_45mm_HandSolder {
+  displayValue = "100n"
+  at = (24.310318mm, 55.025818mm)
+  rotation = 270deg
+  side = .bottom
+  pins { "1": P5V, "2": GND }
+}
+
+C10 = fp.C_0805_2012Metric_Pad1_18x1_45mm_HandSolder {
+  displayValue = "10u"
+  at = (18.2265mm, 61.677mm)
+  rotation = 180deg
+  side = .bottom
+  pins { "1": P3_3V, "2": GND }
+}
+
+C11 = fp.C_0805_2012Metric_Pad1_18x1_45mm_HandSolder {
+  displayValue = "330n"
+  at = (12.245318mm, 52.718318mm)
+  rotation = 180deg
+  side = .bottom
+  pins { "1": PBATT, "2": GND }
+}
+
+C12 = fp.C_0805_2012Metric_Pad1_18x1_45mm_HandSolder {
+  displayValue = "100n"
+  at = (4.212mm, 52.674mm)
+  rotation = 180deg
+  side = .bottom
+  pins { "1": P5V, "2": GND }
+}
+
+C18 = fp.CP_Radial_D8_0mm_P5_00mm {
+  displayValue = "220u"
+  at = (31mm, 7.5mm)
+  rotation = 270deg
+  pins { "1": PBATT, "2": GND }
+}
+
+C25 = fp.C_0805_2012Metric_Pad1_18x1_45mm_HandSolder {
+  displayValue = "100n"
+  at = (41.108mm, 33.445mm)
+  side = .bottom
+  pins { "1": P3_3V, "2": GND }
+}
+
+D1 = fp.D_0805_2012Metric {
+  displayValue = "D"
+  fields { "Sim.Device": "D", "Sim.Pins": "1=K 2=A" }
+  at = (12.9625mm, 63.455mm)
+  rotation = 180deg
+  side = .bottom
+  pins { "1": P5V, "2": Net_D1_A }
+}
+
+D2 = fp.D_0805_2012Metric_Pad1_15x1_40mm_HandSolder {
+  displayValue = "LED"
+  at = (2.589mm, 37.348mm)
+  side = .bottom
+  pins { "1": GND, "2": Net_D2_A }
+}
+
+D3 = fp.D_0805_2012Metric_Pad1_15x1_40mm_HandSolder {
+  displayValue = "LED"
+  at = (2.589mm, 34.554mm)
+  side = .bottom
+  pins { "1": GND, "2": Net_D3_A }
+}
+
+D4 = fp.D_0805_2012Metric_Pad1_15x1_40mm_HandSolder {
+  displayValue = "LED"
+  at = (2.589mm, 31.76mm)
+  side = .bottom
+  pins { "1": GND, "2": Net_D4_A }
+}
+
+D5 = fp.D_SOD_123 {
+  displayValue = "D_Zener"
+  at = (18.248mm, 27mm)
+  rotation = 90deg
+  side = .bottom
+  pins { "1": Net_D5_K, "2": GND }
+}
+
+D8 = fp.IN_PI33TBTPRPGPB {
+  displayValue = "SK6812MINI"
+  at = (11.705mm, 75.915mm)
+  rotation = 90deg
+  side = .bottom
+  pins { "1": Net_D8_DOUT, "2": GND, "3": Net_D8_DIN, "4": P5V }
+}
+
+F1 = fp.Fuseholder_Littelfuse_Nano2_154x {
+  displayValue = "Fuse"
+  at = (28.342mm, 67.152mm)
+  side = .bottom
+  pins { "1": Net_SW3_A, "2": PBATT }
+}
+
+H1 = fp.MountingHole_3_2mm_M3_Pad_Via {
+  displayValue = "MountingHole"
+  at = (8mm, 58mm)
+}
+
+H2 = fp.MountingHole_3_2mm_M3_Pad_Via {
+  displayValue = "MountingHole"
+  at = (41.697056mm, 58mm)
+}
+
+H3 = fp.MountingHole_3_2mm_M3_Pad_Via {
+  displayValue = "MountingHole"
+  at = (4mm, 18mm)
+}
+
+H4 = fp.MountingHole_3_2mm_M3_Pad_Via {
+  displayValue = "MountingHole"
+  at = (46mm, 18mm)
+}
+
+J1 = fp.PinHeader_1x04_P2_54mm_Vertical {
+  displayValue = "Conn_01x04_Socket"
+  at = (28.81mm, 47mm)
+  rotation = 270deg
+  pins { "1": Net_J1_Pin_1, "2": P3_3V, "3": I2C_scl, "4": I2C_sda }
+}
+
+J2 = fp.PinHeader_1x03_P2_54mm_Vertical {
+  displayValue = "Conn_01x03_Pin"
+  at = (7.46mm, 26mm)
+  rotation = 90deg
+  pins { "1": GND, "2": P5V, "3": SERVO1 }
+}
+
+J3 = fp.JST_XH_B4B_XH_A_1x04_P2_50mm_Vertical {
+  displayValue = "Conn_01x04_Pin"
+  at = (39mm, 4mm)
+  pins { "1": RX_lidar, "2": TX_lidar, "3": P3_3V, "4": GND }
+}
+
+J4 = fp.TerminalBlock_bornier_2_P5_08mm {
+  displayValue = "Conn_01x02_Pin"
+  at = (17.928mm, 4.4mm)
+  pins { "1": Net_J4_Pin_1, "2": Net_J4_Pin_2 }
+}
+
+J5 = fp.PinHeader_1x05_P2_54mm_Vertical {
+  displayValue = "Conn_01x05_Pin"
+  at = (34.692mm, 58.389mm)
+  rotation = 270deg
+  pins { "1": GND, "2": EN, "3": GPIO0, "4": RX0, "5": TX0 }
+}
+
+J6 = fp.JST_XH_B2B_XH_A_1x02_P2_50mm_Vertical {
+  displayValue = "Conn_01x02_Pin"
+  at = (18.944mm, 12.542mm)
+  pins { "1": Net_J4_Pin_1, "2": Net_J4_Pin_2 }
+}
+
+J7 = fp.JST_PH_B3B_PH_K_1x03_P2_00mm_Vertical {
+  displayValue = "Conn_01x03_Pin"
+  at = (15.039318mm, 77.451318mm)
+  rotation = 270deg
+  pins { "1": P5V, "2": Net_D8_DOUT, "3": GND }
+}
+
+J8 = fp.MOLEX_2169890001 {
+  displayValue = "USB_C_Receptacle_USB2.0_14P"
+  at = (6.468963mm, 79.841mm)
+  rotation = 180deg
+  pins {
+    "A1": GND,
+    "A4": Net_D1_A,
+    "A5": Net_J8_CC1,
+    "A6": usb_d,
+    "A7": usb_d_2,
+    "A9": Net_D1_A,
+    "A12": GND,
+    "B1": GND,
+    "B4": Net_D1_A,
+    "B5": Net_J8_CC2,
+    "B6": usb_d,
+    "B7": usb_d_2,
+    "B9": Net_D1_A,
+    "B12": GND,
+  }
+}
+
+J9 = fp.JST_XH_B4B_XH_A_1x04_P2_50mm_Vertical {
+  displayValue = "Conn_01x04_Pin"
+  at = (3.5mm, 4mm)
+  pins { "1": P3_3V, "2": I2C_scl, "3": I2C_sda, "4": GND }
+}
+
+J10 = fp.PinHeader_1x07_P2_54mm_Vertical {
+  displayValue = "Conn_01x07_Socket"
+  at = (17.38mm, 35mm)
+  rotation = 90deg
+  pins {
+    "1": tft_rst,
+    "2": tft_cs,
+    "3": tft_dc,
+    "4": tft_scl,
+    "5": tft_sda,
+    "6": Net_J1_Pin_1,
+    "7": P3_3V,
+  }
+}
+
+J11 = fp.JST_PH_B6B_PH_K_1x06_P2_00mm_Vertical {
+  displayValue = "Conn_01x06"
+  at = (3mm, 12mm)
+  pins {
+    "1": Net_J11_Pin_1,
+    "2": GND,
+    "3": motor_enc_a,
+    "4": motor_enc_a_2,
+    "5": P3_3V,
+    "6": Net_J11_Pin_6,
+  }
+}
+
+J12 = fp.JST_PH_B6B_PH_K_1x06_P2_00mm_Vertical {
+  displayValue = "Conn_01x06"
+  at = (37mm, 12mm)
+  pins {
+    "1": Net_J12_Pin_1,
+    "2": GND,
+    "3": motor_enc_b,
+    "4": motor_enc_b_2,
+    "5": P3_3V,
+    "6": Net_J12_Pin_6,
+  }
+}
+
+J14 = fp.PinHeader_1x03_P2_54mm_Vertical {
+  displayValue = "Conn_01x03_Pin"
+  at = (42.54mm, 26mm)
+  rotation = 270deg
+  pins { "1": GND, "2": P5V, "3": SERVO2 }
+}
+
+Q1 = fp.WSF22N06 {
+  displayValue = "NMOS"
+  fields { "Sim.Device": "NMOS", "Sim.Pins": "1=D 2=G 3=S", "Sim.Type": "VDMOS" }
+  at = (13.182mm, 20.274mm)
+  rotation = 180deg
+  side = .bottom
+  pins { "1": Net_J4_Pin_1, "2": Net_D5_K, "3": GND }
+}
+
+Q2 = NMOSPart {
+  at = (24mm, 43mm)
+  rotation = 180deg
+  side = .bottom
+  pins { "1": Net_J1_Pin_1, "2": EN_SCREEN, "3": GND }
+}
+
+Q3 = NMOSPart {
+  at = (16.182mm, 66.865mm)
+  side = .bottom
+  pins { "1": Net_D8_DIN, "2": P3_3V, "3": NEOPIXEL }
+}
+
+R1 = fp.R_0805_2012Metric_Pad1_20x1_40mm_HandSolder {
+  displayValue = "R"
+  at = (27.564mm, 54.96mm)
+  side = .bottom
+  pins { "1": P3_3V, "2": EN }
+}
+
+R2 = fp.R_0805_2012Metric_Pad1_20x1_40mm_HandSolder {
+  displayValue = "0.1"
+  at = (26.977318mm, 23.762318mm)
+  rotation = 270deg
+  side = .bottom
+  pins { "1": GND, "2": motor_a_sense }
+}
+
+R3 = fp.R_0805_2012Metric_Pad1_20x1_40mm_HandSolder {
+  displayValue = "10k"
+  at = (13.182mm, 70.365mm)
+  side = .bottom
+  pins { "1": P5V, "2": Net_D8_DIN }
+}
+
+R4 = fp.R_0805_2012Metric_Pad1_20x1_40mm_HandSolder {
+  displayValue = "10k"
+  at = (11.682mm, 66.865mm)
+  rotation = 90deg
+  side = .bottom
+  pins { "1": P3_3V, "2": NEOPIXEL }
+}
+
+R5 = fp.R_0805_2012Metric_Pad1_20x1_40mm_HandSolder {
+  displayValue = "56k"
+  at = (15.708mm, 26.5mm)
+  rotation = 270deg
+  side = .bottom
+  pins { "1": Net_SW3_A, "2": Net_D5_K }
+}
+
+R6 = fp.R_0805_2012Metric_Pad1_20x1_40mm_HandSolder {
+  displayValue = "0.1"
+  at = (32.996mm, 22.561mm)
+  rotation = 180deg
+  side = .bottom
+  pins { "1": GND, "2": motor_b_sense }
+}
+
+R7 = fp.R_0805_2012Metric_Pad1_20x1_40mm_HandSolder {
+  displayValue = "R"
+  at = (12.009mm, 31.324mm)
+  rotation = 180deg
+  side = .bottom
+  pins { "1": I2C_scl, "2": P3_3V }
+}
+
+R8 = fp.R_0805_2012Metric_Pad1_20x1_40mm_HandSolder {
+  displayValue = "R"
+  at = (12.041mm, 33.61mm)
+  side = .bottom
+  pins { "1": P3_3V, "2": I2C_sda }
+}
+
+R9 = fp.R_0805_2012Metric_Pad1_20x1_40mm_HandSolder {
+  displayValue = "470"
+  at = (6.786mm, 37.348mm)
+  side = .bottom
+  pins { "1": Net_D2_A, "2": PBATT }
+}
+
+R10 = fp.R_0805_2012Metric_Pad1_20x1_40mm_HandSolder {
+  displayValue = "150"
+  at = (6.786mm, 34.554mm)
+  side = .bottom
+  pins { "1": Net_D3_A, "2": P3_3V }
+}
+
+R11 = fp.R_0805_2012Metric_Pad1_20x1_40mm_HandSolder {
+  displayValue = "330"
+  at = (6.802mm, 31.76mm)
+  side = .bottom
+  pins { "1": Net_D4_A, "2": P5V }
+}
+
+R12 = fp.R_0805_2012Metric_Pad1_20x1_40mm_HandSolder {
+  displayValue = "5.1k"
+  at = (5.207963mm, 66.011mm)
+  rotation = 270deg
+  side = .bottom
+  pins { "1": Net_J8_CC2, "2": GND }
+}
+
+R13 = fp.R_0805_2012Metric_Pad1_20x1_40mm_HandSolder {
+  displayValue = "5.1k"
+  at = (7.874963mm, 66.011mm)
+  rotation = 270deg
+  side = .bottom
+  pins { "1": Net_J8_CC1, "2": GND }
+}
+
+R14 = fp.R_0805_2012Metric_Pad1_20x1_40mm_HandSolder {
+  displayValue = "R"
+  at = (42.614318mm, 70.835mm)
+  side = .bottom
+  pins { "1": P3_3V, "2": GPIO0 }
+}
+
+R16 = fp.R_0805_2012Metric_Pad1_20x1_40mm_HandSolder {
+  displayValue = "56k"
+  at = (37mm, 71.978mm)
+  rotation = 180deg
+  side = .bottom
+  pins { "1": GND, "2": LEVEL_BATTERY }
+}
+
+R17 = fp.R_0805_2012Metric_Pad1_20x1_40mm_HandSolder {
+  displayValue = "100k"
+  at = (33mm, 71.978mm)
+  rotation = 180deg
+  side = .bottom
+  pins { "1": LEVEL_BATTERY, "2": PBATT }
+}
+
+SW1 = fp.SW_Push_1P1T_NO_CK_KSC9xxJ {
+  displayValue = "SW_Push"
+  at = (45.172mm, 66mm)
+  side = .bottom
+  pins { "1": GND, "2": EN }
+}
+
+SW2 = fp.SW_CK_JS202011AQN_DPDT_Angled {
+  displayValue = "SW_gliss"
+  at = (31.6mm, 75.409mm)
+  side = .bottom
+  pins { "1": sw_team, "2": GND }
+}
+
+SW3 = fp.JST_XH_B2B_XH_A_1x02_P2_50mm_Vertical {
+  displayValue = "SW_Push_Open"
+  at = (29.231mm, 63.215mm)
+  rotation = 180deg
+  pins { "1": Net_SW3_A, "2": Net_J4_Pin_2 }
+}
+
+SW4 = fp.SW_REED {
+  displayValue = "SW_Reed"
+  at = (1.577318mm, 70.7355mm)
+  rotation = 270deg
+  pins { "1": GND, "2": sw_tirette }
+}
+
+SW5 = fp.PTS645VSM19PSMTR92LFS {
+  displayValue = "SW_Push"
+  at = (44.35mm, 76.483318mm)
+  side = .bottom
+  pins { "1": GPIO0, "2": GND }
+}
+
+SW6 = fp.PTS645VSM19PSMTR92LFS_2 {
+  displayValue = "SW_Push"
+  at = (44.412318mm, 76.483318mm)
+  rotation = 180deg
+  pins { "1": GND, "2": button_user }
+}
+
+TP1 = fp.TestPoint_Pad_D2_0mm {
+  displayValue = "TestPoint"
+  at = (6mm, 39.204mm)
+  pins { "1": PBATT }
+}
+
+TP2 = fp.TestPoint_Pad_D2_0mm {
+  displayValue = "TestPoint"
+  at = (6mm, 34.88mm)
+  pins { "1": P3_3V }
+}
+
+TP3 = fp.TestPoint_Pad_D2_0mm {
+  displayValue = "TestPoint"
+  at = (6mm, 30.88mm)
+  pins { "1": P5V }
+}
+
+TP12 = fp.TestPoint_Pad_D2_0mm {
+  displayValue = "TestPoint"
+  at = (2.5mm, 28.657mm)
+  pins { "1": GND }
+}
+
+U1 = fp.Texas_RTY_WQFN_16_1EP_4x4mm_P0_65mm_EP2_1x2_1mm_ThermalVias {
+  displayValue = "DRV8833RTY"
+  at = (30.059mm, 18.459mm)
+  rotation = 270deg
+  side = .bottom
+  pins {
+    "1": motor_a_sense,
+    "2": Net_J11_Pin_6,
+    "3": Net_J12_Pin_6,
+    "4": motor_b_sense,
+    "5": Net_J12_Pin_1,
+    "6": motor_fault,
+    "7": motor_b,
+    "8": motor_b_2,
+    "9": Net_U1_VCP,
+    "10": P5V,
+    "11": GND,
+    "12": Net_U1_VINT,
+    "13": motor_a_2,
+    "14": motor_a,
+    "15": motor_enable,
+    "16": Net_J11_Pin_1,
+    "17": GND,
+  }
+}
+
+U2 = fp.ESP32S3MINI1N8 {
+  displayValue = "ESP32-S3-MINI-1"
+  at = (38.016318mm, 44.844318mm)
+  rotation = 90deg
+  side = .bottom
+  pins {
+    "1": GND,
+    "2": GND,
+    "3": P3_3V,
+    "4": GPIO0,
+    "5": motor_enc_b_2,
+    "6": motor_enc_b,
+    "7": motor_enc_a_2,
+    "8": motor_enc_a,
+    "9": motor_a_sense,
+    "10": motor_b_sense,
+    "11": motor_fault,
+    "12": SERVO2,
+    "13": SERVO1,
+    "14": motor_enable,
+    "15": motor_a,
+    "16": motor_a_2,
+    "17": motor_b,
+    "18": motor_b_2,
+    "19": LEVEL_BATTERY,
+    "20": I2C_scl,
+    "21": I2C_sda,
+    "22": EN_SCREEN,
+    "23": usb_d_2,
+    "24": usb_d,
+    "25": RX_lidar,
+    "26": TX_lidar,
+    "27": sw_team,
+    "28": button_user,
+    "29": NEOPIXEL,
+    "30": sw_tirette,
+    "31": tft_sda,
+    "32": tft_scl,
+    "33": tft_dc,
+    "34": tft_rst,
+    "35": tft_cs,
+    "36": unconnected_U2_IO40_Pad36,
+    "37": unconnected_U2_IO41_Pad37,
+    "38": unconnected_U2_IO42_Pad38,
+    "39": TX0,
+    "40": RX0,
+    "41": unconnected_U2_IO45_Pad41,
+    "42": GND,
+    "43": GND,
+    "44": unconnected_U2_IO46_Pad44,
+    "45": EN,
+    "46": GND,
+    "47": GND,
+    "48": GND,
+    "49": GND,
+    "50": GND,
+    "51": GND,
+    "52": GND,
+    "53": GND,
+    "54": GND,
+    "55": GND,
+    "56": GND,
+    "57": GND,
+    "58": GND,
+    "59": GND,
+    "60": GND,
+    "61": GND,
+    "62": GND,
+    "63": GND,
+    "64": GND,
+    "65": GND,
+  }
+}
+
+U3 = fp.SOT_223_3_TabPin2 {
+  displayValue = "LD1117S33TR_SOT223"
+  at = (19.264mm, 55.937mm)
+  rotation = 270deg
+  side = .bottom
+  pins { "1": GND, "2": P3_3V, "3": P5V }
+}
+
+U4 = fp.TO_263_2 {
+  displayValue = "L7805"
+  at = (8.052mm, 45.694mm)
+  rotation = 180deg
+  side = .bottom
+  pins { "1": PBATT, "2": GND, "3": P5V }
+}
+
+ANTENNA = Keepout {
+  name = "ANTENNA"
+  forbid = [.tracks, .vias, .pads, .pours]
+  layers = [Cu.top, Cu.bottom, Cu.inner[1], Cu.inner[2]]
+  outline = polygon([(50mm, 62.5mm), (45.5mm, 62.5mm), (45.5mm, 22.5mm), (50mm, 22.5mm)])
+}
+
+GNDPour = Pour {
+  name = "GND"
+  net = GND
+  layers = [Cu.top, Cu.bottom]
+  clearance = 0.5mm
+  outline = polygon([(0mm, 80mm), (50mm, 80mm), (50mm, 0mm), (0mm, 0mm)])
+}
+
+rules = Rules {
+  minClearance = 0mm
+  minTrackWidth = 0.2mm
+  copperToEdge = 0.5mm
+  vias { minDiameter = 0.5mm, minDrill = 0.3mm }
+  holes { clearance = 0.25mm, toHole = 0.25mm }
+}
+
+interop = Interop { kicad = KicadData { origin = (41mm, -121mm) } }

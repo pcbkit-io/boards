@@ -1,0 +1,99 @@
+{
+  "board": {
+    "design_settings": {
+      "rule_severities": {},
+      "rules": {
+        "min_clearance": 0.0,
+        "min_copper_edge_clearance": 0.5,
+        "min_hole_clearance": 0.25,
+        "min_hole_to_hole": 0.25,
+        "min_resolved_spokes": 2.0,
+        "min_through_hole_diameter": 0.3,
+        "min_track_width": 0.2,
+        "min_via_annular_width": 0.0,
+        "min_via_diameter": 0.5
+      }
+    }
+  },
+  "meta": {
+    "filename": "pami_2026.kicad_pro",
+    "version": 1
+  },
+  "net_settings": {
+    "classes": [
+      {
+        "clearance": 0.2,
+        "name": "Default",
+        "track_width": 0.25,
+        "via_diameter": 0.6,
+        "via_drill": 0.3
+      }
+    ],
+    "netclass_assignments": {
+      "+3.3V": "Default",
+      "+5V": "Default",
+      "+BATT": "Default",
+      "EN": "Default",
+      "EN_SCREEN": "Default",
+      "GND": "Default",
+      "GPIO0": "Default",
+      "I2C_scl": "Default",
+      "I2C_sda": "Default",
+      "LEVEL_BATTERY": "Default",
+      "NEOPIXEL": "Default",
+      "Net-(D1-A)": "Default",
+      "Net-(D2-A)": "Default",
+      "Net-(D3-A)": "Default",
+      "Net-(D4-A)": "Default",
+      "Net-(D5-K)": "Default",
+      "Net-(D8-DIN)": "Default",
+      "Net-(D8-DOUT)": "Default",
+      "Net-(J1-Pin_1)": "Default",
+      "Net-(J11-Pin_1)": "Default",
+      "Net-(J11-Pin_6)": "Default",
+      "Net-(J12-Pin_1)": "Default",
+      "Net-(J12-Pin_6)": "Default",
+      "Net-(J4-Pin_1)": "Default",
+      "Net-(J4-Pin_2)": "Default",
+      "Net-(J8-CC1)": "Default",
+      "Net-(J8-CC2)": "Default",
+      "Net-(SW3-A)": "Default",
+      "Net-(U1-VCP)": "Default",
+      "Net-(U1-VINT)": "Default",
+      "RX0": "Default",
+      "RX_lidar": "Default",
+      "SERVO1": "Default",
+      "SERVO2": "Default",
+      "TX0": "Default",
+      "TX_lidar": "Default",
+      "button_user": "Default",
+      "motor_a+": "Default",
+      "motor_a-": "Default",
+      "motor_a_sense": "Default",
+      "motor_b+": "Default",
+      "motor_b-": "Default",
+      "motor_b_sense": "Default",
+      "motor_enable": "Default",
+      "motor_enc_a+": "Default",
+      "motor_enc_a-": "Default",
+      "motor_enc_b+": "Default",
+      "motor_enc_b-": "Default",
+      "motor_fault": "Default",
+      "sw_team": "Default",
+      "sw_tirette": "Default",
+      "tft_cs": "Default",
+      "tft_dc": "Default",
+      "tft_rst": "Default",
+      "tft_scl": "Default",
+      "tft_sda": "Default",
+      "unconnected-(U2-IO40-Pad36)": "Default",
+      "unconnected-(U2-IO41-Pad37)": "Default",
+      "unconnected-(U2-IO42-Pad38)": "Default",
+      "unconnected-(U2-IO45-Pad41)": "Default",
+      "unconnected-(U2-IO46-Pad44)": "Default",
+      "usb_d+": "Default",
+      "usb_d-": "Default"
+    },
+    "netclass_patterns": []
+  }
+}

@@ -1,0 +1,68 @@
+pcbkit 1
+// The board is the device: every visible output, control and supply is a component.
+// Protocol execution assumes ideal board nets; module envelopes need physical qualification.
+net V5, GND, SDA, SCL, MOSI, SCK, LOAD, GREEN, ORANGE, RED
+board = Board {
+  name = "Environment laboratory"
+  description = "Battery · SHT31 · SCD40 · C firmware · LED outputs"
+  outline = rect(90mm, 80mm)
+}
+U1 = labMcu(
+  {
+    power: ["4", "3"],
+    twi0: ["27", "28"],
+    spi0: ["15", "17"],
+    PB2: ["14"],
+    PD5: ["9"],
+    PD6: ["10"],
+    PD7: ["11"],
+  },
+  firmware = "firmware",
+) {
+  at = (45mm, 39mm)
+  pins {
+    "4": V5,
+    "3": GND,
+    "27": SDA,
+    "28": SCL,
+    "15": MOSI,
+    "17": SCK,
+    "14": LOAD,
+    "9": GREEN,
+    "10": ORANGE,
+    "11": RED,
+  }
+}
+sensor = labSht31() {
+  at = (12mm, 43mm)
+  pins = [V5, GND, SDA, SCL]
+}
+display = labDisplay() {
+  at = (45mm, 20mm)
+  pins = [V5, GND, MOSI, SCK, LOAD]
+}
+co2 = labScd40() {
+  at = (14mm, 65mm)
+  pins = [V5, GND, SDA, SCL]
+}
+green = labIndicator(.green) {
+  at = (40mm, 51mm)
+  pins = [V5, GND, GREEN]
+}
+orange = labIndicator(.orange) {
+  at = (50mm, 51mm)
+  pins = [V5, GND, ORANGE]
+}
+red = labIndicator(.red) {
+  at = (60mm, 51mm)
+  pins = [V5, GND, RED]
+}
+battery = labBattery() {
+  at = (63mm, 65mm)
+  pins = [V5, GND]
+}
+label = Text {
+  text = "WEATHER INSTRUMENT"
+  at = (45mm, 6mm)
+  size = 1.5mm
+}

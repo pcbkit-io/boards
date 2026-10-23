@@ -1,0 +1,30 @@
+{
+  "check": {
+    "errors": [],
+    "status": "incomplete",
+    "track_length_mm": 0.0,
+    "tracks": 0,
+    "unrouted": [
+      "DIS",
+      "GND",
+      "LEDK",
+      "OUT",
+      "TRIG",
+      "VCC"
+    ],
+    "vias": 0
+  },
+  "route": {
+    "failed": [],
+    "non_octilinear_segments": 0,
+    "result": {
+      "errors": [],
+      "status": "complete",
+      "track_length_mm": 75.9,
+      "tracks": 24,
+      "unrouted": [],
+      "vias": 2
+    },
+    "ripped_up": []
+  }
+}

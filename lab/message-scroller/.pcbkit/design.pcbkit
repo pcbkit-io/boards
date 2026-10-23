@@ -1,0 +1,51 @@
+pcbkit 1
+// A message scroller: type text into the serial console, it scrolls across eight digits.
+// Board nets are the executable connections. Module envelopes need physical qualification.
+net V5, GND, TX, RX, MOSI, SCK, LOAD, SPEED
+board = Board {
+  name = "Message scroller"
+  description = "UART receive interrupt · seven-segment font · scrolling text"
+  outline = rect(84mm, 62mm, radius = 4mm)
+  fab { mask = .purple, finish = .enig }
+}
+U1 = labMcu(
+  { power: ["4", "3"], uart0: ["31", "30"], spi0: ["15", "17"], PB2: ["14"], ADC0: ["23"] },
+  firmware = "firmware",
+) {
+  at = (42mm, 29mm)
+  pins { "4": V5, "3": GND, "31": TX, "30": RX, "15": MOSI, "17": SCK, "14": LOAD, "23": SPEED }
+}
+display = labDisplay() {
+  at = (42mm, 49mm)
+  pins = [V5, GND, MOSI, SCK, LOAD]
+}
+console = labSerial() {
+  at = (14mm, 29mm)
+  pins = [V5, GND, TX, RX]
+}
+speed = labKnob(0.5) {
+  at = (70mm, 30mm)
+  pins = [V5, GND, SPEED]
+}
+battery = labBattery() {
+  at = (42mm, 12mm)
+  rotation = 180deg
+  pins = [V5, GND]
+}
+gnd = pour(net = GND, layers = [Cu.top, Cu.bottom]) {}
+title = Text {
+  text = "MESSAGE\nSCROLLER"
+  at = (70mm, 10mm)
+  size = 1.3mm
+}
+holes = MountingHoles(screw = "M2") {}
+serialLabel = Text {
+  text = "UART 9600"
+  at = (14mm, 21mm)
+  size = 1mm
+}
+speedLabel = Text {
+  text = "SPEED"
+  at = (70mm, 21mm)
+  size = 1mm
+}

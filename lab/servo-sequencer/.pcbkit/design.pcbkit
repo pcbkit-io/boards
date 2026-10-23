@@ -1,0 +1,125 @@
+pcbkit 1
+// Three servos driven by one timer interrupt; three knobs teach a motion that the device replays.
+// Board nets are the executable connections. Module envelopes need physical qualification.
+net V5, GND, KNOB0, KNOB1, KNOB2, SERVO0, SERVO1, SERVO2, TEACH, REC, PLAY
+board = Board {
+  name = "Servo sequencer"
+  description = "Three servos · one timer · teach with knobs · replay"
+  outline = rect(104mm, 84mm, radius = 5mm)
+  fab { mask = .blue, finish = .enig }
+}
+// Three moving servos draw more than the starter module's 500 mA: a 1 A regulator.
+fn battery1A(): Part = behavioralPart(
+  "battery",
+  labBatteryFootprint(),
+  { power: ["1", "2"] },
+  {
+    capacity_mah: 2000,
+    state_of_charge: 0.75,
+    nominal_volts: 3.7,
+    max_battery_ma: 2000,
+    output_volts: 5,
+    efficiency: 0.85,
+    quiescent_ma: 0.1,
+    max_output_ma: 1000,
+  },
+  6mm,
+)
+U1 = labMcu(
+  {
+    power: ["4", "3"],
+    ADC0: ["23"],
+    ADC1: ["24"],
+    ADC2: ["25"],
+    PD5: ["9"],
+    PD6: ["10"],
+    PD7: ["11"],
+    PD2: ["32"],
+    PD3: ["1"],
+    PD4: ["2"],
+  },
+  firmware = "firmware",
+) {
+  at = (35mm, 28mm)
+  pins {
+    "4": V5,
+    "3": GND,
+    "23": KNOB0,
+    "24": KNOB1,
+    "25": KNOB2,
+    "9": SERVO0,
+    "10": SERVO1,
+    "11": SERVO2,
+    "32": TEACH,
+    "1": REC,
+    "2": PLAY,
+  }
+}
+servo0 = labServo() {
+  at = (18mm, 68mm)
+  pins = [V5, GND, SERVO0]
+}
+servo1 = labServo() {
+  at = (52mm, 68mm)
+  pins = [V5, GND, SERVO1]
+}
+servo2 = labServo() {
+  at = (86mm, 68mm)
+  pins = [V5, GND, SERVO2]
+}
+knob0 = labKnob(0.2) {
+  at = (18mm, 46mm)
+  pins = [V5, GND, KNOB0]
+}
+knob1 = labKnob(0.5) {
+  at = (52mm, 46mm)
+  pins = [V5, GND, KNOB1]
+}
+knob2 = labKnob(0.8) {
+  at = (86mm, 46mm)
+  pins = [V5, GND, KNOB2]
+}
+teach = labButton() {
+  at = (70mm, 28mm)
+  pins = [V5, GND, TEACH]
+}
+rec = labIndicator(.red) {
+  at = (81mm, 28mm)
+  pins = [V5, GND, REC]
+}
+play = labIndicator(.green) {
+  at = (90mm, 28mm)
+  pins = [V5, GND, PLAY]
+}
+battery = battery1A() {
+  at = (52mm, 12mm)
+  rotation = 180deg
+  pins = [V5, GND]
+}
+gnd = pour(net = GND, layers = [Cu.top, Cu.bottom]) {}
+holes = MountingHoles(screw = "M2") {}
+labels = map(
+  range(0, 3),
+  fn(i) -> Text { text = "SERVO \(i + 1)", at = (clean(18mm + i * 34mm), 38mm), size = 1.1mm },
+)
+teachLabel = Text {
+  text = "TEACH"
+  at = (64mm, 28mm)
+  size = 1mm
+  justify = .right
+}
+recLabel = Text {
+  text = "REC"
+  at = (81mm, 22mm)
+  size = 0.9mm
+}
+playLabel = Text {
+  text = "PLAY"
+  at = (90mm, 22mm)
+  size = 0.9mm
+}
+title = Text {
+  text = "SERVO SEQUENCER"
+  at = (20mm, 14mm)
+  size = 1.4mm
+}

@@ -46,7 +46,7 @@ by hand and its parts, with its `check` and readiness results.
   the changes PCBKit's kits need marked `PCBKIT`.
 - Everything else here (the boards, their designs and KiCad files, the platform layers
   `doom/doom_*.c`, the simulations' scripts) is by PCBKit, under the same licence: the GNU
-  General Public License v2 ([`LICENSE`](../LICENSE)).
+  General Public License v2 ([`LICENSE`](LICENSE)).
 - The game's data is not in this repository. Each design declares the shareware `DOOM1.WAD` (or
   rp2040-doom's compressed `DOOM1.WHX`; id Software, free to share unmodified) by where it is
   published and its SHA-256; the build downloads it, checks it and links it into the firmware.

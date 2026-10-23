@@ -1,0 +1,769 @@
+pcbkit 1
+// Footprints of this board (imported). The library's are in the standard prelude (`soic(8)`,
+// `chipResistor("0603")`, …).
+
+SW_Push_1P1T_NO_CK_KSC9xxJ = Footprint {
+  name = "Button_Switch_SMD:SW_Push_1P1T_NO_CK_KSC9xxJ"
+  description = "Tactile switch, 6.2x6.2mm, H7.7mm, compatible with button, J leads, https://www.ckswitches.com/media/1975/ksc9.pdf"
+  let pad = Pad { number = "", shape = shape.roundRect(2.8mm, 1mm, 0.25mm), maskExpansion = 0mm }
+  pads = [
+    pad with { number = "1", at = (2.9mm, -2mm) },
+    pad with { number = "1", at = (-2.9mm, -2mm) },
+    pad with { number = "2", at = (2.9mm, 2mm) },
+    pad with { number = "2", at = (-2.9mm, 2mm) },
+  ]
+  courtyard = box((-4.55mm, -3.35mm), (4.55mm, 3.35mm))
+}
+
+SW_CK_JS202011AQN_DPDT_Angled = Footprint {
+  name = "Button_Switch_THT:SW_CK_JS202011AQN_DPDT_Angled"
+  description = "C&K sub miniature slide switch, JS series, DPDT, right angle, http://www.ckswitches.com/media/1422/js.pdf"
+  let pad = Pad {
+    number = ""
+    shape = shape.round(1.4mm)
+    kind = .tht
+    drill = 0.9mm
+    maskExpansion = 0mm
+  }
+  pads = [
+    pad with { number = "1", shape = shape.roundRect(1.4mm, 1.4mm, 0.25mm) },
+    pad with { number = "2", at = (-2.5mm, 0mm) },
+    pad with { number = "3", at = (-5mm, 0mm) },
+    pad with { number = "4", at = (-5mm, 3.3mm) },
+    pad with { number = "5", at = (-2.5mm, 3.3mm) },
+    pad with { number = "6", at = (0mm, 3.3mm) },
+  ]
+  courtyard = box((-7.25mm, -0.95mm), (2.25mm, 6mm))
+  courtyardShape = [
+    Region {
+      points = [
+        (-7.25mm, -0.95mm),
+        (2.25mm, -0.95mm),
+        (2.25mm, 4.25mm),
+        (-0.5mm, 4.25mm),
+        (-0.5mm, 6mm),
+        (-4.5mm, 6mm),
+        (-4.5mm, 4.25mm),
+        (-7.25mm, 4.25mm),
+      ]
+    },
+  ]
+}
+
+C_0805_2012Metric_Pad1_18x1_45mm_HandSolder = Footprint {
+  name = "Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder"
+  description = "Capacitor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal with elongated pad for handsoldering. (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf, https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing), generated with kicad-footprint-generator"
+  let pad = Pad {
+    number = ""
+    shape = shape.roundRect(1.175mm, 1.45mm, 0.25mm)
+    maskExpansion = 0mm
+  }
+  pads = [
+    pad with { number = "1", at = (1.0375mm, 0mm) },
+    pad with { number = "2", at = (-1.0375mm, 0mm) },
+  ]
+  courtyard = box((-1.88mm, -0.98mm), (1.88mm, 0.98mm))
+}
+
+CP_Radial_D8_0mm_P5_00mm = Footprint {
+  name = "Capacitor_THT:CP_Radial_D8.0mm_P5.00mm"
+  description = "CP, Radial series, Radial, pin pitch=5.00mm, diameter=8mm, height=16mm, Electrolytic Capacitor"
+  let pad = Pad {
+    number = ""
+    shape = shape.round(1.6mm)
+    kind = .tht
+    drill = 0.8mm
+    maskExpansion = 0mm
+  }
+  pads = [
+    pad with { number = "1", shape = shape.roundRect(1.6mm, 1.6mm, 0.25mm) },
+    pad with { number = "2", at = (5mm, 0mm) },
+  ]
+  courtyard = box((-1.75mm, -4.25mm), (6.75mm, 4.25mm))
+  courtyardShape = [Region { points = [(2.5mm, 0mm)], radius = 4.25mm }]
+}
+
+JST_PH_B3B_PH_K_1x03_P2_00mm_Vertical = Footprint {
+  name = "Connector_JST:JST_PH_B3B-PH-K_1x03_P2.00mm_Vertical"
+  description = "JST PH series connector, B3B-PH-K (http://www.jst-mfg.com/product/pdf/eng/ePH.pdf), generated with kicad-footprint-generator"
+  let pad = Pad {
+    number = ""
+    shape = shape.oval(1.2mm, 1.75mm)
+    kind = .tht
+    drill = 0.75mm
+    maskExpansion = 0mm
+  }
+  pads = [
+    pad with { number = "1", shape = shape.roundRect(1.2mm, 1.75mm, 0.25mm) },
+    pad with { number = "2", at = (2mm, 0mm) },
+    pad with { number = "3", at = (4mm, 0mm) },
+  ]
+  courtyard = box((-2.45mm, -3.3mm), (6.45mm, 2.2mm))
+}
+
+JST_PH_B6B_PH_K_1x06_P2_00mm_Vertical = Footprint {
+  name = "Connector_JST:JST_PH_B6B-PH-K_1x06_P2.00mm_Vertical"
+  description = "JST PH series connector, B6B-PH-K (http://www.jst-mfg.com/product/pdf/eng/ePH.pdf), generated with kicad-footprint-generator"
+  let pad = Pad {
+    number = ""
+    shape = shape.oval(1.2mm, 1.75mm)
+    kind = .tht
+    drill = 0.75mm
+    maskExpansion = 0mm
+  }
+  pads = [
+    pad with { number = "1", shape = shape.roundRect(1.2mm, 1.75mm, 0.25mm) },
+    pad with { number = "2", at = (2mm, 0mm) },
+    pad with { number = "3", at = (4mm, 0mm) },
+    pad with { number = "4", at = (6mm, 0mm) },
+    pad with { number = "5", at = (8mm, 0mm) },
+    pad with { number = "6", at = (10mm, 0mm) },
+  ]
+  courtyard = box((-2.45mm, -3.3mm), (12.45mm, 2.2mm))
+}
+
+JST_XH_B2B_XH_A_1x02_P2_50mm_Vertical = Footprint {
+  name = "Connector_JST:JST_XH_B2B-XH-A_1x02_P2.50mm_Vertical"
+  description = "JST XH series connector, B2B-XH-A (http://www.jst-mfg.com/product/pdf/eng/eXH.pdf), generated with kicad-footprint-generator"
+  let pad = Pad {
+    number = ""
+    shape = shape.oval(1.7mm, 2mm)
+    kind = .tht
+    drill = 1mm
+    maskExpansion = 0mm
+  }
+  pads = [
+    pad with { number = "1", shape = shape.roundRect(1.7mm, 2mm, 0.25mm) },
+    pad with { number = "2", at = (2.5mm, 0mm) },
+  ]
+  courtyard = box((-2.95mm, -3.9mm), (5.45mm, 2.85mm))
+}
+
+JST_XH_B4B_XH_A_1x04_P2_50mm_Vertical = Footprint {
+  name = "Connector_JST:JST_XH_B4B-XH-A_1x04_P2.50mm_Vertical"
+  description = "JST XH series connector, B4B-XH-A (http://www.jst-mfg.com/product/pdf/eng/eXH.pdf), generated with kicad-footprint-generator"
+  let pad = Pad {
+    number = ""
+    shape = shape.oval(1.7mm, 1.95mm)
+    kind = .tht
+    drill = 0.95mm
+    maskExpansion = 0mm
+  }
+  pads = [
+    pad with { number = "1", shape = shape.roundRect(1.7mm, 1.95mm, 0.25mm) },
+    pad with { number = "2", at = (2.5mm, 0mm) },
+    pad with { number = "3", at = (5mm, 0mm) },
+    pad with { number = "4", at = (7.5mm, 0mm) },
+  ]
+  courtyard = box((-2.95mm, -3.9mm), (10.45mm, 2.85mm))
+}
+
+PinHeader_1x03_P2_54mm_Vertical = Footprint {
+  name = "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical"
+  description = "Through hole straight pin header, 1x03, 2.54mm pitch, single row"
+  let pad = Pad {
+    number = ""
+    shape = shape.round(1.7mm)
+    kind = .tht
+    drill = 1mm
+    maskExpansion = 0mm
+  }
+  pads = [
+    pad with { number = "1", shape = shape.rect(1.7mm, 1.7mm) },
+    pad with { number = "2", at = (0mm, -2.54mm) },
+    pad with { number = "3", at = (0mm, -5.08mm) },
+  ]
+  courtyard = box((-1.77mm, -6.85mm), (1.77mm, 1.77mm))
+}
+
+PinHeader_1x04_P2_54mm_Vertical = Footprint {
+  name = "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical"
+  description = "Through hole straight pin header, 1x04, 2.54mm pitch, single row"
+  let pad = Pad {
+    number = ""
+    shape = shape.round(1.7mm)
+    kind = .tht
+    drill = 1mm
+    maskExpansion = 0mm
+  }
+  pads = [
+    pad with { number = "1", shape = shape.rect(1.7mm, 1.7mm) },
+    pad with { number = "2", at = (0mm, -2.54mm) },
+    pad with { number = "3", at = (0mm, -5.08mm) },
+    pad with { number = "4", at = (0mm, -7.62mm) },
+  ]
+  courtyard = box((-1.77mm, -9.39mm), (1.77mm, 1.77mm))
+}
+
+PinHeader_1x05_P2_54mm_Vertical = Footprint {
+  name = "Connector_PinHeader_2.54mm:PinHeader_1x05_P2.54mm_Vertical"
+  description = "Through hole straight pin header, 1x05, 2.54mm pitch, single row"
+  let pad = Pad {
+    number = ""
+    shape = shape.round(1.7mm)
+    kind = .tht
+    drill = 1mm
+    maskExpansion = 0mm
+  }
+  pads = [
+    pad with { number = "1", shape = shape.rect(1.7mm, 1.7mm) },
+    pad with { number = "2", at = (0mm, -2.54mm) },
+    pad with { number = "3", at = (0mm, -5.08mm) },
+    pad with { number = "4", at = (0mm, -7.62mm) },
+    pad with { number = "5", at = (0mm, -10.16mm) },
+  ]
+  courtyard = box((-1.77mm, -11.93mm), (1.77mm, 1.77mm))
+}
+
+PinHeader_1x07_P2_54mm_Vertical = Footprint {
+  name = "Connector_PinHeader_2.54mm:PinHeader_1x07_P2.54mm_Vertical"
+  description = "Through hole straight pin header, 1x07, 2.54mm pitch, single row"
+  let pad = Pad {
+    number = ""
+    shape = shape.round(1.7mm)
+    kind = .tht
+    drill = 1mm
+    maskExpansion = 0mm
+  }
+  pads = [
+    pad with { number = "1", shape = shape.rect(1.7mm, 1.7mm) },
+    pad with { number = "2", at = (0mm, -2.54mm) },
+    pad with { number = "3", at = (0mm, -5.08mm) },
+    pad with { number = "4", at = (0mm, -7.62mm) },
+    pad with { number = "5", at = (0mm, -10.16mm) },
+    pad with { number = "6", at = (0mm, -12.7mm) },
+    pad with { number = "7", at = (0mm, -15.24mm) },
+  ]
+  courtyard = box((-1.77mm, -17.02mm), (1.77mm, 1.78mm))
+}
+
+ESP32S3MINI1N8 = Footprint {
+  name = "CustomLibrary:ESP32S3MINI1N8"
+  description = "ESP32-S3-MINI-1-N8-1_2024"
+  let pad = Pad { number = "", shape = shape.rect(0.4mm, 0.8mm), maskExpansion = 0mm }
+  pads = [
+    pad with { number = "1", at = (7mm, -5.95mm), rotation = 90deg },
+    pad with { number = "2", at = (7mm, -5.1mm), rotation = 90deg },
+    pad with { number = "3", at = (7mm, -4.25mm), rotation = 90deg },
+    pad with { number = "4", at = (7mm, -3.4mm), rotation = 90deg },
+    pad with { number = "5", at = (7mm, -2.55mm), rotation = 90deg },
+    pad with { number = "6", at = (7mm, -1.7mm), rotation = 90deg },
+    pad with { number = "7", at = (7mm, -0.85mm), rotation = 90deg },
+    pad with { number = "8", at = (7mm, 0mm), rotation = 90deg },
+    pad with { number = "9", at = (7mm, 0.85mm), rotation = 90deg },
+    pad with { number = "10", at = (7mm, 1.7mm), rotation = 90deg },
+    pad with { number = "11", at = (7mm, 2.55mm), rotation = 90deg },
+    pad with { number = "12", at = (7mm, 3.4mm), rotation = 90deg },
+    pad with { number = "13", at = (7mm, 4.25mm), rotation = 90deg },
+    pad with { number = "14", at = (7mm, 5.1mm), rotation = 90deg },
+    pad with { number = "15", at = (7mm, 5.95mm), rotation = 90deg },
+    pad with { number = "16", at = (5.95mm, 7mm) },
+    pad with { number = "17", at = (5.1mm, 7mm) },
+    pad with { number = "18", at = (4.25mm, 7mm) },
+    pad with { number = "19", at = (3.4mm, 7mm) },
+    pad with { number = "20", at = (2.55mm, 7mm) },
+    pad with { number = "21", at = (1.7mm, 7mm) },
+    pad with { number = "22", at = (0.85mm, 7mm) },
+    pad with { number = "23", at = (0mm, 7mm) },
+    pad with { number = "24", at = (-0.85mm, 7mm) },
+    pad with { number = "25", at = (-1.7mm, 7mm) },
+    pad with { number = "26", at = (-2.55mm, 7mm) },
+    pad with { number = "27", at = (-3.4mm, 7mm) },
+    pad with { number = "28", at = (-4.25mm, 7mm) },
+    pad with { number = "29", at = (-5.1mm, 7mm) },
+    pad with { number = "30", at = (-5.95mm, 7mm) },
+    pad with { number = "31", at = (-7mm, 5.95mm), rotation = 90deg },
+    pad with { number = "32", at = (-7mm, 5.1mm), rotation = 90deg },
+    pad with { number = "33", at = (-7mm, 4.25mm), rotation = 90deg },
+    pad with { number = "34", at = (-7mm, 3.4mm), rotation = 90deg },
+    pad with { number = "35", at = (-7mm, 2.55mm), rotation = 90deg },
+    pad with { number = "36", at = (-7mm, 1.7mm), rotation = 90deg },
+    pad with { number = "37", at = (-7mm, 0.85mm), rotation = 90deg },
+    pad with { number = "38", at = (-7mm, 0mm), rotation = 90deg },
+    pad with { number = "39", at = (-7mm, -0.85mm), rotation = 90deg },
+    pad with { number = "40", at = (-7mm, -1.7mm), rotation = 90deg },
+    pad with { number = "41", at = (-7mm, -2.55mm), rotation = 90deg },
+    pad with { number = "42", at = (-7mm, -3.4mm), rotation = 90deg },
+    pad with { number = "43", at = (-7mm, -4.25mm), rotation = 90deg },
+    pad with { number = "44", at = (-7mm, -5.1mm), rotation = 90deg },
+    pad with { number = "45", at = (-7mm, -5.95mm), rotation = 90deg },
+    pad with { number = "46", at = (-5.95mm, -7mm) },
+    pad with { number = "47", at = (-5.1mm, -7mm) },
+    pad with { number = "48", at = (-4.25mm, -7mm) },
+    pad with { number = "49", at = (-3.4mm, -7mm) },
+    pad with { number = "50", at = (-2.55mm, -7mm) },
+    pad with { number = "51", at = (-1.7mm, -7mm) },
+    pad with { number = "52", at = (-0.85mm, -7mm) },
+    pad with { number = "53", at = (0mm, -7mm) },
+    pad with { number = "54", at = (0.85mm, -7mm) },
+    pad with { number = "55", at = (1.7mm, -7mm) },
+    pad with { number = "56", at = (2.55mm, -7mm) },
+    pad with { number = "57", at = (3.4mm, -7mm) },
+    pad with { number = "58", at = (4.25mm, -7mm) },
+    pad with { number = "59", at = (5.1mm, -7mm) },
+    pad with { number = "60", at = (5.95mm, -7mm) },
+    pad with { number = "61", shape = shape.rect(1.2mm, 1.2mm) },
+    pad with { number = "62", at = (7mm, -7mm), shape = shape.rect(0.8mm, 0.8mm) },
+    pad with { number = "63", at = (7mm, 7mm), shape = shape.rect(0.8mm, 0.8mm) },
+    pad with { number = "64", at = (-7mm, 7mm), shape = shape.rect(0.8mm, 0.8mm) },
+    pad with { number = "65", at = (-7mm, -7mm), shape = shape.rect(0.8mm, 0.8mm) },
+    pad with { number = "66", at = (1.65mm, -1.65mm), shape = shape.rect(1.2mm, 1.2mm) },
+    pad with { number = "67", at = (1.65mm, 0mm), shape = shape.rect(1.2mm, 1.2mm) },
+    pad with { number = "68", at = (1.65mm, 1.65mm), shape = shape.rect(1.2mm, 1.2mm) },
+    pad with { number = "69", at = (0mm, 1.65mm), shape = shape.rect(1.2mm, 1.2mm) },
+    pad with { number = "70", at = (-1.65mm, 1.65mm), shape = shape.rect(1.2mm, 1.2mm) },
+    pad with { number = "71", at = (-1.65mm, 0mm), shape = shape.rect(1.2mm, 1.2mm) },
+    pad with { number = "72", at = (-1.65mm, -1.65mm), shape = shape.rect(1.2mm, 1.2mm) },
+    pad with { number = "73", at = (0mm, -1.65mm), shape = shape.rect(1.2mm, 1.2mm) },
+  ]
+  courtyard = box((-8.7mm, -13.8mm), (8.7mm, 8.7mm))
+}
+
+IN_PI33TBTPRPGPB = Footprint {
+  name = "CustomLibrary:IN-PI33TBTPRPGPB"
+  description = "3.5mm x 3.5mm PLCC4 Addressable RGB LED NeoPixel, https://cdn-shop.adafruit.com/product-files/2686/SK6812MINI_REV.01-1-2.pdf"
+  let pad = Pad { number = "", shape = shape.rect(1.6mm, 0.85mm), maskExpansion = 0mm }
+  pads = [
+    pad with { number = "1", at = (1.75mm, 0.875mm) },
+    pad with { number = "2", at = (-1.75mm, 0.875mm) },
+    pad with { number = "3", at = (-1.75mm, -0.875mm) },
+    pad with { number = "4", at = (1.75mm, -0.875mm) },
+  ]
+  courtyard = box((-2.8mm, -2mm), (2.8mm, 2mm))
+}
+
+MOLEX_2169890001 = Footprint {
+  name = "CustomLibrary:MOLEX_2169890001"
+  let pad = Pad {
+    number = ""
+    shape = shape.round(0.6mm)
+    kind = .tht
+    drill = 0.4mm
+    maskExpansion = 0mm
+  }
+  pads = [
+    pad with { number = "A1", at = (-0.39mm, 5.05mm) },
+    pad with { number = "A4", at = (-0.39mm, 5.95mm) },
+    pad with { number = "A5", at = (-0.39mm, 6.85mm) },
+    pad with { number = "A6", at = (-0.39mm, 7.75mm) },
+    pad with { number = "A7", at = (-0.39mm, 8.65mm) },
+    pad with { number = "A9", at = (-0.39mm, 9.55mm) },
+    pad with { number = "A12", at = (-0.39mm, 10.45mm) },
+    pad with { number = "B1", at = (0.39mm, 10mm) },
+    pad with { number = "B4", at = (0.39mm, 9.1mm) },
+    pad with { number = "B5", at = (0.39mm, 8.2mm) },
+    pad with { number = "B6", at = (0.39mm, 7.3mm) },
+    pad with { number = "B7", at = (0.39mm, 6.4mm) },
+    pad with { number = "B9", at = (0.39mm, 5.5mm) },
+    pad with { number = "B12", at = (0.39mm, 4.6mm) },
+    pad with {
+      number = "SH1"
+      at = (-1.43mm, 5.1mm)
+      shape = shape.oval(0.9mm, 1.9mm)
+      drill = 0.6mm
+      maskExpansion = 0.0762mm
+    },
+    pad with {
+      number = "SH2"
+      at = (1.43mm, 5.1mm)
+      shape = shape.oval(0.9mm, 1.9mm)
+      drill = 0.6mm
+      maskExpansion = 0.0762mm
+    },
+    pad with {
+      number = "SH3"
+      at = (-1.43mm, 9.9mm)
+      shape = shape.oval(0.9mm, 1.9mm)
+      drill = 0.6mm
+      maskExpansion = 0.0762mm
+    },
+    pad with {
+      number = "SH4"
+      at = (1.43mm, 9.9mm)
+      shape = shape.oval(0.9mm, 1.9mm)
+      drill = 0.6mm
+      maskExpansion = 0.0762mm
+    },
+  ]
+  courtyard = box((-2.18mm, -3.3mm), (2.18mm, 11.85mm))
+}
+
+PTS645VSM19PSMTR92LFS = Footprint {
+  name = "CustomLibrary:PTS645VSM19PSMTR92LFS"
+  description = "PTS645VSM19PSMTR92 LFS-1"
+  let pad = Pad {
+    number = ""
+    shape = shape.rect(1.3mm, 1.5mm)
+    rotation = 90deg
+    maskExpansion = 0mm
+  }
+  pads = [
+    pad with {
+      number = "1"
+      at = (2.25mm, -0.5mm)
+      shape = shape.rect(1mm, 1.9mm)
+      rotation = 0deg
+    },
+    pad with {
+      number = "2"
+      at = (-2.25mm, -0.5mm)
+      shape = shape.rect(1mm, 1.9mm)
+      rotation = 0deg
+    },
+    pad with { number = "MP1", at = (4.3mm, -2.8mm) },
+    pad with { number = "MP2", at = (-4.3mm, -2.8mm) },
+    pad with { number = "MP3", at = (4.3mm, 1.8mm) },
+    pad with { number = "MP4", at = (-4.3mm, 1.8mm) },
+  ]
+  courtyard = box((-5.25mm, -4mm), (5.5mm, 6mm))
+}
+
+PTS645VSM19PSMTR92LFS_2 = Footprint {
+  name = "CustomLibrary:PTS645VSM19PSMTR92LFS"
+  description = "PTS645VSM19PSMTR92 LFS-1"
+  let pad = Pad {
+    number = ""
+    shape = shape.rect(1.3mm, 1.5mm)
+    rotation = 90deg
+    maskExpansion = 0mm
+  }
+  pads = [
+    pad with {
+      number = "1"
+      at = (-2.25mm, 0.5mm)
+      shape = shape.rect(1mm, 1.9mm)
+      rotation = 0deg
+    },
+    pad with {
+      number = "2"
+      at = (2.25mm, 0.5mm)
+      shape = shape.rect(1mm, 1.9mm)
+      rotation = 0deg
+    },
+    pad with { number = "MP1", at = (-4.3mm, 2.8mm) },
+    pad with { number = "MP2", at = (4.3mm, 2.8mm) },
+    pad with { number = "MP3", at = (-4.3mm, -1.8mm) },
+    pad with { number = "MP4", at = (4.3mm, -1.8mm) },
+  ]
+  courtyard = box((-5.5mm, -6mm), (5.25mm, 4mm))
+}
+
+SOT_23_Handsoldering_nchannel = Footprint {
+  name = "CustomLibrary:SOT-23_Handsoldering_nchannel"
+  description = "SOT-23, Handsoldering"
+  let pad = Pad { number = "", shape = shape.roundRect(1.9mm, 0.8mm, 0.2mm), maskExpansion = 0mm }
+  pads = [
+    pad with { number = "1", at = (-1.5mm, 0mm) },
+    pad with { number = "2", at = (1.5mm, -0.95mm) },
+    pad with { number = "3", at = (1.5mm, 0.95mm) },
+  ]
+  courtyard = box((-2.7mm, -1.75mm), (2.7mm, 1.75mm))
+}
+
+SW_REED = Footprint {
+  name = "CustomLibrary:SW_REED"
+  description = "Coto Technologies SPST Reed Switch CT10-XXXX-G1"
+  let pad = Pad {
+    number = ""
+    shape = shape.rect(2.591mm, 2mm)
+    kind = .tht
+    drill = 0.4mm
+    maskExpansion = 0mm
+  }
+  pads = [
+    pad with { number = "1", at = (-7.2645mm, 0mm) },
+    pad with { number = "2", at = (7.239mm, 0mm) },
+  ]
+  courtyard = box((-8.85mm, -1.5mm), (8.85mm, 1.5mm))
+}
+
+WSF22N06 = Footprint {
+  name = "CustomLibrary:WSF22N06"
+  description = "TO-252/DPAK SMD package, http://www.infineon.com/cms/en/product/packages/PG-TO252/PG-TO252-3-1/"
+  let pad = Pad {
+    number = ""
+    shape = shape.roundRect(3.05mm, 2.75mm, 0.25mm)
+    maskExpansion = 0mm
+  }
+  pads = [
+    pad with { number = "1", at = (0.415mm, 1.525mm) },
+    pad with { number = "1", at = (0.415mm, -1.525mm) },
+    pad with {
+      number = "1"
+      at = (-1.26mm, 0mm)
+      shape = shape.roundRect(6.4mm, 5.8mm, 0.249997mm)
+      paste = false
+    },
+    pad with { number = "1", at = (-2.935mm, 1.525mm) },
+    pad with { number = "1", at = (-2.935mm, -1.525mm) },
+    pad with {
+      number = "2"
+      at = (5.04mm, -2.28mm)
+      shape = shape.roundRect(2.2mm, 1.2mm, 0.25mm)
+    },
+    pad with { number = "3", at = (5.04mm, 2.28mm), shape = shape.roundRect(2.2mm, 1.2mm, 0.25mm) },
+  ]
+  courtyard = box((-4.71mm, -3.5mm), (6.39mm, 3.5mm))
+}
+
+D_0805_2012Metric = Footprint {
+  name = "Diode_SMD:D_0805_2012Metric"
+  description = "Diode SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing), generated with kicad-footprint-generator"
+  let pad = Pad {
+    number = ""
+    shape = shape.roundRect(0.975mm, 1.4mm, 0.24375mm)
+    maskExpansion = 0mm
+  }
+  pads = [
+    pad with { number = "1", at = (0.9375mm, 0mm) },
+    pad with { number = "2", at = (-0.9375mm, 0mm) },
+  ]
+  courtyard = box((-1.68mm, -0.95mm), (1.68mm, 0.95mm))
+}
+
+D_0805_2012Metric_Pad1_15x1_40mm_HandSolder = Footprint {
+  name = "Diode_SMD:D_0805_2012Metric_Pad1.15x1.40mm_HandSolder"
+  description = "Diode SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing), generated with kicad-footprint-generator"
+  let pad = Pad { number = "", shape = shape.roundRect(1.15mm, 1.4mm, 0.25mm), maskExpansion = 0mm }
+  pads = [
+    pad with { number = "1", at = (1.025mm, 0mm) },
+    pad with { number = "2", at = (-1.025mm, 0mm) },
+  ]
+  courtyard = box((-1.85mm, -0.95mm), (1.85mm, 0.95mm))
+}
+
+D_SOD_123 = Footprint {
+  name = "Diode_SMD:D_SOD-123"
+  description = "SOD-123"
+  let pad = Pad { number = "", shape = shape.roundRect(0.9mm, 1.2mm, 0.225mm), maskExpansion = 0mm }
+  pads = [
+    pad with { number = "1", at = (1.65mm, 0mm) },
+    pad with { number = "2", at = (-1.65mm, 0mm) },
+  ]
+  courtyard = box((-2.35mm, -1.15mm), (2.35mm, 1.15mm))
+}
+
+Fuseholder_Littelfuse_Nano2_154x = Footprint {
+  name = "Fuse:Fuseholder_Littelfuse_Nano2_154x"
+  description = "Littelfuse NANO2 holder, https://www.littelfuse.com/~/media/electronics/datasheets/fuses/littelfuse_fuse_154_154t_154l_154tl_datasheet.pdf.pdf"
+  let pad = Pad { number = "", shape = shape.rect(4.24mm, 3.81mm), maskExpansion = 0mm }
+  pads = [
+    pad with { number = "1", at = (3.185mm, 0mm) },
+    pad with { number = "2", at = (-3.185mm, 0mm) },
+  ]
+  courtyard = box((-5.56mm, -2.77mm), (5.56mm, 2.77mm))
+}
+
+MountingHole_3_2mm_M3_Pad_Via = Footprint {
+  name = "MountingHole:MountingHole_3.2mm_M3_Pad_Via"
+  description = "Mounting Hole 3.2mm, M3, generated by kicad-footprint-generator mountinghole.py"
+  let pad = Pad {
+    number = ""
+    shape = shape.round(0.8mm)
+    kind = .tht
+    drill = 0.5mm
+    maskExpansion = 0mm
+  }
+  pads = [
+    pad with { number = "1", at = (-2.4mm, 0mm) },
+    pad with { number = "1", at = (-1.697056mm, 1.697056mm) },
+    pad with { number = "1", at = (-1.697056mm, -1.697056mm) },
+    pad with { number = "1", at = (0mm, 2.4mm) },
+    pad with { number = "1", shape = shape.round(6.4mm), drill = 3.2mm },
+    pad with { number = "1", at = (0mm, -2.4mm) },
+    pad with { number = "1", at = (1.697056mm, 1.697056mm) },
+    pad with { number = "1", at = (1.697056mm, -1.697056mm) },
+    pad with { number = "1", at = (2.4mm, 0mm) },
+  ]
+  courtyard = box((-3.45mm, -3.45mm), (3.45mm, 3.45mm))
+  courtyardShape = [Region { points = [(0mm, 0mm)], radius = 3.45mm }]
+}
+
+Texas_RTY_WQFN_16_1EP_4x4mm_P0_65mm_EP2_1x2_1mm_ThermalVias = Footprint {
+  name = "Package_DFN_QFN:Texas_RTY_WQFN-16-1EP_4x4mm_P0.65mm_EP2.1x2.1mm_ThermalVias"
+  description = "Texas RTY WQFN, 16 Pin (http://www.ti.com/lit/ds/symlink/drv8801.pdf#page=36 MO-220 variation VGGC), generated with kicad-footprint-generator ipc_noLead_generator.py"
+  let pad = Pad { number = "", shape = shape.round(0.5mm), maskExpansion = 0mm }
+  pads = [
+    pad with {
+      number = "1"
+      at = (1.8625mm, -0.975mm)
+      shape = shape.roundRect(1.025mm, 0.35mm, 0.0875mm)
+    },
+    pad with {
+      number = "2"
+      at = (1.8625mm, -0.325mm)
+      shape = shape.roundRect(1.025mm, 0.35mm, 0.0875mm)
+    },
+    pad with {
+      number = "3"
+      at = (1.8625mm, 0.325mm)
+      shape = shape.roundRect(1.025mm, 0.35mm, 0.0875mm)
+    },
+    pad with {
+      number = "4"
+      at = (1.8625mm, 0.975mm)
+      shape = shape.roundRect(1.025mm, 0.35mm, 0.0875mm)
+    },
+    pad with {
+      number = "5"
+      at = (0.975mm, 1.8625mm)
+      shape = shape.roundRect(0.35mm, 1.025mm, 0.0875mm)
+    },
+    pad with {
+      number = "6"
+      at = (0.325mm, 1.8625mm)
+      shape = shape.roundRect(0.35mm, 1.025mm, 0.0875mm)
+    },
+    pad with {
+      number = "7"
+      at = (-0.325mm, 1.8625mm)
+      shape = shape.roundRect(0.35mm, 1.025mm, 0.0875mm)
+    },
+    pad with {
+      number = "8"
+      at = (-0.975mm, 1.8625mm)
+      shape = shape.roundRect(0.35mm, 1.025mm, 0.0875mm)
+    },
+    pad with {
+      number = "9"
+      at = (-1.8625mm, 0.975mm)
+      shape = shape.roundRect(1.025mm, 0.35mm, 0.0875mm)
+    },
+    pad with {
+      number = "10"
+      at = (-1.8625mm, 0.325mm)
+      shape = shape.roundRect(1.025mm, 0.35mm, 0.0875mm)
+    },
+    pad with {
+      number = "11"
+      at = (-1.8625mm, -0.325mm)
+      shape = shape.roundRect(1.025mm, 0.35mm, 0.0875mm)
+    },
+    pad with {
+      number = "12"
+      at = (-1.8625mm, -0.975mm)
+      shape = shape.roundRect(1.025mm, 0.35mm, 0.0875mm)
+    },
+    pad with {
+      number = "13"
+      at = (-0.975mm, -1.8625mm)
+      shape = shape.roundRect(0.35mm, 1.025mm, 0.0875mm)
+    },
+    pad with {
+      number = "14"
+      at = (-0.325mm, -1.8625mm)
+      shape = shape.roundRect(0.35mm, 1.025mm, 0.0875mm)
+    },
+    pad with {
+      number = "15"
+      at = (0.325mm, -1.8625mm)
+      shape = shape.roundRect(0.35mm, 1.025mm, 0.0875mm)
+    },
+    pad with {
+      number = "16"
+      at = (0.975mm, -1.8625mm)
+      shape = shape.roundRect(0.35mm, 1.025mm, 0.0875mm)
+    },
+    pad with { number = "17", at = (0.8mm, 0.8mm), kind = .tht, drill = 0.3mm, paste = false },
+    pad with { number = "17", at = (0.8mm, 0mm), kind = .tht, drill = 0.3mm, paste = false },
+    pad with { number = "17", at = (0.8mm, -0.8mm), kind = .tht, drill = 0.3mm, paste = false },
+    pad with { number = "17", at = (0mm, 0.8mm), kind = .tht, drill = 0.3mm, paste = false },
+    pad with { number = "17", kind = .tht, drill = 0.3mm, paste = false },
+    pad with { number = "17", shape = shape.rect(2.1mm, 2.1mm), layer = Cu.bottom, paste = false },
+    pad with { number = "17", shape = shape.rect(2.1mm, 2.1mm), paste = false },
+    pad with { number = "17", at = (0mm, -0.8mm), kind = .tht, drill = 0.3mm, paste = false },
+    pad with { number = "17", at = (-0.8mm, 0.8mm), kind = .tht, drill = 0.3mm, paste = false },
+    pad with { number = "17", at = (-0.8mm, 0mm), kind = .tht, drill = 0.3mm, paste = false },
+    pad with { number = "17", at = (-0.8mm, -0.8mm), kind = .tht, drill = 0.3mm, paste = false },
+  ]
+  courtyard = box((-2.63mm, -2.63mm), (2.63mm, 2.63mm))
+  courtyardShape = [
+    Region {
+      points = [
+        (-2.63mm, -1.4mm),
+        (-2.25mm, -1.4mm),
+        (-2.25mm, -2.25mm),
+        (-1.4mm, -2.25mm),
+        (-1.4mm, -2.63mm),
+        (1.4mm, -2.63mm),
+        (1.4mm, -2.25mm),
+        (2.25mm, -2.25mm),
+        (2.25mm, -1.4mm),
+        (2.63mm, -1.4mm),
+        (2.63mm, 1.4mm),
+        (2.25mm, 1.4mm),
+        (2.25mm, 2.25mm),
+        (1.4mm, 2.25mm),
+        (1.4mm, 2.63mm),
+        (-1.4mm, 2.63mm),
+        (-1.4mm, 2.25mm),
+        (-2.25mm, 2.25mm),
+        (-2.25mm, 1.4mm),
+        (-2.63mm, 1.4mm),
+      ]
+    },
+  ]
+}
+
+SOT_223_3_TabPin2 = Footprint {
+  name = "Package_TO_SOT_SMD:SOT-223-3_TabPin2"
+  description = "module CMS SOT223 4 pins"
+  let pad = Pad { number = "", shape = shape.roundRect(2mm, 1.5mm, 0.375mm), maskExpansion = 0mm }
+  pads = [
+    pad with { number = "1", at = (3.15mm, -2.3mm) },
+    pad with { number = "2", at = (3.15mm, 0mm) },
+    pad with { number = "2", at = (-3.15mm, 0mm), shape = shape.roundRect(2mm, 3.8mm, 0.5mm) },
+    pad with { number = "3", at = (3.15mm, 2.3mm) },
+  ]
+  courtyard = box((-4.4mm, -3.6mm), (4.4mm, 3.6mm))
+}
+
+TO_263_2 = Footprint {
+  name = "Package_TO_SOT_SMD:TO-263-2"
+  description = "TO-263/D2PAK/DDPAK SMD package, http://www.infineon.com/cms/en/product/packages/PG-TO263/PG-TO263-3-1/"
+  let pad = Pad { number = "", shape = shape.roundRect(4.6mm, 1.1mm, 0.25mm), maskExpansion = 0mm }
+  pads = [
+    pad with { number = "1", at = (7.65mm, -2.54mm) },
+    pad with {
+      number = "2"
+      at = (-1.5mm, 0mm)
+      shape = shape.roundRect(9.4mm, 10.8mm, 0.250002mm)
+      paste = false
+    },
+    pad with { number = "3", at = (7.65mm, 2.54mm) },
+  ]
+  courtyard = box((-6.45mm, -5.65mm), (10.2mm, 5.65mm))
+}
+
+R_0805_2012Metric_Pad1_20x1_40mm_HandSolder = Footprint {
+  name = "Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder"
+  description = "Resistor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal with elongated pad for handsoldering. (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator"
+  let pad = Pad { number = "", shape = shape.roundRect(1.2mm, 1.4mm, 0.25mm), maskExpansion = 0mm }
+  pads = [pad with { number = "1", at = (1mm, 0mm) }, pad with { number = "2", at = (-1mm, 0mm) }]
+  courtyard = box((-1.85mm, -0.95mm), (1.85mm, 0.95mm))
+}
+
+TerminalBlock_bornier_2_P5_08mm = Footprint {
+  name = "TerminalBlock:TerminalBlock_bornier-2_P5.08mm"
+  description = "simple 2-pin terminal block, pitch 5.08mm, revamped version of bornier2"
+  let pad = Pad {
+    number = ""
+    shape = shape.rect(3mm, 3mm)
+    kind = .tht
+    drill = 1.52mm
+    maskExpansion = 0mm
+  }
+  pads = [
+    pad with { number = "1" },
+    pad with { number = "2", at = (5.08mm, 0mm), shape = shape.round(3mm) },
+  ]
+  courtyard = box((-2.71mm, -4mm), (7.79mm, 4mm))
+}
+
+TestPoint_Pad_D2_0mm = Footprint {
+  name = "TestPoint:TestPoint_Pad_D2.0mm"
+  description = "SMD pad as test Point, diameter 2.0mm"
+  pads = [Pad { number = "1", shape = shape.round(2mm), maskExpansion = 0mm, paste = false }]
+  courtyard = box((-1.5mm, -1.5mm), (1.5mm, 1.5mm))
+  courtyardShape = [Region { points = [(0mm, 0mm)], radius = 1.5mm }]
+}

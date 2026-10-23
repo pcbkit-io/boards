@@ -1,0 +1,62 @@
+{
+  "board": {
+    "design_settings": {
+      "rule_severities": {},
+      "rules": {
+        "min_clearance": 0.15,
+        "min_copper_edge_clearance": 0.4,
+        "min_hole_clearance": 0.0,
+        "min_hole_to_hole": 0.0,
+        "min_resolved_spokes": 2.0,
+        "min_track_width": 0.15,
+        "min_via_annular_width": 0.0
+      }
+    }
+  },
+  "meta": {
+    "filename": "led-bar.kicad_pro",
+    "version": 1
+  },
+  "net_settings": {
+    "classes": [
+      {
+        "clearance": 0.2,
+        "name": "Default",
+        "track_width": 0.25,
+        "via_diameter": 0.6,
+        "via_drill": 0.3
+      },
+      {
+        "clearance": 0.2,
+        "name": "supply",
+        "track_width": 0.5,
+        "via_diameter": 0.6,
+        "via_drill": 0.3
+      }
+    ],
+    "netclass_assignments": {
+      "+5V": "supply",
+      "GND": "supply",
+      "Q0": "Default",
+      "Q1": "Default",
+      "Q2": "Default",
+      "Q3": "Default",
+      "Q4": "Default",
+      "Q5": "Default",
+      "Q6": "Default",
+      "Q7": "Default",
+      "RCLK": "Default",
+      "SER": "Default",
+      "SRCLK": "Default",
+      "leds[1]/anode": "Default",
+      "leds[2]/anode": "Default",
+      "leds[3]/anode": "Default",
+      "leds[4]/anode": "Default",
+      "leds[5]/anode": "Default",
+      "leds[6]/anode": "Default",
+      "leds[7]/anode": "Default",
+      "leds[8]/anode": "Default"
+    },
+    "netclass_patterns": []
+  }
+}

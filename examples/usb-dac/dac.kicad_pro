@@ -1,0 +1,64 @@
+{
+  "board": {
+    "design_settings": {
+      "rule_severities": {},
+      "rules": {
+        "min_clearance": 0.0,
+        "min_copper_edge_clearance": 0.5,
+        "min_hole_clearance": 0.25,
+        "min_hole_to_hole": 0.25,
+        "min_resolved_spokes": 2.0,
+        "min_through_hole_diameter": 0.3,
+        "min_track_width": 0.2,
+        "min_via_annular_width": 0.0,
+        "min_via_diameter": 0.5,
+        "solder_mask_min_width": 0.13
+      }
+    }
+  },
+  "meta": {
+    "filename": "dac.kicad_pro",
+    "version": 1
+  },
+  "net_settings": {
+    "classes": [
+      {
+        "clearance": 0.2,
+        "name": "Default",
+        "track_width": 0.25,
+        "via_diameter": 0.6,
+        "via_drill": 0.3
+      }
+    ],
+    "netclass_assignments": {
+      "/ADJ": "Default",
+      "/CONN_D+": "Default",
+      "/CONN_D-": "Default",
+      "/HID0": "Default",
+      "/HID1": "Default",
+      "/HID2": "Default",
+      "/USB_D+": "Default",
+      "/USB_D-": "Default",
+      "/VCCP1I": "Default",
+      "/VCCP2I": "Default",
+      "/VCCXI": "Default",
+      "/VCOM": "Default",
+      "/VINL": "Default",
+      "/VINR": "Default",
+      "/VOUTL": "Default",
+      "/VOUTR": "Default",
+      "/XTI": "Default",
+      "/XTO": "Default",
+      "/~{SSPND}": "Default",
+      "3V7": "Default",
+      "CGND": "Default",
+      "GND": "Default",
+      "VBUS": "Default",
+      "VDDI": "Default",
+      "VUSB_CONN": "Default",
+      "unconnected-(U1-DIN-Pad24)": "Default",
+      "unconnected-(U1-DOUT-Pad25)": "Default"
+    },
+    "netclass_patterns": []
+  }
+}

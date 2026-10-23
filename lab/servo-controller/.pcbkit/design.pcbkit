@@ -1,0 +1,41 @@
+pcbkit 1
+// Board nets are the executable connections. Module envelopes need physical qualification.
+net V5, GND, ANALOG, BUTTON, SERVO, OVERRIDE
+board = Board {
+  name = "Interactive controller"
+  description = "ADC · interrupts · sleep · servo PWM"
+  outline = rect(90mm, 80mm)
+}
+U1 = labMcu(
+  { power: ["4", "3"], ADC0: ["23"], PD2: ["32"], PB1: ["13"], PD7: ["11"] },
+  firmware = "firmware",
+) {
+  at = (35mm, 35mm)
+  pins { "4": V5, "3": GND, "23": ANALOG, "32": BUTTON, "13": SERVO, "11": OVERRIDE }
+}
+knob = labKnob() {
+  at = (16mm, 18mm)
+  pins = [V5, GND, ANALOG]
+}
+button = labButton() {
+  at = (16mm, 40mm)
+  pins = [V5, GND, BUTTON]
+}
+servo = labServo() {
+  at = (59mm, 28mm)
+  pins = [V5, GND, SERVO]
+}
+overrideLed = labIndicator() {
+  refdes = "override"
+  at = (16mm, 56mm)
+  pins = [V5, GND, OVERRIDE]
+}
+battery = labBattery() {
+  at = (55mm, 60mm)
+  pins = [V5, GND]
+}
+label = Text {
+  text = "INTERACTIVE CONTROLLER"
+  at = (45mm, 6mm)
+  size = 1.5mm
+}

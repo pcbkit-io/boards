@@ -1,0 +1,18 @@
+pcbkit 1
+
+/// One LED channel: a current-limiting resistor and an LED, in the block's own frame (the
+/// resistor above, the LED below it, both turned upright).
+block Channel(input: Net, ground: Net) {
+  net anode
+
+  R = res(470ohm, package = "0603") {
+    at = (0mm, 2.5mm)
+    rotation = 90deg
+    pins { a: input, b: anode }
+  }
+  D = led(package = "0805", color = .green) {
+    at = (0mm, -2.5mm)
+    rotation = 270deg
+    pins { A: anode, K: ground }
+  }
+}

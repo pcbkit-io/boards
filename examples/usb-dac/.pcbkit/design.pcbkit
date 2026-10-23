@@ -1,0 +1,844 @@
+pcbkit 1
+// Imported (`pcbkit import`). Edit freely: `pcbkit check` verifies the design.
+
+use "footprints.pcbkit" as fp
+
+net ADJ named "/ADJ"
+net CONN_D named "/CONN_D+"
+net CONN_D_2 named "/CONN_D-"
+net HID0 named "/HID0"
+net HID1 named "/HID1"
+net HID2 named "/HID2"
+net USB_D named "/USB_D+"
+net USB_D_2 named "/USB_D-"
+net VCCP1I named "/VCCP1I"
+net VCCP2I named "/VCCP2I"
+net VCCXI named "/VCCXI"
+net VCOM named "/VCOM"
+net VINL named "/VINL"
+net VINR named "/VINR"
+net VOUTL named "/VOUTL"
+net VOUTR named "/VOUTR"
+net XTI named "/XTI"
+net XTO named "/XTO"
+net n_SSPND named "/~{SSPND}"
+net n3V7 named "3V7"
+net CGND
+net GND
+net VBUS
+net VDDI
+net VUSB_CONN
+net unconnected_U1_DIN_Pad24 named "unconnected-(U1-DIN-Pad24)"
+net unconnected_U1_DOUT_Pad25 named "unconnected-(U1-DOUT-Pad25)"
+
+board = Board {
+  name = "dac"
+  description = "Imported from KiCad (dac.kicad_pcb)"
+  outline = polygon([
+    (50mm, 5mm),
+    (50mm, 20mm),
+    (49.998033mm, 20.140231mm),
+    (49.992134mm, 20.280352mm),
+    (49.982307mm, 20.420253mm),
+    (49.968561mm, 20.559822mm),
+    (49.950906mm, 20.698952mm),
+    (49.929355mm, 20.837531mm),
+    (49.903926mm, 20.975452mm),
+    (49.87464mm, 21.112605mm),
+    (49.841518mm, 21.248882mm),
+    (49.804587mm, 21.384178mm),
+    (49.763876mm, 21.518384mm),
+    (49.719417mm, 21.651395mm),
+    (49.671245mm, 21.783108mm),
+    (49.619398mm, 21.913417mm),
+    (49.563916mm, 22.042221mm),
+    (49.504844mm, 22.169419mm),
+    (49.442228mm, 22.294909mm),
+    (49.376117mm, 22.418595mm),
+    (49.306563mm, 22.540377mm),
+    (49.233621mm, 22.66016mm),
+    (49.157348mm, 22.777851mm),
+    (49.077804mm, 22.893357mm),
+    (48.995053mm, 23.006586mm),
+    (48.909158mm, 23.117449mm),
+    (48.820187mm, 23.22586mm),
+    (48.728211mm, 23.331733mm),
+    (48.633302mm, 23.434985mm),
+    (48.535534mm, 23.535534mm),
+    (48.434985mm, 23.633302mm),
+    (48.331733mm, 23.728211mm),
+    (48.22586mm, 23.820187mm),
+    (48.117449mm, 23.909158mm),
+    (48.006586mm, 23.995053mm),
+    (47.893357mm, 24.077804mm),
+    (47.777851mm, 24.157348mm),
+    (47.66016mm, 24.233621mm),
+    (47.540377mm, 24.306563mm),
+    (47.418595mm, 24.376117mm),
+    (47.294909mm, 24.442228mm),
+    (47.169419mm, 24.504844mm),
+    (47.042221mm, 24.563916mm),
+    (46.913417mm, 24.619398mm),
+    (46.783108mm, 24.671245mm),
+    (46.651395mm, 24.719417mm),
+    (46.518384mm, 24.763876mm),
+    (46.384178mm, 24.804587mm),
+    (46.248882mm, 24.841518mm),
+    (46.112605mm, 24.87464mm),
+    (45.975452mm, 24.903926mm),
+    (45.837531mm, 24.929355mm),
+    (45.698952mm, 24.950906mm),
+    (45.559822mm, 24.968561mm),
+    (45.420253mm, 24.982307mm),
+    (45.280352mm, 24.992134mm),
+    (45.140231mm, 24.998033mm),
+    (45mm, 25mm),
+    (5mm, 25mm),
+    (4.859769mm, 24.998033mm),
+    (4.719648mm, 24.992134mm),
+    (4.579747mm, 24.982307mm),
+    (4.440178mm, 24.968561mm),
+    (4.301048mm, 24.950906mm),
+    (4.162469mm, 24.929355mm),
+    (4.024548mm, 24.903926mm),
+    (3.887395mm, 24.87464mm),
+    (3.751118mm, 24.841518mm),
+    (3.615822mm, 24.804587mm),
+    (3.481616mm, 24.763876mm),
+    (3.348605mm, 24.719417mm),
+    (3.216892mm, 24.671245mm),
+    (3.086583mm, 24.619398mm),
+    (2.957779mm, 24.563916mm),
+    (2.830581mm, 24.504844mm),
+    (2.705091mm, 24.442228mm),
+    (2.581405mm, 24.376117mm),
+    (2.459623mm, 24.306563mm),
+    (2.33984mm, 24.233621mm),
+    (2.222149mm, 24.157348mm),
+    (2.106643mm, 24.077804mm),
+    (1.993414mm, 23.995053mm),
+    (1.882551mm, 23.909158mm),
+    (1.77414mm, 23.820187mm),
+    (1.668267mm, 23.728211mm),
+    (1.565015mm, 23.633302mm),
+    (1.464466mm, 23.535534mm),
+    (1.366698mm, 23.434985mm),
+    (1.271789mm, 23.331733mm),
+    (1.179813mm, 23.22586mm),
+    (1.090842mm, 23.117449mm),
+    (1.004947mm, 23.006586mm),
+    (0.922196mm, 22.893357mm),
+    (0.842652mm, 22.777851mm),
+    (0.766379mm, 22.66016mm),
+    (0.693437mm, 22.540377mm),
+    (0.623883mm, 22.418595mm),
+    (0.557772mm, 22.294909mm),
+    (0.495156mm, 22.169419mm),
+    (0.436084mm, 22.042221mm),
+    (0.380602mm, 21.913417mm),
+    (0.328755mm, 21.783108mm),
+    (0.280583mm, 21.651395mm),
+    (0.236124mm, 21.518384mm),
+    (0.195413mm, 21.384178mm),
+    (0.158482mm, 21.248882mm),
+    (0.12536mm, 21.112605mm),
+    (0.096074mm, 20.975452mm),
+    (0.070645mm, 20.837531mm),
+    (0.049094mm, 20.698952mm),
+    (0.031439mm, 20.559822mm),
+    (0.017693mm, 20.420253mm),
+    (0.007866mm, 20.280352mm),
+    (0.001967mm, 20.140231mm),
+    (0mm, 20mm),
+    (0mm, 5mm),
+    (0.001967mm, 4.859769mm),
+    (0.007866mm, 4.719648mm),
+    (0.017693mm, 4.579747mm),
+    (0.031439mm, 4.440178mm),
+    (0.049094mm, 4.301048mm),
+    (0.070645mm, 4.162469mm),
+    (0.096074mm, 4.024548mm),
+    (0.12536mm, 3.887395mm),
+    (0.158482mm, 3.751118mm),
+    (0.195413mm, 3.615822mm),
+    (0.236124mm, 3.481616mm),
+    (0.280583mm, 3.348605mm),
+    (0.328755mm, 3.216892mm),
+    (0.380602mm, 3.086583mm),
+    (0.436084mm, 2.957779mm),
+    (0.495156mm, 2.830581mm),
+    (0.557772mm, 2.705091mm),
+    (0.623883mm, 2.581405mm),
+    (0.693437mm, 2.459623mm),
+    (0.766379mm, 2.33984mm),
+    (0.842652mm, 2.222149mm),
+    (0.922196mm, 2.106643mm),
+    (1.004947mm, 1.993414mm),
+    (1.090842mm, 1.882551mm),
+    (1.179813mm, 1.77414mm),
+    (1.271789mm, 1.668267mm),
+    (1.366698mm, 1.565015mm),
+    (1.464466mm, 1.464466mm),
+    (1.565015mm, 1.366698mm),
+    (1.668267mm, 1.271789mm),
+    (1.77414mm, 1.179813mm),
+    (1.882551mm, 1.090842mm),
+    (1.993414mm, 1.004947mm),
+    (2.106643mm, 0.922196mm),
+    (2.222149mm, 0.842652mm),
+    (2.33984mm, 0.766379mm),
+    (2.459623mm, 0.693437mm),
+    (2.581405mm, 0.623883mm),
+    (2.705091mm, 0.557772mm),
+    (2.830581mm, 0.495156mm),
+    (2.957779mm, 0.436084mm),
+    (3.086583mm, 0.380602mm),
+    (3.216892mm, 0.328755mm),
+    (3.348605mm, 0.280583mm),
+    (3.481616mm, 0.236124mm),
+    (3.615822mm, 0.195413mm),
+    (3.751118mm, 0.158482mm),
+    (3.887395mm, 0.12536mm),
+    (4.024548mm, 0.096074mm),
+    (4.162469mm, 0.070645mm),
+    (4.301048mm, 0.049094mm),
+    (4.440178mm, 0.031439mm),
+    (4.579747mm, 0.017693mm),
+    (4.719648mm, 0.007866mm),
+    (4.859769mm, 0.001967mm),
+    (5mm, 0mm),
+    (45mm, 0mm),
+    (45.140231mm, 0.001967mm),
+    (45.280352mm, 0.007866mm),
+    (45.420253mm, 0.017693mm),
+    (45.559822mm, 0.031439mm),
+    (45.698952mm, 0.049094mm),
+    (45.837531mm, 0.070645mm),
+    (45.975452mm, 0.096074mm),
+    (46.112605mm, 0.12536mm),
+    (46.248882mm, 0.158482mm),
+    (46.384178mm, 0.195413mm),
+    (46.518384mm, 0.236124mm),
+    (46.651395mm, 0.280583mm),
+    (46.783108mm, 0.328755mm),
+    (46.913417mm, 0.380602mm),
+    (47.042221mm, 0.436084mm),
+    (47.169419mm, 0.495156mm),
+    (47.294909mm, 0.557772mm),
+    (47.418595mm, 0.623883mm),
+    (47.540377mm, 0.693437mm),
+    (47.66016mm, 0.766379mm),
+    (47.777851mm, 0.842652mm),
+    (47.893357mm, 0.922196mm),
+    (48.006586mm, 1.004947mm),
+    (48.117449mm, 1.090842mm),
+    (48.22586mm, 1.179813mm),
+    (48.331733mm, 1.271789mm),
+    (48.434985mm, 1.366698mm),
+    (48.535534mm, 1.464466mm),
+    (48.633302mm, 1.565015mm),
+    (48.728211mm, 1.668267mm),
+    (48.820187mm, 1.77414mm),
+    (48.909158mm, 1.882551mm),
+    (48.995053mm, 1.993414mm),
+    (49.077804mm, 2.106643mm),
+    (49.157348mm, 2.222149mm),
+    (49.233621mm, 2.33984mm),
+    (49.306563mm, 2.459623mm),
+    (49.376117mm, 2.581405mm),
+    (49.442228mm, 2.705091mm),
+    (49.504844mm, 2.830581mm),
+    (49.563916mm, 2.957779mm),
+    (49.619398mm, 3.086583mm),
+    (49.671245mm, 3.216892mm),
+    (49.719417mm, 3.348605mm),
+    (49.763876mm, 3.481616mm),
+    (49.804587mm, 3.615822mm),
+    (49.841518mm, 3.751118mm),
+    (49.87464mm, 3.887395mm),
+    (49.903926mm, 4.024548mm),
+    (49.929355mm, 4.162469mm),
+    (49.950906mm, 4.301048mm),
+    (49.968561mm, 4.440178mm),
+    (49.982307mm, 4.579747mm),
+    (49.992134mm, 4.719648mm),
+    (49.998033mm, 4.859769mm),
+  ])
+  thickness = 1.6062mm
+  layers = [signal(Cu.top), signal(Cu.inner[1]), signal(Cu.inner[2]), signal(Cu.bottom)]
+}
+
+C1 = fp.C_0805_2012Metric_Pad1_18x1_45mm_HandSolder {
+  displayValue = "10u"
+  at = (34.536mm, 10.42mm)
+  rotation = 90deg
+  side = .bottom
+  pins { "1": VCOM, "2": GND }
+}
+
+C2 = fp.C_0402_1005Metric_Pad0_74x0_62mm_HandSolder {
+  displayValue = "1u"
+  at = (41.705mm, 10.095mm)
+  rotation = 90deg
+  side = .bottom
+  pins { "1": VCCP1I, "2": GND }
+}
+
+C3 = fp.C_0402_1005Metric_Pad0_74x0_62mm_HandSolder_2 {
+  displayValue = "1u"
+  at = (43.705mm, 10.095mm)
+  rotation = 270deg
+  pins { "1": VCCP2I, "2": GND }
+}
+
+C4 = fp.C_0402_1005Metric_Pad0_74x0_62mm_HandSolder_2 {
+  displayValue = "1u"
+  at = (43.705mm, 13.721mm)
+  rotation = 270deg
+  pins { "1": VCCXI, "2": GND }
+}
+
+C5 = fp.C_0402_1005Metric_Pad0_74x0_62mm_HandSolder_2 {
+  displayValue = "1u"
+  at = (43.7mm, 16.165mm)
+  rotation = 270deg
+  pins { "1": VDDI, "2": GND }
+}
+
+C6 = fp.C_0805_2012Metric_Pad1_18x1_45mm_HandSolder_2 {
+  displayValue = "10u"
+  at = (32.095mm, 10.42mm)
+  rotation = 270deg
+  pins { "1": n3V7, "2": GND }
+}
+
+C7 = fp.C_0402_1005Metric_Pad0_74x0_62mm_HandSolder {
+  displayValue = "1u"
+  at = (34.535mm, 15.385mm)
+  rotation = 270deg
+  side = .bottom
+  pins { "1": VBUS, "2": GND }
+}
+
+C8 = fp.C_0402_1005Metric_Pad0_74x0_62mm_HandSolder_2 {
+  displayValue = "20p"
+  at = (47.285mm, 9.105mm)
+  rotation = 180deg
+  pins { "1": XTO, "2": GND }
+}
+
+C9 = fp.C_0402_1005Metric_Pad0_74x0_62mm_HandSolder_2 {
+  displayValue = "20p"
+  at = (47.285mm, 14.365mm)
+  pins { "1": XTI, "2": GND }
+}
+
+C10 = fp.C_0805_2012Metric_Pad1_18x1_45mm_HandSolder_2 {
+  displayValue = "2n2"
+  at = (11.925mm, 22.005mm)
+  pins { "1": CGND, "2": GND }
+}
+
+C11 = fp.C_0402_1005Metric_Pad0_74x0_62mm_HandSolder_2 {
+  displayValue = "1u"
+  at = (20.735mm, 8.335mm)
+  rotation = 90deg
+  pins { "1": VBUS, "2": GND }
+}
+
+C12 = fp.C_0805_2012Metric_Pad1_18x1_45mm_HandSolder_2 {
+  displayValue = "10u"
+  at = (25.765mm, 14.525mm)
+  rotation = 180deg
+  pins { "1": n3V7, "2": GND }
+}
+
+C13 = fp.C_0402_1005Metric_Pad0_74x0_62mm_HandSolder_2 {
+  displayValue = "1u"
+  at = (23.185mm, 10.875mm)
+  rotation = 90deg
+  pins { "1": VBUS, "2": GND }
+}
+
+D1 = fp.SOT5x3_DYA_TEX_M {
+  displayValue = "ESD321"
+  at = (19.5233mm, 12.4999mm)
+  rotation = 90deg
+  pins { "1": GND, "2": CONN_D_2 }
+}
+
+D2 = fp.SOT5x3_DYA_TEX_M {
+  displayValue = "ESD321"
+  at = (19.5234mm, 17.5601mm)
+  rotation = 270deg
+  pins { "1": GND, "2": CONN_D }
+}
+
+J1 = fp.USB_B_OST_USB_B1HSxx_Horizontal {
+  displayValue = "USB_B"
+  at = (16.25mm, 11.205mm)
+  rotation = 180deg
+  pins { "1": VUSB_CONN, "2": CONN_D_2, "3": CONN_D, "4": GND, "5": CGND }
+}
+
+J2 = fp.PinHeader_1x04_P2_54mm_Vertical {
+  displayValue = "Conn_01x04_Pin"
+  at = (34.345mm, 4.255mm)
+  rotation = 90deg
+  pins { "1": VBUS, "2": GND, "3": VOUTL, "4": VOUTR }
+}
+
+J3 = fp.PinHeader_1x04_P2_54mm_Vertical {
+  displayValue = "Conn_01x04_Pin"
+  at = (34.345mm, 22.035mm)
+  rotation = 90deg
+  pins { "1": HID0, "2": HID1, "3": HID2, "4": n_SSPND }
+}
+
+R1 = fp.R_0402_1005Metric_Pad0_72x0_64mm_HandSolder {
+  displayValue = "22R"
+  at = (32.135mm, 17.385mm)
+  pins { "1": CONN_D, "2": USB_D }
+}
+
+R2 = fp.R_0402_1005Metric_Pad0_72x0_64mm_HandSolder {
+  displayValue = "22R"
+  at = (32.135mm, 16.295mm)
+  pins { "1": CONN_D_2, "2": USB_D_2 }
+}
+
+R3 = fp.R_0402_1005Metric_Pad0_72x0_64mm_HandSolder {
+  displayValue = "1k5"
+  at = (32.168mm, 7.759mm)
+  rotation = 180deg
+  pins { "1": VINR, "2": GND }
+}
+
+R4 = fp.R_0402_1005Metric_Pad0_72x0_64mm_HandSolder {
+  displayValue = "1k5"
+  at = (32.168mm, 6.649mm)
+  rotation = 180deg
+  pins { "1": VINL, "2": GND }
+}
+
+R5 = fp.R_0402_1005Metric_Pad0_72x0_64mm_HandSolder {
+  displayValue = "1M"
+  at = (44.745mm, 12.005mm)
+  rotation = 90deg
+  pins { "1": XTO, "2": XTI }
+}
+
+R6 = fp.R_0402_1005Metric_Pad0_72x0_64mm_HandSolder {
+  displayValue = "1k5"
+  at = (32.135mm, 18.505mm)
+  rotation = 180deg
+  pins { "1": VDDI, "2": CONN_D }
+}
+
+R7 = fp.R_0402_1005Metric_Pad0_72x0_64mm_HandSolder {
+  displayValue = "DNP"
+  at = (11.925mm, 23.635mm)
+  pins { "1": CGND, "2": GND }
+}
+
+R8 = fp.R_0603_1608Metric_Pad0_98x0_95mm_HandSolder {
+  displayValue = "2.2"
+  at = (19.305mm, 8.335mm)
+  rotation = 270deg
+  pins { "1": VUSB_CONN, "2": VBUS }
+}
+
+R9 = fp.R_0402_1005Metric_Pad0_72x0_64mm_HandSolder {
+  displayValue = "10k"
+  at = (25.885mm, 7.775mm)
+  rotation = 180deg
+  pins { "1": ADJ, "2": GND }
+}
+
+R10 = fp.R_0402_1005Metric_Pad0_72x0_64mm_HandSolder {
+  displayValue = "10k"
+  at = (28.605mm, 11.315mm)
+  rotation = 270deg
+  pins { "1": n3V7, "2": ADJ }
+}
+
+R11 = fp.R_0402_1005Metric_Pad0_72x0_64mm_HandSolder {
+  displayValue = "10k"
+  at = (25.885mm, 8.955mm)
+  rotation = 180deg
+  pins { "1": ADJ, "2": GND }
+}
+
+TP1 = fp.TestPoint_Pad_D1_0mm {
+  displayValue = "TestPoint"
+  at = (28.955mm, 14.425mm)
+  pins { "1": n3V7 }
+}
+
+TP2 = fp.TestPoint_Pad_D1_0mm {
+  displayValue = "TestPoint"
+  at = (20.775mm, 5.725mm)
+  pins { "1": VBUS }
+}
+
+U1 = fp.SSOP_28_5_3x10_2mm_P0_65mm {
+  displayValue = "PCM2906C"
+  at = (38.165mm, 12.755mm)
+  pins {
+    "1": USB_D,
+    "2": USB_D_2,
+    "3": VBUS,
+    "4": GND,
+    "5": HID0,
+    "6": HID1,
+    "7": HID2,
+    "8": VDDI,
+    "9": VDDI,
+    "10": n3V7,
+    "11": GND,
+    "12": VINL,
+    "13": VINR,
+    "14": VCOM,
+    "15": VOUTR,
+    "16": VOUTL,
+    "17": VCCP1I,
+    "18": GND,
+    "19": VCCP2I,
+    "20": XTO,
+    "21": XTI,
+    "22": GND,
+    "23": VCCXI,
+    "24": unconnected_U1_DIN_Pad24,
+    "25": unconnected_U1_DOUT_Pad25,
+    "26": GND,
+    "27": VDDI,
+    "28": n_SSPND,
+  }
+}
+
+U2 = fp.SOT_23_5 {
+  displayValue = "SPX3819M5-L"
+  at = (25.855mm, 11.35mm)
+  pins { "1": VBUS, "2": GND, "3": VBUS, "4": ADJ, "5": n3V7 }
+}
+
+Y1 = fp.XTAL_ABM8_12_000MHZ_12_B1U_T {
+  displayValue = "12MHz"
+  at = (47.24mm, 11.745mm)
+  rotation = 180deg
+  pins { "1": XTO, "2": GND, "3": XTI, "4": GND }
+}
+
+n3V7Pour = Pour {
+  name = "3V7"
+  net = n3V7
+  layers = [Cu.top]
+  priority = 2
+  connect = .solid
+  clearance = 0.2032mm
+  outline = polygon([
+    (35.5mm, 11.35mm),
+    (33.05mm, 11.35mm),
+    (32.85mm, 12.2mm),
+    (31.55mm, 12.2mm),
+    (31.1mm, 11.9mm),
+    (31.1mm, 11.05mm),
+    (31.4mm, 10.7mm),
+    (32.7mm, 10.55mm),
+    (33.05mm, 10.9mm),
+    (35.5mm, 10.9mm),
+  ])
+}
+
+teardrop_padvia_Pour = Pour {
+  name = "$teardrop_padvia$"
+  net = VINL
+  layers = [Cu.top]
+  priority = 30005
+  connect = .solid
+  minThickness = 0.0254mm
+  outline = polygon([
+    (33.443mm, 6.5474mm),
+    (33.443mm, 6.7506mm),
+    (33.024229mm, 6.956821mm),
+    (32.7645mm, 6.649mm),
+    (33.024229mm, 6.341179mm),
+  ])
+}
+
+teardrop_padvia_2Pour = Pour {
+  name = "$teardrop_padvia$#2"
+  net = VOUTR
+  layers = [Cu.top]
+  priority = 30002
+  connect = .solid
+  minThickness = 0.0254mm
+  outline = polygon([
+    (41.892mm, 5.915218mm),
+    (41.638mm, 5.915218mm),
+    (41.179702mm, 4.580281mm),
+    (41.965mm, 4.254mm),
+    (42.750298mm, 4.580281mm),
+  ])
+}
+
+teardrop_padvia_3Pour = Pour {
+  name = "$teardrop_padvia$#3"
+  net = VBUS
+  layers = [Cu.top]
+  priority = 30000
+  connect = .solid
+  minThickness = 0.0254mm
+  outline = polygon([
+    (32.645mm, 4.509mm),
+    (32.645mm, 4.001mm),
+    (33.495mm, 3.405mm),
+    (34.346mm, 4.255mm),
+    (33.495mm, 5.105mm),
+  ])
+}
+
+n3V7_2Pour = Pour {
+  name = "3V7#2"
+  net = n3V7
+  layers = [Cu.top]
+  priority = 1
+  connect = .solid
+  clearance = 0.2032mm
+  outline = polygon([
+    (25.7976mm, 13.9492mm),
+    (25.7976mm, 15.2992mm),
+    (26.2mm, 15.6mm),
+    (29.6mm, 15.6mm),
+    (33.15mm, 12.5mm),
+    (33.15mm, 11mm),
+    (32.7mm, 10.55mm),
+    (31.15mm, 10.55mm),
+    (29.95mm, 11.3mm),
+    (25.855mm, 11.35mm),
+    (25.8812mm, 11.9636mm),
+  ])
+}
+
+teardrop_padvia_4Pour = Pour {
+  name = "$teardrop_padvia$#4"
+  net = VCOM
+  layers = [Cu.top]
+  priority = 30006
+  connect = .solid
+  minThickness = 0.0254mm
+  outline = polygon([
+    (34.692mm, 8.5mm),
+    (34.438mm, 8.5mm),
+    (34.287836mm, 8.014805mm),
+    (34.565mm, 7.899mm),
+    (34.842164mm, 8.014805mm),
+  ])
+}
+
+teardrop_padvia_5Pour = Pour {
+  name = "$teardrop_padvia$#5"
+  net = VINR
+  layers = [Cu.top]
+  priority = 30007
+  connect = .solid
+  minThickness = 0.0254mm
+  outline = polygon([
+    (33.426841mm, 9.170525mm),
+    (33.570525mm, 9.026841mm),
+    (33.69mm, 8.955mm),
+    (34.565707mm, 9.180707mm),
+    (33.69mm, 9.339054mm),
+  ])
+}
+
+teardrop_padvia_6Pour = Pour {
+  name = "$teardrop_padvia$#6"
+  net = VOUTL
+  layers = [Cu.top]
+  priority = 30003
+  connect = .solid
+  minThickness = 0.0254mm
+  outline = polygon([
+    (40.665mm, 9.307mm),
+    (40.665mm, 9.053mm),
+    (40.89mm, 8.955mm),
+    (41.766mm, 9.18mm),
+    (40.89mm, 9.405mm),
+  ])
+}
+
+GNDPour = Pour {
+  name = "GND"
+  net = GND
+  layers = [Cu.top]
+  connect = .solid
+  clearance = 0.2032mm
+  outline = polygon([
+    (35.4mm, 10.2mm),
+    (35.4mm, 10.8mm),
+    (33.6mm, 10.8mm),
+    (32.8mm, 10.2mm),
+    (31.7mm, 10.2mm),
+    (31.2mm, 10mm),
+    (31.2mm, 8.7mm),
+    (31.7mm, 8.5mm),
+    (32.6mm, 8.5mm),
+    (33mm, 8.8mm),
+    (33mm, 9.7mm),
+    (33.6mm, 10.2mm),
+  ])
+}
+
+teardrop_padvia_7Pour = Pour {
+  name = "$teardrop_padvia$#7"
+  net = VOUTL
+  layers = [Cu.top]
+  priority = 30001
+  connect = .solid
+  minThickness = 0.0254mm
+  outline = polygon([
+    (39.552mm, 5.955mm),
+    (39.298mm, 5.955mm),
+    (38.639702mm, 4.580281mm),
+    (39.425mm, 4.254mm),
+    (40.210298mm, 4.580281mm),
+  ])
+}
+
+teardrop_padvia_8Pour = Pour {
+  name = "$teardrop_padvia$#8"
+  net = VOUTR
+  layers = [Cu.top]
+  priority = 30009
+  connect = .solid
+  minThickness = 0.0254mm
+  outline = polygon([
+    (41.638mm, 8.08mm),
+    (41.892mm, 8.08mm),
+    (41.99mm, 8.305mm),
+    (41.765mm, 8.531mm),
+    (41.54mm, 8.305mm),
+  ])
+}
+
+VDDIPour = Pour {
+  name = "VDDI"
+  net = VDDI
+  layers = [Cu.top]
+  priority = 4
+  connect = .solid
+  clearance = 0.2032mm
+  outline = polygon(
+    [(33.7044mm, 11.5572mm), (35.4316mm, 11.5572mm), (35.44mm, 12.655mm), (33.6028mm, 12.6748mm)],
+  )
+}
+
+teardrop_padvia_9Pour = Pour {
+  name = "$teardrop_padvia$#9"
+  net = VINL
+  layers = [Cu.top]
+  priority = 30004
+  connect = .solid
+  minThickness = 0.0254mm
+  outline = polygon([
+    (35.586773mm, 9.742744mm),
+    (35.730456mm, 9.886427mm),
+    (35.44mm, 10.042831mm),
+    (34.564293mm, 9.830707mm),
+    (35.44mm, 9.605mm),
+  ])
+}
+
+teardrop_padvia_10Pour = Pour {
+  name = "$teardrop_padvia$#10"
+  net = VCOM
+  layers = [Cu.top]
+  priority = 30008
+  connect = .solid
+  minThickness = 0.0254mm
+  outline = polygon([
+    (34.438mm, 8.08mm),
+    (34.692mm, 8.08mm),
+    (34.79mm, 8.305mm),
+    (34.565mm, 8.531mm),
+    (34.34mm, 8.305mm),
+  ])
+}
+
+GND_2Pour = Pour {
+  name = "GND#2"
+  net = GND
+  layers = [Cu.inner[1]]
+  priority = 3
+  connect = .solid
+  clearance = 0.2032mm
+  outline = polygon([
+    (-0.6mm, 25.5mm),
+    (50.25mm, 25.5mm),
+    (50.65mm, -0.05mm),
+    (50.65mm, -1.25mm),
+    (-1.8mm, -0.85mm),
+    (-1.15mm, 25.55mm),
+  ])
+}
+
+GND_3Pour = Pour {
+  name = "GND#3"
+  net = GND
+  layers = [Cu.inner[2]]
+  priority = 3
+  connect = .solid
+  clearance = 0.2032mm
+  outline = polygon([
+    (-0.2mm, 25.45mm),
+    (50.65mm, 25.45mm),
+    (51.05mm, -0.1mm),
+    (51.05mm, -1.3mm),
+    (-1.4mm, -0.9mm),
+    (-0.75mm, 25.5mm),
+  ])
+}
+
+teardrop_padvia_11Pour = Pour {
+  name = "$teardrop_padvia$#11"
+  net = VCOM
+  layers = [Cu.bottom]
+  priority = 30001
+  connect = .solid
+  minThickness = 0.0254mm
+  outline = polygon([
+    (34.819mm, 8.5mm),
+    (34.311mm, 8.5mm),
+    (34.265mm, 7.9mm),
+    (34.565mm, 7.899mm),
+    (34.865mm, 7.9mm),
+  ])
+}
+
+teardrop_padvia_12Pour = Pour {
+  name = "$teardrop_padvia$#12"
+  net = VCOM
+  layers = [Cu.bottom]
+  priority = 30000
+  connect = .solid
+  minThickness = 0.0254mm
+  outline = polygon([
+    (34.311mm, 8.2075mm),
+    (34.819mm, 8.2075mm),
+    (35.137217mm, 8.834441mm),
+    (34.536mm, 9.3835mm),
+    (33.962315mm, 8.816044mm),
+  ])
+}
+
+rules = Rules {
+  minClearance = 0mm
+  minTrackWidth = 0.2mm
+  copperToEdge = 0.5mm
+  vias { minDiameter = 0.5mm, minDrill = 0.3mm }
+  holes { clearance = 0.25mm, toHole = 0.25mm }
+  mask { minWidth = 0.13mm }
+}
+
+interop = Interop { kicad = KicadData { origin = (65mm, -100mm) } }

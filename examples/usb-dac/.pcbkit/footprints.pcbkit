@@ -1,0 +1,236 @@
+pcbkit 1
+// Footprints of this board (imported). The library's are in the standard prelude (`soic(8)`,
+// `chipResistor("0603")`, …).
+
+XTAL_ABM8_12_000MHZ_12_B1U_T = Footprint {
+  name = "ABM8:XTAL_ABM8-12.000MHZ-12-B1U-T"
+  let pad = Pad { number = "", shape = shape.rect(1.05mm, 1.3mm), maskExpansion = 0.102mm }
+  pads = [
+    pad with { number = "1", at = (-0.875mm, 1.15mm) },
+    pad with { number = "2", at = (-0.875mm, -1.15mm) },
+    pad with { number = "3", at = (0.875mm, -1.15mm) },
+    pad with { number = "4", at = (0.875mm, 1.15mm) },
+  ]
+  courtyard = box((-1.65mm, -2.05mm), (1.65mm, 2.05mm))
+}
+
+C_0402_1005Metric_Pad0_74x0_62mm_HandSolder = Footprint {
+  name = "Capacitor_SMD:C_0402_1005Metric_Pad0.74x0.62mm_HandSolder"
+  description = "Capacitor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC_7351 nominal with elongated pad for handsoldering. (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator"
+  let pad = Pad {
+    number = ""
+    shape = shape.roundRect(0.735mm, 0.62mm, 0.155mm)
+    maskExpansion = 0mm
+  }
+  pads = [
+    pad with { number = "1", at = (0.5675mm, 0mm) },
+    pad with { number = "2", at = (-0.5675mm, 0mm) },
+  ]
+  courtyard = box((-1.08mm, -0.46mm), (1.08mm, 0.46mm))
+}
+
+C_0402_1005Metric_Pad0_74x0_62mm_HandSolder_2 = Footprint {
+  name = "Capacitor_SMD:C_0402_1005Metric_Pad0.74x0.62mm_HandSolder"
+  description = "Capacitor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC_7351 nominal with elongated pad for handsoldering. (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator"
+  let pad = Pad {
+    number = ""
+    shape = shape.roundRect(0.735mm, 0.62mm, 0.155mm)
+    maskExpansion = 0mm
+  }
+  pads = [
+    pad with { number = "1", at = (-0.5675mm, 0mm) },
+    pad with { number = "2", at = (0.5675mm, 0mm) },
+  ]
+  courtyard = box((-1.08mm, -0.46mm), (1.08mm, 0.46mm))
+}
+
+C_0805_2012Metric_Pad1_18x1_45mm_HandSolder = Footprint {
+  name = "Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder"
+  description = "Capacitor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC_7351 nominal with elongated pad for handsoldering. (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf, https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing), generated with kicad-footprint-generator"
+  let pad = Pad {
+    number = ""
+    shape = shape.roundRect(1.175mm, 1.45mm, 0.25mm)
+    maskExpansion = 0mm
+  }
+  pads = [
+    pad with { number = "1", at = (1.0375mm, 0mm) },
+    pad with { number = "2", at = (-1.0375mm, 0mm) },
+  ]
+  courtyard = box((-1.88mm, -0.98mm), (1.88mm, 0.98mm))
+}
+
+C_0805_2012Metric_Pad1_18x1_45mm_HandSolder_2 = Footprint {
+  name = "Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder"
+  description = "Capacitor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC_7351 nominal with elongated pad for handsoldering. (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf, https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing), generated with kicad-footprint-generator"
+  let pad = Pad {
+    number = ""
+    shape = shape.roundRect(1.175mm, 1.45mm, 0.25mm)
+    maskExpansion = 0mm
+  }
+  pads = [
+    pad with { number = "1", at = (-1.0375mm, 0mm) },
+    pad with { number = "2", at = (1.0375mm, 0mm) },
+  ]
+  courtyard = box((-1.88mm, -0.98mm), (1.88mm, 0.98mm))
+}
+
+PinHeader_1x04_P2_54mm_Vertical = Footprint {
+  name = "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical"
+  description = "Through hole straight pin header, 1x04, 2.54mm pitch, single row"
+  let pad = Pad {
+    number = ""
+    shape = shape.oval(1.7mm, 1.7mm)
+    kind = .tht
+    drill = 1mm
+    maskExpansion = 0mm
+  }
+  pads = [
+    pad with { number = "1", shape = shape.rect(1.7mm, 1.7mm) },
+    pad with { number = "2", at = (0mm, -2.54mm) },
+    pad with { number = "3", at = (0mm, -5.08mm) },
+    pad with { number = "4", at = (0mm, -7.62mm) },
+  ]
+  courtyard = box((-1.8mm, -9.4mm), (1.8mm, 1.8mm))
+}
+
+USB_B_OST_USB_B1HSxx_Horizontal = Footprint {
+  name = "Connector_USB:USB_B_OST_USB-B1HSxx_Horizontal"
+  description = "USB B receptacle, Horizontal, through-hole, http://www.on-shore.com/wp-content/uploads/2015/09/usb-b1hsxx.pdf"
+  let pad = Pad {
+    number = ""
+    shape = shape.round(1.7mm)
+    kind = .tht
+    drill = 0.92mm
+    maskExpansion = 0mm
+  }
+  pads = [
+    pad with { number = "1", shape = shape.rect(1.7mm, 1.7mm) },
+    pad with { number = "2", at = (0mm, -2.5mm) },
+    pad with { number = "3", at = (2mm, -2.5mm) },
+    pad with { number = "4", at = (2mm, 0mm) },
+    pad with { number = "5", at = (4.71mm, 4.77mm), shape = shape.round(3.5mm), drill = 2.33mm },
+    pad with { number = "5", at = (4.71mm, -7.27mm), shape = shape.round(3.5mm), drill = 2.33mm },
+  ]
+  courtyard = box((-1.99mm, -9.52mm), (15.51mm, 7.02mm))
+}
+
+SOT5x3_DYA_TEX_M = Footprint {
+  name = "ESD321DYAR:SOT5x3_DYA_TEX-M"
+  let pad = Pad { number = "", shape = shape.rect(0.7112mm, 0.4064mm), maskExpansion = 0mm }
+  pads = [
+    pad with { number = "1", at = (-0.8001mm, 0mm) },
+    pad with { number = "2", at = (0.8001mm, 0mm) },
+  ]
+  courtyard = box((-1.664mm, -0.927mm), (1.664mm, 0.927mm))
+  courtyardShape = [
+    Region {
+      points = [
+        (-1.664mm, -0.711mm),
+        (-1.156mm, -0.711mm),
+        (-1.156mm, -0.927mm),
+        (1.156mm, -0.927mm),
+        (1.156mm, -0.711mm),
+        (1.664mm, -0.711mm),
+        (1.664mm, 0.711mm),
+        (1.156mm, 0.711mm),
+        (1.156mm, 0.927mm),
+        (-1.156mm, 0.927mm),
+        (-1.156mm, 0.711mm),
+        (-1.664mm, 0.711mm),
+      ]
+    },
+  ]
+}
+
+SSOP_28_5_3x10_2mm_P0_65mm = Footprint {
+  name = "Package_SO:SSOP-28_5.3x10.2mm_P0.65mm"
+  description = "28-Lead Plastic Shrink Small Outline (SS)-5.30 mm Body [SSOP] (see Microchip Packaging Specification 00000049BS.pdf)"
+  let pad = Pad { number = "", shape = shape.rect(1.75mm, 0.45mm), maskExpansion = 0mm }
+  pads = [
+    pad with { number = "1", at = (-3.6mm, 4.225mm) },
+    pad with { number = "2", at = (-3.6mm, 3.575mm) },
+    pad with { number = "3", at = (-3.6mm, 2.925mm) },
+    pad with { number = "4", at = (-3.6mm, 2.275mm) },
+    pad with { number = "5", at = (-3.6mm, 1.625mm) },
+    pad with { number = "6", at = (-3.6mm, 0.975mm) },
+    pad with { number = "7", at = (-3.6mm, 0.325mm) },
+    pad with { number = "8", at = (-3.6mm, -0.325mm) },
+    pad with { number = "9", at = (-3.6mm, -0.975mm) },
+    pad with { number = "10", at = (-3.6mm, -1.625mm) },
+    pad with { number = "11", at = (-3.6mm, -2.275mm) },
+    pad with { number = "12", at = (-3.6mm, -2.925mm) },
+    pad with { number = "13", at = (-3.6mm, -3.575mm) },
+    pad with { number = "14", at = (-3.6mm, -4.225mm) },
+    pad with { number = "15", at = (3.6mm, -4.225mm) },
+    pad with { number = "16", at = (3.6mm, -3.575mm) },
+    pad with { number = "17", at = (3.6mm, -2.925mm) },
+    pad with { number = "18", at = (3.6mm, -2.275mm) },
+    pad with { number = "19", at = (3.6mm, -1.625mm) },
+    pad with { number = "20", at = (3.6mm, -0.975mm) },
+    pad with { number = "21", at = (3.6mm, -0.325mm) },
+    pad with { number = "22", at = (3.6mm, 0.325mm) },
+    pad with { number = "23", at = (3.6mm, 0.975mm) },
+    pad with { number = "24", at = (3.6mm, 1.625mm) },
+    pad with { number = "25", at = (3.6mm, 2.275mm) },
+    pad with { number = "26", at = (3.6mm, 2.925mm) },
+    pad with { number = "27", at = (3.6mm, 3.575mm) },
+    pad with { number = "28", at = (3.6mm, 4.225mm) },
+  ]
+  courtyard = box((-4.75mm, -5.5mm), (4.75mm, 5.5mm))
+}
+
+SOT_23_5 = Footprint {
+  name = "Package_TO_SOT_SMD:SOT-23-5"
+  description = "SOT, 5 Pin (https://www.jedec.org/sites/default/files/docs/Mo-178c.PDF variant AA), generated with kicad-footprint-generator ipc_gullwing_generator.py"
+  let pad = Pad {
+    number = ""
+    shape = shape.roundRect(1.325mm, 0.6mm, 0.15mm)
+    maskExpansion = 0mm
+  }
+  pads = [
+    pad with { number = "1", at = (-1.1375mm, 0.95mm) },
+    pad with { number = "2", at = (-1.1375mm, 0mm) },
+    pad with { number = "3", at = (-1.1375mm, -0.95mm) },
+    pad with { number = "4", at = (1.1375mm, -0.95mm) },
+    pad with { number = "5", at = (1.1375mm, 0.95mm) },
+  ]
+  courtyard = box((-2.05mm, -1.7mm), (2.05mm, 1.7mm))
+}
+
+R_0402_1005Metric_Pad0_72x0_64mm_HandSolder = Footprint {
+  name = "Resistor_SMD:R_0402_1005Metric_Pad0.72x0.64mm_HandSolder"
+  description = "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC_7351 nominal with elongated pad for handsoldering. (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator"
+  let pad = Pad {
+    number = ""
+    shape = shape.roundRect(0.715mm, 0.64mm, 0.16mm)
+    maskExpansion = 0mm
+  }
+  pads = [
+    pad with { number = "1", at = (-0.5975mm, 0mm) },
+    pad with { number = "2", at = (0.5975mm, 0mm) },
+  ]
+  courtyard = box((-1.1mm, -0.47mm), (1.1mm, 0.47mm))
+}
+
+R_0603_1608Metric_Pad0_98x0_95mm_HandSolder = Footprint {
+  name = "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
+  description = "Resistor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC_7351 nominal with elongated pad for handsoldering. (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator"
+  let pad = Pad {
+    number = ""
+    shape = shape.roundRect(0.975mm, 0.95mm, 0.2375mm)
+    maskExpansion = 0mm
+  }
+  pads = [
+    pad with { number = "1", at = (-0.9125mm, 0mm) },
+    pad with { number = "2", at = (0.9125mm, 0mm) },
+  ]
+  courtyard = box((-1.65mm, -0.73mm), (1.65mm, 0.73mm))
+}
+
+TestPoint_Pad_D1_0mm = Footprint {
+  name = "TestPoint:TestPoint_Pad_D1.0mm"
+  description = "SMD pad as test Point, diameter 1.0mm"
+  pads = [Pad { number = "1", shape = shape.round(1mm), maskExpansion = 0mm, paste = false }]
+  courtyard = box((-1mm, -1mm), (1mm, 1mm))
+  courtyardShape = [Region { points = [(0mm, 0mm)], radius = 1mm }]
+}

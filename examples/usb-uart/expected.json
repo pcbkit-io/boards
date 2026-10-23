@@ -1,0 +1,47 @@
+{
+  "check": {
+    "errors": [],
+    "status": "incomplete",
+    "track_length_mm": 0.0,
+    "tracks": 0,
+    "unrouted": [
+      "DN",
+      "DP",
+      "GND",
+      "RX",
+      "TX",
+      "V3",
+      "VBUS",
+      "power/node",
+      "usb/power/cc1",
+      "usb/power/cc2"
+    ],
+    "vias": 0
+  },
+  "pairs": [
+    {
+      "coupled_mm": 0.0,
+      "lengths_mm": [
+        17.026,
+        12.046
+      ],
+      "pair": "DP/DN",
+      "skew_mm": 4.981,
+      "target_ohm": 90.0,
+      "uncoupled_mm": 14.006
+    }
+  ],
+  "route": {
+    "failed": [],
+    "non_octilinear_segments": 2,
+    "result": {
+      "errors": [],
+      "status": "complete",
+      "track_length_mm": 187.116,
+      "tracks": 64,
+      "unrouted": [],
+      "vias": 5
+    },
+    "ripped_up": []
+  }
+}

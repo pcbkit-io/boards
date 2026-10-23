@@ -1,0 +1,111 @@
+pcbkit 1
+// A greenhouse controller: temperature and CO₂ open a window on a servo; the knob is the setpoint.
+// Board nets are the executable connections. Module envelopes need physical qualification.
+net V5, GND, SDA, SCL, MOSI, SCK, LOAD, SETPOINT, WINDOW, HEAT, VENT, OK
+board = Board {
+  name = "Greenhouse controller"
+  description = "SHT31 · SCD40 · servo window · setpoint knob · MAX7219"
+  // A house: the window under the roof.
+  outline = polygon([(0mm, 0mm), (100mm, 0mm), (100mm, 58mm), (50mm, 90mm), (0mm, 58mm)])
+  fab { mask = .matteGreen, finish = .enig }
+}
+laboratory = Laboratory {
+  temperature = 27degC
+  humidity = 60pct
+  co2 = 700ppm
+}
+U1 = labMcu(
+  {
+    power: ["4", "3"],
+    twi0: ["27", "28"],
+    spi0: ["15", "17"],
+    PB2: ["14"],
+    ADC0: ["23"],
+    PB1: ["13"],
+    PD5: ["9"],
+    PD6: ["10"],
+    PD7: ["11"],
+  },
+  firmware = "firmware",
+) {
+  at = (50mm, 27mm)
+  pins {
+    "4": V5,
+    "3": GND,
+    "27": SDA,
+    "28": SCL,
+    "15": MOSI,
+    "17": SCK,
+    "14": LOAD,
+    "23": SETPOINT,
+    "13": WINDOW,
+    "9": HEAT,
+    "10": VENT,
+    "11": OK,
+  }
+}
+window = labServo() {
+  at = (50mm, 64mm)
+  pins = [V5, GND, WINDOW]
+}
+display = labDisplay() {
+  at = (50mm, 45mm)
+  pins = [V5, GND, MOSI, SCK, LOAD]
+}
+climate = labSht31() {
+  at = (16mm, 27mm)
+  pins = [V5, GND, SDA, SCL]
+}
+co2 = labScd40() {
+  at = (16mm, 11mm)
+  pins = [V5, GND, SDA, SCL]
+}
+setpoint = labKnob(0.4) {
+  at = (84mm, 28mm)
+  pins = [V5, GND, SETPOINT]
+}
+heat = labIndicator(.red) {
+  at = (34mm, 27mm)
+  pins = [V5, GND, HEAT]
+}
+vent = labIndicator(.orange) {
+  at = (34mm, 19mm)
+  pins = [V5, GND, VENT]
+}
+ok = labIndicator(.green) {
+  at = (34mm, 11mm)
+  pins = [V5, GND, OK]
+}
+battery = labBattery() {
+  at = (68mm, 11mm)
+  pins = [V5, GND]
+}
+gnd = pour(net = GND, layers = [Cu.top, Cu.bottom]) {}
+title = Text {
+  text = "GREENHOUSE"
+  at = (84mm, 50mm)
+  size = 1.6mm
+}
+setLabel = Text {
+  text = "SETPOINT"
+  at = (84mm, 37mm)
+  size = 1mm
+}
+heatLabel = Text {
+  text = "HEAT"
+  at = (39mm, 27mm)
+  size = 0.9mm
+  justify = .left
+}
+ventLabel = Text {
+  text = "VENT"
+  at = (39mm, 19mm)
+  size = 0.9mm
+  justify = .left
+}
+okLabel = Text {
+  text = "OK"
+  at = (39mm, 11mm)
+  size = 0.9mm
+  justify = .left
+}

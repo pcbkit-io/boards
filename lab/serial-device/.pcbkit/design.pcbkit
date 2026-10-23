@@ -1,0 +1,33 @@
+pcbkit 1
+// A UART-controlled indicator, using the smaller ATmega168P memory profile.
+net V5, GND, TX, RX, LIGHT
+board = Board {
+  name = "Serial command device"
+  description = "Send 1 or 0 to control the indicator; the program echoes every byte"
+  outline = rect(78mm, 64mm)
+}
+U1 = labMcu(
+  { power: ["4", "3"], uart0: ["31", "30"], PB0: ["12"] },
+  model = "atmega168p",
+  firmware = "firmware",
+) {
+  at = (36mm, 26mm)
+  pins { "4": V5, "3": GND, "31": TX, "30": RX, "12": LIGHT }
+}
+console = labSerial() {
+  at = (15mm, 22mm)
+  pins = [V5, GND, TX, RX]
+}
+status = labIndicator() {
+  at = (61mm, 22mm)
+  pins = [V5, GND, LIGHT]
+}
+battery = labBattery() {
+  at = (39mm, 48mm)
+  pins = [V5, GND]
+}
+label = Text {
+  text = "UART COMMAND DEVICE"
+  at = (39mm, 6mm)
+  size = 1.5mm
+}
