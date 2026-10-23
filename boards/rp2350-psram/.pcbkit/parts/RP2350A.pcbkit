@@ -19,6 +19,11 @@ pcbkit 1
 // except as analog inputs.
 // Note: The exposed pad (pin 61) is the only ground of the die: solder it with vias to the ground
 // plane.
+// Note: Runs firmware in PCBKit's RP2350 model (RISC-V cores): flash images with an IMAGE_DEF,
+// flashed as a UF2 (family rp2350_riscv) onto the BOOTSEL drive; build with the rp2350 kit and
+// name the program folder with `firmware` on the component. The memories are the board's: give
+// the behavior's parameters flash_mib (the QSPI flash on chip select 0), and psram_mib and
+// psram_cs (0, 8 or 19) for a PSRAM on QMI chip select 1.
 
 /// RP2350A — RP2350A dual Arm Cortex-M33 / Hazard3 RISC-V MCU, 150 MHz, 520 KB SRAM, external
 /// QSPI flash, USB 1.1 device/host, 3 PIO blocks (12 state machines), HSTX, 4 ADC inputs, 30 GPIO,
@@ -155,6 +160,44 @@ part Part = device(footprint = rows(
     Datasheet: "https://datasheets.raspberrypi.com/rp2350/rp2350-datasheet.pdf",
   }
   simulation = SimulationParameters {
+    behavior = Behavior {
+      model = "rp2350"
+      ports = {
+        "GP0": ["2"],
+        "GP1": ["3"],
+        "GP10": ["14"],
+        "GP11": ["15"],
+        "GP12": ["16"],
+        "GP13": ["17"],
+        "GP14": ["18"],
+        "GP15": ["19"],
+        "GP16": ["27"],
+        "GP17": ["28"],
+        "GP18": ["29"],
+        "GP19": ["31"],
+        "GP2": ["4"],
+        "GP20": ["32"],
+        "GP21": ["33"],
+        "GP22": ["34"],
+        "GP23": ["35"],
+        "GP24": ["36"],
+        "GP25": ["37"],
+        "GP26": ["40"],
+        "GP27": ["41"],
+        "GP28": ["42"],
+        "GP29": ["43"],
+        "GP3": ["5"],
+        "GP4": ["7"],
+        "GP5": ["8"],
+        "GP6": ["9"],
+        "GP7": ["10"],
+        "GP8": ["12"],
+        "GP9": ["13"],
+        "power": ["45", "61"],
+      }
+      parameters = { "gpios": 30 }
+      height = 0.85mm
+    }
     parameters = [
       SimulationParameter {
         id = "idd-hello-serial-3v3"

@@ -53,9 +53,23 @@ board = Board {
   outline = rect(144mm, 110mm, radius = 6mm)
   layers = [signal(Cu.top), power(Cu.inner[1], label = "GND"), signal(Cu.inner[2]), signal(Cu.bottom)]
 }
+laboratory = Laboratory { world = "input.js" }
 
 // ---- processor (back) --------------------------------------------------------------------------
-U1 = RP2350A.Part {
+// The program is doom/; the game's data, id Software's shareware DOOM1.WAD (free to share
+// unmodified), is linked into its flash from where it is published.
+U1 = RP2350A.Part with {
+  simulation = RP2350A.Part.simulation with { behavior = RP2350A.Part.simulation.behavior with {
+    // The W25Q128 on chip select 0, the APS6404L on QMI chip select 1 (GPIO8).
+    parameters = { "flash_mib": 16, "psram_mib": 8, "psram_cs": 8, "gpios": 30 }
+    firmware = "doom"
+    data = { "DOOM1.WAD": FirmwareData {
+      url = "https://raw.githubusercontent.com/Akbar30Bill/DOOM_wads/9b384dc68add3eb2f5eb7754654cafeeaea5103b/doom1.wad"
+      sha256 = "1d7d43be501e67d927e415e0b8f3e29c3bf33075e859721816f652a526cac771"
+      bytes = 4196020
+    } }
+  } }
+} {
   at = (72mm, 22mm)
   side = .bottom
   orderCode = "C42411118"
@@ -247,16 +261,21 @@ tpGnd = testPoint() { at = (124mm, 12mm); pins = [GND] }
 tpLabel = Text { text = "BAT SYS 3V3 GND"; at = (118mm, 15mm); size = 1mm }
 
 // ---- input (front) ------------------------------------------------------------------------------------------
-SW1 = Btn { at = (16mm, 40mm); pins { a: UP, b: GND } }
-SW2 = Btn { at = (16mm, 20mm); pins { a: DOWN, b: GND } }
-SW3 = Btn { at = (6.5mm, 30mm); pins { a: LEFT, b: GND } }
-SW4 = Btn { at = (25.5mm, 30mm); pins { a: RIGHT, b: GND } }
-SW5 = Btn { at = (9mm, 52mm); pins { a: STRAFE_L, b: GND } }
-SW6 = Btn { at = (9mm, 8mm); pins { a: STRAFE_R, b: GND } }
-SW7 = Btn { at = (135mm, 34mm); pins { a: FIRE, b: GND } }
-SW8 = Btn { at = (123mm, 24mm); pins { a: USE, b: GND } }
-SW9 = Btn { at = (123mm, 47mm); pins { a: MENU, b: GND } }
-SW10 = Btn { at = (135mm, 47mm); pins { a: ENTER, b: GND } }
+// A tactile switch that pulls its line to ground, operated by `code` while the device runs.
+fn key(code: String): Part = button("6x6") with {
+  orderCode = "C221880"
+  simulation = SimulationParameters { behavior = Behavior { model = "button"; ports = { output: ["1"] }; key = code } }
+}
+SW1 = key("ArrowUp") { at = (16mm, 40mm); pins { a: UP, b: GND } }
+SW2 = key("ArrowDown") { at = (16mm, 20mm); pins { a: DOWN, b: GND } }
+SW3 = key("ArrowLeft") { at = (6.5mm, 30mm); pins { a: LEFT, b: GND } }
+SW4 = key("ArrowRight") { at = (25.5mm, 30mm); pins { a: RIGHT, b: GND } }
+SW5 = key("Comma") { at = (9mm, 52mm); pins { a: STRAFE_L, b: GND } }
+SW6 = key("Period") { at = (9mm, 8mm); pins { a: STRAFE_R, b: GND } }
+SW7 = key("KeyF") { at = (135mm, 34mm); pins { a: FIRE, b: GND } }
+SW8 = key("Space") { at = (123mm, 24mm); pins { a: USE, b: GND } }
+SW9 = key("KeyM") { at = (123mm, 47mm); pins { a: MENU, b: GND } }
+SW10 = key("Enter") { at = (135mm, 47mm); pins { a: ENTER, b: GND } }
 
 // Four M3 holes for a back plate or a case.
 H1 = hole("M3") { at = (25mm, 4.5mm) }

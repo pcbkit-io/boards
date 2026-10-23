@@ -23,7 +23,7 @@ and RP2350 ones can run in PCBKit's simulation today (each README says what the 
 | [`boards/c3-pocket`](boards/c3-pocket) | ESP32-C3 module (RISC-V) | 1.3" colour TFT | USB-C: the C3's USB Serial/JTAG (esptool) |
 | [`boards/rp2040-tft`](boards/rp2040-tft) | bare RP2040, 16 MB flash, microSD, PWM sound | 1.8" colour TFT | USB-C: BOOT + RESET, UF2; SWD header |
 | [`boards/f411-psram`](boards/f411-psram) | STM32F411 (Cortex-M4F) with 8 MB SPI PSRAM and flash, I2S amplifier | 2.0" TFT | USB-C: the ROM's DFU (BOOT + RESET); SWD header |
-| [`boards/pico2-carrier`](boards/pico2-carrier) | Pico 2 or Pico Plus 2 carrier with a headphone DAC | 2.8" ILI9341 touch | the module's USB: BOOTSEL, UF2 |
+| [`boards/pico2-carrier`](boards/pico2-carrier) | Pimoroni Pico Plus 2 carrier with a headphone DAC | 2.8" ILI9341 touch | the module's USB: BOOTSEL, UF2 |
 | [`boards/rp2350-psram`](boards/rp2350-psram) | bare RP2350A with QSPI flash and 8 MB PSRAM, microSD, I2S amplifier, fuel gauge | 2.0" TFT | USB-C: BOOT + RESET, UF2; SWD header |
 | [`boards/s3-handheld`](boards/s3-handheld) | ESP32-S3 module (Xtensa, 8 MB PSRAM), microSD, I2S amplifier, fuel gauge | 2.8" touch TFT | USB-C: the S3's USB Serial/JTAG (esptool) |
 | [`boards/s3-rgb`](boards/s3-rgb) | ESP32-S3 driving a raw 480×272 RGB panel, buttons on an I2C expander, stereo DAC | 4.3" RGB | USB-C: the S3's USB Serial/JTAG (esptool) |

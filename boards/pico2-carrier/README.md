@@ -1,15 +1,15 @@
 # 06 · pico2-carrier — the reference device as an orderable carrier
 
-PCBKit's reference Doom device, made orderable: a carrier for any Pico-2-footprint module — the
-Raspberry Pi Pico 2 (RP2350A, 4 MB flash, 520 KB SRAM) or, for the full game, the pin-compatible
-**Pimoroni Pico Plus 2** (RP2350B, 16 MB flash, **8 MB PSRAM** on QMI chip select 1 = GPIO47) — with
+PCBKit's reference Doom device, made orderable: a carrier for the **Pimoroni Pico Plus 2**
+(RP2350B, 16 MB flash, **8 MB PSRAM** on QMI chip select 1 = GPIO47; the full game's data and heap
+need both, a plain Pico 2 has neither room) on the Pico's 2 × 20 sockets — with
 the same 2.8" ILI9341 touch TFT (MSP2807) and ten buttons as the reference, plus a PCM5102A DAC and a
 headphone jack. It runs from two 18650 Li-ion cells on its back, charged from the module's USB.
 JLCPCB assembles everything but the two modules, which plug into the sockets it solders.
 
 | | |
 |---|---|
-| Processor | RP2350 on a module: 2 × **Cortex-M33** (ARMv8-M Mainline, DSP, single-precision FPU, TrustZone) **or** 2 × **Hazard3** (RV32IMAC + Zba/Zbb/Zbs/Zbkb/Zcb/Zcmp), chosen by the image; 150 MHz; 520 KB SRAM; QSPI flash (and on the Plus 2 the PSRAM) through the QMI's 16 KB XIP cache |
+| Processor | RP2350B on the Pico Plus 2: 2 × **Cortex-M33** (ARMv8-M Mainline, DSP, single-precision FPU, TrustZone) **or** 2 × **Hazard3** (RV32IMAC + Zba/Zbb/Zbs/Zbkb/Zcb/Zcmp), chosen by the image; 150 MHz; 520 KB SRAM; 16 MB QSPI flash and 8 MB PSRAM through the QMI's 16 KB XIP cache |
 | Display | 2.8" 240 × 320 ILI9341 with XPT2046 resistive touch on SPI0 (GP18 SCK, GP19 MOSI, GP16 MISO, GP17 CS, GP20 DC, GP21 RESET, GP22 backlight; touch CS GP13, IRQ GP14) |
 | Input | 10 × 6 mm tact switches, as the reference: d-pad GP0–GP3, fire GP4, use GP5, strafe L/R GP6/GP7, menu GP8, enter GP9 |
 | Sound | PIO I2S (GP10 BCK, GP11 LRCK, GP12 DIN) → PCM5102A (hardware mode, PLL from BCK, mute on GP15) → 470 Ω / 2.2 nF → 3.5 mm stereo jack |
@@ -19,7 +19,7 @@ JLCPCB assembles everything but the two modules, which plug into the sockets it 
 
 <!-- STATUS -->
 **Board status** (measured on the dev host with PCBKit's CLI): `pcbkit check`: complete — 0 errors, 0 warnings, 0 unrouted nets. 62 components, 53 nets, 504 track segments (2876 mm), 54 vias.
-`analysis.run { lens: "ready" }`: Typical scenario, partly by family estimates. Nothing to fix, 1 to consider, 13 ok: weigh the warnings (tell the person about the ones that are their choice), then the board is ready to order.
+`analysis.run { lens: "ready" }`: Typical scenario, partly by family estimates. Nothing to fix, 1 to consider, 12 ok: weigh the warnings (tell the person about the ones that are their choice), then the board is ready to order.
 `pcbkit export --format fab` succeeds without `--force`: every assembled line of the BOM has an LCSC code.
 <!-- /STATUS -->
 
@@ -28,14 +28,19 @@ modules' makers publish no thermal data, and reads the module's draw from its fa
 dissipates well under 1 W). Keystone 1042 holders (C5249310) are stocked in hundreds at JLCPCB:
 check before ordering more than a few boards.
 
+## Run it in the browser
+
+Open https://app.pcbkit.io/github/pcbkit-io/doom-handheld/tree/main/boards/pico2-carrier, open the
+Laboratory and press **Run**: the page builds `doom/` for the RP2350 (with `DOOM1.WAD` linked into
+flash), boots the image on a register-level model of the chip and its PSRAM, and draws the
+display's frames on the board. Play with the keyboard (arrows, F fire, Space use, comma/period
+strafe, M menu, Enter) or a gamepad (`input.js` maps a standard controller).
+
 ## Why it runs Doom
 
-With the Pico Plus 2: 8 MB of PSRAM mapped at 0x1100_0000 through the XIP cache, so an ordinary
-Doom port (Chocolate Doom's engine with a small platform layer) runs with its zone heap in PSRAM and
-the full DOOM1.WAD in flash, at 150 MHz on one core with the second core driving the display:
-the reference implementation PCBKit's machine work aims to simulate. With the plain Pico 2 (no
-PSRAM), rp2040-doom's RP2350 build applies (520 KB SRAM is twice the RP2040's). The ILI9341 takes
-320 × 240 RGB565 by SPI DMA at 62.5 MHz: 153 KB, ~20 ms a frame.
+The Pico Plus 2's 8 MB of PSRAM is mapped at 0x1100_0000 through the XIP cache, so Doom runs as an
+ordinary program: the zone heap and the screens in PSRAM, the full DOOM1.WAD in flash, on one
+Hazard3 core at 150 MHz. The display takes each 320 × 200 frame as RGB565 over SPI0 at 25 MHz.
 
 ## Power
 
@@ -80,30 +85,28 @@ back's silkscreen marks.
 The assembly solders two 1x20 female sockets and one 1x14 female socket; the modules are bought
 separately and plugged in:
 
-- **U1: Raspberry Pi Pico 2** (SC1631; the Pico 2 H has its headers) **or Pimoroni Pico Plus 2**
-  (PIM724, with headers) for the full game: on the back, components facing the board, the USB end
+- **U1: Pimoroni Pico Plus 2** (PIM724, with headers): on the back, components facing the board, the USB end
   at the top edge.
 - **DS1: 2.8" ILI9341 SPI TFT with touch, MSP2807** (14 pins), on the front.
 
 ## Firmware: build and flash
 
-- Pico SDK 2.x: `cmake -DPICO_BOARD=pimoroni_pico_plus2_rp2350 -DPICO_PLATFORM=rp2350-arm-s` (Arm,
-  `arm-none-eabi-gcc`) or `-DPICO_PLATFORM=rp2350-riscv` (Hazard3, `riscv32-unknown-elf-gcc` with
-  `-march=rv32imac_zicsr_zifencei_zba_zbb_zbs_zbkb`); the image carries an **IMAGE_DEF block** that
-  the boot ROM reads to pick the architecture.
+- `doom/` is the program: `doom_rp2350.c` is the platform layer (clocks, the PSRAM, the display on
+  SPI0, the buttons, the timer), the engine is sysprog21/doom_riscv, unchanged. Pins: display SCK
+  GP18, MOSI GP19, CS GP17, D/C GP20, RESET GP21, backlight GP22, the touch's CS GP13 held high;
+  buttons GP0 … GP9 (up, down, left, right, fire, use, strafe left, strafe right, menu, enter).
+  No console (GP0 and GP1 are buttons) and no sound yet (the DAC stays silent).
+- **Build:** in PCBKit, the Laboratory's **Run** builds it (RISC-V, `DOOM1.WAD` linked into flash);
+  then export the firmware (`export.run { format: "firmware" }`, or the app's export menu): `U1.uf2`.
 - **Flashing on arrival:** hold the module's BOOTSEL button and plug its USB into a computer: it
-  appears as the RP2350 drive; copy `doom.uf2` onto it (family ID `rp2350-arm-s` or
-  `rp2350-riscv`) and it reboots into the game; or `picotool load -x doom.uf2`; or SWD with a
-  Raspberry Pi Debug Probe. Nothing on the board to configure.
-- In PCBKit: this is the board the RP2350 machine model is being written against; `firmware = "doom"`
-  on the module once the RP2350 SoC is registered (`docs/adr/0025-machine-framework.md`).
+  appears as the RP2350 drive; copy `U1.uf2` onto it and it reboots into the game; or
+  `picotool load -x U1.uf2`. Nothing on the board to configure.
 
 ## Bill of materials
 
-Rough cost at 10 pieces (estimates): Pimoroni Pico Plus 2 $13 (Pico 2: $5) · 2 × 20-pin sockets
+Rough cost at 10 pieces (estimates): Pimoroni Pico Plus 2 $13 · 2 × 20-pin sockets
 $0.50 · ILI9341 2.8" touch module $7.00 · PCM5102A $2.00 · jack $0.60 · 10 buttons $2.90 · charger,
-protection and passives $2.00 · two 18650 holders $9.80 · PCB $2.00 → **about $40** with the Plus 2,
-without the cells.
+protection and passives $2.00 · two 18650 holders $9.80 · PCB $2.00 → **about $40** without the cells.
 
 <!-- BOM -->
 The assembly BOM as `pcbkit export --format fab` writes it (JLCPCB assembly: LCSC codes; the modules' lines are their sockets):

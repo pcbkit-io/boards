@@ -795,65 +795,36 @@
       },
       {
         "what": "operating temperature",
-        "min": -40.0,
-        "max": 85.0,
+        "min": -40,
+        "max": 85,
         "unit": "°C"
       }
     ]
   },
-  "simulation": {
-    "parameters": [
-      {
-        "id": "idd-hello-serial-3v3",
-        "quantity": "supplyCurrent",
-        "unit": "A",
-        "typ": 0.0155,
-        "conditions": "hello_serial example, 3.3 V on all supplies, DVDD from the on-chip regulator at 1.1 V, room temperature, QSPI flash W25Q16JVSSIQ, USB connected; sum of the supply columns VREG_VIN 14690 + VREG_AVDD 216 + IOVDD 506 + QSPI_IOVDD 22 + ADC_IOVDD 1 + USB_OTP_VDD 62 uA = 15.5 mA (total 51.1 mW); CoreMark on one core at 150 MHz is 11.0 mA on VREG_VIN",
-        "source": {
-          "url": "https://datasheets.raspberrypi.com/rp2350/rp2350-datasheet.pdf",
-          "revision": "RP2350 datasheet build 06a7f75e58a1",
-          "location": "PDF p. 1345, section 14.9.7.3 Power consumption for typical user cases, Table 1693, hello_serial row",
-          "confidence": "datasheet"
-        }
-      },
-      {
-        "id": "tj-absolute",
-        "quantity": "junctionAbsoluteTemperature",
-        "unit": "degC",
-        "max": 125.0,
-        "conditions": "Absolute maximum junction temperature (minimum -40 degC); the ambient (case) operating range -40 to 85 degC in Table 1682 is not a junction rating",
-        "source": {
-          "url": "https://datasheets.raspberrypi.com/rp2350/rp2350-datasheet.pdf",
-          "revision": "RP2350 datasheet build 06a7f75e58a1",
-          "location": "PDF p. 1336, section 14.9.1 Absolute maximum ratings, Table 1680, Junction temperature row",
-          "confidence": "datasheet"
-        }
-      }
-    ]
-  },
   "support": {
+    "page": "Hardware design with RP2350 (minimal design): 2.1 core regulator, 2.3 decoupling, 3 flash, 4 crystal, 5 USB; RP2350 datasheet 14.9.5 power supplies, 1.2.2 pin descriptions",
     "parts": [
       {
         "ref": "R2",
         "kind": "res",
         "value": "1kohm",
-        "rating": "in series between XOUT and the crystal",
         "between": [
           "XOUT",
           "XO"
-        ]
+        ],
+        "rating": "in series between XOUT and the crystal"
       },
       {
         "ref": "Y1",
         "kind": "crystal",
         "value": "12MHz",
         "rating": "Abracon ABM8-272-T3 (10 pF CL, ESR 50 ohm max)",
+        "load": "10pF",
         "between": [
           "XIN",
           "XO",
           "VREG_PGND"
-        ],
-        "load": "10pF"
+        ]
       },
       {
         "ref": "C1-C6",
@@ -974,6 +945,9 @@
         ]
       }
     ],
+    "nets": [
+      "XO"
+    ],
     "inputs": [
       {
         "name": "connectorDP",
@@ -988,22 +962,19 @@
         "description": "The board's BOOTSEL."
       }
     ],
-    "nets": [
-      "XO"
-    ],
     "notes": [
       "The core regulator's layout matters: copy Raspberry Pi's reference layout (inductor orientation, C12/C13 next to VREG_VIN/VREG_PGND, short LX node); VREG_PGND joins GND so the switching current returns straight to the pin.",
       "DVDD pins all connect to the regulator's filtered output (the VREG_FB net): there is no separate 1.1 V supply to provide.",
       "RP2350A has no internal flash (RP2354A has 2 MB): add a QSPI NOR flash on the six QSPI pins; QSPI_SS low at reset enters BOOTSEL (USB mass storage).",
       "USB needs no pull-ups: only the 27 ohm series resistors next to the chip, 90 ohm differential routing.",
       "Also in the datasheet's circuit: U2 W25Q128JVSIQ (or any W25Q QSPI flash) between QSPI_SS and QSPI_SCLK and QSPI_SD0 and QSPI_SD1 and QSPI_SD2 and QSPI_SD3."
-    ],
-    "page": "Hardware design with RP2350 (minimal design): 2.1 core regulator, 2.3 decoupling, 3 flash, 4 crystal, 5 USB; RP2350 datasheet 14.9.5 power supplies, 1.2.2 pin descriptions"
+    ]
   },
   "notes": [
     "As on the Raspberry Pi Pico 2: GPIO25 drives the LED, GPIO26-GPIO29 are the four ADC inputs, the USB bootloader expects a 12 MHz crystal.",
     "All GPIOs are on IOVDD; they are 5 V tolerant while powered and 3.3 V failsafe unpowered, except as analog inputs.",
-    "The exposed pad (pin 61) is the only ground of the die: solder it with vias to the ground plane."
+    "The exposed pad (pin 61) is the only ground of the die: solder it with vias to the ground plane.",
+    "Runs firmware in PCBKit's RP2350 model (RISC-V cores): flash images with an IMAGE_DEF, flashed as a UF2 (family rp2350_riscv) onto the BOOTSEL drive; build with the rp2350 kit and name the program folder with `firmware` on the component. The memories are the board's: give the behavior's parameters flash_mib (the QSPI flash on chip select 0), and psram_mib and psram_cs (0, 8 or 19) for a PSRAM on QMI chip select 1."
   ],
   "provenance": {
     "pins": {
@@ -1016,5 +987,138 @@
       "verified": false,
       "note": "computed per IPC-7351B from the QFN-60 dimensions (14.1); the datasheet's recommended footprint (figure 148) is the cross-check"
     }
+  },
+  "simulation": {
+    "behavior": {
+      "model": "rp2350",
+      "ports": {
+        "power": [
+          "45",
+          "61"
+        ],
+        "GP0": [
+          "2"
+        ],
+        "GP1": [
+          "3"
+        ],
+        "GP2": [
+          "4"
+        ],
+        "GP3": [
+          "5"
+        ],
+        "GP4": [
+          "7"
+        ],
+        "GP5": [
+          "8"
+        ],
+        "GP6": [
+          "9"
+        ],
+        "GP7": [
+          "10"
+        ],
+        "GP8": [
+          "12"
+        ],
+        "GP9": [
+          "13"
+        ],
+        "GP10": [
+          "14"
+        ],
+        "GP11": [
+          "15"
+        ],
+        "GP12": [
+          "16"
+        ],
+        "GP13": [
+          "17"
+        ],
+        "GP14": [
+          "18"
+        ],
+        "GP15": [
+          "19"
+        ],
+        "GP16": [
+          "27"
+        ],
+        "GP17": [
+          "28"
+        ],
+        "GP18": [
+          "29"
+        ],
+        "GP19": [
+          "31"
+        ],
+        "GP20": [
+          "32"
+        ],
+        "GP21": [
+          "33"
+        ],
+        "GP22": [
+          "34"
+        ],
+        "GP23": [
+          "35"
+        ],
+        "GP24": [
+          "36"
+        ],
+        "GP25": [
+          "37"
+        ],
+        "GP26": [
+          "40"
+        ],
+        "GP27": [
+          "41"
+        ],
+        "GP28": [
+          "42"
+        ],
+        "GP29": [
+          "43"
+        ]
+      },
+      "parameters": {
+        "gpios": 30
+      },
+      "height": 0.85
+    },
+    "parameters": [
+      {
+        "id": "idd-hello-serial-3v3",
+        "quantity": "supplyCurrent",
+        "unit": "A",
+        "typ": 0.0155,
+        "conditions": "hello_serial example, 3.3 V on all supplies, DVDD from the on-chip regulator at 1.1 V, room temperature, QSPI flash W25Q16JVSSIQ, USB connected; sum of the supply columns VREG_VIN 14690 + VREG_AVDD 216 + IOVDD 506 + QSPI_IOVDD 22 + ADC_IOVDD 1 + USB_OTP_VDD 62 uA = 15.5 mA (total 51.1 mW); CoreMark on one core at 150 MHz is 11.0 mA on VREG_VIN",
+        "source": {
+          "url": "https://datasheets.raspberrypi.com/rp2350/rp2350-datasheet.pdf",
+          "revision": "RP2350 datasheet build 06a7f75e58a1",
+          "location": "PDF p. 1345, section 14.9.7.3 Power consumption for typical user cases, Table 1693, hello_serial row",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "tj-absolute",
+        "quantity": "junctionAbsoluteTemperature",
+        "unit": "degC",
+        "max": 125,
+        "conditions": "Absolute maximum junction temperature (minimum -40 degC); the ambient (case) operating range -40 to 85 degC in Table 1682 is not a junction rating",
+        "source": {
+          "url": "https://datasheets.raspberrypi.com/rp2350/rp2350-datasheet.pdf",
+          "revision": "RP2350 datasheet build 06a7f75e58a1",
+          "location": "PDF p. 1336, section 14.9.1 Absolute maximum ratings, Table 1680, Junction temperature row",
+          "confidence": "datasheet"
+        }
+      }
+    ]
   }
 }

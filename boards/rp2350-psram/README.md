@@ -33,13 +33,20 @@ module, which plugs into the socket it solders.
 | ready lens: thermal parameters, typical scenario | estimates of the analysis, not faults of the board |
 <!-- /STATUS -->
 
+## Run it in the browser
+
+Open https://app.pcbkit.io/github/pcbkit-io/doom-handheld/tree/main/boards/rp2350-psram, open the
+Laboratory and press **Run**: the page builds `doom/` for the RP2350 (with `DOOM1.WAD` linked into
+flash), boots the image on a register-level model of the chip and its PSRAM, and draws the
+display's frames on the board. Play with the keyboard (arrows, F fire, Space use, comma/period
+strafe, M menu, Enter) or a gamepad (`input.js` maps a standard controller).
+
 ## Why it runs Doom
 
 This is the reference device's software on its own board: Doom with its zone heap and screens in
-the PSRAM, the WAD in flash (16 MB: the shareware or registered WAD linked as data), on one Hazard3
-core at 150 MHz; the second core drives the display (320 × 240 RGB565 = 153 KB by SPI DMA at 62.5
-MHz: ~20 ms). Estimated at 25–35 fps (not measured on hardware; PCBKit's simulated reference runs
-its Doom at 35 fps with one instruction per clock and no memory latency).
+the PSRAM, the shareware WAD linked into the flash, on one Hazard3 core at 150 MHz; each 320 × 200
+frame goes to the display as RGB565 over SPI0 at 25 MHz. Not measured on hardware: the simulation
+runs one instruction per clock and charges no flash or PSRAM latency.
 
 ## Power
 
@@ -81,7 +88,7 @@ takes about 8 h (longer from a 500 mA USB 2.0 port).
 Plug a USB-C charger or computer into the USB-C on the bottom edge. The red LED (CHG) is on while
 the cells charge and goes out when they are full; the green LED (USB) is on while USB power is
 present. The board runs from USB while it charges, switched on or off. Insert both cells with +
-at the end the back's silkscreen marks. The firmware reads the charge from the MAX17048 (0x36).
+at the end the back's silkscreen marks.
 
 ## Flashing on arrival
 
@@ -90,25 +97,30 @@ Nothing to solder and no programmer: the RP2350's boot ROM has a USB loader.
 1. Connect the USB-C to a computer.
 2. Hold **BOOT**, tap **RESET**, release BOOT (or hold BOOT while plugging in): the board appears
    as the **RP2350** drive.
-3. Copy `doom.uf2` onto it (an Arm or a RISC-V image: the boot ROM runs either); or
-   `picotool load -x doom.uf2` with the board in BOOTSEL.
+3. Copy `U1.uf2` onto it (the boot ROM runs Arm or RISC-V images); or
+   `picotool load -x U1.uf2` with the board in BOOTSEL.
 
 Or over SWD: the 4-pin header on the back (SWCLK, GND, SWDIO, RUN) takes a Raspberry Pi Debug
-Probe. The game data goes in the flash with the program, or on a FAT32 microSD card.
+Probe. The game data goes in the flash with the program.
 
 ## Modules plugged in by hand
 
 - **DS1: 2.0" 240 × 320 ST7789 IPS SPI module** (MSP2008 pinout, 8 pins: GND, VCC, SCL, SDA, RES,
   DC, CS, BLK) into the 1x8 socket JLCPCB solders on the front.
 - An **8 Ω speaker** (up to 3 W) with a JST PH 2-pin plug into J5 at the right edge of the back.
-- Two **18650 cells**, and a **microSD card** if the WAD lives there.
+- Two **18650 cells**.
 
 ## Firmware: build
 
-- Pico SDK 2.x with a board header for this layout (W25Q128 16 MB; the PSRAM on QMI M1 with chip
-  select GPIO8 is configured by the firmware — the boot ROM only sets up CS0), `-DPICO_PLATFORM=
-  rp2350-riscv` (or `rp2350-arm-s`). The program is not written yet (see the repository's README;
-  `rp2350-handheld`'s `doom/` is the closest start).
+- `doom/` is the program: `doom_rp2350.c` is the platform layer (clocks from the 12 MHz crystal,
+  the PSRAM on QMI chip select 1 = GPIO8, which the firmware sets up — the boot ROM only sets up
+  CS0 — the display, the buttons, the timer), the engine is sysprog21/doom_riscv, unchanged. Pins:
+  display SCK GPIO18, MOSI GPIO19, CS GPIO17, D/C GPIO16, RESET GPIO20, backlight GPIO21; buttons
+  up GPIO0, down 1, left 2, right 3, fire 4, use 5, strafe left 9, strafe right 15, menu 25,
+  enter 26. The ST7789's IPS panel needs inversion on (INVON) for true colours. Not used yet: the
+  microSD card, the amplifier, the fuel gauge; no console (GPIO0 and GPIO1 are buttons).
+- **Build:** in PCBKit, the Laboratory's **Run** builds it (RISC-V, `DOOM1.WAD` linked into flash);
+  then export the firmware (`export.run { format: "firmware" }`, or the app's export menu): `U1.uf2`.
 
 ## Bill of materials
 

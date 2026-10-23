@@ -1,0 +1,166 @@
+pcbkit 1
+
+// PIM724 (Pimoroni): Pimoroni Pico Plus 2 (RP2350B: dual Cortex-M33 or Hazard3 RISC-V, 150 MHz,
+// 520 KB SRAM, 16 MB flash, 8 MB PSRAM on QMI CS1 = GPIO47, USB-C) on two 20-pin female headers
+// 0.7" apart, the Pico's pinout (GP0-GP22, GP26-GP28, VBUS, VSYS, 3V3, 3V3_EN, RUN, ADC_VREF,
+// AGND); courtyard the 21 x 51 mm board
+// Compiled from the part sheet `parts/PIMORONI_PICO_PLUS_2.json` (`parts.create`); status:
+// checked.
+// Datasheet: https://shop.pimoroni.com/products/pimoroni-pico-plus-2 (Pimoroni Pico Plus 2 product
+// page and schematic: Pico pinout, 16 MB QSPI flash, 8 MB APS6404L PSRAM with its chip select on
+// GPIO47 (QMI CS1), 12 MHz crystal, USB-C; RP2350 datasheet GPIO function table)
+// Pins: Pimoroni Pico Plus 2 product page (Pico pinout, PSRAM on GPIO47) and the Raspberry Pi Pico
+// 2 pinout it shares
+// Footprint: as given
+// This file may be used, changed and shared without conditions, with the board or alone.
+
+// Note: Same header pinout and footprint as the Raspberry Pi Pico 2 (RASPBERRY_PI_PICO_2); GPIOs
+// are 3.3 V. The RP2350B's extra GPIOs (30-47) stay on the module: GPIO47 is the PSRAM's chip
+// select, the BOOT button doubles as a user input. In PCBKit 3V3 is `P3V3`, 3V3_EN `P3V3_EN`.
+// Note: Runs firmware in PCBKit's RP2350 model (RISC-V cores): flash images with an IMAGE_DEF,
+// flashed as a UF2 (family rp2350_riscv) onto the BOOTSEL drive; build with the rp2350 kit and
+// name the program folder with `firmware` on the component.
+// Note: Early stock uses RP2350 A2 (erratum RP2350-E9: an input with its internal pull-down can
+// latch high; use pull-ups or external pull-downs of 8.2 kΩ or less).
+
+/// PIM724 — Pimoroni Pico Plus 2 (RP2350B: dual Cortex-M33 or Hazard3 RISC-V, 150 MHz, 520 KB
+/// SRAM, 16 MB flash, 8 MB PSRAM on QMI CS1 = GPIO47, USB-C) on two 20-pin female headers 0.7"
+/// apart, the Pico's pinout (GP0-GP22, GP26-GP28, VBUS, VSYS, 3V3, 3V3_EN, RUN, ADC_VREF, AGND);
+/// courtyard the 21 x 51 mm board
+part Part = device(footprint = moduleSocket(
+  "Pimoroni_Pico_Plus_2_Socket_2x20_P2.54mm_W17.78mm",
+  concat(
+    socketRow(1, 20, (-8.89mm, 24.13mm)),
+    socketRow(21, 20, (8.89mm, -24.13mm), (0mm, 2.54mm)),
+  ),
+  box((-10.5mm, -25.5mm), (10.5mm, 26.8mm)),
+  description = "Pimoroni Pico Plus 2 on two 1x20 female headers 17.78 mm apart, the USB end at +Y: pin 1 (GP0) top left, 1-20 down the left row, 21-40 up the right row (Raspberry Pi's numbering)",
+  board = 1mm,
+  color = "#17181b",
+  module = [
+    solid.box((10mm, 10mm, 0.9mm), at = (0mm, 1.5mm, 0mm), radius = 0.05mm, material = .epoxy),
+    solid.box((6mm, 5mm, 0.8mm), at = (-4.5mm, -10mm, 0mm), radius = 0.05mm, material = .epoxy),
+    solid.box((4.9mm, 3.9mm, 1.5mm), at = (4.5mm, -10mm, 0mm), radius = 0.1mm, material = .epoxy),
+    solid.box((3.2mm, 2.5mm, 0.8mm), at = (5.5mm, 9mm, 0mm), radius = 0.1mm, material = .metal),
+    solid.box((3mm, 2mm, 1mm), at = (-6.8mm, 16.5mm, 0mm), radius = 0.1mm, material = .metal),
+    solid.box((1.2mm, 0.8mm, 0.4mm), at = (-6.8mm, 16.5mm, 1mm), color = "#1a1a1c"),
+    solid.box((3mm, 2mm, 1mm), at = (6.8mm, 16.5mm, 0mm), radius = 0.1mm, material = .metal),
+    solid.box((1.2mm, 0.8mm, 0.4mm), at = (6.8mm, 16.5mm, 1mm), color = "#1a1a1c"),
+    solid.box((6mm, 4.25mm, 2.95mm), at = (-4.6mm, -23.2mm, 0mm), color = "#e6dcc4"),
+    solid.box((8mm, 4.25mm, 2.95mm), at = (4.6mm, -23.2mm, 0mm), color = "#e6dcc4"),
+    solid.shell((8.94mm, 7.35mm, 3.26mm), wall = 0.3mm, at = (0mm, 23.15mm, 0mm), radius = 1.63mm),
+  ],
+), prefix = "U", mpn = "PIM724", manufacturer = "Pimoroni", pinout = {
+  GP0: "1",
+  GP1: "2",
+  GND: ["3", "8", "13", "18", "23", "28", "38"],
+  GP2: "4",
+  GP3: "5",
+  GP4: "6",
+  GP5: "7",
+  GP6: "9",
+  GP7: "10",
+  GP8: "11",
+  GP9: "12",
+  GP10: "14",
+  GP11: "15",
+  GP12: "16",
+  GP13: "17",
+  GP14: "19",
+  GP15: "20",
+  GP16: "21",
+  GP17: "22",
+  GP18: "24",
+  GP19: "25",
+  GP20: "26",
+  GP21: "27",
+  GP22: "29",
+  RUN: "30",
+  GP26: "31",
+  GP27: "32",
+  AGND: "33",
+  GP28: "34",
+  ADC_VREF: "35",
+  P3V3: "36",
+  P3V3_EN: "37",
+  VSYS: "39",
+  VBUS: "40",
+}, pinTypes = {
+  GP0: io.bidirectional(),
+  GP1: io.bidirectional(),
+  GND: .ground,
+  GP2: io.bidirectional(),
+  GP3: io.bidirectional(),
+  GP4: io.bidirectional(),
+  GP5: io.bidirectional(),
+  GP6: io.bidirectional(),
+  GP7: io.bidirectional(),
+  GP8: io.bidirectional(),
+  GP9: io.bidirectional(),
+  GP10: io.bidirectional(),
+  GP11: io.bidirectional(),
+  GP12: io.bidirectional(),
+  GP13: io.bidirectional(),
+  GP14: io.bidirectional(),
+  GP15: io.bidirectional(),
+  GP16: io.bidirectional(),
+  GP17: io.bidirectional(),
+  GP18: io.bidirectional(),
+  GP19: io.bidirectional(),
+  GP20: io.bidirectional(),
+  GP21: io.bidirectional(),
+  GP22: io.bidirectional(),
+  RUN: io.input(pull = .up),
+  GP26: io.bidirectional(),
+  GP27: io.bidirectional(),
+  AGND: .ground,
+  GP28: io.bidirectional(),
+  ADC_VREF: .passive,
+  P3V3: io.powerOut(3.3V),
+  P3V3_EN: io.input(pull = .up),
+  VSYS: .passive,
+  VBUS: io.powerOut(5V),
+}) with {
+  fields {
+    Status: "checked",
+    PinoutSource: "Pimoroni Pico Plus 2 product page (Pico pinout, PSRAM on GPIO47) and the Raspberry Pi Pico 2 pinout it shares",
+    Datasheet: "https://shop.pimoroni.com/products/pimoroni-pico-plus-2",
+  }
+  simulation = SimulationParameters {
+    behavior = Behavior {
+      model = "rp2350"
+      ports = {
+        "GP0": ["1"],
+        "GP1": ["2"],
+        "GP10": ["14"],
+        "GP11": ["15"],
+        "GP12": ["16"],
+        "GP13": ["17"],
+        "GP14": ["19"],
+        "GP15": ["20"],
+        "GP16": ["21"],
+        "GP17": ["22"],
+        "GP18": ["24"],
+        "GP19": ["25"],
+        "GP2": ["4"],
+        "GP20": ["26"],
+        "GP21": ["27"],
+        "GP22": ["29"],
+        "GP26": ["31"],
+        "GP27": ["32"],
+        "GP28": ["34"],
+        "GP3": ["5"],
+        "GP4": ["6"],
+        "GP5": ["7"],
+        "GP6": ["9"],
+        "GP7": ["10"],
+        "GP8": ["11"],
+        "GP9": ["12"],
+        "power": ["39", "38"],
+      }
+      parameters = { "flash_mib": 16, "gpios": 48, "psram_cs": 47, "psram_mib": 8 }
+      height = 13mm
+    }
+    parameters = []
+  }
+}

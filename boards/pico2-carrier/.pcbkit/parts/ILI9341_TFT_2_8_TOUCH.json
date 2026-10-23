@@ -158,5 +158,39 @@
       "verified": false,
       "note": "socket pins and outline from the vendor's drawing; 1.0 mm holes, 1.7 mm pads"
     }
+  },
+  "simulation": {
+    "behavior": {
+      "model": "ili9341",
+      "ports": {
+        "backlight": [
+          "8"
+        ],
+        "cs": [
+          "3"
+        ],
+        "dc": [
+          "5"
+        ],
+        "power": [
+          "1",
+          "2"
+        ],
+        "reset": [
+          "4"
+        ],
+        "spi": [
+          "6",
+          "7"
+        ]
+      },
+      "parameters": {
+        "height_mm": 57.6,
+        "offset_x_mm": 0.0,
+        "offset_y_mm": 45.9,
+        "width_mm": 43.2
+      },
+      "height": 14.1
+    }
   }
 }
