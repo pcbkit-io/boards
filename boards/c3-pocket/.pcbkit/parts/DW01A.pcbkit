@@ -2,6 +2,7 @@ pcbkit 1
 
 // DW01A (Fortune Semiconductor): One-cell Li-Ion / Li-Po protection IC: overcharge 4.3 V,
 // overdischarge 2.4 V, overcurrent and short circuit, drives two external N-MOSFETs
+// JLCPCB codes added to the support circuit for this board.
 // Compiled from the part sheet `parts/DW01A.json` (`parts.create`); status: checked.
 // Datasheet: https://img.ozdisan.com/ETicaret_Dosya/370550_6116504.pdf (DW01A-DS-12 Rev. 1.2,
 // September 2011)
@@ -97,23 +98,28 @@ block Support(
   )
   R1 =
     if batteryPlus != null then res(100ohm, package = "0402") {
+      orderCode = "C25076"
       place = [soft(near(chip.pin.VCC, max = 5mm), weight = 1)]
       pins { a: batteryPlus, b: chip.pin.VCC }
     }
     else null
   /// 10V
   C1 = cap(100nF, package = "0402", voltage = 10V) {
+    orderCode = "C1525"
     place = [soft(near(chip.pin.VCC, max = 2mm), weight = 2)]
     pins { a: chip.pin.VCC, b: chip.pin.GND }
   }
   R2 =
     if packMinus != null then res(1kohm, package = "0402") {
+      orderCode = "C11702"
       place = [soft(near(chip.pin.CS, max = 5mm), weight = 1)]
       pins { a: chip.pin.CS, b: packMinus }
     }
     else null
   /// dual N-MOSFET, common drain: M1 gate OD, source GND (cell -); M2 gate OC, source BATT-
   M1_M2 = FS8205A.Part {
+    // JLCPCB stocks the TSSOP-8 8205A as C5148694.
+    orderCode = "C5148694"
     place = [soft(near(chip, max = 8mm), weight = 1)]
     pins { D12: DRAIN, G1: chip.pin.OD, G2: chip.pin.OC, S1: chip.pin.GND, S2: packMinus }
   }
