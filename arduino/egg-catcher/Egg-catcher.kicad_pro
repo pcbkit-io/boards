@@ -1,0 +1,56 @@
+{
+  "board": {
+    "design_settings": {
+      "rule_severities": {},
+      "rules": {
+        "min_clearance": 0.15,
+        "min_copper_edge_clearance": 0.3,
+        "min_hole_clearance": 0.0,
+        "min_hole_to_hole": 0.0,
+        "min_resolved_spokes": 2.0,
+        "min_through_hole_diameter": 0.3,
+        "min_track_width": 0.15,
+        "min_via_annular_width": 0.0,
+        "min_via_diameter": 0.5
+      }
+    }
+  },
+  "meta": {
+    "filename": "Egg catcher.kicad_pro",
+    "version": 1
+  },
+  "net_settings": {
+    "classes": [
+      {
+        "clearance": 0.2,
+        "name": "Default",
+        "track_width": 0.25,
+        "via_diameter": 0.6,
+        "via_drill": 0.3
+      }
+    ],
+    "netclass_assignments": {
+      "BAT": "Default",
+      "GATE": "Default",
+      "GND": "Default",
+      "LEFT_DOWN": "Default",
+      "LEFT_UP": "Default",
+      "Net-(D3-2)": "Default",
+      "Net-(R3-1)": "Default",
+      "Net-(R4-2)": "Default",
+      "Net-(R5-2)": "Default",
+      "RIGHT_DOWN": "Default",
+      "RIGHT_UP": "Default",
+      "SCL": "Default",
+      "SDA": "Default",
+      "U2Support/LED_K": "Default",
+      "V5": "Default",
+      "VBUS": "Default",
+      "VSW": "Default",
+      "usb/cc1": "Default",
+      "usb/cc2": "Default",
+      "usb/raw": "Default"
+    },
+    "netclass_patterns": []
+  }
+}

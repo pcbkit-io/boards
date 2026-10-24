@@ -1,0 +1,98 @@
+{
+  "id": "B2B_PH_K_S",
+  "mpn": "B2B-PH-K-S(LF)(SN)",
+  "manufacturer": "J.S.T. Mfg.",
+  "variants": [
+    "B2B-PH-K-S"
+  ],
+  "category": "connector",
+  "description": "JST PH 2-pin header, 2.0 mm pitch, top entry (vertical), through hole: the common LiPo battery connector, 2 A; contacts C1 C2 (polarity in the notes)",
+  "tags": [
+    "jst",
+    "jst ph",
+    "ph",
+    "2.0mm",
+    "2mm pitch",
+    "battery connector",
+    "lipo connector",
+    "lipo",
+    "li-ion",
+    "battery",
+    "2 pin",
+    "wire to board",
+    "vertical",
+    "top entry",
+    "tht",
+    "b2b-ph-k-s"
+  ],
+  "datasheet": {
+    "url": "https://www.jst-mfg.com/product/pdf/eng/ePH.pdf",
+    "revision": "JST PH connector catalog (ePH): PC board layout (through-hole, top entry) and header drawing"
+  },
+  "prefix": "J",
+  "package": {
+    "name": "JST PH B2B-PH-K-S",
+    "family": "connector",
+    "pins": 2,
+    "pitch": 2.0,
+    "body": {
+      "d": 5.9,
+      "e": 4.5,
+      "a": 6.0
+    },
+    "page": "p. 1 PC board layout, top entry: holes Ø0.7 at 2.0 mm, outline 1.95 mm beyond the end holes, 1.7 mm from the hole row to one long side, 4.5 mm deep; p. 3 header: B 5.9 mm, 6 mm high"
+  },
+  "footprint": "Footprint {\n    let ps = [\n      thtPad(\"1\", (-1mm, 0mm), 0.75mm, (1.3mm, 1.6mm), square = true),\n      thtPad(\"2\", (1mm, 0mm), 0.75mm, (1.3mm, 1.6mm)),\n    ]\n    let b = box((-2.95mm, -2.8mm), (2.95mm, 1.7mm))\n    name = \"JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical\"\n    description = \"JST PH header, 2 contacts at 2.0 mm, top entry, through hole (JST layout: 0.7 mm holes, housing 5.9 x 4.5 mm, the hole row 1.7 mm from its +Y side)\"\n    tags = [\"JST\", \"PH\", \"connector\", \"THT\", \"vertical\"]\n    pads = ps\n    body = b\n    height = 6mm\n    mating = .up\n    silk = silkOf(ps, b, 0.25mm, pin1 = (-1mm, -1.25mm))\n    package = Package { family = .other; body = (5.9mm, 4.5mm); height = 6mm }\n    solids = [\n      solid.box((5.9mm, 4.5mm, 6mm), at = (0mm, -0.55mm, 0mm), material = .whitePlastic),\n      slab(-1.25mm, -0.25mm, 0.8mm, -0.75mm, 0.25mm, 5.5mm, material = .tin),\n      slab(0.75mm, -0.25mm, 0.8mm, 1.25mm, 0.25mm, 5.5mm, material = .tin),\n    ]\n  }",
+  "pins": [
+    {
+      "number": "1",
+      "name": "C1",
+      "type": "passive",
+      "description": "contact 1 (No. 1 circuit, marked on the housing)"
+    },
+    {
+      "number": "2",
+      "name": "C2",
+      "type": "passive",
+      "description": "contact 2"
+    }
+  ],
+  "ratings": {
+    "recommended": [
+      {
+        "what": "current rating (AWG 24)",
+        "max": 2.0,
+        "unit": "A"
+      },
+      {
+        "what": "voltage rating",
+        "max": 100.0,
+        "unit": "V"
+      },
+      {
+        "what": "temperature (including temperature rise)",
+        "min": -40.0,
+        "max": 105.0,
+        "unit": "°C"
+      }
+    ]
+  },
+  "notes": [
+    "Battery polarity on JST PH is not standardised. Adafruit, SparkFun and Particle batteries share one convention: on the battery's plug, latch bump up and holes facing you, + (red) is on the right. Many other LiPo cells are wired the other way: measure the battery and print + and - beside the header before routing.",
+    "Connect the cell's + net to the contact it lands on, the other to GND; name the nets (VBAT, GND) rather than relying on the contact numbers.",
+    "Rated 2 A (AWG 24): enough for single-cell LiPo packs up to about 2 A discharge.",
+    "Mated height 8 mm; the plug enters from above."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "JST PH catalog: PC board layout and assembly layout (through-hole, top entry), header table (B2B-PH-K-S: A 2.0, B 5.9) and drawing (4.5 x 6 mm)",
+      "url": "https://www.jst-mfg.com/product/pdf/eng/ePH.pdf",
+      "license": "hole positions, outline dimensions and ratings transcribed from the manufacturer's catalog (facts); footprint written in PCBKit, 3D body and notes our own"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "holes 0.75 mm (the drawing: 0.7 +0.1/0), 1.3 x 1.6 mm pads our choice; contact 1 at -X, the housing's 2.8 mm side toward -Y (the drawing turned 180°)"
+    }
+  }
+}

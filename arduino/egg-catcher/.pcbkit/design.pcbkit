@@ -1,0 +1,108 @@
+pcbkit 1
+
+// Egg catcher: the 1980s pocket game on a battery. Eggs roll down four chutes, two on each side;
+// the catcher's basket goes to the chute a button names and catches them; three broken eggs end
+// the game. An Arduino Nano on the back runs the sketch in firmware/ and draws on a 0.96" I2C OLED;
+// four buttons in the corners, one per chute. In the lab: Q, A (left, top and bottom), P, L (right).
+//
+// Power: a LiPo cell on a JST PH header, charged at 500 mA from its own USB-C by an MCP73831; a
+// P-channel MOSFET behind the slide switch connects the cell to an MT3608 boost that makes the
+// Nano's 5 V. The Nano's own USB flashes the sketch (its bootloader); plugged in, it powers the
+// console too (its diode keeps USB and the boost apart).
+
+use "parts/ARDUINO_NANO.pcbkit" as ARDUINO_NANO
+use "parts/SSD1306_OLED_I2C.pcbkit" as SSD1306_OLED_I2C
+use "parts/MCP73831T_2ACI_OT.pcbkit" as MCP73831T_2ACI_OT
+use "parts/MT3608.pcbkit" as MT3608
+use "parts/B2B_PH_K_S.pcbkit" as B2B_PH_K_S
+use "parts/AO3401A.pcbkit" as AO3401A
+use "parts/MSK12C02.pcbkit" as MSK12C02
+
+net VBUS { voltage = 5V; current = 500mA }
+// The cell: 3.0–4.2 V; the boost draws about 200 mA from it at the console's 100 mA.
+net BAT { voltage = 4.2V; current = 300mA }
+net VSW { voltage = 4.2V; current = 300mA }
+net V5 { voltage = 5V; current = 100mA }
+net GND { voltage = 0V }
+net GATE, SDA, SCL, LEFT_UP, LEFT_DOWN, RIGHT_UP, RIGHT_DOWN
+
+board = Board {
+  name = "Egg catcher"
+  description = "Arduino Nano · 0.96in I2C OLED · four buttons · LiPo with USB-C charging"
+  outline = rect(120mm, 64mm, radius = 8mm)
+  fab { mask = .red; silk = .white }
+}
+
+NANO = ARDUINO_NANO.Part with {
+  simulation = ARDUINO_NANO.Part.simulation with {
+    behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" }
+  }
+} {
+  at = (60mm, 20mm)
+  rotation = 90deg
+  side = .bottom
+  pins { P5V: V5, GND: GND, A4: SDA, A5: SCL, D2: LEFT_UP, D3: LEFT_DOWN, D4: RIGHT_UP, D5: RIGHT_DOWN }
+}
+
+DS1 = SSD1306_OLED_I2C.Part {
+  at = (60mm, 57.4mm)
+  pins { GND: GND, VCC: V5, SCL: SCL, SDA: SDA }
+}
+
+// The four buttons, each a tactile switch to ground read with the sketch's INPUT_PULLUP.
+SW1 = button("6x6", key = "KeyQ") {
+  at = (14mm, 44mm)
+  pins { a: LEFT_UP, b: GND }
+}
+SW2 = button("6x6", key = "KeyA") {
+  at = (14mm, 22mm)
+  pins { a: LEFT_DOWN, b: GND }
+}
+SW3 = button("6x6", key = "KeyP") {
+  at = (106mm, 44mm)
+  pins { a: RIGHT_UP, b: GND }
+}
+SW4 = button("6x6", key = "KeyL") {
+  at = (106mm, 22mm)
+  pins { a: RIGHT_DOWN, b: GND }
+}
+
+// Charging: USB-C (5.1 kΩ on CC: 500 mA from any port) into the MCP73831, 2 kΩ on PROG for
+// 500 mA (1 C for a 500 mAh cell; 10 kΩ for 100 mA), its red light on while it charges.
+usb = UsbCPower(vbus = VBUS, gnd = GND) {}
+U2 = MCP73831T_2ACI_OT.Part { pins { VDD: VBUS, VSS: GND, VBAT: BAT } }
+U2Support = MCP73831T_2ACI_OT.Support(U2) {}
+// The cell's + on C1: check the cell's plug (JST PH polarity is not standard) before plugging it in.
+J2 = B2B_PH_K_S.Part {
+  side = .bottom
+  pins { C1: BAT, C2: GND }
+}
+cellLabel = Text { text = "LIPO + -"; near = J2; size = 1mm }
+
+// On/off: the switch pulls the MOSFET's gate to ground (on); open, 100 kΩ holds it at the cell
+// (off). The switch carries no current.
+Q1 = AO3401A.Part { pins { S: BAT, D: VSW, G: GATE } }
+rGate = res(100kohm, package = "0603") { place = [soft(near(Q1, max = 4mm))]; pins { a: GATE, b: BAT } }
+SW5 = MSK12C02.Part {
+  at = (1.9mm, 32mm)
+  rotation = 90deg
+  pins { COM: GATE, A: GND, B: .nc, SHELL: GND }
+}
+switchLabel = Text { text = "ON / OFF"; at = (6mm, 38mm); size = 1mm; rotation = 90deg }
+
+// 5 V from the cell: the MT3608 (110k / 15k: 5 V), enabled whenever the switch is on.
+U3 = MT3608.Part { pins { VIN: VSW, EN: VSW, GND: GND, NC: .nc } }
+U3Support = MT3608.Support(U3, vout = V5) {}
+
+title = Text { text = "EGG CATCHER"; at = (60mm, 4mm); size = 1.6mm }
+labelQ = Text { text = "Q"; at = (14mm, 50mm); size = 1.5mm }
+labelA = Text { text = "A"; at = (14mm, 16mm); size = 1.5mm }
+labelP = Text { text = "P"; at = (106mm, 50mm); size = 1.5mm }
+labelL = Text { text = "L"; at = (106mm, 16mm); size = 1.5mm }
+
+H1 = hole("M3") { at = (5mm, 5mm) }
+H2 = hole("M3") { at = (115mm, 5mm) }
+H3 = hole("M3") { at = (5mm, 59mm) }
+H4 = hole("M3") { at = (115mm, 59mm) }
+
+gndPour = pour(net = GND, layers = [Cu.top, Cu.bottom]) {}

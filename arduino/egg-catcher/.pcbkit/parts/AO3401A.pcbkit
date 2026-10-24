@@ -1,0 +1,46 @@
+pcbkit 1
+
+// AO3401A (Alpha & Omega Semiconductor): P-channel MOSFET, -30 V, -4 A, 60 mohm at -4.5 V gate,
+// logic level (-2.5 V rated), SOT-23: a high-side load switch or reverse-polarity protection
+// Compiled from the part sheet `parts/AO3401A.json` (`parts.create`); status: checked.
+// Datasheet: https://www.aosmd.com/res/datasheets/AO3401A.pdf (Rev 3.1, December 2023)
+// Pins: AO3401A datasheet Rev 3.1, SOT23 top view (p. 1): gate and source on the side with the pin
+// 1 mark, drain alone (JEDEC SOT-23 numbering 1 G, 2 S, 3 D; the drawing draws no numbers),
+// absolute maximum ratings and electrical characteristics
+// Footprint: the standard package `SOT-23`
+// Symbol: digikey-kicad d4bd68f42e6ccc474526811a853a03692e170b58
+// dk_Transistors-FETs-MOSFETs-Single:AO3401A (CC-BY-SA-4.0),
+// https://github.com/Digi-Key/digikey-kicad-library
+// 3D model: kicad 10.0.7 Package_TO_SOT_SMD.3dshapes/SOT-23 (the model of
+// Package_TO_SOT_SMD:SOT-23: the package `SOT-23`) (CC-BY-SA-4.0)
+// Parameters: digikey-kicad d4bd68f42e6ccc474526811a853a03692e170b58
+// dk_Transistors-FETs-MOSFETs-Single:AO3401A (CC-BY-SA-4.0),
+// https://github.com/Digi-Key/digikey-kicad-library
+// This file may be used, changed and shared without conditions, with the board or alone.
+
+// Note: High-side switch: source to the supply, drain to the load; pull the gate to the source
+// (100 kohm) so it stays off, and pull it low (an NPN or N-MOSFET such as 2N7002, or a GPIO when
+// the supply is the GPIO's own) to turn it on. A 3.3 V GPIO can switch a 3.3 V rail directly; a 5
+// V rail needs the level shift.
+// Note: Reverse-polarity protection: drain to the input connector, source to the circuit, gate to
+// GND (with a zener from gate to source above 12 V supplies): the body diode conducts first, then
+// the channel shorts it.
+// Note: 125 °C/W steady state: keep it under about 1 W at 25 °C ambient, with copper on the
+// drain.
+
+/// AO3401A — P-channel MOSFET, -30 V, -4 A, 60 mohm at -4.5 V gate, logic level (-2.5 V rated),
+/// SOT-23: a high-side load switch or reverse-polarity protection
+part Part = device(
+  footprint = (sot23(3)) with { models = [Model3d { path = "Package_TO_SOT_SMD:SOT-23" }] },
+  prefix = "Q",
+  mpn = "AO3401A",
+  manufacturer = "Alpha & Omega Semiconductor",
+  pinout = { G: "1", S: "2", D: "3" },
+  pinTypes = { G: io.input(max = 12V), S: .passive, D: .passive },
+) with {
+  fields {
+    Status: "checked",
+    PinoutSource: "AO3401A datasheet Rev 3.1, SOT23 top view (p. 1): gate and source on the side with the pin 1 mark, drain alone (JEDEC SOT-23 numbering 1 G, 2 S, 3 D; the drawing draws no numbers), absolute maximum ratings and electrical characteristics",
+    Datasheet: "https://www.aosmd.com/res/datasheets/AO3401A.pdf",
+  }
+}

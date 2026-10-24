@@ -1,0 +1,465 @@
+{
+  "id": "AO3401A",
+  "mpn": "AO3401A",
+  "manufacturer": "Alpha & Omega Semiconductor",
+  "category": "mosfet",
+  "description": "P-channel MOSFET, -30 V, -4 A, 60 mohm at -4.5 V gate, logic level (-2.5 V rated), SOT-23: a high-side load switch or reverse-polarity protection",
+  "tags": [
+    "mosfet",
+    "p-channel",
+    "pmos",
+    "logic level",
+    "load switch",
+    "high side switch",
+    "reverse polarity",
+    "30V",
+    "sot-23",
+    "ao3401"
+  ],
+  "datasheet": {
+    "url": "https://www.aosmd.com/res/datasheets/AO3401A.pdf",
+    "revision": "Rev 3.1, December 2023"
+  },
+  "prefix": "Q",
+  "package": {
+    "name": "SOT-23",
+    "page": "p. 1, SOT23 top view"
+  },
+  "symbol": {
+    "units": [
+      {
+        "shapes": [
+          {
+            "kind": "circle",
+            "center": [
+              -1.27,
+              0.0
+            ],
+            "radius": 3.302,
+            "width": 0.0,
+            "fill": "background"
+          },
+          {
+            "kind": "circle",
+            "center": [
+              0.0,
+              -1.905
+            ],
+            "radius": 0.127,
+            "width": 0.0
+          },
+          {
+            "kind": "circle",
+            "center": [
+              0.0,
+              -1.397
+            ],
+            "radius": 0.127,
+            "width": 0.0
+          },
+          {
+            "kind": "circle",
+            "center": [
+              0.0,
+              1.905
+            ],
+            "radius": 0.127,
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                0.0,
+                -1.397
+              ],
+              [
+                -2.54,
+                -1.397
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -5.08,
+                -2.54
+              ],
+              [
+                -3.048,
+                -2.54
+              ],
+              [
+                -3.048,
+                1.397
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                0.0,
+                -2.54
+              ],
+              [
+                0.0,
+                0.0
+              ],
+              [
+                -2.54,
+                0.0
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                0.0,
+                2.54
+              ],
+              [
+                0.0,
+                1.397
+              ],
+              [
+                -2.54,
+                1.397
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -0.127,
+                -1.905
+              ],
+              [
+                1.016,
+                -1.905
+              ],
+              [
+                1.016,
+                1.397
+              ],
+              [
+                1.016,
+                1.905
+              ],
+              [
+                -0.127,
+                1.905
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -2.54,
+                -1.397
+              ],
+              [
+                -2.54,
+                -1.905
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -2.54,
+                -1.397
+              ],
+              [
+                -2.54,
+                -0.889
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -2.54,
+                0.0
+              ],
+              [
+                -2.54,
+                -0.508
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -2.54,
+                0.0
+              ],
+              [
+                -2.54,
+                0.508
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -2.54,
+                1.905
+              ],
+              [
+                -2.54,
+                0.889
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                1.524,
+                -0.3048
+              ],
+              [
+                0.508,
+                -0.3048
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -0.381,
+                0.0
+              ],
+              [
+                -1.143,
+                0.508
+              ],
+              [
+                -1.143,
+                -0.508
+              ]
+            ],
+            "width": 0.0,
+            "closed": true,
+            "fill": "outline"
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                1.016,
+                -0.254
+              ],
+              [
+                0.508,
+                0.508
+              ],
+              [
+                1.524,
+                0.508
+              ]
+            ],
+            "width": 0.0,
+            "closed": true,
+            "fill": "outline"
+          }
+        ],
+        "pins": [
+          {
+            "number": "1",
+            "x": -7.62,
+            "y": -2.54,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "2",
+            "x": 0.0,
+            "y": -5.08,
+            "angle": 90.0,
+            "length": 2.54
+          },
+          {
+            "number": "3",
+            "x": 0.0,
+            "y": 5.08,
+            "angle": 270.0,
+            "length": 2.54
+          }
+        ]
+      }
+    ],
+    "name_offset": 0.0
+  },
+  "model": "Package_TO_SOT_SMD:SOT-23",
+  "pins": [
+    {
+      "number": "1",
+      "name": "G",
+      "type": "input",
+      "description": "gate"
+    },
+    {
+      "number": "2",
+      "name": "S",
+      "type": "passive",
+      "description": "source (to the supply for a high-side switch)"
+    },
+    {
+      "number": "3",
+      "name": "D",
+      "type": "passive",
+      "description": "drain"
+    }
+  ],
+  "ratings": {
+    "absMax": [
+      {
+        "what": "drain-source voltage",
+        "pins": [
+          "D"
+        ],
+        "min": -30.0,
+        "unit": "V"
+      },
+      {
+        "what": "gate-source voltage",
+        "pins": [
+          "G"
+        ],
+        "min": -12.0,
+        "max": 12.0,
+        "unit": "V"
+      },
+      {
+        "what": "continuous drain current at 25 °C",
+        "max": 4.0,
+        "unit": "A"
+      },
+      {
+        "what": "pulsed drain current",
+        "max": 27.0,
+        "unit": "A"
+      },
+      {
+        "what": "power dissipation at 25 °C",
+        "max": 1.4,
+        "unit": "W"
+      },
+      {
+        "what": "junction temperature",
+        "min": -55.0,
+        "max": 150.0,
+        "unit": "°C"
+      }
+    ],
+    "recommended": [
+      {
+        "what": "gate threshold voltage",
+        "min": -1.3,
+        "nom": -0.9,
+        "max": -0.5,
+        "unit": "V"
+      },
+      {
+        "what": "on-resistance at VGS -4.5 V, -3.5 A",
+        "nom": 0.047,
+        "max": 0.06,
+        "unit": "ohm"
+      },
+      {
+        "what": "on-resistance at VGS -2.5 V, -2.5 A",
+        "nom": 0.06,
+        "max": 0.085,
+        "unit": "ohm"
+      }
+    ]
+  },
+  "parameters": [
+    {
+      "name": "Digi-Key_PN",
+      "value": "785-1001-1-ND"
+    },
+    {
+      "name": "Category",
+      "value": "Discrete Semiconductor Products"
+    },
+    {
+      "name": "Family",
+      "value": "Transistors - FETs, MOSFETs - Single"
+    },
+    {
+      "name": "DK_Datasheet_Link",
+      "value": "http://aosmd.com/res/data_sheets/AO3401A.pdf"
+    },
+    {
+      "name": "DK_Detail_Page",
+      "value": "/product-detail/en/alpha-omega-semiconductor-inc/AO3401A/785-1001-1-ND/1855943"
+    },
+    {
+      "name": "Status",
+      "value": "Active"
+    }
+  ],
+  "notes": [
+    "High-side switch: source to the supply, drain to the load; pull the gate to the source (100 kohm) so it stays off, and pull it low (an NPN or N-MOSFET such as 2N7002, or a GPIO when the supply is the GPIO's own) to turn it on. A 3.3 V GPIO can switch a 3.3 V rail directly; a 5 V rail needs the level shift.",
+    "Reverse-polarity protection: drain to the input connector, source to the circuit, gate to GND (with a zener from gate to source above 12 V supplies): the body diode conducts first, then the channel shorts it.",
+    "125 °C/W steady state: keep it under about 1 W at 25 °C ambient, with copper on the drain."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "AO3401A datasheet Rev 3.1, SOT23 top view (p. 1): gate and source on the side with the pin 1 mark, drain alone (JEDEC SOT-23 numbering 1 G, 2 S, 3 D; the drawing draws no numbers), absolute maximum ratings and electrical characteristics",
+      "url": "https://www.aosmd.com/res/datasheets/AO3401A.pdf",
+      "license": "pin assignment, ratings and package facts transcribed from the manufacturer's datasheet (facts, one reading); descriptions and notes our own"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "standard SOT-23 (TO-236)"
+    },
+    "symbol": {
+      "verified": false,
+      "source": "digikey-kicad",
+      "version": "d4bd68f42e6ccc474526811a853a03692e170b58",
+      "item": "dk_Transistors-FETs-MOSFETs-Single:AO3401A",
+      "url": "https://github.com/Digi-Key/digikey-kicad-library",
+      "license": "CC-BY-SA-4.0"
+    },
+    "model": {
+      "verified": false,
+      "source": "kicad",
+      "version": "10.0.7",
+      "item": "Package_TO_SOT_SMD.3dshapes/SOT-23 (the model of Package_TO_SOT_SMD:SOT-23: the package `SOT-23`)",
+      "license": "CC-BY-SA-4.0"
+    },
+    "parameters": {
+      "verified": false,
+      "source": "digikey-kicad",
+      "version": "d4bd68f42e6ccc474526811a853a03692e170b58",
+      "item": "dk_Transistors-FETs-MOSFETs-Single:AO3401A",
+      "url": "https://github.com/Digi-Key/digikey-kicad-library",
+      "license": "CC-BY-SA-4.0"
+    }
+  }
+}

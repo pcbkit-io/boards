@@ -723,6 +723,36 @@
       }
     },
     {
+      "slug": "egg-catcher",
+      "title": "Egg catcher",
+      "category": "arduino",
+      "summary": "The 1980s pocket game on a battery: eggs roll down four chutes and the catcher's basket goes where you press, Q and A on the left, P and L on the right; three broken eggs end it. A LiPo cell charged from its own USB-C, an on/off switch and a 5 V boost; the Nano's USB flashes it.",
+      "tags": [
+        "game",
+        "oled",
+        "battery",
+        "lipo",
+        "usb-c",
+        "handheld"
+      ],
+      "chips": [
+        "Arduino Nano",
+        "SSD1306",
+        "MCP73831",
+        "MT3608"
+      ],
+      "featured": true,
+      "license": "CC0-1.0",
+      "author": "PCBKit",
+      "source": null,
+      "copper": "Placed and routed by PCBKit; the sketch builds and runs in the browser.",
+      "path": "arduino/egg-catcher",
+      "production": {
+        "status": "ready",
+        "flash": "usb-arduino-bootloader"
+      }
+    },
+    {
       "slug": "snake",
       "title": "Snake",
       "category": "arduino",
