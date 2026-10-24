@@ -24,7 +24,7 @@ supply = NetClass {
   nets = [V5, GND]
 }
 
-part ShiftRegister = device(footprint = soic(16), prefix = "U", pinout = {
+part ShiftRegister = device(footprint = soic(16), prefix = "U", mpn = "SN74HC595DR", manufacturer = "Texas Instruments", pinout = {
   QB: "1",
   QC: "2",
   QD: "3",

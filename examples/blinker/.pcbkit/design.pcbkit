@@ -8,6 +8,8 @@ net VCC, GND, TRIG, DIS, OUT, LEDK
 
 part NE555 = device(
   footprint = soic(8),
+  mpn = "NE555DR",
+  manufacturer = "Texas Instruments",
   pinout = { GND: "1", TRIG: "2", OUT: "3", RESET: "4", CTRL: "5", THR: "6", DIS: "7", VCC: "8" },
 )
 
