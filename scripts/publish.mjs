@@ -8,7 +8,7 @@
 // Needs a clean checkout whose HEAD is on origin/main (the published files are that commit's),
 // the pcbkit binary (PCBKIT_BIN, default `pcbkit`) and, to upload, the AWS CLI with the right to
 // write the library (the dev host's role). It writes:
-//   library/demos/<commit>/<slug>.json   a board's files, immutable
+//   library/demos/<commit>/<slug>.json   a board's files (or, opened from GitHub, their names and sizes), immutable
 //   library/demos/<commit>/<slug>.webp   its picture, immutable
 //   library/demos/index.json             the registry with each board's counts and addresses (a minute's cache)
 // served at https://library.pcbkit.io/demos/ and, same-origin, app.pcbkit.io/library/demos/.
@@ -64,6 +64,22 @@ function texts(dir) {
   walk(dir)
   return found.sort((a, b) => a.path.localeCompare(b.path))
 }
+/** The files of a folder the app reads from GitHub (as PCBKit's import takes them), with their sizes. */
+const WANTED = /\.(kicad_pcb|kicad_pro|kicad_dru|kicad_sch|pcbkit|md|json|c|cpp|ino|h|hpp|S|hex|txt|csv|svg|kicad_mod|kicad_sym|js)$|(^|\/)(\.gitignore|pre-commit)$/
+const BACKUP = /(^|\/)(\.git|node_modules|target|[^/]*-backups)(\/|$)|(^|\/)(_autosave-[^/]*|~[^/]*\.lck|[^/]*-bak|[^/]*\.bak|[^/]*~|\._[^/]*)$/
+function listed(dir) {
+  const found = []
+  const walk = (d) => {
+    for (const n of readdirSync(d).sort()) {
+      const p = join(d, n), rel = relative(dir, p)
+      if (BACKUP.test(rel)) continue
+      if (statSync(p).isDirectory()) walk(p)
+      else if (WANTED.test(rel)) found.push({ path: rel, bytes: statSync(p).size })
+    }
+  }
+  walk(dir)
+  return found
+}
 const pcbkit = (dir, ...a) => {
   try { return JSON.parse(execFileSync(bin, ['-C', dir, ...a], { encoding: 'utf8', maxBuffer: 1 << 28 })) }
   catch (e) { if (e.stdout) return JSON.parse(e.stdout); throw e }
@@ -80,8 +96,14 @@ for (const b of registry.boards) {
   const entry = { ...b, layers: s.layers.length, parts: s.counts.components, nets: s.counts.nets, thumb: `${commit}/${b.slug}.webp` }
   copyFileSync(join(root, 'thumbs', `${b.slug}.webp`), join(out, commit, `${b.slug}.webp`))
   if (b.open === 'github') {
-    entry.github = { owner: 'pcbkit-io', repo: 'boards', ref: commit, path: b.path }
-    entry.bytes = 0
+    // Read from GitHub's file servers when it opens: its folder's files at the commit, their names
+    // and sizes (none of their contents), so the app asks GitHub's API nothing.
+    const files = listed(dir)
+    const github = { owner: 'pcbkit-io', repo: 'boards', ref: commit, path: b.path }
+    writeFileSync(join(out, commit, `${b.slug}.json`), JSON.stringify({ slug: b.slug, commit, github: { ...github, files } }))
+    entry.github = github
+    entry.files = `${commit}/${b.slug}.json`
+    entry.bytes = files.reduce((n, f) => n + f.bytes, 0)
   } else {
     const json = JSON.stringify({ slug: b.slug, commit, files: texts(dir) })
     writeFileSync(join(out, commit, `${b.slug}.json`), json)
