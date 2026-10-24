@@ -36,14 +36,14 @@
       "slug": "air-quality",
       "title": "Air quality meter",
       "category": "lab",
-      "summary": "A battery-powered air meter you can run: an ATmega328P with real C firmware reads an SHT31 and an SCD40 and shows temperature and humidity on a MAX7219 display, with green, orange and red CO₂ lights. Change the weather and watch the firmware answer.",
+      "summary": "An air meter you can run: an Arduino Nano with real C firmware reads an SHT31 and an SCD40 and shows temperature and humidity on a MAX7219 display, with green, orange and red CO₂ lights. Change the weather and watch the firmware answer.",
       "tags": [
         "sensor",
         "co2",
-        "max7219",
-        "battery"
+        "max7219"
       ],
       "chips": [
+        "Arduino Nano",
         "ATmega328P",
         "SHT31",
         "SCD40",
@@ -56,14 +56,15 @@
       "copper": "Placed and routed by PCBKit; the firmware runs in the browser.",
       "path": "lab/air-quality",
       "production": {
-        "status": "simulation-only"
+        "status": "ready",
+        "flash": "usb-arduino-bootloader"
       }
     },
     {
       "slug": "servo-controller",
       "title": "Servo controller",
       "category": "lab",
-      "summary": "A device you can run: an ATmega328P reads a knob and a button and drives a servo with PWM, sleeping between interrupts. Turn the knob or press the button and watch the servo follow.",
+      "summary": "A device you can run: an Arduino Nano reads a knob and a button and drives a servo with PWM, sleeping between interrupts. Turn the knob or press the button and watch the servo follow.",
       "tags": [
         "servo",
         "knob",
@@ -71,6 +72,7 @@
         "interrupts"
       ],
       "chips": [
+        "Arduino Nano",
         "ATmega328P"
       ],
       "license": "CC0-1.0",
@@ -79,20 +81,22 @@
       "copper": "Placed and routed by PCBKit; the firmware runs in the browser.",
       "path": "lab/servo-controller",
       "production": {
-        "status": "simulation-only"
+        "status": "ready",
+        "flash": "usb-arduino-bootloader"
       }
     },
     {
       "slug": "serial-device",
       "title": "Serial command device",
       "category": "lab",
-      "summary": "A device you talk to over UART: an ATmega168P echoes every byte and turns its light on for 1 and off for 0. Type into its serial console and watch it answer.",
+      "summary": "A device you talk to over UART: an Arduino Nano echoes every byte and turns its light on for 1 and off for 0. Type into its serial console and watch it answer.",
       "tags": [
         "uart",
         "serial"
       ],
       "chips": [
-        "ATmega168P"
+        "Arduino Nano",
+        "ATmega328P"
       ],
       "license": "CC0-1.0",
       "author": "PCBKit",
@@ -100,7 +104,8 @@
       "copper": "Placed and routed by PCBKit; the firmware runs in the browser.",
       "path": "lab/serial-device",
       "production": {
-        "status": "simulation-only"
+        "status": "ready",
+        "flash": "usb-arduino-bootloader"
       }
     },
     {
@@ -114,6 +119,7 @@
         "pwm"
       ],
       "chips": [
+        "Arduino Nano",
         "ATmega328P"
       ],
       "license": "CC0-1.0",
@@ -122,7 +128,8 @@
       "copper": "Placed and routed by PCBKit; the firmware runs in the browser.",
       "path": "lab/led-ring-lab",
       "production": {
-        "status": "simulation-only"
+        "status": "ready",
+        "flash": "usb-arduino-bootloader"
       }
     },
     {
@@ -136,6 +143,7 @@
         "display"
       ],
       "chips": [
+        "Arduino Nano",
         "ATmega328P",
         "MAX7219"
       ],
@@ -146,7 +154,8 @@
       "copper": "Placed and routed by PCBKit; the firmware runs in the browser.",
       "path": "lab/stopwatch",
       "production": {
-        "status": "simulation-only"
+        "status": "ready",
+        "flash": "usb-arduino-bootloader"
       }
     },
     {
@@ -160,6 +169,7 @@
         "leds"
       ],
       "chips": [
+        "Arduino Nano",
         "ATmega328P",
         "MAX7219"
       ],
@@ -169,7 +179,8 @@
       "copper": "Placed and routed by PCBKit; the firmware runs in the browser.",
       "path": "lab/reaction-game",
       "production": {
-        "status": "simulation-only"
+        "status": "ready",
+        "flash": "usb-arduino-bootloader"
       }
     },
     {
@@ -184,6 +195,7 @@
         "control"
       ],
       "chips": [
+        "Arduino Nano",
         "ATmega328P",
         "SHT31",
         "SCD40",
@@ -195,7 +207,8 @@
       "copper": "Placed and routed by PCBKit; the firmware runs in the browser.",
       "path": "lab/greenhouse",
       "production": {
-        "status": "simulation-only"
+        "status": "ready",
+        "flash": "usb-arduino-bootloader"
       }
     },
     {
@@ -209,6 +222,7 @@
         "animation"
       ],
       "chips": [
+        "Arduino Nano",
         "ATmega328P"
       ],
       "license": "CC0-1.0",
@@ -217,7 +231,8 @@
       "copper": "Placed and routed by PCBKit; the firmware runs in the browser.",
       "path": "lab/servo-sequencer",
       "production": {
-        "status": "simulation-only"
+        "status": "ready",
+        "flash": "usb-arduino-bootloader"
       }
     },
     {
@@ -231,6 +246,7 @@
         "max7219"
       ],
       "chips": [
+        "Arduino Nano",
         "ATmega328P",
         "MAX7219"
       ],
@@ -240,7 +256,8 @@
       "copper": "Placed and routed by PCBKit; the firmware runs in the browser.",
       "path": "lab/pedestrian-crossing",
       "production": {
-        "status": "simulation-only"
+        "status": "ready",
+        "flash": "usb-arduino-bootloader"
       }
     },
     {
@@ -254,6 +271,7 @@
         "text"
       ],
       "chips": [
+        "Arduino Nano",
         "ATmega328P",
         "MAX7219"
       ],
@@ -263,7 +281,8 @@
       "copper": "Placed and routed by PCBKit; the firmware runs in the browser.",
       "path": "lab/message-scroller",
       "production": {
-        "status": "simulation-only"
+        "status": "ready",
+        "flash": "usb-arduino-bootloader"
       }
     },
     {

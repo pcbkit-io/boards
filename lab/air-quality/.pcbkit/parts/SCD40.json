@@ -1,0 +1,471 @@
+{
+  "id": "SCD40",
+  "mpn": "SCD40-D-R2",
+  "manufacturer": "Sensirion",
+  "variants": [
+    "SCD40-D-R1",
+    "SCD41-D-R2",
+    "SCD41-D-R1"
+  ],
+  "category": "sensor",
+  "description": "SCD40 photoacoustic CO2 sensor (400-2000 ppm ±(50 ppm + 5 %), with temperature and humidity), I2C (address 0x62), 2.4-5.5 V, SMD LGA 10.1 x 10.1 x 6.5 mm",
+  "tags": [
+    "scd40",
+    "scd41",
+    "scd4x",
+    "sensirion",
+    "co2",
+    "carbon dioxide",
+    "ndir",
+    "photoacoustic",
+    "air quality",
+    "iaq",
+    "humidity",
+    "temperature",
+    "sensor",
+    "i2c"
+  ],
+  "datasheet": {
+    "url": "https://cdn.sparkfun.com/assets/d/4/9/a/d/Sensirion_CO2_Sensors_SCD4x_Datasheet.pdf",
+    "revision": "SCD4x datasheet version 1.1, April 2021"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "LGA-21 10.1 x 10.1 mm (SCD4x, 20 pads and a centre pad)",
+    "family": "other",
+    "pins": 21,
+    "body": {
+      "d": [
+        9.8,
+        10.1,
+        10.4
+      ],
+      "e": [
+        9.8,
+        10.1,
+        10.4
+      ],
+      "a": 6.5
+    },
+    "landPattern": {
+      "pads": [
+        {
+          "number": "1",
+          "x": -4.0,
+          "y": 2.5,
+          "w": 1.5,
+          "h": 0.8
+        },
+        {
+          "number": "2",
+          "x": -4.0,
+          "y": 1.25,
+          "w": 1.5,
+          "h": 0.8
+        },
+        {
+          "number": "3",
+          "x": -4.0,
+          "y": 0.0,
+          "w": 1.5,
+          "h": 0.8
+        },
+        {
+          "number": "4",
+          "x": -4.0,
+          "y": -1.25,
+          "w": 1.5,
+          "h": 0.8
+        },
+        {
+          "number": "5",
+          "x": -4.0,
+          "y": -2.5,
+          "w": 1.5,
+          "h": 0.8
+        },
+        {
+          "number": "6",
+          "x": -2.5,
+          "y": -4.0,
+          "w": 0.8,
+          "h": 1.5
+        },
+        {
+          "number": "7",
+          "x": -1.25,
+          "y": -4.0,
+          "w": 0.8,
+          "h": 1.5
+        },
+        {
+          "number": "8",
+          "x": 0.0,
+          "y": -4.0,
+          "w": 0.8,
+          "h": 1.5
+        },
+        {
+          "number": "9",
+          "x": 1.25,
+          "y": -4.0,
+          "w": 0.8,
+          "h": 1.5
+        },
+        {
+          "number": "10",
+          "x": 2.5,
+          "y": -4.0,
+          "w": 0.8,
+          "h": 1.5
+        },
+        {
+          "number": "11",
+          "x": 4.0,
+          "y": -2.5,
+          "w": 1.5,
+          "h": 0.8
+        },
+        {
+          "number": "12",
+          "x": 4.0,
+          "y": -1.25,
+          "w": 1.5,
+          "h": 0.8
+        },
+        {
+          "number": "13",
+          "x": 4.0,
+          "y": 0.0,
+          "w": 1.5,
+          "h": 0.8
+        },
+        {
+          "number": "14",
+          "x": 4.0,
+          "y": 1.25,
+          "w": 1.5,
+          "h": 0.8
+        },
+        {
+          "number": "15",
+          "x": 4.0,
+          "y": 2.5,
+          "w": 1.5,
+          "h": 0.8
+        },
+        {
+          "number": "16",
+          "x": 2.5,
+          "y": 4.0,
+          "w": 0.8,
+          "h": 1.5
+        },
+        {
+          "number": "17",
+          "x": 1.25,
+          "y": 4.0,
+          "w": 0.8,
+          "h": 1.5
+        },
+        {
+          "number": "18",
+          "x": 0.0,
+          "y": 4.0,
+          "w": 0.8,
+          "h": 1.5
+        },
+        {
+          "number": "19",
+          "x": -1.25,
+          "y": 4.0,
+          "w": 0.8,
+          "h": 1.5
+        },
+        {
+          "number": "20",
+          "x": -2.5,
+          "y": 4.0,
+          "w": 0.8,
+          "h": 1.5
+        },
+        {
+          "number": "21",
+          "x": 0.0,
+          "y": 0.0,
+          "w": 4.8,
+          "h": 4.8
+        }
+      ],
+      "page": "Figure 4a landing pads (top view): 1.5 x 0.8 mm pads at 1.25 mm, the rows' centres 4.0 mm from the centre (8.0 mm apart), centre pad 4.8 x 4.8 mm"
+    },
+    "page": "4.1 package outline, Table 31: 10.1 ± 0.3 mm square base, cap 8.5 / 7.8 mm, 6.5 mm high (features: 10.1 x 10.1 x 6.5 mm)"
+  },
+  "pins": [
+    {
+      "number": "1",
+      "name": "DNC",
+      "type": "nc",
+      "description": "do not connect: solder to a floating pad"
+    },
+    {
+      "number": "2",
+      "name": "DNC",
+      "type": "nc",
+      "description": "do not connect: solder to a floating pad"
+    },
+    {
+      "number": "3",
+      "name": "DNC",
+      "type": "nc",
+      "description": "do not connect: solder to a floating pad"
+    },
+    {
+      "number": "4",
+      "name": "DNC",
+      "type": "nc",
+      "description": "do not connect: solder to a floating pad"
+    },
+    {
+      "number": "5",
+      "name": "DNC",
+      "type": "nc",
+      "description": "do not connect: solder to a floating pad"
+    },
+    {
+      "number": "6",
+      "name": "GND",
+      "type": "ground"
+    },
+    {
+      "number": "7",
+      "name": "VDD",
+      "type": "power_in",
+      "description": "supply 2.4-5.5 V"
+    },
+    {
+      "number": "8",
+      "name": "DNC",
+      "type": "nc",
+      "description": "do not connect: solder to a floating pad"
+    },
+    {
+      "number": "9",
+      "name": "SCL",
+      "type": "input",
+      "description": "I2C clock"
+    },
+    {
+      "number": "10",
+      "name": "SDA",
+      "type": "open_drain",
+      "description": "I2C data"
+    },
+    {
+      "number": "11",
+      "name": "DNC",
+      "type": "nc",
+      "description": "do not connect: solder to a floating pad"
+    },
+    {
+      "number": "12",
+      "name": "DNC",
+      "type": "nc",
+      "description": "do not connect: solder to a floating pad"
+    },
+    {
+      "number": "13",
+      "name": "DNC",
+      "type": "nc",
+      "description": "do not connect: solder to a floating pad"
+    },
+    {
+      "number": "14",
+      "name": "DNC",
+      "type": "nc",
+      "description": "do not connect: solder to a floating pad"
+    },
+    {
+      "number": "15",
+      "name": "DNC",
+      "type": "nc",
+      "description": "do not connect: solder to a floating pad"
+    },
+    {
+      "number": "16",
+      "name": "DNC",
+      "type": "nc",
+      "description": "do not connect: solder to a floating pad"
+    },
+    {
+      "number": "17",
+      "name": "DNC",
+      "type": "nc",
+      "description": "do not connect: solder to a floating pad"
+    },
+    {
+      "number": "18",
+      "name": "DNC",
+      "type": "nc",
+      "description": "do not connect: solder to a floating pad"
+    },
+    {
+      "number": "19",
+      "name": "VDDH",
+      "type": "power_in",
+      "description": "IR source supply: tie to VDD next to the sensor"
+    },
+    {
+      "number": "20",
+      "name": "GND",
+      "type": "ground"
+    },
+    {
+      "number": "21",
+      "name": "GND",
+      "type": "ground",
+      "description": "centre pad"
+    }
+  ],
+  "ratings": {
+    "absMax": [
+      {
+        "what": "DC supply",
+        "pins": [
+          "VDD",
+          "VDDH"
+        ],
+        "min": -0.3,
+        "max": 6.0,
+        "unit": "V"
+      }
+    ],
+    "recommended": [
+      {
+        "what": "VDD supply (ripple max. 30 mVpp)",
+        "pins": [
+          "VDD",
+          "VDDH"
+        ],
+        "min": 2.4,
+        "nom": 3.3,
+        "max": 5.5,
+        "unit": "V"
+      },
+      {
+        "what": "operating temperature",
+        "min": -10.0,
+        "max": 60.0,
+        "unit": "°C"
+      }
+    ]
+  },
+  "simulation": {
+    "behavior": {
+      "model": "scd40",
+      "ports": {
+        "i2c": [
+          "10",
+          "9"
+        ],
+        "power": [
+          "7",
+          "6"
+        ]
+      },
+      "parameters": {},
+      "height": 6.5
+    },
+    "parameters": [
+      {
+        "id": "idd-periodic-3v3",
+        "quantity": "supplyCurrent",
+        "unit": "A",
+        "typ": 0.015,
+        "max": 0.018,
+        "conditions": "Average supply current for periodic measurement (one reading every 5 s, the default continuous mode), VDD = 3.3 V; low power periodic measurement is 3.2 mA typ / 3.5 mA max; peak is 175 mA typ for short pulses",
+        "source": {
+          "url": "https://cdn.sparkfun.com/assets/d/4/9/a/d/Sensirion_CO2_Sensors_SCD4x_Datasheet.pdf",
+          "revision": "SCD4x datasheet version 1.1, April 2021",
+          "location": "p. 4, section 2.1 Electrical Specifications, Table 4, IDD periodic measurement row",
+          "confidence": "datasheet"
+        }
+      }
+    ]
+  },
+  "support": {
+    "parts": [
+      {
+        "ref": "C1",
+        "kind": "cap",
+        "value": "10uF",
+        "rating": "our choice: holds up the 205 mA peaks of the IR source (the datasheet asks for a low-noise LDO sized for the peaks)",
+        "between": [
+          "VDD",
+          "GND"
+        ]
+      },
+      {
+        "ref": "C2",
+        "kind": "cap",
+        "value": "100nF",
+        "rating": "next to VDD/VDDH",
+        "between": [
+          "VDD",
+          "GND"
+        ]
+      },
+      {
+        "ref": "RP1",
+        "kind": "res",
+        "value": "10kohm",
+        "rating": "I2C pull-up (once per bus)",
+        "between": [
+          "SDA",
+          "VDD"
+        ],
+        "option": "pullUps"
+      },
+      {
+        "ref": "RP2",
+        "kind": "res",
+        "value": "10kohm",
+        "rating": "I2C pull-up (once per bus)",
+        "between": [
+          "SCL",
+          "VDD"
+        ],
+        "option": "pullUps"
+      }
+    ],
+    "options": [
+      {
+        "name": "pullUps",
+        "default": true,
+        "description": "The I2C pull-ups (once per bus: `false` when another part of the bus has them)."
+      }
+    ],
+    "notes": [
+      "VDD and VDDH joined next to the sensor, on one low-noise supply (an LDO, ripple under 30 mV p-p) good for 205 mA peaks at 3.3 V.",
+      "The DNC pads are soldered to floating pads (mechanical), never connected."
+    ],
+    "page": "Figure 1 typical application circuit; 2.3 interface specifications"
+  },
+  "notes": [
+    "Address 0x62 (fixed). SCD41 (same footprint) adds single-shot low-power measurements.",
+    "Reflow once, never wash, keep the white membrane on top intact; keep it away from heat sources (regulators) for its temperature and humidity readings.",
+    "The decoupling capacitors are our addition: Sensirion's circuit shows only the pull-ups."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "Sensirion SCD4x datasheet version 1.1 (April 2021): Table 4 electrical specifications, Table 5 maximum ratings, Table 6 pin assignment, Figure 1 application circuit, 3.1 I2C address, Table 31 and Figure 4 package and land pattern",
+      "url": "https://cdn.sparkfun.com/assets/d/4/9/a/d/Sensirion_CO2_Sensors_SCD4x_Datasheet.pdf",
+      "license": "pin numbers and names, package dimensions, land pattern, ratings and application values transcribed from the manufacturer's datasheet (facts, one reading); descriptions and notes our own"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "the datasheet's landing pads (Figure 4a): centres from its callouts (4.00 / 2.50 / 1.25 mm), pads 1.5 x 0.8 mm, centre pad 4.8 mm"
+    }
+  }
+}

@@ -1,69 +1,61 @@
 pcbkit 1
+use "parts/ARDUINO_NANO.pcbkit" as ARDUINO_NANO
+use "parts/MAX7219_7SEG_MODULE.pcbkit" as MAX7219_7SEG_MODULE
 // A stopwatch: Timer0 counts milliseconds in decimal, a MAX7219 shows hours to hundredths.
-// Board nets are the executable connections. Module envelopes need physical qualification.
-net V5, GND, MOSI, SCK, LOAD, RUN, LAP, GREEN, ORANGE, RED
+net V5, GND, MOSI, SCK, LOAD, RUN, LAP, GREEN, ORANGE, RED, GREEN_K, ORANGE_K, RED_K
+// The parts every lab board shares: a light (an LED from its pin through 1 kΩ, `.green` to
+// `.white`), a key (a tactile switch to ground, the pin's pull-up on; in the lab the keyboard key
+// named), a knob (a 10 kΩ pot between 5 V and ground into an ADC pin) and the FTDI header.
+fn light(color: LedColor): Part = led(package = "1206", color = color) with {
+  simulation = SimulationParameters { behavior = Behavior { model = "indicator"; ports = { input: ["2"] }; parameters = { color: labColorIndex(color), milliamps: 3 } } }
+}
+fn key(code: String): Part = button("6x6") with {
+  simulation = SimulationParameters { behavior = Behavior { model = "button"; ports = { output: ["1"] }; key = code } }
+}
+
 board = Board {
   name = "Stopwatch"
   description = "Timer interrupt · MAX7219 · run switch · lap and reset"
   outline = circle((45mm, 45mm), 45mm)
   fab { mask = .white, silk = .black, finish = .enig }
 }
-U1 = labMcu(
-  {
-    power: ["4", "3"],
-    spi0: ["15", "17"],
-    PB2: ["14"],
-    PD2: ["32"],
-    PD3: ["1"],
-    PD5: ["9"],
-    PD6: ["10"],
-    PD7: ["11"],
-  },
-  firmware = "firmware",
-) {
+// The processor: an Arduino Nano on two 15-pin sockets on the back, flashed over its USB (its
+// bootloader); the program in firmware/ is plain C for its ATmega328P.
+U1 = ARDUINO_NANO.Part with {
+  simulation = ARDUINO_NANO.Part.simulation with { behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" } }
+} {
   at = (45mm, 36mm)
-  pins {
-    "4": V5,
-    "3": GND,
-    "15": MOSI,
-    "17": SCK,
-    "14": LOAD,
-    "32": RUN,
-    "1": LAP,
-    "9": GREEN,
-    "10": ORANGE,
-    "11": RED,
-  }
+  rotation = 90deg
+  side = .bottom
+  pins { P5V: V5, GND: GND, D11: MOSI, D13: SCK, D10: LOAD, D2: RUN, D3: LAP, D5: GREEN, D6: ORANGE, D7: RED }
 }
-display = labDisplay() {
+display = MAX7219_7SEG_MODULE.Part {
   at = (45mm, 52mm)
-  pins = [V5, GND, MOSI, SCK, LOAD]
+  pins { VCC: V5, GND: GND, DIN: MOSI, CS: LOAD, CLK: SCK }
 }
-run = labButton() {
+run = key("Space") {
   at = (31mm, 75mm)
-  pins = [V5, GND, RUN]
+  pins { a: RUN, b: GND }
 }
-lap = labButton() {
+lap = key("KeyL") {
   at = (59mm, 75mm)
-  pins = [V5, GND, LAP]
+  pins { a: LAP, b: GND }
 }
-green = labIndicator(.green) {
+green = light(.green) {
   at = (37mm, 66mm)
-  pins = [V5, GND, GREEN]
+  pins { A: GREEN, K: GREEN_K }
 }
-orange = labIndicator(.orange) {
+greenR = res(1kohm, package = "0603") { place = [soft(near(green, max = 4mm))]; pins { a: GREEN_K, b: GND } }
+orange = light(.orange) {
   at = (45mm, 66mm)
-  pins = [V5, GND, ORANGE]
+  pins { A: ORANGE, K: ORANGE_K }
 }
-red = labIndicator(.red) {
+orangeR = res(1kohm, package = "0603") { place = [soft(near(orange, max = 4mm))]; pins { a: ORANGE_K, b: GND } }
+red = light(.red) {
   at = (53mm, 66mm)
-  pins = [V5, GND, RED]
+  pins { A: RED, K: RED_K }
 }
-battery = labBattery() {
-  at = (45mm, 20mm)
-  rotation = 180deg
-  pins = [V5, GND]
-}
+redR = res(1kohm, package = "0603") { place = [soft(near(red, max = 4mm))]; pins { a: RED_K, b: GND } }
 gnd = pour(net = GND, layers = [Cu.top, Cu.bottom]) {}
 runLabel = Text {
   text = "RUN"

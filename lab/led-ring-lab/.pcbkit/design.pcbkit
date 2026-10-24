@@ -1,7 +1,21 @@
 pcbkit 1
+use "parts/ARDUINO_NANO.pcbkit" as ARDUINO_NANO
+use "parts/PTV09A_4020F_B103.pcbkit" as PTV09A_4020F_B103
 // Twelve lights in a ring, each dimmed by a software PWM in a timer interrupt.
-// Board nets are the executable connections. Module envelopes need physical qualification.
-net V5, GND, SPEED, MODE, L0, L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11
+net V5, GND, SPEED, MODE, L0, L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L0_K, L1_K, L2_K, L3_K, L4_K, L5_K, L6_K, L7_K, L8_K, L9_K, L10_K, L11_K
+// The parts every lab board shares: a light (an LED from its pin through 1 kΩ, `.green` to
+// `.white`), a key (a tactile switch to ground, the pin's pull-up on; in the lab the keyboard key
+// named), a knob (a 10 kΩ pot between 5 V and ground into an ADC pin) and the FTDI header.
+fn light(color: LedColor): Part = led(package = "1206", color = color) with {
+  simulation = SimulationParameters { behavior = Behavior { model = "indicator"; ports = { input: ["2"] }; parameters = { color: labColorIndex(color), milliamps: 3 } } }
+}
+fn key(code: String): Part = button("6x6") with {
+  simulation = SimulationParameters { behavior = Behavior { model = "button"; ports = { output: ["1"] }; key = code } }
+}
+fn knob(position: Number): Part = PTV09A_4020F_B103.Part with {
+  simulation = PTV09A_4020F_B103.Part.simulation with { behavior = PTV09A_4020F_B103.Part.simulation.behavior with { parameters = { position: position, volts: 5, ohms: 10000 } } }
+}
+
 board = Board {
   name = "LED ring"
   description = "Software PWM · spinning comet · dial gauge · breathing wave"
@@ -13,118 +27,95 @@ fn ring(i: Int): Point = (
   clean(40mm + 32mm * cos((90 - 30 * i) * 1deg)),
   clean(40mm + 32mm * sin((90 - 30 * i) * 1deg)),
 )
-U1 = labMcu(
-  {
-    power: ["4", "3"],
-    ADC0: ["23"],
-    PC1: ["24"],
-    PD0: ["30"],
-    PD1: ["31"],
-    PD2: ["32"],
-    PD3: ["1"],
-    PD4: ["2"],
-    PD5: ["9"],
-    PD6: ["10"],
-    PD7: ["11"],
-    PB0: ["12"],
-    PB1: ["13"],
-    PB2: ["14"],
-    PB3: ["15"],
-  },
-  firmware = "firmware",
-) {
-  at = (40mm, 46mm)
-  pins {
-    "4": V5,
-    "3": GND,
-    "23": SPEED,
-    "24": MODE,
-    "30": L0,
-    "31": L1,
-    "32": L2,
-    "1": L3,
-    "2": L4,
-    "9": L5,
-    "10": L6,
-    "11": L7,
-    "12": L8,
-    "13": L9,
-    "14": L10,
-    "15": L11,
-  }
+// The processor: an Arduino Nano on two 15-pin sockets on the back, flashed over its USB (its
+// bootloader); the program in firmware/ is plain C for its ATmega328P.
+U1 = ARDUINO_NANO.Part with {
+  simulation = ARDUINO_NANO.Part.simulation with { behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" } }
+} {
+  at = (40mm, 30mm)
+  rotation = 90deg
+  side = .bottom
+  pins { P5V: V5, GND: GND, A0: SPEED, A1: MODE, D0: L0, D1: L1, D2: L2, D3: L3, D4: L4, D5: L5, D6: L6, D7: L7, D8: L8, D9: L9, D10: L10, D11: L11 }
 }
-led0 = labIndicator(.green, 5mA) {
+led0 = light(.green) {
   at = ring(0)
   rotation = 0deg
-  pins = [V5, GND, L0]
+  pins { A: L0, K: L0_K }
 }
-led1 = labIndicator(.green, 5mA) {
+led0R = res(1kohm, package = "0603") { place = [soft(near(led0, max = 4mm))]; pins { a: L0_K, b: GND } }
+led1 = light(.green) {
   at = ring(1)
   rotation = 330deg
-  pins = [V5, GND, L1]
+  pins { A: L1, K: L1_K }
 }
-led2 = labIndicator(.green, 5mA) {
+led1R = res(1kohm, package = "0603") { place = [soft(near(led1, max = 4mm))]; pins { a: L1_K, b: GND } }
+led2 = light(.green) {
   at = ring(2)
   rotation = 300deg
-  pins = [V5, GND, L2]
+  pins { A: L2, K: L2_K }
 }
-led3 = labIndicator(.green, 5mA) {
+led2R = res(1kohm, package = "0603") { place = [soft(near(led2, max = 4mm))]; pins { a: L2_K, b: GND } }
+led3 = light(.green) {
   at = ring(3)
   rotation = 270deg
-  pins = [V5, GND, L3]
+  pins { A: L3, K: L3_K }
 }
-led4 = labIndicator(.orange, 5mA) {
+led3R = res(1kohm, package = "0603") { place = [soft(near(led3, max = 4mm))]; pins { a: L3_K, b: GND } }
+led4 = light(.orange) {
   at = ring(4)
   rotation = 240deg
-  pins = [V5, GND, L4]
+  pins { A: L4, K: L4_K }
 }
-led5 = labIndicator(.orange, 5mA) {
+led4R = res(1kohm, package = "0603") { place = [soft(near(led4, max = 4mm))]; pins { a: L4_K, b: GND } }
+led5 = light(.orange) {
   at = ring(5)
   rotation = 210deg
-  pins = [V5, GND, L5]
+  pins { A: L5, K: L5_K }
 }
-led6 = labIndicator(.orange, 5mA) {
+led5R = res(1kohm, package = "0603") { place = [soft(near(led5, max = 4mm))]; pins { a: L5_K, b: GND } }
+led6 = light(.orange) {
   at = ring(6)
   rotation = 180deg
-  pins = [V5, GND, L6]
+  pins { A: L6, K: L6_K }
 }
-led7 = labIndicator(.orange, 5mA) {
+led6R = res(1kohm, package = "0603") { place = [soft(near(led6, max = 4mm))]; pins { a: L6_K, b: GND } }
+led7 = light(.orange) {
   at = ring(7)
   rotation = 150deg
-  pins = [V5, GND, L7]
+  pins { A: L7, K: L7_K }
 }
-led8 = labIndicator(.red, 5mA) {
+led7R = res(1kohm, package = "0603") { place = [soft(near(led7, max = 4mm))]; pins { a: L7_K, b: GND } }
+led8 = light(.red) {
   at = ring(8)
   rotation = 120deg
-  pins = [V5, GND, L8]
+  pins { A: L8, K: L8_K }
 }
-led9 = labIndicator(.red, 5mA) {
+led8R = res(1kohm, package = "0603") { place = [soft(near(led8, max = 4mm))]; pins { a: L8_K, b: GND } }
+led9 = light(.red) {
   at = ring(9)
   rotation = 90deg
-  pins = [V5, GND, L9]
+  pins { A: L9, K: L9_K }
 }
-led10 = labIndicator(.red, 5mA) {
+led9R = res(1kohm, package = "0603") { place = [soft(near(led9, max = 4mm))]; pins { a: L9_K, b: GND } }
+led10 = light(.red) {
   at = ring(10)
   rotation = 60deg
-  pins = [V5, GND, L10]
+  pins { A: L10, K: L10_K }
 }
-led11 = labIndicator(.red, 5mA) {
+led10R = res(1kohm, package = "0603") { place = [soft(near(led10, max = 4mm))]; pins { a: L10_K, b: GND } }
+led11 = light(.red) {
   at = ring(11)
   rotation = 30deg
-  pins = [V5, GND, L11]
+  pins { A: L11, K: L11_K }
 }
-speed = labKnob(0.4) {
+led11R = res(1kohm, package = "0603") { place = [soft(near(led11, max = 4mm))]; pins { a: L11_K, b: GND } }
+speed = knob(0.4) {
   at = (27mm, 48mm)
-  pins = [V5, GND, SPEED]
+  pins { CCW: GND, W: SPEED, CW: V5, MP: GND }
 }
-mode = labButton() {
+mode = key("Space") {
   at = (53mm, 48mm)
-  pins = [V5, GND, MODE]
-}
-battery = labBattery() {
-  at = (40mm, 28mm)
-  rotation = 180deg
-  pins = [V5, GND]
+  pins { a: MODE, b: GND }
 }
 gnd = pour(net = GND, layers = [Cu.top, Cu.bottom]) {}
 title = Text {

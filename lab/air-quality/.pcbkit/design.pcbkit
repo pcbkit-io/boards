@@ -1,66 +1,61 @@
 pcbkit 1
-// The board is the device: every visible output, control and supply is a component.
-// Protocol execution assumes ideal board nets; module envelopes need physical qualification.
-net V5, GND, SDA, SCL, MOSI, SCK, LOAD, GREEN, ORANGE, RED
+use "parts/ARDUINO_NANO.pcbkit" as ARDUINO_NANO
+use "parts/MAX7219_7SEG_MODULE.pcbkit" as MAX7219_7SEG_MODULE
+use "parts/SCD40.pcbkit" as SCD40
+use "parts/SHT31_DIS.pcbkit" as SHT31_DIS
+// The board is the device: an Arduino Nano, its sensors, its display and its lights, powered from USB.
+net V5, GND, SDA, SCL, MOSI, SCK, LOAD, GREEN, ORANGE, RED, GREEN_K, ORANGE_K, RED_K
+// The parts every lab board shares: a light (an LED from its pin through 1 kΩ, `.green` to
+// `.white`), a key (a tactile switch to ground, the pin's pull-up on; in the lab the keyboard key
+// named), a knob (a 10 kΩ pot between 5 V and ground into an ADC pin) and the FTDI header.
+fn light(color: LedColor): Part = led(package = "1206", color = color) with {
+  simulation = SimulationParameters { behavior = Behavior { model = "indicator"; ports = { input: ["2"] }; parameters = { color: labColorIndex(color), milliamps: 3 } } }
+}
+
 board = Board {
   name = "Environment laboratory"
   description = "Battery · SHT31 · SCD40 · C firmware · LED outputs"
   outline = rect(90mm, 80mm)
 }
-U1 = labMcu(
-  {
-    power: ["4", "3"],
-    i2c0: ["27", "28"],
-    spi0: ["15", "17"],
-    PB2: ["14"],
-    PD5: ["9"],
-    PD6: ["10"],
-    PD7: ["11"],
-  },
-  firmware = "firmware",
-) {
+// The processor: an Arduino Nano on two 15-pin sockets on the back, flashed over its USB (its
+// bootloader); the program in firmware/ is plain C for its ATmega328P.
+U1 = ARDUINO_NANO.Part with {
+  simulation = ARDUINO_NANO.Part.simulation with { behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" } }
+} {
   at = (45mm, 39mm)
-  pins {
-    "4": V5,
-    "3": GND,
-    "27": SDA,
-    "28": SCL,
-    "15": MOSI,
-    "17": SCK,
-    "14": LOAD,
-    "9": GREEN,
-    "10": ORANGE,
-    "11": RED,
-  }
+  rotation = 90deg
+  side = .bottom
+  pins { P5V: V5, GND: GND, A4: SDA, A5: SCL, D11: MOSI, D13: SCK, D10: LOAD, D5: GREEN, D6: ORANGE, D7: RED }
 }
-sensor = labSht31() {
+sensor = SHT31_DIS.Part {
   at = (12mm, 43mm)
-  pins = [V5, GND, SDA, SCL]
+  pins { VDD: V5, VSS: GND, SDA: SDA, SCL: SCL, nRESET: V5, ALERT: .nc }
 }
-display = labDisplay() {
+sensorSupport = SHT31_DIS.Support(sensor) {}
+display = MAX7219_7SEG_MODULE.Part {
   at = (45mm, 20mm)
-  pins = [V5, GND, MOSI, SCK, LOAD]
+  pins { VCC: V5, GND: GND, DIN: MOSI, CS: LOAD, CLK: SCK }
 }
-co2 = labScd40() {
+co2 = SCD40.Part {
   at = (14mm, 65mm)
-  pins = [V5, GND, SDA, SCL]
+  pins { VDD: V5, VDDH: V5, GND: GND, SDA: SDA, SCL: SCL }
 }
-green = labIndicator(.green) {
+co2Support = SCD40.Support(co2, pullUps = false) {}
+green = light(.green) {
   at = (40mm, 51mm)
-  pins = [V5, GND, GREEN]
+  pins { A: GREEN, K: GREEN_K }
 }
-orange = labIndicator(.orange) {
+greenR = res(1kohm, package = "0603") { place = [soft(near(green, max = 4mm))]; pins { a: GREEN_K, b: GND } }
+orange = light(.orange) {
   at = (50mm, 51mm)
-  pins = [V5, GND, ORANGE]
+  pins { A: ORANGE, K: ORANGE_K }
 }
-red = labIndicator(.red) {
+orangeR = res(1kohm, package = "0603") { place = [soft(near(orange, max = 4mm))]; pins { a: ORANGE_K, b: GND } }
+red = light(.red) {
   at = (60mm, 51mm)
-  pins = [V5, GND, RED]
+  pins { A: RED, K: RED_K }
 }
-battery = labBattery() {
-  at = (63mm, 65mm)
-  pins = [V5, GND]
-}
+redR = res(1kohm, package = "0603") { place = [soft(near(red, max = 4mm))]; pins { a: RED_K, b: GND } }
 label = Text {
   text = "WEATHER INSTRUMENT"
   at = (45mm, 6mm)

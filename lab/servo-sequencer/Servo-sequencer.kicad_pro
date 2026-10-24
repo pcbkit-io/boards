@@ -33,12 +33,15 @@
       "KNOB1": "Default",
       "KNOB2": "Default",
       "PLAY": "Default",
+      "PLAY_K": "Default",
       "REC": "Default",
+      "REC_K": "Default",
       "SERVO0": "Default",
       "SERVO1": "Default",
       "SERVO2": "Default",
       "TEACH": "Default",
-      "V5": "Default"
+      "V5": "Default",
+      "VSERVO": "Default"
     },
     "netclass_patterns": []
   }

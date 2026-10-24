@@ -42,7 +42,7 @@
             "type": "object",
             "required": ["status"],
             "properties": {
-              "status": { "description": "ready: orderable and flashable as it is; simulation-only: not yet", "enum": ["ready", "simulation-only"] },
+              "status": { "description": "ready: orderable and flashable as it is (every board here is: an interactive board that only runs in the app is not published)", "enum": ["ready"] },
               "flash": { "description": "How the ordered board takes its firmware", "type": "string" }
             },
             "additionalProperties": false

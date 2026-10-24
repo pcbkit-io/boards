@@ -1,7 +1,22 @@
 pcbkit 1
+use "parts/ARDUINO_NANO.pcbkit" as ARDUINO_NANO
+use "parts/MAX7219_7SEG_MODULE.pcbkit" as MAX7219_7SEG_MODULE
+use "parts/PTV09A_4020F_B103.pcbkit" as PTV09A_4020F_B103
+use "parts/SCD40.pcbkit" as SCD40
+use "parts/SERVO_HEADER.pcbkit" as SERVO_HEADER
+use "parts/SHT31_DIS.pcbkit" as SHT31_DIS
 // A greenhouse controller: temperature and CO₂ open a window on a servo; the knob is the setpoint.
-// Board nets are the executable connections. Module envelopes need physical qualification.
-net V5, GND, SDA, SCL, MOSI, SCK, LOAD, SETPOINT, WINDOW, HEAT, VENT, OK
+net V5, GND, SDA, SCL, MOSI, SCK, LOAD, SETPOINT, WINDOW, HEAT, VENT, OK, HEAT_K, VENT_K, OK_K
+// The parts every lab board shares: a light (an LED from its pin through 1 kΩ, `.green` to
+// `.white`), a key (a tactile switch to ground, the pin's pull-up on; in the lab the keyboard key
+// named), a knob (a 10 kΩ pot between 5 V and ground into an ADC pin) and the FTDI header.
+fn light(color: LedColor): Part = led(package = "1206", color = color) with {
+  simulation = SimulationParameters { behavior = Behavior { model = "indicator"; ports = { input: ["2"] }; parameters = { color: labColorIndex(color), milliamps: 3 } } }
+}
+fn knob(position: Number): Part = PTV09A_4020F_B103.Part with {
+  simulation = PTV09A_4020F_B103.Part.simulation with { behavior = PTV09A_4020F_B103.Part.simulation.behavior with { parameters = { position: position, volts: 5, ohms: 10000 } } }
+}
+
 board = Board {
   name = "Greenhouse controller"
   description = "SHT31 · SCD40 · servo window · setpoint knob · MAX7219"
@@ -14,98 +29,79 @@ laboratory = Laboratory {
   humidity = 60pct
   co2 = 700ppm
 }
-U1 = labMcu(
-  {
-    power: ["4", "3"],
-    i2c0: ["27", "28"],
-    spi0: ["15", "17"],
-    PB2: ["14"],
-    ADC0: ["23"],
-    PB1: ["13"],
-    PD5: ["9"],
-    PD6: ["10"],
-    PD7: ["11"],
-  },
-  firmware = "firmware",
-) {
-  at = (50mm, 27mm)
-  pins {
-    "4": V5,
-    "3": GND,
-    "27": SDA,
-    "28": SCL,
-    "15": MOSI,
-    "17": SCK,
-    "14": LOAD,
-    "23": SETPOINT,
-    "13": WINDOW,
-    "9": HEAT,
-    "10": VENT,
-    "11": OK,
-  }
+// The processor: an Arduino Nano on two 15-pin sockets on the back, flashed over its USB (its
+// bootloader); the program in firmware/ is plain C for its ATmega328P.
+U1 = ARDUINO_NANO.Part with {
+  simulation = ARDUINO_NANO.Part.simulation with { behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" } }
+} {
+  at = (50mm, 20mm)
+  rotation = 90deg
+  side = .bottom
+  pins { P5V: V5, GND: GND, A4: SDA, A5: SCL, D11: MOSI, D13: SCK, D10: LOAD, A0: SETPOINT, D9: WINDOW, D5: HEAT, D6: VENT, D7: OK }
 }
-window = labServo() {
-  at = (50mm, 64mm)
-  pins = [V5, GND, WINDOW]
+window = SERVO_HEADER.Part {
+  at = (30mm, 64mm)
+  pins { GND: GND, VPLUS: V5, SIG: WINDOW }
 }
-display = labDisplay() {
+display = MAX7219_7SEG_MODULE.Part {
   at = (50mm, 45mm)
-  pins = [V5, GND, MOSI, SCK, LOAD]
+  pins { VCC: V5, GND: GND, DIN: MOSI, CS: LOAD, CLK: SCK }
 }
-climate = labSht31() {
-  at = (16mm, 27mm)
-  pins = [V5, GND, SDA, SCL]
+climate = SHT31_DIS.Part {
+  at = (12mm, 24mm)
+  pins { VDD: V5, VSS: GND, SDA: SDA, SCL: SCL, nRESET: V5, ALERT: .nc }
 }
-co2 = labScd40() {
-  at = (16mm, 11mm)
-  pins = [V5, GND, SDA, SCL]
+climateSupport = SHT31_DIS.Support(climate) {}
+co2 = SCD40.Part {
+  at = (12mm, 10mm)
+  pins { VDD: V5, VDDH: V5, GND: GND, SDA: SDA, SCL: SCL }
 }
-setpoint = labKnob(0.4) {
-  at = (84mm, 28mm)
-  pins = [V5, GND, SETPOINT]
+co2Support = SCD40.Support(co2, pullUps = false) {}
+setpoint = knob(0.4) {
+  at = (50mm, 72mm)
+  pins { CCW: GND, W: SETPOINT, CW: V5, MP: GND }
 }
-heat = labIndicator(.red) {
-  at = (34mm, 27mm)
-  pins = [V5, GND, HEAT]
+heat = light(.red) {
+  at = (80mm, 26mm)
+  pins { A: HEAT, K: HEAT_K }
 }
-vent = labIndicator(.orange) {
-  at = (34mm, 19mm)
-  pins = [V5, GND, VENT]
+heatR = res(1kohm, package = "0603") { place = [soft(near(heat, max = 4mm))]; pins { a: HEAT_K, b: GND } }
+vent = light(.orange) {
+  at = (80mm, 18mm)
+  pins { A: VENT, K: VENT_K }
 }
-ok = labIndicator(.green) {
-  at = (34mm, 11mm)
-  pins = [V5, GND, OK]
+ventR = res(1kohm, package = "0603") { place = [soft(near(vent, max = 4mm))]; pins { a: VENT_K, b: GND } }
+ok = light(.green) {
+  at = (80mm, 10mm)
+  pins { A: OK, K: OK_K }
 }
-battery = labBattery() {
-  at = (68mm, 11mm)
-  pins = [V5, GND]
-}
+okR = res(1kohm, package = "0603") { place = [soft(near(ok, max = 4mm))]; pins { a: OK_K, b: GND } }
 gnd = pour(net = GND, layers = [Cu.top, Cu.bottom]) {}
 title = Text {
   text = "GREENHOUSE"
-  at = (84mm, 50mm)
+  at = (70mm, 64mm)
   size = 1.6mm
 }
 setLabel = Text {
   text = "SETPOINT"
-  at = (84mm, 37mm)
+  at = (50mm, 82mm)
   size = 1mm
 }
 heatLabel = Text {
   text = "HEAT"
-  at = (39mm, 27mm)
+  at = (85mm, 26mm)
   size = 0.9mm
   justify = .left
 }
 ventLabel = Text {
   text = "VENT"
-  at = (39mm, 19mm)
+  at = (85mm, 18mm)
   size = 0.9mm
   justify = .left
 }
 okLabel = Text {
   text = "OK"
-  at = (39mm, 11mm)
+  at = (85mm, 10mm)
   size = 0.9mm
   justify = .left
 }

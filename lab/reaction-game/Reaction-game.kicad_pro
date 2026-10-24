@@ -30,11 +30,14 @@
     "netclass_assignments": {
       "GND": "Default",
       "GREEN": "Default",
+      "GREEN_K": "Default",
       "LOAD": "Default",
       "MOSI": "Default",
       "ORANGE": "Default",
+      "ORANGE_K": "Default",
       "PRESS": "Default",
       "RED": "Default",
+      "RED_K": "Default",
       "SCK": "Default",
       "V5": "Default"
     },

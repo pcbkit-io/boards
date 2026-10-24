@@ -30,8 +30,7 @@ publish.
 
 **Every interactive board is a real board**: it runs in the app, and it can be ordered from a
 fab as it is and flashed after assembly (a USB bootloader or a programming header), so the image
-that runs in the app runs on the board. Boards that are not yet (`production.status:
-"simulation-only"`) are being converted.
+that runs in the app runs on the board.
 
 ## Licences
 

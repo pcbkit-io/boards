@@ -8,8 +8,10 @@
         "min_hole_clearance": 0.0,
         "min_hole_to_hole": 0.0,
         "min_resolved_spokes": 2.0,
+        "min_through_hole_diameter": 0.3,
         "min_track_width": 0.15,
-        "min_via_annular_width": 0.0
+        "min_via_annular_width": 0.0,
+        "min_via_diameter": 0.5
       }
     }
   },
@@ -30,11 +32,14 @@
     "netclass_assignments": {
       "GND": "Default",
       "GREEN": "Default",
+      "GREEN_K": "Default",
       "LAP": "Default",
       "LOAD": "Default",
       "MOSI": "Default",
       "ORANGE": "Default",
+      "ORANGE_K": "Default",
       "RED": "Default",
+      "RED_K": "Default",
       "RUN": "Default",
       "SCK": "Default",
       "V5": "Default"

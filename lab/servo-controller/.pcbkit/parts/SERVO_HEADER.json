@@ -1,0 +1,147 @@
+{
+  "id": "SERVO_HEADER",
+  "mpn": "RC servo header, 1 x 3 pins, 2.54 mm",
+  "manufacturer": "generic",
+  "variants": [
+    "servo connector",
+    "SG90 header",
+    "MG90S header",
+    "PWM servo header"
+  ],
+  "category": "connector",
+  "description": "Header for one RC servo (SG90, MG90S, MG996R…): 1 x 3 male pins at 2.54 mm in the servo plug's order, GND (brown) - V+ (red, middle) - SIGNAL (orange)",
+  "tags": [
+    "servo",
+    "rc servo",
+    "servo header",
+    "servo connector",
+    "sg90",
+    "mg90s",
+    "mg996r",
+    "micro servo",
+    "pwm",
+    "actuator",
+    "header"
+  ],
+  "datasheet": {
+    "url": "https://static.rapidonline.com/pdf/37-1330t.pdf",
+    "revision": "Tower Pro SG90 mini servo, Rapid 37-1330 sheet (October 2013): 4.8 V operation, 1.8 kg·cm stall torque, 23 x 12.2 x 29 mm"
+  },
+  "prefix": "J",
+  "package": {
+    "name": "1 x 3 pin header, 2.54 mm",
+    "family": "connector",
+    "pins": 3,
+    "pitch": 2.54,
+    "page": "the servo's 3-way 2.54 mm plug: power in the middle so a reversed plug does not reverse the supply"
+  },
+  "footprint": "pinHeader(3)",
+  "pins": [
+    {
+      "number": "1",
+      "name": "GND",
+      "type": "ground",
+      "description": "servo ground (brown or black wire)"
+    },
+    {
+      "number": "2",
+      "name": "VPLUS",
+      "type": "power_in",
+      "description": "servo supply (red wire): 4.8-6 V for hobby servos, from a supply able to give the stall current, not from a microcontroller's 3.3 V"
+    },
+    {
+      "number": "3",
+      "name": "SIG",
+      "type": "input",
+      "description": "PWM control (orange, yellow or white wire): a 50 Hz pulse, about 1-2 ms wide, 3.3 V or 5 V logic"
+    }
+  ],
+  "ratings": {
+    "recommended": [
+      {
+        "what": "servo supply (SG90)",
+        "pins": [
+          "VPLUS"
+        ],
+        "min": 4.8,
+        "nom": 5.0,
+        "max": 6.0
+      },
+      {
+        "what": "operating temperature (SG90)",
+        "min": 0.0,
+        "max": 55.0,
+        "unit": "°C"
+      }
+    ]
+  },
+  "simulation": {
+    "behavior": {
+      "model": "servo",
+      "ports": {
+        "power": [
+          "2",
+          "1"
+        ],
+        "signal": [
+          "3"
+        ]
+      },
+      "parameters": {
+        "maximum_us": 2400.0,
+        "minimum_us": 544.0
+      },
+      "height": 22.0
+    }
+  },
+  "support": {
+    "parts": [
+      {
+        "ref": "C1",
+        "kind": "cap",
+        "value": "220uF",
+        "rating": "our choice: electrolytic, 10 V, near the header (one per few servos)",
+        "between": [
+          "VPLUS",
+          "GND"
+        ]
+      },
+      {
+        "ref": "R1",
+        "kind": "res",
+        "value": "220ohm",
+        "rating": "our choice: series resistor from the controller's PWM pin",
+        "between": [
+          "SIG",
+          "gpio"
+        ]
+      }
+    ],
+    "inputs": [
+      {
+        "name": "gpio",
+        "description": "The controller pin it connects to."
+      }
+    ],
+    "notes": [
+      "A servo draws hundreds of mA moving and much more when stalled: feed V+ from a 5 V supply (or a 2S pack through a 5-6 V regulator) with wide tracks, never through a USB port's 500 mA for several servos, and join its ground with the controller's.",
+      "The pulse: 50 Hz, about 1.0 ms one end, 1.5 ms centre, 2.0 ms the other end (many servos accept 0.5-2.5 ms). Many servos at once: a PCA9685 (`PCA9685PW`) makes the pulses over I2C."
+    ],
+    "page": "our own circuit"
+  },
+  "notes": [
+    "Servo plugs (JR / Futaba style) all put V+ in the middle; the outer pins are ground and signal. Mark the GND end on the silkscreen (brown wire)."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "the RC servo plug's wire order (brown ground, red V+ in the middle, orange signal, as Tower Pro labels the SG90's lead); SG90 ratings from the Rapid 37-1330 datasheet",
+      "url": "https://static.rapidonline.com/pdf/37-1330t.pdf",
+      "license": "pin order (a fact of the connector system), ratings transcribed (facts); descriptions and notes our own"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "the standard 1 x 3 pin header footprint"
+    }
+  }
+}

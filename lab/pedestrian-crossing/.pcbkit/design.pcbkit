@@ -1,74 +1,66 @@
 pcbkit 1
+use "parts/ARDUINO_NANO.pcbkit" as ARDUINO_NANO
+use "parts/MAX7219_7SEG_MODULE.pcbkit" as MAX7219_7SEG_MODULE
 // A pedestrian crossing: a light for cars, one for people, a request button and a countdown.
-// Board nets are the executable connections. Module envelopes need physical qualification.
-net V5, GND, MOSI, SCK, LOAD, REQUEST, CAR_RED, CAR_AMBER, CAR_GREEN, WALK_RED, WALK_GREEN
+net V5, GND, MOSI, SCK, LOAD, REQUEST, CAR_RED, CAR_AMBER, CAR_GREEN, WALK_RED, WALK_GREEN, CAR_RED_K, CAR_AMBER_K, CAR_GREEN_K, WALK_RED_K, WALK_GREEN_K
+// The parts every lab board shares: a light (an LED from its pin through 1 kΩ, `.green` to
+// `.white`), a key (a tactile switch to ground, the pin's pull-up on; in the lab the keyboard key
+// named), a knob (a 10 kΩ pot between 5 V and ground into an ADC pin) and the FTDI header.
+fn light(color: LedColor): Part = led(package = "1206", color = color) with {
+  simulation = SimulationParameters { behavior = Behavior { model = "indicator"; ports = { input: ["2"] }; parameters = { color: labColorIndex(color), milliamps: 3 } } }
+}
+fn key(code: String): Part = button("6x6") with {
+  simulation = SimulationParameters { behavior = Behavior { model = "button"; ports = { output: ["1"] }; key = code } }
+}
+
 board = Board {
   name = "Pedestrian crossing"
   description = "State machine · request button · countdown · flashing walk"
-  outline = rect(80mm, 110mm, radius = 6mm)
+  outline = rect(92mm, 110mm, radius = 6mm)
   fab { mask = .yellow, silk = .black, finish = .enig }
 }
-U1 = labMcu(
-  {
-    power: ["4", "3"],
-    spi0: ["15", "17"],
-    PB2: ["14"],
-    PD2: ["32"],
-    PD5: ["9"],
-    PD6: ["10"],
-    PD7: ["11"],
-    PB0: ["12"],
-    PB1: ["13"],
-  },
-  firmware = "firmware",
-) {
+// The processor: an Arduino Nano on two 15-pin sockets on the back, flashed over its USB (its
+// bootloader); the program in firmware/ is plain C for its ATmega328P.
+U1 = ARDUINO_NANO.Part with {
+  simulation = ARDUINO_NANO.Part.simulation with { behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" } }
+} {
   at = (24mm, 40mm)
-  pins {
-    "4": V5,
-    "3": GND,
-    "15": MOSI,
-    "17": SCK,
-    "14": LOAD,
-    "32": REQUEST,
-    "9": CAR_RED,
-    "10": CAR_AMBER,
-    "11": CAR_GREEN,
-    "12": WALK_RED,
-    "13": WALK_GREEN,
-  }
+  rotation = 90deg
+  side = .bottom
+  pins { P5V: V5, GND: GND, D11: MOSI, D13: SCK, D10: LOAD, D2: REQUEST, D5: CAR_RED, D6: CAR_AMBER, D7: CAR_GREEN, D8: WALK_RED, D9: WALK_GREEN }
 }
-carRed = labIndicator(.red, 10mA) {
+carRed = light(.red) {
   at = (22mm, 98mm)
-  pins = [V5, GND, CAR_RED]
+  pins { A: CAR_RED, K: CAR_RED_K }
 }
-carAmber = labIndicator(.orange, 10mA) {
+carRedR = res(1kohm, package = "0603") { place = [soft(near(carRed, max = 4mm))]; pins { a: CAR_RED_K, b: GND } }
+carAmber = light(.orange) {
   at = (22mm, 88mm)
-  pins = [V5, GND, CAR_AMBER]
+  pins { A: CAR_AMBER, K: CAR_AMBER_K }
 }
-carGreen = labIndicator(.green, 10mA) {
+carAmberR = res(1kohm, package = "0603") { place = [soft(near(carAmber, max = 4mm))]; pins { a: CAR_AMBER_K, b: GND } }
+carGreen = light(.green) {
   at = (22mm, 78mm)
-  pins = [V5, GND, CAR_GREEN]
+  pins { A: CAR_GREEN, K: CAR_GREEN_K }
 }
-walkRed = labIndicator(.red, 10mA) {
+carGreenR = res(1kohm, package = "0603") { place = [soft(near(carGreen, max = 4mm))]; pins { a: CAR_GREEN_K, b: GND } }
+walkRed = light(.red) {
   at = (58mm, 98mm)
-  pins = [V5, GND, WALK_RED]
+  pins { A: WALK_RED, K: WALK_RED_K }
 }
-walkGreen = labIndicator(.green, 10mA) {
+walkRedR = res(1kohm, package = "0603") { place = [soft(near(walkRed, max = 4mm))]; pins { a: WALK_RED_K, b: GND } }
+walkGreen = light(.green) {
   at = (58mm, 88mm)
-  pins = [V5, GND, WALK_GREEN]
+  pins { A: WALK_GREEN, K: WALK_GREEN_K }
 }
-display = labDisplay() {
-  at = (40mm, 62mm)
-  pins = [V5, GND, MOSI, SCK, LOAD]
+walkGreenR = res(1kohm, package = "0603") { place = [soft(near(walkGreen, max = 4mm))]; pins { a: WALK_GREEN_K, b: GND } }
+display = MAX7219_7SEG_MODULE.Part {
+  at = (46mm, 62mm)
+  pins { VCC: V5, GND: GND, DIN: MOSI, CS: LOAD, CLK: SCK }
 }
-request = labButton() {
+request = key("Space") {
   at = (58mm, 40mm)
-  pins = [V5, GND, REQUEST]
-}
-battery = labBattery() {
-  at = (40mm, 15mm)
-  rotation = 180deg
-  pins = [V5, GND]
+  pins { a: REQUEST, b: GND }
 }
 gnd = pour(net = GND, layers = [Cu.top, Cu.bottom]) {}
 holes = MountingHoles(screw = "M2") {}

@@ -1,0 +1,112 @@
+pcbkit 1
+
+// SHT31-DIS-B2.5kS (Sensirion): Humidity and temperature sensor, ±2 %RH / ±0.2 °C typical, I2C
+// up to 1 MHz with alert output and reset, 2.15-5.5 V (DFN-8 2.5 x 2.5 mm)
+// Compiled from the part sheet `parts/SHT31_DIS.json` (`parts.create`); status: checked.
+// Datasheet: https://sensirion.com/media/documents/213E6A3B/63A5A569/Datasheet_SHT3x_DIS.pdf
+// (Version 7, December 2022)
+// Pins: Sensirion SHT3x-DIS datasheet, Version 7 (December 2022), Table 7 pin assignment and
+// section 3
+// Footprint: computed per IPC-7351B from the datasheet's package dimensions
+// This file may be used, changed and shared without conditions, with the board or alone.
+
+// Note: I2C address by ADDR: low = 0x44 (default), high = 0x45; ADDR must not float.
+// Note: Decouple VDD with 100 nF placed as close to the sensor as possible.
+// Note: Solder the die pad (for mechanical strength); it is VSS.
+// Note: Keep the sensor away from heat sources (regulators, MCUs), ideally on a slotted island of
+// the board, and keep the opening on top free of conformal coat and solder flux.
+
+/// SHT31-DIS-B2.5kS — Humidity and temperature sensor, ±2 %RH / ±0.2 °C typical, I2C up to 1
+/// MHz with alert output and reset, 2.15-5.5 V (DFN-8 2.5 x 2.5 mm)
+part Part = device(
+  footprint = rows(
+    name = "DFN-8-1EP_2.5x2.5mm_P0.5mm_EP1.1x1.8mm",
+    description = "DFN-8 2.5 x 2.5 mm, 0.5 mm pitch, die pad, 8 pins, 2.5 x 2.5 mm body, 0.5 mm pitch (from the datasheet)",
+    pitch = 0.5mm,
+    leadType = .nolead,
+    pinsY = 4,
+    spanX = tolerance(2.4mm, 2.6mm),
+    leadLength = tolerance(0.25mm, 0.45mm),
+    leadWidth = tolerance(0.2mm, 0.3mm),
+    bodyX = tolerance(2.4mm, 2.6mm),
+    bodyY = tolerance(2.4mm, 2.6mm),
+    bodyHeight = 1mm,
+    exposedPad = (1.1mm, 1.8mm),
+  ),
+  prefix = "U",
+  mpn = "SHT31-DIS-B2.5kS",
+  manufacturer = "Sensirion",
+  pinout = {
+    SDA: "1",
+    ADDR: "2",
+    ALERT: "3",
+    SCL: "4",
+    VDD: "5",
+    nRESET: "6",
+    R: "7",
+    VSS: ["8", "9"],
+  },
+  pinTypes = {
+    SDA: io.openDrain(),
+    ADDR: io.input(),
+    ALERT: .output,
+    SCL: io.openDrain(),
+    VDD: io.powerIn(min = 2.15V, max = 6V),
+    nRESET: io.input(pull = .up),
+    R: .passive,
+    VSS: .ground,
+  },
+) with {
+  fields {
+    Status: "checked",
+    PinoutSource: "Sensirion SHT3x-DIS datasheet, Version 7 (December 2022), Table 7 pin assignment and section 3",
+    Datasheet: "https://sensirion.com/media/documents/213E6A3B/63A5A569/Datasheet_SHT3x_DIS.pdf",
+    I2cAddress: "0x44 ADDR",
+  }
+  simulation = SimulationParameters {
+    behavior = Behavior {
+      model = "sht31"
+      ports = { "i2c": ["1", "4"], "power": ["5", "8"] }
+      parameters = { "address": 68 }
+      height = 0.9mm
+    }
+    parameters = []
+  }
+}
+
+/// The support circuit of the SHT31-DIS-B2.5kS as its datasheet shows it (Figure 11 typical
+/// application circuit (p. 8)): every part next to the pin it serves. Add it next to the part: `U1
+/// = SHT31_DIS.Part { … }`, `U1Support = SHT31_DIS.Support(U1) {}`.
+///
+/// - ADDR to VSS (0x44) or VDD (0x45); R (pin 7) and the die pad to VSS; ALERT and nRESET may stay
+/// open.
+///
+/// - The pull-ups are per bus, not per sensor; size them for the bus capacitance and speed.
+block Support(
+  /// The SHT31-DIS-B2.5kS this circuit serves (`SHT31_DIS.Support(U1)`).
+  chip: Any,
+  /// The I2C pull-ups (once per bus: `false` when another part of the bus has them).
+  pullUps: Bool = true,
+  /// ADDR to VSS: address 0x44.
+  address44: Bool = true,
+) {
+  /// X7R
+  C1 = cap(100nF, package = "0402", dielectric = .X7R) {
+    place = [soft(near(chip.pin.VDD, max = 2mm), weight = 2)]
+    pins { a: chip.pin.VDD, b: chip.pin.VSS }
+  }
+  RP1 =
+    if pullUps then res(10kohm, package = "0402") {
+      place = [soft(near(chip.pin.SDA, max = 5mm), weight = 1)]
+      pins { a: chip.pin.SDA, b: chip.pin.VDD }
+    }
+    else null
+  RP2 =
+    if pullUps then res(10kohm, package = "0402") {
+      place = [soft(near(chip.pin.SCL, max = 5mm), weight = 1)]
+      pins { a: chip.pin.SCL, b: chip.pin.VDD }
+    }
+    else null
+  connect(chip.pin.R, chip.pin.VSS)
+  connect(chip.pin.ADDR, if address44 then chip.pin.VSS else chip.pin.ADDR)
+}

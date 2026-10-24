@@ -1,51 +1,62 @@
 pcbkit 1
+use "parts/ARDUINO_NANO.pcbkit" as ARDUINO_NANO
+use "parts/MAX7219_7SEG_MODULE.pcbkit" as MAX7219_7SEG_MODULE
+use "parts/PTV09A_4020F_B103.pcbkit" as PTV09A_4020F_B103
 // A message scroller: type text into the serial console, it scrolls across eight digits.
-// Board nets are the executable connections. Module envelopes need physical qualification.
 net V5, GND, TX, RX, MOSI, SCK, LOAD, SPEED
+// The parts every lab board shares: a light (an LED from its pin through 1 kΩ, `.green` to
+// `.white`), a key (a tactile switch to ground, the pin's pull-up on; in the lab the keyboard key
+// named), a knob (a 10 kΩ pot between 5 V and ground into an ADC pin) and the FTDI header.
+fn knob(position: Number): Part = PTV09A_4020F_B103.Part with {
+  simulation = PTV09A_4020F_B103.Part.simulation with { behavior = PTV09A_4020F_B103.Part.simulation.behavior with { parameters = { position: position, volts: 5, ohms: 10000 } } }
+}
+fn ftdi(): Part = header(6) with {
+  simulation = SimulationParameters { behavior = Behavior { model = "serial-terminal"; ports = { power: ["3", "1"], uart: ["5", "4"] }; parameters = { baud: 9600 } } }
+}
+
 board = Board {
   name = "Message scroller"
   description = "UART receive interrupt · seven-segment font · scrolling text"
-  outline = rect(84mm, 62mm, radius = 4mm)
+  outline = rect(92mm, 72mm, radius = 4mm)
   fab { mask = .purple, finish = .enig }
 }
-U1 = labMcu(
-  { power: ["4", "3"], uart0: ["31", "30"], spi0: ["15", "17"], PB2: ["14"], ADC0: ["23"] },
-  firmware = "firmware",
-) {
-  at = (42mm, 29mm)
-  pins { "4": V5, "3": GND, "31": TX, "30": RX, "15": MOSI, "17": SCK, "14": LOAD, "23": SPEED }
+// The processor: an Arduino Nano on two 15-pin sockets on the back, flashed over its USB (its
+// bootloader); the program in firmware/ is plain C for its ATmega328P.
+U1 = ARDUINO_NANO.Part with {
+  simulation = ARDUINO_NANO.Part.simulation with { behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" } }
+} {
+  at = (46mm, 29mm)
+  rotation = 90deg
+  side = .bottom
+  pins { P5V: V5, GND: GND, D1: TX, D0: RX, D11: MOSI, D13: SCK, D10: LOAD, A0: SPEED }
 }
-display = labDisplay() {
-  at = (42mm, 49mm)
-  pins = [V5, GND, MOSI, SCK, LOAD]
+display = MAX7219_7SEG_MODULE.Part {
+  at = (46mm, 60mm)
+  pins { VCC: V5, GND: GND, DIN: MOSI, CS: LOAD, CLK: SCK }
 }
-console = labSerial() {
-  at = (14mm, 29mm)
-  pins = [V5, GND, TX, RX]
+// A 6-pin FTDI header: plug a USB-serial adapter in (or use the Nano's own USB, the same UART).
+console = ftdi() {
+  at = (16mm, 29mm)
+  pins = [GND, .nc, V5, RX, TX, .nc]
 }
-speed = labKnob(0.5) {
-  at = (70mm, 30mm)
-  pins = [V5, GND, SPEED]
-}
-battery = labBattery() {
-  at = (42mm, 12mm)
-  rotation = 180deg
-  pins = [V5, GND]
+speed = knob(0.5) {
+  at = (76mm, 30mm)
+  pins { CCW: GND, W: SPEED, CW: V5, MP: GND }
 }
 gnd = pour(net = GND, layers = [Cu.top, Cu.bottom]) {}
 title = Text {
   text = "MESSAGE\nSCROLLER"
-  at = (70mm, 10mm)
+  at = (76mm, 10mm)
   size = 1.3mm
 }
-holes = MountingHoles(screw = "M2") {}
+holes = MountingHoles(screw = "M2", corners = [.bottomLeft, .bottomRight]) {}
 serialLabel = Text {
   text = "UART 9600"
-  at = (14mm, 21mm)
+  at = (16mm, 17mm)
   size = 1mm
 }
 speedLabel = Text {
   text = "SPEED"
-  at = (70mm, 21mm)
+  at = (76mm, 20mm)
   size = 1mm
 }

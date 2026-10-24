@@ -1,0 +1,80 @@
+pcbkit 1
+
+// MAX7219 8-digit 7-segment LED display module (generic): The common 8-digit red 7-segment display
+// module: a MAX7219 driving two 0.36" 4-digit common-cathode displays on an 82 x 15 mm board,
+// plugged into a 1x5 female header at its input end: VCC GND DIN CS CLK as the module prints them
+// Compiled from the part sheet `parts/MAX7219_7SEG_MODULE.json` (`parts.create`); status: checked.
+// Datasheet:
+// https://www.analog.com/media/en/technical-documentation/data-sheets/MAX7219-MAX7221.pdf (the
+// module's silkscreen (VCC GND DIN CS CLK); Maxim MAX7219 datasheet 19-4452 Rev 4)
+// Pins: the module's silkscreen (VCC, GND, DIN, CS, CLK); MAX7219 datasheet 19-4452 Rev 4
+// Footprint: as given
+// This file may be used, changed and shared without conditions, with the board or alone.
+
+// Note: Buy the module (it carries the MAX7219, its RSET and decoupling and the displays); this
+// footprint is the header it plugs into.
+// Note: The MAX7219 reads 3.5 V as high: from a 3.3 V controller use a 74HCT buffer.
+// Note: Chain more modules from the output end (DOUT to the next DIN).
+
+/// MAX7219 8-digit 7-segment LED display module — The common 8-digit red 7-segment display
+/// module: a MAX7219 driving two 0.36" 4-digit common-cathode displays on an 82 x 15 mm board,
+/// plugged into a 1x5 female header at its input end: VCC GND DIN CS CLK as the module prints them
+part Part = device(
+  footprint = moduleSocket(
+    "MAX7219_8digit_Module_Socket_1x05_P2.54mm",
+    socketRow(1, 5, (-38.6mm, 5.08mm), (0mm, -2.54mm)),
+    box((-41mm, -7.5mm), (41mm, 7.5mm)),
+    description = "MAX7219 8-digit 7-segment module on a 1x5 female header across its left end: VCC, GND, DIN, CS, CLK from the top; the digits centred on the footprint's origin",
+    parts = 7.2mm,
+    color = "#1d5e8c",
+    module = concat(
+      [
+        solid.box(
+          (30.2mm, 14mm, 7.2mm),
+          at = (15.6mm, 0mm, 0mm),
+          radius = 0.2mm,
+          color = "#151517",
+        ),
+        solid.box(
+          (30.2mm, 14mm, 7.2mm),
+          at = (-15.6mm, 0mm, 0mm),
+          radius = 0.2mm,
+          color = "#151517",
+        ),
+        solid.box(
+          (7.6mm, 7.6mm, 1.2mm),
+          at = (-35mm, -2mm, 0mm),
+          radius = 0.1mm,
+          material = .epoxy,
+        ),
+      ],
+      digitSegments(8, 7.8mm, 7.2mm),
+    ),
+  ),
+  prefix = "DS",
+  mpn = "MAX7219 8-digit 7-segment LED display module",
+  manufacturer = "generic",
+  pinout = { VCC: "1", GND: "2", DIN: "3", CS: "4", CLK: "5" },
+  pinTypes = {
+    VCC: io.powerIn(min = 4V, max = 5.5V),
+    GND: .ground,
+    DIN: io.input(high = 3.5V),
+    CS: io.input(high = 3.5V),
+    CLK: io.input(high = 3.5V),
+  },
+) with {
+  fields {
+    Status: "checked",
+    PinoutSource: "the module's silkscreen (VCC, GND, DIN, CS, CLK); MAX7219 datasheet 19-4452 Rev 4",
+    Datasheet: "https://www.analog.com/media/en/technical-documentation/data-sheets/MAX7219-MAX7221.pdf",
+  }
+  simulation = SimulationParameters {
+    behavior = Behavior {
+      model = "max7219"
+      ports = { "load": ["4"], "power": ["1", "2"], "spi": ["3", "5"] }
+      parameters = {}
+      height = 17.3mm
+    }
+    parameters = []
+  }
+}

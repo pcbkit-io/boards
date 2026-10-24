@@ -6,14 +6,19 @@ starts at once, its firmware running on a simulation of its chips, its parts on 
 CO₂, a button held), edit the program and press **Build & run**: the same image is what you flash
 onto the ordered board.
 
+Every board is also a real one, ready to order: an Arduino Nano on two sockets on the back (flashed over
+its USB by its bootloader, the image the app builds), real parts with their footprints and the
+support circuits from their datasheets, routed and checked. It runs from the Nano's USB; the servo
+boards take the servos' 5 V on a screw terminal.
+
 Open them at **https://app.pcbkit.io/?category=lab**, or one by its folder:
 `https://app.pcbkit.io/github/pcbkit-io/boards/tree/main/lab/<board>`.
 
 | Board | What it is | |
 |---|---|---|
-| [`air-quality`](air-quality) | Air quality meter | A battery-powered air meter you can run: an ATmega328P with real C firmware reads an SHT31 and an SCD40 and shows temperature and humidity on a MAX7219 display, with green, orange and red CO₂ lights. Change the weather and watch the firmware answer. |
-| [`servo-controller`](servo-controller) | Servo controller | A device you can run: an ATmega328P reads a knob and a button and drives a servo with PWM, sleeping between interrupts. Turn the knob or press the button and watch the servo follow. |
-| [`serial-device`](serial-device) | Serial command device | A device you talk to over UART: an ATmega168P echoes every byte and turns its light on for 1 and off for 0. Type into its serial console and watch it answer. |
+| [`air-quality`](air-quality) | Air quality meter | An air meter you can run: an Arduino Nano with real C firmware reads an SHT31 and an SCD40 and shows temperature and humidity on a MAX7219 display, with green, orange and red CO₂ lights. Change the weather and watch the firmware answer. |
+| [`servo-controller`](servo-controller) | Servo controller | A device you can run: an Arduino Nano reads a knob and a button and drives a servo with PWM, sleeping between interrupts. Turn the knob or press the button and watch the servo follow. |
+| [`serial-device`](serial-device) | Serial command device | A device you talk to over UART: an Arduino Nano echoes every byte and turns its light on for 1 and off for 0. Type into its serial console and watch it answer. |
 | [`led-ring-lab`](led-ring-lab) | LED ring | Twelve lights round a black disc, each dimmed by software PWM from a timer interrupt: a spinning comet with a fading tail, a dial gauge of the knob from green to red, a breathing wave. The button changes the mode, the knob the speed. |
 | [`stopwatch`](stopwatch) | Stopwatch | A watch face that keeps time: a 1 kHz timer interrupt counts in decimal digits and a MAX7219 shows hours to hundredths. Flip RUN to start and stop it; LAP freezes the display while it keeps counting, or resets it when stopped. |
 | [`reaction-game`](reaction-game) | Reaction game | How fast are you? Press to start: red, amber, a random wait, then green and GO. Press again and the display shows your time in milliseconds and your best; pressing before green is a false start. |

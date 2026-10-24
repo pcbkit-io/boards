@@ -1,0 +1,144 @@
+pcbkit 1
+
+// SCD40-D-R2 (Sensirion): SCD40 photoacoustic CO2 sensor (400-2000 ppm ±(50 ppm + 5 %), with
+// temperature and humidity), I2C (address 0x62), 2.4-5.5 V, SMD LGA 10.1 x 10.1 x 6.5 mm
+// Compiled from the part sheet `parts/SCD40.json` (`parts.create`); status: checked.
+// Datasheet: https://cdn.sparkfun.com/assets/d/4/9/a/d/Sensirion_CO2_Sensors_SCD4x_Datasheet.pdf
+// (SCD4x datasheet version 1.1, April 2021)
+// Pins: Sensirion SCD4x datasheet version 1.1 (April 2021): Table 4 electrical specifications,
+// Table 5 maximum ratings, Table 6 pin assignment, Figure 1 application circuit, 3.1 I2C address,
+// Table 31 and Figure 4 package and land pattern
+// Footprint: the datasheet's land pattern
+// This file may be used, changed and shared without conditions, with the board or alone.
+
+// Note: Address 0x62 (fixed). SCD41 (same footprint) adds single-shot low-power measurements.
+// Note: Reflow once, never wash, keep the white membrane on top intact; keep it away from heat
+// sources (regulators) for its temperature and humidity readings.
+// Note: The decoupling capacitors are our addition: Sensirion's circuit shows only the pull-ups.
+
+/// SCD40-D-R2 — SCD40 photoacoustic CO2 sensor (400-2000 ppm ±(50 ppm + 5 %), with temperature
+/// and humidity), I2C (address 0x62), 2.4-5.5 V, SMD LGA 10.1 x 10.1 x 6.5 mm
+part Part = device(
+  footprint = Footprint {
+    let ps = [
+      Pad { number = "1", at = (-4mm, 2.5mm), shape = shape.rect(1.5mm, 0.8mm) },
+      Pad { number = "2", at = (-4mm, 1.25mm), shape = shape.rect(1.5mm, 0.8mm) },
+      Pad { number = "3", at = (-4mm, 0mm), shape = shape.rect(1.5mm, 0.8mm) },
+      Pad { number = "4", at = (-4mm, -1.25mm), shape = shape.rect(1.5mm, 0.8mm) },
+      Pad { number = "5", at = (-4mm, -2.5mm), shape = shape.rect(1.5mm, 0.8mm) },
+      Pad { number = "6", at = (-2.5mm, -4mm), shape = shape.rect(0.8mm, 1.5mm) },
+      Pad { number = "7", at = (-1.25mm, -4mm), shape = shape.rect(0.8mm, 1.5mm) },
+      Pad { number = "8", at = (0mm, -4mm), shape = shape.rect(0.8mm, 1.5mm) },
+      Pad { number = "9", at = (1.25mm, -4mm), shape = shape.rect(0.8mm, 1.5mm) },
+      Pad { number = "10", at = (2.5mm, -4mm), shape = shape.rect(0.8mm, 1.5mm) },
+      Pad { number = "11", at = (4mm, -2.5mm), shape = shape.rect(1.5mm, 0.8mm) },
+      Pad { number = "12", at = (4mm, -1.25mm), shape = shape.rect(1.5mm, 0.8mm) },
+      Pad { number = "13", at = (4mm, 0mm), shape = shape.rect(1.5mm, 0.8mm) },
+      Pad { number = "14", at = (4mm, 1.25mm), shape = shape.rect(1.5mm, 0.8mm) },
+      Pad { number = "15", at = (4mm, 2.5mm), shape = shape.rect(1.5mm, 0.8mm) },
+      Pad { number = "16", at = (2.5mm, 4mm), shape = shape.rect(0.8mm, 1.5mm) },
+      Pad { number = "17", at = (1.25mm, 4mm), shape = shape.rect(0.8mm, 1.5mm) },
+      Pad { number = "18", at = (0mm, 4mm), shape = shape.rect(0.8mm, 1.5mm) },
+      Pad { number = "19", at = (-1.25mm, 4mm), shape = shape.rect(0.8mm, 1.5mm) },
+      Pad { number = "20", at = (-2.5mm, 4mm), shape = shape.rect(0.8mm, 1.5mm) },
+      Pad { number = "21", at = (0mm, 0mm), shape = shape.rect(4.8mm, 4.8mm) },
+    ]
+    let b = centered(10.1mm, 10.1mm)
+    name = "LGA-21_10.1x10.1mm_SCD4x_20_pads_and_a_centre_pad"
+    description = "LGA-21 10.1 x 10.1 mm (SCD4x, 20 pads and a centre pad): the datasheet's land pattern"
+    pads = ps
+    body = b
+    height = 6.5mm
+    silk = silkOf(ps, b, 0.25mm)
+    package = Package { family = .other, body = (10.1mm, 10.1mm), height = 6.5mm }
+  },
+  prefix = "U",
+  mpn = "SCD40-D-R2",
+  manufacturer = "Sensirion",
+  pinout = {
+    DNC: ["1", "2", "3", "4", "5", "8", "11", "12", "13", "14", "15", "16", "17", "18"],
+    GND: ["6", "20", "21"],
+    VDD: "7",
+    SCL: "9",
+    SDA: "10",
+    VDDH: "19",
+  },
+  pinTypes = {
+    DNC: .nc,
+    GND: .ground,
+    VDD: io.powerIn(min = 2.4V, max = 6V),
+    SCL: io.input(),
+    SDA: io.openDrain(),
+    VDDH: io.powerIn(min = 2.4V, max = 6V),
+  },
+) with {
+  fields {
+    Status: "checked",
+    PinoutSource: "Sensirion SCD4x datasheet version 1.1 (April 2021): Table 4 electrical specifications, Table 5 maximum ratings, Table 6 pin assignment, Figure 1 application circuit, 3.1 I2C address, Table 31 and Figure 4 package and land pattern",
+    Datasheet: "https://cdn.sparkfun.com/assets/d/4/9/a/d/Sensirion_CO2_Sensors_SCD4x_Datasheet.pdf",
+  }
+  simulation = SimulationParameters {
+    behavior = Behavior {
+      model = "scd40"
+      ports = { "i2c": ["10", "9"], "power": ["7", "6"] }
+      parameters = {}
+      height = 6.5mm
+    }
+    parameters = [
+      SimulationParameter {
+        id = "idd-periodic-3v3"
+        quantity = .supplyCurrent
+        typ = 15mA
+        max = 18mA
+        conditions = "Average supply current for periodic measurement (one reading every 5 s, the default continuous mode), VDD = 3.3 V; low power periodic measurement is 3.2 mA typ / 3.5 mA max; peak is 175 mA typ for short pulses"
+        source = SimulationEvidence {
+          url = "https://cdn.sparkfun.com/assets/d/4/9/a/d/Sensirion_CO2_Sensors_SCD4x_Datasheet.pdf"
+          revision = "SCD4x datasheet version 1.1, April 2021"
+          location = "p. 4, section 2.1 Electrical Specifications, Table 4, IDD periodic measurement row"
+          confidence = .datasheet
+        }
+      },
+    ]
+  }
+}
+
+/// The support circuit of the SCD40-D-R2 as its datasheet shows it (Figure 1 typical application
+/// circuit; 2.3 interface specifications): every part next to the pin it serves. Add it next to the
+/// part: `U1 = SCD40.Part { … }`, `U1Support = SCD40.Support(U1) {}`.
+///
+/// - VDD and VDDH joined next to the sensor, on one low-noise supply (an LDO, ripple under 30 mV
+/// p-p) good for 205 mA peaks at 3.3 V.
+///
+/// - The DNC pads are soldered to floating pads (mechanical), never connected.
+block Support(
+  /// The SCD40-D-R2 this circuit serves (`SCD40.Support(U1)`).
+  chip: Any,
+  /// The I2C pull-ups (once per bus: `false` when another part of the bus has them).
+  pullUps: Bool = true,
+) {
+  /// our choice: holds up the 205 mA peaks of the IR source (the datasheet asks for a low-noise LDO
+  /// sized for the peaks)
+  C1 = cap(10uF, package = "0805") {
+    place = [soft(near(chip.pin.VDD, max = 4mm), weight = 2)]
+    pins { a: chip.pin.VDD, b: chip.pin.GND }
+  }
+  /// next to VDD/VDDH
+  C2 = cap(100nF, package = "0402") {
+    place = [soft(near(chip.pin.VDD, max = 2mm), weight = 2)]
+    pins { a: chip.pin.VDD, b: chip.pin.GND }
+  }
+  /// I2C pull-up (once per bus)
+  RP1 =
+    if pullUps then res(10kohm, package = "0402") {
+      place = [soft(near(chip.pin.SDA, max = 5mm), weight = 1)]
+      pins { a: chip.pin.SDA, b: chip.pin.VDD }
+    }
+    else null
+  /// I2C pull-up (once per bus)
+  RP2 =
+    if pullUps then res(10kohm, package = "0402") {
+      place = [soft(near(chip.pin.SCL, max = 5mm), weight = 1)]
+      pins { a: chip.pin.SCL, b: chip.pin.VDD }
+    }
+    else null
+}

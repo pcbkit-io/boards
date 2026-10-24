@@ -8,8 +8,10 @@
         "min_hole_clearance": 0.0,
         "min_hole_to_hole": 0.0,
         "min_resolved_spokes": 2.0,
+        "min_through_hole_diameter": 0.3,
         "min_track_width": 0.15,
-        "min_via_annular_width": 0.0
+        "min_via_annular_width": 0.0,
+        "min_via_diameter": 0.5
       }
     }
   },
@@ -29,8 +31,11 @@
     ],
     "netclass_assignments": {
       "CAR_AMBER": "Default",
+      "CAR_AMBER_K": "Default",
       "CAR_GREEN": "Default",
+      "CAR_GREEN_K": "Default",
       "CAR_RED": "Default",
+      "CAR_RED_K": "Default",
       "GND": "Default",
       "LOAD": "Default",
       "MOSI": "Default",
@@ -38,7 +43,9 @@
       "SCK": "Default",
       "V5": "Default",
       "WALK_GREEN": "Default",
-      "WALK_RED": "Default"
+      "WALK_GREEN_K": "Default",
+      "WALK_RED": "Default",
+      "WALK_RED_K": "Default"
     },
     "netclass_patterns": []
   }

@@ -1,0 +1,198 @@
+{
+  "id": "PTV09A_4020F_B103",
+  "mpn": "PTV09A-4020F-B103",
+  "manufacturer": "Bourns",
+  "variants": [
+    "PTV09A-4015F-B103",
+    "PTV09A-4025F-B103",
+    "PTV09A-4030F-B103",
+    "PTV09A-4020U-B103",
+    "PTV09A-4020F-B102",
+    "PTV09A-4020F-B502",
+    "PTV09A-4020F-B203",
+    "PTV09A-4020F-B503",
+    "PTV09A-4020F-B104",
+    "PTV09A-4020F-A103",
+    "PTV09A-4220F-B103"
+  ],
+  "category": "potentiometer",
+  "description": "Potentiometer, 9 mm, carbon, 10 kΩ linear, 20 mm flatted insulated shaft upright (horizontal/rear mount, bushingless), through hole: pins named CCW, W (wiper), CW and two mounting tabs — the 9 mm panel pot of hobby boards (RK09 size)",
+  "tags": [
+    "potentiometer",
+    "pot",
+    "knob",
+    "rotary potentiometer",
+    "variable resistor",
+    "9mm",
+    "rk09",
+    "rv09",
+    "ptv09",
+    "wiper",
+    "volume",
+    "linear",
+    "10k",
+    "tht",
+    "panel"
+  ],
+  "datasheet": {
+    "url": "https://www.bourns.com/docs/Product-Datasheets/PTV09.pdf",
+    "revision": "Bourns PTV09 Series - 9 mm Potentiometer datasheet: PTV09A-4 product dimensions and recommended PCB layout (horizontal/rear mount), schematic, characteristics (p. 1-2)"
+  },
+  "prefix": "RV",
+  "package": {
+    "name": "PTV09A-4 (9 mm pot, horizontal/rear mount, bushingless)",
+    "family": "other",
+    "pitch": 2.5,
+    "body": {
+      "d": 10.0,
+      "e": 9.9,
+      "a": 6.8
+    },
+    "landPattern": {
+      "pads": [
+        {
+          "number": "1",
+          "x": -2.5,
+          "y": 0.0,
+          "w": 1.8,
+          "h": 1.8,
+          "shape": "rect",
+          "drill": 1.0
+        },
+        {
+          "number": "2",
+          "x": 0.0,
+          "y": 0.0,
+          "w": 1.8,
+          "h": 1.8,
+          "shape": "round",
+          "drill": 1.0
+        },
+        {
+          "number": "3",
+          "x": 2.5,
+          "y": 0.0,
+          "w": 1.8,
+          "h": 1.8,
+          "shape": "round",
+          "drill": 1.0
+        },
+        {
+          "number": "MP",
+          "x": -5.3,
+          "y": 7.0,
+          "w": 2.6,
+          "h": 3.0,
+          "shape": "oval",
+          "drill": 1.8
+        },
+        {
+          "number": "MP",
+          "x": 5.3,
+          "y": 7.0,
+          "w": 2.6,
+          "h": 3.0,
+          "shape": "oval",
+          "drill": 1.8
+        }
+      ],
+      "page": "p. 1, recommended PCB layout (horizontal/rear mount): 3 holes dia. 1.0 (+0.2) at 2.5 (5.0 from 1 to 3); two tab slots 1.8 x 2.2 (+0.2) 10.6 apart, 7.0 behind the pins' row, symmetric about pin 2; pads 1.8 and 0.4 mm around the slots our choice"
+    },
+    "page": "p. 1-2, PTV09A-4: body 10.0 wide, 11.4 from the pins' tips row to the far edge with the pins 1.5 outside the body (so 9.9 deep), the shaft's axis 5.5 from the far edge; 6.8 high to the mounting surface; L = 20 shaft"
+  },
+  "footprint": "Footprint {\n    let ps = [\n      thtPad(\"1\", (-2.5mm, 0mm), 1mm, (1.8mm, 1.8mm), square = true),\n      thtPad(\"2\", (0mm, 0mm), 1mm, (1.8mm, 1.8mm)),\n      thtPad(\"3\", (2.5mm, 0mm), 1mm, (1.8mm, 1.8mm)),\n      thtPad(\"MP\", (-5.3mm, 7mm), 1.8mm, (2.6mm, 3mm), slot = (1.8mm, 2.2mm)),\n      thtPad(\"MP\", (5.3mm, 7mm), 1.8mm, (2.6mm, 3mm), slot = (1.8mm, 2.2mm)),\n    ]\n    let b = box((-5mm, 1.5mm), (5mm, 11.4mm))\n    name = \"Potentiometer_Bourns_PTV09A-4_Vertical\"\n    description = \"Bourns PTV09A-4 9 mm potentiometer, shaft upright: pins 1 (CCW), 2 (wiper), 3 (CW) at 2.5 mm in front, two mounting tabs 10.6 mm apart 7 mm behind them; the shaft 5.9 mm behind the pins\"\n    tags = [\"potentiometer\", \"9mm\", \"PTV09\", \"THT\"]\n    pads = ps\n    body = b\n    height = 26.8mm\n    silk = silkOf(ps, b, 0.25mm, pin1 = (-2.5mm, -1.5mm))\n    package = Package { family = .other; body = (10mm, 9.9mm); height = 6.8mm }\n    solids = [\n      solid.box((10mm, 9.9mm, 6.8mm), at = (0mm, 6.45mm, 0mm), radius = 0.3mm, color = \"#1a1a1a\"),\n      solid.box((10mm, 9.9mm, 0.5mm), at = (0mm, 6.45mm, 6.3mm), material = .metal),\n      solid.cylinder(6mm, 20mm, at = (0mm, 5.9mm, 6.8mm), color = \"#2a2a2a\"),\n    ]\n  }",
+  "pins": [
+    {
+      "number": "1",
+      "name": "CCW",
+      "type": "passive",
+      "description": "track end 1 (Bourns' schematic: 1): the end the wiper nears turned counter-clockwise, by the usual convention"
+    },
+    {
+      "number": "2",
+      "name": "W",
+      "type": "passive",
+      "description": "the wiper (Bourns: 2)"
+    },
+    {
+      "number": "3",
+      "name": "CW",
+      "type": "passive",
+      "description": "track end 3 (Bourns: 3): the end the wiper nears turned clockwise"
+    },
+    {
+      "number": "MP",
+      "name": "MP",
+      "type": "passive",
+      "description": "the two metal mounting tabs (soldered for strength; may go to GND for shielding or stay unconnected)"
+    }
+  ],
+  "ratings": {
+    "recommended": [
+      {
+        "what": "power rating (linear and audio)",
+        "max": 0.05,
+        "unit": "W"
+      },
+      {
+        "what": "maximum operating voltage DC",
+        "max": 20.0,
+        "unit": "V"
+      },
+      {
+        "what": "maximum operating voltage AC",
+        "max": 50.0,
+        "unit": "V"
+      },
+      {
+        "what": "resistance tolerance",
+        "max": 20.0,
+        "unit": "%"
+      },
+      {
+        "what": "operating temperature",
+        "min": -10.0,
+        "max": 50.0,
+        "unit": "°C"
+      }
+    ]
+  },
+  "simulation": {
+    "behavior": {
+      "model": "potentiometer",
+      "ports": {
+        "output": [
+          "2"
+        ],
+        "power": [
+          "3",
+          "1"
+        ]
+      },
+      "parameters": {
+        "ohms": 10000.0,
+        "position": 0.5,
+        "volts": 5.0
+      },
+      "height": 6.8
+    }
+  },
+  "notes": [
+    "Into an ADC (a knob, a setting): CCW to GND, CW to the ADC's reference supply (3.3 V), W to the analog input; turning clockwise raises the reading. Add 100 nF from W to GND against noise.",
+    "Bourns' schematic numbers the track's ends 1 and 3 without naming the direction; CCW and CW follow the usual convention (pin 1 at left seen from the shaft side with the pins toward you). If it reads backwards, swap the ends in the design.",
+    "B in the order number is the linear taper, A audio (log); 103 = 10 kΩ. Option digit 2 (PTV09A-42…) adds a centre detent.",
+    "The same 9 mm footprint size as the Alps RK09K family's vertical pots (pins at 2.5 mm, tabs at the sides); check another maker's drawing before using this footprint for it."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "Bourns PTV09 Series datasheet: PTV09A-4 product dimensions (front view: body 10.0, 11.4, shaft 5.5 from the far edge, pins 1.5 outside), recommended PCB layout (horizontal/rear mount), schematic (1, 2 wiper, 3), characteristics",
+      "url": "https://www.bourns.com/docs/Product-Datasheets/PTV09.pdf",
+      "license": "pin numbers, hole positions, dimensions and ratings transcribed from the manufacturer's datasheet (facts); the CCW / CW names, footprint, 3D body, descriptions and notes our own"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "holes and slots as the layout (slot 1.8 across, 2.2 along Y our reading); pad sizes our choice"
+    }
+  }
+}
