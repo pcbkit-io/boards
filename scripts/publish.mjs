@@ -1,7 +1,9 @@
 // Publishes the registry (registry.json) to the library, where PCBKit's app, board library and
 // site read it without being rebuilt: every board checked by the pcbkit command-line tool, its
-// files packed (but a board opened from GitHub, whose sources are not ours to ship), its picture,
-// and the index the gallery shows.
+// files packed (but a board opened from GitHub, whose sources are not ours to ship), and the index
+// the gallery shows; its picture is PCBKit's, drawn on demand from its folder at the commit
+// (app.pcbkit.io/embed/github/pcbkit-io/boards/tree/<commit>/<path>.webp at the last commit that
+// changed its folder, `?size=` as shown).
 //
 //   node scripts/publish.mjs [--dry-run] [--out DIR]
 //
@@ -9,11 +11,10 @@
 // the pcbkit binary (PCBKIT_BIN, default `pcbkit`) and, to upload, the AWS CLI with the right to
 // write the library (the dev host's role). It writes:
 //   library/demos/<commit>/<slug>.json   a board's files (or, opened from GitHub, their names and sizes), immutable
-//   library/demos/<commit>/<slug>.webp   its picture, immutable
 //   library/demos/index.json             the registry with each board's counts and addresses (a minute's cache)
 // served at https://library.pcbkit.io/demos/ and, same-origin, app.pcbkit.io/library/demos/.
 import { execFileSync } from 'node:child_process'
-import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync, copyFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs'
 import { join, relative } from 'node:path'
 
 const root = new URL('..', import.meta.url).pathname
@@ -42,7 +43,6 @@ for (const b of registry.boards) {
   seen.add(b.slug)
   if (!categories.has(b.category)) problems.push(`${b.slug}: no category ${b.category}`)
   if (!existsSync(join(root, b.path, '.pcbkit/design.pcbkit'))) problems.push(`${b.slug}: no board at ${b.path}`)
-  if (!existsSync(join(root, 'thumbs', `${b.slug}.webp`))) problems.push(`${b.slug}: no picture thumbs/${b.slug}.webp`)
   // An interactive board carries its program (a folder its design names) and is a real board: it
   // can be ordered as it is and says how the ordered board takes that program.
   if (categories.get(b.category)?.interactive && (b.production?.status !== 'ready' || !b.production?.flash)) problems.push(`${b.slug}: interactive, but not ready to order and flash (production)`)
@@ -93,8 +93,10 @@ for (const b of registry.boards) {
   const dir = join(root, b.path)
   const s = pcbkit(dir, 'call', 'project.summary', '{}').result
   if (s.eval.status !== 'complete' || s.eval.stale || s.eval.warnings) warnings.push(`${b.slug}: ${s.eval.status}${s.eval.stale ? ', copper stale' : ''}, ${s.eval.warnings} warnings`)
-  const entry = { ...b, layers: s.layers.length, parts: s.counts.components, nets: s.counts.nets, thumb: `${commit}/${b.slug}.webp` }
-  copyFileSync(join(root, 'thumbs', `${b.slug}.webp`), join(out, commit, `${b.slug}.webp`))
+  // Its picture at the last commit that changed its folder: a new commit of the registry alone
+  // keeps every picture's address, and so its cached picture.
+  const changed = dry ? commit : git('log', '-1', '--format=%H', '--', b.path)
+  const entry = { ...b, layers: s.layers.length, parts: s.counts.components, nets: s.counts.nets, thumb: `https://app.pcbkit.io/embed/github/pcbkit-io/boards/tree/${changed}/${b.path}.webp` }
   if (b.open === 'github') {
     // Read from GitHub's file servers when it opens: its folder's files at the commit, their names
     // and sizes (none of their contents), so the app asks GitHub's API nothing.
@@ -118,7 +120,6 @@ if (warnings.length) console.warn(`publish: not clean:\n  ${warnings.join('\n  '
 
 // ── Upload: the commit's files first, then the index that points at them ─────────────────────
 if (dry) { console.log(`publish: dry run, ${index.length} boards in ${out}`); process.exit(0) }
-for (const [ext, type] of [['json', 'application/json'], ['webp', 'image/webp']])
-  execFileSync('aws', ['s3', 'cp', '--recursive', '--quiet', join(out, commit), `${bucket}/${commit}/`, '--exclude', '*', '--include', `*.${ext}`, '--content-type', type, '--cache-control', 'public,max-age=31536000,immutable'], { stdio: 'inherit' })
+execFileSync('aws', ['s3', 'cp', '--recursive', '--quiet', join(out, commit), `${bucket}/${commit}/`, '--content-type', 'application/json', '--cache-control', 'public,max-age=31536000,immutable'], { stdio: 'inherit' })
 execFileSync('aws', ['s3', 'cp', '--quiet', join(out, 'index.json'), `${bucket}/index.json`, '--content-type', 'application/json', '--cache-control', 'public,max-age=60'], { stdio: 'inherit' })
 console.log(`publish: ${index.length} boards of ${commit.slice(0, 7)} at library.pcbkit.io/demos/`)
