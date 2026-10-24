@@ -5,4 +5,4 @@ An Arduino Nano reads an SHT31 and shows the temperature and humidity large on a
 - Author: PCBKit
 - License: CC0-1.0
 
-This project began as the demo “Weather station” of PCBKit (https://pcbkit.io): https://app.pcbkit.io/demo/weather-station. Placed and routed by PCBKit; the sketch builds and runs in the browser.
+This project began as the demo “Weather station” of PCBKit (https://pcbkit.io): https://app.pcbkit.io/demo/nano-weather-station. Placed and routed by PCBKit; the sketch builds and runs in the browser.

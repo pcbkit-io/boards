@@ -5,4 +5,4 @@ A room thermostat that turns a radiator valve: a PI controller opens a servo as 
 - Author: PCBKit
 - License: CC0-1.0
 
-This project began as the demo “Thermostat” of PCBKit (https://pcbkit.io): https://app.pcbkit.io/demo/thermostat. Placed and routed by PCBKit; the sketch builds and runs in the browser.
+This project began as the demo “Thermostat” of PCBKit (https://pcbkit.io): https://app.pcbkit.io/demo/nano-thermostat. Placed and routed by PCBKit; the sketch builds and runs in the browser.

@@ -619,7 +619,7 @@
       }
     },
     {
-      "slug": "weather-station",
+      "slug": "nano-weather-station",
       "title": "Weather station",
       "category": "arduino",
       "summary": "An Arduino Nano reads an SHT31 and shows the temperature and humidity large on an OLED, with the dew point and how the air feels, the day's lowest and highest and a graph of the last two minutes. Change the weather in the lab; the button turns the pages.",
@@ -672,7 +672,7 @@
       }
     },
     {
-      "slug": "thermostat",
+      "slug": "nano-thermostat",
       "title": "Thermostat",
       "category": "arduino",
       "summary": "A room thermostat that turns a radiator valve: a PI controller opens a servo as far as an SHT31 finds the room below the setpoint, the red light shows heating, − and + set the target and the EEPROM keeps it. Cool the room in the lab and watch the valve open.",
