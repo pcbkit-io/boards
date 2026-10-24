@@ -19,7 +19,7 @@
     {
       "id": "lab",
       "title": "Lab",
-      "summary": "ATmega328P boards with C firmware against sensors, knobs, buttons, displays and servos you change while they run.",
+      "summary": "Arduino Nano boards with C firmware against sensors, knobs, buttons, displays and servos you change while they run; each one ready to order.",
       "icon": "flask",
       "interactive": true
     },
