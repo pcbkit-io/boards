@@ -32,17 +32,11 @@ part Part = device(
     box((-27.05mm, -34.0mm), (52.95mm, 2.0mm)),
     description = "16x2 character LCD module on a 1x16 female header along its top edge, the display facing up over -Y: VSS, VDD, V0, RS, RW, E, DB0-DB7, A, K left to right",
     parts = 8.6mm,
-    color = "#2e7d32",
+    color = "#2c7a30",
     board = 1.6mm,
-    module = displayPanel(
-      box((-22.6mm, -28.15mm), (48.5mm, -3.85mm)),
-      box((-15.15mm, -21.75mm), (41.05mm, -10.25mm)),
-      7mm,
-      glass = 0.3mm,
-      frame = box((-24.05mm, -30.0mm), (49.95mm, -2.0mm)),
-      face = "#8fb52e",
-      mask = "#4f6a14",
-    ),
+    spacer = 2.5mm,
+    pins = true,
+    module = modules.lcd1602(),
   ),
   prefix = "U",
   mpn = "1602 16x2 character LCD module (HD44780 compatible)",
@@ -115,7 +109,7 @@ part Part = device(
         "rows": 2,
         "width_mm": 56.2,
       }
-      height = 17.1mm
+      height = 19.6mm
     }
     parameters = [
       SimulationParameter {

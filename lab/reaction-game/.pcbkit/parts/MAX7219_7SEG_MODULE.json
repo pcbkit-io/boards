@@ -35,7 +35,7 @@
     },
     "page": "the module's board 82 x 15 mm with its 1x5 input header across its left end; two 4-digit 0.36 inch displays (30.2 x 14 x 7.2 mm) in the middle; 0.3 inch digit pitch"
   },
-  "footprint": "moduleSocket(\"MAX7219_8digit_Module_Socket_1x05_P2.54mm\", socketRow(1, 5, (-38.6mm, 5.08mm), (0mm, -2.54mm)), box((-41mm, -7.5mm), (41mm, 7.5mm)), description = \"MAX7219 8-digit 7-segment module on a 1x5 female header across its left end: VCC, GND, DIN, CS, CLK from the top; the digits centred on the footprint's origin\", parts = 7.2mm, color = \"#1d5e8c\", module = concat([ solid.box((30.2mm, 14mm, 7.2mm), at = (15.6mm, 0mm, 0mm), radius = 0.2mm, color = \"#151517\"), solid.box((30.2mm, 14mm, 7.2mm), at = (-15.6mm, 0mm, 0mm), radius = 0.2mm, color = \"#151517\"), solid.box((7.6mm, 7.6mm, 1.2mm), at = (-35mm, -2mm, 0mm), radius = 0.1mm, material = .epoxy) ], digitSegments(8, 7.8mm, 7.2mm)))",
+  "footprint": "moduleSocket(\"MAX7219_8digit_Module_Socket_1x05_P2.54mm\", socketRow(1, 5, (-38.6mm, 5.08mm), (0mm, -2.54mm)), box((-41mm, -7.5mm), (41mm, 7.5mm)), description = \"MAX7219 8-digit 7-segment module on a 1x5 female header across its left end: VCC, GND, DIN, CS, CLK from the top; the digits centred on the footprint's origin\", parts = 7.2mm, color = \"#1d5e8c\", spacer = 2.5mm, pins = true, module = modules.max7219Digits())",
   "pins": [
     {
       "number": "1",
@@ -111,7 +111,7 @@
         ]
       },
       "parameters": {},
-      "height": 17.3
+      "height": 19.8
     }
   },
   "notes": [

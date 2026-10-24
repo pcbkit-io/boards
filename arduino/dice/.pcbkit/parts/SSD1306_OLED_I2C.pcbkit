@@ -30,12 +30,9 @@ part Part = device(
     parts = 1.5mm,
     color = "#1d3f8c",
     board = 1.6mm,
-    module = displayPanel(
-      box((-13.35mm, -24.4mm), (13.35mm, -5.14mm)),
-      box((-10.87mm, -18.83mm), (10.87mm, -7.97mm)),
-      1.4mm,
-      glass = 0.5mm,
-    ),
+    spacer = 2.5mm,
+    pins = true,
+    module = modules.oled096(["GND", "VCC", "SCL", "SDA"], edge = 1.5mm),
   ),
   prefix = "U",
   mpn = "SSD1306 0.96in 128x64 I2C OLED module",
@@ -65,7 +62,7 @@ part Part = device(
         "offset_y_mm": -13.4,
         "width_mm": 21.74,
       }
-      height = 11.5mm
+      height = 14mm
     }
     parameters = []
   }

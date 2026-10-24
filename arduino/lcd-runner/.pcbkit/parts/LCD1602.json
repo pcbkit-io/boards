@@ -39,7 +39,7 @@
     },
     "page": "Newhaven NHD-0216K1Z-FL-YBW rev. 13: pin assignment (1 VSS, 2 VDD, 3 V0, 4 RS, 5 R/W, 6 E, 7-14 DB0-DB7, 15 A, 16 K), mechanical drawing (PCB 80.00 x 36.00 mm, P2.54 x 15 = 38.10, first pin 8.00 mm from the left edge, row 2.00 mm from the top edge, holes 75 x 31 mm, 13.2 mm max thick), VDD 4.5-5.5 V, VIH 0.7 VDD"
   },
-  "footprint": "moduleSocket(\"LCD_1602_Socket_1x16_P2.54mm\", socketRow(1, 16, (-19.05mm, 0mm), (2.54mm, 0mm)), box((-27.05mm, -34.0mm), (52.95mm, 2.0mm)), description = \"16x2 character LCD module on a 1x16 female header along its top edge, the display facing up over -Y: VSS, VDD, V0, RS, RW, E, DB0-DB7, A, K left to right\", parts = 8.6mm, color = \"#2e7d32\", board = 1.6mm, module = displayPanel(box((-22.6mm, -28.15mm), (48.5mm, -3.85mm)), box((-15.15mm, -21.75mm), (41.05mm, -10.25mm)), 7mm, glass = 0.3mm, frame = box((-24.05mm, -30.0mm), (49.95mm, -2.0mm)), face = \"#8fb52e\", mask = \"#4f6a14\"))",
+  "footprint": "moduleSocket(\"LCD_1602_Socket_1x16_P2.54mm\", socketRow(1, 16, (-19.05mm, 0mm), (2.54mm, 0mm)), box((-27.05mm, -34.0mm), (52.95mm, 2.0mm)), description = \"16x2 character LCD module on a 1x16 female header along its top edge, the display facing up over -Y: VSS, VDD, V0, RS, RW, E, DB0-DB7, A, K left to right\", parts = 8.6mm, color = \"#2c7a30\", board = 1.6mm, spacer = 2.5mm, pins = true, module = modules.lcd1602())",
   "pins": [
     {
       "number": "1",
@@ -224,7 +224,7 @@
         "rows": 2.0,
         "width_mm": 56.2
       },
-      "height": 17.1
+      "height": 19.6
     },
     "parameters": [
       {

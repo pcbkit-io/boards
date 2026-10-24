@@ -39,7 +39,7 @@
     },
     "page": "module about 27.3 x 27.8 mm, the 4-pin header centred on the top edge, the display facing up"
   },
-  "footprint": "moduleSocket(\"OLED_0.96in_I2C_Socket_1x04_P2.54mm\", socketRow(1, 4, (-3.81mm, 0mm), (2.54mm, 0mm)), box((-13.65mm, -26.3mm), (13.65mm, 1.5mm)), description = \"0.96 inch I2C OLED module on a 1x4 female header along its top edge, the display facing up over -Y: GND, VCC, SCL, SDA left to right\", parts = 1.5mm, color = \"#1d3f8c\", board = 1.6mm, module = displayPanel(box((-13.35mm, -24.4mm), (13.35mm, -5.14mm)), box((-10.87mm, -18.83mm), (10.87mm, -7.97mm)), 1.4mm, glass = 0.5mm))",
+  "footprint": "moduleSocket(\"OLED_0.96in_I2C_Socket_1x04_P2.54mm\", socketRow(1, 4, (-3.81mm, 0mm), (2.54mm, 0mm)), box((-13.65mm, -26.3mm), (13.65mm, 1.5mm)), description = \"0.96 inch I2C OLED module on a 1x4 female header along its top edge, the display facing up over -Y: GND, VCC, SCL, SDA left to right\", parts = 1.5mm, color = \"#1d3f8c\", board = 1.6mm, spacer = 2.5mm, pins = true, module = modules.oled096([\"GND\", \"VCC\", \"SCL\", \"SDA\"], edge = 1.5mm))",
   "pins": [
     {
       "number": "1",
@@ -102,7 +102,7 @@
         "offset_y_mm": -13.4,
         "width_mm": 21.74
       },
-      "height": 11.5
+      "height": 14.0
     }
   },
   "i2cAddress": "0x3C",
