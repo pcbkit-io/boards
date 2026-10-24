@@ -17,6 +17,22 @@ Open them all at **https://app.pcbkit.io/github/pcbkit-io/boards**, or one folde
 Each folder is a family of boards with its own README; each board's folder is one project with
 its README (what it is, how to order, flash and charge it, its parts and check results).
 
+## The registry
+
+[`registry.json`](registry.json) is the catalogue of these boards: their categories and, for each
+board, its title, summary, tags, chips, licence, author, origin, folder, how it opens and whether
+it is ready to order (`production`), as the schema [`registry.schema.json`](registry.schema.json)
+says, with its picture in [`thumbs/`](thumbs). PCBKit's app, its board library and pcbkit.io read
+nothing else: `node scripts/publish.mjs` checks every board with the pcbkit command-line tool and
+publishes the registry, each board's files and picture to https://library.pcbkit.io/demos/ (the
+app reads it there without being rebuilt). A new board: its folder, an entry, a picture, then
+publish.
+
+**Every interactive board is a real board**: it runs in the app, and it can be ordered from a
+fab as it is and flashed after assembly (a USB bootloader or a programming header), so the image
+that runs in the app runs on the board. Boards that are not yet (`production.status:
+"simulation-only"`) are being converted.
+
 ## Licences
 
 Each family has its own: `lab/`, `arduino/` and `examples/` are CC0 1.0 (public domain), but for the open

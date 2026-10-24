@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PCBKit board registry",
+  "type": "object",
+  "required": ["categories", "boards"],
+  "properties": {
+    "categories": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "summary", "icon", "interactive"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+          "title": { "type": "string" },
+          "summary": { "type": "string" },
+          "icon": { "description": "A Phosphor icon name (phosphoricons.com), the app's own icon set", "type": "string" },
+          "interactive": { "description": "Its boards' firmware runs in the app", "type": "boolean" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "boards": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["slug", "title", "category", "summary", "tags", "chips", "license", "author", "path", "production"],
+        "properties": {
+          "slug": { "description": "Its address: app.pcbkit.io/demo/<slug>", "type": "string", "pattern": "^[a-z0-9-]+$" },
+          "title": { "type": "string" },
+          "category": { "description": "A category's id", "type": "string" },
+          "summary": { "type": "string" },
+          "tags": { "type": "array", "items": { "type": "string", "pattern": "^[a-z0-9-]+$" } },
+          "chips": { "description": "The parts it is about, as people name them", "type": "array", "items": { "type": "string" } },
+          "featured": { "description": "Shown first", "type": "boolean" },
+          "license": { "description": "SPDX", "type": "string" },
+          "author": { "type": "string" },
+          "source": { "description": "Where it began, when not here", "type": ["string", "null"] },
+          "copper": { "description": "Who placed and routed it", "type": ["string", "null"] },
+          "path": { "description": "Its folder in this repository", "type": "string" },
+          "open": { "description": "github: the app reads its folder from GitHub at the published commit (sources not ours to ship, e.g. GPL); default: its files are published with it", "enum": ["github"] },
+          "production": {
+            "type": "object",
+            "required": ["status"],
+            "properties": {
+              "status": { "description": "ready: orderable and flashable as it is; simulation-only: not yet", "enum": ["ready", "simulation-only"] },
+              "flash": { "description": "How the ordered board takes its firmware", "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

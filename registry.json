@@ -1,0 +1,1010 @@
+{
+  "$schema": "./registry.schema.json",
+  "$comment": "The registry of PCBKit's boards: what the app's gallery, the board library and pcbkit.io show, curated here. scripts/publish.mjs checks every board and publishes it with its files and picture to library.pcbkit.io/demos/.",
+  "categories": [
+    {
+      "id": "doom",
+      "title": "Doom handhelds",
+      "summary": "Eleven handhelds from a 10-cent RISC-V chip to a Teensy 4.1, each ordered as it is, flashed over USB and playing Doom; in the app, Doom runs on the board's own chips.",
+      "icon": "game-controller",
+      "interactive": true
+    },
+    {
+      "id": "arduino",
+      "title": "Arduino",
+      "summary": "An Arduino Nano on every board, real sketches with the libraries everyone uses, built and run in the app exactly as the Arduino IDE builds them.",
+      "icon": "cpu",
+      "interactive": true
+    },
+    {
+      "id": "lab",
+      "title": "Lab",
+      "summary": "ATmega328P boards with C firmware against sensors, knobs, buttons, displays and servos you change while they run.",
+      "icon": "flask",
+      "interactive": true
+    },
+    {
+      "id": "examples",
+      "title": "Examples",
+      "summary": "Boards to learn PCBKit from: designs placed and routed from parts and connections, circuit blocks, open boards by their authors.",
+      "icon": "graduation-cap",
+      "interactive": false
+    }
+  ],
+  "boards": [
+    {
+      "slug": "air-quality",
+      "title": "Air quality meter",
+      "category": "lab",
+      "summary": "A battery-powered air meter you can run: an ATmega328P with real C firmware reads an SHT31 and an SCD40 and shows temperature and humidity on a MAX7219 display, with green, orange and red CO₂ lights. Change the weather and watch the firmware answer.",
+      "tags": [
+        "sensor",
+        "co2",
+        "max7219",
+        "battery"
+      ],
+      "chips": [
+        "ATmega328P",
+        "SHT31",
+        "SCD40",
+        "MAX7219"
+      ],
+      "featured": true,
+      "license": "CC0-1.0",
+      "author": "PCBKit",
+      "source": null,
+      "copper": "Placed and routed by PCBKit; the firmware runs in the browser.",
+      "path": "lab/air-quality",
+      "production": {
+        "status": "simulation-only"
+      }
+    },
+    {
+      "slug": "servo-controller",
+      "title": "Servo controller",
+      "category": "lab",
+      "summary": "A device you can run: an ATmega328P reads a knob and a button and drives a servo with PWM, sleeping between interrupts. Turn the knob or press the button and watch the servo follow.",
+      "tags": [
+        "servo",
+        "knob",
+        "pwm",
+        "interrupts"
+      ],
+      "chips": [
+        "ATmega328P"
+      ],
+      "license": "CC0-1.0",
+      "author": "PCBKit",
+      "source": null,
+      "copper": "Placed and routed by PCBKit; the firmware runs in the browser.",
+      "path": "lab/servo-controller",
+      "production": {
+        "status": "simulation-only"
+      }
+    },
+    {
+      "slug": "serial-device",
+      "title": "Serial command device",
+      "category": "lab",
+      "summary": "A device you talk to over UART: an ATmega168P echoes every byte and turns its light on for 1 and off for 0. Type into its serial console and watch it answer.",
+      "tags": [
+        "uart",
+        "serial"
+      ],
+      "chips": [
+        "ATmega168P"
+      ],
+      "license": "CC0-1.0",
+      "author": "PCBKit",
+      "source": null,
+      "copper": "Placed and routed by PCBKit; the firmware runs in the browser.",
+      "path": "lab/serial-device",
+      "production": {
+        "status": "simulation-only"
+      }
+    },
+    {
+      "slug": "led-ring-lab",
+      "title": "LED ring",
+      "category": "lab",
+      "summary": "Twelve lights round a black disc, each dimmed by software PWM from a timer interrupt: a spinning comet with a fading tail, a dial gauge of the knob from green to red, a breathing wave. The button changes the mode, the knob the speed.",
+      "tags": [
+        "leds",
+        "animation",
+        "pwm"
+      ],
+      "chips": [
+        "ATmega328P"
+      ],
+      "license": "CC0-1.0",
+      "author": "PCBKit",
+      "source": null,
+      "copper": "Placed and routed by PCBKit; the firmware runs in the browser.",
+      "path": "lab/led-ring-lab",
+      "production": {
+        "status": "simulation-only"
+      }
+    },
+    {
+      "slug": "stopwatch",
+      "title": "Stopwatch",
+      "category": "lab",
+      "summary": "A watch face that keeps time: a 1 kHz timer interrupt counts in decimal digits and a MAX7219 shows hours to hundredths. Flip RUN to start and stop it; LAP freezes the display while it keeps counting, or resets it when stopped.",
+      "tags": [
+        "timer",
+        "max7219",
+        "display"
+      ],
+      "chips": [
+        "ATmega328P",
+        "MAX7219"
+      ],
+      "featured": true,
+      "license": "CC0-1.0",
+      "author": "PCBKit",
+      "source": null,
+      "copper": "Placed and routed by PCBKit; the firmware runs in the browser.",
+      "path": "lab/stopwatch",
+      "production": {
+        "status": "simulation-only"
+      }
+    },
+    {
+      "slug": "reaction-game",
+      "title": "Reaction game",
+      "category": "lab",
+      "summary": "How fast are you? Press to start: red, amber, a random wait, then green and GO. Press again and the display shows your time in milliseconds and your best; pressing before green is a false start.",
+      "tags": [
+        "game",
+        "max7219",
+        "leds"
+      ],
+      "chips": [
+        "ATmega328P",
+        "MAX7219"
+      ],
+      "license": "CC0-1.0",
+      "author": "PCBKit",
+      "source": null,
+      "copper": "Placed and routed by PCBKit; the firmware runs in the browser.",
+      "path": "lab/reaction-game",
+      "production": {
+        "status": "simulation-only"
+      }
+    },
+    {
+      "slug": "greenhouse",
+      "title": "Greenhouse controller",
+      "category": "lab",
+      "summary": "A house-shaped board that opens its window: an SHT31 reads the temperature, an SCD40 the CO₂, and a servo opens the window when it is too warm or stuffy. Turn the setpoint knob, change the temperature and CO₂ in the lab, and watch it react.",
+      "tags": [
+        "sensor",
+        "servo",
+        "co2",
+        "control"
+      ],
+      "chips": [
+        "ATmega328P",
+        "SHT31",
+        "SCD40",
+        "MAX7219"
+      ],
+      "license": "CC0-1.0",
+      "author": "PCBKit",
+      "source": null,
+      "copper": "Placed and routed by PCBKit; the firmware runs in the browser.",
+      "path": "lab/greenhouse",
+      "production": {
+        "status": "simulation-only"
+      }
+    },
+    {
+      "slug": "servo-sequencer",
+      "title": "Servo sequencer",
+      "category": "lab",
+      "summary": "Three servos from one timer interrupt. They dance a built-in choreography until you press TEACH: move them with the three knobs, press again and they replay your motion in a smooth loop.",
+      "tags": [
+        "servo",
+        "knob",
+        "animation"
+      ],
+      "chips": [
+        "ATmega328P"
+      ],
+      "license": "CC0-1.0",
+      "author": "PCBKit",
+      "source": null,
+      "copper": "Placed and routed by PCBKit; the firmware runs in the browser.",
+      "path": "lab/servo-sequencer",
+      "production": {
+        "status": "simulation-only"
+      }
+    },
+    {
+      "slug": "pedestrian-crossing",
+      "title": "Pedestrian crossing",
+      "category": "lab",
+      "summary": "A traffic light for cars and one for people, as a state machine: press PUSH and the countdown starts, cars get amber and red, WALK shows the seconds left and flashes before it ends.",
+      "tags": [
+        "state-machine",
+        "leds",
+        "max7219"
+      ],
+      "chips": [
+        "ATmega328P",
+        "MAX7219"
+      ],
+      "license": "CC0-1.0",
+      "author": "PCBKit",
+      "source": null,
+      "copper": "Placed and routed by PCBKit; the firmware runs in the browser.",
+      "path": "lab/pedestrian-crossing",
+      "production": {
+        "status": "simulation-only"
+      }
+    },
+    {
+      "slug": "message-scroller",
+      "title": "Message scroller",
+      "category": "lab",
+      "summary": "Type into the serial console and your words scroll across eight seven-segment digits, letters included, in a font of the program's own. A UART receive interrupt collects the line; the knob sets the speed.",
+      "tags": [
+        "uart",
+        "max7219",
+        "text"
+      ],
+      "chips": [
+        "ATmega328P",
+        "MAX7219"
+      ],
+      "license": "CC0-1.0",
+      "author": "PCBKit",
+      "source": null,
+      "copper": "Placed and routed by PCBKit; the firmware runs in the browser.",
+      "path": "lab/message-scroller",
+      "production": {
+        "status": "simulation-only"
+      }
+    },
+    {
+      "slug": "doom-handheld",
+      "title": "Doom handheld",
+      "category": "doom",
+      "summary": "A real Doom handheld: an RP2350 (Pico Plus 2) under a 2.8″ ILI9341 screen with ten buttons, on a routed red keycard. Run builds the firmware in your browser with the shareware game linked into flash and plays it on a model of the chips: the same image you would flash onto the ordered board. Gamepad (PS5 or any standard controller) or keyboard.",
+      "tags": [
+        "game",
+        "handheld",
+        "rp2350",
+        "psram",
+        "tft",
+        "uf2"
+      ],
+      "chips": [
+        "RP2350",
+        "Pimoroni Pico Plus 2",
+        "ILI9341"
+      ],
+      "featured": true,
+      "license": "GPL-2.0",
+      "author": "PCBKit",
+      "source": "https://github.com/pcbkit-io/boards/tree/main/doom/rp2350-handheld",
+      "copper": null,
+      "path": "doom/rp2350-handheld",
+      "open": "github",
+      "production": {
+        "status": "ready",
+        "flash": "usb-uf2"
+      }
+    },
+    {
+      "slug": "doom-v003-emu",
+      "title": "Doom on a CH32V003",
+      "category": "doom",
+      "summary": "The cheapest chip that runs Doom, by emulation: a CH32V003 with 2 KB of RAM interprets a larger RISC-V computer whose program boots from a 16 MB SPI flash and runs in an 8 MB SPI PSRAM, on a Nokia 5110 screen. Slow, every part orderable, flashed with a WCH-LinkE. Run builds the firmware in your browser with the game's data linked in and plays it on a model of the chips: the image you would flash onto the ordered board.",
+      "tags": [
+        "game",
+        "handheld",
+        "risc-v",
+        "emulator",
+        "nokia-5110",
+        "psram"
+      ],
+      "chips": [
+        "CH32V003",
+        "W25Q128",
+        "APS6404L",
+        "PCD8544"
+      ],
+      "license": "GPL-2.0",
+      "author": "PCBKit",
+      "source": "https://github.com/pcbkit-io/boards/tree/main/doom/v003-emu",
+      "copper": null,
+      "path": "doom/v003-emu",
+      "open": "github",
+      "production": {
+        "status": "ready",
+        "flash": "swio"
+      }
+    },
+    {
+      "slug": "doom-pico-oled",
+      "title": "Doom on a Pico and an OLED",
+      "category": "doom",
+      "summary": "A through-hole Doom kit: a Raspberry Pi Pico on sockets behind a 2.42″ 128 × 64 OLED, the shareware game compressed into its 2 MB flash (rp2040-doom), each frame dithered to one bit, eight buttons, two 18650 cells. Flashed over the Pico's USB as a UF2. Run builds the firmware in your browser with the game's data linked in and plays it on a model of the chips: the image you would flash onto the ordered board.",
+      "tags": [
+        "game",
+        "handheld",
+        "rp2040",
+        "pico",
+        "oled",
+        "monochrome",
+        "uf2"
+      ],
+      "chips": [
+        "RP2040",
+        "Raspberry Pi Pico",
+        "SSD1309"
+      ],
+      "license": "GPL-2.0",
+      "author": "PCBKit",
+      "source": "https://github.com/pcbkit-io/boards/tree/main/doom/pico-oled",
+      "copper": null,
+      "path": "doom/pico-oled",
+      "open": "github",
+      "production": {
+        "status": "ready",
+        "flash": "usb-uf2"
+      }
+    },
+    {
+      "slug": "doom-c3-pocket",
+      "title": "Doom on an ESP32-C3",
+      "category": "doom",
+      "summary": "A Game Boy-shaped Doom handheld on an ESP32-C3 module (RISC-V, 400 KB of SRAM, no PSRAM): the shareware game read in place from its 4 MB flash, a 1.3″ 240 × 240 IPS screen, eight buttons, two 18650 cells charged from USB-C. Flashed over the C3's own USB with esptool. Run builds the firmware in your browser with the game's data linked in and plays it on a model of the chips: the image you would flash onto the ordered board.",
+      "tags": [
+        "game",
+        "handheld",
+        "esp32",
+        "esp32-c3",
+        "risc-v",
+        "tft",
+        "esptool"
+      ],
+      "chips": [
+        "ESP32-C3-MINI-1",
+        "ESP32-C3",
+        "ST7789"
+      ],
+      "license": "GPL-2.0",
+      "author": "PCBKit",
+      "source": "https://github.com/pcbkit-io/boards/tree/main/doom/c3-pocket",
+      "copper": null,
+      "path": "doom/c3-pocket",
+      "open": "github",
+      "production": {
+        "status": "ready",
+        "flash": "usb-esptool"
+      }
+    },
+    {
+      "slug": "doom-rp2040-tft",
+      "title": "Doom on a bare RP2040",
+      "category": "doom",
+      "summary": "The RP2040 chip without a module: Raspberry Pi's minimal design with a 16 MB flash, the shareware game in it, a 1.8″ colour TFT, eight buttons, two 18650 cells charged from USB-C, on four layers. Flashed over USB-C as a UF2 (BOOT and RESET). Run builds the firmware in your browser with the game's data linked in and plays it on a model of the chips: the image you would flash onto the ordered board.",
+      "tags": [
+        "game",
+        "handheld",
+        "rp2040",
+        "tft",
+        "uf2"
+      ],
+      "chips": [
+        "RP2040",
+        "W25Q128",
+        "ST7735"
+      ],
+      "license": "GPL-2.0",
+      "author": "PCBKit",
+      "source": "https://github.com/pcbkit-io/boards/tree/main/doom/rp2040-tft",
+      "copper": null,
+      "path": "doom/rp2040-tft",
+      "open": "github",
+      "production": {
+        "status": "ready",
+        "flash": "usb-uf2"
+      }
+    },
+    {
+      "slug": "doom-f411-psram",
+      "title": "Doom on an STM32F411",
+      "category": "doom",
+      "summary": "The Black Pill's STM32F411 (Cortex-M4F, 128 KB of SRAM) with an 8 MB SPI PSRAM and a 16 MB SPI flash: it runs a RISC-V computer built from the serial chips, through a cache, on a 2.0″ IPS. Flashed over USB-C by the ROM's DFU loader. Run builds the firmware in your browser with the game's data linked in and plays it on a model of the chips: the image you would flash onto the ordered board.",
+      "tags": [
+        "game",
+        "handheld",
+        "stm32",
+        "cortex-m4",
+        "psram",
+        "emulator",
+        "dfu"
+      ],
+      "chips": [
+        "STM32F411",
+        "W25Q128",
+        "APS6404L",
+        "ST7789"
+      ],
+      "license": "GPL-2.0",
+      "author": "PCBKit",
+      "source": "https://github.com/pcbkit-io/boards/tree/main/doom/f411-psram",
+      "copper": null,
+      "path": "doom/f411-psram",
+      "open": "github",
+      "production": {
+        "status": "ready",
+        "flash": "usb-dfu"
+      }
+    },
+    {
+      "slug": "doom-pico2-carrier",
+      "title": "Doom on a Pico Plus 2 carrier",
+      "category": "doom",
+      "summary": "The reference device made orderable: a carrier for the Pimoroni Pico Plus 2 (RP2350, 16 MB flash, 8 MB PSRAM) with a 2.8″ ILI9341 touch screen, ten buttons and a headphone DAC. Flashed over the module's USB as a UF2. Run builds the firmware in your browser with the game's data linked in and plays it on a model of the chips: the image you would flash onto the ordered board.",
+      "tags": [
+        "game",
+        "handheld",
+        "rp2350",
+        "psram",
+        "tft",
+        "uf2"
+      ],
+      "chips": [
+        "RP2350",
+        "Pimoroni Pico Plus 2",
+        "ILI9341",
+        "PCM5102A"
+      ],
+      "license": "GPL-2.0",
+      "author": "PCBKit",
+      "source": "https://github.com/pcbkit-io/boards/tree/main/doom/pico2-carrier",
+      "copper": null,
+      "path": "doom/pico2-carrier",
+      "open": "github",
+      "production": {
+        "status": "ready",
+        "flash": "usb-uf2"
+      }
+    },
+    {
+      "slug": "doom-rp2350-psram",
+      "title": "Doom on a bare RP2350",
+      "category": "doom",
+      "summary": "The RP2350A without a module: QSPI flash and an 8 MB PSRAM on one bus, both mapped through the XIP cache, a 2.0″ IPS, microSD, an I2S amplifier and a fuel gauge on four layers. Flashed over USB-C as a UF2. Run builds the firmware in your browser with the game's data linked in and plays it on a model of the chips: the image you would flash onto the ordered board.",
+      "tags": [
+        "game",
+        "handheld",
+        "rp2350",
+        "psram",
+        "tft",
+        "uf2"
+      ],
+      "chips": [
+        "RP2350",
+        "W25Q128",
+        "APS6404L",
+        "ST7789"
+      ],
+      "license": "GPL-2.0",
+      "author": "PCBKit",
+      "source": "https://github.com/pcbkit-io/boards/tree/main/doom/rp2350-psram",
+      "copper": null,
+      "path": "doom/rp2350-psram",
+      "open": "github",
+      "production": {
+        "status": "ready",
+        "flash": "usb-uf2"
+      }
+    },
+    {
+      "slug": "doom-s3-handheld",
+      "title": "Doom on an ESP32-S3",
+      "category": "doom",
+      "summary": "The classic ESP32 Doom: an ESP32-S3 module with 16 MB of flash and 8 MB of octal PSRAM under a 2.8″ ILI9341 touch screen, the WAD in flash and the heap in PSRAM, ten buttons, two 18650 cells. Flashed over its own USB with esptool. Run builds the firmware in your browser with the game's data linked in and plays it on a model of the chips: the image you would flash onto the ordered board.",
+      "tags": [
+        "game",
+        "handheld",
+        "esp32",
+        "esp32-s3",
+        "xtensa",
+        "psram",
+        "tft",
+        "esptool"
+      ],
+      "chips": [
+        "ESP32-S3-WROOM-1",
+        "ESP32-S3",
+        "ILI9341"
+      ],
+      "license": "GPL-2.0",
+      "author": "PCBKit",
+      "source": "https://github.com/pcbkit-io/boards/tree/main/doom/s3-handheld",
+      "copper": null,
+      "path": "doom/s3-handheld",
+      "open": "github",
+      "production": {
+        "status": "ready",
+        "flash": "usb-esptool"
+      }
+    },
+    {
+      "slug": "doom-s3-rgb",
+      "title": "Doom on a 4.3″ RGB panel",
+      "category": "doom",
+      "summary": "The big-screen ESP32-S3: its LCD_CAM scans a raw 480 × 272 RGB panel out of a frame buffer in the octal PSRAM by DMA, ten buttons on an I2C expander, two 18650 cells. Flashed over its own USB with esptool. Run builds the firmware in your browser with the game's data linked in and plays it on a model of the chips: the image you would flash onto the ordered board.",
+      "tags": [
+        "game",
+        "handheld",
+        "esp32",
+        "esp32-s3",
+        "xtensa",
+        "rgb-panel",
+        "lcd-cam",
+        "psram",
+        "esptool"
+      ],
+      "chips": [
+        "ESP32-S3-WROOM-1",
+        "ESP32-S3",
+        "MCP23017"
+      ],
+      "featured": true,
+      "license": "GPL-2.0",
+      "author": "PCBKit",
+      "source": "https://github.com/pcbkit-io/boards/tree/main/doom/s3-rgb",
+      "copper": null,
+      "path": "doom/s3-rgb",
+      "open": "github",
+      "production": {
+        "status": "ready",
+        "flash": "usb-esptool"
+      }
+    },
+    {
+      "slug": "doom-teensy41",
+      "title": "Doom on a Teensy 4.1",
+      "category": "doom",
+      "summary": "The most capable variant: a Teensy 4.1 (i.MX RT1062, Cortex-M7 at 600 MHz) behind a 3.5″ 320 × 480 touch screen, the WAD in its 8 MB flash, ten buttons, audio to headphones and a speaker, two 18650 cells. Flashed with the Teensy Loader. Run builds the firmware in your browser with the game's data linked in and plays it on a model of the chips: the image you would flash onto the ordered board.",
+      "tags": [
+        "game",
+        "handheld",
+        "nxp",
+        "imxrt",
+        "cortex-m7",
+        "teensy",
+        "tft"
+      ],
+      "chips": [
+        "Teensy 4.1",
+        "i.MX RT1062",
+        "ILI9488"
+      ],
+      "license": "GPL-2.0",
+      "author": "PCBKit",
+      "source": "https://github.com/pcbkit-io/boards/tree/main/doom/teensy41",
+      "copper": null,
+      "path": "doom/teensy41",
+      "open": "github",
+      "production": {
+        "status": "ready",
+        "flash": "usb-teensy"
+      }
+    },
+    {
+      "slug": "weather-station",
+      "title": "Weather station",
+      "category": "arduino",
+      "summary": "An Arduino Nano reads an SHT31 and shows the temperature and humidity large on an OLED, with the dew point and how the air feels, the day's lowest and highest and a graph of the last two minutes. Change the weather in the lab; the button turns the pages.",
+      "tags": [
+        "sensor",
+        "oled",
+        "i2c"
+      ],
+      "chips": [
+        "Arduino Nano",
+        "SHT31",
+        "SSD1306"
+      ],
+      "featured": true,
+      "license": "CC0-1.0",
+      "author": "PCBKit",
+      "source": null,
+      "copper": "Placed and routed by PCBKit; the sketch builds and runs in the browser.",
+      "path": "arduino/weather-station",
+      "production": {
+        "status": "ready",
+        "flash": "usb-arduino-bootloader"
+      }
+    },
+    {
+      "slug": "co2-monitor",
+      "title": "CO₂ monitor",
+      "category": "arduino",
+      "summary": "Sensirion's SCD40 measures CO₂, temperature and humidity every five seconds; the OLED shows the concentration with a ten-minute graph and a traffic light says when to open a window. Raise the CO₂ in the lab, as a full room does, and watch it turn red.",
+      "tags": [
+        "sensor",
+        "co2",
+        "oled",
+        "leds"
+      ],
+      "chips": [
+        "Arduino Nano",
+        "SCD40",
+        "SSD1306"
+      ],
+      "featured": true,
+      "license": "CC0-1.0",
+      "author": "PCBKit",
+      "source": null,
+      "copper": "Placed and routed by PCBKit; the sketch builds and runs in the browser.",
+      "path": "arduino/co2-monitor",
+      "production": {
+        "status": "ready",
+        "flash": "usb-arduino-bootloader"
+      }
+    },
+    {
+      "slug": "thermostat",
+      "title": "Thermostat",
+      "category": "arduino",
+      "summary": "A room thermostat that turns a radiator valve: a PI controller opens a servo as far as an SHT31 finds the room below the setpoint, the red light shows heating, − and + set the target and the EEPROM keeps it. Cool the room in the lab and watch the valve open.",
+      "tags": [
+        "sensor",
+        "servo",
+        "control",
+        "oled"
+      ],
+      "chips": [
+        "Arduino Nano",
+        "SHT31",
+        "SSD1306"
+      ],
+      "license": "CC0-1.0",
+      "author": "PCBKit",
+      "source": null,
+      "copper": "Placed and routed by PCBKit; the sketch builds and runs in the browser.",
+      "path": "arduino/thermostat",
+      "production": {
+        "status": "ready",
+        "flash": "usb-arduino-bootloader"
+      }
+    },
+    {
+      "slug": "lcd-runner",
+      "title": "LCD runner",
+      "category": "arduino",
+      "summary": "The classic 16 × 2 character LCD on LiquidCrystal's wiring: a dinosaur made of custom characters runs along the bottom line, jumps cacti with the button and runs under birds; turn the trimmer and the contrast changes as on the real module.",
+      "tags": [
+        "game",
+        "lcd",
+        "custom-characters"
+      ],
+      "chips": [
+        "Arduino Nano",
+        "HD44780"
+      ],
+      "featured": true,
+      "license": "CC0-1.0",
+      "author": "PCBKit",
+      "source": null,
+      "copper": "Placed and routed by PCBKit; the sketch builds and runs in the browser.",
+      "path": "arduino/lcd-runner",
+      "production": {
+        "status": "ready",
+        "flash": "usb-arduino-bootloader"
+      }
+    },
+    {
+      "slug": "snake",
+      "title": "Snake",
+      "category": "arduino",
+      "summary": "Snake on the pocket console, an Arduino Nano behind a 0.96\" OLED with a D-pad and two buttons: steer with the arrow keys, eat, grow and go faster; the best score stays in the EEPROM.",
+      "tags": [
+        "game",
+        "oled",
+        "pocket-console"
+      ],
+      "chips": [
+        "Arduino Nano",
+        "SSD1306"
+      ],
+      "featured": true,
+      "license": "CC0-1.0",
+      "author": "PCBKit",
+      "source": null,
+      "copper": "Placed and routed by PCBKit; the sketch builds and runs in the browser.",
+      "path": "arduino/snake",
+      "production": {
+        "status": "ready",
+        "flash": "usb-arduino-bootloader"
+      }
+    },
+    {
+      "slug": "pong",
+      "title": "Pong",
+      "category": "arduino",
+      "summary": "Pong on the pocket console: you on the left with up and down, the computer on the right; the ball speeds up with every return and leaves the paddle at an angle. First to seven.",
+      "tags": [
+        "game",
+        "oled",
+        "pocket-console"
+      ],
+      "chips": [
+        "Arduino Nano",
+        "SSD1306"
+      ],
+      "license": "CC0-1.0",
+      "author": "PCBKit",
+      "source": null,
+      "copper": "Placed and routed by PCBKit; the sketch builds and runs in the browser.",
+      "path": "arduino/pong",
+      "production": {
+        "status": "ready",
+        "flash": "usb-arduino-bootloader"
+      }
+    },
+    {
+      "slug": "flappy",
+      "title": "Flappy bird",
+      "category": "arduino",
+      "summary": "A flappy bird on the pocket console: X flaps, gravity does the rest, pipes scroll in with a gap to fly through; one point a pipe and the best kept in the EEPROM.",
+      "tags": [
+        "game",
+        "oled",
+        "pocket-console"
+      ],
+      "chips": [
+        "Arduino Nano",
+        "SSD1306"
+      ],
+      "license": "CC0-1.0",
+      "author": "PCBKit",
+      "source": null,
+      "copper": "Placed and routed by PCBKit; the sketch builds and runs in the browser.",
+      "path": "arduino/flappy",
+      "production": {
+        "status": "ready",
+        "flash": "usb-arduino-bootloader"
+      }
+    },
+    {
+      "slug": "breakout",
+      "title": "Breakout",
+      "category": "arduino",
+      "summary": "Breakout on the pocket console: move the paddle with left and right, serve with X; five rows of bricks, three balls, the angle off the paddle set by where the ball lands.",
+      "tags": [
+        "game",
+        "oled",
+        "pocket-console"
+      ],
+      "chips": [
+        "Arduino Nano",
+        "SSD1306"
+      ],
+      "license": "CC0-1.0",
+      "author": "PCBKit",
+      "source": null,
+      "copper": "Placed and routed by PCBKit; the sketch builds and runs in the browser.",
+      "path": "arduino/breakout",
+      "production": {
+        "status": "ready",
+        "flash": "usb-arduino-bootloader"
+      }
+    },
+    {
+      "slug": "tetris",
+      "title": "Falling blocks",
+      "category": "arduino",
+      "summary": "Falling blocks on the pocket console: a 10 × 20 well beside the next piece and the score; left and right move, X turns, down drops faster, Z drops at once; full lines clear and the pace rises.",
+      "tags": [
+        "game",
+        "oled",
+        "pocket-console"
+      ],
+      "chips": [
+        "Arduino Nano",
+        "SSD1306"
+      ],
+      "featured": true,
+      "license": "CC0-1.0",
+      "author": "PCBKit",
+      "source": null,
+      "copper": "Placed and routed by PCBKit; the sketch builds and runs in the browser.",
+      "path": "arduino/tetris",
+      "production": {
+        "status": "ready",
+        "flash": "usb-arduino-bootloader"
+      }
+    },
+    {
+      "slug": "dice",
+      "title": "Dice",
+      "category": "arduino",
+      "summary": "Dice on the pocket console: X rolls one to five dice that tumble before they settle, up and down choose how many, Z shows how often each sum came up.",
+      "tags": [
+        "oled",
+        "pocket-console",
+        "random"
+      ],
+      "chips": [
+        "Arduino Nano",
+        "SSD1306"
+      ],
+      "license": "CC0-1.0",
+      "author": "PCBKit",
+      "source": null,
+      "copper": "Placed and routed by PCBKit; the sketch builds and runs in the browser.",
+      "path": "arduino/dice",
+      "production": {
+        "status": "ready",
+        "flash": "usb-arduino-bootloader"
+      }
+    },
+    {
+      "slug": "simon",
+      "title": "Simon",
+      "category": "arduino",
+      "summary": "Simon on a round board: four coloured lights, each with its button; the Nano plays a sequence and you repeat it, one more every round, a little faster. Keys 1 to 4 press the buttons; the best round stays in the EEPROM.",
+      "tags": [
+        "game",
+        "leds",
+        "memory"
+      ],
+      "chips": [
+        "Arduino Nano",
+        "SSD1306"
+      ],
+      "license": "CC0-1.0",
+      "author": "PCBKit",
+      "source": null,
+      "copper": "Placed and routed by PCBKit; the sketch builds and runs in the browser.",
+      "path": "arduino/simon",
+      "production": {
+        "status": "ready",
+        "flash": "usb-arduino-bootloader"
+      }
+    },
+    {
+      "slug": "etch-a-sketch",
+      "title": "Magic drawing screen",
+      "category": "arduino",
+      "summary": "Two knobs draw on an OLED, one across and one up and down, as on the toy; the button wipes the picture. Turn the knobs in the lab.",
+      "tags": [
+        "oled",
+        "knob",
+        "drawing"
+      ],
+      "chips": [
+        "Arduino Nano",
+        "SSD1306"
+      ],
+      "license": "CC0-1.0",
+      "author": "PCBKit",
+      "source": null,
+      "copper": "Placed and routed by PCBKit; the sketch builds and runs in the browser.",
+      "path": "arduino/etch-a-sketch",
+      "production": {
+        "status": "ready",
+        "flash": "usb-arduino-bootloader"
+      }
+    },
+    {
+      "slug": "blinker",
+      "title": "555 blinker",
+      "category": "examples",
+      "summary": "A 555 timer flashing an LED, written as parts and connections only: the engine places the parts, sizes the board and routes it.",
+      "tags": [
+        "555",
+        "auto-layout"
+      ],
+      "chips": [
+        "NE555"
+      ],
+      "license": "CC0-1.0",
+      "author": "PCBKit",
+      "source": null,
+      "copper": "Placed and routed by PCBKit.",
+      "path": "examples/blinker",
+      "production": {
+        "status": "ready"
+      }
+    },
+    {
+      "slug": "led-bar",
+      "title": "LED bar",
+      "category": "examples",
+      "summary": "Eight LED channels from one block on a shift register: a net class for the supply, a ground pour, a placement rule, black mask and gold.",
+      "tags": [
+        "shift-register",
+        "leds",
+        "blocks"
+      ],
+      "chips": [
+        "74HC595"
+      ],
+      "license": "CC0-1.0",
+      "author": "PCBKit",
+      "source": null,
+      "copper": "Routed by PCBKit.",
+      "path": "examples/led-bar",
+      "production": {
+        "status": "ready"
+      }
+    },
+    {
+      "slug": "usb-uart",
+      "title": "USB-C serial adapter",
+      "category": "examples",
+      "summary": "A USB-C to UART adapter composed from the standard circuit blocks: the Type-C port with its CC resistors and ESD array, a 3.3 V regulator, the USB to UART bridge, a power LED and the header. The blocks sized and typed every part; the engine placed them.",
+      "tags": [
+        "usb-c",
+        "uart",
+        "blocks"
+      ],
+      "chips": [
+        "CH340"
+      ],
+      "license": "CC0-1.0",
+      "author": "PCBKit",
+      "source": null,
+      "copper": "Placed and routed by PCBKit.",
+      "path": "examples/usb-uart",
+      "production": {
+        "status": "ready"
+      }
+    },
+    {
+      "slug": "usb-dac",
+      "title": "USB audio DAC",
+      "category": "examples",
+      "summary": "A USB sound card: a USB audio chip with its crystal and regulator, on four layers with ground pours.",
+      "tags": [
+        "usb",
+        "audio",
+        "four-layer"
+      ],
+      "chips": [
+        "PCM2704"
+      ],
+      "license": "MIT",
+      "author": "77volatile77",
+      "source": "https://github.com/77volatile77/TI-USB-Audio-Devboard",
+      "copper": "The parts and outline are the original's; the tracks and vias were routed by PCBKit.",
+      "path": "examples/usb-dac",
+      "production": {
+        "status": "ready"
+      }
+    },
+    {
+      "slug": "robot-controller",
+      "title": "Robot controller",
+      "category": "examples",
+      "summary": "The main board of a small autonomous robot from a student robotics club: a wireless microcontroller module, motor driver and regulators, 70 parts on four layers.",
+      "tags": [
+        "robotics",
+        "motors",
+        "four-layer"
+      ],
+      "chips": [
+        "ESP32"
+      ],
+      "license": "MIT",
+      "author": "Robotronik Phelma",
+      "source": "https://github.com/robotronik/cdfr2026_pamis",
+      "copper": "The parts and outline are the original's; the tracks and vias were routed by PCBKit.",
+      "path": "examples/robot-controller",
+      "production": {
+        "status": "ready"
+      }
+    }
+  ]
+}
