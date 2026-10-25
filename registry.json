@@ -1125,6 +1125,39 @@
       }
     },
     {
+      "slug": "p4-touch-7",
+      "title": "7″ ESP32-P4 touch screen running NucleoOS",
+      "category": "devices",
+      "summary": "An ESP32-P4 with 32 MB PSRAM drives a 7″ 1024 × 600 MIPI-DSI touch panel, with an ES8311 codec, an ESP32-C6 radio module, microSD, three USB-C and a Li-ion cell, laid out by PCBKit on six layers. Run boots NucleoOS's own release (by indecenti) and its SD card on a model of the P4 from Espressif's boot ROM; touch its screen in 3D. The radio is not simulated.",
+      "tags": [
+        "esp32-p4",
+        "risc-v",
+        "touch-screen",
+        "mipi-dsi",
+        "nucleoos",
+        "audio",
+        "six-layer"
+      ],
+      "chips": [
+        "ESP32-P4NRW32",
+        "ESP32-C6-MINI-1",
+        "ES8311",
+        "CH340C",
+        "IP5306",
+        "DS3231"
+      ],
+      "license": "CC0-1.0",
+      "author": "PCBKit",
+      "source": "https://github.com/pcbkit-io/boards/tree/main/devices/p4-touch-7",
+      "copper": null,
+      "path": "devices/p4-touch-7",
+      "open": "github",
+      "production": {
+        "status": "ready",
+        "flash": "uart"
+      }
+    },
+    {
       "slug": "esp32-p4-touch-lcd-7b",
       "title": "Waveshare's ESP32-P4 7″ touch board, running PocketJS",
       "category": "devices",
