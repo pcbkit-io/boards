@@ -43,10 +43,11 @@ for (const b of registry.boards) {
   seen.add(b.slug)
   if (!categories.has(b.category)) problems.push(`${b.slug}: no category ${b.category}`)
   if (!existsSync(join(root, b.path, '.pcbkit/design.pcbkit'))) problems.push(`${b.slug}: no board at ${b.path}`)
-  // An interactive board carries its program (a folder its design names) and is a real board: it
-  // can be ordered as it is and says how the ordered board takes that program.
+  // An interactive board carries its program (a folder its design names, or the image its makers
+  // published: `image = FirmwareData`) and is a real board: it can be ordered as it is and says how
+  // the ordered board takes that program.
   if (categories.get(b.category)?.interactive && (b.production?.status !== 'ready' || !b.production?.flash)) problems.push(`${b.slug}: interactive, but not ready to order and flash (production)`)
-  if (categories.get(b.category)?.interactive && existsSync(join(root, b.path, '.pcbkit/design.pcbkit')) && !/firmware = "/.test(readFileSync(join(root, b.path, '.pcbkit/design.pcbkit'), 'utf8'))) problems.push(`${b.slug}: interactive, but its design names no firmware`)
+  if (categories.get(b.category)?.interactive && existsSync(join(root, b.path, '.pcbkit/design.pcbkit')) && !/firmware = "|image = FirmwareData/.test(readFileSync(join(root, b.path, '.pcbkit/design.pcbkit'), 'utf8'))) problems.push(`${b.slug}: interactive, but its design names no firmware`)
 }
 if (problems.length) throw new Error(`publish: the registry has problems:\n  ${problems.join('\n  ')}`)
 
