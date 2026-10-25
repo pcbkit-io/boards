@@ -8,8 +8,10 @@
         "min_hole_clearance": 0.0,
         "min_hole_to_hole": 0.0,
         "min_resolved_spokes": 2.0,
+        "min_through_hole_diameter": 0.3,
         "min_track_width": 0.15,
-        "min_via_annular_width": 0.0
+        "min_via_annular_width": 0.0,
+        "min_via_diameter": 0.5
       }
     }
   },
@@ -43,7 +45,6 @@
       "TX": "Default",
       "V3": "Default",
       "VBUS": "Default",
-      "bridge/v3": "Default",
       "power/node": "Default",
       "usb/power/cc1": "Default",
       "usb/power/cc2": "Default",
