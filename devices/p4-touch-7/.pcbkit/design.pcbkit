@@ -872,3 +872,5 @@ override J3.power.D.orderCode = "C78401"
 override J3.power.R1.orderCode = "C25905"
 override J3.power.R2.orderCode = "C25905"
 override J3.Esd.orderCode = "C7519"
+
+override U1Support.Y1.orderCode = "C426988"
