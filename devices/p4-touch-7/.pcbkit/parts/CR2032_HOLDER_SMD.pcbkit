@@ -1,0 +1,55 @@
+pcbkit 1
+
+// BS-08-B2AA001 (MYOUNG): CR2032 coin cell holder, SMD (for CR2032 / CR2025 20 mm cells): VBAT (+)
+// and GND (−) terminals; courtyard the holder and the 20 mm cell
+// Compiled from the part sheet `parts/CR2032_HOLDER_SMD.json` (`parts.create`); status: checked.
+// Datasheet: https://datasheet.lcsc.com/datasheet/pdf/49f6d6c6b0d14154978fa264323cad6a.pdf (MYOUNG
+// BS-2032-8 SMT drawing MY-CP-0007 rev A/0 (2017-06-28): PCB layout diagram, top view)
+// Pins: MYOUNG BS-08-B2AA001 drawing (BS-2032-8 SMT): terminals ② + and ③ −, PCB layout
+// diagram (top view), housing dimensions
+// Footprint: as given
+// This file may be used, changed and shared without conditions, with the board or alone.
+
+// Note: A CR2032 gives 3 V (2.0-3.3 V over its life) and a few mA at most (pulses to about 15 mA):
+// for RTCs, sensors and low-power MCUs, not radios transmitting continuously.
+// Note: Add reverse-polarity protection only if a cell can be put in backwards (this holder takes
+// it one way). A 100 µF capacitor across VBAT and GND helps radio bursts.
+// Note: The − contact is the holder's spring, soldered at pad 2: the board needs no pad under
+// the cell.
+
+/// BS-08-B2AA001 — CR2032 coin cell holder, SMD (for CR2032 / CR2025 20 mm cells): VBAT (+) and
+/// GND (−) terminals; courtyard the holder and the 20 mm cell
+part Part = device(
+  footprint = Footprint {
+    let ps = [
+      Pad { number = "1", at = (14.75mm, 0mm), shape = shape.roundRect(3.5mm, 3.8mm, 1.3mm) },
+      Pad { number = "2", at = (-10.95mm, 0mm), shape = shape.rect(4.3mm, 2.8mm) },
+    ]
+    let b = box((-11.15mm, -10mm), (16.5mm, 10mm))
+    name = "BatteryHolder_MYOUNG_BS-08_CR2032_SMD"
+    description = "CR2032 holder, SMD (MYOUNG BS-08): + terminal 14.75 mm right of the cell's centre, − terminal 10.95 mm left; the courtyard covers the 20 mm cell"
+    tags = ["CR2032", "coin cell", "battery holder", "SMD"]
+    pads = ps
+    body = b
+    height = 5.3mm
+    silk = silkOf(ps, b, 0.25mm)
+    package = Package { family = .other, body = (27.65mm, 20mm), height = 5.3mm }
+    solids = [
+      slab(-11.15mm, -7.85mm, 0mm, 12.95mm, 7.85mm, 1.2mm, color = "#5a4632"),
+      solid.cylinder(20mm, 3.2mm, at = (0mm, 0mm, 1.2mm), material = .metal),
+      slab(12.95mm, -2.5mm, 0mm, 16.4mm, 2.5mm, 4.6mm, material = .gold),
+    ]
+  },
+  prefix = "BT",
+  mpn = "BS-08-B2AA001",
+  manufacturer = "MYOUNG",
+  orderCode = "C964777",
+  pinout = { VBAT: "1", GND: "2" },
+  pinTypes = { VBAT: io.powerOut(3V), GND: .ground },
+) with {
+  fields {
+    Status: "checked",
+    PinoutSource: "MYOUNG BS-08-B2AA001 drawing (BS-2032-8 SMT): terminals ② + and ③ −, PCB layout diagram (top view), housing dimensions",
+    Datasheet: "https://datasheet.lcsc.com/datasheet/pdf/49f6d6c6b0d14154978fa264323cad6a.pdf",
+  }
+}

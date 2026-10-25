@@ -1,0 +1,132 @@
+pcbkit 1
+
+// DS3231SN# (Analog Devices (Maxim)): DS3231 extremely accurate I2C real-time clock (address 0x68)
+// with integrated temperature-compensated crystal (±2 ppm), battery backup, two alarms, 32 kHz
+// output, 2.3-5.5 V, SO-16 300 mil
+// Compiled from the part sheet `parts/DS3231SN.json` (`parts.create`); status: checked.
+// Datasheet: https://www.analog.com/media/en/technical-documentation/data-sheets/DS3231.pdf
+// (19-5170; Rev 10; 3/15: pin description, absolute maximum ratings, recommended operating
+// conditions, typical operating circuit, I2C interface)
+// Pins: Maxim DS3231 datasheet 19-5170 Rev 10: pin description, absolute maximum ratings,
+// recommended operating conditions, typical operating circuit, I2C serial data bus (slave address
+// 1101000)
+// Footprint: the standard package `SO-16 wide (300 mil)`
+// This file may be used, changed and shared without conditions, with the board or alone.
+
+// Note: I2C address 0x68 (fixed; shared with DS1307 and MPU-6050 at its default address: not on
+// the same bus). The registers also hold a temperature reading (0.25 °C).
+
+/// DS3231SN# — DS3231 extremely accurate I2C real-time clock (address 0x68) with integrated
+/// temperature-compensated crystal (±2 ppm), battery backup, two alarms, 32 kHz output, 2.3-5.5 V,
+/// SO-16 300 mil
+part Part = device(
+  footprint = soicWide(16),
+  prefix = "U",
+  mpn = "DS3231SN#",
+  manufacturer = "Analog Devices (Maxim)",
+  pinout = {
+    P32kHz: "1",
+    VCC: "2",
+    INT_SQW: "3",
+    RST: "4",
+    GND: ["5", "6", "7", "8", "9", "10", "11", "12", "13"],
+    VBAT: "14",
+    SDA: "15",
+    SCL: "16",
+  },
+  pinTypes = {
+    P32kHz: io.openDrain(max = 6V),
+    VCC: io.powerIn(min = 2.3V, max = 6V),
+    INT_SQW: io.openDrain(max = 6V),
+    RST: io.openDrain(),
+    GND: .ground,
+    VBAT: io.powerIn(min = 2.3V, max = 6V),
+    SDA: io.openDrain(max = 6V),
+    SCL: io.input(max = 6V),
+  },
+) with {
+  fields {
+    Status: "checked",
+    PinoutSource: "Maxim DS3231 datasheet 19-5170 Rev 10: pin description, absolute maximum ratings, recommended operating conditions, typical operating circuit, I2C serial data bus (slave address 1101000)",
+    Datasheet: "https://www.analog.com/media/en/technical-documentation/data-sheets/DS3231.pdf",
+  }
+  simulation = SimulationParameters {
+    behavior = Behavior {
+      model = "ds3231"
+      ports = { "i2c": ["15", "16"], "power": ["2", "5"] }
+      parameters = {}
+      height = 2.65mm
+    }
+    parameters = [
+      SimulationParameter {
+        id = "iccs-standby-3v63-max"
+        quantity = .supplyCurrent
+        max = 110uA
+        conditions = "Standby supply current ICCS: I2C bus inactive, 32 kHz output on, SQW output off, VCC = 3.63 V, averaged including the temperature conversion current; this revision gives only a maximum, no typical value (5.5 V: 170 uA max; active ICCA with SCL at 400 kHz: 200 uA max at 3.63 V)"
+        source = SimulationEvidence {
+          url = "https://hssn.hs-ldz.pl/datasheet/DS3231SN.pdf"
+          revision = "Rev 4; 10/06 (the copy read; the sheet cites Rev 10, 3/15)"
+          location = "p. 2, Electrical Characteristics, ICCS row"
+          confidence = .datasheet
+        }
+      },
+      SimulationParameter {
+        id = "tj-absolute"
+        quantity = .junctionAbsoluteTemperature
+        max = 125degC
+        conditions = "Junction temperature, absolute maximum"
+        source = SimulationEvidence {
+          url = "https://hssn.hs-ldz.pl/datasheet/DS3231SN.pdf"
+          revision = "Rev 4; 10/06 (the copy read; the sheet cites Rev 10, 3/15)"
+          location = "p. 2, Absolute Maximum Ratings"
+          confidence = .datasheet
+        }
+      },
+    ]
+  }
+}
+
+/// The support circuit of the DS3231SN# as its datasheet shows it (Typical operating circuit (p.
+/// 1); pin description (decoupling)): every part next to the pin it serves. Add it next to the
+/// part: `U1 = DS3231SN.Part { … }`, `U1Support = DS3231SN.Support(U1) {}`.
+///
+/// - Pins 5-12 are N.C. but must go to ground (here named GND so connecting GND grounds them).
+///
+/// - No other crystal: the TCXO is inside. Keep the package away from heat sources; avoid traces
+/// under it on the top layer.
+///
+/// - RST has its own 50k pull-up: a push-button to GND resets, no external resistor.
+///
+/// - Also in the datasheet's circuit: BT1 CR2032 (backup cell (a holder: CR2032_HOLDER_SMD))
+/// between VBAT and GND.
+block Support(
+  /// The DS3231SN# this circuit serves (`DS3231SN.Support(U1)`).
+  chip: Any,
+  /// The I2C pull-ups (once per bus: `false` when another part of the bus has them).
+  pullUps: Bool = true,
+) {
+  /// 0.1-1 uF next to pin 2
+  C1 = cap(100nF, package = "0402") {
+    place = [soft(near(chip.pin.VCC, max = 2mm), weight = 2)]
+    pins { a: chip.pin.VCC, b: chip.pin.GND }
+  }
+  /// I2C pull-up (once per bus)
+  RP1 =
+    if pullUps then res(4.7kohm, package = "0402") {
+      place = [soft(near(chip.pin.SDA, max = 5mm), weight = 1)]
+      pins { a: chip.pin.SDA, b: chip.pin.VCC }
+    }
+    else null
+  /// I2C pull-up (once per bus)
+  RP2 =
+    if pullUps then res(4.7kohm, package = "0402") {
+      place = [soft(near(chip.pin.SCL, max = 5mm), weight = 1)]
+      pins { a: chip.pin.SCL, b: chip.pin.VCC }
+    }
+    else null
+  /// pull-up on the open-drain alarm output, if used
+  RP3 = res(10kohm, package = "0402") {
+    place = [soft(near(chip.pin.INT_SQW, max = 5mm), weight = 1)]
+    pins { a: chip.pin.INT_SQW, b: chip.pin.VCC }
+  }
+}

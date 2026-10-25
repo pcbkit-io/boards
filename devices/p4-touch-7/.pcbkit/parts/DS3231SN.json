@@ -1,0 +1,296 @@
+{
+  "id": "DS3231SN",
+  "mpn": "DS3231SN#",
+  "manufacturer": "Analog Devices (Maxim)",
+  "variants": [
+    "DS3231SN#T&R",
+    "DS3231S#"
+  ],
+  "category": "rtc",
+  "description": "DS3231 extremely accurate I2C real-time clock (address 0x68) with integrated temperature-compensated crystal (±2 ppm), battery backup, two alarms, 32 kHz output, 2.3-5.5 V, SO-16 300 mil",
+  "tags": [
+    "ds3231",
+    "ds3231sn",
+    "rtc",
+    "real time clock",
+    "real-time clock",
+    "clock",
+    "calendar",
+    "tcxo",
+    "battery backup",
+    "i2c",
+    "maxim",
+    "analog devices",
+    "soic-16",
+    "so-16 wide"
+  ],
+  "datasheet": {
+    "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/DS3231.pdf",
+    "revision": "19-5170; Rev 10; 3/15: pin description, absolute maximum ratings, recommended operating conditions, typical operating circuit, I2C interface"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "SO-16 wide (300 mil)",
+    "page": "package information: 16 SO, 300 mil (W16#2)"
+  },
+  "pins": [
+    {
+      "number": "1",
+      "name": "32kHz",
+      "type": "open_drain",
+      "description": "32.768 kHz output, open drain (pull-up; may stay open)"
+    },
+    {
+      "number": "2",
+      "name": "VCC",
+      "type": "power_in",
+      "description": "primary supply 2.3-5.5 V, 0.1-1 uF decoupling"
+    },
+    {
+      "number": "3",
+      "name": "INT/SQW",
+      "type": "open_drain",
+      "description": "interrupt or square wave, open drain, active low (pull-up up to 5.5 V)"
+    },
+    {
+      "number": "4",
+      "name": "RST",
+      "type": "open_drain",
+      "description": "reset, open drain with 50k internal pull-up; push-button input; no external pull-up"
+    },
+    {
+      "number": "5",
+      "name": "GND",
+      "type": "ground",
+      "description": "N.C. in the datasheet: no connection inside, must be connected to ground"
+    },
+    {
+      "number": "6",
+      "name": "GND",
+      "type": "ground",
+      "description": "N.C. in the datasheet: no connection inside, must be connected to ground"
+    },
+    {
+      "number": "7",
+      "name": "GND",
+      "type": "ground",
+      "description": "N.C. in the datasheet: no connection inside, must be connected to ground"
+    },
+    {
+      "number": "8",
+      "name": "GND",
+      "type": "ground",
+      "description": "N.C. in the datasheet: no connection inside, must be connected to ground"
+    },
+    {
+      "number": "9",
+      "name": "GND",
+      "type": "ground",
+      "description": "N.C. in the datasheet: no connection inside, must be connected to ground"
+    },
+    {
+      "number": "10",
+      "name": "GND",
+      "type": "ground",
+      "description": "N.C. in the datasheet: no connection inside, must be connected to ground"
+    },
+    {
+      "number": "11",
+      "name": "GND",
+      "type": "ground",
+      "description": "N.C. in the datasheet: no connection inside, must be connected to ground"
+    },
+    {
+      "number": "12",
+      "name": "GND",
+      "type": "ground",
+      "description": "N.C. in the datasheet: no connection inside, must be connected to ground"
+    },
+    {
+      "number": "13",
+      "name": "GND",
+      "type": "ground"
+    },
+    {
+      "number": "14",
+      "name": "VBAT",
+      "type": "power_in",
+      "description": "backup supply 2.3-5.5 V (a CR2032); GND if unused"
+    },
+    {
+      "number": "15",
+      "name": "SDA",
+      "type": "open_drain",
+      "description": "I2C data (pull-up up to 5.5 V)"
+    },
+    {
+      "number": "16",
+      "name": "SCL",
+      "type": "input",
+      "description": "I2C clock (up to 5.5 V)"
+    }
+  ],
+  "ratings": {
+    "absMax": [
+      {
+        "what": "any pin to ground",
+        "pins": [
+          "VCC",
+          "VBAT",
+          "SDA",
+          "SCL",
+          "INT/SQW",
+          "32kHz"
+        ],
+        "min": -0.3,
+        "max": 6.0
+      }
+    ],
+    "recommended": [
+      {
+        "what": "VCC supply",
+        "pins": [
+          "VCC"
+        ],
+        "min": 2.3,
+        "nom": 3.3,
+        "max": 5.5
+      },
+      {
+        "what": "VBAT backup supply",
+        "pins": [
+          "VBAT"
+        ],
+        "min": 2.3,
+        "nom": 3.0,
+        "max": 5.5
+      },
+      {
+        "what": "operating temperature",
+        "min": -40.0,
+        "max": 85.0,
+        "unit": "°C"
+      }
+    ]
+  },
+  "simulation": {
+    "behavior": {
+      "model": "ds3231",
+      "ports": {
+        "i2c": [
+          "15",
+          "16"
+        ],
+        "power": [
+          "2",
+          "5"
+        ]
+      },
+      "parameters": {},
+      "height": 2.65
+    },
+    "parameters": [
+      {
+        "id": "iccs-standby-3v63-max",
+        "quantity": "supplyCurrent",
+        "unit": "A",
+        "max": 0.00011,
+        "conditions": "Standby supply current ICCS: I2C bus inactive, 32 kHz output on, SQW output off, VCC = 3.63 V, averaged including the temperature conversion current; this revision gives only a maximum, no typical value (5.5 V: 170 uA max; active ICCA with SCL at 400 kHz: 200 uA max at 3.63 V)",
+        "source": {
+          "url": "https://hssn.hs-ldz.pl/datasheet/DS3231SN.pdf",
+          "revision": "Rev 4; 10/06 (the copy read; the sheet cites Rev 10, 3/15)",
+          "location": "p. 2, Electrical Characteristics, ICCS row",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "tj-absolute",
+        "quantity": "junctionAbsoluteTemperature",
+        "unit": "degC",
+        "max": 125.0,
+        "conditions": "Junction temperature, absolute maximum",
+        "source": {
+          "url": "https://hssn.hs-ldz.pl/datasheet/DS3231SN.pdf",
+          "revision": "Rev 4; 10/06 (the copy read; the sheet cites Rev 10, 3/15)",
+          "location": "p. 2, Absolute Maximum Ratings",
+          "confidence": "datasheet"
+        }
+      }
+    ]
+  },
+  "support": {
+    "parts": [
+      {
+        "ref": "C1",
+        "kind": "cap",
+        "value": "100nF",
+        "rating": "0.1-1 uF next to pin 2",
+        "between": [
+          "VCC",
+          "GND"
+        ]
+      },
+      {
+        "ref": "RP1",
+        "kind": "res",
+        "value": "4.7kohm",
+        "rating": "I2C pull-up (once per bus)",
+        "between": [
+          "SDA",
+          "VCC"
+        ],
+        "option": "pullUps"
+      },
+      {
+        "ref": "RP2",
+        "kind": "res",
+        "value": "4.7kohm",
+        "rating": "I2C pull-up (once per bus)",
+        "between": [
+          "SCL",
+          "VCC"
+        ],
+        "option": "pullUps"
+      },
+      {
+        "ref": "RP3",
+        "kind": "res",
+        "value": "10kohm",
+        "rating": "pull-up on the open-drain alarm output, if used",
+        "between": [
+          "INT/SQW",
+          "VCC"
+        ]
+      }
+    ],
+    "options": [
+      {
+        "name": "pullUps",
+        "default": true,
+        "description": "The I2C pull-ups (once per bus: `false` when another part of the bus has them)."
+      }
+    ],
+    "notes": [
+      "Pins 5-12 are N.C. but must go to ground (here named GND so connecting GND grounds them).",
+      "No other crystal: the TCXO is inside. Keep the package away from heat sources; avoid traces under it on the top layer.",
+      "RST has its own 50k pull-up: a push-button to GND resets, no external resistor.",
+      "Also in the datasheet's circuit: BT1 CR2032 (backup cell (a holder: CR2032_HOLDER_SMD)) between VBAT and GND."
+    ],
+    "page": "Typical operating circuit (p. 1); pin description (decoupling)"
+  },
+  "notes": [
+    "I2C address 0x68 (fixed; shared with DS1307 and MPU-6050 at its default address: not on the same bus). The registers also hold a temperature reading (0.25 °C)."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "Maxim DS3231 datasheet 19-5170 Rev 10: pin description, absolute maximum ratings, recommended operating conditions, typical operating circuit, I2C serial data bus (slave address 1101000)",
+      "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/DS3231.pdf",
+      "license": "pin numbers and names, package dimensions, land pattern, ratings and application values transcribed from the manufacturer's datasheet (facts, one reading); descriptions and notes our own"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "the standard wide SOIC-16 footprint (300 mil, 1.27 mm pitch)"
+    }
+  }
+}

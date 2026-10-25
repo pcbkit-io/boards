@@ -1,0 +1,193 @@
+pcbkit 1
+
+// PAM8403DR (Diodes Incorporated): PAM8403 filterless class-D stereo audio amplifier, 2 x 3 W into
+// 4 Ω at 5 V, 2.5-5.5 V, fixed 24 dB gain, mute and shutdown, SOP-16 (not recommended for new
+// designs: PAM8406)
+// Compiled from the part sheet `parts/PAM8403DR.json` (`parts.create`); status: checked.
+// Datasheet: https://www.diodes.com/assets/Datasheets/PAM8403.pdf (DS36439 Rev. 2-3, September
+// 2020)
+// Pins: PAM8403 datasheet DS36439 Rev. 2-3: pin descriptions (p. 2), absolute maximum and
+// recommended operating conditions (p. 3), application information (p. 7-9), SO-16 package outline
+// (p. 10)
+// Footprint: computed per IPC-7351B from the datasheet's package dimensions
+// This file may be used, changed and shared without conditions, with the board or alone.
+
+// Note: Diodes marks the part not recommended for new designs (PAM8406 is the successor); it stays
+// the amplifier of the ubiquitous PAM8403 boards.
+// Note: Output pin names with the sign last (datasheet +OUT_L = OUTL+, -OUT_L = OUTL-, likewise
+// right).
+
+/// PAM8403DR — PAM8403 filterless class-D stereo audio amplifier, 2 x 3 W into 4 Ω at 5 V,
+/// 2.5-5.5 V, fixed 24 dB gain, mute and shutdown, SOP-16 (not recommended for new designs:
+/// PAM8406)
+part Part = device(
+  footprint = rows(
+    name = "SOIC-16_3.9x9.9mm_P1.27mm",
+    description = "SOP-16, 16 pins, 9.9 x 3.9 mm body, 1.27 mm pitch (from the datasheet)",
+    pitch = 1.27mm,
+    pinsY = 8,
+    spanX = tolerance(5.9mm, 6.1mm),
+    leadLength = tolerance(0.4mm, 1.27mm),
+    leadWidth = tolerance(0.31mm, 0.51mm),
+    bodyX = tolerance(3.8mm, 4mm),
+    bodyY = tolerance(9.8mm, 10mm),
+    bodyHeight = 1.75mm,
+  ),
+  prefix = "U",
+  mpn = "PAM8403DR",
+  manufacturer = "Diodes Incorporated",
+  pinout = {
+    OUTLP: "1",
+    PGND: ["2", "15"],
+    OUTLN: "3",
+    PVDD: ["4", "13"],
+    MUTE: "5",
+    VDD: "6",
+    INL: "7",
+    VREF: "8",
+    NC: "9",
+    INR: "10",
+    GND: "11",
+    SHDN: "12",
+    OUTRN: "14",
+    OUTRP: "16",
+  },
+  pinTypes = {
+    OUTLP: .output,
+    PGND: .ground,
+    OUTLN: .output,
+    PVDD: io.powerIn(min = 2.5V, max = 6V),
+    MUTE: io.input(pull = .up),
+    VDD: io.powerIn(min = 2.5V, max = 6V),
+    INL: .passive,
+    VREF: .passive,
+    NC: .nc,
+    INR: .passive,
+    GND: .ground,
+    SHDN: io.input(pull = .up),
+    OUTRN: .output,
+    OUTRP: .output,
+  },
+) with {
+  fields {
+    Status: "checked",
+    PinoutSource: "PAM8403 datasheet DS36439 Rev. 2-3: pin descriptions (p. 2), absolute maximum and recommended operating conditions (p. 3), application information (p. 7-9), SO-16 package outline (p. 10)",
+    Datasheet: "https://www.diodes.com/assets/Datasheets/PAM8403.pdf",
+  }
+  simulation = SimulationParameters {
+    parameters = [
+      SimulationParameter {
+        id = "iq-5v-noload"
+        quantity = .supplyCurrent
+        typ = 16mA
+        conditions = "quiescent (idle) supply current, no load, VDD=5.0 V, TA=25 degC; 10 mA typ at VDD=3.6 V, 8 mA at 3.0 V; the output stage's load power is not included"
+        source = SimulationEvidence {
+          url = "https://www.diodes.com/assets/Datasheets/PAM8403.pdf"
+          revision = "DS36439 Rev. 2-3, September 2020"
+          location = "p. 4, Electrical Characteristics, IQ Quiescent Current row"
+          confidence = .datasheet
+        }
+      },
+      SimulationParameter {
+        id = "theta-ja-sop16"
+        quantity = .thetaJa
+        max = 110K/W
+        conditions = "SOP-16, value given in the Max column"
+        source = SimulationEvidence {
+          url = "https://www.diodes.com/assets/Datasheets/PAM8403.pdf"
+          revision = "DS36439 Rev. 2-3, September 2020"
+          location = "p. 3, Thermal Information"
+          confidence = .datasheet
+        }
+      },
+      SimulationParameter {
+        id = "tj-operating"
+        quantity = .junctionOperatingTemperature
+        min = -40degC
+        max = 125degC
+        conditions = "recommended junction temperature range"
+        source = SimulationEvidence {
+          url = "https://www.diodes.com/assets/Datasheets/PAM8403.pdf"
+          revision = "DS36439 Rev. 2-3, September 2020"
+          location = "p. 3, Recommended Operating Conditions"
+          confidence = .datasheet
+        }
+      },
+      SimulationParameter {
+        id = "tj-absolute"
+        quantity = .junctionAbsoluteTemperature
+        max = 150degC
+        conditions = "maximum junction temperature"
+        source = SimulationEvidence {
+          url = "https://www.diodes.com/assets/Datasheets/PAM8403.pdf"
+          revision = "DS36439 Rev. 2-3, September 2020"
+          location = "p. 3, Absolute Maximum Ratings"
+          confidence = .datasheet
+        }
+      },
+    ]
+  }
+}
+
+/// The support circuit of the PAM8403DR as its datasheet shows it (Typical applications circuit (p.
+/// 1); application information (p. 7-9): maximum gain, mute, shutdown, power supply decoupling,
+/// input capacitor, VREF bypass capacitor, EMI): every part next to the pin it serves. Add it next
+/// to the part: `U1 = PAM8403DR.Part { … }`, `U1Support = PAM8403DR.Support(U1) {}`.
+///
+/// - Bridge-tied outputs: each speaker between +OUT and -OUT, never to ground; no output filter
+/// needed with short speaker leads (ferrite beads on the outputs against EMI).
+///
+/// - Gain fixed at 24 dB (internal 18 kΩ input resistance): the input capacitor and 18 kΩ set the
+/// low corner, 0.47 µF gives about 19 Hz; a series resistor at the input lowers the gain.
+///
+/// - MUTE and SHDN have internal pull-ups: leave them open or drive them low from GPIO.
+///
+/// - Wide, short PVDD and PGND traces; never above 5.5 V (four fresh alkaline cells exceed 6 V).
+block Support(
+  /// The PAM8403DR this circuit serves (`PAM8403DR.Support(U1)`).
+  chip: Any,
+  /// The board's AUDIO_L. (`null`: its parts are left out)
+  audioL: Endpoint? = null,
+  /// The board's AUDIO_R. (`null`: its parts are left out)
+  audioR: Endpoint? = null,
+) {
+  /// low-ESR ceramic at VDD
+  C1 = cap(1uF, package = "0402") {
+    place = [soft(near(chip.pin.VDD, max = 2mm), weight = 2)]
+    pins { a: chip.pin.VDD, b: chip.pin.GND }
+  }
+  /// low-ESR ceramic at PVDD (pin 4)
+  C2 = cap(1uF, package = "0402") {
+    place = [soft(near(chip.pin.PVDD, max = 2mm), weight = 2)]
+    pins { a: chip.pin.PVDD, b: chip.pin.PGND }
+  }
+  /// low-ESR ceramic at PVDD (pin 13)
+  C3 = cap(1uF, package = "0402") {
+    place = [soft(near(chip.pin.PVDD, max = 2mm), weight = 2)]
+    pins { a: chip.pin.PVDD, b: chip.pin.PGND }
+  }
+  /// bulk, near the amplifier (20 µF or more)
+  C4 = cap(22uF, package = "1206") {
+    place = [soft(near(chip.pin.PVDD, max = 4mm), weight = 2)]
+    pins { a: chip.pin.PVDD, b: chip.pin.PGND }
+  }
+  /// VREF bypass, 0.47-1 µF ceramic (the most critical capacitor)
+  C5 = cap(1uF, package = "0402") {
+    place = [soft(near(chip.pin.VREF, max = 2mm), weight = 2)]
+    pins { a: chip.pin.VREF, b: chip.pin.GND }
+  }
+  /// left input coupling
+  C6 =
+    if audioL != null then cap(470nF, package = "0402") {
+      place = [soft(near(chip.pin.INL, max = 2mm), weight = 2)]
+      pins { a: chip.pin.INL, b: audioL }
+    }
+    else null
+  /// right input coupling
+  C7 =
+    if audioR != null then cap(470nF, package = "0402") {
+      place = [soft(near(chip.pin.INR, max = 2mm), weight = 2)]
+      pins { a: chip.pin.INR, b: audioR }
+    }
+    else null
+}

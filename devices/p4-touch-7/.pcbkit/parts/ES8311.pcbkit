@@ -1,0 +1,140 @@
+pcbkit 1
+
+// ES8311 (Everest Semiconductor): Low-power mono audio codec: 24-bit ADC with a microphone
+// preamplifier and a DAC with a differential output, I2S/PCM and I2C control, 1.8-3.3 V (QFN-20
+// 3x3)
+// Compiled from the part sheet `parts/ES8311.json` (`parts.create`); status: checked.
+// Datasheet:
+// https://www.lcsc.com/datasheet/lcsc_datasheet_2302221730_Everest-semi-Everest-Semiconductor-ES8311_C962342.pdf
+// (LCSC C962342)
+// Pins: pin numbers and names from Guition's JC1060P470C schematic (U10) cross-checked with
+// Espressif's ES8311 board designs
+// Footprint: computed per IPC-7351B from the datasheet's package dimensions
+// This file may be used, changed and shared without conditions, with the board or alone.
+
+// Note: I2C address 0x18 with CE low (0x19 high). MCLK is usually 256 x the sample rate from the
+// host's I2S.
+
+/// ES8311 — Low-power mono audio codec: 24-bit ADC with a microphone preamplifier and a DAC with
+/// a differential output, I2S/PCM and I2C control, 1.8-3.3 V (QFN-20 3x3)
+part Part = device(
+  footprint = rows(
+    name = "QFN-20-1EP_3x3mm_P0.4mm_EP1.65x1.65mm",
+    description = "QFN-20 3x3 mm, 0.4 mm pitch, exposed pad, 20 pins, 3 x 3 mm body, 0.4 mm pitch (from the datasheet)",
+    pitch = 0.4mm,
+    leadType = .nolead,
+    pinsY = 5,
+    pinsX = 5,
+    spanX = tolerance(3mm, 3mm),
+    spanY = tolerance(3mm, 3mm),
+    leadLength = tolerance(0.3mm, 0.5mm),
+    leadWidth = tolerance(0.15mm, 0.25mm),
+    bodyX = tolerance(3mm, 3mm),
+    bodyY = tolerance(3mm, 3mm),
+    bodyHeight = 0.8mm,
+    exposedPad = (1.65mm, 1.65mm),
+  ),
+  prefix = "U",
+  mpn = "ES8311",
+  manufacturer = "Everest Semiconductor",
+  pinout = {
+    CCLK: "1",
+    MCLK: "2",
+    PVDD: "3",
+    DVDD: "4",
+    DGND: "5",
+    SCLK: "6",
+    ASDOUT: "7",
+    LRCK: "8",
+    DSDIN: "9",
+    AGND: "10",
+    AVDD: "11",
+    OUTP: "12",
+    OUTN: "13",
+    DACVREF: "14",
+    ADCVREF: "15",
+    VMID: "16",
+    MIC1N: "17",
+    MIC1P: "18",
+    CDATA: "19",
+    CE: "20",
+    EP: "21",
+  },
+  pinTypes = {
+    CCLK: io.input(),
+    MCLK: io.input(),
+    PVDD: io.powerIn(min = 1.7V, max = 3.6V),
+    DVDD: io.powerIn(min = 1.7V, max = 3.6V),
+    DGND: .ground,
+    SCLK: io.input(),
+    ASDOUT: .output,
+    LRCK: io.input(),
+    DSDIN: io.input(),
+    AGND: .ground,
+    AVDD: io.powerIn(min = 1.7V, max = 3.6V),
+    OUTP: .output,
+    OUTN: .output,
+    DACVREF: .passive,
+    ADCVREF: .passive,
+    VMID: .passive,
+    MIC1N: io.input(),
+    MIC1P: io.input(),
+    CDATA: io.bidirectional(),
+    CE: io.input(),
+    EP: .ground,
+  },
+) with {
+  fields {
+    Status: "checked",
+    PinoutSource: "pin numbers and names from Guition's JC1060P470C schematic (U10) cross-checked with Espressif's ES8311 board designs",
+    Datasheet: "https://www.lcsc.com/datasheet/lcsc_datasheet_2302221730_Everest-semi-Everest-Semiconductor-ES8311_C962342.pdf",
+  }
+  simulation = SimulationParameters {
+    behavior = Behavior {
+      model = "es8311"
+      ports = { "i2c": ["19", "1"], "power": ["3", "5"] }
+      parameters = {}
+      height = 0.75mm
+    }
+    parameters = []
+  }
+}
+
+/// The support circuit of the ES8311 as its datasheet shows it (application circuit (Espressif
+/// ESP32-S3-BOX and Guition JC1060P470C use the same)): every part next to the pin it serves. Add
+/// it next to the part: `U1 = ES8311.Part { … }`, `U1Support = ES8311.Support(U1) {}`.
+///
+/// - Keep the reference capacitors next to pins 14-16 and the analog ground under the part; the
+/// microphone pair and the DAC outputs as differential pairs.
+block Support(
+  /// The ES8311 this circuit serves (`ES8311.Support(U1)`).
+  chip: Any,
+) {
+  C_PVDD = cap(10uF, package = "0805") {
+    place = [soft(near(chip.pin.PVDD, max = 4mm), weight = 2)]
+    pins { a: chip.pin.PVDD, b: chip.pin.DGND }
+  }
+  C_PVDD2 = cap(100nF, package = "0402") {
+    place = [soft(near(chip.pin.PVDD, max = 2mm), weight = 2)]
+    pins { a: chip.pin.PVDD, b: chip.pin.DGND }
+  }
+  connect(chip.pin.DVDD, chip.pin.PVDD)
+  C_AVDD = cap(1uF, package = "0402") {
+    place = [soft(near(chip.pin.AVDD, max = 2mm), weight = 2)]
+    pins { a: chip.pin.AVDD, b: chip.pin.AGND }
+  }
+  C_VMID = cap(1uF, package = "0402") {
+    place = [soft(near(chip.pin.VMID, max = 2mm), weight = 2)]
+    pins { a: chip.pin.VMID, b: chip.pin.AGND }
+  }
+  C_ADCVREF = cap(1uF, package = "0402") {
+    place = [soft(near(chip.pin.ADCVREF, max = 2mm), weight = 2)]
+    pins { a: chip.pin.ADCVREF, b: chip.pin.AGND }
+  }
+  C_DACVREF = cap(1uF, package = "0402") {
+    place = [soft(near(chip.pin.DACVREF, max = 2mm), weight = 2)]
+    pins { a: chip.pin.DACVREF, b: chip.pin.AGND }
+  }
+  connect(chip.pin.AGND, chip.pin.DGND)
+  connect(chip.pin.CE, chip.pin.DGND)
+}

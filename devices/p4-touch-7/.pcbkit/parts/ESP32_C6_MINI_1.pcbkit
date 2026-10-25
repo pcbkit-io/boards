@@ -1,0 +1,282 @@
+pcbkit 1
+
+// ESP32-C6-MINI-1-N4 (Espressif Systems): Small Wi-Fi 6 (802.11ax), Bluetooth LE 5 and 802.15.4
+// (Thread, Zigbee) module, single-core RISC-V 160 MHz (ESP32-C6), 4 MB flash, USB Serial/JTAG, PCB
+// antenna, 3.3 V
+// Compiled from the part sheet `parts/ESP32_C6_MINI_1.json` (`parts.create`); status: checked.
+// Datasheet:
+// https://www.espressif.com/sites/default/files/documentation/esp32-c6-mini-1_mini-1u_datasheet_en.pdf
+// (v1.5)
+// Pins: Espressif ESP32-C6-MINI-1 & MINI-1U datasheet v1.5, Table 3-1 Pin Definitions and Figure
+// 3-1 Pin Layout; land pattern from Figures 10-1 and 11-1 (identical to ESP32-C3-MINI-1)
+// Footprint: the datasheet's land pattern
+// This file may be used, changed and shared without conditions, with the board or alone.
+
+// Note: Supply: 3.0-3.6 V able to deliver 500 mA; 22 uF and 100 nF at the 3V3 pin.
+// Note: Strapping pins sampled at reset: IO9 (weak pull-up; low = download mode, the BOOT button),
+// IO8 (floating; must be high for download mode: 10 kohm pull-up), IO4/IO5 (SDIO edges, floating),
+// IO15 (JTAG source, read only when an eFuse enables it). Do not load them with circuits that pull
+// the wrong way during reset.
+// Note: Every GPIO reaches UART, SPI, I2C, I2S, LEDC PWM, MCPWM, PCNT, TWAI (CAN; needs an
+// external transceiver) and RMT through the GPIO matrix; ADC1 on IO0-IO6; LP I2C on IO6/IO7, LP
+// UART on IO4/IO5.
+// Note: Pins 36-53 and 1, 2, 11, 14 are ground pads: connect them all; NC pads stay unconnected.
+// Note: Antenna: the antenna area is the top 5.4 mm of the module (the edge with ground pads
+// 36-48). The footprint keeps tracks, vias, pours and other parts out of the antenna area itself
+// (the module's width plus 0.5 mm, and 0.5 mm beyond its edge), the minimum the datasheet marks as
+// the keepout zone. The vendor's hardware design guidelines (Positioning a Module on a Base Board)
+// strongly recommend the antenna outside the base board, or its feed point at the board edge with
+// the board cut away beside and below it, and at least 15 mm of clearance around it in the
+// product: place the module at a board edge with the antenna overhanging it (`place = [edge(.top,
+// overhang = 5.4mm)]`: the rule's `overhang` is a Length, how far beyond the edge), keep copper
+// and parts as far from the antenna as the board allows, and put ground copper with dense ground
+// vias on the board near (not under) the antenna.
+
+/// ESP32-C6-MINI-1-N4 — Small Wi-Fi 6 (802.11ax), Bluetooth LE 5 and 802.15.4 (Thread, Zigbee)
+/// module, single-core RISC-V 160 MHz (ESP32-C6), 4 MB flash, USB Serial/JTAG, PCB antenna, 3.3 V
+part Part = device(
+  footprint = (Footprint {
+    let ps = [
+      Pad { number = "1", at = (-5.9mm, 1.3mm), shape = shape.rect(0.8mm, 0.4mm) },
+      Pad { number = "2", at = (-5.9mm, 0.5mm), shape = shape.rect(0.8mm, 0.4mm) },
+      Pad { number = "3", at = (-5.9mm, -0.3mm), shape = shape.rect(0.8mm, 0.4mm) },
+      Pad { number = "4", at = (-5.9mm, -1.1mm), shape = shape.rect(0.8mm, 0.4mm) },
+      Pad { number = "5", at = (-5.9mm, -1.9mm), shape = shape.rect(0.8mm, 0.4mm) },
+      Pad { number = "6", at = (-5.9mm, -2.7mm), shape = shape.rect(0.8mm, 0.4mm) },
+      Pad { number = "7", at = (-5.9mm, -3.5mm), shape = shape.rect(0.8mm, 0.4mm) },
+      Pad { number = "8", at = (-5.9mm, -4.3mm), shape = shape.rect(0.8mm, 0.4mm) },
+      Pad { number = "9", at = (-5.9mm, -5.1mm), shape = shape.rect(0.8mm, 0.4mm) },
+      Pad { number = "10", at = (-5.9mm, -5.9mm), shape = shape.rect(0.8mm, 0.4mm) },
+      Pad { number = "11", at = (-5.9mm, -6.7mm), shape = shape.rect(0.8mm, 0.4mm) },
+      Pad { number = "12", at = (-4.8mm, -7.6mm), shape = shape.rect(0.4mm, 0.8mm) },
+      Pad { number = "13", at = (-4mm, -7.6mm), shape = shape.rect(0.4mm, 0.8mm) },
+      Pad { number = "14", at = (-3.2mm, -7.6mm), shape = shape.rect(0.4mm, 0.8mm) },
+      Pad { number = "15", at = (-2.4mm, -7.6mm), shape = shape.rect(0.4mm, 0.8mm) },
+      Pad { number = "16", at = (-1.6mm, -7.6mm), shape = shape.rect(0.4mm, 0.8mm) },
+      Pad { number = "17", at = (-0.8mm, -7.6mm), shape = shape.rect(0.4mm, 0.8mm) },
+      Pad { number = "18", at = (0mm, -7.6mm), shape = shape.rect(0.4mm, 0.8mm) },
+      Pad { number = "19", at = (0.8mm, -7.6mm), shape = shape.rect(0.4mm, 0.8mm) },
+      Pad { number = "20", at = (1.6mm, -7.6mm), shape = shape.rect(0.4mm, 0.8mm) },
+      Pad { number = "21", at = (2.4mm, -7.6mm), shape = shape.rect(0.4mm, 0.8mm) },
+      Pad { number = "22", at = (3.2mm, -7.6mm), shape = shape.rect(0.4mm, 0.8mm) },
+      Pad { number = "23", at = (4mm, -7.6mm), shape = shape.rect(0.4mm, 0.8mm) },
+      Pad { number = "24", at = (4.8mm, -7.6mm), shape = shape.rect(0.4mm, 0.8mm) },
+      Pad { number = "25", at = (5.9mm, -6.7mm), shape = shape.rect(0.8mm, 0.4mm) },
+      Pad { number = "26", at = (5.9mm, -5.9mm), shape = shape.rect(0.8mm, 0.4mm) },
+      Pad { number = "27", at = (5.9mm, -5.1mm), shape = shape.rect(0.8mm, 0.4mm) },
+      Pad { number = "28", at = (5.9mm, -4.3mm), shape = shape.rect(0.8mm, 0.4mm) },
+      Pad { number = "29", at = (5.9mm, -3.5mm), shape = shape.rect(0.8mm, 0.4mm) },
+      Pad { number = "30", at = (5.9mm, -2.7mm), shape = shape.rect(0.8mm, 0.4mm) },
+      Pad { number = "31", at = (5.9mm, -1.9mm), shape = shape.rect(0.8mm, 0.4mm) },
+      Pad { number = "32", at = (5.9mm, -1.1mm), shape = shape.rect(0.8mm, 0.4mm) },
+      Pad { number = "33", at = (5.9mm, -0.3mm), shape = shape.rect(0.8mm, 0.4mm) },
+      Pad { number = "34", at = (5.9mm, 0.5mm), shape = shape.rect(0.8mm, 0.4mm) },
+      Pad { number = "35", at = (5.9mm, 1.3mm), shape = shape.rect(0.8mm, 0.4mm) },
+      Pad { number = "36", at = (4.8mm, 2.2mm), shape = shape.rect(0.4mm, 0.8mm) },
+      Pad { number = "37", at = (4mm, 2.2mm), shape = shape.rect(0.4mm, 0.8mm) },
+      Pad { number = "38", at = (3.2mm, 2.2mm), shape = shape.rect(0.4mm, 0.8mm) },
+      Pad { number = "39", at = (2.4mm, 2.2mm), shape = shape.rect(0.4mm, 0.8mm) },
+      Pad { number = "40", at = (1.6mm, 2.2mm), shape = shape.rect(0.4mm, 0.8mm) },
+      Pad { number = "41", at = (0.8mm, 2.2mm), shape = shape.rect(0.4mm, 0.8mm) },
+      Pad { number = "42", at = (-0mm, 2.2mm), shape = shape.rect(0.4mm, 0.8mm) },
+      Pad { number = "43", at = (-0.8mm, 2.2mm), shape = shape.rect(0.4mm, 0.8mm) },
+      Pad { number = "44", at = (-1.6mm, 2.2mm), shape = shape.rect(0.4mm, 0.8mm) },
+      Pad { number = "45", at = (-2.4mm, 2.2mm), shape = shape.rect(0.4mm, 0.8mm) },
+      Pad { number = "46", at = (-3.2mm, 2.2mm), shape = shape.rect(0.4mm, 0.8mm) },
+      Pad { number = "47", at = (-4mm, 2.2mm), shape = shape.rect(0.4mm, 0.8mm) },
+      Pad { number = "48", at = (-4.8mm, 2.2mm), shape = shape.rect(0.4mm, 0.8mm) },
+      Pad { number = "49", at = (-1.975mm, -0.725mm), shape = shape.rect(1.45mm, 1.45mm) },
+      Pad { number = "49", at = (-1.975mm, -2.7mm), shape = shape.rect(1.45mm, 1.45mm) },
+      Pad { number = "49", at = (-1.975mm, -4.675mm), shape = shape.rect(1.45mm, 1.45mm) },
+      Pad { number = "49", at = (0mm, -0.725mm), shape = shape.rect(1.45mm, 1.45mm) },
+      Pad { number = "49", at = (0mm, -2.7mm), shape = shape.rect(1.45mm, 1.45mm) },
+      Pad { number = "49", at = (0mm, -4.675mm), shape = shape.rect(1.45mm, 1.45mm) },
+      Pad { number = "49", at = (1.975mm, -0.725mm), shape = shape.rect(1.45mm, 1.45mm) },
+      Pad { number = "49", at = (1.975mm, -2.7mm), shape = shape.rect(1.45mm, 1.45mm) },
+      Pad { number = "49", at = (1.975mm, -4.675mm), shape = shape.rect(1.45mm, 1.45mm) },
+      Pad { number = "50", at = (5.95mm, 2.25mm), shape = shape.rect(0.7mm, 0.7mm) },
+      Pad { number = "51", at = (5.95mm, -7.65mm), shape = shape.rect(0.7mm, 0.7mm) },
+      Pad { number = "52", at = (-5.95mm, -7.65mm), shape = shape.rect(0.7mm, 0.7mm) },
+      Pad { number = "53", at = (-5.95mm, 2.25mm), shape = shape.rect(0.7mm, 0.7mm) },
+    ]
+    let b = centered(13.2mm, 16.6mm)
+    name = "ESP32-C6-MINI-1_module_13.2x16.6mm_LGA_53_pads"
+    description = "ESP32-C6-MINI-1 module 13.2 x 16.6 mm (LGA, 53 pads): the datasheet's land pattern"
+    pads = ps
+    body = b
+    height = 2.55mm
+    silk = silkOf(ps, b, 0.25mm)
+    package = Package { family = .other, body = (13.2mm, 16.6mm), height = 2.55mm }
+  }) with {
+    solids = modules.radio(
+      (0mm, 0mm),
+      (13.2mm, 16.6mm),
+      (11.95mm, 9.95mm),
+      ["ESPRESSIF", "ESP32-C6-MINI-1", "N4"],
+      pins = 0,
+      height = 2.4mm,
+    )
+    keepouts = [
+      FootprintKeepout {
+        name = "antenna"
+        outline = [(-7.1mm, 2.9mm), (7.1mm, 2.9mm), (7.1mm, 8.8mm), (-7.1mm, 8.8mm)]
+        forbid = [.tracks, .vias, .pours, .footprints]
+      },
+    ]
+  },
+  prefix = "U",
+  mpn = "ESP32-C6-MINI-1-N4",
+  manufacturer = "Espressif Systems",
+  pinout = {
+    GND: [
+      "1",
+      "2",
+      "11",
+      "14",
+      "36",
+      "37",
+      "38",
+      "39",
+      "40",
+      "41",
+      "42",
+      "43",
+      "44",
+      "45",
+      "46",
+      "47",
+      "48",
+      "49",
+      "50",
+      "51",
+      "52",
+      "53",
+    ],
+    P3V3: "3",
+    NC: ["4", "7", "21", "32", "33", "34", "35"],
+    IO2: "5",
+    IO3: "6",
+    EN: "8",
+    IO4: "9",
+    IO5: "10",
+    IO0: "12",
+    IO1: "13",
+    IO6: "15",
+    IO7: "16",
+    IO12: "17",
+    IO13: "18",
+    IO14: "19",
+    IO15: "20",
+    IO8: "22",
+    IO9: "23",
+    IO18: "24",
+    IO19: "25",
+    IO20: "26",
+    IO21: "27",
+    IO22: "28",
+    IO23: "29",
+    RXD0: "30",
+    TXD0: "31",
+  },
+  pinTypes = {
+    GND: .ground,
+    P3V3: io.powerIn(min = 3V, max = 3.6V),
+    NC: .nc,
+    IO2: io.bidirectional(max = 3.6V),
+    IO3: io.bidirectional(max = 3.6V),
+    EN: io.input(max = 3.6V),
+    IO4: io.bidirectional(max = 3.6V),
+    IO5: io.bidirectional(max = 3.6V),
+    IO0: io.bidirectional(max = 3.6V),
+    IO1: io.bidirectional(max = 3.6V),
+    IO6: io.bidirectional(max = 3.6V),
+    IO7: io.bidirectional(max = 3.6V),
+    IO12: io.bidirectional(max = 3.6V),
+    IO13: io.bidirectional(max = 3.6V),
+    IO14: io.bidirectional(max = 3.6V),
+    IO15: io.bidirectional(max = 3.6V),
+    IO8: io.bidirectional(max = 3.6V, strap = .high),
+    IO9: io.bidirectional(max = 3.6V, pull = .up, strap = .high),
+    IO18: io.bidirectional(max = 3.6V),
+    IO19: io.bidirectional(max = 3.6V),
+    IO20: io.bidirectional(max = 3.6V),
+    IO21: io.bidirectional(max = 3.6V),
+    IO22: io.bidirectional(max = 3.6V),
+    IO23: io.bidirectional(max = 3.6V),
+    RXD0: io.bidirectional(max = 3.6V),
+    TXD0: io.bidirectional(max = 3.6V),
+  },
+) with {
+  fields {
+    Status: "checked",
+    PinoutSource: "Espressif ESP32-C6-MINI-1 & MINI-1U datasheet v1.5, Table 3-1 Pin Definitions and Figure 3-1 Pin Layout; land pattern from Figures 10-1 and 11-1 (identical to ESP32-C3-MINI-1)",
+    Datasheet: "https://www.espressif.com/sites/default/files/documentation/esp32-c6-mini-1_mini-1u_datasheet_en.pdf",
+  }
+  simulation = SimulationParameters {
+    parameters = [
+      SimulationParameter {
+        id = "icc-wifi-rx-ht20"
+        quantity = .supplyCurrent
+        typ = 78mA
+        conditions = "Wi-Fi connected, receive: 802.11b/g/n HT20 RX in active (RF working) mode, peripherals disabled and CPU idle, 3.3 V supply, 25 degC (the table column is headed Peak; TX at 100 % duty is 251 to 382 mA; modem-sleep 80 MHz CPU running is 19 mA typ)"
+        source = SimulationEvidence {
+          url = "https://www.espressif.com/sites/default/files/documentation/esp32-c6-mini-1_mini-1u_datasheet_en.pdf"
+          revision = "Datasheet v1.5"
+          location = "p. 27, section 6.4.1, Table 6-4"
+          confidence = .datasheet
+        }
+      },
+    ]
+  }
+}
+
+/// The support circuit of the ESP32-C6-MINI-1-N4 as its datasheet shows it (9 Peripheral Schematics
+/// (p. 40)): every part next to the pin it serves. Add it next to the part: `U1 =
+/// ESP32_C6_MINI_1.Part { … }`, `U1Support = ESP32_C6_MINI_1.Support(U1) {}`.
+///
+/// - EN RC delay (10 kohm to 3V3, 1 uF to GND; the datasheet leaves the values to the power-up
+/// timing and recommends these); the RESET button pulls EN to GND.
+///
+/// - BOOT: IO9 to GND through a button (the datasheet shows a jumper): held at reset = download
+/// mode; IO8 pulled up (10 kohm) so download mode works.
+///
+/// - USB: IO12 = D-, IO13 = D+ to a USB connector (series resistors and capacitors to GND reserved
+/// near the module, values left open); USB Serial/JTAG flashes and logs without a bridge chip.
+///
+/// - Optional 32.768 kHz crystal on IO0/IO1 with 12 pF load capacitors (not fitted by default).
+block Support(
+  /// The ESP32-C6-MINI-1-N4 this circuit serves (`ESP32_C6_MINI_1.Support(U1)`).
+  chip: Any,
+  /// A RESET button pulling EN to GND.
+  resetButton: Bool = true,
+  /// A BOOT button pulling IO9 to GND.
+  bootButton: Bool = true,
+) {
+  /// bulk at the 3V3 pin
+  C1 = cap(22uF, package = "1206") {
+    place = [soft(near(chip.pin.P3V3, max = 4mm), weight = 2)]
+    pins { a: chip.pin.P3V3, b: chip.pin.GND }
+  }
+  C2 = cap(100nF, package = "0402") {
+    place = [soft(near(chip.pin.P3V3, max = 2mm), weight = 2)]
+    pins { a: chip.pin.P3V3, b: chip.pin.GND }
+  }
+  /// EN RC delay
+  R1 = res(10kohm, package = "0402") {
+    place = [soft(near(chip.pin.EN, max = 5mm), weight = 1)]
+    pins { a: chip.pin.EN, b: chip.pin.P3V3 }
+  }
+  /// EN RC delay
+  C3 = cap(1uF, package = "0402") {
+    place = [soft(near(chip.pin.EN, max = 2mm), weight = 2)]
+    pins { a: chip.pin.EN, b: chip.pin.GND }
+  }
+  /// strapping pin pulled up
+  R_IO8 = res(10kohm, package = "0402") {
+    place = [soft(near(chip.pin.IO8, max = 5mm), weight = 1)]
+    pins { a: chip.pin.IO8, b: chip.pin.P3V3 }
+  }
+  SW1 = if resetButton then button("6x6") { pins { a: chip.pin.EN, b: chip.pin.GND } } else null
+  /// held at reset: download mode
+  SW2 = if bootButton then button("6x6") { pins { a: chip.pin.IO9, b: chip.pin.GND } } else null
+}

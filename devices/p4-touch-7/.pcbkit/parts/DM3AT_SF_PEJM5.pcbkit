@@ -1,0 +1,185 @@
+pcbkit 1
+
+// DM3AT-SF-PEJM5 (Hirose): microSD (TF) card socket, push-push, SMD, 1.68 mm high, with
+// card-detect switch; contacts in SD order DAT2, CD/DAT3, CMD, VDD, CLK, VSS, DAT0, DAT1 (SPI: CS
+// = CD/DAT3, DI = CMD, DO = DAT0)
+// Compiled from the part sheet `parts/DM3AT_SF_PEJM5.json` (`parts.create`); status: checked.
+// Datasheet: https://www.hirose.com/en/product/p/CL0609-0033-6-00 (DM3AT-SF-PEJM5 drawing
+// EDC-325165-00-00 (CL0609-0031-0-00, revision 4, 2024-09-02): recommended PCB layout (mounting
+// side), outline, contact assignment, card detection switch)
+// Pins: Hirose drawing EDC-325165-00-00 for DM3AT-SF-PEJM5 (CL0609-0031-0-00, revision 4): contact
+// assignment #1 DAT2, #2 CD/DAT3, #3 CMD, #4 VDD, #5 CLK, #6 VSS, #7 DAT0, #8 DAT1; card detection
+// switch A/B; recommended PCB layout; pad numbers 9, 10 and SH are ours (the drawing names them
+// only)
+// Footprint: the datasheet's land pattern
+// This file may be used, changed and shared without conditions, with the board or alone.
+
+// Note: The drawing forbids copper in three hatched areas on the mounting side (the footprint's
+// keepouts); keep other tracks out from under the socket too.
+// Note: Put the socket at a board edge with the card slot (-Y) facing out, so a card can be pushed
+// in and out.
+
+/// DM3AT-SF-PEJM5 — microSD (TF) card socket, push-push, SMD, 1.68 mm high, with card-detect
+/// switch; contacts in SD order DAT2, CD/DAT3, CMD, VDD, CLK, VSS, DAT0, DAT1 (SPI: CS = CD/DAT3,
+/// DI = CMD, DO = DAT0)
+part Part = device(
+  footprint = (Footprint {
+    let ps = [
+      Pad { number = "1", at = (2.775mm, 7.975mm), shape = shape.rect(0.7mm, 1.2mm) },
+      Pad { number = "2", at = (1.675mm, 7.975mm), shape = shape.rect(0.7mm, 1.2mm) },
+      Pad { number = "3", at = (0.575mm, 7.975mm), shape = shape.rect(0.7mm, 1.2mm) },
+      Pad { number = "4", at = (-0.525mm, 7.975mm), shape = shape.rect(0.7mm, 1.2mm) },
+      Pad { number = "5", at = (-1.625mm, 7.975mm), shape = shape.rect(0.7mm, 1.2mm) },
+      Pad { number = "6", at = (-2.725mm, 7.975mm), shape = shape.rect(0.7mm, 1.2mm) },
+      Pad { number = "7", at = (-3.825mm, 7.975mm), shape = shape.rect(0.7mm, 1.2mm) },
+      Pad { number = "8", at = (-4.925mm, 7.975mm), shape = shape.rect(0.7mm, 1.2mm) },
+      Pad { number = "10", at = (-5.875mm, 7.975mm), shape = shape.rect(0.7mm, 1.2mm) },
+      Pad { number = "9", at = (-6.825mm, -2.525mm), shape = shape.rect(1mm, 0.8mm) },
+      Pad { number = "SH", at = (4.325mm, 7.975mm), shape = shape.rect(1mm, 1.2mm) },
+      Pad { number = "SH", at = (-6.825mm, 3.675mm), shape = shape.rect(1mm, 1.2mm) },
+      Pad { number = "SH", at = (-6.825mm, -6.675mm), shape = shape.rect(1mm, 2.8mm) },
+      Pad { number = "SH", at = (6.675mm, -7.125mm), shape = shape.rect(1.3mm, 1.9mm) },
+    ]
+    let b = centered(13.85mm, 16.15mm)
+    name = "Hirose_DM3AT_microSD_socket_push-push"
+    description = "Hirose DM3AT microSD socket, push-push: the datasheet's land pattern"
+    pads = ps
+    body = b
+    height = 1.83mm
+    silk = silkOf(ps, b, 0.25mm)
+    package = Package { family = .other, body = (13.85mm, 16.15mm), height = 1.83mm }
+  }) with {
+    solids = [
+      solid.box(
+        (13.85mm, 16.15mm, 1.68mm),
+        at = (0mm, 0mm, 0mm),
+        radius = 0.3mm,
+        material = .metal,
+      ),
+      solid.box((11mm, 0.6mm, 1.2mm), at = (-0.425mm, -7.8mm, 0.2mm), color = "#202020"),
+    ]
+    models = [Model3d { path = "Connector_Card:microSD_HC_Hirose_DM3AT-SF-PEJM5" }]
+    keepouts = [
+      FootprintKeepout {
+        name = "no copper (drawing note 3, hatched): across the socket under the card"
+        outline = [(-5.425mm, 1.375mm), (3.275mm, 1.375mm), (3.275mm, 2.975mm), (-5.425mm, 2.975mm)]
+        layers = [Cu.top]
+        forbid = [.tracks, .vias, .pours]
+      },
+      FootprintKeepout {
+        name = "no copper (drawing note 3, hatched): beside the switch A side"
+        outline = [
+          (-6.125mm, -5.925mm),
+          (-5.425mm, -5.925mm),
+          (-5.425mm, 1.675mm),
+          (-6.125mm, 1.675mm),
+        ]
+        layers = [Cu.top]
+        forbid = [.tracks, .vias, .pours]
+      },
+      FootprintKeepout {
+        name = "no copper (drawing note 3, hatched): beside the right shell tab"
+        outline = [
+          (2.925mm, -8.075mm),
+          (5.475mm, -8.075mm),
+          (5.475mm, -6.725mm),
+          (2.925mm, -6.725mm),
+        ]
+        layers = [Cu.top]
+        forbid = [.tracks, .vias, .pours]
+      },
+    ]
+  },
+  prefix = "J",
+  mpn = "DM3AT-SF-PEJM5",
+  manufacturer = "Hirose",
+  pinout = {
+    DAT2: "1",
+    CD_DAT3: "2",
+    CMD: "3",
+    VDD: "4",
+    CLK: "5",
+    VSS: "6",
+    DAT0: "7",
+    DAT1: "8",
+    CD_A: "9",
+    CD_B: "10",
+    SH: "SH",
+  },
+  pinTypes = {
+    DAT2: .passive,
+    CD_DAT3: .passive,
+    CMD: .passive,
+    VDD: .passive,
+    CLK: .passive,
+    VSS: .passive,
+    DAT0: .passive,
+    DAT1: .passive,
+    CD_A: .passive,
+    CD_B: .passive,
+    SH: .passive,
+  },
+) with {
+  fields {
+    Status: "checked",
+    PinoutSource: "Hirose drawing EDC-325165-00-00 for DM3AT-SF-PEJM5 (CL0609-0031-0-00, revision 4): contact assignment #1 DAT2, #2 CD/DAT3, #3 CMD, #4 VDD, #5 CLK, #6 VSS, #7 DAT0, #8 DAT1; card detection switch A/B; recommended PCB layout; pad numbers 9, 10 and SH are ours (the drawing names them only)",
+    Datasheet: "https://www.hirose.com/en/product/p/CL0609-0033-6-00",
+  }
+}
+
+/// The support circuit of the DM3AT-SF-PEJM5 as its datasheet shows it (drawing notes (card
+/// detection switch open without card, closed with card); the SD specification for the card side):
+/// every part next to the pin it serves. Add it next to the part: `U1 = DM3AT_SF_PEJM5.Part { …
+/// }`, `U1Support = DM3AT_SF_PEJM5.Support(U1) {}`.
+///
+/// - Cards are 3.3 V only: from a 5 V controller, shift CLK, CMD and CD/DAT3 down and DAT0 up.
+///
+/// - SD mode (4-bit, SDIO/SDMMC): every data line and CMD pulled up (10-100 kOhm); SPI mode: CS =
+/// CD/DAT3, MOSI = CMD, SCK = CLK, MISO = DAT0, DAT1/DAT2 pulled up.
+///
+/// - Card detect: CD_B to GND and CD_A to a GPIO with a pull-up: low with a card in.
+block Support(
+  /// The DM3AT-SF-PEJM5 this circuit serves (`DM3AT_SF_PEJM5.Support(U1)`).
+  chip: Any,
+) {
+  /// bulk at the socket (card inrush)
+  C1 = cap(10uF, package = "0805") {
+    place = [soft(near(chip.pin.VDD, max = 4mm), weight = 2)]
+    pins { a: chip.pin.VDD, b: chip.pin.VSS }
+  }
+  /// at the socket
+  C2 = cap(100nF, package = "0402") {
+    place = [soft(near(chip.pin.VDD, max = 2mm), weight = 2)]
+    pins { a: chip.pin.VDD, b: chip.pin.VSS }
+  }
+  /// pull-up
+  R1 = res(47kohm, package = "0402") {
+    place = [soft(near(chip.pin.CMD, max = 5mm), weight = 1)]
+    pins { a: chip.pin.CMD, b: chip.pin.VDD }
+  }
+  /// pull-up
+  R2 = res(47kohm, package = "0402") {
+    place = [soft(near(chip.pin.DAT0, max = 5mm), weight = 1)]
+    pins { a: chip.pin.DAT0, b: chip.pin.VDD }
+  }
+  /// pull-up
+  R3 = res(47kohm, package = "0402") {
+    place = [soft(near(chip.pin.DAT1, max = 5mm), weight = 1)]
+    pins { a: chip.pin.DAT1, b: chip.pin.VDD }
+  }
+  /// pull-up
+  R4 = res(47kohm, package = "0402") {
+    place = [soft(near(chip.pin.DAT2, max = 5mm), weight = 1)]
+    pins { a: chip.pin.DAT2, b: chip.pin.VDD }
+  }
+  /// pull-up (SPI: keeps the card deselected)
+  R5 = res(47kohm, package = "0402") {
+    place = [soft(near(chip.pin.CD_DAT3, max = 5mm), weight = 1)]
+    pins { a: chip.pin.CD_DAT3, b: chip.pin.VDD }
+  }
+  /// card-detect pull-up, CD_B to ground
+  R6 = res(10kohm, package = "0402") {
+    place = [soft(near(chip.pin.CD_A, max = 5mm), weight = 1)]
+    pins { a: chip.pin.CD_A, b: chip.pin.VDD }
+  }
+}
