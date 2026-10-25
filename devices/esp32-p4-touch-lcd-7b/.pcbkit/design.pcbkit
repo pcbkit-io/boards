@@ -1,0 +1,1362 @@
+pcbkit 1
+
+// Waveshare's ESP32-P4-WIFI6-Touch-LCD-7B, the board PocketJS's ESP32-P4 host is written for: its
+// circuit from Waveshare's published schematic, its parts where Waveshare put them (the assembly
+// drawing's positions: the connectors on the same edges, the chips in the same places), behind
+// the same 7" 1024 x 600 EK79007 panel. The ESP32-P4 (32 MB PSRAM in package, 32 MB flash)
+// drives the panel over two MIPI-DSI lanes and reads its GT911 touch over I2C; an ES8311 codec
+// with an NS4150B amplifier plays, an ES7210 hears two microphones (and the speaker's own signal
+// for echo cancelling); an ESP32-C6 module on SDIO is the radio; a microSD card, a camera's
+// 15-pin MIPI-CSI connector, RS-485 and CAN ports, an I2C port through a level shifter, two
+// 12-pin headers of GPIOs, a CR2032 for the P4's own clock, a Li-ion cell, two USB-C (a CH343P
+// console with automatic boot, the P4's full-speed USB) and a USB-A host port.
+//
+// Parts Waveshare uses that JLCPCB does not stock (2026-10-25), each replaced by one doing the
+// same job: the MP1658 and MP1605 bucks by SY8089s, the DIO7003 load switch by an SY6280, the
+// ETA6098 charger and SCT12A0 boost by an IP5306 (charger and boost in one), the EMH4 dual
+// transistor by two MMBT3904s, the THVD1406 by an SP3485 (same pins), the DMP2066 by an AO3401A,
+// the GD25Q256 in the 8 x 6 mm WSON kept.
+
+use "parts/ESP32_P4NRW32.pcbkit" as ESP32_P4NRW32
+use "parts/ESP32_C6_MINI_1.pcbkit" as ESP32_C6_MINI_1
+use "parts/ES8311.pcbkit" as ES8311
+use "parts/IP5306.pcbkit" as IP5306
+use "parts/SY8089AAAC.pcbkit" as SY8089AAAC
+use "parts/AO3401A.pcbkit" as AO3401A
+use "parts/MMBT3904.pcbkit" as MMBT3904
+use "parts/SP3485.pcbkit" as SP3485
+use "parts/TJA1051T3.pcbkit" as TJA1051T3
+use "parts/DM3AT_SF_PEJM5.pcbkit" as DM3AT_SF_PEJM5
+use "parts/MSK12C02.pcbkit" as MSK12C02
+use "parts/Waveshare7B.pcbkit" as W
+
+/// Where Waveshare's assembly drawing puts a part: its courtyard inside a square `r` around that
+/// centre (millimetres from the board's lower-left corner), as a strong preference.
+fn at7b(x: Length, y: Length, r: Length = 5mm): PlaceRule = soft(
+  inside(box((x - r, y - r), (x + r, y + r))),
+  weight = 4,
+)
+
+// ---- nets --------------------------------------------------------------------------------------
+net USB0_5V {
+  voltage = 5V
+  current = 500mA
+}
+net USB1_5V {
+  voltage = 5V
+  current = 500mA
+}
+net VCCP_5V {
+  voltage = 5V
+  current = 2A
+}
+net BOOST_5V {
+  voltage = 5V
+  current = 2A
+}
+net VCC_5V {
+  voltage = 5V
+  current = 2A
+}
+net CORE_5V {
+  voltage = 5V
+  current = 2A
+}
+net VBUS_OUT {
+  voltage = 5V
+  current = 1A
+}
+net BAT {
+  voltage = 4.2V
+  current = 2A
+}
+net ESP_3V3 {
+  voltage = 3.3V
+  current = 1.5A
+}
+net ESP_VDD_HP {
+  voltage = 1.2V
+  current = 600mA
+}
+net A3V3 {
+  voltage = 3.3V
+  current = 100mA
+}
+net VCC_1V8 {
+  voltage = 1.8V
+  current = 100mA
+}
+net SD1_VDD {
+  voltage = 3.3V
+  current = 100mA
+}
+net AVDD {
+  voltage = 9.6V
+  current = 50mA
+}
+net LEDP {
+  voltage = 9.6V
+  current = 160mA
+}
+net VGH {
+  voltage = 18V
+  current = 5mA
+}
+net VGL {
+  voltage = -7.5V
+  current = 5mA
+}
+net VCC {
+  voltage = 3.3V
+  current = 100mA
+}
+net GND { voltage = 0V }
+net ESP_VBAT, ESP_LDO_VO4, EN_DCDC, FB_DCDC, HP_FB, V3_FB, ESP_EN, BOOT
+net USB_DBG_P, USB_DBG_N, USB1P1_P, USB1P1_N, USBD_P, USBD_N, DTR, RTS, U0TXD, U0RXD, BAT_SENSE
+net KEY, Q8G, Q2G, Q2B, Q5G, Q5B, Q6G, Q6B, Q3G, Q3B, ISET, QDTRB, QRTSB, LED1_A
+net DSI_CLK_P, DSI_CLK_N, DSI_D0_P, DSI_D0_N, DSI_D1_P, DSI_D1_N
+net CSI_CLK_P, CSI_CLK_N, CSI_D0_P, CSI_D0_N, CSI_D1_P, CSI_D1_N, CSI_IO0, CSI_IO1
+net ESP_I2C_SDA, ESP_I2C_SCL, D_SDA, D_SCL, RESET_LCD, INT_TP, BL_CTRL, BL_DIM, LEDN, BL_FB, BL_SW
+net LCD_SW, AVDD_FB, VCOM, PUMP_H, PUMP_L, VGH_RAW, VGL_RAW, LCD_STBY
+net I2S_MCLK, I2S_SCLK, I2S_LRCK, I2S_DSDIN, I2S_ASDOUT, ES7210_SDOUT, PA_CTRL, OUTP, OUTN
+net PA_INLP, PA_INLN, PA_OUTLP, PA_OUTLN, PA_BYPASS, ADC_MICBIAS12, MIC1_P, MIC1_N, MIC2_P, MIC2_N
+net ES7210_REFP12, ES7210_REFP34, ADC_MIC3_P, ADC_MIC3_N, AEC_P1, AEC_N1, AEC_P2, AEC_N2
+net AEC_P3, AEC_N3, MIC1_DAT, MIC2_DAT, MIC1_BIAS, MIC2_BIAS
+net SD_CLK, SD_CMD, SD_D0, SD_D1, SD_D2, SD_D3, SD_PWR_EN
+net C6_CLK, C6_CMD, C6_D0, C6_D1, C6_D2, C6_D3, C6_CHIP_PU, C6_IO2, C6_IO8, C6_IO9, C6_U0TXD
+net C6_U0RXD
+net RS485_TXD, RS485_RXD, RS485_DE, RS485_A, RS485_B, RS485_LA, RS485_LB, Q9B
+net CANTX, CANRX, CANH, CANL
+net GPIO2, GPIO3, GPIO4, GPIO5, GPIO28, GPIO29, GPIO30, GPIO31, GPIO34, GPIO36
+net GPIO46, GPIO47, GPIO48, GPIO49, GPIO50, GPIO51, GPIO52
+pair DSI_CLK = (DSI_CLK_P, DSI_CLK_N) { impedance = 100ohm }
+pair DSI_D0 = (DSI_D0_P, DSI_D0_N) { impedance = 100ohm }
+pair DSI_D1 = (DSI_D1_P, DSI_D1_N) { impedance = 100ohm }
+pair CSI_CLK = (CSI_CLK_P, CSI_CLK_N) { impedance = 100ohm }
+pair CSI_D0 = (CSI_D0_P, CSI_D0_N) { impedance = 100ohm }
+pair CSI_D1 = (CSI_D1_P, CSI_D1_N) { impedance = 100ohm }
+pair USB_HS = (USBD_P, USBD_N) { impedance = 90ohm }
+pair USB_FS = (USB1P1_P, USB1P1_N) { impedance = 90ohm }
+pair USB_DBG = (USB_DBG_P, USB_DBG_N) { impedance = 90ohm }
+pair CAN = (CANH, CANL) { impedance = 120ohm }
+
+board = Board {
+  name = "esp32-p4-touch-lcd-7b"
+  description = "Waveshare ESP32-P4-WIFI6-Touch-LCD-7B's circuit · ESP32-P4 · 7\" 1024x600 MIPI-DSI touch · ESP32-C6 · ES8311 + ES7210 · microSD · camera · RS-485 · CAN · Li-ion"
+  outline = rect(165.5mm, 98mm, radius = 2mm)
+  layers = [
+    signal(Cu.top),
+    power(Cu.inner[1], label = "GND"),
+    signal(Cu.inner[2]),
+    signal(Cu.inner[3]),
+    power(Cu.inner[4], label = "3V3"),
+    signal(Cu.bottom),
+  ]
+  // Six layers on JLCPCB's JLC06161H-3313: thin prepreg under the outer layers, so 90 and 100 ohm
+  // pairs are narrow enough to leave the P4's 0.35 mm pins coupled; ground under the top, 3.3 V
+  // over the bottom (the P4's dozen 3.3 V pins reach it by a via each), two inner layers for the
+  // fan-out.
+  fab {
+    finish = .enig
+    mask = .blue
+    impedance = true
+    dielectric = [0.0994mm, 0.55mm, 0.1088mm, 0.55mm, 0.0994mm]
+    permittivity = 4.1
+  }
+}
+groundPlane = pour(net = GND, layers = [Cu.inner[1]]) {}
+powerPlane = pour(net = ESP_3V3, layers = [Cu.inner[4]]) {}
+rules = Rules {
+  // The ESP32-P4's 0.35 mm pitch: 0.2 mm pads 0.15 mm apart. JLCPCB's multilayer minimum:
+  // 0.09 mm track and space.
+  minClearance = 0.09mm
+  minTrackWidth = 0.09mm
+  // JLCPCB's six-layer vias: 0.15 mm holes, 0.05 mm annular rings.
+  vias { minDiameter = 0.25mm, minDrill = 0.15mm, minAnnular = 0.05mm }
+}
+powerClass = NetClass {
+  trackWidth = 0.5mm
+  nets = [
+    USB0_5V,
+    USB1_5V,
+    VCCP_5V,
+    BOOST_5V,
+    VCC_5V,
+    CORE_5V,
+    VBUS_OUT,
+    BAT,
+    LEDP,
+    LEDN,
+    BL_SW,
+    LCD_SW,
+  ]
+}
+fineClass = NetClass {
+  trackWidth = 0.1mm
+  clearance = 0.09mm
+  // JLCPCB's six-layer minimum via, small enough to drop between the P4's escaping tracks.
+  viaDiameter = 0.3mm
+  viaDrill = 0.15mm
+  default = true
+}
+placer = Placer { spacing = 1mm }
+// A dense board: five minutes for the router.
+routing = Routing { timeLimit = 300s }
+laboratory = Laboratory {}
+
+// ---- power: two USB-C, ideal-diode OR, the power switch, the cell, 5 V out, 3.3 V, 1.2 V ---------
+// H1, the console's USB-C, and H2, the P4's full-speed USB-C, on the right edge.
+H1 = UsbC2(vbus = USB0_5V, gnd = GND, dp = USB_DBG_P, dn = USB_DBG_N, current = 500mA) {}
+override H1.power.J.place = [edge(.right, from = 7mm, to = 21mm)]
+H2 = UsbC2(vbus = USB1_5V, gnd = GND, dp = USB1P1_P, dn = USB1P1_N, current = 500mA) {}
+override H2.power.J.place = [edge(.right, from = 22mm, to = 36mm)]
+
+// Each 5 V source reaches the rail through a P-MOSFET that a matched PNP pair turns on while the
+// source is above the rail (an ideal diode): U4/Q2 for H1, U23/Q5 for H2, U24/Q6 for both, U18/Q3
+// for the cell's boost.
+Q2 = AO3401A.Part {
+  at = (145.9mm, 13.2mm)
+  pins { G: Q2G, D: USB0_5V, S: VCCP_5V }
+  orderCode = "C15127"
+}
+U4 = W.MMDT3906DW {
+  at = (145.9mm, 17mm)
+  pins { E2: USB0_5V, B2: Q2B, C2: Q2B, B1: Q2B, E1: VCCP_5V, C1: Q2G }
+}
+R25 = res(10kohm) { pins { a: Q2B, b: GND } }
+R26 = res(51kohm) { pins { a: Q2G, b: GND } }
+C9 = cap(1uF) { pins { a: USB0_5V, b: GND } }
+Q5 = AO3401A.Part {
+  at = (145.9mm, 28.4mm)
+  pins { G: Q5G, D: USB1_5V, S: VCCP_5V }
+  orderCode = "C15127"
+}
+U23 = W.MMDT3906DW {
+  at = (145.8mm, 32.3mm)
+  pins { E2: USB1_5V, B2: Q5B, C2: Q5B, B1: Q5B, E1: VCCP_5V, C1: Q5G }
+}
+R21 = res(10kohm) { pins { a: Q5B, b: GND } }
+R127 = res(51kohm) { pins { a: Q5G, b: GND } }
+C13 = cap(1uF) { pins { a: USB1_5V, b: GND } }
+Q6 = AO3401A.Part {
+  at = (117.8mm, 86.6mm)
+  pins { G: Q6G, D: VCCP_5V, S: VCC_5V }
+  orderCode = "C15127"
+}
+U24 = W.MMDT3906DW {
+  at = (117.2mm, 81.8mm)
+  pins { E2: VCCP_5V, B2: Q6B, C2: Q6B, B1: Q6B, E1: VCC_5V, C1: Q6G }
+}
+R132 = res(10kohm) { pins { a: Q6B, b: GND } }
+R133 = res(51kohm) { pins { a: Q6G, b: GND } }
+C192 = cap(1uF) { pins { a: VCCP_5V, b: GND } }
+Q3 = AO3401A.Part {
+  at = (149.1mm, 79mm)
+  pins { G: Q3G, D: BOOST_5V, S: VCC_5V }
+  orderCode = "C15127"
+}
+U18 = W.MMDT3906DW {
+  at = (145.2mm, 72.6mm)
+  pins { E2: BOOST_5V, B2: Q3B, C2: Q3B, B1: Q3B, E1: VCC_5V, C1: Q3G }
+}
+R74 = res(10kohm) { pins { a: Q3B, b: GND } }
+R80 = res(51kohm) { pins { a: Q3G, b: GND } }
+C100 = cap(1uF) { pins { a: BOOST_5V, b: GND } }
+
+// The power switch: SW2 pulls Q8's gate to ground (on) through R75; R55 holds it off.
+Q8 = AO3401A.Part {
+  at = (149.1mm, 82.6mm)
+  pins { G: Q8G, S: VCC_5V, D: CORE_5V }
+  orderCode = "C15127"
+}
+R55 = res(110kohm) { pins { a: VCC_5V, b: Q8G } }
+R75 = res(10kohm) { pins { a: Q8G, b: KEY } }
+SW2 = MSK12C02.Part {
+  place = [edge(.right, from = 76mm, to = 87mm)]
+  pins { A: .nc, COM: KEY, B: GND, SHELL: GND }
+}
+
+// The Li-ion cell (J4) charged from the USB inputs and boosted back to 5 V by the IP5306; its
+// voltage for the firmware on GPIO20 (200k over 100k).
+U20 = IP5306.Part {
+  at = (120.7mm, 91.6mm)
+  pins {
+    VIN: VCCP_5V,
+    BAT: BAT,
+    VOUT: BOOST_5V,
+    GND: GND,
+    KEY: .nc,
+    LED1: .nc,
+    LED2: .nc,
+    LED3: .nc,
+  }
+  orderCode = "C181692"
+}
+U20Support = IP5306.Support(U20) {}
+override U20Support.L1.orderCode = "C96955"
+J4 = device(
+  wireToBoard(2, pitch = 2mm, smd = true),
+  pinout = { "1": "1", "2": "2" },
+  prefix = "J",
+  mpn = "PH2.0-2P SMD vertical",
+  kind = .connector,
+) {
+  at = (108.3mm, 93mm)
+  rotation = 0deg
+  pins { "1": GND, "2": BAT }
+  orderCode = "C160352"
+}
+R92 = res(200kohm, tolerance = 1pct) { pins { a: BAT, b: BAT_SENSE } }
+R93 = res(100kohm, tolerance = 1pct) { pins { a: BAT_SENSE, b: GND } }
+C190 = cap(100nF) { pins { a: BAT_SENSE, b: GND } }
+// The power LED.
+LED1 = led(color = .red, package = "0603") {
+  place = [edge(.right, from = 65mm, to = 75mm)]
+  pins { A: LED1_A, K: GND }
+}
+R1 = res(7.5kohm) { pins { a: CORE_5V, b: LED1_A } }
+
+// USB-A host port (J1): 5 V from the core rail through a current-limited switch (1 A).
+U2 = W.SY6280AAC {
+  at = (146.2mm, 49.4mm)
+  pins { IN: CORE_5V, EN: CORE_5V, GND: GND, ISET: ISET, OUT: VBUS_OUT }
+}
+R2 = res(6.8kohm, tolerance = 1pct) { pins { a: ISET, b: GND } }
+C3 = cap(10uF, package = "0805") {
+  place = [near(U2.pin.IN, max = 3mm)]
+  pins { a: CORE_5V, b: GND }
+}
+C1 = cap(100uF, package = "1206") { pins { a: VBUS_OUT, b: GND } }
+J1 = device(
+  usbA(),
+  pinout = { VBUS: "1", "D-": "2", "D+": "3", GND: "4" },
+  prefix = "J",
+  mpn = "USB-A 90deg",
+  kind = .connector,
+) {
+  place = [edge(.right, from = 37mm, to = 58mm)]
+  pins { VBUS: VBUS_OUT, "D-": USBD_N, "D+": USBD_P, GND: GND }
+  orderCode = "C456018"
+}
+
+// 3.3 V, 2 A: 0.6 V x (1 + 453k / 100k) = 3.32 V (Waveshare's MP1658 place).
+U3 = SY8089AAAC.Part {
+  at = (40.2mm, 35.7mm)
+  pins { IN: CORE_5V, EN: CORE_5V, GND: GND, FB: V3_FB }
+  orderCode = "C78988"
+}
+L1 = inductor(2.2uH, package = "4") {
+  place = [soft(near(U3.pin.LX), weight = 4)]
+  pins { a: U3.pin.LX, b: ESP_3V3 }
+  orderCode = "C36409"
+}
+C11 = cap(22uF, package = "0805") {
+  place = [near(U3.pin.IN, max = 2mm)]
+  pins { a: CORE_5V, b: GND }
+}
+C14 = cap(22uF, package = "0805") { pins { a: ESP_3V3, b: GND } }
+C15 = cap(22uF, package = "0805") { pins { a: ESP_3V3, b: GND } }
+R24 = res(453kohm, tolerance = 1pct) { pins { a: ESP_3V3, b: V3_FB } }
+R32 = res(100kohm, tolerance = 1pct) { pins { a: V3_FB, b: GND } }
+C191 = cap(22pF) { pins { a: ESP_3V3, b: V3_FB } }
+
+// 1.2 V for the P4's HP domain: its EN_DCDC turns the converter on, its FB_DCDC trims the divider.
+U5 = SY8089AAAC.Part {
+  at = (67.2mm, 40.5mm)
+  pins { IN: ESP_3V3, EN: EN_DCDC, GND: GND, FB: HP_FB }
+  orderCode = "C78988"
+}
+L2 = inductor(2.2uH, package = "4") {
+  place = [soft(near(U5.pin.LX), weight = 4)]
+  pins { a: U5.pin.LX, b: ESP_VDD_HP }
+  orderCode = "C36409"
+}
+C19 = cap(10uF, package = "0603") {
+  place = [near(U5.pin.IN, max = 2mm)]
+  pins { a: ESP_3V3, b: GND }
+}
+C18 = cap(10uF, package = "0603") { pins { a: ESP_VDD_HP, b: GND } }
+R34 = res(499kohm, tolerance = 1pct) { pins { a: ESP_VDD_HP, b: HP_FB } }
+R35 = res(499kohm, tolerance = 1pct) { pins { a: HP_FB, b: GND } }
+R38 = res(0ohm) { pins { a: FB_DCDC, b: HP_FB } }
+
+// ---- the ESP32-P4 -------------------------------------------------------------------------------
+// It runs PocketJS's ESP32-P4 host for this board (its PR #208, MIT), with PocketJS's Chrome app,
+// as one flash image published by PCBKit.
+U13 = ESP32_P4NRW32.Part with {
+  simulation = ESP32_P4NRW32.Part.simulation with {
+    behavior = ESP32_P4NRW32.Part.simulation.behavior with {
+      parameters = { flash_mib: 32, dsi_panel: 1 }
+      image = FirmwareData {
+        url = "https://github.com/pcbkit-io/boards/releases/download/pocketjs-esp32p4-7b-5d4a16b9/pocketjs-esp32p4-waveshare-7b-chrome-factory.bin"
+        sha256 = "7307bfc18319e7d7bb28eab1dcc5077c3a20ad1ab0300904346ea6cef0a1893b"
+        bytes = 2287312
+      }
+    }
+  }
+} {
+  at = (55.8mm, 45.6mm)
+  pins {
+    VDD_LP: ESP_3V3,
+    VDD_IO_0: ESP_3V3,
+    VDD_IO_4: ESP_3V3,
+    VDD_IO_5: ESP_3V3,
+    VDD_IO_6: ESP_3V3,
+    VDD_USBPHY: ESP_3V3,
+    VDD_LDO: ESP_3V3,
+    VDD_DCDCC: ESP_3V3,
+    VDD_ANA: ESP_3V3,
+    VDD_BAT: ESP_VBAT,
+    VDD_FLASHIO: ESP_3V3,
+    VDD_HP_0: ESP_VDD_HP,
+    GND: GND,
+    EN_DCDC: EN_DCDC,
+    FB_DCDC: FB_DCDC,
+    VDDO_4: ESP_LDO_VO4,
+    CHIP_PU: ESP_EN,
+    DSI_CLKP: DSI_CLK_P,
+    DSI_CLKN: DSI_CLK_N,
+    DSI_DATAP0: DSI_D0_P,
+    DSI_DATAN0: DSI_D0_N,
+    DSI_DATAP1: DSI_D1_P,
+    DSI_DATAN1: DSI_D1_N,
+    CSI_CLKP: CSI_CLK_P,
+    CSI_CLKN: CSI_CLK_N,
+    CSI_DATAP0: CSI_D0_P,
+    CSI_DATAN0: CSI_D0_N,
+    CSI_DATAP1: CSI_D1_P,
+    CSI_DATAN1: CSI_D1_N,
+    USB_DP: USBD_P,
+    USB_DM: USBD_N,
+    GPIO25: USB1P1_P,
+    GPIO24: USB1P1_N,
+    GPIO0: XTAL32_P,
+    GPIO1: XTAL32_N,
+    GPIO2: GPIO2,
+    GPIO3: GPIO3,
+    GPIO4: GPIO4,
+    GPIO5: GPIO5,
+    GPIO6: C6_IO2,
+    GPIO7: ESP_I2C_SDA,
+    GPIO8: ESP_I2C_SCL,
+    GPIO9: I2S_DSDIN,
+    GPIO10: I2S_LRCK,
+    GPIO11: I2S_ASDOUT,
+    GPIO12: I2S_SCLK,
+    GPIO13: I2S_MCLK,
+    GPIO14: C6_D0,
+    GPIO15: C6_D1,
+    GPIO16: C6_D2,
+    GPIO17: C6_D3,
+    GPIO18: C6_CLK,
+    GPIO19: C6_CMD,
+    GPIO20: BAT_SENSE,
+    GPIO21: CANRX,
+    GPIO22: CANTX,
+    GPIO23: INT_TP,
+    GPIO26: RS485_TXD,
+    GPIO27: RS485_RXD,
+    GPIO28: GPIO28,
+    GPIO29: GPIO29,
+    GPIO30: GPIO30,
+    GPIO31: GPIO31,
+    GPIO32: BL_CTRL,
+    GPIO33: RESET_LCD,
+    GPIO34: GPIO34,
+    GPIO35: BOOT,
+    GPIO36: GPIO36,
+    GPIO37: U0TXD,
+    GPIO38: U0RXD,
+    GPIO39: SD_D0,
+    GPIO40: SD_D1,
+    GPIO41: SD_D2,
+    GPIO42: SD_D3,
+    GPIO43: SD_CLK,
+    GPIO44: SD_CMD,
+    GPIO45: SD_PWR_EN,
+    GPIO46: GPIO46,
+    GPIO47: GPIO47,
+    GPIO48: GPIO48,
+    GPIO49: GPIO49,
+    GPIO50: GPIO50,
+    GPIO51: GPIO51,
+    GPIO52: GPIO52,
+    GPIO53: PA_CTRL,
+    GPIO54: C6_CHIP_PU,
+  }
+  orderCode = "C22387510"
+}
+U13Support = ESP32_P4NRW32.Support(U13) {}
+// Waveshare's flash: a GD25Q256 (32 MB) in the 8 x 6 mm WSON, the W25Q128's pins.
+// The P4's 100 nF and 1 uF decoupling under the chip, on the back (the panel sits on the other
+// side of the board from its parts, the back is free there): the top keeps its fan-out free.
+override U13Support.C_3V3_21.side = .bottom
+override U13Support.C_IO4.side = .bottom
+override U13Support.C_IO5.side = .bottom
+override U13Support.C_IO6.side = .bottom
+override U13Support.C_LP.side = .bottom
+override U13Support.C_BAT.side = .bottom
+override U13Support.C_ANA2.side = .bottom
+override U13Support.C_DCDCC.side = .bottom
+override U13Support.C_USB.side = .bottom
+override U13Support.C_FLASHIO.side = .bottom
+override U13Support.C_HP0B.side = .bottom
+override U13Support.C_HP2.side = .bottom
+override U13Support.C_HP3.side = .bottom
+override U13Support.C_PSRAM0.side = .bottom
+override U13Support.C_PSRAM1.side = .bottom
+override U13Support.C_DPHY.side = .bottom
+override U13Support.C_VO1.side = .bottom
+override U13Support.C_VO2.side = .bottom
+override U13Support.C_VO3.side = .bottom
+override U13Support.C_VO4.side = .bottom
+override U13Support.U_FLASH.part = W.GD25Q256
+override U13Support.U_FLASH.orderCode = "C2927043"
+override U13Support.U_FLASH.at = (65.2mm, 48.7mm)
+override U13Support.Y1.at = (57mm, 37.4mm)
+override U13Support.Y1.orderCode = "C426988"
+// The P4's own clock keeps time on the coin cell (BAT1) through D1 while 3.3 V is off.
+// A CR1220 holder (MYOUNG/KH CR1220-2 style): the cell's + on the two spring tabs, - on the pad
+// under it.
+BAT1 = device(
+  Footprint {
+    name = "BatteryHolder_CR1220_SMD"
+    description = "CR1220 coin cell holder, SMD, 15.6 x 13.4 mm: + on two side tabs, - on the board pad under the cell"
+    pads = [
+      Pad { number = "1", shape = shape.rect(2.6mm, 3.6mm), at = (-7.9mm, 0mm) },
+      Pad { number = "1", shape = shape.rect(2.6mm, 3.6mm), at = (7.9mm, 0mm) },
+      Pad { number = "2", shape = shape.round(6mm), at = (0mm, 0mm) },
+    ]
+    body = centered(15.6mm, 13.4mm)
+    height = 4.2mm
+  },
+  pinout = { "+": "1", "-": "2" },
+  prefix = "BAT",
+  mpn = "KH-CR1220-2",
+  pinTypes = { "+": .powerOut, "-": .ground },
+) {
+  at = (17.8mm, 86.6mm)
+  pins { "+": ESP_VBAT, "-": GND }
+  orderCode = "C5365933"
+}
+D1 = diode(kind = .schottky, package = "SOD-323", ratedVoltage = 40V, ratedCurrent = 1A) {
+  pins { A: ESP_3V3, K: ESP_VBAT }
+  orderCode = "C22624"
+}
+C41 = cap(1uF) { pins { a: ESP_VBAT, b: GND } }
+// The 32.768 kHz crystal on GPIO0/GPIO1 (Y3) for the RTC.
+Y3 = device(
+  Footprint {
+    name = "Crystal_SMD_3215-2Pin_3.2x1.5mm"
+    description = "32.768 kHz tuning-fork crystal, 3.2 x 1.5 mm, two pads"
+    pads = [
+      Pad { number = "1", shape = shape.rect(1.1mm, 1.9mm), at = (-1.25mm, 0mm) },
+      Pad { number = "2", shape = shape.rect(1.1mm, 1.9mm), at = (1.25mm, 0mm) },
+    ]
+    body = centered(3.2mm, 1.5mm)
+    height = 0.9mm
+  },
+  pinout = { "1": "1", "2": "2" },
+  prefix = "Y",
+  mpn = "Q13FC13500004",
+) {
+  at = (61.6mm, 38.8mm)
+  pins { "1": XTAL32_P, "2": XTAL32_N }
+  orderCode = "C32346"
+}
+net XTAL32_P, XTAL32_N
+C59 = cap(22pF) { pins { a: XTAL32_P, b: GND } }
+C62 = cap(22pF) { pins { a: XTAL32_N, b: GND } }
+R39 = res(10Mohm) { pins { a: XTAL32_P, b: XTAL32_N } }
+
+// The strapping pin for the boot mode: high boots from flash, BOOT (Key2) or the console's DTR/RTS
+// pull it low for download mode; RESET (Key1) pulls CHIP_PU low.
+R44 = res(4.7kohm) { pins { a: BOOT, b: ESP_3V3 } }
+Key2 = button("4.2x3.2") {
+  place = [edge(.left, from = 72mm, to = 83mm)]
+  pins { a: BOOT, b: GND }
+  orderCode = "C116501"
+}
+Key1 = button("4.2x3.2") {
+  place = [edge(.left, from = 81mm, to = 92mm)]
+  pins { a: ESP_EN, b: GND }
+  orderCode = "C116501"
+}
+
+// ---- the console: CH343P with automatic reset and boot ------------------------------------------
+U6 = W.CH343P {
+  at = (102mm, 9.8mm)
+  pins {
+    VIO: ESP_3V3,
+    VDD5: ESP_3V3,
+    V3: ESP_3V3,
+    GND: GND,
+    "UD+": USB_DBG_P,
+    "UD-": USB_DBG_N,
+    VBUS: USB0_5V,
+    TXD: U0RXD,
+    RXD: U0TXD,
+    "DTR#": DTR,
+    "RTS#": RTS,
+    "ACT#": .nc,
+    "DCD#": .nc,
+    "DSR#": .nc,
+    "CTS#": .nc,
+    "RI#": .nc,
+  }
+}
+C23 = cap(1uF) {
+  place = [near(U6.pin.VIO, max = 3mm)]
+  pins { a: ESP_3V3, b: GND }
+}
+C25 = cap(1uF) {
+  place = [near(U6.pin.VDD5, max = 3mm)]
+  pins { a: ESP_3V3, b: GND }
+}
+C27 = cap(100nF) {
+  place = [near(U6.pin.V3, max = 5mm)]
+  pins { a: ESP_3V3, b: GND }
+}
+C26 = cap(100nF) { pins { a: USB0_5V, b: GND } }
+// The two-transistor auto-program circuit (Waveshare's EMH4): DTR and RTS reach CHIP_PU and BOOT
+// only when they differ.
+U7A = MMBT3904.Part {
+  at = (95.5mm, 11.6mm)
+  pins { B: QDTRB, E: DTR, C: ESP_EN }
+  orderCode = "C20526"
+}
+U7B = MMBT3904.Part {
+  at = (95.5mm, 7.8mm)
+  pins { B: QRTSB, E: RTS, C: BOOT }
+  orderCode = "C20526"
+}
+R9 = res(10kohm) { pins { a: RTS, b: QDTRB } }
+R10 = res(10kohm) { pins { a: DTR, b: QRTSB } }
+// H8: the console's UART on a PH2.0 header (VCC, GND, the P4's TX, its RX).
+H8 = device(
+  wireToBoard(4, pitch = 2mm, smd = true),
+  pinout = { "1": "1", "2": "2", "3": "3", "4": "4" },
+  prefix = "J",
+  mpn = "PH2.0-4P SMD vertical",
+  kind = .connector,
+) {
+  at = (4.6mm, 47.4mm)
+  rotation = 90deg
+  pins { "1": VCC, "2": GND, "3": U0TXD, "4": U0RXD }
+  orderCode = "C160354"
+}
+
+// ---- the display: the EK79007 panel on a 30-pin FPC (P2), its GT911 touch on a 6-pin FPC (J3) ---
+P2 = device(
+  fpc(30, pitch = 0.5mm),
+  pinout = {},
+  prefix = "P",
+  mpn = "FPC 0.5mm 30P flip-lock bottom contact",
+  kind = .connector,
+) {
+  at = (85mm, 52.8mm)
+  pins {
+    "1": LEDP,
+    "2": LEDP,
+    "3": VGH,
+    "4": VGL,
+    "5": LCD_STBY,
+    "6": GND,
+    "7": LEDN,
+    "8": LEDN,
+    "9": AVDD,
+    "10": GND,
+    "11": .nc,
+    "12": .nc,
+    "13": GND,
+    "14": .nc,
+    "15": .nc,
+    "16": GND,
+    "17": DSI_CLK_P,
+    "18": DSI_CLK_N,
+    "19": GND,
+    "20": DSI_D1_P,
+    "21": DSI_D1_N,
+    "22": GND,
+    "23": DSI_D0_P,
+    "24": DSI_D0_N,
+    "25": GND,
+    "26": LCD_STBY,
+    "27": RESET_LCD,
+    "28": VCC_1V8,
+    "29": VCC_1V8,
+    "30": VCOM,
+  }
+  orderCode = "C22459554"
+}
+J3 = device(
+  fpc(6, pitch = 0.5mm),
+  pinout = {},
+  prefix = "J",
+  mpn = "FPC 0.5mm 6P flip-lock top contact",
+  kind = .connector,
+) {
+  at = (38mm, 60.4mm)
+  pins { "1": RESET_LCD, "2": ESP_3V3, "3": GND, "4": INT_TP, "5": ESP_I2C_SDA, "6": ESP_I2C_SCL }
+  orderCode = "C2856796"
+}
+R37 = res(10kohm) { pins { a: VCC_1V8, b: LCD_STBY } }
+R45 = res(10kohm) { pins { a: RESET_LCD, b: GND } }
+// VCOM: a third of AVDD (2k over 1k).
+R102 = res(2kohm, tolerance = 1pct) { pins { a: AVDD, b: VCOM } }
+R103 = res(1kohm, tolerance = 1pct) { pins { a: VCOM, b: GND } }
+C92 = cap(10uF, package = "0603") { pins { a: VCOM, b: GND } }
+C91 = cap(100nF) { pins { a: VCOM, b: GND } }
+// The panel itself (Waveshare's 7" 1024 x 600 EK79007 with a GT911 touch layer, 164.28 x 99.17 x
+// 4.6 mm) behind the board, its tails in P2 and J3: what the screen shows and where a finger
+// touches it.
+lcdBody = Footprint {
+  name = "Waveshare-7inch-1024x600-DSI"
+  description = "7 inch 1024 x 600 IPS panel (EK79007) with capacitive touch (GT911), 164.28 x 99.17 x 4.6 mm, behind the board; plugged into P2 and J3, not soldered"
+  pads = []
+  body = centered(164.28mm, 99.17mm)
+  height = 6.6mm
+  overhang = true
+  // Clear of the board on its frame: nothing on it keeps clear of the panel.
+  courtyard = centered(0.1mm, 0.1mm)
+  noCourtyard = true
+  solids = [
+    solid.box((164.28mm, 99.17mm, 4.4mm), at = (0mm, 0mm, 2mm), radius = 1mm, color = "#1a1a1c"),
+    solid.box(
+      (154.58mm, 86.42mm, 0.2mm),
+      at = (0mm, 0mm, 6.4mm),
+      material = .screen,
+      color = "#080a0c",
+    ),
+  ]
+}
+LCD1 = behavioralPart(
+  "touch-display",
+  lcdBody,
+  { power: ["J3.2", "J3.3"], video: ["P2.17"], i2c: ["J3.5", "J3.6"] },
+  { width: 1024, height: 600, width_mm: 154.58, height_mm: 86.42 },
+  6.6mm,
+) with {
+  mpn = "7inch-DSI-LCD-C"
+  manufacturer = "Waveshare"
+  prefix = "LCD"
+} {
+  side = .bottom
+  at = (82.75mm, 49mm)
+}
+
+// The panel's supplies: AVDD 9.6 V from an AP3012 boost (1.25 V x (1 + 22k / 3.3k)), VGH and VGL
+// from charge pumps on its switch node held at 18 V and -7.5 V, 1.8 V from an RT9193.
+U9 = W.AP3012 {
+  at = (93.1mm, 24.5mm)
+  pins { VIN: CORE_5V, SHDN: CORE_5V, GND: GND, SW: LCD_SW, FB: AVDD_FB }
+}
+L3 = inductor(10uH, package = "4") {
+  place = [near(U9.pin.SW, max = 8mm), soft(near(U9.pin.SW))]
+  pins { a: CORE_5V, b: LCD_SW }
+  orderCode = "C38117"
+}
+D6 = diode(kind = .schottky, package = "SOD-123", ratedVoltage = 40V, ratedCurrent = 1A) {
+  pins { A: LCD_SW, K: AVDD }
+  orderCode = "C82544"
+}
+C76 = cap(10uF, package = "0805") {
+  place = [near(U9.pin.VIN, max = 3mm)]
+  pins { a: CORE_5V, b: GND }
+}
+C80 = cap(10uF, package = "0805", ratedVoltage = 25V) { pins { a: AVDD, b: GND } }
+C79 = cap(100nF, ratedVoltage = 25V) { pins { a: AVDD, b: GND } }
+R68 = res(22kohm, tolerance = 1pct) { pins { a: AVDD, b: AVDD_FB } }
+R71 = res(3.3kohm, tolerance = 1pct) { pins { a: AVDD_FB, b: GND } }
+// VGH: AVDD plus the switch node's swing, through R62 and held at 18 V by D5.
+C72 = cap(100nF, ratedVoltage = 25V) { pins { a: LCD_SW, b: PUMP_H } }
+D4 = W.BAT54S { pins { A1: AVDD, COM: PUMP_H, K2: VGH_RAW } }
+C73 = cap(1uF, ratedVoltage = 50V) { pins { a: VGH_RAW, b: GND } }
+R62 = res(220ohm, tolerance = 1pct) { pins { a: VGH_RAW, b: VGH } }
+D5 = diode(kind = .zener, package = "SOD-323", voltage = 18V) {
+  pins { A: GND, K: VGH }
+  orderCode = "C2106"
+}
+R65 = res(51kohm, tolerance = 1pct) { pins { a: VGH, b: GND } }
+C75 = cap(10uF, package = "0805", ratedVoltage = 25V) { pins { a: VGH, b: GND } }
+// VGL: the inverted swing, through R56 and held at -7.5 V by D3.
+C68 = cap(100nF, ratedVoltage = 25V) { pins { a: LCD_SW, b: PUMP_L } }
+D2 = W.BAT54S { pins { A1: VGL_RAW, COM: PUMP_L, K2: GND } }
+C69 = cap(1uF, ratedVoltage = 25V) { pins { a: VGL_RAW, b: GND } }
+R56 = res(220ohm, tolerance = 1pct) { pins { a: VGL_RAW, b: VGL } }
+D3 = diode(kind = .zener, package = "SOD-323", voltage = 7.5V) {
+  pins { A: VGL, K: GND }
+  orderCode = "C17284"
+}
+R57 = res(51kohm, tolerance = 1pct) { pins { a: VGL, b: GND } }
+C71 = cap(10uF, package = "0805", ratedVoltage = 25V) { pins { a: VGL, b: GND } }
+U10 = W.RT9193_18 {
+  at = (90.3mm, 60.8mm)
+  pins { VIN: CORE_5V, EN: CORE_5V, GND: GND, BP: VCC_1V8_BP, VOUT: VCC_1V8 }
+}
+net VCC_1V8_BP
+C81 = cap(1uF) {
+  place = [near(U10.pin.VIN, max = 3mm)]
+  pins { a: CORE_5V, b: GND }
+}
+C83 = cap(22nF) { pins { a: VCC_1V8_BP, b: GND } }
+C82 = cap(1uF) {
+  place = [near(U10.pin.VOUT, max = 3mm)]
+  pins { a: VCC_1V8, b: GND }
+}
+
+// The backlight: an AP3032 boost at 0.2 V / 1.3 ohm = 154 mA through the panel's LEDs; BL_CTRL
+// (the P4's LEDC PWM on GPIO32, filtered by R87 and C93) pulls its feedback through R85 to dim
+// them.
+U12 = W.AP3032 {
+  at = (76.3mm, 31.2mm)
+  pins { VIN: CORE_5V, EN: BL_EN, GND: GND, SW: BL_SW, FB: BL_FB, OV: LEDP }
+}
+L4 = inductor(10uH, package = "4") {
+  place = [near(U12.pin.SW, max = 8mm), soft(near(U12.pin.SW))]
+  pins { a: CORE_5V, b: BL_SW }
+  orderCode = "C38117"
+}
+D9 = diode(kind = .schottky, package = "SOD-123", ratedVoltage = 40V, ratedCurrent = 1A) {
+  pins { A: BL_SW, K: LEDP }
+  orderCode = "C82544"
+}
+C86 = cap(10uF, package = "0805") {
+  place = [near(U12.pin.VIN, max = 3mm)]
+  pins { a: CORE_5V, b: GND }
+}
+C89 = cap(1uF, package = "0805", ratedVoltage = 50V) { pins { a: LEDP, b: GND } }
+R83 = res(5.1kohm, tolerance = 1pct) { pins { a: LEDN, b: BL_FB } }
+R86 = res(1.3ohm, tolerance = 1pct, package = "0805") { pins { a: LEDN, b: GND } }
+R85 = res(68kohm) { pins { a: BL_FB, b: BL_DIM } }
+R76 = res(100kohm) { pins { a: CORE_5V, b: BL_EN } }
+C90 = cap(1uF, ratedVoltage = 50V) { pins { a: BL_EN, b: GND } }
+net BL_EN
+R87 = res(10kohm) { pins { a: BL_CTRL, b: BL_DIM } }
+C93 = cap(100nF) { pins { a: BL_DIM, b: GND } }
+
+// ---- sound: the ES8311 codec, the NS4150B amplifier, the ES7210 and its two microphones --------
+U16 = ES8311.Part {
+  at = (57.4mm, 69.5mm)
+  pins {
+    PVDD: ESP_3V3,
+    DVDD: ESP_3V3,
+    AVDD: A3V3,
+    DGND: GND,
+    AGND: GND,
+    CCLK: ESP_I2C_SCL,
+    CDATA: ESP_I2C_SDA,
+    CE: GND,
+    MCLK: I2S_MCLK,
+    SCLK: I2S_SCLK,
+    LRCK: I2S_LRCK,
+    DSDIN: I2S_DSDIN,
+    ASDOUT: .nc,
+    OUTP: OUTP,
+    OUTN: OUTN,
+    MIC1P: GND,
+    MIC1N: GND,
+  }
+  orderCode = "C962342"
+}
+U16Support = ES8311.Support(U16) {}
+// The ES8311's own 3.3 V for the analog side (an RT9193 from the 5 V rail, Waveshare's A3V3).
+U15 = W.RT9193_33 {
+  at = (45.8mm, 90.7mm)
+  pins { VIN: CORE_5V, EN: CORE_5V, GND: GND, BP: A3V3_BP, VOUT: A3V3 }
+}
+net A3V3_BP
+C94 = cap(10uF, package = "0603") {
+  place = [near(U15.pin.VIN, max = 3mm)]
+  pins { a: CORE_5V, b: GND }
+}
+C96 = cap(22nF) { pins { a: A3V3_BP, b: GND } }
+C97 = cap(10uF, package = "0603") {
+  place = [near(U15.pin.VOUT, max = 3mm)]
+  pins { a: A3V3, b: GND }
+}
+// The I2C bus's pull-ups (the codecs, the touch, the camera, the port).
+R90 = res(2.2kohm) { pins { a: ESP_I2C_SDA, b: ESP_3V3 } }
+R91 = res(2.2kohm) { pins { a: ESP_I2C_SCL, b: ESP_3V3 } }
+
+// The amplifier, its input AC-coupled from the codec's differential output; GPIO53 (PA_CTRL)
+// turns it on, R126 keeps it off at reset. The speaker on H7.
+U19 = W.NS4150B {
+  at = (30.8mm, 73.2mm)
+  pins {
+    CTRL: PA_CTRL,
+    BYPASS: PA_BYPASS,
+    "IN+": PA_INLP,
+    "IN-": PA_INLN,
+    "OUT+": PA_OUTLP,
+    "OUT-": PA_OUTLN,
+    VDD: ESP_3V3,
+    GND: GND,
+  }
+}
+R126 = res(10kohm) { pins { a: PA_CTRL, b: GND } }
+C177 = cap(1uF) { pins { a: PA_BYPASS, b: GND } }
+C142 = cap(100nF) { pins { a: OUTP, b: PA_IN1P } }
+C150 = cap(100nF) { pins { a: OUTN, b: PA_IN1N } }
+net PA_IN1P, PA_IN1N
+R121 = res(150kohm) { pins { a: PA_IN1P, b: PA_INLP } }
+R122 = res(150kohm) { pins { a: PA_IN1N, b: PA_INLN } }
+C143 = cap(22pF) { pins { a: PA_INLP, b: GND } }
+C157 = cap(22pF) { pins { a: PA_INLN, b: GND } }
+C172 = cap(10uF, package = "0603") {
+  place = [near(U19.pin.VDD, max = 3mm)]
+  pins { a: ESP_3V3, b: GND }
+}
+C173 = cap(100nF) {
+  place = [near(U19.pin.VDD, max = 3mm)]
+  pins { a: ESP_3V3, b: GND }
+}
+H7 = device(
+  wireToBoard(2, pitch = 2mm, smd = true),
+  pinout = { "1": "1", "2": "2" },
+  prefix = "J",
+  mpn = "PH2.0-2P SMD vertical",
+  kind = .connector,
+) {
+  at = (33.7mm, 93mm)
+  rotation = 0deg
+  pins { "1": PA_OUTLN, "2": PA_OUTLP }
+  orderCode = "C160352"
+}
+
+// The four-channel ADC: MIC1 and MIC2 (analog MEMS microphones biased from MICBIAS12, at the
+// bottom corners), MIC3 the speaker's own signal for echo cancelling; address 0x40 (AD0, AD1 low).
+U17 = W.ES7210 {
+  at = (57mm, 88.8mm)
+  pins {
+    AD0: GND,
+    AD1: GND,
+    CDATA: ESP_I2C_SDA,
+    CCLK: ESP_I2C_SCL,
+    MCLK: I2S_MCLK,
+    VDDP: A3V3,
+    VDDD: A3V3,
+    VDDA: A3V3,
+    VDDM: A3V3,
+    GNDD: GND,
+    GNDA: GND,
+    E_GND: GND,
+    SCLK: I2S_SCLK,
+    LRCK: I2S_LRCK,
+    SDOUT1: ES7210_SDOUT,
+    SDOUT2: .nc,
+    INT: .nc,
+    DMIC_CLK: .nc,
+    MIC1P: MIC1_P,
+    MIC1N: MIC1_N,
+    MIC2P: MIC2_P,
+    MIC2N: MIC2_N,
+    MIC3P: ADC_MIC3_P,
+    MIC3N: ADC_MIC3_N,
+    MIC4P: .nc,
+    MIC4N: .nc,
+    REFP12: ES7210_REFP12,
+    REFQ12: GND,
+    REFP34: ES7210_REFP34,
+    REFQ34: GND,
+    REFQM: GND,
+    MICBIAS12: ADC_MICBIAS12,
+    MICBIAS34: .nc,
+  }
+}
+R114 = res(51ohm) { pins { a: ES7210_SDOUT, b: I2S_ASDOUT } }
+C109 = cap(1uF) {
+  place = [near(U17.pin.VDDA, max = 3mm)]
+  pins { a: A3V3, b: GND }
+}
+C103 = cap(100nF) {
+  place = [near(U17.pin.VDDD, max = 2mm)]
+  pins { a: A3V3, b: GND }
+}
+C104 = cap(100nF) {
+  place = [near(U17.pin.VDDM, max = 2mm)]
+  pins { a: A3V3, b: GND }
+}
+C163 = cap(1uF) { pins { a: ES7210_REFP12, b: GND } }
+C167 = cap(1uF) { pins { a: ES7210_REFP34, b: GND } }
+C159 = cap(1uF) { pins { a: ADC_MICBIAS12, b: GND } }
+// The echo reference: the codec's output, divided and filtered into MIC3.
+R97 = res(2.2kohm) { pins { a: OUTP, b: AEC_P1 } }
+R106 = res(2.2kohm) { pins { a: OUTN, b: AEC_N1 } }
+C121 = cap(10nF) { pins { a: AEC_P1, b: AEC_N1 } }
+C110 = cap(470nF) { pins { a: AEC_P1, b: AEC_P2 } }
+C124 = cap(470nF) { pins { a: AEC_N1, b: AEC_N2 } }
+R98 = res(10kohm) { pins { a: AEC_P2, b: AEC_P3 } }
+R107 = res(10kohm) { pins { a: AEC_N2, b: AEC_N3 } }
+C120 = cap(2.2nF) { pins { a: AEC_P3, b: AEC_N3 } }
+R99 = res(20kohm) { pins { a: AEC_P3, b: AEC_P4 } }
+R108 = res(20kohm) { pins { a: AEC_N3, b: AEC_N4 } }
+net AEC_P4, AEC_N4
+R100 = res(4.3kohm) { pins { a: AEC_P4, b: AEC_N4 } }
+C119 = cap(100pF) { pins { a: AEC_P4, b: AEC_N4 } }
+C111 = cap(220nF) { pins { a: AEC_P4, b: ADC_MIC3_P } }
+C125 = cap(220nF) { pins { a: AEC_N4, b: ADC_MIC3_N } }
+// The microphones (ZillTek ZTS6117: analog, top-ported, 2.75 x 1.85 mm; pads as its datasheet's
+// land pattern, DS-1.1 p. 7), each powered from MICBIAS12 through a 2.2 uF / 100 nF filter and
+// AC-coupled into its pair.
+fn memsMic(): Part = device(
+  footprint = Footprint {
+    name = "MEMS_Mic_ZTS6117_2.75x1.85mm"
+    description = "ZillTek ZTS6117 analog MEMS microphone, top port, 2.75 x 1.85 x 0.9 mm, four 0.6 x 0.54 mm pads"
+    pads = [
+      Pad { number = "1", shape = shape.rect(0.6mm, 0.54mm), at = (-0.525mm, 0.965mm) },
+      Pad { number = "2", shape = shape.rect(0.6mm, 0.54mm), at = (-0.525mm, -0.965mm) },
+      Pad { number = "3", shape = shape.rect(0.6mm, 0.54mm), at = (0.525mm, -0.965mm) },
+      Pad { number = "4", shape = shape.rect(0.6mm, 0.54mm), at = (0.525mm, 0.965mm) },
+    ]
+    body = centered(1.85mm, 2.75mm)
+    height = 0.9mm
+  },
+  pinout = { OUT: "1", GND: ["2", "3"], VDD: "4" },
+  prefix = "MIC",
+  mpn = "ZTS6117",
+  manufacturer = "ZillTek",
+  pinTypes = { VDD: .powerIn, GND: .ground, OUT: .output },
+)
+MIC1 = memsMic() {
+  place = [edge(.bottom, from = 9mm, to = 19mm)]
+  pins { VDD: MIC1_BIAS, GND: GND, OUT: MIC1_DAT }
+  orderCode = "C481300"
+}
+L5 = res(0ohm) { pins { a: MIC1_DAT, b: MIC1_OUT } }
+net MIC1_OUT
+C105 = cap(100nF) {
+  place = [near(MIC1.pin.VDD, max = 3mm)]
+  pins { a: MIC1_BIAS, b: GND }
+}
+C101 = cap(2.2uF) { pins { a: MIC1_BIAS, b: GND } }
+R_MIC1 = res(0ohm) { pins { a: ADC_MICBIAS12, b: MIC1_BIAS } }
+C99 = cap(1uF) { pins { a: MIC1_OUT, b: MIC1_P } }
+C127 = cap(1uF) { pins { a: MIC1_N, b: GND } }
+MIC2 = memsMic() {
+  place = [edge(.bottom, from = 146mm, to = 156mm)]
+  pins { VDD: MIC2_BIAS, GND: GND, OUT: MIC2_DAT }
+  orderCode = "C481300"
+}
+L7 = res(0ohm) { pins { a: MIC2_DAT, b: MIC2_OUT } }
+net MIC2_OUT
+C160 = cap(100nF) {
+  place = [near(MIC2.pin.VDD, max = 3mm)]
+  pins { a: MIC2_BIAS, b: GND }
+}
+C158 = cap(2.2uF) { pins { a: MIC2_BIAS, b: GND } }
+R_MIC2 = res(0ohm) { pins { a: ADC_MICBIAS12, b: MIC2_BIAS } }
+C155 = cap(1uF) { pins { a: MIC2_OUT, b: MIC2_P } }
+C179 = cap(1uF) { pins { a: MIC2_N, b: GND } }
+
+// ---- microSD (SD1): on the P4's SDMMC slot 0, its supply switched by Q1 (GPIO45, on by default) --
+// The card holds PocketJS's nothing: the slot starts empty.
+Q1 = AO3401A.Part {
+  at = (66.2mm, 10.8mm)
+  pins { G: SD_PWR_EN, S: ESP_3V3, D: SD1_VDD }
+  orderCode = "C15127"
+}
+R29 = res(10kohm) { pins { a: SD_PWR_EN, b: GND } }
+C7 = cap(10uF, package = "0603") { pins { a: SD1_VDD, b: GND } }
+C8 = cap(100nF) { pins { a: SD1_VDD, b: GND } }
+SD1 = DM3AT_SF_PEJM5.Part {
+  place = [edge(.bottom, from = 76mm, to = 93mm)]
+  pins {
+    VDD: SD1_VDD,
+    VSS: GND,
+    CLK: SD_CLK,
+    CMD: SD_CMD,
+    DAT0: SD_D0,
+    DAT1: SD_D1,
+    DAT2: SD_D2,
+    CD_DAT3: SD_D3,
+    CD_A: .nc,
+    CD_B: .nc,
+    SH: GND,
+  }
+  orderCode = "C114218"
+}
+R5 = res(10kohm) { pins { a: SD_D2, b: ESP_LDO_VO4 } }
+R6 = res(10kohm) { pins { a: SD_D3, b: ESP_LDO_VO4 } }
+R7 = res(10kohm) { pins { a: SD_CMD, b: ESP_LDO_VO4 } }
+R8 = res(10kohm) { pins { a: SD_D0, b: ESP_LDO_VO4 } }
+R9B = res(10kohm) { pins { a: SD_D1, b: ESP_LDO_VO4 } }
+
+// ---- the ESP32-C6 radio (U1), on the P4's second SDMMC slot (ESP-Hosted) -------------------------
+U1 = ESP32_C6_MINI_1.Part {
+  // The antenna (the module's top 5.4 mm) at the board's top edge, as on Waveshare's board.
+  rotation = 0deg
+  place = [edge(.top, from = 126mm, to = 144mm, overhang = 5.4mm)]
+  pins {
+    "3V3": ESP_3V3,
+    GND: GND,
+    EN: C6_CHIP_PU,
+    IO18: C6_CMD,
+    IO19: C6_CLK,
+    IO20: C6_D0,
+    IO21: C6_D1,
+    IO22: C6_D2,
+    IO23: C6_D3,
+    IO2: C6_IO2,
+    IO8: C6_IO8,
+    IO9: C6_IO9,
+    TXD0: C6_U0TXD,
+    RXD0: C6_U0RXD,
+  }
+  orderCode = "C6553337"
+}
+U1Support = ESP32_C6_MINI_1.Support(U1, resetButton = false, bootButton = false) {}
+R15 = res(51kohm) { pins { a: C6_D3, b: ESP_3V3 } }
+R16 = res(51kohm) { pins { a: C6_D2, b: ESP_3V3 } }
+R18 = res(51kohm) { pins { a: C6_D1, b: ESP_3V3 } }
+R19 = res(51kohm) { pins { a: C6_D0, b: ESP_3V3 } }
+R20 = res(51kohm) { pins { a: C6_CLK, b: ESP_3V3 } }
+R130 = res(51kohm) { pins { a: C6_CMD, b: ESP_3V3 } }
+R27 = res(10kohm, tolerance = 1pct) { pins { a: C6_IO8, b: ESP_3V3 } }
+// H4: the C6's own UART and IO9 (its download mode) on an SH1.0 header.
+H4 = device(
+  wireToBoard(4, pitch = 1mm, smd = true),
+  pinout = { "1": "1", "2": "2", "3": "3", "4": "4" },
+  prefix = "J",
+  mpn = "SH1.0-4P SMD vertical",
+  kind = .connector,
+) {
+  at = (149.4mm, 94mm)
+  rotation = 0deg
+  pins { "1": C6_IO9, "2": GND, "3": C6_U0RXD, "4": C6_U0TXD }
+  orderCode = "C160390"
+}
+
+// ---- the camera: a 15-pin 1 mm MIPI-CSI connector (J2), Raspberry Pi's pinout --------------------
+J2 = device(
+  fpc(15, pitch = 1mm),
+  pinout = {},
+  prefix = "J",
+  mpn = "FPC 1.0mm 15P flip-lock bottom contact",
+  kind = .connector,
+) {
+  at = (82.3mm, 72.4mm)
+  pins {
+    "1": GND,
+    "2": CSI_D0_N,
+    "3": CSI_D0_P,
+    "4": GND,
+    "5": CSI_D1_N,
+    "6": CSI_D1_P,
+    "7": GND,
+    "8": CSI_CLK_N,
+    "9": CSI_CLK_P,
+    "10": GND,
+    "11": CSI_IO0,
+    "12": CSI_IO1,
+    "13": ESP_I2C_SCL,
+    "14": ESP_I2C_SDA,
+    "15": ESP_3V3,
+  }
+  orderCode = "C7529394"
+}
+R46 = res(10kohm, tolerance = 1pct) { pins { a: CSI_IO0, b: ESP_3V3 } }
+C52 = cap(10uF, package = "0603") { pins { a: ESP_3V3, b: GND } }
+C53 = cap(100nF) { pins { a: ESP_3V3, b: GND } }
+
+// ---- the ports on the left edge: I2C through a level shifter, RS-485, CAN ---------------------------
+// VCC, the ports' supply: 3.3 V (R_VCC, Waveshare's H3 jumper fitted to 3V3).
+R_VCC = res(0ohm) { pins { a: ESP_3V3, b: VCC } }
+// I2C: the P4's bus shifted to VCC by M1 (gates at VCC, pull-ups R58/R59 on the port's side).
+M1 = W.NDC7002N {
+  at = (20.7mm, 65.1mm)
+  pins { G1: VCC, G2: VCC, S1: D_SDA, D1: ESP_I2C_SDA, S2: D_SCL, D2: ESP_I2C_SCL }
+}
+R58 = res(4.7kohm) { pins { a: D_SDA, b: VCC } }
+R59 = res(4.7kohm) { pins { a: D_SCL, b: VCC } }
+H10 = device(
+  wireToBoard(4, pitch = 2mm, smd = true),
+  pinout = { "1": "1", "2": "2", "3": "3", "4": "4" },
+  prefix = "J",
+  mpn = "PH2.0-4P SMD vertical",
+  kind = .connector,
+) {
+  at = (4.6mm, 62.4mm)
+  rotation = 90deg
+  pins { "1": VCC, "2": GND, "3": D_SDA, "4": D_SCL }
+  orderCode = "C160354"
+}
+
+// RS-485 (H9): an SP3485 whose driver turns on while the P4's TX (GPIO27) is low (Q9, Waveshare's
+// automatic direction); fuses, TVS and fail-safe bias on the line.
+U11 = SP3485.Part {
+  at = (37.8mm, 21.3mm)
+  pins {
+    RO: RS485_RO,
+    RE: RS485_DE,
+    DE: RS485_DE,
+    DI: RS485_RXD,
+    GND: GND,
+    A: RS485_A,
+    B: RS485_B,
+    VCC: ESP_3V3,
+  }
+}
+net RS485_RO
+R64 = res(4.7kohm) { pins { a: RS485_RO, b: RS485_TXD } }
+C84 = cap(100nF) {
+  place = [near(U11.pin.VCC, max = 2mm)]
+  pins { a: ESP_3V3, b: GND }
+}
+Q9 = MMBT3904.Part {
+  pins { B: Q9B, E: GND, C: RS485_DE }
+  orderCode = "C20526"
+}
+R61 = res(4.7kohm) { pins { a: RS485_RXD, b: Q9B } }
+R66 = res(4.7kohm) { pins { a: RS485_DE, b: ESP_3V3 } }
+R73 = res(10kohm) { pins { a: RS485_B, b: GND } }
+R79 = res(10kohm) { pins { a: RS485_A, b: ESP_3V3 } }
+F1 = fuse(hold = 200mA, package = "1206") {
+  at = (24.3mm, 26.6mm)
+  pins { a: RS485_B, b: RS485_LB }
+}
+F2 = fuse(hold = 200mA, package = "1206") {
+  at = (24.3mm, 21.1mm)
+  pins { a: RS485_A, b: RS485_LA }
+}
+D7 = diode(kind = .tvs, package = "SMA", voltage = 12V, bidirectional = true) {
+  pins { A: GND, K: RS485_LB }
+  orderCode = "C78399"
+}
+D11 = diode(kind = .tvs, package = "SMA", voltage = 12V, bidirectional = true) {
+  pins { A: GND, K: RS485_LA }
+  orderCode = "C78399"
+}
+D8 = diode(kind = .tvs, package = "SMA", voltage = 12V, bidirectional = true) {
+  pins { A: RS485_LA, K: RS485_LB }
+  orderCode = "C78399"
+}
+H9 = device(
+  wireToBoard(4, pitch = 2mm, smd = true),
+  pinout = { "1": "1", "2": "2", "3": "3", "4": "4" },
+  prefix = "J",
+  mpn = "PH2.0-4P SMD vertical",
+  kind = .connector,
+) {
+  at = (4.6mm, 17.3mm)
+  rotation = 90deg
+  pins { "1": CORE_5V, "2": GND, "3": RS485_LA, "4": RS485_LB }
+  orderCode = "C160354"
+}
+
+// CAN (H11): a TJA1051T/3 (its I/O at 3.3 V) on GPIO22 (TX) and GPIO21 (RX), an SM24CANB on the
+// bus.
+U14 = TJA1051T3.Part {
+  at = (24.8mm, 33.2mm)
+  pins {
+    TXD: CANTX,
+    RXD: CANRX,
+    GND: GND,
+    VCC: CORE_5V,
+    VIO: ESP_3V3,
+    S: GND,
+    CANH: CANH,
+    CANL: CANL,
+  }
+  orderCode = "C38695"
+}
+C87 = cap(100nF) {
+  place = [near(U14.pin.VIO, max = 2mm)]
+  pins { a: ESP_3V3, b: GND }
+}
+C88 = cap(100nF) {
+  place = [near(U14.pin.VCC, max = 2mm)]
+  pins { a: CORE_5V, b: GND }
+}
+D10 = device(
+  sot23(3),
+  pinout = { L: "1", H: "2", GND: "3" },
+  prefix = "D",
+  mpn = "SM24CANB-02HTG",
+) {
+  pins { L: CANL, H: CANH, GND: GND }
+  orderCode = "C151237"
+}
+H11 = device(
+  wireToBoard(4, pitch = 2mm, smd = true),
+  pinout = { "1": "1", "2": "2", "3": "3", "4": "4" },
+  prefix = "J",
+  mpn = "PH2.0-4P SMD vertical",
+  kind = .connector,
+) {
+  at = (4.6mm, 32.4mm)
+  rotation = 90deg
+  pins { "1": CORE_5V, "2": GND, "3": CANH, "4": CANL }
+  orderCode = "C160354"
+}
+
+// ---- the two 12-pin GPIO headers on the bottom edge (P3, P1) -----------------------------------------
+P3 = device(
+  wireToBoard(12, pitch = 2mm, smd = true),
+  pinout = {},
+  prefix = "P",
+  mpn = "PH2.0-12P SMD vertical",
+  kind = .connector,
+) {
+  at = (43.8mm, 6.4mm)
+  rotation = 0deg
+  pins {
+    "1": GPIO36,
+    "2": GPIO34,
+    "3": GPIO31,
+    "4": GPIO30,
+    "5": GPIO29,
+    "6": GPIO28,
+    "7": GPIO5,
+    "8": GPIO4,
+    "9": GPIO3,
+    "10": GPIO2,
+    "11": GND,
+    "12": ESP_3V3,
+  }
+  orderCode = "C545752"
+}
+R14 = res(10kohm) { pins { a: GPIO36, b: ESP_3V3 } }
+P1 = device(
+  wireToBoard(12, pitch = 2mm, smd = true),
+  pinout = {},
+  prefix = "P",
+  mpn = "PH2.0-12P SMD vertical",
+  kind = .connector,
+) {
+  at = (121.6mm, 6.4mm)
+  rotation = 0deg
+  pins {
+    "1": GPIO52,
+    "2": GPIO51,
+    "3": GPIO50,
+    "4": GPIO49,
+    "5": GPIO48,
+    "6": GPIO47,
+    "7": GPIO46,
+    "8": GND,
+    "9": ESP_LDO_VO4,
+    "10": ESP_3V3,
+    "11": GND,
+    "12": BAT,
+  }
+  orderCode = "C545752"
+}
+
+// Four M2.5 holes where Waveshare's are, 4 mm in from each corner.
+LSK1 = hole("M2.5") { at = (4mm, 4.1mm) }
+LSK2 = hole("M2.5") { at = (4mm, 93.9mm) }
+LSK3 = hole("M2.5") { at = (161.5mm, 4.1mm) }
+LSK4 = hole("M2.5") { at = (161.5mm, 93.9mm) }
+
+// The USB-C ports' parts, inside their blocks: their LCSC codes.
+override H1.power.J.orderCode = "C5184243"
+override H1.power.D.orderCode = "C78401"
+override H1.power.R1.orderCode = "C25905"
+override H1.power.R2.orderCode = "C25905"
+override H1.Esd.orderCode = "C7519"
+override H2.power.J.orderCode = "C5184243"
+override H2.power.D.orderCode = "C78401"
+override H2.power.R1.orderCode = "C25905"
+override H2.power.R2.orderCode = "C25905"
+override H2.Esd.orderCode = "C7519"

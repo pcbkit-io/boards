@@ -1123,6 +1123,41 @@
         "status": "ready",
         "flash": "uart"
       }
+    },
+    {
+      "slug": "esp32-p4-touch-lcd-7b",
+      "title": "Waveshare's ESP32-P4 7″ touch board, running PocketJS",
+      "category": "devices",
+      "summary": "Waveshare's ESP32-P4-WIFI6-Touch-LCD-7B rebuilt from its schematic, with its parts where Waveshare put them: an ESP32-P4 drives a 7″ 1024 × 600 MIPI-DSI touch panel, with an ES8311 and ES7210 for sound, an ESP32-C6, microSD, a camera port, RS-485, CAN and a Li-ion cell. Run boots PocketJS's published image on a model of the P4 from Espressif's own boot ROM; touch its screen in 3D. The radio is not simulated.",
+      "tags": [
+        "esp32-p4",
+        "risc-v",
+        "touch-screen",
+        "mipi-dsi",
+        "pocketjs",
+        "waveshare",
+        "audio",
+        "six-layer"
+      ],
+      "chips": [
+        "ESP32-P4NRW32",
+        "ESP32-C6-MINI-1",
+        "ES8311",
+        "ES7210",
+        "CH343P",
+        "IP5306",
+        "GD25Q256"
+      ],
+      "license": "CC0-1.0",
+      "author": "PCBKit",
+      "source": "https://github.com/pcbkit-io/boards/tree/main/devices/esp32-p4-touch-lcd-7b",
+      "copper": null,
+      "path": "devices/esp32-p4-touch-lcd-7b",
+      "open": "github",
+      "production": {
+        "status": "ready",
+        "flash": "uart"
+      }
     }
   ]
 }

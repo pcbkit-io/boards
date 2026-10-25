@@ -1,0 +1,235 @@
+{
+  "id": "SP3485",
+  "mpn": "SP3485EN-L/TR",
+  "manufacturer": "MaxLinear (Exar, Sipex)",
+  "variants": [
+    "SP3485EN-L",
+    "SP3485CN-L",
+    "SP3485CN-L/TR",
+    "SP3485EN"
+  ],
+  "category": "interface",
+  "description": "RS-485/RS-422 transceiver, half duplex, 3.3 V supply, 10 Mbps, 32 unit loads, 5 V tolerant logic (SOIC-8, 75176 pinout): the common 3.3 V RS485 module chip",
+  "tags": [
+    "sp3485",
+    "rs485",
+    "rs-485",
+    "rs422",
+    "rs-422",
+    "modbus",
+    "dmx",
+    "transceiver",
+    "half duplex",
+    "3.3v",
+    "75176"
+  ],
+  "datasheet": {
+    "url": "https://www.maxlinear.com/ds/sp3485.pdf",
+    "revision": "Exar SP3485 datasheet rev. 1.0.0 (06/19/12)"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "SOIC-8",
+    "page": "8-pin NSOIC (ordering information); standard JEDEC MS-012 footprint by name"
+  },
+  "pins": [
+    {
+      "number": "1",
+      "name": "RO",
+      "type": "output",
+      "description": "receiver output (high impedance while RE is high)"
+    },
+    {
+      "number": "2",
+      "name": "RE",
+      "type": "input",
+      "description": "receiver output enable, active low"
+    },
+    {
+      "number": "3",
+      "name": "DE",
+      "type": "input",
+      "description": "driver output enable, active high"
+    },
+    {
+      "number": "4",
+      "name": "DI",
+      "type": "input",
+      "description": "driver input"
+    },
+    {
+      "number": "5",
+      "name": "GND",
+      "type": "ground"
+    },
+    {
+      "number": "6",
+      "name": "A",
+      "type": "bidirectional",
+      "description": "noninverting driver output and receiver input"
+    },
+    {
+      "number": "7",
+      "name": "B",
+      "type": "bidirectional",
+      "description": "inverting driver output and receiver input"
+    },
+    {
+      "number": "8",
+      "name": "VCC",
+      "type": "power_in",
+      "description": "supply 3.3 V ± 5 %"
+    }
+  ],
+  "ratings": {
+    "absMax": [
+      {
+        "what": "VCC",
+        "pins": [
+          "VCC"
+        ],
+        "max": 6.0,
+        "unit": "V"
+      },
+      {
+        "what": "logic inputs",
+        "pins": [
+          "RE",
+          "DE",
+          "DI"
+        ],
+        "min": -0.3,
+        "max": 6.0,
+        "unit": "V"
+      },
+      {
+        "what": "receiver inputs A, B",
+        "pins": [
+          "A",
+          "B"
+        ],
+        "min": -15.0,
+        "max": 15.0,
+        "unit": "V"
+      }
+    ],
+    "recommended": [
+      {
+        "what": "VCC (3.3 V ± 5 %)",
+        "pins": [
+          "VCC"
+        ],
+        "min": 3.135,
+        "nom": 3.3,
+        "max": 3.465,
+        "unit": "V"
+      },
+      {
+        "what": "A, B common mode",
+        "pins": [
+          "A",
+          "B"
+        ],
+        "min": -7.0,
+        "max": 12.0,
+        "unit": "V"
+      },
+      {
+        "what": "operating temperature (E grade; C grade 0 to 70)",
+        "min": -40.0,
+        "max": 85.0,
+        "unit": "°C"
+      }
+    ]
+  },
+  "simulation": {
+    "parameters": [
+      {
+        "id": "icc-driver-enabled",
+        "quantity": "supplyCurrent",
+        "unit": "A",
+        "typ": 0.000425,
+        "max": 0.002,
+        "conditions": "no load, driver and receiver enabled (RE, DI = 0 V or VCC; DE = VCC), VCC=3.3 V +/-5 %, TAMB=TMIN to TMAX; receiver only (DE=0 V) is 300 uA typ",
+        "source": {
+          "url": "https://www.maxlinear.com/ds/sp3485.pdf",
+          "revision": "SP3485 datasheet Rev. 2.0.2 as printed in the page footers",
+          "location": "p. 3, Electrical Characteristics, SP3485 Power Requirements, Supply current no load row",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "theta-ja-nsoic8",
+        "quantity": "thetaJa",
+        "unit": "K/W",
+        "typ": 128.4,
+        "conditions": "8-pin NSOIC package power dissipation",
+        "source": {
+          "url": "https://www.maxlinear.com/ds/sp3485.pdf",
+          "revision": "SP3485 datasheet Rev. 2.0.2 as printed in the page footers",
+          "location": "p. 2, Absolute Maximum Ratings / Operating Conditions",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "tj-absolute",
+        "quantity": "junctionAbsoluteTemperature",
+        "unit": "degC",
+        "max": 125.0,
+        "conditions": "maximum junction temperature as printed in the absolute maximum ratings",
+        "source": {
+          "url": "https://www.maxlinear.com/ds/sp3485.pdf",
+          "revision": "SP3485 datasheet Rev. 2.0.2 as printed in the page footers",
+          "location": "p. 2, Absolute Maximum Ratings",
+          "confidence": "datasheet"
+        }
+      }
+    ]
+  },
+  "support": {
+    "parts": [
+      {
+        "ref": "C1",
+        "kind": "cap",
+        "value": "100nF",
+        "rating": "X7R",
+        "between": [
+          "VCC",
+          "GND"
+        ]
+      },
+      {
+        "ref": "RT",
+        "kind": "res",
+        "value": "120ohm",
+        "rating": "at each end of the bus only",
+        "between": [
+          "A",
+          "B"
+        ]
+      }
+    ],
+    "notes": [
+      "RE and DE are usually tied together and driven by one GPIO (high = transmit); RO to the UART RX, DI to its TX.",
+      "Terminate the bus at its two ends only, 120 ohm across A-B."
+    ],
+    "page": "pin function; electrical characteristics (VCC = 3.3 V ± 5 %); typical half-duplex network"
+  },
+  "notes": [
+    "Same pins as the MAX3485 and the 5 V MAX485 (75176 pinout).",
+    "The logic inputs take 5 V, so a 5 V MCU may drive it; RO swings to 3.3 V.",
+    "Bias resistors (e.g. 680 ohm A to VCC and B to GND at one node) keep an idle terminated bus defined; a TVS at the connector for long buses."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "Exar SP3485 datasheet (rev. 1.0.0, 06/19/12): pin function, absolute maximum ratings, electrical characteristics (VCC = 3.3 V ± 5 %), ordering information (8-pin NSOIC); read from the copy the distributor hosts (https://www.lcsc.com/datasheet/C8963.pdf)",
+      "url": "https://www.maxlinear.com/ds/sp3485.pdf",
+      "license": "pin numbers and names, package dimensions, ratings and application values transcribed from the manufacturer's datasheet (facts, one reading); descriptions and notes our own"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "standard SOIC-8 (JEDEC MS-012) by name"
+    }
+  }
+}

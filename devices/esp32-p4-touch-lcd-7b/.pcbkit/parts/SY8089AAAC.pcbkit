@@ -1,0 +1,148 @@
+pcbkit 1
+
+// SY8089AAAC (Silergy): Synchronous buck converter, 2.7-5.5 V in, 2 A (3 A peak), 1 MHz, 0.6 V
+// feedback, 100 % dropout, hiccup short-circuit protection, SOT-23-5
+// Compiled from the part sheet `parts/SY8089AAAC.json` (`parts.create`); status: checked.
+// Datasheet: https://datasheet.lcsc.com/datasheet/pdf/400ca014d7a690f5be0127468f87fcc6.pdf
+// (AN_SY8089/A Rev. 0.9A)
+// Pins: Silergy AN_SY8089/A Rev. 0.9A: pinout and pin description (SOT23-5: 1 EN, 2 GND, 3 LX, 4
+// IN, 5 FB), absolute maximum ratings, recommended operating conditions, electrical
+// characteristics
+// Footprint: the standard package `SOT-23-5`
+// This file may be used, changed and shared without conditions, with the board or alone.
+
+// Note: SY8089AAAC (the A version) restarts in hiccup mode after a short and has no over-voltage
+// latch; SY8089AAC latches off on either.
+
+/// SY8089AAAC — Synchronous buck converter, 2.7-5.5 V in, 2 A (3 A peak), 1 MHz, 0.6 V feedback,
+/// 100 % dropout, hiccup short-circuit protection, SOT-23-5
+part Part = device(
+  footprint = sot23(5),
+  prefix = "U",
+  mpn = "SY8089AAAC",
+  manufacturer = "Silergy",
+  orderCode = "C78988",
+  pinout = { EN: "1", GND: "2", LX: "3", IN: "4", FB: "5" },
+  pinTypes = {
+    EN: io.input(max = 6V, high = 1.5V),
+    GND: .ground,
+    LX: .powerOut,
+    IN: io.powerIn(min = 2.7V, max = 6V),
+    FB: .passive,
+  },
+) with {
+  fields {
+    Status: "checked",
+    PinoutSource: "Silergy AN_SY8089/A Rev. 0.9A: pinout and pin description (SOT23-5: 1 EN, 2 GND, 3 LX, 4 IN, 5 FB), absolute maximum ratings, recommended operating conditions, electrical characteristics",
+    Datasheet: "https://datasheet.lcsc.com/datasheet/pdf/400ca014d7a690f5be0127468f87fcc6.pdf",
+  }
+  simulation = SimulationParameters {
+    parameters = [
+      SimulationParameter {
+        id = "iq-nonswitching"
+        quantity = .quiescentCurrent
+        typ = 55uA
+        conditions = "VIN = 5 V, VOUT = 2.5 V, IOUT = 0, VFB = 105% of VREF (not switching), TA = 25 degC"
+        source = SimulationEvidence {
+          url = "https://datasheet.lcsc.com/datasheet/pdf/400ca014d7a690f5be0127468f87fcc6.pdf"
+          revision = "AN_SY8089/A Rev. 0.9A"
+          location = "p. 4, Electrical Characteristics, Quiescent Current (IQ) row"
+          confidence = .datasheet
+        }
+      },
+      SimulationParameter {
+        id = "tj-operating"
+        quantity = .junctionOperatingTemperature
+        min = -40degC
+        max = 125degC
+        conditions = "Recommended junction temperature range"
+        source = SimulationEvidence {
+          url = "https://datasheet.lcsc.com/datasheet/pdf/400ca014d7a690f5be0127468f87fcc6.pdf"
+          revision = "AN_SY8089/A Rev. 0.9A"
+          location = "p. 2, Recommended Operating Conditions, Junction Temperature Range"
+          confidence = .datasheet
+        }
+      },
+      SimulationParameter {
+        id = "tj-absolute"
+        quantity = .junctionAbsoluteTemperature
+        max = 150degC
+        conditions = "Absolute maximum junction temperature range (-40 to 150 degC)"
+        source = SimulationEvidence {
+          url = "https://datasheet.lcsc.com/datasheet/pdf/400ca014d7a690f5be0127468f87fcc6.pdf"
+          revision = "AN_SY8089/A Rev. 0.9A"
+          location = "p. 2, Absolute Maximum Ratings, Junction Temperature Range"
+          confidence = .datasheet
+        }
+      },
+    ]
+  }
+}
+
+/// The support circuit of the SY8089AAAC as its datasheet shows it (p. 1, Figure 1 (schematic
+/// diagram)): every part next to the pin it serves. Add it next to the part: `U1 = SY8089AAAC.Part
+/// { … }`, `U1Support = SY8089AAAC.Support(U1) {}`.
+///
+/// - VOUT = 0.6 V x (1 + R1 / R2): 200k / 100k gives 1.8 V (the datasheet's figure); 453k / 100k
+/// gives 3.3 V, 220k / 100k 1.92 V.
+///
+/// - From one Li-ion cell or a 5 V rail; at 100 % duty it passes the input through when the input
+/// falls near the output.
+///
+/// - Keep CIN right at IN and GND, the LX copper small, and FB's divider away from the inductor.
+block Support(
+  /// The SY8089AAAC this circuit serves (`SY8089AAAC.Support(U1)`).
+  chip: Any,
+  /// The output rail. (required)
+  vout: Endpoint? = null,
+) {
+  warn(
+    vout != null,
+    "SY8089AAAC needs `vout` (The output rail.): L1, R1, C1, COUTA, COUTB are left out until it is given, `SY8089AAAC.Support(U1, vout = …)`",
+  )
+  /// 10V ceramic
+  CIN = cap(22uF, package = "1206", ratedVoltage = 10V) {
+    place = [soft(near(chip.pin.IN, max = 4mm), weight = 2)]
+    pins { a: chip.pin.IN, b: chip.pin.GND }
+  }
+  /// saturation above 3 A
+  L1 =
+    if vout != null then inductor(2.2uH, package = "6", current = 3A) {
+      place = [soft(near(chip.pin.LX, max = 5mm), weight = 1)]
+      pins { a: chip.pin.LX, b: vout }
+    }
+    else null
+  /// 1% (1.8 V out with R2 100 kohm; see notes)
+  R1 =
+    if vout != null then res(200kohm, package = "0402", tolerance = 1pct) {
+      place = [soft(near(chip.pin.FB, max = 5mm), weight = 1)]
+      pins { a: vout, b: chip.pin.FB }
+    }
+    else null
+  /// feed-forward across R1
+  C1 =
+    if vout != null then cap(22pF, package = "0402") {
+      place = [soft(near(chip.pin.FB, max = 2mm), weight = 2)]
+      pins { a: vout, b: chip.pin.FB }
+    }
+    else null
+  /// 1%
+  R2 = res(100kohm, package = "0402", tolerance = 1pct) {
+    place = [soft(near(chip.pin.FB, max = 5mm), weight = 1)]
+    pins { a: chip.pin.FB, b: chip.pin.GND }
+  }
+  /// ceramic
+  COUTA =
+    if vout != null then cap(22uF, package = "1206") {
+      place = [soft(near(chip, max = 8mm), weight = 1)]
+      pins { a: vout, b: chip.pin.GND }
+    }
+    else null
+  /// ceramic
+  COUTB =
+    if vout != null then cap(22uF, package = "1206") {
+      place = [soft(near(chip, max = 8mm), weight = 1)]
+      pins { a: vout, b: chip.pin.GND }
+    }
+    else null
+}

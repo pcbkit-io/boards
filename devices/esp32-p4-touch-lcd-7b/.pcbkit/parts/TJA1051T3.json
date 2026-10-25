@@ -1,0 +1,336 @@
+{
+  "id": "TJA1051T3",
+  "mpn": "TJA1051T/3/1J",
+  "manufacturer": "NXP Semiconductors",
+  "variants": [
+    "TJA1051T/3/1",
+    "TJA1051T/3"
+  ],
+  "category": "interface",
+  "description": "High-speed CAN transceiver, 5 V supply with a VIO pin for 2.8-5 V logic (3.3 V MCUs), up to 5 Mbps, silent mode (SO-8)",
+  "tags": [
+    "can",
+    "can bus",
+    "can fd",
+    "transceiver",
+    "iso 11898",
+    "vio",
+    "3.3v logic",
+    "5v"
+  ],
+  "datasheet": {
+    "url": "https://www.nxp.com/docs/en/data-sheet/TJA1051.pdf",
+    "revision": "Rev. 9, 28 November 2017"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "SO8 (SOT96-1)",
+    "family": "soic",
+    "pins": 8,
+    "pitch": 1.27,
+    "body": {
+      "d": [
+        4.8,
+        5.0
+      ],
+      "e": [
+        3.8,
+        4.0
+      ],
+      "a": [
+        null,
+        1.75
+      ]
+    },
+    "span": [
+      5.8,
+      6.2
+    ],
+    "lead": {
+      "b": [
+        0.36,
+        0.49
+      ],
+      "l": [
+        0.4,
+        1.0
+      ]
+    },
+    "page": "Fig 9, package outline SOT96-1 (p. 15)"
+  },
+  "pins": [
+    {
+      "number": "1",
+      "name": "TXD",
+      "type": "input_pullup",
+      "description": "transmit data (internal pull-up to VIO)"
+    },
+    {
+      "number": "2",
+      "name": "GND",
+      "type": "ground"
+    },
+    {
+      "number": "3",
+      "name": "VCC",
+      "type": "power_in",
+      "description": "transceiver supply, 5 V"
+    },
+    {
+      "number": "4",
+      "name": "RXD",
+      "type": "output",
+      "description": "receive data, VIO levels"
+    },
+    {
+      "number": "5",
+      "name": "VIO",
+      "type": "power_in",
+      "description": "I/O level supply: the MCU's logic supply (2.8-5.5 V)"
+    },
+    {
+      "number": "6",
+      "name": "CANL",
+      "type": "bidirectional",
+      "description": "CAN bus low"
+    },
+    {
+      "number": "7",
+      "name": "CANH",
+      "type": "bidirectional",
+      "description": "CAN bus high"
+    },
+    {
+      "number": "8",
+      "name": "S",
+      "type": "input_pulldown",
+      "description": "silent mode: high = receive only (internal pull-down; tie low or drive)"
+    }
+  ],
+  "ratings": {
+    "absMax": [
+      {
+        "what": "VCC",
+        "pins": [
+          "VCC"
+        ],
+        "min": -0.3,
+        "max": 7.0,
+        "unit": "V"
+      },
+      {
+        "what": "VIO",
+        "pins": [
+          "VIO"
+        ],
+        "min": -0.3,
+        "max": 7.0,
+        "unit": "V"
+      },
+      {
+        "what": "TXD, RXD, S",
+        "pins": [
+          "TXD",
+          "S"
+        ],
+        "min": -0.3,
+        "max": 7.0,
+        "unit": "V"
+      },
+      {
+        "what": "CANH, CANL",
+        "pins": [
+          "CANH",
+          "CANL"
+        ],
+        "min": -58.0,
+        "max": 58.0,
+        "unit": "V"
+      }
+    ],
+    "recommended": [
+      {
+        "what": "VCC",
+        "pins": [
+          "VCC"
+        ],
+        "min": 4.5,
+        "max": 5.5,
+        "unit": "V"
+      },
+      {
+        "what": "VIO",
+        "pins": [
+          "VIO"
+        ],
+        "min": 2.8,
+        "max": 5.5,
+        "unit": "V"
+      },
+      {
+        "what": "virtual junction temperature",
+        "min": -40.0,
+        "max": 150.0,
+        "unit": "°C"
+      }
+    ]
+  },
+  "simulation": {
+    "behavior": {
+      "model": "can-transceiver",
+      "ports": {
+        "bus": [
+          "7",
+          "6"
+        ],
+        "can": [
+          "1",
+          "4"
+        ],
+        "mode": [
+          "8"
+        ],
+        "power": [
+          "3",
+          "2"
+        ]
+      },
+      "parameters": {
+        "mode_high": 0.0
+      },
+      "height": 1.75
+    },
+    "parameters": [
+      {
+        "id": "icc-normal-recessive",
+        "quantity": "supplyCurrent",
+        "unit": "A",
+        "typ": 0.005,
+        "max": 0.01,
+        "conditions": "Normal mode, bus recessive (idle bus, VTXD=VIO), VCC=4.5-5.5 V, Tvj=-40 to +150 degC; dominant with RL=60 ohm is 50 mA typ / 70 mA max (not used: depends on bus traffic); VIO pin adds 80 uA typ",
+        "source": {
+          "url": "https://cdn.components.ru/media/PDF/332758.pdf",
+          "revision": "Rev. 9, 28 November 2017 (NXP TJA1051 product data sheet; mirror of the NXP PDF, the nxp.com URL returned 404 when fetched)",
+          "location": "p. 8, Table 7 Static characteristics, ICC supply current, Normal mode recessive row",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "tvj-operating",
+        "quantity": "junctionOperatingTemperature",
+        "unit": "degC",
+        "min": -40.0,
+        "max": 150.0,
+        "conditions": "Virtual junction temperature Tvj, range of the static characteristics (VCC=4.5-5.5 V)",
+        "source": {
+          "url": "https://cdn.components.ru/media/PDF/332758.pdf",
+          "revision": "Rev. 9, 28 November 2017 (NXP TJA1051 product data sheet; mirror of the NXP PDF, the nxp.com URL returned 404 when fetched)",
+          "location": "p. 8, Table 7 Static characteristics header",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "tvj-absolute",
+        "quantity": "junctionAbsoluteTemperature",
+        "unit": "degC",
+        "min": -40.0,
+        "max": 150.0,
+        "conditions": "Virtual junction temperature Tvj (IEC 60747-1), limiting value",
+        "source": {
+          "url": "https://cdn.components.ru/media/PDF/332758.pdf",
+          "revision": "Rev. 9, 28 November 2017 (NXP TJA1051 product data sheet; mirror of the NXP PDF, the nxp.com URL returned 404 when fetched)",
+          "location": "p. 7, Table 5 Limiting values",
+          "confidence": "datasheet"
+        }
+      }
+    ]
+  },
+  "support": {
+    "parts": [
+      {
+        "ref": "C1",
+        "kind": "cap",
+        "value": "100nF",
+        "rating": "X7R",
+        "between": [
+          "VCC",
+          "GND"
+        ]
+      },
+      {
+        "ref": "C2",
+        "kind": "cap",
+        "value": "100nF",
+        "rating": "X7R",
+        "between": [
+          "VIO",
+          "GND"
+        ]
+      },
+      {
+        "ref": "R1",
+        "kind": "res",
+        "value": "60ohm",
+        "rating": "split termination, bus ends only",
+        "between": [
+          "CANH",
+          "SPLIT"
+        ],
+        "option": "termination"
+      },
+      {
+        "ref": "R2",
+        "kind": "res",
+        "value": "60ohm",
+        "rating": "split termination, bus ends only",
+        "between": [
+          "SPLIT",
+          "CANL"
+        ],
+        "option": "termination"
+      },
+      {
+        "ref": "C3",
+        "kind": "cap",
+        "value": "4.7nF",
+        "between": [
+          "SPLIT",
+          "GND"
+        ],
+        "option": "termination"
+      }
+    ],
+    "nets": [
+      "SPLIT"
+    ],
+    "options": [
+      {
+        "name": "termination",
+        "default": false,
+        "description": "The split termination, 2 x 60 ohm with 4.7 nF to GND (only at the bus's two ends)."
+      }
+    ],
+    "notes": [
+      "VCC from a 5 V supply, VIO from the microcontroller's supply (3.3 V): TXD, RXD and S then work at the MCU's levels without level shifting.",
+      "Terminate the bus at its two ends only: 120 ohm across CANH-CANL, or split into 2 x 60 ohm with 4.7 nF to GND at the midpoint."
+    ],
+    "page": "Fig 6, typical application of the TJA1051T/3 (p. 13)"
+  },
+  "notes": [
+    "Decouple VCC and VIO with 100 nF each next to the pins.",
+    "S low (or a GPIO) for normal mode; S has an internal pull-down, so leaving it open also gives normal mode, but tie it to GND on a board.",
+    "Route CANH/CANL as a pair to the connector; add a CAN-rated TVS at the connector on harsh buses."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "NXP TJA1051 product data sheet Rev. 9 (28 November 2017), Table 3 pin description and Fig 2c (TJA1051T/3, SO8)",
+      "url": "https://www.nxp.com/docs/en/data-sheet/TJA1051.pdf",
+      "license": "facts transcribed from the datasheet (pin numbers and names); notes in our own words"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "computed per IPC-7351B from the SOT96-1 package outline dimensions (the datasheet gives no land pattern)"
+    }
+  }
+}

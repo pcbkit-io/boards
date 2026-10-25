@@ -1,0 +1,150 @@
+pcbkit 1
+
+// TJA1051T/3/1J (NXP Semiconductors): High-speed CAN transceiver, 5 V supply with a VIO pin for
+// 2.8-5 V logic (3.3 V MCUs), up to 5 Mbps, silent mode (SO-8)
+// Compiled from the part sheet `parts/TJA1051T3.json` (`parts.create`); status: checked.
+// Datasheet: https://www.nxp.com/docs/en/data-sheet/TJA1051.pdf (Rev. 9, 28 November 2017)
+// Pins: NXP TJA1051 product data sheet Rev. 9 (28 November 2017), Table 3 pin description and Fig
+// 2c (TJA1051T/3, SO8)
+// Footprint: computed per IPC-7351B from the datasheet's package dimensions
+// This file may be used, changed and shared without conditions, with the board or alone.
+
+// Note: Decouple VCC and VIO with 100 nF each next to the pins.
+// Note: S low (or a GPIO) for normal mode; S has an internal pull-down, so leaving it open also
+// gives normal mode, but tie it to GND on a board.
+// Note: Route CANH/CANL as a pair to the connector; add a CAN-rated TVS at the connector on harsh
+// buses.
+
+/// TJA1051T/3/1J — High-speed CAN transceiver, 5 V supply with a VIO pin for 2.8-5 V logic (3.3 V
+/// MCUs), up to 5 Mbps, silent mode (SO-8)
+part Part = device(
+  footprint = rows(
+    name = "SOIC-8_3.9x4.9mm_P1.27mm",
+    description = "SO8 (SOT96-1), 8 pins, 4.9 x 3.9 mm body, 1.27 mm pitch (from the datasheet)",
+    pitch = 1.27mm,
+    pinsY = 4,
+    spanX = tolerance(5.8mm, 6.2mm),
+    leadLength = tolerance(0.4mm, 1mm),
+    leadWidth = tolerance(0.36mm, 0.49mm),
+    bodyX = tolerance(3.8mm, 4mm),
+    bodyY = tolerance(4.8mm, 5mm),
+    bodyHeight = 1.75mm,
+  ),
+  prefix = "U",
+  mpn = "TJA1051T/3/1J",
+  manufacturer = "NXP Semiconductors",
+  pinout = { TXD: "1", GND: "2", VCC: "3", RXD: "4", VIO: "5", CANL: "6", CANH: "7", S: "8" },
+  pinTypes = {
+    TXD: io.input(max = 7V, pull = .up),
+    GND: .ground,
+    VCC: io.powerIn(min = 4.5V, max = 7V),
+    RXD: .output,
+    VIO: io.powerIn(min = 2.8V, max = 7V),
+    CANL: io.bidirectional(max = 58V),
+    CANH: io.bidirectional(max = 58V),
+    S: io.input(max = 7V, pull = .down),
+  },
+) with {
+  fields {
+    Status: "checked",
+    PinoutSource: "NXP TJA1051 product data sheet Rev. 9 (28 November 2017), Table 3 pin description and Fig 2c (TJA1051T/3, SO8)",
+    Datasheet: "https://www.nxp.com/docs/en/data-sheet/TJA1051.pdf",
+  }
+  simulation = SimulationParameters {
+    behavior = Behavior {
+      model = "can-transceiver"
+      ports = { "bus": ["7", "6"], "can": ["1", "4"], "mode": ["8"], "power": ["3", "2"] }
+      parameters = { "mode_high": 0 }
+      height = 1.75mm
+    }
+    parameters = [
+      SimulationParameter {
+        id = "icc-normal-recessive"
+        quantity = .supplyCurrent
+        typ = 5mA
+        max = 10mA
+        conditions = "Normal mode, bus recessive (idle bus, VTXD=VIO), VCC=4.5-5.5 V, Tvj=-40 to +150 degC; dominant with RL=60 ohm is 50 mA typ / 70 mA max (not used: depends on bus traffic); VIO pin adds 80 uA typ"
+        source = SimulationEvidence {
+          url = "https://cdn.components.ru/media/PDF/332758.pdf"
+          revision = "Rev. 9, 28 November 2017 (NXP TJA1051 product data sheet; mirror of the NXP PDF, the nxp.com URL returned 404 when fetched)"
+          location = "p. 8, Table 7 Static characteristics, ICC supply current, Normal mode recessive row"
+          confidence = .datasheet
+        }
+      },
+      SimulationParameter {
+        id = "tvj-operating"
+        quantity = .junctionOperatingTemperature
+        min = -40degC
+        max = 150degC
+        conditions = "Virtual junction temperature Tvj, range of the static characteristics (VCC=4.5-5.5 V)"
+        source = SimulationEvidence {
+          url = "https://cdn.components.ru/media/PDF/332758.pdf"
+          revision = "Rev. 9, 28 November 2017 (NXP TJA1051 product data sheet; mirror of the NXP PDF, the nxp.com URL returned 404 when fetched)"
+          location = "p. 8, Table 7 Static characteristics header"
+          confidence = .datasheet
+        }
+      },
+      SimulationParameter {
+        id = "tvj-absolute"
+        quantity = .junctionAbsoluteTemperature
+        min = -40degC
+        max = 150degC
+        conditions = "Virtual junction temperature Tvj (IEC 60747-1), limiting value"
+        source = SimulationEvidence {
+          url = "https://cdn.components.ru/media/PDF/332758.pdf"
+          revision = "Rev. 9, 28 November 2017 (NXP TJA1051 product data sheet; mirror of the NXP PDF, the nxp.com URL returned 404 when fetched)"
+          location = "p. 7, Table 5 Limiting values"
+          confidence = .datasheet
+        }
+      },
+    ]
+  }
+}
+
+/// The support circuit of the TJA1051T/3/1J as its datasheet shows it (Fig 6, typical application
+/// of the TJA1051T/3 (p. 13)): every part next to the pin it serves. Add it next to the part: `U1 =
+/// TJA1051T3.Part { … }`, `U1Support = TJA1051T3.Support(U1) {}`.
+///
+/// - VCC from a 5 V supply, VIO from the microcontroller's supply (3.3 V): TXD, RXD and S then work
+/// at the MCU's levels without level shifting.
+///
+/// - Terminate the bus at its two ends only: 120 ohm across CANH-CANL, or split into 2 x 60 ohm
+/// with 4.7 nF to GND at the midpoint.
+block Support(
+  /// The TJA1051T/3/1J this circuit serves (`TJA1051T3.Support(U1)`).
+  chip: Any,
+  /// The split termination, 2 x 60 ohm with 4.7 nF to GND (only at the bus's two ends).
+  termination: Bool = false,
+) {
+  net SPLIT
+  /// X7R
+  C1 = cap(100nF, package = "0402", dielectric = .X7R) {
+    place = [soft(near(chip.pin.VCC, max = 2mm), weight = 2)]
+    pins { a: chip.pin.VCC, b: chip.pin.GND }
+  }
+  /// X7R
+  C2 = cap(100nF, package = "0402", dielectric = .X7R) {
+    place = [soft(near(chip.pin.VIO, max = 2mm), weight = 2)]
+    pins { a: chip.pin.VIO, b: chip.pin.GND }
+  }
+  /// split termination, bus ends only
+  R1 =
+    if termination then res(60ohm, package = "0402") {
+      place = [soft(near(chip.pin.CANH, max = 5mm), weight = 1)]
+      pins { a: chip.pin.CANH, b: SPLIT }
+    }
+    else null
+  /// split termination, bus ends only
+  R2 =
+    if termination then res(60ohm, package = "0402") {
+      place = [soft(near(chip.pin.CANL, max = 5mm), weight = 1)]
+      pins { a: SPLIT, b: chip.pin.CANL }
+    }
+    else null
+  C3 =
+    if termination then cap(4.7nF, package = "0402") {
+      place = [soft(near(chip, max = 8mm), weight = 1)]
+      pins { a: SPLIT, b: chip.pin.GND }
+    }
+    else null
+}
