@@ -1,0 +1,361 @@
+{
+  "id": "PAM8403DR",
+  "mpn": "PAM8403DR",
+  "manufacturer": "Diodes Incorporated",
+  "category": "audio-amplifier",
+  "description": "PAM8403 filterless class-D stereo audio amplifier, 2 x 3 W into 4 Ω at 5 V, 2.5-5.5 V, fixed 24 dB gain, mute and shutdown, SOP-16 (not recommended for new designs: PAM8406)",
+  "tags": [
+    "pam8403",
+    "class d",
+    "class-d",
+    "audio amplifier",
+    "amplifier",
+    "stereo",
+    "speaker",
+    "3w",
+    "5v",
+    "filterless",
+    "sop-16",
+    "soic-16"
+  ],
+  "datasheet": {
+    "url": "https://www.diodes.com/assets/Datasheets/PAM8403.pdf",
+    "revision": "DS36439 Rev. 2-3, September 2020"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "SOP-16",
+    "family": "soic",
+    "pins": 16,
+    "pitch": 1.27,
+    "body": {
+      "d": [
+        9.8,
+        10.0
+      ],
+      "e": [
+        3.8,
+        4.0
+      ],
+      "a": 1.75
+    },
+    "span": [
+      5.9,
+      6.1
+    ],
+    "lead": {
+      "b": [
+        0.31,
+        0.51
+      ],
+      "l": [
+        0.4,
+        1.27
+      ]
+    },
+    "page": "Package outline dimensions SO-16 (p. 10): D 9.80-10.00, E 5.90-6.10, E1 3.80-4.00, e 1.27, b 0.31-0.51, L 0.40-1.27; suggested pad layout C 1.27, X 0.67, Y 1.45, Y1 6.40"
+  },
+  "pins": [
+    {
+      "number": "1",
+      "name": "OUTL+",
+      "type": "output",
+      "description": "left channel positive output"
+    },
+    {
+      "number": "2",
+      "name": "PGND",
+      "type": "ground",
+      "description": "power ground"
+    },
+    {
+      "number": "3",
+      "name": "OUTL-",
+      "type": "output",
+      "description": "left channel negative output"
+    },
+    {
+      "number": "4",
+      "name": "PVDD",
+      "type": "power_in",
+      "description": "power supply (output stage)"
+    },
+    {
+      "number": "5",
+      "name": "MUTE",
+      "type": "input_pullup",
+      "description": "mute, active low (internal pull-up: may stay open)"
+    },
+    {
+      "number": "6",
+      "name": "VDD",
+      "type": "power_in",
+      "description": "analog supply"
+    },
+    {
+      "number": "7",
+      "name": "INL",
+      "type": "analog",
+      "description": "left channel input (through a coupling capacitor)"
+    },
+    {
+      "number": "8",
+      "name": "VREF",
+      "type": "analog",
+      "description": "internal analog reference: bypass capacitor to GND"
+    },
+    {
+      "number": "9",
+      "name": "NC",
+      "type": "nc"
+    },
+    {
+      "number": "10",
+      "name": "INR",
+      "type": "analog",
+      "description": "right channel input (through a coupling capacitor)"
+    },
+    {
+      "number": "11",
+      "name": "GND",
+      "type": "ground",
+      "description": "analog ground"
+    },
+    {
+      "number": "12",
+      "name": "SHDN",
+      "type": "input_pullup",
+      "description": "shutdown, active low (internal pull-up: may stay open)"
+    },
+    {
+      "number": "13",
+      "name": "PVDD",
+      "type": "power_in",
+      "description": "power supply (output stage)"
+    },
+    {
+      "number": "14",
+      "name": "OUTR-",
+      "type": "output",
+      "description": "right channel negative output"
+    },
+    {
+      "number": "15",
+      "name": "PGND",
+      "type": "ground",
+      "description": "power ground"
+    },
+    {
+      "number": "16",
+      "name": "OUTR+",
+      "type": "output",
+      "description": "right channel positive output"
+    }
+  ],
+  "ratings": {
+    "absMax": [
+      {
+        "what": "supply voltage",
+        "pins": [
+          "VDD",
+          "PVDD"
+        ],
+        "max": 6.0,
+        "unit": "V"
+      },
+      {
+        "what": "input voltage (-0.3 V to VDD + 0.3 V)",
+        "pins": [
+          "INL",
+          "INR",
+          "MUTE",
+          "SHDN"
+        ],
+        "min": -0.3,
+        "unit": "V"
+      }
+    ],
+    "recommended": [
+      {
+        "what": "supply voltage",
+        "pins": [
+          "VDD",
+          "PVDD"
+        ],
+        "min": 2.5,
+        "max": 5.5,
+        "unit": "V"
+      },
+      {
+        "what": "operating temperature",
+        "min": -40.0,
+        "max": 85.0,
+        "unit": "°C"
+      }
+    ]
+  },
+  "simulation": {
+    "parameters": [
+      {
+        "id": "iq-5v-noload",
+        "quantity": "supplyCurrent",
+        "unit": "A",
+        "typ": 0.016,
+        "conditions": "quiescent (idle) supply current, no load, VDD=5.0 V, TA=25 degC; 10 mA typ at VDD=3.6 V, 8 mA at 3.0 V; the output stage's load power is not included",
+        "source": {
+          "url": "https://www.diodes.com/assets/Datasheets/PAM8403.pdf",
+          "revision": "DS36439 Rev. 2-3, September 2020",
+          "location": "p. 4, Electrical Characteristics, IQ Quiescent Current row",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "theta-ja-sop16",
+        "quantity": "thetaJa",
+        "unit": "K/W",
+        "max": 110.0,
+        "conditions": "SOP-16, value given in the Max column",
+        "source": {
+          "url": "https://www.diodes.com/assets/Datasheets/PAM8403.pdf",
+          "revision": "DS36439 Rev. 2-3, September 2020",
+          "location": "p. 3, Thermal Information",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "tj-operating",
+        "quantity": "junctionOperatingTemperature",
+        "unit": "degC",
+        "min": -40.0,
+        "max": 125.0,
+        "conditions": "recommended junction temperature range",
+        "source": {
+          "url": "https://www.diodes.com/assets/Datasheets/PAM8403.pdf",
+          "revision": "DS36439 Rev. 2-3, September 2020",
+          "location": "p. 3, Recommended Operating Conditions",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "tj-absolute",
+        "quantity": "junctionAbsoluteTemperature",
+        "unit": "degC",
+        "max": 150.0,
+        "conditions": "maximum junction temperature",
+        "source": {
+          "url": "https://www.diodes.com/assets/Datasheets/PAM8403.pdf",
+          "revision": "DS36439 Rev. 2-3, September 2020",
+          "location": "p. 3, Absolute Maximum Ratings",
+          "confidence": "datasheet"
+        }
+      }
+    ]
+  },
+  "support": {
+    "parts": [
+      {
+        "ref": "C1",
+        "kind": "cap",
+        "value": "1uF",
+        "rating": "low-ESR ceramic at VDD",
+        "between": [
+          "VDD",
+          "GND"
+        ]
+      },
+      {
+        "ref": "C2",
+        "kind": "cap",
+        "value": "1uF",
+        "rating": "low-ESR ceramic at PVDD (pin 4)",
+        "between": [
+          "PVDD",
+          "PGND"
+        ]
+      },
+      {
+        "ref": "C3",
+        "kind": "cap",
+        "value": "1uF",
+        "rating": "low-ESR ceramic at PVDD (pin 13)",
+        "between": [
+          "PVDD",
+          "PGND"
+        ]
+      },
+      {
+        "ref": "C4",
+        "kind": "cap",
+        "value": "22uF",
+        "rating": "bulk, near the amplifier (20 µF or more)",
+        "between": [
+          "PVDD",
+          "PGND"
+        ]
+      },
+      {
+        "ref": "C5",
+        "kind": "cap",
+        "value": "1uF",
+        "rating": "VREF bypass, 0.47-1 µF ceramic (the most critical capacitor)",
+        "between": [
+          "VREF",
+          "GND"
+        ]
+      },
+      {
+        "ref": "C6",
+        "kind": "cap",
+        "value": "470nF",
+        "rating": "left input coupling",
+        "between": [
+          "INL",
+          "audioL"
+        ]
+      },
+      {
+        "ref": "C7",
+        "kind": "cap",
+        "value": "470nF",
+        "rating": "right input coupling",
+        "between": [
+          "INR",
+          "audioR"
+        ]
+      }
+    ],
+    "inputs": [
+      {
+        "name": "audioL",
+        "description": "The board's AUDIO_L."
+      },
+      {
+        "name": "audioR",
+        "description": "The board's AUDIO_R."
+      }
+    ],
+    "notes": [
+      "Bridge-tied outputs: each speaker between +OUT and -OUT, never to ground; no output filter needed with short speaker leads (ferrite beads on the outputs against EMI).",
+      "Gain fixed at 24 dB (internal 18 kΩ input resistance): the input capacitor and 18 kΩ set the low corner, 0.47 µF gives about 19 Hz; a series resistor at the input lowers the gain.",
+      "MUTE and SHDN have internal pull-ups: leave them open or drive them low from GPIO.",
+      "Wide, short PVDD and PGND traces; never above 5.5 V (four fresh alkaline cells exceed 6 V)."
+    ],
+    "page": "Typical applications circuit (p. 1); application information (p. 7-9): maximum gain, mute, shutdown, power supply decoupling, input capacitor, VREF bypass capacitor, EMI"
+  },
+  "notes": [
+    "Diodes marks the part not recommended for new designs (PAM8406 is the successor); it stays the amplifier of the ubiquitous PAM8403 boards.",
+    "Output pin names with the sign last (datasheet +OUT_L = OUTL+, -OUT_L = OUTL-, likewise right)."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "PAM8403 datasheet DS36439 Rev. 2-3: pin descriptions (p. 2), absolute maximum and recommended operating conditions (p. 3), application information (p. 7-9), SO-16 package outline (p. 10)",
+      "url": "https://www.diodes.com/assets/Datasheets/PAM8403.pdf",
+      "license": "pin numbers and names, package dimensions, ratings and application values transcribed from the manufacturer's datasheet (facts, one reading); descriptions and notes our own"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "IPC-7351B from the SO-16 drawing (the datasheet suggests Y1 6.40 mm, X 0.67, Y 1.45)"
+    }
+  }
+}

@@ -1,0 +1,43 @@
+pcbkit 1
+
+// MMBT3904-7-F (Diodes Incorporated): NPN small-signal transistor, 40 V, 200 mA, hFE 100-300 at 10
+// mA, SOT-23 (the SMD 2N3904)
+// Compiled from the part sheet `parts/MMBT3904.json` (`parts.create`); status: checked.
+// Datasheet: https://www.diodes.com/assets/Datasheets/ds30036.pdf (DS30036 Rev. 27-2, March 2025)
+// Pins: Diodes Incorporated MMBT3904 datasheet DS30036 Rev. 27-2, March 2025: SOT23 top view
+// pinout (B and E on the two-lead side, C alone: JEDEC numbering 1 B, 2 E, 3 C), absolute maximum
+// ratings, electrical characteristics
+// Footprint: the standard package `SOT-23`
+// Symbol: digikey-kicad d4bd68f42e6ccc474526811a853a03692e170b58
+// dk_Transistors-Bipolar-BJT-Single:MMBT3904-7-F (CC-BY-SA-4.0),
+// https://github.com/Digi-Key/digikey-kicad-library
+// 3D model: kicad 10.0.7 Package_TO_SOT_SMD.3dshapes/SOT-23 (the model of
+// Package_TO_SOT_SMD:SOT-23: the package `SOT-23`) (CC-BY-SA-4.0)
+// Parameters: digikey-kicad d4bd68f42e6ccc474526811a853a03692e170b58
+// dk_Transistors-Bipolar-BJT-Single:MMBT3904-7-F (CC-BY-SA-4.0),
+// https://github.com/Digi-Key/digikey-kicad-library
+// This file may be used, changed and shared without conditions, with the board or alone.
+
+// Note: Low-side switch from a GPIO: emitter to GND, load from the supply to the collector, base
+// through 1-4.7 kohm (for saturation, base current about a tenth of the load current: 3.3 V logic,
+// 1 kohm gives 2.6 mA for loads to about 50 mA).
+// Note: Add 10-100 kohm base to emitter when the driving pin may float; a flyback diode (1N4148W)
+// across relay coils.
+// Note: Complement: MMBT3906.
+
+/// MMBT3904-7-F — NPN small-signal transistor, 40 V, 200 mA, hFE 100-300 at 10 mA, SOT-23 (the
+/// SMD 2N3904)
+part Part = device(
+  footprint = (sot23(3)) with { models = [Model3d { path = "Package_TO_SOT_SMD:SOT-23" }] },
+  prefix = "Q",
+  mpn = "MMBT3904-7-F",
+  manufacturer = "Diodes Incorporated",
+  pinout = { B: "1", E: "2", C: "3" },
+  pinTypes = { B: io.input(), E: .passive, C: .passive },
+) with {
+  fields {
+    Status: "checked",
+    PinoutSource: "Diodes Incorporated MMBT3904 datasheet DS30036 Rev. 27-2, March 2025: SOT23 top view pinout (B and E on the two-lead side, C alone: JEDEC numbering 1 B, 2 E, 3 C), absolute maximum ratings, electrical characteristics",
+    Datasheet: "https://www.diodes.com/assets/Datasheets/ds30036.pdf",
+  }
+}

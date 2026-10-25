@@ -1,0 +1,652 @@
+pcbkit 1
+
+// A 7" touch-screen computer on the ESP32-P4, NucleoOS's own board: the Guition JC1060P470C's
+// circuit and its pin map, so the firmware its makers publish for that board runs here unchanged.
+// The ESP32-P4 (32 MB PSRAM in package, 16 MB flash) drives the 1024 x 600 JD9165 panel over two
+// MIPI-DSI lanes and reads its GT911 touch over I2C; an ES8311 codec with an electret microphone
+// and a class-D amplifier makes the sound; an ESP32-C6 module on SDIO gives it Wi-Fi 6 and
+// Bluetooth; a microSD card, a DS3231 clock, three USB-C ports (a CH340C console with automatic
+// boot, the P4's USB Serial/JTAG, its USB 2.0 high-speed host) and a Li-ion cell with an IP5306
+// charger and boost. The panel's supplies (AVDD 9.6 V, VGH, VGL, VCOM) and its backlight come from
+// two MT3608 boosts and charge pumps.
+//
+// Substitutions against Guition's parts list, each keeping the firmware's view of the board: the
+// PAM8403 amplifier for the NS4150 (its SHDN, like the NS4150's CTRL, enables it when high), the
+// DS3231 clock for the RX-8025T (NucleoOS looks for an RX8130 at 0x14, which neither answers), an
+// electret capsule for the MEMS microphone, SY8089 converters for the TLV62569s.
+
+use "parts/ESP32_P4NRW32.pcbkit" as ESP32_P4NRW32
+use "parts/ESP32_C6_MINI_1.pcbkit" as ESP32_C6_MINI_1
+use "parts/ES8311.pcbkit" as ES8311
+use "parts/PAM8403DR.pcbkit" as PAM8403DR
+use "parts/DS3231SN.pcbkit" as DS3231SN
+use "parts/IP5306.pcbkit" as IP5306
+use "parts/SY8089AAAC.pcbkit" as SY8089AAAC
+use "parts/MT3608.pcbkit" as MT3608
+use "parts/CH340C.pcbkit" as CH340C
+use "parts/MMBT3904.pcbkit" as MMBT3904
+use "parts/DM3AT_SF_PEJM5.pcbkit" as DM3AT_SF_PEJM5
+use "parts/CR2032_HOLDER_SMD.pcbkit" as CR2032_HOLDER_SMD
+
+// ---- nets --------------------------------------------------------------------------------------
+net VBUS {
+  voltage = 5V
+  current = 1A
+}
+net VBUS_TTL {
+  voltage = 5V
+  current = 500mA
+}
+net VBUS_FS {
+  voltage = 5V
+  current = 500mA
+}
+net VBUS_HOST {
+  voltage = 5V
+  current = 500mA
+}
+net VBAT {
+  voltage = 4.2V
+  current = 2A
+}
+net VSYS {
+  voltage = 5V
+  current = 2A
+}
+net V3 {
+  voltage = 3.3V
+  current = 1A
+}
+net VHP {
+  voltage = 1.2V
+  current = 600mA
+}
+net SD_VDD {
+  voltage = 3.3V
+  current = 100mA
+}
+net AVDD {
+  voltage = 9.6V
+  current = 50mA
+}
+net LEDA {
+  voltage = 9.6V
+  current = 180mA
+}
+net VGH {
+  voltage = 18V
+  current = 5mA
+}
+net VGL {
+  voltage = -6.8V
+  current = 5mA
+}
+net GND { voltage = 0V }
+net LEDK, VCOM, BL_SW, LCD_SW, PUMP_H, PUMP_L, BL_FB, AVDD_FB, VHP_FB, V3_FB, EN_DCDC, FB_DCDC
+net LCD_RST, LCD_STBY, LCD_PWM, TP_INT, TP_RST, SDA, SCL
+net DSI_CLK_P, DSI_CLK_N, DSI_D0_P, DSI_D0_N, DSI_D1_P, DSI_D1_N
+net I2S_MCLK, I2S_SCLK, I2S_LRCK, I2S_DOUT, I2S_DIN, PA_EN, SPK_P, SPK_N, MIC_P, MIC_N, MIC_BIAS,
+  DAC_P
+net SD_CLK, SD_CMD, SD_D0, SD_D1, SD_D2, SD_D3
+net C6_CLK, C6_CMD, C6_D0, C6_D1, C6_D2, C6_D3, C6_EN, C6_IO2, C6_TX, C6_RX
+net TXD0, RXD0, CHIP_PU, BOOT, DTR, RTS, TTL_DP, TTL_DN, FS_DP, FS_DN, HS_DP, HS_DN, BAT_SENSE
+net RTC_BAT, KEY
+pair DSI_CLK = (DSI_CLK_P, DSI_CLK_N) { impedance = 100ohm }
+pair DSI_D0 = (DSI_D0_P, DSI_D0_N) { impedance = 100ohm }
+pair DSI_D1 = (DSI_D1_P, DSI_D1_N) { impedance = 100ohm }
+pair USB_HS = (HS_DP, HS_DN) { impedance = 90ohm }
+pair USB_FS = (FS_DP, FS_DN) { impedance = 90ohm }
+pair USB_TTL = (TTL_DP, TTL_DN) { impedance = 90ohm }
+
+board = Board {
+  name = "p4-touch-7"
+  description = "ESP32-P4 · 7\" 1024x600 MIPI-DSI touch screen · ESP32-C6 · ES8311 · microSD · 3 x USB-C · Li-ion"
+  outline = rect(160mm, 96mm, radius = 3mm)
+  layers = [
+    signal(Cu.top),
+    power(Cu.inner[1], label = "GND"),
+    signal(Cu.inner[2]),
+    signal(Cu.inner[3]),
+    power(Cu.inner[4], label = "GND"),
+    signal(Cu.bottom),
+  ]
+  // Six layers on JLCPCB's JLC06161H-3313: thin prepreg under the outer layers, so 90 and 100 ohm
+  // pairs are narrow enough to leave the P4's 0.35 mm pins coupled; two inner layers for its
+  // fan-out between two ground planes.
+  fab {
+    finish = .enig
+    mask = .black
+    impedance = true
+    dielectric = [0.0994mm, 0.55mm, 0.1088mm, 0.55mm, 0.0994mm]
+    permittivity = 4.1
+  }
+}
+groundPlane = pour(net = GND, layers = [Cu.inner[1], Cu.inner[4]]) {}
+rules = Rules {
+  // The ESP32-P4's 0.35 mm pitch: 0.2 mm pads 0.15 mm apart. JLCPCB's multilayer minimum:
+  // 0.09 mm track and space.
+  minClearance = 0.09mm
+  minTrackWidth = 0.09mm
+  // JLCPCB's six-layer vias: 0.15 mm holes, 0.05 mm annular rings.
+  vias { minDiameter = 0.25mm, minDrill = 0.15mm, minAnnular = 0.05mm }
+}
+powerClass = NetClass {
+  trackWidth = 0.5mm
+  nets = [VBUS, VBUS_TTL, VBUS_FS, VBUS_HOST, VBAT, VSYS, LEDA, LEDK, BL_SW, LCD_SW]
+}
+fineClass = NetClass {
+  trackWidth = 0.1mm
+  clearance = 0.09mm
+  // JLCPCB's six-layer minimum via, small enough to drop between the P4's escaping tracks.
+  viaDiameter = 0.3mm
+  viaDrill = 0.15mm
+  default = true
+}
+// Room for the P4's fan-out between the parts the engine places.
+placer = Placer { spacing = 1.2mm }
+laboratory = Laboratory {}
+// The fast signals stay short: the panel's DSI lanes, the radio's SDIO.
+p4Display = together([U1, FPC1], max = 12mm)
+p4Radio = near(U11, U1, max = 35mm)
+
+// ---- power: USB-C, the Li-ion cell, 5 V, 3.3 V, 1.2 V ---------------------------------------------
+// The console port takes the power (as the FS and HS ports do), the IP5306 charges the cell and
+// boosts it to 5 V for the rest; its key (S1 of its circuit) turns the board on and off.
+J1 = UsbC2(vbus = VBUS_TTL, gnd = GND, dp = TTL_DP, dn = TTL_DN, current = 500mA) {}
+// Either device port powers the board, each through its own diode.
+D9 = diode(kind = .schottky, package = "SMA", ratedVoltage = 40V, ratedCurrent = 2A) {
+  pins { A: VBUS_TTL, K: VBUS }
+}
+D10 = diode(kind = .schottky, package = "SMA", ratedVoltage = 40V, ratedCurrent = 2A) {
+  pins { A: VBUS_FS, K: VBUS }
+}
+U2 = IP5306.Part {
+  pins { VIN: VBUS, BAT: VBAT, VOUT: VSYS, GND: GND, KEY: KEY, LED1: .nc, LED2: .nc, LED3: .nc }
+}
+U2Support = IP5306.Support(U2) {}
+BT1 = device(
+  wireToBoard(2, pitch = 1.25mm),
+  pinout = { "1": "1", "2": "2" },
+  prefix = "J",
+  mpn = "MX1.25-2P",
+) { pins { "1": VBAT, "2": GND } }
+// The cell's voltage for the firmware (GPIO52): 68k over 100k.
+R1 = res(68kohm) { pins { a: VBAT, b: BAT_SENSE } }
+R2 = res(100kohm) { pins { a: BAT_SENSE, b: GND } }
+
+// 3.3 V: 0.6 V x (1 + 453k / 100k) = 3.32 V.
+U3 = SY8089AAAC.Part { pins { IN: VSYS, EN: VSYS, GND: GND, FB: V3_FB } }
+L1 = inductor(2.2uH, package = "4") {
+  place = [near(U3.pin.LX, max = 8mm), soft(near(U3.pin.LX))]
+  pins { a: U3.pin.LX, b: V3 }
+}
+C1 = cap(22uF, package = "0805") {
+  place = [near(U3.pin.IN, max = 2mm)]
+  pins { a: VSYS, b: GND }
+}
+C2 = cap(22uF, package = "0805") { pins { a: V3, b: GND } }
+C3 = cap(22uF, package = "0805") { pins { a: V3, b: GND } }
+R3 = res(453kohm, tolerance = 1pct) { pins { a: V3, b: V3_FB } }
+R4 = res(100kohm, tolerance = 1pct) { pins { a: V3_FB, b: GND } }
+C4 = cap(22pF) { pins { a: V3, b: V3_FB } }
+
+// 1.2 V for the P4's HP domain: its EN_DCDC turns the converter on, its FB_DCDC trims the divider.
+U4 = SY8089AAAC.Part { pins { IN: V3, EN: EN_DCDC, GND: GND, FB: VHP_FB } }
+L2 = inductor(2.2uH, package = "4") {
+  place = [near(U4.pin.LX, max = 8mm), soft(near(U4.pin.LX))]
+  pins { a: U4.pin.LX, b: VHP }
+}
+C5 = cap(10uF, package = "0603") {
+  place = [near(U4.pin.IN, max = 2mm)]
+  pins { a: V3, b: GND }
+}
+C6 = cap(10uF, package = "0603") { pins { a: VHP, b: GND } }
+R5 = res(499kohm, tolerance = 1pct) { pins { a: VHP, b: VHP_FB } }
+R6 = res(499kohm, tolerance = 1pct) { pins { a: VHP_FB, b: GND } }
+R7 = res(0ohm) { pins { a: FB_DCDC, b: VHP_FB } }
+
+// ---- the ESP32-P4 -------------------------------------------------------------------------------
+// It runs the image NucleoOS publishes for this board, from its release.
+U1 = ESP32_P4NRW32.Part with {
+  simulation = ESP32_P4NRW32.Part.simulation with {
+    behavior = ESP32_P4NRW32.Part.simulation.behavior with {
+      image = FirmwareData {
+        url = "https://github.com/indecenti/NucleoOS-P4/releases/download/v1.2.189/nucleoos-p4-1.2.189-jc1060p470c-factory.bin"
+        sha256 = "b23232f844ca4f96a63c9d70255eb6eebd0dae199ccaa37be0a6ef62dc706e40"
+        bytes = 7478704
+      }
+    }
+  }
+} {
+  pins {
+    VDD_LP: V3,
+    VDD_IO_0: V3,
+    VDD_IO_4: V3,
+    VDD_IO_5: V3,
+    VDD_IO_6: V3,
+    VDD_USBPHY: V3,
+    VDD_LDO: V3,
+    VDD_DCDCC: V3,
+    VDD_ANA: V3,
+    VDD_BAT: V3,
+    VDD_FLASHIO: V3,
+    VDD_HP_0: VHP,
+    GND: GND,
+    EN_DCDC: EN_DCDC,
+    FB_DCDC: FB_DCDC,
+    VDDO_4: SD_VDD,
+    CHIP_PU: CHIP_PU,
+    DSI_CLKP: DSI_CLK_P,
+    DSI_CLKN: DSI_CLK_N,
+    DSI_DATAP0: DSI_D0_P,
+    DSI_DATAN0: DSI_D0_N,
+    DSI_DATAP1: DSI_D1_P,
+    DSI_DATAN1: DSI_D1_N,
+    USB_DP: HS_DP,
+    USB_DM: HS_DN,
+    GPIO25: FS_DP,
+    GPIO24: FS_DN,
+    GPIO5: LCD_RST,
+    GPIO23: LCD_PWM,
+    GPIO7: SDA,
+    GPIO8: SCL,
+    GPIO21: TP_INT,
+    GPIO22: TP_RST,
+    GPIO13: I2S_MCLK,
+    GPIO12: I2S_SCLK,
+    GPIO10: I2S_LRCK,
+    GPIO9: I2S_DOUT,
+    GPIO48: I2S_DIN,
+    GPIO11: PA_EN,
+    GPIO43: SD_CLK,
+    GPIO44: SD_CMD,
+    GPIO39: SD_D0,
+    GPIO40: SD_D1,
+    GPIO41: SD_D2,
+    GPIO42: SD_D3,
+    GPIO18: C6_CLK,
+    GPIO19: C6_CMD,
+    GPIO14: C6_D0,
+    GPIO15: C6_D1,
+    GPIO16: C6_D2,
+    GPIO17: C6_D3,
+    GPIO54: C6_EN,
+    GPIO6: C6_IO2,
+    GPIO37: TXD0,
+    GPIO38: RXD0,
+    GPIO35: BOOT,
+    GPIO52: BAT_SENSE,
+  }
+}
+U1Support = ESP32_P4NRW32.Support(U1) {}
+// The 100 nF decoupling under the chip, on the back (the panel stands 2 mm off it): the top keeps
+// the P4's fan-out free.
+override U1Support.C_3V3_21.side = .bottom
+override U1Support.C_IO4.side = .bottom
+override U1Support.C_IO5.side = .bottom
+override U1Support.C_IO6.side = .bottom
+override U1Support.C_LP.side = .bottom
+override U1Support.C_BAT.side = .bottom
+override U1Support.C_ANA2.side = .bottom
+override U1Support.C_DCDCC.side = .bottom
+override U1Support.C_USB.side = .bottom
+override U1Support.C_FLASHIO.side = .bottom
+override U1Support.C_HP0B.side = .bottom
+override U1Support.C_HP2.side = .bottom
+override U1Support.C_HP3.side = .bottom
+override U1Support.C_PSRAM0.side = .bottom
+override U1Support.C_PSRAM1.side = .bottom
+override U1Support.C_DPHY.side = .bottom
+override U1Support.C_VO1.side = .bottom
+override U1Support.C_VO2.side = .bottom
+override U1Support.C_VO3.side = .bottom
+override U1Support.C_VO4.side = .bottom
+// The strapping pin for the boot mode: high boots from flash, the BOOT button (or the console's
+// DTR/RTS) pulls it low for download mode.
+R8 = res(10kohm) { pins { a: BOOT, b: V3 } }
+SW1 = button("4.2x3.2") {
+  place = [edge(.bottom)]
+  pins { a: BOOT, b: GND }
+}
+SW2 = button("4.2x3.2") {
+  place = [edge(.bottom)]
+  pins { a: CHIP_PU, b: GND }
+}
+
+// ---- the console: CH340C with automatic reset and boot ------------------------------------------
+U5 = CH340C.Part {
+  pins {
+    VCC: V3,
+    V3: V3,
+    GND: GND,
+    "UD+": TTL_DP,
+    "UD-": TTL_DN,
+    TXD: RXD0,
+    RXD: TXD0,
+    "DTR#": DTR,
+    "RTS#": RTS,
+  }
+}
+U5Support = CH340C.Support(U5) {}
+// The two-transistor auto-program circuit: DTR and RTS reach CHIP_PU and BOOT only when they
+// differ.
+Q1 = MMBT3904.Part { pins { B: Q1B, E: DTR, C: CHIP_PU } }
+Q2 = MMBT3904.Part { pins { B: Q2B, E: RTS, C: BOOT } }
+R9 = res(10kohm) { pins { a: RTS, b: Q1B } }
+R10 = res(10kohm) { pins { a: DTR, b: Q2B } }
+net Q1B, Q2B
+
+// ---- the second and third USB-C: the P4's USB Serial/JTAG and its high-speed host ---------------
+J2 = UsbC2(vbus = VBUS_FS, gnd = GND, dp = FS_DP, dn = FS_DN, current = 500mA) {}
+// The host port gives its device 5 V from the board.
+J3 = UsbC2(vbus = VBUS_HOST, gnd = GND, dp = HS_DP, dn = HS_DN, current = 500mA) {}
+override J3.power.J.place = [edge(.top, from = 125mm, to = 155mm)]
+D11 = diode(kind = .schottky, package = "SMA", ratedVoltage = 40V, ratedCurrent = 2A) {
+  pins { A: VSYS, K: VBUS_HOST }
+}
+
+// ---- the display: JD9165 panel on a 30-pin FPC, its GT911 touch on a 6-pin FPC -------------------
+// The connector numbers the panel's contacts in reverse (bottom contact): its pin 30 is the
+// panel's 1.
+FPC1 = device(
+  fpc(30, pitch = 0.5mm),
+  pinout = {},
+  prefix = "J",
+  mpn = "FH12-30S-0.5SH(55)",
+  manufacturer = "Hirose",
+) {
+  place = [edge(.top, from = 45mm, to = 75mm)]
+  pins {
+    "1": VCOM,
+    "2": V3,
+    "3": V3,
+    "4": LCD_RST,
+    "5": LCD_STBY,
+    "6": GND,
+    "7": DSI_D0_N,
+    "8": DSI_D0_P,
+    "9": GND,
+    "10": DSI_D1_N,
+    "11": DSI_D1_P,
+    "12": GND,
+    "13": DSI_CLK_N,
+    "14": DSI_CLK_P,
+    "15": GND,
+    "16": .nc,
+    "17": .nc,
+    "18": .nc,
+    "19": .nc,
+    "20": .nc,
+    "21": GND,
+    "22": AVDD,
+    "23": LEDK,
+    "24": LEDK,
+    "25": .nc,
+    "26": .nc,
+    "27": VGL,
+    "28": VGH,
+    "29": LEDA,
+    "30": LEDA,
+  }
+}
+FPC2 = device(
+  fpc(6, pitch = 1mm),
+  pinout = {},
+  prefix = "J",
+  mpn = "FH12-6S-1SH(55)",
+  manufacturer = "Hirose",
+) {
+  place = [edge(.top, from = 20mm, to = 40mm)]
+  pins { "1": TP_INT, "2": TP_RST, "3": SCL, "4": SDA, "5": V3, "6": GND }
+}
+R11 = res(10kohm) { pins { a: LCD_RST, b: V3 } }
+R12 = res(10kohm) { pins { a: LCD_STBY, b: V3 } }
+R13 = res(5.1kohm) { pins { a: SDA, b: V3 } }
+R14 = res(5.1kohm) { pins { a: SCL, b: V3 } }
+// The panel itself (JC1060M070N-I, 165 x 100 x 3.5 mm) on its frame's standoffs 2 mm behind the
+// board's back (the four M3 screws hold the board to them), its tails in FPC1 and FPC2: what the
+// screen shows and where a finger touches it.
+lcdBody = Footprint {
+  name = "JC1060M070N-I"
+  description = "7 inch 1024 x 600 IPS panel with capacitive touch, 165 x 100 x 3.5 mm, on 2 mm standoffs; plugged into FPC1 and FPC2, not soldered"
+  pads = []
+  body = centered(165mm, 100mm)
+  height = 5.5mm
+  overhang = true
+  // Clear of the board on its standoffs: nothing on it keeps clear of the panel.
+  courtyard = centered(0.1mm, 0.1mm)
+  noCourtyard = true
+  solids = [
+    solid.box((165mm, 100mm, 3.3mm), at = (0mm, 0mm, 2mm), radius = 1mm, color = "#1a1a1c"),
+    solid.box(
+      (154.2mm, 85.9mm, 0.2mm),
+      at = (0mm, 0mm, 5.3mm),
+      material = .screen,
+      color = "#080a0c",
+    ),
+  ]
+}
+LCD1 = behavioralPart(
+  "touch-display",
+  lcdBody,
+  { power: ["FPC2.5", "FPC2.6"], video: ["FPC1.14"], i2c: ["FPC2.4", "FPC2.3"] },
+  { width: 1024, height: 600, width_mm: 154.2, height_mm: 85.9 },
+  5.5mm,
+) with {
+  mpn = "JC1060M070N-I"
+  manufacturer = "Guition"
+  prefix = "LCD"
+} {
+  side = .bottom
+  at = (80mm, 48mm)
+}
+
+// The panel's supplies: AVDD 9.6 V from a boost, VGH and VGL from charge pumps on its switch node,
+// VCOM from AVDD.
+U6 = MT3608.Part { pins { VIN: V3, EN: V3, GND: GND, SW: LCD_SW, FB: AVDD_FB, NC: .nc } }
+L3 = inductor(10uH, package = "4") {
+  place = [near(U6.pin.SW, max = 8mm), soft(near(U6.pin.SW))]
+  pins { a: V3, b: LCD_SW }
+}
+D1 = diode(kind = .schottky, package = "SOD-123", ratedVoltage = 30V, ratedCurrent = 1A) {
+  pins { A: LCD_SW, K: AVDD }
+}
+C7 = cap(10uF, package = "0805", ratedVoltage = 25V) { pins { a: AVDD, b: GND } }
+C8 = cap(10uF, package = "0805") {
+  place = [near(U6.pin.VIN, max = 2mm)]
+  pins { a: V3, b: GND }
+}
+R15 = res(150kohm, tolerance = 1pct) { pins { a: AVDD, b: AVDD_FB } }
+R16 = res(10kohm, tolerance = 1pct) { pins { a: AVDD_FB, b: GND } }
+// VGH: AVDD plus the switch node's swing (about 18.6 V), held at 18 V.
+C9 = cap(100nF, ratedVoltage = 25V) { pins { a: LCD_SW, b: PUMP_H } }
+D2 = diode(kind = .schottky, package = "SOD-323", ratedVoltage = 30V, ratedCurrent = 200mA) {
+  pins { A: AVDD, K: PUMP_H }
+}
+D3 = diode(kind = .schottky, package = "SOD-323", ratedVoltage = 30V, ratedCurrent = 200mA) {
+  pins { A: PUMP_H, K: VGH }
+}
+C10 = cap(1uF, ratedVoltage = 25V) { pins { a: VGH, b: GND } }
+D4 = diode(kind = .zener, package = "SOD-323", voltage = 18V) { pins { A: GND, K: VGH } }
+// VGL: the inverted swing (about -9 V), held at -6.8 V.
+C11 = cap(100nF, ratedVoltage = 25V) { pins { a: LCD_SW, b: PUMP_L } }
+D5 = diode(kind = .schottky, package = "SOD-323", ratedVoltage = 30V, ratedCurrent = 200mA) {
+  pins { A: PUMP_L, K: GND }
+}
+D6 = diode(kind = .schottky, package = "SOD-323", ratedVoltage = 30V, ratedCurrent = 200mA) {
+  pins { A: VGL, K: PUMP_L }
+}
+C12 = cap(1uF, ratedVoltage = 25V) { pins { a: VGL, b: GND } }
+D7 = diode(kind = .zener, package = "SOD-323", voltage = 6.8V) { pins { A: VGL, K: GND } }
+// VCOM 3.84 V (the panel asks 3.7 V ± 1 V).
+R17 = res(15kohm, tolerance = 1pct) { pins { a: AVDD, b: VCOM } }
+R18 = res(10kohm, tolerance = 1pct) { pins { a: VCOM, b: GND } }
+C13 = cap(1uF) { pins { a: VCOM, b: GND } }
+
+// The backlight: 27 white LEDs at 180 mA from a boost whose feedback is the current sense resistor
+// (0.6 V / 3.3 ohm), switched by the P4's LEDC PWM on EN.
+U7 = MT3608.Part { pins { VIN: VSYS, EN: LCD_PWM, GND: GND, SW: BL_SW, FB: LEDK, NC: .nc } }
+L4 = inductor(10uH, package = "4") {
+  place = [near(U7.pin.SW, max = 8mm), soft(near(U7.pin.SW))]
+  pins { a: VSYS, b: BL_SW }
+}
+D8 = diode(kind = .schottky, package = "SOD-123", ratedVoltage = 40V, ratedCurrent = 1A) {
+  pins { A: BL_SW, K: LEDA }
+}
+C14 = cap(4.7uF, package = "0805", ratedVoltage = 35V) { pins { a: LEDA, b: GND } }
+C15 = cap(10uF, package = "0805") {
+  place = [near(U7.pin.VIN, max = 3mm)]
+  pins { a: VSYS, b: GND }
+}
+R19 = res(3.3ohm, tolerance = 1pct, package = "0805") { pins { a: LEDK, b: GND } }
+R20 = res(10kohm) { pins { a: LCD_PWM, b: GND } }
+
+// ---- sound: the ES8311 codec, its microphone and the speaker's amplifier --------------------------
+U8 = ES8311.Part {
+  pins {
+    PVDD: V3,
+    AVDD: V3,
+    DGND: GND,
+    CCLK: SCL,
+    CDATA: SDA,
+    MCLK: I2S_MCLK,
+    SCLK: I2S_SCLK,
+    LRCK: I2S_LRCK,
+    DSDIN: I2S_DOUT,
+    ASDOUT: I2S_DIN,
+    OUTP: DAC_P,
+    OUTN: .nc,
+    MIC1P: MIC_P,
+    MIC1N: MIC_N,
+  }
+}
+U8Support = ES8311.Support(U8) {}
+// An electret capsule (6 x 2.7 mm) biased from 3.3 V, AC-coupled into the codec's differential
+// input.
+MK1 = device(
+  pinHeader(2),
+  pinout = { "1": "1", "2": "2" },
+  prefix = "MK",
+  mpn = "CMEJ-0627-42-P",
+  manufacturer = "CUI Devices",
+) { pins { "1": MIC_BIAS, "2": GND } }
+R21 = res(2.2kohm) { pins { a: V3, b: MIC_BIAS } }
+C16 = cap(1uF) { pins { a: MIC_BIAS, b: MIC_P } }
+C17 = cap(1uF) { pins { a: MIC_N, b: GND } }
+U9 = PAM8403DR.Part {
+  pins {
+    VDD: VSYS,
+    PVDD: VSYS,
+    GND: GND,
+    PGND: GND,
+    SHDN: PA_EN,
+    MUTE: VSYS,
+    "OUTL+": SPK_P,
+    "OUTL-": SPK_N,
+    "OUTR+": .nc,
+    "OUTR-": .nc,
+    NC: .nc,
+  }
+}
+U9Support = PAM8403DR.Support(U9, audioL = DAC_P) {}
+R22 = res(10kohm) { pins { a: PA_EN, b: GND } }
+J4 = device(
+  wireToBoard(2, pitch = 1.25mm),
+  pinout = { "1": "1", "2": "2" },
+  prefix = "J",
+  mpn = "MX1.25-2P",
+) { pins { "1": SPK_P, "2": SPK_N } }
+
+// ---- the clock --------------------------------------------------------------------------------------
+U10 = DS3231SN.Part {
+  pins {
+    VCC: V3,
+    GND: GND,
+    SDA: SDA,
+    SCL: SCL,
+    VBAT: RTC_BAT,
+    "INT/SQW": .nc,
+    RST: .nc,
+    "32kHz": .nc,
+  }
+}
+U10Support = DS3231SN.Support(U10, pullUps = false) {}
+BT2 = CR2032_HOLDER_SMD.Part { pins { VBAT: RTC_BAT, GND: GND } }
+C19 = cap(100nF) {
+  place = [near(U10.pin.VBAT, max = 3mm)]
+  pins { a: RTC_BAT, b: GND }
+}
+
+// ---- microSD -----------------------------------------------------------------------------------------
+// Powered from the P4's VO4 LDO (the firmware switches it), 4-bit SD on its SDMMC slot 0 pads.
+// The card holds what NucleoOS's release publishes for it (its web shell and data).
+J5 = DM3AT_SF_PEJM5.Part with {
+  simulation = DM3AT_SF_PEJM5.Part.simulation with {
+    behavior = Behavior {
+      model = "sd-card"
+      ports = { power: ["4", "6"], clk: ["5"], cmd: ["3"], dat0: ["7"] }
+      image = FirmwareData {
+        url = "https://github.com/indecenti/NucleoOS-P4/releases/download/v1.2.189/nucleoos-p4-sdcard.zip"
+        sha256 = "48f9e4478e2a20cf20d689956a4f54e96903be428f35e06c6051c6c9b2aa32ad"
+        bytes = 3737227
+      }
+    }
+  }
+} {
+  place = [edge(.right)]
+  pins {
+    VDD: SD_VDD,
+    VSS: GND,
+    CLK: SD_CLK,
+    CMD: SD_CMD,
+    DAT0: SD_D0,
+    DAT1: SD_D1,
+    DAT2: SD_D2,
+    CD_DAT3: SD_D3,
+    CD_A: .nc,
+    CD_B: .nc,
+    SH: GND,
+  }
+}
+C18 = cap(10uF, package = "0603") { pins { a: SD_VDD, b: GND } }
+R23 = res(10kohm) { pins { a: SD_CMD, b: SD_VDD } }
+R24 = res(10kohm) { pins { a: SD_D0, b: SD_VDD } }
+R25 = res(10kohm) { pins { a: SD_D1, b: SD_VDD } }
+R26 = res(10kohm) { pins { a: SD_D2, b: SD_VDD } }
+R27 = res(10kohm) {
+  side = .bottom
+  at = (71.3mm, 65.5mm)
+  rotation = 90deg
+  pins { a: SD_D3, b: SD_VDD }
+}
+
+// ---- the ESP32-C6 radio, on the P4's second SDMMC slot (ESP-Hosted) --------------------------------
+U11 = ESP32_C6_MINI_1.Part {
+  // The antenna (the module's top 5.4 mm) beyond the board's top edge, as Espressif recommends.
+  rotation = 0deg
+  place = [edge(.top, from = 80mm, to = 120mm, overhang = 5.4mm)]
+  pins {
+    "3V3": V3,
+    GND: GND,
+    EN: C6_EN,
+    IO18: C6_CMD,
+    IO19: C6_CLK,
+    IO20: C6_D0,
+    IO21: C6_D1,
+    IO22: C6_D2,
+    IO23: C6_D3,
+    IO2: C6_IO2,
+    TXD0: C6_TX,
+    RXD0: C6_RX,
+  }
+}
+U11Support = ESP32_C6_MINI_1.Support(U11, resetButton = false, bootButton = false) {}
+R28 = res(51kohm) { pins { a: C6_CMD, b: V3 } }
+R29 = res(51kohm) { pins { a: C6_D0, b: V3 } }
+R30 = res(51kohm) { pins { a: C6_D1, b: V3 } }
+R31 = res(51kohm) { pins { a: C6_D2, b: V3 } }
+R32 = res(51kohm) { pins { a: C6_D3, b: V3 } }
+// The C6's own programming header (its UART0, EN and IO9 for download mode).
+J6 = header(4) { pins { "1": GND, "2": C6_TX, "3": C6_RX, "4": C6_EN } }
+
+holes = MountingHoles(screw = "M3", net = GND) {}

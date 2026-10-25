@@ -1,0 +1,298 @@
+{
+  "id": "MMBT3904",
+  "mpn": "MMBT3904-7-F",
+  "manufacturer": "Diodes Incorporated",
+  "category": "transistor",
+  "description": "NPN small-signal transistor, 40 V, 200 mA, hFE 100-300 at 10 mA, SOT-23 (the SMD 2N3904)",
+  "tags": [
+    "transistor",
+    "bjt",
+    "npn",
+    "small signal",
+    "switch",
+    "amplifier",
+    "sot-23",
+    "mmbt3904",
+    "2n3904",
+    "k1n"
+  ],
+  "datasheet": {
+    "url": "https://www.diodes.com/assets/Datasheets/ds30036.pdf",
+    "revision": "DS30036 Rev. 27-2, March 2025"
+  },
+  "prefix": "Q",
+  "package": {
+    "name": "SOT-23",
+    "page": "p. 1, SOT23 top view pinout"
+  },
+  "symbol": {
+    "units": [
+      {
+        "shapes": [
+          {
+            "kind": "circle",
+            "center": [
+              0.0,
+              0.0
+            ],
+            "radius": 3.2512,
+            "width": 0.0,
+            "fill": "background"
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -3.81,
+                0.0
+              ],
+              [
+                -2.54,
+                0.0
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -3.556,
+                0.0
+              ],
+              [
+                0.0,
+                0.0
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                0.0,
+                -1.27
+              ],
+              [
+                2.54,
+                -2.54
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                0.0,
+                1.27
+              ],
+              [
+                2.54,
+                2.54
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                0.0,
+                2.54
+              ],
+              [
+                0.0,
+                -2.54
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                1.524,
+                -1.27
+              ],
+              [
+                2.032,
+                -2.286
+              ],
+              [
+                1.016,
+                -2.54
+              ]
+            ],
+            "width": 0.0,
+            "closed": true,
+            "fill": "outline"
+          }
+        ],
+        "pins": [
+          {
+            "number": "1",
+            "x": -5.08,
+            "y": 0.0,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "2",
+            "x": 2.54,
+            "y": -5.08,
+            "angle": 90.0,
+            "length": 2.54
+          },
+          {
+            "number": "3",
+            "x": 2.54,
+            "y": 5.08,
+            "angle": 270.0,
+            "length": 2.54
+          }
+        ]
+      }
+    ],
+    "name_offset": 0.0
+  },
+  "model": "Package_TO_SOT_SMD:SOT-23",
+  "pins": [
+    {
+      "number": "1",
+      "name": "B",
+      "type": "input",
+      "description": "base"
+    },
+    {
+      "number": "2",
+      "name": "E",
+      "type": "passive",
+      "description": "emitter"
+    },
+    {
+      "number": "3",
+      "name": "C",
+      "type": "passive",
+      "description": "collector"
+    }
+  ],
+  "ratings": {
+    "absMax": [
+      {
+        "what": "collector-emitter voltage",
+        "pins": [
+          "C"
+        ],
+        "max": 40.0,
+        "unit": "V"
+      },
+      {
+        "what": "collector-base voltage",
+        "max": 60.0,
+        "unit": "V"
+      },
+      {
+        "what": "emitter-base voltage",
+        "max": 6.0,
+        "unit": "V"
+      },
+      {
+        "what": "collector current",
+        "max": 0.2,
+        "unit": "A"
+      },
+      {
+        "what": "junction temperature",
+        "min": -55.0,
+        "max": 150.0,
+        "unit": "°C"
+      }
+    ],
+    "recommended": [
+      {
+        "what": "DC current gain at 10 mA, VCE 1 V",
+        "min": 100.0,
+        "max": 300.0
+      },
+      {
+        "what": "collector-emitter saturation voltage at 50 mA, IB 5 mA",
+        "max": 0.3,
+        "unit": "V"
+      },
+      {
+        "what": "base-emitter saturation voltage at 10 mA, IB 1 mA",
+        "min": 0.65,
+        "max": 0.85,
+        "unit": "V"
+      }
+    ]
+  },
+  "parameters": [
+    {
+      "name": "Digi-Key_PN",
+      "value": "MMBT3904-FDICT-ND"
+    },
+    {
+      "name": "Category",
+      "value": "Discrete Semiconductor Products"
+    },
+    {
+      "name": "Family",
+      "value": "Transistors - Bipolar (BJT) - Single"
+    },
+    {
+      "name": "DK_Datasheet_Link",
+      "value": "https://www.diodes.com/assets/Datasheets/ds30036.pdf"
+    },
+    {
+      "name": "DK_Detail_Page",
+      "value": "/product-detail/en/diodes-incorporated/MMBT3904-7-F/MMBT3904-FDICT-ND/815727"
+    },
+    {
+      "name": "Status",
+      "value": "Active"
+    }
+  ],
+  "notes": [
+    "Low-side switch from a GPIO: emitter to GND, load from the supply to the collector, base through 1-4.7 kohm (for saturation, base current about a tenth of the load current: 3.3 V logic, 1 kohm gives 2.6 mA for loads to about 50 mA).",
+    "Add 10-100 kohm base to emitter when the driving pin may float; a flyback diode (1N4148W) across relay coils.",
+    "Complement: MMBT3906."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "Diodes Incorporated MMBT3904 datasheet DS30036 Rev. 27-2, March 2025: SOT23 top view pinout (B and E on the two-lead side, C alone: JEDEC numbering 1 B, 2 E, 3 C), absolute maximum ratings, electrical characteristics",
+      "url": "https://www.diodes.com/assets/Datasheets/ds30036.pdf",
+      "license": "pin assignment, ratings and package facts transcribed from the manufacturer's datasheet (facts, one reading); descriptions and notes our own"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "standard SOT-23 (TO-236)"
+    },
+    "symbol": {
+      "verified": false,
+      "source": "digikey-kicad",
+      "version": "d4bd68f42e6ccc474526811a853a03692e170b58",
+      "item": "dk_Transistors-Bipolar-BJT-Single:MMBT3904-7-F",
+      "url": "https://github.com/Digi-Key/digikey-kicad-library",
+      "license": "CC-BY-SA-4.0"
+    },
+    "model": {
+      "verified": false,
+      "source": "kicad",
+      "version": "10.0.7",
+      "item": "Package_TO_SOT_SMD.3dshapes/SOT-23 (the model of Package_TO_SOT_SMD:SOT-23: the package `SOT-23`)",
+      "license": "CC-BY-SA-4.0"
+    },
+    "parameters": {
+      "verified": false,
+      "source": "digikey-kicad",
+      "version": "d4bd68f42e6ccc474526811a853a03692e170b58",
+      "item": "dk_Transistors-Bipolar-BJT-Single:MMBT3904-7-F",
+      "url": "https://github.com/Digi-Key/digikey-kicad-library",
+      "license": "CC-BY-SA-4.0"
+    }
+  }
+}

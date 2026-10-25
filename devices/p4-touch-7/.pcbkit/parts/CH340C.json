@@ -1,0 +1,233 @@
+{
+  "id": "CH340C",
+  "mpn": "CH340C",
+  "manufacturer": "WCH (Nanjing Qinheng Microelectronics)",
+  "category": "interface",
+  "description": "USB 2.0 full-speed to UART bridge, internal clock (no crystal), modem signals, 5 V or 3.3 V supply (SOP-16)",
+  "tags": [
+    "usb",
+    "uart",
+    "usb to serial",
+    "usb-uart",
+    "bridge",
+    "serial",
+    "ch340",
+    "programmer"
+  ],
+  "datasheet": {
+    "url": "https://www.wch-ic.com/download/file?id=79",
+    "revision": "CH340DS1 V3D"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "SOP-16",
+    "family": "soic",
+    "pins": 16,
+    "pitch": 1.27,
+    "page": "3. Package: SOP-16, 3.9 mm (150 mil) body, 1.27 mm pitch; the datasheet has no drawing"
+  },
+  "pins": [
+    {
+      "number": "1",
+      "name": "GND",
+      "type": "ground"
+    },
+    {
+      "number": "2",
+      "name": "TXD",
+      "type": "output",
+      "description": "UART data out (to the MCU's RX); idle high"
+    },
+    {
+      "number": "3",
+      "name": "RXD",
+      "type": "input_pullup",
+      "description": "UART data in (from the MCU's TX); internal pull-up"
+    },
+    {
+      "number": "4",
+      "name": "V3",
+      "type": "passive",
+      "description": "internal 3.3 V regulator node: 100 nF to GND at 5 V, tied to VCC at 3.3 V"
+    },
+    {
+      "number": "5",
+      "name": "UD+",
+      "type": "bidirectional",
+      "description": "USB D+, straight to the connector (no series resistor, internal pull-up)"
+    },
+    {
+      "number": "6",
+      "name": "UD-",
+      "type": "bidirectional",
+      "description": "USB D-, straight to the connector"
+    },
+    {
+      "number": "7",
+      "name": "NC",
+      "type": "nc",
+      "description": "empty pin on CH340C: leave open"
+    },
+    {
+      "number": "8",
+      "name": "OUT#",
+      "type": "output",
+      "description": "modem general output, active low (on newer lots a 4.7 kohm pull-down turns it into a second, open-drain DTR#)"
+    },
+    {
+      "number": "9",
+      "name": "CTS#",
+      "type": "input_pullup",
+      "description": "clear to send, active low; pulled up inside: may stay open"
+    },
+    {
+      "number": "10",
+      "name": "DSR#",
+      "type": "input_pullup",
+      "description": "data set ready, active low; pulled up inside: may stay open"
+    },
+    {
+      "number": "11",
+      "name": "RI#",
+      "type": "input_pullup",
+      "description": "ring indicator, active low; pulled up inside: may stay open"
+    },
+    {
+      "number": "12",
+      "name": "DCD#",
+      "type": "input_pullup",
+      "description": "carrier detect, active low; pulled up inside: may stay open"
+    },
+    {
+      "number": "13",
+      "name": "DTR#",
+      "type": "output",
+      "description": "data terminal ready, active low (auto-reset of an MCU through 100 nF)"
+    },
+    {
+      "number": "14",
+      "name": "RTS#",
+      "type": "output",
+      "description": "request to send, active low"
+    },
+    {
+      "number": "15",
+      "name": "R232",
+      "type": "input_pulldown",
+      "description": "auxiliary RS232 enable (inverts RXD) when high; pulled down inside: may stay open"
+    },
+    {
+      "number": "16",
+      "name": "VCC",
+      "type": "power_in",
+      "description": "5 V or 3.3 V supply"
+    }
+  ],
+  "ratings": {
+    "absMax": [
+      {
+        "what": "VCC",
+        "pins": [
+          "VCC"
+        ],
+        "min": -0.5,
+        "max": 6.0,
+        "unit": "V"
+      },
+      {
+        "what": "input or output pins (VCC + 0.5 V)",
+        "min": -0.5,
+        "unit": "V"
+      }
+    ],
+    "recommended": [
+      {
+        "what": "VCC (3.1-3.6 V with V3 tied to VCC, 4.0-5.3 V with V3 decoupled)",
+        "pins": [
+          "VCC"
+        ],
+        "min": 3.1,
+        "max": 5.3,
+        "unit": "V"
+      },
+      {
+        "what": "RXD input (VCC + 0.5 V absolute)",
+        "pins": [
+          "RXD"
+        ],
+        "max": 5.3,
+        "unit": "V"
+      },
+      {
+        "what": "operating temperature",
+        "min": -20.0,
+        "max": 70.0,
+        "unit": "°C"
+      }
+    ]
+  },
+  "simulation": {
+    "parameters": [
+      {
+        "id": "icc-active-5v",
+        "quantity": "supplyCurrent",
+        "unit": "A",
+        "typ": 0.007,
+        "max": 0.02,
+        "conditions": "Total power supply current during operation, VCC = 5 V, TA = 25 degC, USB bus pins excluded; at VCC = V3 = 3.3 V the datasheet gives 4 mA typ / 12 mA max (section 6.3)",
+        "source": {
+          "url": "https://www.wch-ic.com/download/file?id=79",
+          "revision": "CH340DS1 V3D",
+          "location": "p. 8, section 6.2 5V Electrical Parameters, ICC (total supply current during operation) row",
+          "confidence": "datasheet"
+        }
+      }
+    ]
+  },
+  "support": {
+    "parts": [
+      {
+        "ref": "C9",
+        "kind": "cap",
+        "value": "100nF",
+        "between": [
+          "VCC",
+          "GND"
+        ]
+      },
+      {
+        "ref": "C8",
+        "kind": "cap",
+        "value": "100nF",
+        "rating": "at 5 V; at 3.3 V V3 joins VCC as well",
+        "between": [
+          "V3",
+          "GND"
+        ]
+      }
+    ],
+    "notes": [
+      "No crystal: the CH340C has an internal clock (baud rate error under 1.8 %).",
+      "UD+ and UD- go straight to the USB connector: the part has its USB pull-up and needs no series resistors."
+    ],
+    "page": "5.1 Clock, reset, power; 7.1 and 7.6 application circuits"
+  },
+  "notes": [
+    "At 5 V: VCC from VBUS, V3 decoupled with 100 nF, and the UART lines swing to 5 V. At 3.3 V: V3 tied to VCC, both on the 3.3 V rail, logic at 3.3 V.",
+    "Unused modem inputs (CTS#, DSR#, RI#, DCD#) have pull-ups and may stay open; R232 has a pull-down and stays open.",
+    "Arduino-style auto-reset: DTR# through 100 nF to the MCU's reset (with the reset pull-up); ESP32 auto-boot: DTR# and RTS# through two transistors to EN and GPIO0.",
+    "Keep the decoupling capacitors next to pins 16 and 4 and route D+/D- as a pair."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "WCH datasheet CH340DS1 version 3D, section 4 (pins, SOP16 column), 5.1 and 6 (parameters)",
+      "url": "https://www.wch-ic.com/download/file?id=79",
+      "license": "facts transcribed from the datasheet (pin numbers and names); notes in our own words"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "the datasheet gives only SOP-16, 3.9 mm body, 1.27 mm pitch (no drawing): the standard SOIC-16 footprint by name"
+    }
+  }
+}

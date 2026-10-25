@@ -1,0 +1,279 @@
+{
+  "id": "SY8089AAAC",
+  "mpn": "SY8089AAAC",
+  "manufacturer": "Silergy",
+  "variants": [
+    "SY8089AAC"
+  ],
+  "orderCodes": [
+    "C78988"
+  ],
+  "category": "regulator",
+  "description": "Synchronous buck converter, 2.7-5.5 V in, 2 A (3 A peak), 1 MHz, 0.6 V feedback, 100 % dropout, hiccup short-circuit protection, SOT-23-5",
+  "tags": [
+    "buck",
+    "sy8089",
+    "sy8089a",
+    "step-down",
+    "dc-dc",
+    "switching regulator",
+    "synchronous",
+    "5V to 3.3V",
+    "li-ion to 3.3V",
+    "2A",
+    "sot-23-5"
+  ],
+  "datasheet": {
+    "url": "https://datasheet.lcsc.com/datasheet/pdf/400ca014d7a690f5be0127468f87fcc6.pdf",
+    "revision": "AN_SY8089/A Rev. 0.9A"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "SOT-23-5",
+    "page": "p. 2, pinout (top view), SOT23-5"
+  },
+  "pins": [
+    {
+      "number": "1",
+      "name": "EN",
+      "type": "input",
+      "description": "enable, high = on (1.5 V); do not float",
+      "vih": 1.5
+    },
+    {
+      "number": "2",
+      "name": "GND",
+      "type": "ground"
+    },
+    {
+      "number": "3",
+      "name": "LX",
+      "type": "power_out",
+      "description": "switch node, to the inductor"
+    },
+    {
+      "number": "4",
+      "name": "IN",
+      "type": "power_in",
+      "description": "input, at least 10 uF ceramic to GND at the pin"
+    },
+    {
+      "number": "5",
+      "name": "FB",
+      "type": "analog",
+      "description": "feedback from the output divider (0.6 V)"
+    }
+  ],
+  "ratings": {
+    "absMax": [
+      {
+        "what": "supply input voltage",
+        "pins": [
+          "IN"
+        ],
+        "min": -0.3,
+        "max": 6.0,
+        "unit": "V"
+      },
+      {
+        "what": "enable, FB voltage (up to VIN + 0.6 V)",
+        "pins": [
+          "EN",
+          "FB"
+        ],
+        "min": -0.3,
+        "max": 6.0,
+        "unit": "V"
+      },
+      {
+        "what": "power dissipation at 25 °C",
+        "max": 0.6,
+        "unit": "W"
+      },
+      {
+        "what": "junction temperature",
+        "min": -40.0,
+        "max": 150.0,
+        "unit": "°C"
+      }
+    ],
+    "recommended": [
+      {
+        "what": "supply input voltage",
+        "pins": [
+          "IN"
+        ],
+        "min": 2.7,
+        "max": 5.5,
+        "unit": "V"
+      },
+      {
+        "what": "output current (3 A peak)",
+        "pins": [
+          "LX"
+        ],
+        "max": 2.0,
+        "unit": "A"
+      },
+      {
+        "what": "feedback reference voltage",
+        "min": 0.588,
+        "nom": 0.6,
+        "max": 0.612,
+        "unit": "V"
+      },
+      {
+        "what": "ambient temperature",
+        "min": -40.0,
+        "max": 85.0,
+        "unit": "°C"
+      }
+    ]
+  },
+  "simulation": {
+    "parameters": [
+      {
+        "id": "iq-nonswitching",
+        "quantity": "quiescentCurrent",
+        "unit": "A",
+        "typ": 0.000055,
+        "conditions": "VIN = 5 V, VOUT = 2.5 V, IOUT = 0, VFB = 105% of VREF (not switching), TA = 25 degC",
+        "source": {
+          "url": "https://datasheet.lcsc.com/datasheet/pdf/400ca014d7a690f5be0127468f87fcc6.pdf",
+          "revision": "AN_SY8089/A Rev. 0.9A",
+          "location": "p. 4, Electrical Characteristics, Quiescent Current (IQ) row",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "tj-operating",
+        "quantity": "junctionOperatingTemperature",
+        "unit": "degC",
+        "min": -40.0,
+        "max": 125.0,
+        "conditions": "Recommended junction temperature range",
+        "source": {
+          "url": "https://datasheet.lcsc.com/datasheet/pdf/400ca014d7a690f5be0127468f87fcc6.pdf",
+          "revision": "AN_SY8089/A Rev. 0.9A",
+          "location": "p. 2, Recommended Operating Conditions, Junction Temperature Range",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "tj-absolute",
+        "quantity": "junctionAbsoluteTemperature",
+        "unit": "degC",
+        "max": 150.0,
+        "conditions": "Absolute maximum junction temperature range (-40 to 150 degC)",
+        "source": {
+          "url": "https://datasheet.lcsc.com/datasheet/pdf/400ca014d7a690f5be0127468f87fcc6.pdf",
+          "revision": "AN_SY8089/A Rev. 0.9A",
+          "location": "p. 2, Absolute Maximum Ratings, Junction Temperature Range",
+          "confidence": "datasheet"
+        }
+      }
+    ]
+  },
+  "support": {
+    "parts": [
+      {
+        "ref": "CIN",
+        "kind": "cap",
+        "value": "22uF",
+        "rating": "10V ceramic",
+        "between": [
+          "IN",
+          "GND"
+        ]
+      },
+      {
+        "ref": "L1",
+        "kind": "inductor",
+        "value": "2.2uH",
+        "rating": "saturation above 3 A",
+        "between": [
+          "LX",
+          "vout"
+        ]
+      },
+      {
+        "ref": "R1",
+        "kind": "res",
+        "value": "200kohm",
+        "rating": "1% (1.8 V out with R2 100 kohm; see notes)",
+        "between": [
+          "vout",
+          "FB"
+        ]
+      },
+      {
+        "ref": "C1",
+        "kind": "cap",
+        "value": "22pF",
+        "rating": "feed-forward across R1",
+        "between": [
+          "vout",
+          "FB"
+        ]
+      },
+      {
+        "ref": "R2",
+        "kind": "res",
+        "value": "100kohm",
+        "rating": "1%",
+        "between": [
+          "FB",
+          "GND"
+        ]
+      },
+      {
+        "ref": "COUTA",
+        "kind": "cap",
+        "value": "22uF",
+        "rating": "ceramic",
+        "between": [
+          "vout",
+          "GND"
+        ]
+      },
+      {
+        "ref": "COUTB",
+        "kind": "cap",
+        "value": "22uF",
+        "rating": "ceramic",
+        "between": [
+          "vout",
+          "GND"
+        ]
+      }
+    ],
+    "inputs": [
+      {
+        "name": "vout",
+        "description": "The output rail.",
+        "required": true
+      }
+    ],
+    "notes": [
+      "VOUT = 0.6 V x (1 + R1 / R2): 200k / 100k gives 1.8 V (the datasheet's figure); 453k / 100k gives 3.3 V, 220k / 100k 1.92 V.",
+      "From one Li-ion cell or a 5 V rail; at 100 % duty it passes the input through when the input falls near the output.",
+      "Keep CIN right at IN and GND, the LX copper small, and FB's divider away from the inductor."
+    ],
+    "page": "p. 1, Figure 1 (schematic diagram)"
+  },
+  "notes": [
+    "SY8089AAAC (the A version) restarts in hiccup mode after a short and has no over-voltage latch; SY8089AAC latches off on either."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "Silergy AN_SY8089/A Rev. 0.9A: pinout and pin description (SOT23-5: 1 EN, 2 GND, 3 LX, 4 IN, 5 FB), absolute maximum ratings, recommended operating conditions, electrical characteristics",
+      "url": "https://datasheet.lcsc.com/datasheet/pdf/400ca014d7a690f5be0127468f87fcc6.pdf",
+      "license": "pin numbers and names, ratings and application values transcribed from the manufacturer's datasheet (facts, one reading); descriptions and notes our own"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "the standard SOT-23-5 footprint"
+    }
+  }
+}

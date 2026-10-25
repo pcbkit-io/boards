@@ -1,0 +1,262 @@
+{
+  "id": "MT3608",
+  "mpn": "MT3608",
+  "manufacturer": "Xi'an Aerosemi Technology",
+  "orderCodes": [
+    "C84817"
+  ],
+  "category": "regulator",
+  "description": "Boost (step-up) converter, 2-24 V in, up to 28 V out, 80 mohm 4 A switch, 1.2 MHz, 0.6 V feedback, needs an external Schottky diode, SOT-23-6",
+  "tags": [
+    "boost",
+    "mt3608",
+    "step-up",
+    "dc-dc",
+    "switching regulator",
+    "3.7V to 5V",
+    "li-ion to 5V",
+    "5V to 12V",
+    "2A",
+    "sot-23-6"
+  ],
+  "datasheet": {
+    "url": "https://datasheet.lcsc.com/datasheet/pdf/87b648f6991783104e708a12c210cc63.pdf",
+    "revision": "MT3608 Rev 1.1"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "SOT-23-6",
+    "page": "p. 2, package/order information (6-lead plastic SOT-23, top view)"
+  },
+  "pins": [
+    {
+      "number": "1",
+      "name": "SW",
+      "type": "passive",
+      "description": "switch: the internal MOSFET's drain, to the inductor and the diode's anode; swings up to 28 V"
+    },
+    {
+      "number": "2",
+      "name": "GND",
+      "type": "ground"
+    },
+    {
+      "number": "3",
+      "name": "FB",
+      "type": "analog",
+      "description": "feedback from the output divider (0.6 V)"
+    },
+    {
+      "number": "4",
+      "name": "EN",
+      "type": "input",
+      "description": "enable, high = on (1.5 V); tie to VIN when unused",
+      "vih": 1.5
+    },
+    {
+      "number": "5",
+      "name": "VIN",
+      "type": "power_in",
+      "description": "input supply, bypass locally"
+    },
+    {
+      "number": "6",
+      "name": "NC",
+      "type": "nc"
+    }
+  ],
+  "ratings": {
+    "absMax": [
+      {
+        "what": "VIN, EN voltages",
+        "pins": [
+          "VIN",
+          "EN"
+        ],
+        "min": -0.3,
+        "max": 26.0,
+        "unit": "V"
+      },
+      {
+        "what": "FB voltage",
+        "pins": [
+          "FB"
+        ],
+        "min": -0.3,
+        "max": 6.0,
+        "unit": "V"
+      },
+      {
+        "what": "SW voltage",
+        "min": -0.3,
+        "max": 30.0,
+        "unit": "V"
+      },
+      {
+        "what": "power dissipation",
+        "max": 0.6,
+        "unit": "W"
+      },
+      {
+        "what": "junction temperature",
+        "max": 160.0,
+        "unit": "°C"
+      }
+    ],
+    "recommended": [
+      {
+        "what": "operating input voltage",
+        "pins": [
+          "VIN"
+        ],
+        "min": 2.0,
+        "max": 24.0,
+        "unit": "V"
+      },
+      {
+        "what": "output voltage",
+        "max": 28.0,
+        "unit": "V"
+      },
+      {
+        "what": "FB voltage",
+        "min": 0.588,
+        "nom": 0.6,
+        "max": 0.612,
+        "unit": "V"
+      },
+      {
+        "what": "SW current limit",
+        "nom": 4.0,
+        "unit": "A"
+      },
+      {
+        "what": "operating temperature",
+        "min": -40.0,
+        "max": 85.0,
+        "unit": "°C"
+      }
+    ]
+  },
+  "simulation": {
+    "parameters": [
+      {
+        "id": "iq-pwm",
+        "quantity": "quiescentCurrent",
+        "unit": "A",
+        "typ": 0.0016,
+        "max": 0.0022,
+        "conditions": "PWM mode with switching, VFB=0.5 V, VIN=VEN=5 V, TA=25 degC (PFM no-switch figure is 100 uA typ)",
+        "source": {
+          "url": "https://datasheet.lcsc.com/datasheet/pdf/87b648f6991783104e708a12c210cc63.pdf",
+          "revision": "MT3608 Rev 1.1",
+          "location": "p. 3, Electrical Characteristics, Quiescent Current (PWM) row",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "tj-absolute",
+        "quantity": "junctionAbsoluteTemperature",
+        "unit": "degC",
+        "max": 160.0,
+        "conditions": "Junction temperature, absolute maximum rating (TJMAX)",
+        "source": {
+          "url": "https://datasheet.lcsc.com/datasheet/pdf/87b648f6991783104e708a12c210cc63.pdf",
+          "revision": "MT3608 Rev 1.1",
+          "location": "p. 2, Absolute Maximum Ratings",
+          "confidence": "datasheet"
+        }
+      }
+    ]
+  },
+  "support": {
+    "parts": [
+      {
+        "ref": "CIN",
+        "kind": "cap",
+        "value": "22uF",
+        "rating": "ceramic",
+        "between": [
+          "VIN",
+          "GND"
+        ]
+      },
+      {
+        "ref": "L",
+        "kind": "inductor",
+        "value": "4.7uH",
+        "rating": "4.7-22 uH, low core loss at 1.2 MHz, saturation above the 4 A switch limit for full power",
+        "between": [
+          "VIN",
+          "SW"
+        ]
+      },
+      {
+        "ref": "D",
+        "kind": "diode",
+        "value": "Schottky",
+        "package": "SMA",
+        "rating": "anode SW, cathode VOUT; 40 V 3 A: above the output voltage and the peak inductor current (e.g. SS34)",
+        "between": [
+          "SW",
+          "vout"
+        ]
+      },
+      {
+        "ref": "R1",
+        "kind": "res",
+        "value": "110kohm",
+        "rating": "1% (5 V out)",
+        "between": [
+          "vout",
+          "FB"
+        ]
+      },
+      {
+        "ref": "R2",
+        "kind": "res",
+        "value": "15kohm",
+        "rating": "1%",
+        "between": [
+          "FB",
+          "GND"
+        ]
+      },
+      {
+        "ref": "COUT",
+        "kind": "cap",
+        "value": "22uF",
+        "rating": "ceramic, rated above VOUT",
+        "between": [
+          "vout",
+          "GND"
+        ]
+      }
+    ],
+    "inputs": [
+      {
+        "name": "vout",
+        "description": "The output rail.",
+        "required": true
+      }
+    ],
+    "notes": [
+      "VOUT = 0.6 V x (1 + R1 / R2): 110k / 15k gives 5 V; for 12 V use 110k / 5.76k.",
+      "The output comes out of the diode, not the chip: the chip has no VOUT pin. Keep the loop SW - diode - COUT - GND short and wide, SW's copper small.",
+      "EN to VIN for automatic start; driving EN low leaves VIN connected to the output through the inductor and the diode (a boost cannot disconnect)."
+    ],
+    "page": "p. 1, Figure 1 basic application circuit; p. 6 applications information"
+  },
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "Aerosemi MT3608 datasheet Rev 1.1: package/order information (SOT23-6 top view: 1 SW, 2 GND, 3 FB, 4 EN, 5 VIN, 6 NC), pin description, absolute maximum ratings, electrical characteristics",
+      "url": "https://datasheet.lcsc.com/datasheet/pdf/87b648f6991783104e708a12c210cc63.pdf",
+      "license": "pin numbers and names, ratings and application values transcribed from the manufacturer's datasheet (facts, one reading); descriptions and notes our own"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "the standard SOT-23-6 footprint"
+    }
+  }
+}

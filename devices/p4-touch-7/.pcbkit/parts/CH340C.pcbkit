@@ -1,0 +1,108 @@
+pcbkit 1
+
+// CH340C (WCH (Nanjing Qinheng Microelectronics)): USB 2.0 full-speed to UART bridge, internal
+// clock (no crystal), modem signals, 5 V or 3.3 V supply (SOP-16)
+// Compiled from the part sheet `parts/CH340C.json` (`parts.create`); status: checked.
+// Datasheet: https://www.wch-ic.com/download/file?id=79 (CH340DS1 V3D)
+// Pins: WCH datasheet CH340DS1 version 3D, section 4 (pins, SOP16 column), 5.1 and 6 (parameters)
+// Footprint: the standard package `SOP-16`
+// This file may be used, changed and shared without conditions, with the board or alone.
+
+// Note: At 5 V: VCC from VBUS, V3 decoupled with 100 nF, and the UART lines swing to 5 V. At 3.3
+// V: V3 tied to VCC, both on the 3.3 V rail, logic at 3.3 V.
+// Note: Unused modem inputs (CTS#, DSR#, RI#, DCD#) have pull-ups and may stay open; R232 has a
+// pull-down and stays open.
+// Note: Arduino-style auto-reset: DTR# through 100 nF to the MCU's reset (with the reset pull-up);
+// ESP32 auto-boot: DTR# and RTS# through two transistors to EN and GPIO0.
+// Note: Keep the decoupling capacitors next to pins 16 and 4 and route D+/D- as a pair.
+
+/// CH340C — USB 2.0 full-speed to UART bridge, internal clock (no crystal), modem signals, 5 V or
+/// 3.3 V supply (SOP-16)
+part Part = device(
+  footprint = soic(16),
+  prefix = "U",
+  mpn = "CH340C",
+  manufacturer = "WCH (Nanjing Qinheng Microelectronics)",
+  pinout = {
+    GND: "1",
+    TXD: "2",
+    RXD: "3",
+    V3: "4",
+    UDP: "5",
+    UDN: "6",
+    NC: "7",
+    OUT_N: "8",
+    CTS_N: "9",
+    DSR_N: "10",
+    RI_N: "11",
+    DCD_N: "12",
+    DTR_N: "13",
+    RTS_N: "14",
+    R232: "15",
+    VCC: "16",
+  },
+  pinTypes = {
+    GND: .ground,
+    TXD: .output,
+    RXD: io.input(max = 5.3V, pull = .up),
+    V3: .passive,
+    UDP: io.bidirectional(),
+    UDN: io.bidirectional(),
+    NC: .nc,
+    OUT_N: .output,
+    CTS_N: io.input(pull = .up),
+    DSR_N: io.input(pull = .up),
+    RI_N: io.input(pull = .up),
+    DCD_N: io.input(pull = .up),
+    DTR_N: .output,
+    RTS_N: .output,
+    R232: io.input(pull = .down),
+    VCC: io.powerIn(min = 3.1V, max = 6V),
+  },
+) with {
+  fields {
+    Status: "checked",
+    PinoutSource: "WCH datasheet CH340DS1 version 3D, section 4 (pins, SOP16 column), 5.1 and 6 (parameters)",
+    Datasheet: "https://www.wch-ic.com/download/file?id=79",
+  }
+  simulation = SimulationParameters {
+    parameters = [
+      SimulationParameter {
+        id = "icc-active-5v"
+        quantity = .supplyCurrent
+        typ = 7mA
+        max = 20mA
+        conditions = "Total power supply current during operation, VCC = 5 V, TA = 25 degC, USB bus pins excluded; at VCC = V3 = 3.3 V the datasheet gives 4 mA typ / 12 mA max (section 6.3)"
+        source = SimulationEvidence {
+          url = "https://www.wch-ic.com/download/file?id=79"
+          revision = "CH340DS1 V3D"
+          location = "p. 8, section 6.2 5V Electrical Parameters, ICC (total supply current during operation) row"
+          confidence = .datasheet
+        }
+      },
+    ]
+  }
+}
+
+/// The support circuit of the CH340C as its datasheet shows it (5.1 Clock, reset, power; 7.1 and
+/// 7.6 application circuits): every part next to the pin it serves. Add it next to the part: `U1 =
+/// CH340C.Part { … }`, `U1Support = CH340C.Support(U1) {}`.
+///
+/// - No crystal: the CH340C has an internal clock (baud rate error under 1.8 %).
+///
+/// - UD+ and UD- go straight to the USB connector: the part has its USB pull-up and needs no series
+/// resistors.
+block Support(
+  /// The CH340C this circuit serves (`CH340C.Support(U1)`).
+  chip: Any,
+) {
+  C9 = cap(100nF, package = "0402") {
+    place = [soft(near(chip.pin.VCC, max = 2mm), weight = 2)]
+    pins { a: chip.pin.VCC, b: chip.pin.GND }
+  }
+  /// at 5 V; at 3.3 V V3 joins VCC as well
+  C8 = cap(100nF, package = "0402", ratedVoltage = 5V) {
+    place = [soft(near(chip.pin.V3, max = 2mm), weight = 2)]
+    pins { a: chip.pin.V3, b: chip.pin.GND }
+  }
+}

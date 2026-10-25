@@ -1,0 +1,1971 @@
+{
+  "id": "ESP32_P4NRW32",
+  "mpn": "ESP32-P4NRW32",
+  "manufacturer": "Espressif Systems",
+  "category": "mcu",
+  "description": "Dual-core RISC-V 400 MHz application processor (chip revision v1.x) with 32 MB in-package PSRAM, MIPI-DSI and CSI (2 lanes each), USB 2.0 high speed, SD/MMC, Ethernet MAC, H.264 and JPEG, no radio; QFN-104 10 x 10 mm",
+  "tags": [
+    "mcu",
+    "esp32",
+    "esp32-p4",
+    "esp32p4",
+    "p4",
+    "risc-v",
+    "mipi",
+    "dsi",
+    "csi",
+    "display",
+    "camera",
+    "usb hs",
+    "psram",
+    "qfn104"
+  ],
+  "datasheet": {
+    "url": "https://documentation.espressif.com/esp32-p4-chip-revision-v1.3_datasheet_en.pdf",
+    "revision": "v1.2"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "QFN-104 10x10 mm, 0.35 mm pitch, 7.5 mm exposed pad",
+    "pins": 104,
+    "pitch": 0.35,
+    "body": {
+      "d": 10.0,
+      "e": 10.0,
+      "a": [
+        0.8,
+        0.85,
+        0.9
+      ]
+    },
+    "lead": {
+      "b": [
+        0.13,
+        0.18,
+        0.23
+      ],
+      "l": [
+        0.3,
+        0.4,
+        0.5
+      ]
+    },
+    "exposedPad": {
+      "d2": [
+        7.4,
+        7.5,
+        7.6
+      ],
+      "e2": [
+        7.4,
+        7.5,
+        7.6
+      ],
+      "number": "105"
+    },
+    "landPattern": {
+      "pads": [
+        {
+          "number": "1",
+          "x": -4.95,
+          "y": 4.375,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "2",
+          "x": -4.95,
+          "y": 4.025,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "3",
+          "x": -4.95,
+          "y": 3.675,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "4",
+          "x": -4.95,
+          "y": 3.325,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "5",
+          "x": -4.95,
+          "y": 2.975,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "6",
+          "x": -4.95,
+          "y": 2.625,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "7",
+          "x": -4.95,
+          "y": 2.275,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "8",
+          "x": -4.95,
+          "y": 1.925,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "9",
+          "x": -4.95,
+          "y": 1.575,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "10",
+          "x": -4.95,
+          "y": 1.225,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "11",
+          "x": -4.95,
+          "y": 0.875,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "12",
+          "x": -4.95,
+          "y": 0.525,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "13",
+          "x": -4.95,
+          "y": 0.175,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "14",
+          "x": -4.95,
+          "y": -0.175,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "15",
+          "x": -4.95,
+          "y": -0.525,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "16",
+          "x": -4.95,
+          "y": -0.875,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "17",
+          "x": -4.95,
+          "y": -1.225,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "18",
+          "x": -4.95,
+          "y": -1.575,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "19",
+          "x": -4.95,
+          "y": -1.925,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "20",
+          "x": -4.95,
+          "y": -2.275,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "21",
+          "x": -4.95,
+          "y": -2.625,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "22",
+          "x": -4.95,
+          "y": -2.975,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "23",
+          "x": -4.95,
+          "y": -3.325,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "24",
+          "x": -4.95,
+          "y": -3.675,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "25",
+          "x": -4.95,
+          "y": -4.025,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "26",
+          "x": -4.95,
+          "y": -4.375,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "27",
+          "x": -4.375,
+          "y": -4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "28",
+          "x": -4.025,
+          "y": -4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "29",
+          "x": -3.675,
+          "y": -4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "30",
+          "x": -3.325,
+          "y": -4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "31",
+          "x": -2.975,
+          "y": -4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "32",
+          "x": -2.625,
+          "y": -4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "33",
+          "x": -2.275,
+          "y": -4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "34",
+          "x": -1.925,
+          "y": -4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "35",
+          "x": -1.575,
+          "y": -4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "36",
+          "x": -1.225,
+          "y": -4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "37",
+          "x": -0.875,
+          "y": -4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "38",
+          "x": -0.525,
+          "y": -4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "39",
+          "x": -0.175,
+          "y": -4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "40",
+          "x": 0.175,
+          "y": -4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "41",
+          "x": 0.525,
+          "y": -4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "42",
+          "x": 0.875,
+          "y": -4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "43",
+          "x": 1.225,
+          "y": -4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "44",
+          "x": 1.575,
+          "y": -4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "45",
+          "x": 1.925,
+          "y": -4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "46",
+          "x": 2.275,
+          "y": -4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "47",
+          "x": 2.625,
+          "y": -4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "48",
+          "x": 2.975,
+          "y": -4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "49",
+          "x": 3.325,
+          "y": -4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "50",
+          "x": 3.675,
+          "y": -4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "51",
+          "x": 4.025,
+          "y": -4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "52",
+          "x": 4.375,
+          "y": -4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "53",
+          "x": 4.95,
+          "y": -4.375,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "54",
+          "x": 4.95,
+          "y": -4.025,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "55",
+          "x": 4.95,
+          "y": -3.675,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "56",
+          "x": 4.95,
+          "y": -3.325,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "57",
+          "x": 4.95,
+          "y": -2.975,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "58",
+          "x": 4.95,
+          "y": -2.625,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "59",
+          "x": 4.95,
+          "y": -2.275,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "60",
+          "x": 4.95,
+          "y": -1.925,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "61",
+          "x": 4.95,
+          "y": -1.575,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "62",
+          "x": 4.95,
+          "y": -1.225,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "63",
+          "x": 4.95,
+          "y": -0.875,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "64",
+          "x": 4.95,
+          "y": -0.525,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "65",
+          "x": 4.95,
+          "y": -0.175,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "66",
+          "x": 4.95,
+          "y": 0.175,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "67",
+          "x": 4.95,
+          "y": 0.525,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "68",
+          "x": 4.95,
+          "y": 0.875,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "69",
+          "x": 4.95,
+          "y": 1.225,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "70",
+          "x": 4.95,
+          "y": 1.575,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "71",
+          "x": 4.95,
+          "y": 1.925,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "72",
+          "x": 4.95,
+          "y": 2.275,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "73",
+          "x": 4.95,
+          "y": 2.625,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "74",
+          "x": 4.95,
+          "y": 2.975,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "75",
+          "x": 4.95,
+          "y": 3.325,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "76",
+          "x": 4.95,
+          "y": 3.675,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "77",
+          "x": 4.95,
+          "y": 4.025,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "78",
+          "x": 4.95,
+          "y": 4.375,
+          "w": 0.7,
+          "h": 0.2
+        },
+        {
+          "number": "79",
+          "x": 4.375,
+          "y": 4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "80",
+          "x": 4.025,
+          "y": 4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "81",
+          "x": 3.675,
+          "y": 4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "82",
+          "x": 3.325,
+          "y": 4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "83",
+          "x": 2.975,
+          "y": 4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "84",
+          "x": 2.625,
+          "y": 4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "85",
+          "x": 2.275,
+          "y": 4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "86",
+          "x": 1.925,
+          "y": 4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "87",
+          "x": 1.575,
+          "y": 4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "88",
+          "x": 1.225,
+          "y": 4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "89",
+          "x": 0.875,
+          "y": 4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "90",
+          "x": 0.525,
+          "y": 4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "91",
+          "x": 0.175,
+          "y": 4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "92",
+          "x": -0.175,
+          "y": 4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "93",
+          "x": -0.525,
+          "y": 4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "94",
+          "x": -0.875,
+          "y": 4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "95",
+          "x": -1.225,
+          "y": 4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "96",
+          "x": -1.575,
+          "y": 4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "97",
+          "x": -1.925,
+          "y": 4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "98",
+          "x": -2.275,
+          "y": 4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "99",
+          "x": -2.625,
+          "y": 4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "100",
+          "x": -2.975,
+          "y": 4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "101",
+          "x": -3.325,
+          "y": 4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "102",
+          "x": -3.675,
+          "y": 4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "103",
+          "x": -4.025,
+          "y": 4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "104",
+          "x": -4.375,
+          "y": 4.95,
+          "w": 0.2,
+          "h": 0.7
+        },
+        {
+          "number": "105",
+          "x": 0.0,
+          "y": 0.0,
+          "w": 7.4,
+          "h": 7.4
+        }
+      ],
+      "page": "Ours from Figure 6-1 (the datasheet has no land pattern): pads 0.2 x 0.7 mm from the leads' heel at 4.6 mm to 5.3 mm out, so the end pads of two sides stay 0.18 mm apart; 7.4 mm centre pad"
+    },
+    "page": "6 Packaging, Figure 6-1 QFN104 (10 x 10 mm)"
+  },
+  "pins": [
+    {
+      "number": "1",
+      "name": "GPIO1",
+      "type": "bidirectional",
+      "functions": [
+        "XTAL_32K_N"
+      ]
+    },
+    {
+      "number": "2",
+      "name": "GPIO2",
+      "type": "bidirectional",
+      "functions": [
+        "MTCK"
+      ]
+    },
+    {
+      "number": "3",
+      "name": "GPIO3",
+      "type": "bidirectional",
+      "functions": [
+        "MTDI"
+      ]
+    },
+    {
+      "number": "4",
+      "name": "GPIO4",
+      "type": "bidirectional",
+      "functions": [
+        "MTMS"
+      ]
+    },
+    {
+      "number": "5",
+      "name": "GPIO5",
+      "type": "bidirectional",
+      "functions": [
+        "MTDO"
+      ]
+    },
+    {
+      "number": "6",
+      "name": "GPIO6",
+      "type": "bidirectional"
+    },
+    {
+      "number": "7",
+      "name": "GPIO7",
+      "type": "bidirectional"
+    },
+    {
+      "number": "8",
+      "name": "GPIO8",
+      "type": "bidirectional"
+    },
+    {
+      "number": "9",
+      "name": "VDD_LP",
+      "type": "power_in"
+    },
+    {
+      "number": "10",
+      "name": "GPIO9",
+      "type": "bidirectional"
+    },
+    {
+      "number": "11",
+      "name": "GPIO10",
+      "type": "bidirectional"
+    },
+    {
+      "number": "12",
+      "name": "GPIO11",
+      "type": "bidirectional"
+    },
+    {
+      "number": "13",
+      "name": "GPIO12",
+      "type": "bidirectional"
+    },
+    {
+      "number": "14",
+      "name": "GPIO13",
+      "type": "bidirectional"
+    },
+    {
+      "number": "15",
+      "name": "GPIO14",
+      "type": "bidirectional"
+    },
+    {
+      "number": "16",
+      "name": "GPIO15",
+      "type": "bidirectional"
+    },
+    {
+      "number": "17",
+      "name": "GPIO16",
+      "type": "bidirectional"
+    },
+    {
+      "number": "18",
+      "name": "GPIO17",
+      "type": "bidirectional"
+    },
+    {
+      "number": "19",
+      "name": "GPIO18",
+      "type": "bidirectional"
+    },
+    {
+      "number": "20",
+      "name": "GPIO19",
+      "type": "bidirectional"
+    },
+    {
+      "number": "21",
+      "name": "VDD_IO_0",
+      "type": "power_in"
+    },
+    {
+      "number": "22",
+      "name": "GPIO20",
+      "type": "bidirectional"
+    },
+    {
+      "number": "23",
+      "name": "GPIO21",
+      "type": "bidirectional"
+    },
+    {
+      "number": "24",
+      "name": "GPIO22",
+      "type": "bidirectional"
+    },
+    {
+      "number": "25",
+      "name": "GPIO23",
+      "type": "bidirectional"
+    },
+    {
+      "number": "26",
+      "name": "VDD_HP_0",
+      "type": "power_in"
+    },
+    {
+      "number": "27",
+      "name": "FLASH_CS",
+      "type": "output"
+    },
+    {
+      "number": "28",
+      "name": "FLASH_Q",
+      "type": "bidirectional"
+    },
+    {
+      "number": "29",
+      "name": "FLASH_WP",
+      "type": "bidirectional"
+    },
+    {
+      "number": "30",
+      "name": "VDD_FLASHIO",
+      "type": "power_in"
+    },
+    {
+      "number": "31",
+      "name": "FLASH_HOLD",
+      "type": "bidirectional"
+    },
+    {
+      "number": "32",
+      "name": "FLASH_CK",
+      "type": "output"
+    },
+    {
+      "number": "33",
+      "name": "FLASH_D",
+      "type": "bidirectional"
+    },
+    {
+      "number": "34",
+      "name": "DSI_REXT",
+      "type": "passive"
+    },
+    {
+      "number": "35",
+      "name": "DSI_DATAP1",
+      "type": "bidirectional"
+    },
+    {
+      "number": "36",
+      "name": "DSI_DATAN1",
+      "type": "bidirectional"
+    },
+    {
+      "number": "37",
+      "name": "DSI_CLKN",
+      "type": "bidirectional"
+    },
+    {
+      "number": "38",
+      "name": "DSI_CLKP",
+      "type": "bidirectional"
+    },
+    {
+      "number": "39",
+      "name": "DSI_DATAP0",
+      "type": "bidirectional"
+    },
+    {
+      "number": "40",
+      "name": "DSI_DATAN0",
+      "type": "bidirectional"
+    },
+    {
+      "number": "41",
+      "name": "VDD_MIPI_DPHY",
+      "type": "power_in"
+    },
+    {
+      "number": "42",
+      "name": "CSI_DATAN0",
+      "type": "bidirectional"
+    },
+    {
+      "number": "43",
+      "name": "CSI_DATAP0",
+      "type": "bidirectional"
+    },
+    {
+      "number": "44",
+      "name": "CSI_CLKP",
+      "type": "bidirectional"
+    },
+    {
+      "number": "45",
+      "name": "CSI_CLKN",
+      "type": "bidirectional"
+    },
+    {
+      "number": "46",
+      "name": "CSI_DATAN1",
+      "type": "bidirectional"
+    },
+    {
+      "number": "47",
+      "name": "CSI_DATAP1",
+      "type": "bidirectional"
+    },
+    {
+      "number": "48",
+      "name": "CSI_REXT",
+      "type": "passive"
+    },
+    {
+      "number": "49",
+      "name": "USB_DM",
+      "type": "bidirectional"
+    },
+    {
+      "number": "50",
+      "name": "USB_DP",
+      "type": "bidirectional"
+    },
+    {
+      "number": "51",
+      "name": "VDD_USBPHY",
+      "type": "power_in"
+    },
+    {
+      "number": "52",
+      "name": "GPIO24",
+      "type": "bidirectional",
+      "functions": [
+        "USB1P1_N0"
+      ]
+    },
+    {
+      "number": "53",
+      "name": "GPIO25",
+      "type": "bidirectional",
+      "functions": [
+        "USB1P1_P0"
+      ]
+    },
+    {
+      "number": "54",
+      "name": "NC",
+      "type": "nc"
+    },
+    {
+      "number": "55",
+      "name": "GPIO26",
+      "type": "bidirectional",
+      "functions": [
+        "USB1P1_N1"
+      ]
+    },
+    {
+      "number": "56",
+      "name": "GPIO27",
+      "type": "bidirectional",
+      "functions": [
+        "USB1P1_P1"
+      ]
+    },
+    {
+      "number": "57",
+      "name": "GPIO28",
+      "type": "bidirectional"
+    },
+    {
+      "number": "58",
+      "name": "GPIO29",
+      "type": "bidirectional"
+    },
+    {
+      "number": "59",
+      "name": "VDD_PSRAM_0",
+      "type": "power_in"
+    },
+    {
+      "number": "60",
+      "name": "GPIO30",
+      "type": "bidirectional"
+    },
+    {
+      "number": "61",
+      "name": "GPIO31",
+      "type": "bidirectional"
+    },
+    {
+      "number": "62",
+      "name": "VDD_IO_4",
+      "type": "power_in"
+    },
+    {
+      "number": "63",
+      "name": "GPIO32",
+      "type": "bidirectional"
+    },
+    {
+      "number": "64",
+      "name": "GPIO33",
+      "type": "bidirectional"
+    },
+    {
+      "number": "65",
+      "name": "GPIO34",
+      "type": "bidirectional",
+      "functions": [
+        "strapping"
+      ]
+    },
+    {
+      "number": "66",
+      "name": "GPIO35",
+      "type": "bidirectional",
+      "functions": [
+        "strapping: boot mode (1 = SPI boot)"
+      ]
+    },
+    {
+      "number": "67",
+      "name": "VDD_PSRAM_1",
+      "type": "power_in"
+    },
+    {
+      "number": "68",
+      "name": "GPIO36",
+      "type": "bidirectional",
+      "functions": [
+        "strapping"
+      ]
+    },
+    {
+      "number": "69",
+      "name": "GPIO37",
+      "type": "bidirectional",
+      "functions": [
+        "U0TXD",
+        "strapping"
+      ]
+    },
+    {
+      "number": "70",
+      "name": "GPIO38",
+      "type": "bidirectional",
+      "functions": [
+        "U0RXD",
+        "strapping"
+      ]
+    },
+    {
+      "number": "71",
+      "name": "VDDO_FLASH",
+      "type": "power_out",
+      "description": "flash LDO output (1.8 or 3.3 V, 50 mA)"
+    },
+    {
+      "number": "72",
+      "name": "VDDO_PSRAM",
+      "type": "power_out",
+      "description": "PSRAM LDO output (1.9 V, 50 mA): to VDD_PSRAM_0/1"
+    },
+    {
+      "number": "73",
+      "name": "VDDO_3",
+      "type": "power_out",
+      "description": "VO3 LDO output (0.5-2.7 V or 3.3 V, 50 mA)"
+    },
+    {
+      "number": "74",
+      "name": "VDDO_4",
+      "type": "power_out",
+      "description": "VO4 LDO output (0.5-2.7 V or 3.3 V, 50 mA)"
+    },
+    {
+      "number": "75",
+      "name": "VDD_LDO",
+      "type": "power_in"
+    },
+    {
+      "number": "76",
+      "name": "VDD_HP_2",
+      "type": "power_in"
+    },
+    {
+      "number": "77",
+      "name": "VDD_DCDCC",
+      "type": "power_in"
+    },
+    {
+      "number": "78",
+      "name": "FB_DCDC",
+      "type": "passive",
+      "description": "to the external DC/DC's feedback divider: the chip trims VDD_HP"
+    },
+    {
+      "number": "79",
+      "name": "EN_DCDC",
+      "type": "output",
+      "description": "enables the external DC/DC that powers VDD_HP"
+    },
+    {
+      "number": "80",
+      "name": "GPIO39",
+      "type": "bidirectional",
+      "functions": [
+        "SD1_CDATA0"
+      ]
+    },
+    {
+      "number": "81",
+      "name": "GPIO40",
+      "type": "bidirectional",
+      "functions": [
+        "SD1_CDATA1"
+      ]
+    },
+    {
+      "number": "82",
+      "name": "GPIO41",
+      "type": "bidirectional",
+      "functions": [
+        "SD1_CDATA2"
+      ]
+    },
+    {
+      "number": "83",
+      "name": "GPIO42",
+      "type": "bidirectional",
+      "functions": [
+        "SD1_CDATA3"
+      ]
+    },
+    {
+      "number": "84",
+      "name": "GPIO43",
+      "type": "bidirectional",
+      "functions": [
+        "SD1_CCLK"
+      ]
+    },
+    {
+      "number": "85",
+      "name": "VDD_IO_5",
+      "type": "power_in"
+    },
+    {
+      "number": "86",
+      "name": "GPIO44",
+      "type": "bidirectional",
+      "functions": [
+        "SD1_CCMD"
+      ]
+    },
+    {
+      "number": "87",
+      "name": "GPIO45",
+      "type": "bidirectional"
+    },
+    {
+      "number": "88",
+      "name": "GPIO46",
+      "type": "bidirectional"
+    },
+    {
+      "number": "89",
+      "name": "GPIO47",
+      "type": "bidirectional"
+    },
+    {
+      "number": "90",
+      "name": "GPIO48",
+      "type": "bidirectional"
+    },
+    {
+      "number": "91",
+      "name": "VDD_HP_3",
+      "type": "power_in"
+    },
+    {
+      "number": "92",
+      "name": "GPIO49",
+      "type": "bidirectional"
+    },
+    {
+      "number": "93",
+      "name": "GPIO50",
+      "type": "bidirectional"
+    },
+    {
+      "number": "94",
+      "name": "GPIO51",
+      "type": "bidirectional"
+    },
+    {
+      "number": "95",
+      "name": "GPIO52",
+      "type": "bidirectional"
+    },
+    {
+      "number": "96",
+      "name": "VDD_IO_6",
+      "type": "power_in"
+    },
+    {
+      "number": "97",
+      "name": "GPIO53",
+      "type": "bidirectional"
+    },
+    {
+      "number": "98",
+      "name": "GPIO54",
+      "type": "bidirectional"
+    },
+    {
+      "number": "99",
+      "name": "XTAL_N",
+      "type": "passive"
+    },
+    {
+      "number": "100",
+      "name": "XTAL_P",
+      "type": "passive"
+    },
+    {
+      "number": "101",
+      "name": "VDD_ANA",
+      "type": "power_in"
+    },
+    {
+      "number": "102",
+      "name": "VDD_BAT",
+      "type": "power_in"
+    },
+    {
+      "number": "103",
+      "name": "CHIP_PU",
+      "type": "input",
+      "description": "chip enable: high runs, low resets (RC delay on the board)"
+    },
+    {
+      "number": "104",
+      "name": "GPIO0",
+      "type": "bidirectional",
+      "functions": [
+        "XTAL_32K_P"
+      ]
+    },
+    {
+      "number": "105",
+      "name": "GND",
+      "type": "ground",
+      "description": "exposed pad"
+    }
+  ],
+  "ratings": {
+    "absMax": [
+      {
+        "what": "VDD_* supplies (3.3 V domain)",
+        "min": -0.3,
+        "max": 3.6,
+        "unit": "V"
+      }
+    ],
+    "recommended": [
+      {
+        "what": "3.3 V supplies (VDD_IO_x, VDD_LP, VDD_ANA, VDD_LDO, VDD_DCDCC, VDD_USBPHY, VDD_BAT)",
+        "min": 3.0,
+        "max": 3.6,
+        "unit": "V"
+      },
+      {
+        "what": "VDD_HP_0/2/3 (from the external DC/DC)",
+        "min": 0.99,
+        "max": 1.3,
+        "unit": "V"
+      },
+      {
+        "what": "operating temperature",
+        "min": -40.0,
+        "max": 85.0,
+        "unit": "°C"
+      }
+    ]
+  },
+  "simulation": {
+    "behavior": {
+      "model": "esp32p4",
+      "ports": {
+        "GPIO0": [
+          "104"
+        ],
+        "GPIO1": [
+          "1"
+        ],
+        "GPIO10": [
+          "11"
+        ],
+        "GPIO11": [
+          "12"
+        ],
+        "GPIO12": [
+          "13"
+        ],
+        "GPIO13": [
+          "14"
+        ],
+        "GPIO14": [
+          "15"
+        ],
+        "GPIO15": [
+          "16"
+        ],
+        "GPIO16": [
+          "17"
+        ],
+        "GPIO17": [
+          "18"
+        ],
+        "GPIO18": [
+          "19"
+        ],
+        "GPIO19": [
+          "20"
+        ],
+        "GPIO2": [
+          "2"
+        ],
+        "GPIO20": [
+          "22"
+        ],
+        "GPIO21": [
+          "23"
+        ],
+        "GPIO22": [
+          "24"
+        ],
+        "GPIO23": [
+          "25"
+        ],
+        "GPIO24": [
+          "52"
+        ],
+        "GPIO25": [
+          "53"
+        ],
+        "GPIO26": [
+          "55"
+        ],
+        "GPIO27": [
+          "56"
+        ],
+        "GPIO28": [
+          "57"
+        ],
+        "GPIO29": [
+          "58"
+        ],
+        "GPIO3": [
+          "3"
+        ],
+        "GPIO30": [
+          "60"
+        ],
+        "GPIO31": [
+          "61"
+        ],
+        "GPIO32": [
+          "63"
+        ],
+        "GPIO33": [
+          "64"
+        ],
+        "GPIO34": [
+          "65"
+        ],
+        "GPIO35": [
+          "66"
+        ],
+        "GPIO36": [
+          "68"
+        ],
+        "GPIO37": [
+          "69"
+        ],
+        "GPIO38": [
+          "70"
+        ],
+        "GPIO39": [
+          "80"
+        ],
+        "GPIO4": [
+          "4"
+        ],
+        "GPIO40": [
+          "81"
+        ],
+        "GPIO41": [
+          "82"
+        ],
+        "GPIO42": [
+          "83"
+        ],
+        "GPIO43": [
+          "84"
+        ],
+        "GPIO44": [
+          "86"
+        ],
+        "GPIO45": [
+          "87"
+        ],
+        "GPIO46": [
+          "88"
+        ],
+        "GPIO47": [
+          "89"
+        ],
+        "GPIO48": [
+          "90"
+        ],
+        "GPIO49": [
+          "92"
+        ],
+        "GPIO5": [
+          "5"
+        ],
+        "GPIO50": [
+          "93"
+        ],
+        "GPIO51": [
+          "94"
+        ],
+        "GPIO52": [
+          "95"
+        ],
+        "GPIO53": [
+          "97"
+        ],
+        "GPIO54": [
+          "98"
+        ],
+        "GPIO6": [
+          "6"
+        ],
+        "GPIO7": [
+          "7"
+        ],
+        "GPIO8": [
+          "8"
+        ],
+        "GPIO9": [
+          "10"
+        ],
+        "dsi": [
+          "38"
+        ],
+        "power": [
+          "21",
+          "105"
+        ]
+      },
+      "parameters": {},
+      "height": 0.85
+    }
+  },
+  "support": {
+    "parts": [
+      {
+        "ref": "C_3V3",
+        "kind": "cap",
+        "value": "100nF",
+        "rating": "one per 3.3 V supply pin",
+        "between": [
+          "VDD_IO_0",
+          "GND"
+        ],
+        "each": true
+      },
+      {
+        "ref": "C_IO4",
+        "kind": "cap",
+        "value": "100nF",
+        "between": [
+          "VDD_IO_4",
+          "GND"
+        ]
+      },
+      {
+        "ref": "C_IO5",
+        "kind": "cap",
+        "value": "100nF",
+        "between": [
+          "VDD_IO_5",
+          "GND"
+        ]
+      },
+      {
+        "ref": "C_IO6",
+        "kind": "cap",
+        "value": "100nF",
+        "between": [
+          "VDD_IO_6",
+          "GND"
+        ]
+      },
+      {
+        "ref": "C_LP",
+        "kind": "cap",
+        "value": "100nF",
+        "between": [
+          "VDD_LP",
+          "GND"
+        ]
+      },
+      {
+        "ref": "C_BAT",
+        "kind": "cap",
+        "value": "100nF",
+        "between": [
+          "VDD_BAT",
+          "GND"
+        ]
+      },
+      {
+        "ref": "C_ANA",
+        "kind": "cap",
+        "value": "10uF",
+        "between": [
+          "VDD_ANA",
+          "GND"
+        ]
+      },
+      {
+        "ref": "C_ANA2",
+        "kind": "cap",
+        "value": "100nF",
+        "between": [
+          "VDD_ANA",
+          "GND"
+        ]
+      },
+      {
+        "ref": "C_LDO",
+        "kind": "cap",
+        "value": "10uF",
+        "between": [
+          "VDD_LDO",
+          "GND"
+        ]
+      },
+      {
+        "ref": "C_DCDCC",
+        "kind": "cap",
+        "value": "100nF",
+        "between": [
+          "VDD_DCDCC",
+          "GND"
+        ]
+      },
+      {
+        "ref": "C_USB",
+        "kind": "cap",
+        "value": "100nF",
+        "between": [
+          "VDD_USBPHY",
+          "GND"
+        ]
+      },
+      {
+        "ref": "C_FLASHIO",
+        "kind": "cap",
+        "value": "100nF",
+        "between": [
+          "VDD_FLASHIO",
+          "GND"
+        ]
+      },
+      {
+        "ref": "C_HP0",
+        "kind": "cap",
+        "value": "10uF",
+        "between": [
+          "VDD_HP_0",
+          "GND"
+        ]
+      },
+      {
+        "ref": "C_HP0B",
+        "kind": "cap",
+        "value": "100nF",
+        "between": [
+          "VDD_HP_0",
+          "GND"
+        ]
+      },
+      {
+        "ref": "C_HP2",
+        "kind": "cap",
+        "value": "100nF",
+        "between": [
+          "VDD_HP_2",
+          "GND"
+        ]
+      },
+      {
+        "ref": "C_HP3",
+        "kind": "cap",
+        "value": "100nF",
+        "between": [
+          "VDD_HP_3",
+          "GND"
+        ]
+      },
+      {
+        "ref": "C_PSRAM0",
+        "kind": "cap",
+        "value": "100nF",
+        "between": [
+          "VDD_PSRAM_0",
+          "GND"
+        ]
+      },
+      {
+        "ref": "C_PSRAM1",
+        "kind": "cap",
+        "value": "100nF",
+        "between": [
+          "VDD_PSRAM_1",
+          "GND"
+        ]
+      },
+      {
+        "ref": "C_DPHY",
+        "kind": "cap",
+        "value": "100nF",
+        "between": [
+          "VDD_MIPI_DPHY",
+          "GND"
+        ]
+      },
+      {
+        "ref": "C_VO1",
+        "kind": "cap",
+        "value": "1uF",
+        "between": [
+          "VDDO_FLASH",
+          "GND"
+        ]
+      },
+      {
+        "ref": "C_VO2",
+        "kind": "cap",
+        "value": "1uF",
+        "between": [
+          "VDDO_PSRAM",
+          "GND"
+        ]
+      },
+      {
+        "ref": "C_VO3",
+        "kind": "cap",
+        "value": "1uF",
+        "between": [
+          "VDDO_3",
+          "GND"
+        ]
+      },
+      {
+        "ref": "C_VO4",
+        "kind": "cap",
+        "value": "1uF",
+        "between": [
+          "VDDO_4",
+          "GND"
+        ]
+      },
+      {
+        "ref": "PSRAM_0",
+        "kind": "tie",
+        "value": "",
+        "between": [
+          "VDDO_PSRAM",
+          "VDD_PSRAM_0"
+        ]
+      },
+      {
+        "ref": "PSRAM_1",
+        "kind": "tie",
+        "value": "",
+        "between": [
+          "VDDO_PSRAM",
+          "VDD_PSRAM_1"
+        ]
+      },
+      {
+        "ref": "DPHY_VO3",
+        "kind": "tie",
+        "value": "",
+        "rating": "the MIPI D-PHY at 2.5 V from the VO3 LDO",
+        "between": [
+          "VDDO_3",
+          "VDD_MIPI_DPHY"
+        ]
+      },
+      {
+        "ref": "HP_02",
+        "kind": "tie",
+        "value": "",
+        "between": [
+          "VDD_HP_0",
+          "VDD_HP_2"
+        ]
+      },
+      {
+        "ref": "HP_03",
+        "kind": "tie",
+        "value": "",
+        "between": [
+          "VDD_HP_0",
+          "VDD_HP_3"
+        ]
+      },
+      {
+        "ref": "Y1",
+        "kind": "crystal",
+        "value": "40MHz",
+        "package": "3225",
+        "rating": "±10 ppm, CL 10 pF",
+        "between": [
+          "XTAL_P",
+          "XTAL_N",
+          "GND"
+        ],
+        "load": "10pF"
+      },
+      {
+        "ref": "R_PU",
+        "kind": "res",
+        "value": "10kohm",
+        "between": [
+          "CHIP_PU",
+          "VDD_ANA"
+        ]
+      },
+      {
+        "ref": "C_PU",
+        "kind": "cap",
+        "value": "1uF",
+        "rating": "RC delay: CHIP_PU rises after the supplies",
+        "between": [
+          "CHIP_PU",
+          "GND"
+        ]
+      },
+      {
+        "ref": "R_DSI",
+        "kind": "res",
+        "value": "2kohm",
+        "rating": "1%",
+        "between": [
+          "DSI_REXT",
+          "GND"
+        ]
+      },
+      {
+        "ref": "R_CSI",
+        "kind": "res",
+        "value": "2kohm",
+        "rating": "1%",
+        "between": [
+          "CSI_REXT",
+          "GND"
+        ]
+      },
+      {
+        "ref": "U_FLASH",
+        "kind": "part",
+        "value": "W25Q128JVSIQ",
+        "rating": "16 MiB quad SPI NOR flash, 3.3 V",
+        "pins": {
+          "/CS": "FLASH_CS",
+          "/HOLD": "FLASH_HOLD",
+          "/WP": "FLASH_WP",
+          "CLK": "FLASH_CK",
+          "DI": "FLASH_D",
+          "DO": "FLASH_Q",
+          "GND": "GND",
+          "VCC": "VDD_FLASHIO"
+        },
+        "support": {
+          "ioPullUps": false
+        }
+      }
+    ],
+    "notes": [
+      "VDD_HP_0/2/3 (1.1 V) come from an external step-down converter that EN_DCDC switches on and whose feedback FB_DCDC trims: give the block its output (vddHp).",
+      "VDD_PSRAM_0/1 run from VDDO_PSRAM (the in-package PSRAM's 1.9 V LDO); VDD_MIPI_DPHY from VDDO_3 set to 2.5 V by the firmware.",
+      "Route DSI and CSI lanes as 100 ohm differential pairs, the clock lane matched to its data lanes; keep the 40 MHz crystal next to XTAL_P/N."
+    ],
+    "page": "ESP32-P4 Hardware Design Guidelines, 2 Schematic Checklist (power, crystal, flash, chip enable); datasheet 2.6 Power Supply"
+  },
+  "notes": [
+    "Chip revision v1.x parts (ESP32-P4NRW32) are end of life; their successors (ESP32-P4NRW32X, revision v3.x) need images built for v3.",
+    "GPIO35 high at reset boots from flash (low: download mode); GPIO37/38 are the ROM console UART0."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "Espressif ESP32-P4 Series Datasheet v1.2 (chip revision v1.3), Table 2-1 Pin Overview",
+      "url": "https://documentation.espressif.com/esp32-p4-chip-revision-v1.3_datasheet_en.pdf",
+      "license": "facts transcribed from the datasheet (pin numbers and names); notes in our own words"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "our land pattern from Figure 6-1's dimensions (the datasheet has none); IPC-7351B's toe and heel, the corner pads shortened"
+    }
+  }
+}

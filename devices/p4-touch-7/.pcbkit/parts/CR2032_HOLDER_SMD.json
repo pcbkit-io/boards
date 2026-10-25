@@ -1,0 +1,110 @@
+{
+  "id": "CR2032_HOLDER_SMD",
+  "mpn": "BS-08-B2AA001",
+  "manufacturer": "MYOUNG",
+  "orderCodes": [
+    "C964777"
+  ],
+  "category": "battery-holder",
+  "description": "CR2032 coin cell holder, SMD (for CR2032 / CR2025 20 mm cells): VBAT (+) and GND (−) terminals; courtyard the holder and the 20 mm cell",
+  "tags": [
+    "cr2032",
+    "coin cell",
+    "coin cell holder",
+    "battery",
+    "battery holder",
+    "button cell",
+    "cr2025",
+    "20mm",
+    "lithium",
+    "smd",
+    "holder"
+  ],
+  "datasheet": {
+    "url": "https://datasheet.lcsc.com/datasheet/pdf/49f6d6c6b0d14154978fa264323cad6a.pdf",
+    "revision": "MYOUNG BS-2032-8 SMT drawing MY-CP-0007 rev A/0 (2017-06-28): PCB layout diagram, top view"
+  },
+  "prefix": "BT",
+  "package": {
+    "name": "BS-08 CR2032 holder, SMD",
+    "family": "other",
+    "pins": 2,
+    "body": {
+      "d": 24.1,
+      "e": 15.7,
+      "a": 5.3
+    },
+    "landPattern": {
+      "pads": [
+        {
+          "number": "1",
+          "x": 14.75,
+          "y": 0.0,
+          "w": 3.5,
+          "h": 3.8,
+          "shape": "roundrect"
+        },
+        {
+          "number": "2",
+          "x": -10.95,
+          "y": 0.0,
+          "w": 4.3,
+          "h": 2.8
+        }
+      ],
+      "page": "PCB layout diagram (top view): + pad 3.5 x 3.8 mm (R1.3 corners) 14.75 mm right of the cell's centre, − pad 4.3 x 2.8 mm 10.95 mm left of it"
+    },
+    "page": "housing 24.10 x 15.70 mm, Ø22.30 arc, 5.30 mm high; cell Ø20"
+  },
+  "footprint": "Footprint {\n    let ps = [\n      Pad { number = \"1\"; at = (14.75mm, 0mm); shape = shape.roundRect(3.5mm, 3.8mm, 1.3mm) },\n      Pad { number = \"2\"; at = (-10.95mm, 0mm); shape = shape.rect(4.3mm, 2.8mm) },\n    ]\n    let b = box((-11.15mm, -10mm), (16.5mm, 10mm))\n    name = \"BatteryHolder_MYOUNG_BS-08_CR2032_SMD\"\n    description = \"CR2032 holder, SMD (MYOUNG BS-08): + terminal 14.75 mm right of the cell's centre, − terminal 10.95 mm left; the courtyard covers the 20 mm cell\"\n    tags = [\"CR2032\", \"coin cell\", \"battery holder\", \"SMD\"]\n    pads = ps\n    body = b\n    height = 5.3mm\n    silk = silkOf(ps, b, 0.25mm)\n    package = Package { family = .other; body = (27.65mm, 20mm); height = 5.3mm }\n    solids = [\n      slab(-11.15mm, -7.85mm, 0mm, 12.95mm, 7.85mm, 1.2mm, color = \"#5a4632\"),\n      solid.cylinder(20mm, 3.2mm, at = (0mm, 0mm, 1.2mm), material = .metal),\n      slab(12.95mm, -2.5mm, 0mm, 16.4mm, 2.5mm, 4.6mm, material = .gold),\n    ]\n  }",
+  "pins": [
+    {
+      "number": "1",
+      "name": "VBAT",
+      "type": "power_out",
+      "description": "the cell's positive, 3 V (CR2032: 3.0 V nominal, about 225 mAh)"
+    },
+    {
+      "number": "2",
+      "name": "GND",
+      "type": "ground",
+      "description": "the cell's negative"
+    }
+  ],
+  "ratings": {
+    "recommended": [
+      {
+        "what": "cell voltage",
+        "pins": [
+          "VBAT"
+        ],
+        "min": 2.0,
+        "nom": 3.0,
+        "max": 3.3
+      },
+      {
+        "what": "operating temperature",
+        "min": -25.0,
+        "max": 85.0,
+        "unit": "°C"
+      }
+    ]
+  },
+  "notes": [
+    "A CR2032 gives 3 V (2.0-3.3 V over its life) and a few mA at most (pulses to about 15 mA): for RTCs, sensors and low-power MCUs, not radios transmitting continuously.",
+    "Add reverse-polarity protection only if a cell can be put in backwards (this holder takes it one way). A 100 µF capacitor across VBAT and GND helps radio bursts.",
+    "The − contact is the holder's spring, soldered at pad 2: the board needs no pad under the cell."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "MYOUNG BS-08-B2AA001 drawing (BS-2032-8 SMT): terminals ② + and ③ −, PCB layout diagram (top view), housing dimensions",
+      "url": "https://datasheet.lcsc.com/datasheet/pdf/49f6d6c6b0d14154978fa264323cad6a.pdf",
+      "license": "pad positions, sizes and dimensions transcribed from the maker's drawing (facts); footprint written in PCBKit, 3D body and notes our own"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "the land pattern is the drawing's PCB layout diagram"
+    }
+  }
+}

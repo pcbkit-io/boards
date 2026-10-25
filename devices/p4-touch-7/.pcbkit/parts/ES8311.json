@@ -1,0 +1,331 @@
+{
+  "id": "ES8311",
+  "mpn": "ES8311",
+  "manufacturer": "Everest Semiconductor",
+  "category": "audio",
+  "description": "Low-power mono audio codec: 24-bit ADC with a microphone preamplifier and a DAC with a differential output, I2S/PCM and I2C control, 1.8-3.3 V (QFN-20 3x3)",
+  "tags": [
+    "audio",
+    "codec",
+    "dac",
+    "adc",
+    "i2s",
+    "microphone",
+    "es8311",
+    "everest"
+  ],
+  "datasheet": {
+    "url": "https://www.lcsc.com/datasheet/lcsc_datasheet_2302221730_Everest-semi-Everest-Semiconductor-ES8311_C962342.pdf",
+    "revision": "LCSC C962342"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "QFN-20 3x3 mm, 0.4 mm pitch, exposed pad",
+    "family": "qfn",
+    "pins": 20,
+    "pitch": 0.4,
+    "body": {
+      "d": 3.0,
+      "e": 3.0,
+      "a": [
+        0.7,
+        0.75,
+        0.8
+      ]
+    },
+    "lead": {
+      "b": [
+        0.15,
+        0.2,
+        0.25
+      ],
+      "l": [
+        0.3,
+        0.4,
+        0.5
+      ]
+    },
+    "exposedPad": {
+      "d2": [
+        1.55,
+        1.65,
+        1.75
+      ],
+      "e2": [
+        1.55,
+        1.65,
+        1.75
+      ],
+      "number": "21"
+    },
+    "page": "JEDEC MO-220 3x3 mm, 20 leads (the outline JLCPCB and LCSC list for C962342)"
+  },
+  "pins": [
+    {
+      "number": "1",
+      "name": "CCLK",
+      "type": "input",
+      "description": "I2C clock (SCL)"
+    },
+    {
+      "number": "2",
+      "name": "MCLK",
+      "type": "input",
+      "description": "master clock from the host's I2S"
+    },
+    {
+      "number": "3",
+      "name": "PVDD",
+      "type": "power_in",
+      "description": "digital I/O supply 1.8-3.3 V"
+    },
+    {
+      "number": "4",
+      "name": "DVDD",
+      "type": "power_in",
+      "description": "digital core supply (with PVDD)"
+    },
+    {
+      "number": "5",
+      "name": "DGND",
+      "type": "ground"
+    },
+    {
+      "number": "6",
+      "name": "SCLK",
+      "type": "input",
+      "description": "I2S bit clock (or DMIC clock)"
+    },
+    {
+      "number": "7",
+      "name": "ASDOUT",
+      "type": "output",
+      "description": "I2S data out (the ADC's samples)"
+    },
+    {
+      "number": "8",
+      "name": "LRCK",
+      "type": "input",
+      "description": "I2S word select"
+    },
+    {
+      "number": "9",
+      "name": "DSDIN",
+      "type": "input",
+      "description": "I2S data in (to the DAC)"
+    },
+    {
+      "number": "10",
+      "name": "AGND",
+      "type": "ground"
+    },
+    {
+      "number": "11",
+      "name": "AVDD",
+      "type": "power_in",
+      "description": "analog supply 1.8-3.3 V"
+    },
+    {
+      "number": "12",
+      "name": "OUTP",
+      "type": "output",
+      "description": "DAC output, positive (differential to a speaker amplifier or headphone)"
+    },
+    {
+      "number": "13",
+      "name": "OUTN",
+      "type": "output",
+      "description": "DAC output, negative"
+    },
+    {
+      "number": "14",
+      "name": "DACVREF",
+      "type": "passive",
+      "description": "DAC reference: 1 uF to AGND"
+    },
+    {
+      "number": "15",
+      "name": "ADCVREF",
+      "type": "passive",
+      "description": "ADC reference: 1 uF to AGND"
+    },
+    {
+      "number": "16",
+      "name": "VMID",
+      "type": "passive",
+      "description": "mid-supply reference: 1 uF to AGND"
+    },
+    {
+      "number": "17",
+      "name": "MIC1N",
+      "type": "input",
+      "description": "microphone input, negative"
+    },
+    {
+      "number": "18",
+      "name": "MIC1P",
+      "type": "input",
+      "description": "microphone input, positive (or DMIC data)"
+    },
+    {
+      "number": "19",
+      "name": "CDATA",
+      "type": "bidirectional",
+      "description": "I2C data (SDA)"
+    },
+    {
+      "number": "20",
+      "name": "CE",
+      "type": "input",
+      "description": "I2C address select: low 0x18, high 0x19"
+    },
+    {
+      "number": "21",
+      "name": "EP",
+      "type": "ground",
+      "description": "exposed pad: AGND"
+    }
+  ],
+  "ratings": {
+    "recommended": [
+      {
+        "what": "PVDD, DVDD, AVDD",
+        "pins": [
+          "PVDD",
+          "DVDD",
+          "AVDD"
+        ],
+        "min": 1.7,
+        "max": 3.6,
+        "unit": "V"
+      },
+      {
+        "what": "operating temperature",
+        "min": -40.0,
+        "max": 85.0,
+        "unit": "°C"
+      }
+    ]
+  },
+  "simulation": {
+    "behavior": {
+      "model": "es8311",
+      "ports": {
+        "i2c": [
+          "19",
+          "1"
+        ],
+        "power": [
+          "3",
+          "5"
+        ]
+      },
+      "parameters": {},
+      "height": 0.75
+    }
+  },
+  "support": {
+    "parts": [
+      {
+        "ref": "C_PVDD",
+        "kind": "cap",
+        "value": "10uF",
+        "between": [
+          "PVDD",
+          "DGND"
+        ]
+      },
+      {
+        "ref": "C_PVDD2",
+        "kind": "cap",
+        "value": "100nF",
+        "between": [
+          "PVDD",
+          "DGND"
+        ]
+      },
+      {
+        "ref": "DVDD_PVDD",
+        "kind": "tie",
+        "value": "",
+        "between": [
+          "DVDD",
+          "PVDD"
+        ]
+      },
+      {
+        "ref": "C_AVDD",
+        "kind": "cap",
+        "value": "1uF",
+        "between": [
+          "AVDD",
+          "AGND"
+        ]
+      },
+      {
+        "ref": "C_VMID",
+        "kind": "cap",
+        "value": "1uF",
+        "between": [
+          "VMID",
+          "AGND"
+        ]
+      },
+      {
+        "ref": "C_ADCVREF",
+        "kind": "cap",
+        "value": "1uF",
+        "between": [
+          "ADCVREF",
+          "AGND"
+        ]
+      },
+      {
+        "ref": "C_DACVREF",
+        "kind": "cap",
+        "value": "1uF",
+        "between": [
+          "DACVREF",
+          "AGND"
+        ]
+      },
+      {
+        "ref": "AGND_DGND",
+        "kind": "tie",
+        "value": "",
+        "between": [
+          "AGND",
+          "DGND"
+        ]
+      },
+      {
+        "ref": "CE_LOW",
+        "kind": "tie",
+        "value": "",
+        "rating": "address 0x18",
+        "between": [
+          "CE",
+          "DGND"
+        ]
+      }
+    ],
+    "notes": [
+      "Keep the reference capacitors next to pins 14-16 and the analog ground under the part; the microphone pair and the DAC outputs as differential pairs."
+    ],
+    "page": "application circuit (Espressif ESP32-S3-BOX and Guition JC1060P470C use the same)"
+  },
+  "notes": [
+    "I2C address 0x18 with CE low (0x19 high). MCLK is usually 256 x the sample rate from the host's I2S."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "pin numbers and names from Guition's JC1060P470C schematic (U10) cross-checked with Espressif's ES8311 board designs",
+      "license": "facts (pin numbers and names); notes in our own words"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "computed per IPC-7351B from the JEDEC MO-220 3x3 outline"
+    }
+  }
+}
