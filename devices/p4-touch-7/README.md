@@ -25,9 +25,11 @@ tracks' current, two narrower tracks in a class), 0 unrouted nets. 174 component
 track segments, 468 vias.
 `analysis.run { lens: "ready" }`: 12 to fix (decoupling capacitors 3–4 mm from their P4 supply pins,
 under the chip on the back) and 24 to consider.
-**Not yet orderable with assembly**: the orderable part (LCSC code) of each assembled line is not
-chosen (`pcbkit parts`: PCBKit's parts catalog is not connected yet); `pcbkit export --format fab
---force` gives the fabrication files with BOM lines without part numbers.
+Every assembled line has its LCSC code (chosen by stock at JLCPCB, 2026-10-25); `pcbkit export
+--format fab` succeeds without `--force`. **Two parts are out of stock at JLCPCB**: the ESP32-P4NRW32
+(no ESP32-P4 of any revision is; send it as a consigned part) and the 4.2 x 3.2 mm BOOT and RESET
+buttons (PTS810, or any 4.2 x 3.2 mm tact switch). The ESP32-C6 is the MINI-1-H4 (the N4's 105 °C
+twin, same pins).
 <!-- /STATUS -->
 
 ## Run it in the browser
