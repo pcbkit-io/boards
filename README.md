@@ -9,6 +9,7 @@ Open them all at **https://app.pcbkit.io/github/pcbkit-io/boards**, or one folde
 
 | Folder | What is in it |
 |---|---|
+| [`devices/`](devices) | Real devices end to end: an STM32G431 sensor node on a robot's CAN bus, its firmware on ST's HAL, the robot around it simulated |
 | [`lab/`](lab) | Interactive boards: an ATmega328P (or two) running real C firmware against sensors, buttons, knobs, displays and servos you can change while it runs |
 | [`arduino/`](arduino) | Arduino projects to play with: an Arduino Nano running a sketch with the usual libraries (Adafruit SSD1306 and SHT31, Sensirion SCD4x, LiquidCrystal, Servo): a weather station, a CO₂ monitor, a thermostat, a character-LCD runner, a pocket console with six games, Simon, a drawing screen |
 | [`examples/`](examples) | Boards to learn from: a design PCBKit placed and routed from parts and connections, circuit blocks, open boards by their authors |
@@ -35,6 +36,6 @@ that runs in the app runs on the board.
 
 ## Licences
 
-Each family has its own: `lab/`, `arduino/` and `examples/` are CC0 1.0 (public domain), but for the open
+Each family has its own: `devices/`, `lab/`, `arduino/` and `examples/` are CC0 1.0 (public domain), but for the open
 boards by other authors, which keep theirs (`LICENSE.md` in their folders); `doom/` is the GNU GPL
 v2 ([`doom/LICENSE`](doom/LICENSE)), the licence of the Doom engines it carries.

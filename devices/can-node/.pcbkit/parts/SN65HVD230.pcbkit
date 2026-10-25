@@ -1,0 +1,125 @@
+pcbkit 1
+
+// SN65HVD230DR (Texas Instruments): CAN transceiver, 3.3 V supply, up to 1 Mbps, ISO 11898-2,
+// slope control and standby pin (SOIC-8)
+// Compiled from the part sheet `parts/SN65HVD230.json` (`parts.create`); status: checked.
+// Datasheet: https://www.ti.com/lit/ds/symlink/sn65hvd230.pdf (SLOS346O, April 2018)
+// Pins: TI datasheet SLOS346O (March 2001, revised April 2018), Pin Functions table and package
+// drawing D0008A
+// Footprint: computed per IPC-7351B from the datasheet's package dimensions
+// Symbol: digikey-kicad d4bd68f42e6ccc474526811a853a03692e170b58
+// dk_Interface-Drivers-Receivers-Transceivers:SN65HVD230DR (CC-BY-SA-4.0),
+// https://github.com/Digi-Key/digikey-kicad-library
+// Parameters: digikey-kicad d4bd68f42e6ccc474526811a853a03692e170b58
+// dk_Interface-Drivers-Receivers-Transceivers:SN65HVD230DR (CC-BY-SA-4.0),
+// https://github.com/Digi-Key/digikey-kicad-library
+// This file may be used, changed and shared without conditions, with the board or alone.
+
+// Note: Decouple VCC with 100 nF next to pins 3 and 2.
+// Note: D and R are 3.3 V logic: connect straight to a 3.3 V MCU's CAN TX and RX.
+// Note: Keep CANH/CANL short and routed as a pair to the connector; add TVS protection at the
+// connector on harsh buses.
+
+/// SN65HVD230DR — CAN transceiver, 3.3 V supply, up to 1 Mbps, ISO 11898-2, slope control and
+/// standby pin (SOIC-8)
+part Part = device(
+  footprint = rows(
+    name = "SOIC-8_3.895x4.905mm_P1.27mm",
+    description = "SOIC-8 (D), 8 pins, 4.905 x 3.895 mm body, 1.27 mm pitch (from the datasheet)",
+    pitch = 1.27mm,
+    pinsY = 4,
+    spanX = tolerance(5.8mm, 6.19mm),
+    leadLength = tolerance(0.41mm, 1.27mm),
+    leadWidth = tolerance(0.31mm, 0.51mm),
+    bodyX = tolerance(3.81mm, 3.98mm),
+    bodyY = tolerance(4.81mm, 5mm),
+    bodyHeight = 1.75mm,
+  ),
+  prefix = "U",
+  mpn = "SN65HVD230DR",
+  manufacturer = "Texas Instruments",
+  pinout = { D: "1", GND: "2", VCC: "3", R: "4", Vref: "5", CANL: "6", CANH: "7", RS: "8" },
+  pinTypes = {
+    D: io.input(max = 3.6V),
+    GND: .ground,
+    VCC: io.powerIn(min = 3V, max = 6V),
+    R: .output,
+    Vref: .passive,
+    CANL: io.bidirectional(max = 16V),
+    CANH: io.bidirectional(max = 16V),
+    RS: io.input(),
+  },
+) with {
+  fields {
+    Status: "checked",
+    PinoutSource: "TI datasheet SLOS346O (March 2001, revised April 2018), Pin Functions table and package drawing D0008A",
+    Datasheet: "https://www.ti.com/lit/ds/symlink/sn65hvd230.pdf",
+  }
+  simulation = SimulationParameters {
+    behavior = Behavior {
+      model = "can-transceiver"
+      ports = { "bus": ["7", "6"], "can": ["1", "4"], "mode": ["8"], "power": ["3", "2"] }
+      parameters = { "mode_high": 1 }
+      height = 1.75mm
+    }
+    parameters = [
+      SimulationParameter {
+        id = "icc-active-3v3"
+        quantity = .supplyCurrent
+        typ = 10mA
+        max = 17mA
+        conditions = "Driver dominant or recessive, no load, VCC=3.3 V, TA=25 degC typical, high-speed mode; VCC pin"
+        source = SimulationEvidence {
+          url = "https://www.ti.com/lit/ds/symlink/sn65hvd230.pdf"
+          revision = "SLOS346O, revised April 2018"
+          location = "p. 7, section 8.5 Electrical Characteristics: Driver, ICC row"
+          confidence = .datasheet
+        }
+      },
+      SimulationParameter {
+        id = "theta-jb-d8"
+        quantity = .thetaJb
+        typ = 15.3K/W
+        conditions = "D (SOIC), 8 pins, JEDEC thermal test board"
+        source = SimulationEvidence {
+          url = "https://www.ti.com/lit/ds/symlink/sn65hvd230.pdf"
+          revision = "SLOS346O, revised April 2018"
+          location = "p. 6, section 8.4 Thermal Information, RthetaJB"
+          confidence = .datasheet
+        }
+      },
+    ]
+  }
+}
+
+/// The support circuit of the SN65HVD230DR as its datasheet shows it (11.2 Typical application,
+/// 13.1 Layout guidelines): every part next to the pin it serves. Add it next to the part: `U1 =
+/// SN65HVD230.Part { … }`, `U1Support = SN65HVD230.Support(U1) {}`.
+///
+/// - RS straight to GND gives the fastest edges; 10-100 kohm to GND limits the slew rate (lower
+/// emissions); driving RS high puts the part in standby (receiver only).
+///
+/// - Terminate the bus with 120 ohm at its two ends only; split termination (2 x 60 ohm with a 4.7
+/// nF to GND at the midpoint) filters common-mode noise, Vref may drive that midpoint.
+block Support(
+  /// The SN65HVD230DR this circuit serves (`SN65HVD230.Support(U1)`).
+  chip: Any,
+  /// The 120 ohm termination (only at the bus's two ends).
+  termination: Bool = false,
+  /// RS straight to GND: the fastest edges (`false`: a slope resistor or standby control).
+  fastEdges: Bool = true,
+) {
+  /// X7R
+  C1 = cap(100nF, package = "0402", dielectric = .X7R) {
+    place = [soft(near(chip.pin.VCC, max = 2mm), weight = 2)]
+    pins { a: chip.pin.VCC, b: chip.pin.GND }
+  }
+  /// at each end of the bus only
+  RT =
+    if termination then res(120ohm, package = "0402") {
+      place = [soft(near(chip.pin.CANH, max = 5mm), weight = 1)]
+      pins { a: chip.pin.CANH, b: chip.pin.CANL }
+    }
+    else null
+  connect(chip.pin.RS, if fastEdges then chip.pin.GND else chip.pin.RS)
+}

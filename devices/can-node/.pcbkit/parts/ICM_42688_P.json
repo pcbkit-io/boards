@@ -1,0 +1,401 @@
+{
+  "id": "ICM_42688_P",
+  "mpn": "ICM-42688-P",
+  "manufacturer": "TDK InvenSense",
+  "category": "sensor",
+  "description": "ICM-42688-P 6-axis IMU (3-axis gyroscope ±15.6-2000 dps, 3-axis accelerometer ±2-16 g), I2C (0x68/0x69 by AP_AD0) / I3C / SPI, 1.71-3.6 V, LGA-14 2.5 x 3 mm",
+  "tags": [
+    "icm-42688-p",
+    "icm42688",
+    "icm-42688",
+    "imu",
+    "6-axis",
+    "gyroscope",
+    "gyro",
+    "accelerometer",
+    "motion sensor",
+    "drone",
+    "flight controller",
+    "i2c",
+    "spi",
+    "tdk",
+    "invensense",
+    "lga-14"
+  ],
+  "datasheet": {
+    "url": "https://invensense.tdk.com/wp-content/uploads/2020/04/ds-000347_icm-42688-p-datasheet.pdf",
+    "revision": "DS-000347 revision 1.2: 3.7 absolute maximum ratings, 4.1 pin out and signal description (Table 9), 4.2 typical operating circuit, 4.3 bill of materials, 10.2 package dimensions"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "LGA-14 2.5 x 3.0 x 0.91 mm, 0.5 mm pitch",
+    "family": "other",
+    "pins": 14,
+    "pitch": 0.5,
+    "body": {
+      "d": 3.0,
+      "e": 2.5,
+      "a": [
+        0.85,
+        0.91,
+        0.97
+      ]
+    },
+    "landPattern": {
+      "pads": [
+        {
+          "number": "1",
+          "x": -1.1625,
+          "y": 0.75,
+          "w": 0.475,
+          "h": 0.25
+        },
+        {
+          "number": "2",
+          "x": -1.1625,
+          "y": 0.25,
+          "w": 0.475,
+          "h": 0.25
+        },
+        {
+          "number": "3",
+          "x": -1.1625,
+          "y": -0.25,
+          "w": 0.475,
+          "h": 0.25
+        },
+        {
+          "number": "4",
+          "x": -1.1625,
+          "y": -0.75,
+          "w": 0.475,
+          "h": 0.25
+        },
+        {
+          "number": "5",
+          "x": -0.5,
+          "y": -0.9125,
+          "w": 0.25,
+          "h": 0.475
+        },
+        {
+          "number": "6",
+          "x": 0.0,
+          "y": -0.9125,
+          "w": 0.25,
+          "h": 0.475
+        },
+        {
+          "number": "7",
+          "x": 0.5,
+          "y": -0.9125,
+          "w": 0.25,
+          "h": 0.475
+        },
+        {
+          "number": "8",
+          "x": 1.1625,
+          "y": -0.75,
+          "w": 0.475,
+          "h": 0.25
+        },
+        {
+          "number": "9",
+          "x": 1.1625,
+          "y": -0.25,
+          "w": 0.475,
+          "h": 0.25
+        },
+        {
+          "number": "10",
+          "x": 1.1625,
+          "y": 0.25,
+          "w": 0.475,
+          "h": 0.25
+        },
+        {
+          "number": "11",
+          "x": 1.1625,
+          "y": 0.75,
+          "w": 0.475,
+          "h": 0.25
+        },
+        {
+          "number": "12",
+          "x": 0.5,
+          "y": 0.9125,
+          "w": 0.25,
+          "h": 0.475
+        },
+        {
+          "number": "13",
+          "x": 0.0,
+          "y": 0.9125,
+          "w": 0.25,
+          "h": 0.475
+        },
+        {
+          "number": "14",
+          "x": -0.5,
+          "y": 0.9125,
+          "w": 0.25,
+          "h": 0.475
+        }
+      ],
+      "page": "10.2 package dimensions: contacts W 0.25 x L 0.475 mm, side contacts 1.1625 mm and top/bottom contacts 0.9125 mm from the centre (2X 1.1625, 2X 0.9125), D1 1.5 / E1 1.0 mm edge pin spans; no land pattern given: the lands are the contacts"
+    },
+    "page": "10.2 package dimensions: D 2.5 (along pins 1-4) x E 3.0 mm, A 0.91 mm"
+  },
+  "pins": [
+    {
+      "number": "1",
+      "name": "AP_AD0",
+      "type": "bidirectional",
+      "functions": [
+        "AP_SDO"
+      ],
+      "description": "I2C address LSB (AP_AD0) / SPI data out (AP_SDO)"
+    },
+    {
+      "number": "2",
+      "name": "RESV2",
+      "type": "passive",
+      "description": "reserved: no connect or GND"
+    },
+    {
+      "number": "3",
+      "name": "RESV3",
+      "type": "passive",
+      "description": "reserved: no connect or GND"
+    },
+    {
+      "number": "4",
+      "name": "INT1",
+      "type": "output",
+      "description": "interrupt 1 (push-pull or open drain)"
+    },
+    {
+      "number": "5",
+      "name": "VDDIO",
+      "type": "power_in",
+      "description": "I/O supply 1.71-3.6 V"
+    },
+    {
+      "number": "6",
+      "name": "GND",
+      "type": "ground"
+    },
+    {
+      "number": "7",
+      "name": "RESV7",
+      "type": "ground",
+      "description": "reserved: connect to GND"
+    },
+    {
+      "number": "8",
+      "name": "VDD",
+      "type": "power_in",
+      "description": "supply 1.71-3.6 V"
+    },
+    {
+      "number": "9",
+      "name": "INT2",
+      "type": "bidirectional",
+      "functions": [
+        "FSYNC",
+        "CLKIN"
+      ],
+      "description": "interrupt 2 / FSYNC / CLKIN; to GND if FSYNC is not used"
+    },
+    {
+      "number": "10",
+      "name": "RESV10",
+      "type": "passive",
+      "description": "reserved: no connect or GND"
+    },
+    {
+      "number": "11",
+      "name": "RESV11",
+      "type": "passive",
+      "description": "reserved: no connect or GND"
+    },
+    {
+      "number": "12",
+      "name": "AP_CS",
+      "type": "input",
+      "description": "SPI chip select; to VDDIO for I2C / I3C"
+    },
+    {
+      "number": "13",
+      "name": "AP_SCL",
+      "type": "input",
+      "functions": [
+        "AP_SCLK"
+      ],
+      "description": "I2C / I3C clock, SPI clock"
+    },
+    {
+      "number": "14",
+      "name": "AP_SDA",
+      "type": "bidirectional",
+      "functions": [
+        "AP_SDIO",
+        "AP_SDI"
+      ],
+      "description": "I2C / I3C data, SPI data in (SDI) or 3-wire data"
+    }
+  ],
+  "ratings": {
+    "absMax": [
+      {
+        "what": "VDD supply",
+        "pins": [
+          "VDD"
+        ],
+        "min": -0.5,
+        "max": 4.0
+      },
+      {
+        "what": "VDDIO supply",
+        "pins": [
+          "VDDIO"
+        ],
+        "min": -0.5,
+        "max": 4.0
+      }
+    ],
+    "recommended": [
+      {
+        "what": "VDD supply",
+        "pins": [
+          "VDD"
+        ],
+        "min": 1.71,
+        "nom": 1.8,
+        "max": 3.6
+      },
+      {
+        "what": "VDDIO supply",
+        "pins": [
+          "VDDIO"
+        ],
+        "min": 1.71,
+        "nom": 1.8,
+        "max": 3.6
+      },
+      {
+        "what": "operating temperature",
+        "min": -40.0,
+        "max": 85.0,
+        "unit": "°C"
+      }
+    ]
+  },
+  "simulation": {
+    "behavior": {
+      "model": "icm42688",
+      "ports": {
+        "i2c": [
+          "14",
+          "13"
+        ],
+        "power": [
+          "8",
+          "6"
+        ]
+      },
+      "parameters": {},
+      "height": 0.91
+    },
+    "parameters": [
+      {
+        "id": "idd-6axis-ln",
+        "quantity": "supplyCurrent",
+        "unit": "A",
+        "typ": 0.00088,
+        "conditions": "6-axis gyroscope + accelerometer in low-noise mode, VDD = VDDIO = 1.8 V, TA = 25 degC, derived from characterization (accelerometer only LN: 0.28 mA; gyroscope only LN: 0.73 mA; sleep 7.5 uA)",
+        "source": {
+          "url": "https://static.chipdip.ru/lib/617/DOC014617647.pdf",
+          "revision": "DS-000347 Revision 1.2, 04/19/2020",
+          "location": "p. 13, section 3.3.1, Table 3",
+          "confidence": "datasheet"
+        }
+      }
+    ]
+  },
+  "support": {
+    "parts": [
+      {
+        "ref": "C1",
+        "kind": "cap",
+        "value": "100nF",
+        "rating": "X7R, VDD bypass",
+        "between": [
+          "VDD",
+          "GND"
+        ]
+      },
+      {
+        "ref": "C2",
+        "kind": "cap",
+        "value": "2.2uF",
+        "rating": "X7R, VDD bypass",
+        "between": [
+          "VDD",
+          "GND"
+        ]
+      },
+      {
+        "ref": "C3",
+        "kind": "cap",
+        "value": "10nF",
+        "rating": "X7R, VDDIO bypass",
+        "between": [
+          "VDDIO",
+          "GND"
+        ]
+      },
+      {
+        "ref": "RP1",
+        "kind": "res",
+        "value": "10kohm",
+        "rating": "I2C pull-up (once per bus)",
+        "between": [
+          "AP_SDA",
+          "VDDIO"
+        ]
+      },
+      {
+        "ref": "RP2",
+        "kind": "res",
+        "value": "10kohm",
+        "rating": "I2C pull-up (once per bus)",
+        "between": [
+          "AP_SCL",
+          "VDDIO"
+        ]
+      }
+    ],
+    "notes": [
+      "I2C: AP_CS to VDDIO, AP_AD0 to GND (0x68) or VDDIO (0x69). SPI (up to 24 MHz): AP_CS, AP_SCLK, AP_SDI, AP_SDO to the host.",
+      "INT2/FSYNC to GND when unused; RESV pins 2, 3, 10, 11 open or GND, pin 7 to GND.",
+      "Mount it near the board's centre of rotation, away from board flex and mounting holes; no vias or traces under the package on the top layer."
+    ],
+    "page": "Figure 5 application schematic (I2C), Figure 6 (SPI), Table 10 bill of materials"
+  },
+  "notes": [
+    "A 3.3 V part (4 V absolute maximum): never on 5 V."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "TDK InvenSense ICM-42688-P datasheet DS-000347 rev 1.2: Table 9 signal descriptions, Figure 4 pin out, Figures 5-6 application schematics, Table 10 BOM, Table 8 absolute maximum ratings, 10.2 package dimensions",
+      "url": "https://invensense.tdk.com/wp-content/uploads/2020/04/ds-000347_icm-42688-p-datasheet.pdf",
+      "license": "pin numbers and names, package dimensions, land pattern, ratings and application values transcribed from the manufacturer's datasheet (facts, one reading); descriptions and notes our own"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "lands as the package contacts (10.2: 0.25 x 0.475 mm at the drawing's positions); the datasheet gives no separate land pattern"
+    }
+  }
+}

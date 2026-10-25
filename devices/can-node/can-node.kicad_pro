@@ -1,0 +1,73 @@
+{
+  "board": {
+    "design_settings": {
+      "rule_severities": {},
+      "rules": {
+        "min_clearance": 0.15,
+        "min_copper_edge_clearance": 0.3,
+        "min_hole_clearance": 0.0,
+        "min_hole_to_hole": 0.0,
+        "min_resolved_spokes": 2.0,
+        "min_through_hole_diameter": 0.3,
+        "min_track_width": 0.15,
+        "min_via_annular_width": 0.0,
+        "min_via_diameter": 0.5
+      }
+    }
+  },
+  "meta": {
+    "filename": "can-node.kicad_pro",
+    "version": 1
+  },
+  "net_settings": {
+    "classes": [
+      {
+        "clearance": 0.2,
+        "name": "Default",
+        "track_width": 0.25,
+        "via_diameter": 0.6,
+        "via_drill": 0.3
+      }
+    ],
+    "netclass_assignments": {
+      "A1": "Default",
+      "A2": "Default",
+      "A3": "Default",
+      "A4": "Default",
+      "CANH": "Default",
+      "CANL": "Default",
+      "CAN_RX": "Default",
+      "CAN_TX": "Default",
+      "GND": "Default",
+      "LED": "Default",
+      "LED_K": "Default",
+      "NRST": "Default",
+      "Net-(C17-1)": "Default",
+      "Net-(C18-1)": "Default",
+      "Net-(C18-2)": "Default",
+      "Net-(C22-1)": "Default",
+      "Net-(R3-1)": "Default",
+      "Net-(R5-2)": "Default",
+      "Net-(R7-2)": "Default",
+      "P1": "Default",
+      "P2": "Default",
+      "P3": "Default",
+      "P4": "Default",
+      "RX": "Default",
+      "SCL": "Default",
+      "SDA": "Default",
+      "SWCLK": "Default",
+      "SWDIO": "Default",
+      "TERM": "Default",
+      "TX": "Default",
+      "U4Support/COMP_RC": "Default",
+      "V12": "Default",
+      "V3": "Default",
+      "VIN": "Default",
+      "XIN": "Default",
+      "XOUT": "Default",
+      "reversed/gate": "Default"
+    },
+    "netclass_patterns": []
+  }
+}

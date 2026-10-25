@@ -1,0 +1,473 @@
+{
+  "id": "SN65HVD230",
+  "mpn": "SN65HVD230DR",
+  "manufacturer": "Texas Instruments",
+  "variants": [
+    "SN65HVD230DRG4"
+  ],
+  "category": "interface",
+  "description": "CAN transceiver, 3.3 V supply, up to 1 Mbps, ISO 11898-2, slope control and standby pin (SOIC-8)",
+  "tags": [
+    "can",
+    "can bus",
+    "transceiver",
+    "iso 11898",
+    "3.3v",
+    "vp230"
+  ],
+  "datasheet": {
+    "url": "https://www.ti.com/lit/ds/symlink/sn65hvd230.pdf",
+    "revision": "SLOS346O, April 2018"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "SOIC-8 (D)",
+    "family": "soic",
+    "pins": 8,
+    "pitch": 1.27,
+    "body": {
+      "d": [
+        4.81,
+        5.0
+      ],
+      "e": [
+        3.81,
+        3.98
+      ],
+      "a": [
+        null,
+        1.75
+      ]
+    },
+    "span": [
+      5.8,
+      6.19
+    ],
+    "lead": {
+      "b": [
+        0.31,
+        0.51
+      ],
+      "l": [
+        0.41,
+        1.27
+      ]
+    },
+    "landPattern": {
+      "pads": [
+        {
+          "number": "1",
+          "x": -2.7,
+          "y": 1.905,
+          "w": 1.55,
+          "h": 0.6
+        },
+        {
+          "number": "2",
+          "x": -2.7,
+          "y": 0.635,
+          "w": 1.55,
+          "h": 0.6
+        },
+        {
+          "number": "3",
+          "x": -2.7,
+          "y": -0.635,
+          "w": 1.55,
+          "h": 0.6
+        },
+        {
+          "number": "4",
+          "x": -2.7,
+          "y": -1.905,
+          "w": 1.55,
+          "h": 0.6
+        },
+        {
+          "number": "5",
+          "x": 2.7,
+          "y": -1.905,
+          "w": 1.55,
+          "h": 0.6
+        },
+        {
+          "number": "6",
+          "x": 2.7,
+          "y": -0.635,
+          "w": 1.55,
+          "h": 0.6
+        },
+        {
+          "number": "7",
+          "x": 2.7,
+          "y": 0.635,
+          "w": 1.55,
+          "h": 0.6
+        },
+        {
+          "number": "8",
+          "x": 2.7,
+          "y": 1.905,
+          "w": 1.55,
+          "h": 0.6
+        }
+      ],
+      "page": "D0008A example board layout: 8x 1.55 x 0.6 mm pads, rows 5.4 mm apart centre to centre, 1.27 mm pitch"
+    },
+    "page": "D0008A package outline"
+  },
+  "symbol": {
+    "units": [
+      {
+        "shapes": [
+          {
+            "kind": "rect",
+            "from": [
+              -5.08,
+              0.0
+            ],
+            "to": [
+              7.62,
+              -15.24
+            ],
+            "width": 0.0,
+            "fill": "background"
+          }
+        ],
+        "pins": [
+          {
+            "number": "1",
+            "x": -7.62,
+            "y": -2.54,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "2",
+            "x": 2.54,
+            "y": -17.78,
+            "angle": 90.0,
+            "length": 2.54
+          },
+          {
+            "number": "3",
+            "x": 2.54,
+            "y": 2.54,
+            "angle": 270.0,
+            "length": 2.54
+          },
+          {
+            "number": "4",
+            "x": 10.16,
+            "y": -5.08,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "5",
+            "x": 10.16,
+            "y": -7.62,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "6",
+            "x": -7.62,
+            "y": -5.08,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "7",
+            "x": -7.62,
+            "y": -7.62,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "8",
+            "x": -7.62,
+            "y": -10.16,
+            "angle": 0.0,
+            "length": 2.54
+          }
+        ]
+      }
+    ],
+    "name_offset": 1.016
+  },
+  "pins": [
+    {
+      "number": "1",
+      "name": "D",
+      "type": "input",
+      "description": "transmit data (TXD): low = dominant"
+    },
+    {
+      "number": "2",
+      "name": "GND",
+      "type": "ground"
+    },
+    {
+      "number": "3",
+      "name": "VCC",
+      "type": "power_in",
+      "description": "3.3 V supply"
+    },
+    {
+      "number": "4",
+      "name": "R",
+      "type": "output",
+      "description": "receive data (RXD): low = dominant"
+    },
+    {
+      "number": "5",
+      "name": "Vref",
+      "type": "analog",
+      "description": "VCC/2 reference output (or split-termination midpoint); leave open if unused"
+    },
+    {
+      "number": "6",
+      "name": "CANL",
+      "type": "bidirectional",
+      "description": "CAN bus low"
+    },
+    {
+      "number": "7",
+      "name": "CANH",
+      "type": "bidirectional",
+      "description": "CAN bus high"
+    },
+    {
+      "number": "8",
+      "name": "RS",
+      "type": "input",
+      "description": "mode: GND = high speed, 10-100 kohm to GND = slope control, VCC = standby"
+    }
+  ],
+  "ratings": {
+    "absMax": [
+      {
+        "what": "VCC",
+        "pins": [
+          "VCC"
+        ],
+        "min": -0.3,
+        "max": 6.0,
+        "unit": "V"
+      },
+      {
+        "what": "CANH, CANL",
+        "pins": [
+          "CANH",
+          "CANL"
+        ],
+        "min": -4.0,
+        "max": 16.0,
+        "unit": "V"
+      }
+    ],
+    "recommended": [
+      {
+        "what": "VCC",
+        "pins": [
+          "VCC"
+        ],
+        "min": 3.0,
+        "max": 3.6,
+        "unit": "V"
+      },
+      {
+        "what": "D, R logic levels (VIH min 2 V, VIL max 0.8 V)",
+        "pins": [
+          "D"
+        ],
+        "min": 0.0,
+        "max": 3.6,
+        "unit": "V"
+      },
+      {
+        "what": "CANH, CANL common mode",
+        "pins": [
+          "CANH",
+          "CANL"
+        ],
+        "min": -2.0,
+        "max": 7.0,
+        "unit": "V"
+      },
+      {
+        "what": "operating temperature",
+        "min": -40.0,
+        "max": 85.0,
+        "unit": "°C"
+      }
+    ]
+  },
+  "parameters": [
+    {
+      "name": "Digi-Key_PN",
+      "value": "296-11654-1-ND"
+    },
+    {
+      "name": "Category",
+      "value": "Integrated Circuits (ICs)"
+    },
+    {
+      "name": "Family",
+      "value": "Interface - Drivers, Receivers, Transceivers"
+    },
+    {
+      "name": "DK_Datasheet_Link",
+      "value": "http://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=http%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Fsn65hvd230"
+    },
+    {
+      "name": "DK_Detail_Page",
+      "value": "/product-detail/en/texas-instruments/SN65HVD230DR/296-11654-1-ND/404366"
+    },
+    {
+      "name": "Status",
+      "value": "Active"
+    }
+  ],
+  "simulation": {
+    "behavior": {
+      "model": "can-transceiver",
+      "ports": {
+        "bus": [
+          "7",
+          "6"
+        ],
+        "can": [
+          "1",
+          "4"
+        ],
+        "mode": [
+          "8"
+        ],
+        "power": [
+          "3",
+          "2"
+        ]
+      },
+      "parameters": {
+        "mode_high": 1.0
+      },
+      "height": 1.75
+    },
+    "parameters": [
+      {
+        "id": "icc-active-3v3",
+        "quantity": "supplyCurrent",
+        "unit": "A",
+        "typ": 0.01,
+        "max": 0.017,
+        "conditions": "Driver dominant or recessive, no load, VCC=3.3 V, TA=25 degC typical, high-speed mode; VCC pin",
+        "source": {
+          "url": "https://www.ti.com/lit/ds/symlink/sn65hvd230.pdf",
+          "revision": "SLOS346O, revised April 2018",
+          "location": "p. 7, section 8.5 Electrical Characteristics: Driver, ICC row",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "theta-jb-d8",
+        "quantity": "thetaJb",
+        "unit": "K/W",
+        "typ": 15.3,
+        "conditions": "D (SOIC), 8 pins, JEDEC thermal test board",
+        "source": {
+          "url": "https://www.ti.com/lit/ds/symlink/sn65hvd230.pdf",
+          "revision": "SLOS346O, revised April 2018",
+          "location": "p. 6, section 8.4 Thermal Information, RthetaJB",
+          "confidence": "datasheet"
+        }
+      }
+    ]
+  },
+  "support": {
+    "parts": [
+      {
+        "ref": "C1",
+        "kind": "cap",
+        "value": "100nF",
+        "rating": "X7R",
+        "between": [
+          "VCC",
+          "GND"
+        ]
+      },
+      {
+        "ref": "RT",
+        "kind": "res",
+        "value": "120ohm",
+        "rating": "at each end of the bus only",
+        "between": [
+          "CANH",
+          "CANL"
+        ],
+        "option": "termination"
+      },
+      {
+        "ref": "RS_GND",
+        "kind": "tie",
+        "value": "",
+        "between": [
+          "RS",
+          "GND"
+        ],
+        "option": "fastEdges"
+      }
+    ],
+    "options": [
+      {
+        "name": "termination",
+        "default": false,
+        "description": "The 120 ohm termination (only at the bus's two ends)."
+      },
+      {
+        "name": "fastEdges",
+        "default": true,
+        "description": "RS straight to GND: the fastest edges (`false`: a slope resistor or standby control)."
+      }
+    ],
+    "notes": [
+      "RS straight to GND gives the fastest edges; 10-100 kohm to GND limits the slew rate (lower emissions); driving RS high puts the part in standby (receiver only).",
+      "Terminate the bus with 120 ohm at its two ends only; split termination (2 x 60 ohm with a 4.7 nF to GND at the midpoint) filters common-mode noise, Vref may drive that midpoint."
+    ],
+    "page": "11.2 Typical application, 13.1 Layout guidelines"
+  },
+  "notes": [
+    "Decouple VCC with 100 nF next to pins 3 and 2.",
+    "D and R are 3.3 V logic: connect straight to a 3.3 V MCU's CAN TX and RX.",
+    "Keep CANH/CANL short and routed as a pair to the connector; add TVS protection at the connector on harsh buses."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "TI datasheet SLOS346O (March 2001, revised April 2018), Pin Functions table and package drawing D0008A",
+      "url": "https://www.ti.com/lit/ds/symlink/sn65hvd230.pdf",
+      "license": "facts transcribed from the datasheet (pin numbers and names); notes in our own words"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "computed per IPC-7351B from the D0008A dimensions; the datasheet's example land pattern is given as a cross-check"
+    },
+    "symbol": {
+      "verified": false,
+      "source": "digikey-kicad",
+      "version": "d4bd68f42e6ccc474526811a853a03692e170b58",
+      "item": "dk_Interface-Drivers-Receivers-Transceivers:SN65HVD230DR",
+      "url": "https://github.com/Digi-Key/digikey-kicad-library",
+      "license": "CC-BY-SA-4.0"
+    },
+    "parameters": {
+      "verified": false,
+      "source": "digikey-kicad",
+      "version": "d4bd68f42e6ccc474526811a853a03692e170b58",
+      "item": "dk_Interface-Drivers-Receivers-Transceivers:SN65HVD230DR",
+      "url": "https://github.com/Digi-Key/digikey-kicad-library",
+      "license": "CC-BY-SA-4.0"
+    }
+  }
+}

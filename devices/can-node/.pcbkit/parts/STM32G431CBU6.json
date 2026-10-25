@@ -1,0 +1,1442 @@
+{
+  "id": "STM32G431CBU6",
+  "mpn": "STM32G431CBU6",
+  "manufacturer": "STMicroelectronics",
+  "category": "mcu",
+  "description": "Arm Cortex-M4 MCU with FPU, 170 MHz, 128 KB flash, 32 KB RAM, motor-control timers (TIM1/TIM8), 2 ADCs, op-amps, comparators, FDCAN, USB, 1.71-3.6 V",
+  "tags": [
+    "mcu",
+    "stm32",
+    "stm32g4",
+    "ARM Cortex-M4"
+  ],
+  "datasheet": {
+    "url": "https://www.st.com/resource/en/datasheet/stm32g431cb.pdf"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "UFQFPN48 7 x 7 mm, 0.5 mm pitch, exposed pad"
+  },
+  "footprint": "qfn(48, size = (7mm, 7mm), ep = (5.6mm, 5.6mm))",
+  "symbol": {
+    "units": [
+      {
+        "shapes": [
+          {
+            "kind": "rect",
+            "from": [
+              -15.24,
+              -43.18
+            ],
+            "to": [
+              15.24,
+              43.18
+            ],
+            "width": 0.254,
+            "fill": "background"
+          }
+        ],
+        "pins": [
+          {
+            "number": "1",
+            "x": -5.08,
+            "y": 45.72,
+            "angle": 270.0,
+            "length": 2.54
+          },
+          {
+            "number": "2",
+            "x": -17.78,
+            "y": 10.16,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "3",
+            "x": -17.78,
+            "y": 7.62,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "4",
+            "x": -17.78,
+            "y": 5.08,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "5",
+            "x": -17.78,
+            "y": 27.94,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "6",
+            "x": -17.78,
+            "y": 25.4,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "7",
+            "x": -17.78,
+            "y": 33.02,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "8",
+            "x": 17.78,
+            "y": 38.1,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "9",
+            "x": 17.78,
+            "y": 35.56,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "10",
+            "x": 17.78,
+            "y": 33.02,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "11",
+            "x": 17.78,
+            "y": 30.48,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "12",
+            "x": 17.78,
+            "y": 27.94,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "13",
+            "x": 17.78,
+            "y": 25.4,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "14",
+            "x": 17.78,
+            "y": 22.86,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "15",
+            "x": 17.78,
+            "y": 20.32,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "16",
+            "x": -17.78,
+            "y": 20.32,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "17",
+            "x": -17.78,
+            "y": 0.0,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "18",
+            "x": -17.78,
+            "y": -2.54,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "19",
+            "x": -17.78,
+            "y": -5.08,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "20",
+            "x": -17.78,
+            "y": 38.1,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "21",
+            "x": 5.08,
+            "y": 45.72,
+            "angle": 270.0,
+            "length": 2.54
+          },
+          {
+            "number": "22",
+            "x": -17.78,
+            "y": -25.4,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "23",
+            "x": -2.54,
+            "y": 45.72,
+            "angle": 270.0,
+            "length": 2.54
+          },
+          {
+            "number": "24",
+            "x": -17.78,
+            "y": -27.94,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "25",
+            "x": -17.78,
+            "y": -30.48,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "26",
+            "x": -17.78,
+            "y": -33.02,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "27",
+            "x": -17.78,
+            "y": -35.56,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "28",
+            "x": -17.78,
+            "y": -38.1,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "29",
+            "x": -17.78,
+            "y": 17.78,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "30",
+            "x": 17.78,
+            "y": 17.78,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "31",
+            "x": 17.78,
+            "y": 15.24,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "32",
+            "x": 17.78,
+            "y": 12.7,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "33",
+            "x": 17.78,
+            "y": 10.16,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "34",
+            "x": 17.78,
+            "y": 7.62,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "35",
+            "x": 0.0,
+            "y": 45.72,
+            "angle": 270.0,
+            "length": 2.54
+          },
+          {
+            "number": "36",
+            "x": 17.78,
+            "y": 5.08,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "37",
+            "x": 17.78,
+            "y": 2.54,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "38",
+            "x": 17.78,
+            "y": 0.0,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "39",
+            "x": -17.78,
+            "y": 15.24,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "40",
+            "x": -17.78,
+            "y": 12.7,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "41",
+            "x": -17.78,
+            "y": -7.62,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "42",
+            "x": -17.78,
+            "y": -10.16,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "43",
+            "x": -17.78,
+            "y": -12.7,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "44",
+            "x": -17.78,
+            "y": -15.24,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "45",
+            "x": -17.78,
+            "y": -17.78,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "46",
+            "x": -17.78,
+            "y": -20.32,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "47",
+            "x": -17.78,
+            "y": -22.86,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "48",
+            "x": 2.54,
+            "y": 45.72,
+            "angle": 270.0,
+            "length": 2.54
+          },
+          {
+            "number": "49",
+            "x": 0.0,
+            "y": -45.72,
+            "angle": 90.0,
+            "length": 2.54
+          }
+        ]
+      }
+    ]
+  },
+  "pins": [
+    {
+      "number": "1",
+      "name": "VBAT",
+      "type": "power_in"
+    },
+    {
+      "number": "2",
+      "name": "PC13",
+      "type": "bidirectional",
+      "functions": [
+        "RTC_OUT1",
+        "RTC_TAMP1",
+        "RTC_TS",
+        "SYS_WKUP2",
+        "TIM1_BKIN",
+        "TIM1_CH1N",
+        "TIM8_CH4N"
+      ]
+    },
+    {
+      "number": "3",
+      "name": "PC14-OSC32_IN",
+      "type": "bidirectional",
+      "functions": [
+        "RCC_OSC32_IN"
+      ]
+    },
+    {
+      "number": "4",
+      "name": "PC15-OSC32_OUT",
+      "type": "bidirectional",
+      "functions": [
+        "ADC1_EXTI15",
+        "ADC2_EXTI15",
+        "RCC_OSC32_OUT"
+      ]
+    },
+    {
+      "number": "5",
+      "name": "PF0-OSC_IN",
+      "type": "bidirectional",
+      "functions": [
+        "ADC1_IN10",
+        "I2C2_SDA",
+        "I2S2_WS",
+        "RCC_OSC_IN",
+        "SPI2_NSS",
+        "TIM1_CH3N"
+      ]
+    },
+    {
+      "number": "6",
+      "name": "PF1-OSC_OUT",
+      "type": "bidirectional",
+      "functions": [
+        "ADC2_IN10",
+        "COMP3_INM",
+        "I2S2_CK",
+        "RCC_OSC_OUT",
+        "SPI2_SCK"
+      ]
+    },
+    {
+      "number": "7",
+      "name": "PG10-NRST",
+      "type": "bidirectional",
+      "functions": [
+        "DAC1_EXTI10",
+        "DAC3_EXTI10",
+        "RCC_MCO"
+      ]
+    },
+    {
+      "number": "8",
+      "name": "PA0",
+      "type": "bidirectional",
+      "functions": [
+        "ADC1_IN1",
+        "ADC2_IN1",
+        "COMP1_INM",
+        "COMP1_OUT",
+        "COMP3_INP",
+        "RTC_TAMP2",
+        "SYS_WKUP1",
+        "TIM2_CH1",
+        "TIM2_ETR",
+        "TIM8_BKIN",
+        "TIM8_ETR",
+        "USART2_CTS",
+        "USART2_NSS"
+      ]
+    },
+    {
+      "number": "9",
+      "name": "PA1",
+      "type": "bidirectional",
+      "functions": [
+        "ADC1_IN2",
+        "ADC2_IN2",
+        "COMP1_INP",
+        "OPAMP1_VINP",
+        "OPAMP1_VINP_SEC",
+        "OPAMP3_VINP",
+        "OPAMP3_VINP_SEC",
+        "RTC_REFIN",
+        "TIM15_CH1N",
+        "TIM2_CH2",
+        "USART2_DE",
+        "USART2_RTS"
+      ]
+    },
+    {
+      "number": "10",
+      "name": "PA2",
+      "type": "bidirectional",
+      "functions": [
+        "ADC1_IN3",
+        "COMP2_INM",
+        "COMP2_OUT",
+        "LPUART1_TX",
+        "OPAMP1_VOUT",
+        "RCC_LSCO",
+        "SYS_WKUP4",
+        "TIM15_CH1",
+        "TIM2_CH3",
+        "UCPD1_FRSTX1",
+        "UCPD1_FRSTX2",
+        "USART2_TX"
+      ]
+    },
+    {
+      "number": "11",
+      "name": "PA3",
+      "type": "bidirectional",
+      "functions": [
+        "ADC1_IN4",
+        "COMP2_INP",
+        "LPUART1_RX",
+        "OPAMP1_VINM",
+        "OPAMP1_VINM0",
+        "OPAMP1_VINM_SEC",
+        "OPAMP1_VINP",
+        "OPAMP1_VINP_SEC",
+        "SAI1_CK1",
+        "SAI1_MCLK_A",
+        "TIM15_CH2",
+        "TIM2_CH4",
+        "USART2_RX"
+      ]
+    },
+    {
+      "number": "12",
+      "name": "PA4",
+      "type": "bidirectional",
+      "functions": [
+        "ADC2_IN17",
+        "COMP1_INM",
+        "DAC1_OUT1",
+        "I2S3_WS",
+        "SAI1_FS_B",
+        "SPI1_NSS",
+        "SPI3_NSS",
+        "TIM3_CH2",
+        "USART2_CK"
+      ]
+    },
+    {
+      "number": "13",
+      "name": "PA5",
+      "type": "bidirectional",
+      "functions": [
+        "ADC2_IN13",
+        "COMP2_INM",
+        "DAC1_OUT2",
+        "OPAMP2_VINM",
+        "OPAMP2_VINM0",
+        "OPAMP2_VINM_SEC",
+        "SPI1_SCK",
+        "TIM2_CH1",
+        "TIM2_ETR",
+        "UCPD1_FRSTX1",
+        "UCPD1_FRSTX2"
+      ]
+    },
+    {
+      "number": "14",
+      "name": "PA6",
+      "type": "bidirectional",
+      "functions": [
+        "ADC2_IN3",
+        "COMP1_OUT",
+        "LPUART1_CTS",
+        "OPAMP2_VOUT",
+        "SPI1_MISO",
+        "TIM16_CH1",
+        "TIM1_BKIN",
+        "TIM3_CH1",
+        "TIM8_BKIN"
+      ]
+    },
+    {
+      "number": "15",
+      "name": "PA7",
+      "type": "bidirectional",
+      "functions": [
+        "ADC2_IN4",
+        "COMP2_INP",
+        "COMP2_OUT",
+        "OPAMP1_VINP",
+        "OPAMP1_VINP_SEC",
+        "OPAMP2_VINP",
+        "OPAMP2_VINP_SEC",
+        "SPI1_MOSI",
+        "TIM17_CH1",
+        "TIM1_CH1N",
+        "TIM3_CH2",
+        "TIM8_CH1N",
+        "UCPD1_FRSTX1",
+        "UCPD1_FRSTX2"
+      ]
+    },
+    {
+      "number": "16",
+      "name": "PC4",
+      "type": "bidirectional",
+      "functions": [
+        "ADC2_IN5",
+        "I2C2_SCL",
+        "TIM1_ETR",
+        "USART1_TX"
+      ]
+    },
+    {
+      "number": "17",
+      "name": "PB0",
+      "type": "bidirectional",
+      "functions": [
+        "ADC1_IN15",
+        "COMP4_INP",
+        "OPAMP2_VINP",
+        "OPAMP2_VINP_SEC",
+        "OPAMP3_VINP",
+        "OPAMP3_VINP_SEC",
+        "TIM1_CH2N",
+        "TIM3_CH3",
+        "TIM8_CH2N",
+        "UCPD1_FRSTX1",
+        "UCPD1_FRSTX2"
+      ]
+    },
+    {
+      "number": "18",
+      "name": "PB1",
+      "type": "bidirectional",
+      "functions": [
+        "ADC1_IN12",
+        "COMP1_INP",
+        "COMP4_OUT",
+        "LPUART1_DE",
+        "LPUART1_RTS",
+        "OPAMP3_VOUT",
+        "TIM1_CH3N",
+        "TIM3_CH4",
+        "TIM8_CH3N"
+      ]
+    },
+    {
+      "number": "19",
+      "name": "PB2",
+      "type": "bidirectional",
+      "functions": [
+        "ADC2_IN12",
+        "COMP4_INM",
+        "I2C3_SMBA",
+        "LPTIM1_OUT",
+        "OPAMP3_VINM",
+        "OPAMP3_VINM0",
+        "OPAMP3_VINM_SEC",
+        "RTC_OUT2"
+      ]
+    },
+    {
+      "number": "20",
+      "name": "VREF+",
+      "type": "bidirectional",
+      "functions": [
+        "VREFBUF_OUT"
+      ]
+    },
+    {
+      "number": "21",
+      "name": "VDDA",
+      "type": "power_in"
+    },
+    {
+      "number": "22",
+      "name": "PB10",
+      "type": "bidirectional",
+      "functions": [
+        "DAC1_EXTI10",
+        "DAC3_EXTI10",
+        "LPUART1_RX",
+        "OPAMP3_VINM",
+        "OPAMP3_VINM1",
+        "OPAMP3_VINM_SEC",
+        "SAI1_SCK_A",
+        "TIM1_BKIN",
+        "TIM2_CH3",
+        "USART3_TX"
+      ]
+    },
+    {
+      "number": "23",
+      "name": "VDD",
+      "type": "power_in"
+    },
+    {
+      "number": "24",
+      "name": "PB11",
+      "type": "bidirectional",
+      "functions": [
+        "ADC1_EXTI11",
+        "ADC1_IN14",
+        "ADC2_EXTI11",
+        "ADC2_IN14",
+        "LPUART1_TX",
+        "TIM2_CH4",
+        "USART3_RX"
+      ]
+    },
+    {
+      "number": "25",
+      "name": "PB12",
+      "type": "bidirectional",
+      "functions": [
+        "ADC1_IN11",
+        "I2C2_SMBA",
+        "I2S2_WS",
+        "LPUART1_DE",
+        "LPUART1_RTS",
+        "SPI2_NSS",
+        "TIM1_BKIN",
+        "USART3_CK"
+      ]
+    },
+    {
+      "number": "26",
+      "name": "PB13",
+      "type": "bidirectional",
+      "functions": [
+        "I2S2_CK",
+        "LPUART1_CTS",
+        "OPAMP3_VINP",
+        "OPAMP3_VINP_SEC",
+        "SPI2_SCK",
+        "TIM1_CH1N",
+        "USART3_CTS",
+        "USART3_NSS"
+      ]
+    },
+    {
+      "number": "27",
+      "name": "PB14",
+      "type": "bidirectional",
+      "functions": [
+        "ADC1_IN5",
+        "COMP4_OUT",
+        "OPAMP2_VINP",
+        "OPAMP2_VINP_SEC",
+        "SPI2_MISO",
+        "TIM15_CH1",
+        "TIM1_CH2N",
+        "USART3_DE",
+        "USART3_RTS"
+      ]
+    },
+    {
+      "number": "28",
+      "name": "PB15",
+      "type": "bidirectional",
+      "functions": [
+        "ADC1_EXTI15",
+        "ADC2_EXTI15",
+        "ADC2_IN15",
+        "COMP3_OUT",
+        "I2S2_SD",
+        "RTC_REFIN",
+        "SPI2_MOSI",
+        "TIM15_CH1N",
+        "TIM15_CH2",
+        "TIM1_CH3N"
+      ]
+    },
+    {
+      "number": "29",
+      "name": "PC6",
+      "type": "bidirectional",
+      "functions": [
+        "I2S2_MCK",
+        "TIM3_CH1",
+        "TIM8_CH1"
+      ]
+    },
+    {
+      "number": "30",
+      "name": "PA8",
+      "type": "bidirectional",
+      "functions": [
+        "I2C2_SDA",
+        "I2C3_SCL",
+        "I2S2_MCK",
+        "RCC_MCO",
+        "SAI1_CK2",
+        "SAI1_SCK_A",
+        "TIM1_CH1",
+        "TIM4_ETR",
+        "USART1_CK"
+      ]
+    },
+    {
+      "number": "31",
+      "name": "PA9",
+      "type": "bidirectional",
+      "functions": [
+        "DAC1_EXTI9",
+        "DAC3_EXTI9",
+        "I2C2_SCL",
+        "I2C3_SMBA",
+        "I2S3_MCK",
+        "SAI1_FS_A",
+        "TIM15_BKIN",
+        "TIM1_CH2",
+        "TIM2_CH3",
+        "UCPD1_DBCC1",
+        "USART1_TX"
+      ]
+    },
+    {
+      "number": "32",
+      "name": "PA10",
+      "type": "bidirectional",
+      "functions": [
+        "CRS_SYNC",
+        "DAC1_EXTI10",
+        "DAC3_EXTI10",
+        "I2C2_SMBA",
+        "SAI1_D1",
+        "SAI1_SD_A",
+        "SPI2_MISO",
+        "SYS_PVD_IN",
+        "TIM17_BKIN",
+        "TIM1_CH3",
+        "TIM2_CH4",
+        "TIM8_BKIN",
+        "UCPD1_DBCC2",
+        "USART1_RX"
+      ]
+    },
+    {
+      "number": "33",
+      "name": "PA11",
+      "type": "bidirectional",
+      "functions": [
+        "ADC1_EXTI11",
+        "ADC2_EXTI11",
+        "COMP1_OUT",
+        "FDCAN1_RX",
+        "I2S2_SD",
+        "SPI2_MOSI",
+        "TIM1_BKIN2",
+        "TIM1_CH1N",
+        "TIM1_CH4",
+        "TIM4_CH1",
+        "USART1_CTS",
+        "USART1_NSS",
+        "USB_DM"
+      ]
+    },
+    {
+      "number": "34",
+      "name": "PA12",
+      "type": "bidirectional",
+      "functions": [
+        "COMP2_OUT",
+        "FDCAN1_TX",
+        "I2S_CKIN",
+        "TIM16_CH1",
+        "TIM1_CH2N",
+        "TIM1_ETR",
+        "TIM4_CH2",
+        "USART1_DE",
+        "USART1_RTS",
+        "USB_DP"
+      ]
+    },
+    {
+      "number": "35",
+      "name": "VDD",
+      "type": "power_in"
+    },
+    {
+      "number": "36",
+      "name": "PA13",
+      "type": "bidirectional",
+      "functions": [
+        "I2C1_SCL",
+        "IR_OUT",
+        "SAI1_SD_B",
+        "SYS_JTMS-SWDIO",
+        "TIM16_CH1N",
+        "TIM4_CH3",
+        "USART3_CTS",
+        "USART3_NSS"
+      ]
+    },
+    {
+      "number": "37",
+      "name": "PA14",
+      "type": "bidirectional",
+      "functions": [
+        "I2C1_SDA",
+        "LPTIM1_OUT",
+        "SAI1_FS_B",
+        "SYS_JTCK-SWCLK",
+        "TIM1_BKIN",
+        "TIM8_CH2",
+        "USART2_TX"
+      ]
+    },
+    {
+      "number": "38",
+      "name": "PA15",
+      "type": "bidirectional",
+      "functions": [
+        "ADC1_EXTI15",
+        "ADC2_EXTI15",
+        "I2C1_SCL",
+        "I2S3_WS",
+        "SPI1_NSS",
+        "SPI3_NSS",
+        "SYS_JTDI",
+        "TIM1_BKIN",
+        "TIM2_CH1",
+        "TIM2_ETR",
+        "TIM8_CH1",
+        "UART4_DE",
+        "UART4_RTS",
+        "USART2_RX"
+      ]
+    },
+    {
+      "number": "39",
+      "name": "PC10",
+      "type": "bidirectional",
+      "functions": [
+        "DAC1_EXTI10",
+        "DAC3_EXTI10",
+        "I2S3_CK",
+        "SPI3_SCK",
+        "TIM8_CH1N",
+        "UART4_TX",
+        "USART3_TX"
+      ]
+    },
+    {
+      "number": "40",
+      "name": "PC11",
+      "type": "bidirectional",
+      "functions": [
+        "ADC1_EXTI11",
+        "ADC2_EXTI11",
+        "I2C3_SDA",
+        "SPI3_MISO",
+        "TIM8_CH2N",
+        "UART4_RX",
+        "USART3_RX"
+      ]
+    },
+    {
+      "number": "41",
+      "name": "PB3",
+      "type": "bidirectional",
+      "functions": [
+        "CRS_SYNC",
+        "I2S3_CK",
+        "SAI1_SCK_B",
+        "SPI1_SCK",
+        "SPI3_SCK",
+        "SYS_JTDO-SWO",
+        "TIM2_CH2",
+        "TIM3_ETR",
+        "TIM4_ETR",
+        "TIM8_CH1N",
+        "USART2_TX"
+      ]
+    },
+    {
+      "number": "42",
+      "name": "PB4",
+      "type": "bidirectional",
+      "functions": [
+        "SAI1_MCLK_B",
+        "SPI1_MISO",
+        "SPI3_MISO",
+        "SYS_JTRST",
+        "TIM16_CH1",
+        "TIM17_BKIN",
+        "TIM3_CH1",
+        "TIM8_CH2N",
+        "UCPD1_CC2",
+        "USART2_RX"
+      ]
+    },
+    {
+      "number": "43",
+      "name": "PB5",
+      "type": "bidirectional",
+      "functions": [
+        "I2C1_SMBA",
+        "I2C3_SDA",
+        "I2S3_SD",
+        "LPTIM1_IN1",
+        "SAI1_SD_B",
+        "SPI1_MOSI",
+        "SPI3_MOSI",
+        "TIM16_BKIN",
+        "TIM17_CH1",
+        "TIM3_CH2",
+        "TIM8_CH3N",
+        "USART2_CK"
+      ]
+    },
+    {
+      "number": "44",
+      "name": "PB6",
+      "type": "bidirectional",
+      "functions": [
+        "COMP4_OUT",
+        "LPTIM1_ETR",
+        "SAI1_FS_B",
+        "TIM16_CH1N",
+        "TIM4_CH1",
+        "TIM8_BKIN2",
+        "TIM8_CH1",
+        "TIM8_ETR",
+        "UCPD1_CC1",
+        "USART1_TX"
+      ]
+    },
+    {
+      "number": "45",
+      "name": "PB7",
+      "type": "bidirectional",
+      "functions": [
+        "COMP3_OUT",
+        "I2C1_SDA",
+        "LPTIM1_IN2",
+        "TIM17_CH1N",
+        "TIM3_CH4",
+        "TIM4_CH2",
+        "TIM8_BKIN",
+        "UART4_CTS",
+        "USART1_RX"
+      ]
+    },
+    {
+      "number": "46",
+      "name": "PB8-BOOT0",
+      "type": "bidirectional",
+      "functions": [
+        "COMP1_OUT",
+        "FDCAN1_RX",
+        "I2C1_SCL",
+        "SAI1_CK1",
+        "SAI1_MCLK_A",
+        "TIM16_CH1",
+        "TIM1_BKIN",
+        "TIM4_CH3",
+        "TIM8_CH2",
+        "USART3_RX"
+      ]
+    },
+    {
+      "number": "47",
+      "name": "PB9",
+      "type": "bidirectional",
+      "functions": [
+        "COMP2_OUT",
+        "DAC1_EXTI9",
+        "DAC3_EXTI9",
+        "FDCAN1_TX",
+        "I2C1_SDA",
+        "IR_OUT",
+        "SAI1_D2",
+        "SAI1_FS_A",
+        "TIM17_CH1",
+        "TIM1_CH3N",
+        "TIM4_CH4",
+        "TIM8_CH3",
+        "USART3_TX"
+      ]
+    },
+    {
+      "number": "48",
+      "name": "VDD",
+      "type": "power_in"
+    },
+    {
+      "number": "49",
+      "name": "VSS",
+      "type": "ground",
+      "description": "exposed pad, the only ground pin of this package"
+    }
+  ],
+  "parameters": [
+    {
+      "name": "Core",
+      "value": "ARM Cortex-M4"
+    },
+    {
+      "name": "Frequency (max)",
+      "value": "170 MHz",
+      "si": 170000000.0,
+      "unit": "Hz"
+    },
+    {
+      "name": "Flash",
+      "value": "128 KB",
+      "si": 131072.0,
+      "unit": "B"
+    },
+    {
+      "name": "Flash (variants)",
+      "value": "32 KB, 64 KB, 128 KB"
+    },
+    {
+      "name": "RAM",
+      "value": "32 KB",
+      "si": 32768.0,
+      "unit": "B"
+    },
+    {
+      "name": "Supply voltage (min)",
+      "value": "1.71 V",
+      "si": 1.71,
+      "unit": "V"
+    },
+    {
+      "name": "Supply voltage (max)",
+      "value": "3.6 V",
+      "si": 3.6,
+      "unit": "V"
+    },
+    {
+      "name": "Operating temperature (min)",
+      "value": "-40 °C",
+      "si": -40.0,
+      "unit": "degC"
+    },
+    {
+      "name": "Operating temperature (max)",
+      "value": "85 °C",
+      "si": 85.0,
+      "unit": "degC"
+    },
+    {
+      "name": "I/O pins",
+      "value": "42",
+      "si": 42.0
+    },
+    {
+      "name": "Package",
+      "value": "UFQFPN48"
+    }
+  ],
+  "simulation": {
+    "behavior": {
+      "model": "stm32g431cb",
+      "ports": {
+        "PA0": [
+          "8"
+        ],
+        "PA1": [
+          "9"
+        ],
+        "PA10": [
+          "32"
+        ],
+        "PA11": [
+          "33"
+        ],
+        "PA12": [
+          "34"
+        ],
+        "PA13": [
+          "36"
+        ],
+        "PA14": [
+          "37"
+        ],
+        "PA15": [
+          "38"
+        ],
+        "PA2": [
+          "10"
+        ],
+        "PA3": [
+          "11"
+        ],
+        "PA4": [
+          "12"
+        ],
+        "PA5": [
+          "13"
+        ],
+        "PA6": [
+          "14"
+        ],
+        "PA7": [
+          "15"
+        ],
+        "PA8": [
+          "30"
+        ],
+        "PA9": [
+          "31"
+        ],
+        "PB0": [
+          "17"
+        ],
+        "PB1": [
+          "18"
+        ],
+        "PB10": [
+          "22"
+        ],
+        "PB11": [
+          "24"
+        ],
+        "PB12": [
+          "25"
+        ],
+        "PB13": [
+          "26"
+        ],
+        "PB14": [
+          "27"
+        ],
+        "PB15": [
+          "28"
+        ],
+        "PB2": [
+          "19"
+        ],
+        "PB3": [
+          "41"
+        ],
+        "PB4": [
+          "42"
+        ],
+        "PB5": [
+          "43"
+        ],
+        "PB6": [
+          "44"
+        ],
+        "PB7": [
+          "45"
+        ],
+        "PB8": [
+          "46"
+        ],
+        "PB9": [
+          "47"
+        ],
+        "PC10": [
+          "39"
+        ],
+        "PC11": [
+          "40"
+        ],
+        "PC13": [
+          "2"
+        ],
+        "PC14": [
+          "3"
+        ],
+        "PC15": [
+          "4"
+        ],
+        "PC4": [
+          "16"
+        ],
+        "PC6": [
+          "29"
+        ],
+        "PF0": [
+          "5"
+        ],
+        "PF1": [
+          "6"
+        ],
+        "PG10": [
+          "7"
+        ],
+        "power": [
+          "23",
+          "49"
+        ]
+      },
+      "parameters": {},
+      "height": 0.55
+    }
+  },
+  "support": {
+    "parts": [
+      {
+        "ref": "C_VDD",
+        "kind": "cap",
+        "value": "100nF",
+        "rating": "one per VDD pin",
+        "between": [
+          "VDD",
+          "VSS"
+        ],
+        "each": true
+      },
+      {
+        "ref": "C_BULK",
+        "kind": "cap",
+        "value": "4.7uF",
+        "between": [
+          "VDD",
+          "VSS"
+        ]
+      },
+      {
+        "ref": "C_VBAT",
+        "kind": "cap",
+        "value": "100nF",
+        "between": [
+          "VBAT",
+          "VSS"
+        ],
+        "option": "!noBattery"
+      },
+      {
+        "ref": "VBAT_VDD",
+        "kind": "tie",
+        "value": "",
+        "between": [
+          "VBAT",
+          "VDD"
+        ],
+        "option": "noBattery"
+      },
+      {
+        "ref": "C_VDDA1",
+        "kind": "cap",
+        "value": "10nF",
+        "between": [
+          "VDDA",
+          "VSS"
+        ]
+      },
+      {
+        "ref": "C_VDDA2",
+        "kind": "cap",
+        "value": "1uF",
+        "between": [
+          "VDDA",
+          "VSS"
+        ]
+      },
+      {
+        "ref": "C_VREF1",
+        "kind": "cap",
+        "value": "100nF",
+        "between": [
+          "VREF+",
+          "VSS"
+        ]
+      },
+      {
+        "ref": "C_VREF2",
+        "kind": "cap",
+        "value": "1uF",
+        "between": [
+          "VREF+",
+          "VSS"
+        ]
+      },
+      {
+        "ref": "C_NRST",
+        "kind": "cap",
+        "value": "100nF",
+        "between": [
+          "PG10-NRST",
+          "VSS"
+        ]
+      },
+      {
+        "ref": "R_BOOT0",
+        "kind": "res",
+        "value": "10kohm",
+        "rating": "boots from flash",
+        "between": [
+          "PB8-BOOT0",
+          "VSS"
+        ]
+      }
+    ],
+    "options": [
+      {
+        "name": "noBattery",
+        "default": true,
+        "description": "VBAT joined to VDD (no backup battery; else 100 nF at VBAT)."
+      }
+    ],
+    "notes": [
+      "No crystal: the HSI16 and HSI48 (USB, trimmed by the clock recovery system) need none; an HSE crystal on PF0/PF1 is optional."
+    ],
+    "page": "the datasheet's power supply scheme; AN5093 (reset and boot circuits)"
+  },
+  "provenance": {
+    "pins": {
+      "verified": true,
+      "source": "STM32_open_pin_data STM32G431C(6-8-B)Ux (7d1f1514ed55); pad 49 (VSS, the exposed pad) cross-checked with the KiCad symbol STM32G431CBUx",
+      "url": "https://github.com/STMicroelectronics/STM32_open_pin_data",
+      "license": "BSD-3-Clause",
+      "notice": "Copyright (c) 2020, STMicroelectronics. All rights reserved. Redistributed under the BSD 3-Clause License (see crates/pcbkit-parts/registry/LICENSES.md)."
+    },
+    "footprint": {
+      "verified": false,
+      "note": "QFN-48 7 x 7 mm, 0.5 mm pitch, exposed pad 5.6 x 5.6 mm from the package outline (UFQFPN48); check the land pattern against the datasheet before fabrication"
+    },
+    "symbol": {
+      "verified": false,
+      "source": "kicad",
+      "version": "10.0.7",
+      "item": "MCU_ST_STM32G4:STM32G431C6Ux",
+      "url": "https://gitlab.com/kicad/libraries",
+      "license": "CC-BY-SA-4.0"
+    },
+    "parameters": {
+      "verified": true,
+      "source": "stm32-open-pin-data",
+      "version": "7d1f1514ed5583ec5007ad91236b4e1d377295b1",
+      "item": "mcu/STM32G431C(6-8-B)Ux.xml",
+      "url": "https://github.com/STMicroelectronics/STM32_open_pin_data",
+      "license": "BSD-3-Clause",
+      "notice": "Copyright (c) 2026 STMicroelectronics. All rights reserved. Redistributed under the BSD 3-Clause License."
+    }
+  }
+}

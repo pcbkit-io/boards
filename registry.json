@@ -10,6 +10,13 @@
       "interactive": true
     },
     {
+      "id": "devices",
+      "title": "Devices",
+      "summary": "Real products end to end: STM32 and ESP32 devices with their sensors, buses and power, running their firmware in the app and ready to order.",
+      "icon": "lightning",
+      "interactive": true
+    },
+    {
       "id": "arduino",
       "title": "Arduino",
       "summary": "An Arduino Nano on every board, real sketches with the libraries everyone uses, built and run in the app exactly as the Arduino IDE builds them.",
@@ -1053,6 +1060,37 @@
       "path": "examples/robot-controller",
       "production": {
         "status": "ready"
+      }
+    },
+    {
+      "slug": "can-node",
+      "title": "CAN sensor node on an STM32G431",
+      "category": "devices",
+      "summary": "An STM32G431 reads four 0–5 V pressure sensors and an ICM-42688-P IMU and sends them at 100 Hz on a robot's CAN bus through an SN65HVD230, powered from the bus's 12 V. Run builds the HAL firmware in your browser and runs it on a model of the chips, with the robot around it and the bus as a USB-CAN adapter.",
+      "tags": [
+        "stm32",
+        "cortex-m4",
+        "can",
+        "imu",
+        "sensors",
+        "hal",
+        "swd"
+      ],
+      "chips": [
+        "STM32G431",
+        "SN65HVD230",
+        "ICM-42688-P",
+        "TPS54331"
+      ],
+      "license": "CC0-1.0",
+      "author": "PCBKit",
+      "source": "https://github.com/pcbkit-io/boards/tree/main/devices/can-node",
+      "copper": null,
+      "path": "devices/can-node",
+      "open": "github",
+      "production": {
+        "status": "ready",
+        "flash": "swd"
       }
     }
   ]
