@@ -381,16 +381,16 @@ R35 = res(499kohm, tolerance = 1pct) { pins { a: HP_FB, b: GND } }
 R38 = res(0ohm) { pins { a: FB_DCDC, b: HP_FB } }
 
 // ---- the ESP32-P4 -------------------------------------------------------------------------------
-// It runs PocketJS's ESP32-P4 host for this board (its PR #208, MIT), with PocketJS's Chrome app,
-// as one flash image published by PCBKit.
+// It runs PocketJS's ESP32-P4 host for this board (its PR #208, MIT), with PocketJS's Feature
+// Cards app, as one flash image published by PCBKit (the release has its Chrome and Music apps too).
 U13 = ESP32_P4NRW32.Part with {
   simulation = ESP32_P4NRW32.Part.simulation with {
     behavior = ESP32_P4NRW32.Part.simulation.behavior with {
       parameters = { flash_mib: 32, dsi_panel: 1 }
       image = FirmwareData {
-        url = "https://github.com/pcbkit-io/boards/releases/download/pocketjs-esp32p4-7b-5d4a16b9/pocketjs-esp32p4-waveshare-7b-chrome-factory.bin"
-        sha256 = "7307bfc18319e7d7bb28eab1dcc5077c3a20ad1ab0300904346ea6cef0a1893b"
-        bytes = 2287312
+        url = "https://github.com/pcbkit-io/boards/releases/download/pocketjs-esp32p4-7b-5d4a16b9/pocketjs-esp32p4-waveshare-7b-cards-factory.bin"
+        sha256 = "2355eaa18799cac867f4f8072685dcf2a14331040c88bfec9fee58c4288fc510"
+        bytes = 2614464
       }
     }
   }

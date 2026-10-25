@@ -5,7 +5,7 @@ as a PCBKit project: its circuit read from Waveshare's published schematic, its 
 Waveshare's assembly drawing puts them (the connectors on the same edges, the chips in the same
 places), behind the same 7" 1024 × 600 panel. In the app it runs
 [PocketJS](https://github.com/pocket-nexus/pocketjs)'s ESP32-P4 host for this board (pull
-request #208, MIT) with its stock Chrome app: one flash image, published by PCBKit as a
+request #208, MIT) with its stock Feature Cards app: one flash image, published by PCBKit as a
 [release of this repository](https://github.com/pcbkit-io/boards/releases/tag/pocketjs-esp32p4-7b-5d4a16b9),
 booted by Espressif's ESP32-P4 boot ROM on PCBKit's model of the chip.
 
@@ -44,8 +44,10 @@ consigned part.
 ## Run it in the browser
 
 Open the board and press **Run**: the page fetches the PocketJS image (checked against the
-SHA-256 this design declares) and Espressif's ROM, and runs them. The Chrome app comes up in
-about seven seconds; touch its buttons on the screen in 3D. The console (H8) shows PocketJS's
+SHA-256 this design declares) and Espressif's ROM, and runs them. Feature Cards comes up in
+about seven seconds; tap a card on the screen in 3D and it opens its details. The same release has
+PocketJS's Music ("Now Playing") and Chrome apps for this host: put one of their URLs, SHA-256s
+and sizes into the processor's `image` to run it instead. The console (H8) shows PocketJS's
 log.
 
 What does not run here, and says so:
@@ -61,7 +63,7 @@ What does not run here, and says so:
 1. Order with assembly (`pcbkit export --format fab`); the panel plugs into P2 and J3. JLCPCB has
    no ESP32-P4 in stock: send it as a consigned part.
 2. Flash over the console's USB-C: `esptool.py --chip esp32p4 write_flash 0
-   pocketjs-esp32p4-waveshare-7b-chrome-factory.bin` (the CH343P's DTR and RTS put the P4 into
+   pocketjs-esp32p4-waveshare-7b-cards-factory.bin` (the CH343P's DTR and RTS put the P4 into
    its boot loader).
 
 Licence: the board CC0 1.0; Waveshare's schematic is its own, read for the circuit (no files of
