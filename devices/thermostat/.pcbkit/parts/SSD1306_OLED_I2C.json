@@ -1,0 +1,125 @@
+{
+  "id": "SSD1306_OLED_I2C",
+  "mpn": "SSD1306 0.96in 128x64 I2C OLED module",
+  "manufacturer": "generic (Solomon Systech SSD1306 controller)",
+  "variants": [
+    "0.96\" OLED",
+    "SSD1306 128x64",
+    "GM009605"
+  ],
+  "category": "display",
+  "description": "0.96\" 128 x 64 OLED display module (SSD1306, I2C address 0x3C) on a 1x4 female header: GND VCC SCL SDA; courtyard the 27.3 x 27.8 mm module lying over the board",
+  "tags": [
+    "oled",
+    "ssd1306",
+    "display",
+    "screen",
+    "0.96",
+    "0.96 inch",
+    "128x64",
+    "i2c",
+    "lcd",
+    "module",
+    "socket"
+  ],
+  "datasheet": {
+    "url": "https://cdn-shop.adafruit.com/datasheets/SSD1306.pdf",
+    "revision": "Solomon Systech SSD1306 datasheet rev 1.1 (the controller; address 0x3C/0x3D); the 4-pin I2C module as its makers print it"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "0.96\" I2C OLED module, 1 x 4 socket",
+    "family": "module",
+    "pins": 4,
+    "pitch": 2.54,
+    "body": {
+      "d": 27.3,
+      "e": 27.8,
+      "a": 14.0
+    },
+    "page": "module about 27.3 x 27.8 mm, the 4-pin header centred on the top edge, the display facing up"
+  },
+  "footprint": "moduleSocket(\"OLED_0.96in_I2C_Socket_1x04_P2.54mm\", socketRow(1, 4, (-3.81mm, 0mm), (2.54mm, 0mm)), box((-13.65mm, -26.3mm), (13.65mm, 1.5mm)), description = \"0.96 inch I2C OLED module on a 1x4 female header along its top edge, the display facing up over -Y: GND, VCC, SCL, SDA left to right\", parts = 1.5mm, color = \"#1d3f8c\", board = 1.6mm, spacer = 2.5mm, pins = true, module = modules.oled096([\"GND\", \"VCC\", \"SCL\", \"SDA\"], edge = 1.5mm))",
+  "pins": [
+    {
+      "number": "1",
+      "name": "GND",
+      "type": "ground"
+    },
+    {
+      "number": "2",
+      "name": "VCC",
+      "type": "power_in",
+      "description": "supply 3.3-5 V (the module's regulator)"
+    },
+    {
+      "number": "3",
+      "name": "SCL",
+      "type": "input_pullup",
+      "description": "I2C clock (pulled up on most modules, 4.7-10 kΩ)"
+    },
+    {
+      "number": "4",
+      "name": "SDA",
+      "type": "bidirectional",
+      "description": "I2C data (pulled up on most modules)"
+    }
+  ],
+  "ratings": {
+    "recommended": [
+      {
+        "what": "VCC supply",
+        "pins": [
+          "VCC"
+        ],
+        "min": 3.3,
+        "max": 5.5
+      },
+      {
+        "what": "supply current",
+        "max": 0.02,
+        "unit": "A"
+      }
+    ]
+  },
+  "simulation": {
+    "behavior": {
+      "model": "ssd1306-i2c",
+      "ports": {
+        "i2c": [
+          "4",
+          "3"
+        ],
+        "power": [
+          "2",
+          "1"
+        ]
+      },
+      "parameters": {
+        "address": 60.0,
+        "height_mm": 10.86,
+        "offset_x_mm": 0.0,
+        "offset_y_mm": -13.4,
+        "width_mm": 21.74
+      },
+      "height": 14.0
+    }
+  },
+  "i2cAddress": "0x3C",
+  "notes": [
+    "Two pin orders are sold: GND VCC SCL SDA (this part) and VCC GND SCL SDA (`SSD1306_OLED_I2C_VCC_FIRST`). Read the module's silkscreen before choosing: the wrong one puts the supply on ground.",
+    "I2C address 0x3C (0x3D with the module's address jumper moved). The bus needs pull-ups once: most modules have them; add `I2cPullups` when the bus has none."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "the module's silkscreen as its makers print it (GND VCC SCL SDA); controller facts from Solomon Systech's SSD1306 datasheet",
+      "url": "https://cdn-shop.adafruit.com/datasheets/SSD1306.pdf",
+      "license": "pinout and dimensions (facts); footprint, 3D body, descriptions and notes our own"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "a generic module: outline nominal; 1.0 mm holes, 1.7 mm pads"
+    }
+  }
+}

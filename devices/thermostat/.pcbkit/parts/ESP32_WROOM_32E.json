@@ -1,0 +1,1421 @@
+{
+  "id": "ESP32_WROOM_32E",
+  "mpn": "ESP32-WROOM-32E-N4",
+  "manufacturer": "Espressif Systems",
+  "variants": [
+    "ESP32-WROOM-32E-N8",
+    "ESP32-WROOM-32E-N16",
+    "ESP32-WROOM-32E-H4",
+    "ESP32-WROOM-32E-N4R2",
+    "ESP32-WROOM-32E-N8R2",
+    "ESP32-WROOM-32E-N16R2",
+    "ESP32-WROOM-32D",
+    "ESP32-WROOM-32"
+  ],
+  "category": "mcu",
+  "description": "Wi-Fi 802.11b/g/n, Bluetooth classic and LE module, dual-core Xtensa LX6 240 MHz (ESP32-D0WD-V3), 4 MB flash, PCB antenna, 3.3 V, 18 x 25.5 mm with 38 castellated pads (the ESP32 DevKitC's module)",
+  "tags": [
+    "mcu",
+    "esp32",
+    "esp32-wroom-32",
+    "esp32-wroom-32e",
+    "wroom-32",
+    "wroom",
+    "wifi",
+    "bluetooth",
+    "ble",
+    "wireless",
+    "module",
+    "iot",
+    "esp-wroom-32"
+  ],
+  "datasheet": {
+    "url": "https://www.espressif.com/sites/default/files/documentation/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf",
+    "revision": "v2.1"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "ESP32-WROOM-32E module 18 x 25.5 mm (38 edge pads + EPAD)",
+    "family": "module",
+    "pins": 38,
+    "pitch": 1.27,
+    "body": {
+      "d": [
+        17.85,
+        18.0,
+        18.15
+      ],
+      "e": [
+        25.35,
+        25.5,
+        25.65
+      ],
+      "a": [
+        2.95,
+        3.1,
+        3.25
+      ]
+    },
+    "exposedPad": {
+      "d2": 3.7,
+      "e2": 3.7,
+      "number": "39"
+    },
+    "landPattern": {
+      "pads": [
+        {
+          "number": "1",
+          "x": -8.75,
+          "y": 5.26,
+          "w": 1.5,
+          "h": 0.9
+        },
+        {
+          "number": "2",
+          "x": -8.75,
+          "y": 3.99,
+          "w": 1.5,
+          "h": 0.9
+        },
+        {
+          "number": "3",
+          "x": -8.75,
+          "y": 2.72,
+          "w": 1.5,
+          "h": 0.9
+        },
+        {
+          "number": "4",
+          "x": -8.75,
+          "y": 1.45,
+          "w": 1.5,
+          "h": 0.9
+        },
+        {
+          "number": "5",
+          "x": -8.75,
+          "y": 0.18,
+          "w": 1.5,
+          "h": 0.9
+        },
+        {
+          "number": "6",
+          "x": -8.75,
+          "y": -1.09,
+          "w": 1.5,
+          "h": 0.9
+        },
+        {
+          "number": "7",
+          "x": -8.75,
+          "y": -2.36,
+          "w": 1.5,
+          "h": 0.9
+        },
+        {
+          "number": "8",
+          "x": -8.75,
+          "y": -3.63,
+          "w": 1.5,
+          "h": 0.9
+        },
+        {
+          "number": "9",
+          "x": -8.75,
+          "y": -4.9,
+          "w": 1.5,
+          "h": 0.9
+        },
+        {
+          "number": "10",
+          "x": -8.75,
+          "y": -6.17,
+          "w": 1.5,
+          "h": 0.9
+        },
+        {
+          "number": "11",
+          "x": -8.75,
+          "y": -7.44,
+          "w": 1.5,
+          "h": 0.9
+        },
+        {
+          "number": "12",
+          "x": -8.75,
+          "y": -8.71,
+          "w": 1.5,
+          "h": 0.9
+        },
+        {
+          "number": "13",
+          "x": -8.75,
+          "y": -9.98,
+          "w": 1.5,
+          "h": 0.9
+        },
+        {
+          "number": "14",
+          "x": -8.75,
+          "y": -11.25,
+          "w": 1.5,
+          "h": 0.9
+        },
+        {
+          "number": "15",
+          "x": -5.715,
+          "y": -12.5,
+          "w": 0.9,
+          "h": 1.5
+        },
+        {
+          "number": "16",
+          "x": -4.445,
+          "y": -12.5,
+          "w": 0.9,
+          "h": 1.5
+        },
+        {
+          "number": "17",
+          "x": -3.175,
+          "y": -12.5,
+          "w": 0.9,
+          "h": 1.5
+        },
+        {
+          "number": "18",
+          "x": -1.905,
+          "y": -12.5,
+          "w": 0.9,
+          "h": 1.5
+        },
+        {
+          "number": "19",
+          "x": -0.635,
+          "y": -12.5,
+          "w": 0.9,
+          "h": 1.5
+        },
+        {
+          "number": "20",
+          "x": 0.635,
+          "y": -12.5,
+          "w": 0.9,
+          "h": 1.5
+        },
+        {
+          "number": "21",
+          "x": 1.905,
+          "y": -12.5,
+          "w": 0.9,
+          "h": 1.5
+        },
+        {
+          "number": "22",
+          "x": 3.175,
+          "y": -12.5,
+          "w": 0.9,
+          "h": 1.5
+        },
+        {
+          "number": "23",
+          "x": 4.445,
+          "y": -12.5,
+          "w": 0.9,
+          "h": 1.5
+        },
+        {
+          "number": "24",
+          "x": 5.715,
+          "y": -12.5,
+          "w": 0.9,
+          "h": 1.5
+        },
+        {
+          "number": "25",
+          "x": 8.75,
+          "y": -11.25,
+          "w": 1.5,
+          "h": 0.9
+        },
+        {
+          "number": "26",
+          "x": 8.75,
+          "y": -9.98,
+          "w": 1.5,
+          "h": 0.9
+        },
+        {
+          "number": "27",
+          "x": 8.75,
+          "y": -8.71,
+          "w": 1.5,
+          "h": 0.9
+        },
+        {
+          "number": "28",
+          "x": 8.75,
+          "y": -7.44,
+          "w": 1.5,
+          "h": 0.9
+        },
+        {
+          "number": "29",
+          "x": 8.75,
+          "y": -6.17,
+          "w": 1.5,
+          "h": 0.9
+        },
+        {
+          "number": "30",
+          "x": 8.75,
+          "y": -4.9,
+          "w": 1.5,
+          "h": 0.9
+        },
+        {
+          "number": "31",
+          "x": 8.75,
+          "y": -3.63,
+          "w": 1.5,
+          "h": 0.9
+        },
+        {
+          "number": "32",
+          "x": 8.75,
+          "y": -2.36,
+          "w": 1.5,
+          "h": 0.9
+        },
+        {
+          "number": "33",
+          "x": 8.75,
+          "y": -1.09,
+          "w": 1.5,
+          "h": 0.9
+        },
+        {
+          "number": "34",
+          "x": 8.75,
+          "y": 0.18,
+          "w": 1.5,
+          "h": 0.9
+        },
+        {
+          "number": "35",
+          "x": 8.75,
+          "y": 1.45,
+          "w": 1.5,
+          "h": 0.9
+        },
+        {
+          "number": "36",
+          "x": 8.75,
+          "y": 2.72,
+          "w": 1.5,
+          "h": 0.9
+        },
+        {
+          "number": "37",
+          "x": 8.75,
+          "y": 3.99,
+          "w": 1.5,
+          "h": 0.9
+        },
+        {
+          "number": "38",
+          "x": 8.75,
+          "y": 5.26,
+          "w": 1.5,
+          "h": 0.9
+        },
+        {
+          "number": "39",
+          "x": -2.9,
+          "y": -1.06,
+          "w": 0.9,
+          "h": 0.9
+        },
+        {
+          "number": "39",
+          "x": -2.9,
+          "y": -2.46,
+          "w": 0.9,
+          "h": 0.9
+        },
+        {
+          "number": "39",
+          "x": -2.9,
+          "y": -3.86,
+          "w": 0.9,
+          "h": 0.9
+        },
+        {
+          "number": "39",
+          "x": -1.5,
+          "y": -1.06,
+          "w": 0.9,
+          "h": 0.9
+        },
+        {
+          "number": "39",
+          "x": -1.5,
+          "y": -2.46,
+          "w": 0.9,
+          "h": 0.9
+        },
+        {
+          "number": "39",
+          "x": -1.5,
+          "y": -3.86,
+          "w": 0.9,
+          "h": 0.9
+        },
+        {
+          "number": "39",
+          "x": -0.1,
+          "y": -1.06,
+          "w": 0.9,
+          "h": 0.9
+        },
+        {
+          "number": "39",
+          "x": -0.1,
+          "y": -2.46,
+          "w": 0.9,
+          "h": 0.9
+        },
+        {
+          "number": "39",
+          "x": -0.1,
+          "y": -3.86,
+          "w": 0.9,
+          "h": 0.9
+        }
+      ],
+      "page": "Figure 13 recommended PCB land pattern (p. 43) with Figure 10 dimensions (p. 40): pads 1.5 x 0.9 mm on 1.27 mm pitch, side rows 17.5 mm apart centre to centre (0.5 mm beyond the module edge), pin 1 7.49 mm below the top (antenna) edge, pin 14 1.5 mm above the bottom edge, the bottom row of ten centred (3.285 mm in from the sides); EPAD 3 x 3 pads 0.9 mm on 1.4 mm (3.7 mm overall) centred 7.5 mm from the left and 10.29 mm from the bottom edge. Coordinates from the module centre, Y up."
+    },
+    "page": "10.1 module dimensions (figure 10): 18 ± 0.15 x 25.5 ± 0.15 x 3.1 ± 0.15 mm"
+  },
+  "solids": "modules.radio((0mm, 0mm), (18mm, 25.5mm), (15.8mm, 17.6mm), [\"ESPRESSIF\", \"ESP32-WROOM-32E\", \"FCC ID:2AC7Z-ESP32WROOM32E\"], bottom = 10, height = 3.1mm)",
+  "symbol": {
+    "units": [
+      {
+        "shapes": [
+          {
+            "kind": "rect",
+            "from": [
+              -10.16,
+              0.0
+            ],
+            "to": [
+              20.32,
+              -50.8
+            ],
+            "width": 0.0,
+            "fill": "background"
+          }
+        ],
+        "pins": [
+          {
+            "number": "1",
+            "x": 0.0,
+            "y": -53.34,
+            "angle": 90.0,
+            "length": 2.54
+          },
+          {
+            "number": "2",
+            "x": 5.08,
+            "y": 2.54,
+            "angle": 270.0,
+            "length": 2.54
+          },
+          {
+            "number": "3",
+            "x": -12.7,
+            "y": -2.54,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "4",
+            "x": 22.86,
+            "y": -2.54,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "5",
+            "x": 22.86,
+            "y": -5.08,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "6",
+            "x": 22.86,
+            "y": -33.02,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "7",
+            "x": 22.86,
+            "y": -30.48,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "8",
+            "x": 22.86,
+            "y": -38.1,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "9",
+            "x": 22.86,
+            "y": -35.56,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "10",
+            "x": -12.7,
+            "y": -43.18,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "20",
+            "x": 22.86,
+            "y": -15.24,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "30",
+            "x": -12.7,
+            "y": -30.48,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "11",
+            "x": -12.7,
+            "y": -45.72,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "21",
+            "x": 22.86,
+            "y": -17.78,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "31",
+            "x": -12.7,
+            "y": -33.02,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "12",
+            "x": -12.7,
+            "y": -48.26,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "22",
+            "x": 22.86,
+            "y": -20.32,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "32",
+            "x": 20.32,
+            "y": -43.18,
+            "angle": 180.0,
+            "length": 2.54,
+            "hidden": true
+          },
+          {
+            "number": "13",
+            "x": -12.7,
+            "y": -20.32,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "23",
+            "x": -12.7,
+            "y": -22.86,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "33",
+            "x": -12.7,
+            "y": -35.56,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "14",
+            "x": -12.7,
+            "y": -15.24,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "24",
+            "x": -12.7,
+            "y": -7.62,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "34",
+            "x": 22.86,
+            "y": -25.4,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "15",
+            "x": 2.54,
+            "y": -53.34,
+            "angle": 90.0,
+            "length": 2.54
+          },
+          {
+            "number": "25",
+            "x": -12.7,
+            "y": -5.08,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "35",
+            "x": 22.86,
+            "y": -22.86,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "16",
+            "x": -12.7,
+            "y": -17.78,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "26",
+            "x": -12.7,
+            "y": -10.16,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "36",
+            "x": -12.7,
+            "y": -38.1,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "17",
+            "x": 22.86,
+            "y": -7.62,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "27",
+            "x": -12.7,
+            "y": -25.4,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "37",
+            "x": -12.7,
+            "y": -40.64,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "18",
+            "x": 22.86,
+            "y": -10.16,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "28",
+            "x": -12.7,
+            "y": -27.94,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "38",
+            "x": 5.08,
+            "y": -53.34,
+            "angle": 90.0,
+            "length": 2.54
+          },
+          {
+            "number": "19",
+            "x": 22.86,
+            "y": -12.7,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "29",
+            "x": -12.7,
+            "y": -12.7,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "39",
+            "x": 7.62,
+            "y": -53.34,
+            "angle": 90.0,
+            "length": 2.54
+          }
+        ]
+      }
+    ],
+    "name_offset": 1.016
+  },
+  "keepouts": [
+    {
+      "name": "antenna",
+      "x0": -9.5,
+      "y0": 6.56,
+      "x1": 9.5,
+      "y1": 13.25,
+      "layers": "all",
+      "forbid": [
+        "tracks",
+        "vias",
+        "pours",
+        "footprints"
+      ],
+      "page": "Figure 3 pin layout (antenna keepout zone, dotted) and figure 13 (antenna area: the top 6.19 mm of the module), with 0.5 mm margin. The wider clearance of Espressif's hardware design guidelines is in the notes, not enforced."
+    }
+  ],
+  "pins": [
+    {
+      "number": "1",
+      "name": "GND",
+      "type": "ground"
+    },
+    {
+      "number": "2",
+      "name": "3V3",
+      "type": "power_in",
+      "description": "3.0-3.6 V supply, 500 mA"
+    },
+    {
+      "number": "3",
+      "name": "EN",
+      "type": "input",
+      "description": "chip enable, high = on; never floating: 10 kohm to 3V3 and 1 uF to GND"
+    },
+    {
+      "number": "4",
+      "name": "SENSOR_VP",
+      "type": "analog",
+      "functions": [
+        "GPIO36",
+        "ADC1_CH0",
+        "RTC_GPIO0"
+      ],
+      "description": "GPIO36: input only, no pull-ups (ADC1); may stay open"
+    },
+    {
+      "number": "5",
+      "name": "SENSOR_VN",
+      "type": "analog",
+      "functions": [
+        "GPIO39",
+        "ADC1_CH3",
+        "RTC_GPIO3"
+      ],
+      "description": "GPIO39: input only, no pull-ups (ADC1); may stay open"
+    },
+    {
+      "number": "6",
+      "name": "IO34",
+      "type": "analog",
+      "functions": [
+        "GPIO34",
+        "ADC1_CH6",
+        "RTC_GPIO4"
+      ],
+      "description": "input only, no pull-ups (ADC1); may stay open"
+    },
+    {
+      "number": "7",
+      "name": "IO35",
+      "type": "analog",
+      "functions": [
+        "GPIO35",
+        "ADC1_CH7",
+        "RTC_GPIO5"
+      ],
+      "description": "input only, no pull-ups (ADC1); may stay open"
+    },
+    {
+      "number": "8",
+      "name": "IO32",
+      "type": "bidirectional",
+      "functions": [
+        "GPIO32",
+        "XTAL_32K_P",
+        "ADC1_CH4",
+        "TOUCH9",
+        "RTC_GPIO9"
+      ]
+    },
+    {
+      "number": "9",
+      "name": "IO33",
+      "type": "bidirectional",
+      "functions": [
+        "GPIO33",
+        "XTAL_32K_N",
+        "ADC1_CH5",
+        "TOUCH8",
+        "RTC_GPIO8"
+      ]
+    },
+    {
+      "number": "10",
+      "name": "IO25",
+      "type": "bidirectional",
+      "functions": [
+        "GPIO25",
+        "DAC_1",
+        "ADC2_CH8",
+        "RTC_GPIO6",
+        "EMAC_RXD0"
+      ]
+    },
+    {
+      "number": "11",
+      "name": "IO26",
+      "type": "bidirectional",
+      "functions": [
+        "GPIO26",
+        "DAC_2",
+        "ADC2_CH9",
+        "RTC_GPIO7",
+        "EMAC_RXD1"
+      ]
+    },
+    {
+      "number": "12",
+      "name": "IO27",
+      "type": "bidirectional",
+      "functions": [
+        "GPIO27",
+        "ADC2_CH7",
+        "TOUCH7",
+        "RTC_GPIO17",
+        "EMAC_RX_DV"
+      ]
+    },
+    {
+      "number": "13",
+      "name": "IO14",
+      "type": "bidirectional",
+      "functions": [
+        "GPIO14",
+        "ADC2_CH6",
+        "TOUCH6",
+        "RTC_GPIO16",
+        "MTMS",
+        "HSPICLK",
+        "HS2_CLK",
+        "SD_CLK",
+        "EMAC_TXD2"
+      ]
+    },
+    {
+      "number": "14",
+      "name": "IO12",
+      "type": "bidirectional",
+      "functions": [
+        "GPIO12",
+        "ADC2_CH5",
+        "TOUCH5",
+        "RTC_GPIO15",
+        "MTDI",
+        "HSPIQ",
+        "HS2_DATA2",
+        "SD_DATA2",
+        "EMAC_TXD3"
+      ],
+      "description": "strapping MTDI: weak pull-down; must be low at power-up (a high selects 1.8 V flash and the module fails to boot)"
+    },
+    {
+      "number": "15",
+      "name": "GND",
+      "type": "ground"
+    },
+    {
+      "number": "16",
+      "name": "IO13",
+      "type": "bidirectional",
+      "functions": [
+        "GPIO13",
+        "ADC2_CH4",
+        "TOUCH4",
+        "RTC_GPIO14",
+        "MTCK",
+        "HSPID",
+        "HS2_DATA3",
+        "SD_DATA3",
+        "EMAC_RX_ER"
+      ]
+    },
+    {
+      "number": "17",
+      "name": "NC",
+      "type": "nc",
+      "description": "GPIO6-11 go to the module flash: not led out"
+    },
+    {
+      "number": "18",
+      "name": "NC",
+      "type": "nc",
+      "description": "GPIO6-11 go to the module flash: not led out"
+    },
+    {
+      "number": "19",
+      "name": "NC",
+      "type": "nc",
+      "description": "GPIO6-11 go to the module flash: not led out"
+    },
+    {
+      "number": "20",
+      "name": "NC",
+      "type": "nc",
+      "description": "GPIO6-11 go to the module flash: not led out"
+    },
+    {
+      "number": "21",
+      "name": "NC",
+      "type": "nc",
+      "description": "GPIO6-11 go to the module flash: not led out"
+    },
+    {
+      "number": "22",
+      "name": "NC",
+      "type": "nc",
+      "description": "GPIO6-11 go to the module flash: not led out"
+    },
+    {
+      "number": "23",
+      "name": "IO15",
+      "type": "bidirectional",
+      "functions": [
+        "GPIO15",
+        "ADC2_CH3",
+        "TOUCH3",
+        "MTDO",
+        "HSPICS0",
+        "RTC_GPIO13",
+        "HS2_CMD",
+        "SD_CMD",
+        "EMAC_RXD3"
+      ],
+      "description": "strapping MTDO: weak pull-up (boot log on UART0)"
+    },
+    {
+      "number": "24",
+      "name": "IO2",
+      "type": "bidirectional",
+      "functions": [
+        "GPIO2",
+        "ADC2_CH2",
+        "TOUCH2",
+        "RTC_GPIO12",
+        "HSPIWP",
+        "HS2_DATA0",
+        "SD_DATA0"
+      ],
+      "description": "strapping: weak pull-down; keep low or floating for serial download"
+    },
+    {
+      "number": "25",
+      "name": "IO0",
+      "type": "bidirectional",
+      "functions": [
+        "GPIO0",
+        "ADC2_CH1",
+        "TOUCH1",
+        "RTC_GPIO11",
+        "CLK_OUT1",
+        "EMAC_TX_CLK"
+      ],
+      "description": "strapping: weak pull-up; low at reset = download mode (the BOOT button)"
+    },
+    {
+      "number": "26",
+      "name": "IO4",
+      "type": "bidirectional",
+      "functions": [
+        "GPIO4",
+        "ADC2_CH0",
+        "TOUCH0",
+        "RTC_GPIO10",
+        "HSPIHD",
+        "HS2_DATA1",
+        "SD_DATA1",
+        "EMAC_TX_ER"
+      ]
+    },
+    {
+      "number": "27",
+      "name": "IO16",
+      "type": "bidirectional",
+      "functions": [
+        "GPIO16",
+        "HS1_DATA4",
+        "U2RXD",
+        "EMAC_CLK_OUT"
+      ],
+      "description": "taken by the PSRAM on variants with it (ESP32-D0WDR2-V3)"
+    },
+    {
+      "number": "28",
+      "name": "IO17",
+      "type": "bidirectional",
+      "functions": [
+        "GPIO17",
+        "HS1_DATA5",
+        "U2TXD",
+        "EMAC_CLK_OUT_180"
+      ]
+    },
+    {
+      "number": "29",
+      "name": "IO5",
+      "type": "bidirectional",
+      "functions": [
+        "GPIO5",
+        "VSPICS0",
+        "HS1_DATA6",
+        "EMAC_RX_CLK"
+      ],
+      "description": "strapping: weak pull-up (SDIO timing)"
+    },
+    {
+      "number": "30",
+      "name": "IO18",
+      "type": "bidirectional",
+      "functions": [
+        "GPIO18",
+        "VSPICLK",
+        "HS1_DATA7"
+      ]
+    },
+    {
+      "number": "31",
+      "name": "IO19",
+      "type": "bidirectional",
+      "functions": [
+        "GPIO19",
+        "VSPIQ",
+        "U0CTS",
+        "EMAC_TXD0"
+      ]
+    },
+    {
+      "number": "32",
+      "name": "NC",
+      "type": "nc",
+      "description": "not connected"
+    },
+    {
+      "number": "33",
+      "name": "IO21",
+      "type": "bidirectional",
+      "functions": [
+        "GPIO21",
+        "VSPIHD",
+        "EMAC_TX_EN"
+      ],
+      "description": "Arduino default I2C SDA"
+    },
+    {
+      "number": "34",
+      "name": "RXD0",
+      "type": "bidirectional",
+      "functions": [
+        "GPIO3",
+        "U0RXD",
+        "CLK_OUT2"
+      ],
+      "description": "UART0 RX: firmware download and log"
+    },
+    {
+      "number": "35",
+      "name": "TXD0",
+      "type": "bidirectional",
+      "functions": [
+        "GPIO1",
+        "U0TXD",
+        "CLK_OUT3",
+        "EMAC_RXD2"
+      ],
+      "description": "UART0 TX: firmware download and log"
+    },
+    {
+      "number": "36",
+      "name": "IO22",
+      "type": "bidirectional",
+      "functions": [
+        "GPIO22",
+        "VSPIWP",
+        "U0RTS",
+        "EMAC_TXD1"
+      ],
+      "description": "Arduino default I2C SCL"
+    },
+    {
+      "number": "37",
+      "name": "IO23",
+      "type": "bidirectional",
+      "functions": [
+        "GPIO23",
+        "VSPID",
+        "HS1_STROBE"
+      ]
+    },
+    {
+      "number": "38",
+      "name": "GND",
+      "type": "ground"
+    },
+    {
+      "number": "39",
+      "name": "GND",
+      "type": "ground",
+      "description": "EPAD: ground; soldering it is optional (thermal)"
+    }
+  ],
+  "ratings": {
+    "absMax": [
+      {
+        "what": "VDD33 supply",
+        "pins": [
+          "3V3"
+        ],
+        "min": -0.3,
+        "max": 3.6,
+        "unit": "V"
+      },
+      {
+        "what": "storage temperature",
+        "min": -40.0,
+        "max": 105.0,
+        "unit": "°C"
+      }
+    ],
+    "recommended": [
+      {
+        "what": "VDD33 supply",
+        "pins": [
+          "3V3"
+        ],
+        "min": 3.0,
+        "nom": 3.3,
+        "max": 3.6,
+        "unit": "V"
+      },
+      {
+        "what": "current the supply must deliver",
+        "pins": [
+          "3V3"
+        ],
+        "min": 0.5,
+        "unit": "A"
+      },
+      {
+        "what": "ambient temperature (85 °C version; 105 °C version to 105 °C)",
+        "min": -40.0,
+        "max": 85.0,
+        "unit": "°C"
+      }
+    ]
+  },
+  "parameters": [
+    {
+      "name": "Digi-Key_PN",
+      "value": "1904-1010-1-ND"
+    },
+    {
+      "name": "Category",
+      "value": "RF/IF and RFID"
+    },
+    {
+      "name": "Family",
+      "value": "RF Transceiver Modules"
+    },
+    {
+      "name": "DK_Datasheet_Link",
+      "value": "https://www.espressif.com/sites/default/files/documentation/esp32-wroom-32_datasheet_en.pdf"
+    },
+    {
+      "name": "DK_Detail_Page",
+      "value": "/product-detail/en/espressif-systems/ESP32-WROOM-32/1904-1010-1-ND/8544305"
+    },
+    {
+      "name": "Status",
+      "value": "Active"
+    }
+  ],
+  "simulation": {
+    "behavior": {
+      "model": "esp32",
+      "ports": {
+        "IO0": [
+          "25"
+        ],
+        "IO1": [
+          "35"
+        ],
+        "IO12": [
+          "14"
+        ],
+        "IO13": [
+          "16"
+        ],
+        "IO14": [
+          "13"
+        ],
+        "IO15": [
+          "23"
+        ],
+        "IO16": [
+          "27"
+        ],
+        "IO17": [
+          "28"
+        ],
+        "IO18": [
+          "30"
+        ],
+        "IO19": [
+          "31"
+        ],
+        "IO2": [
+          "24"
+        ],
+        "IO21": [
+          "33"
+        ],
+        "IO22": [
+          "36"
+        ],
+        "IO23": [
+          "37"
+        ],
+        "IO25": [
+          "10"
+        ],
+        "IO26": [
+          "11"
+        ],
+        "IO27": [
+          "12"
+        ],
+        "IO3": [
+          "34"
+        ],
+        "IO32": [
+          "8"
+        ],
+        "IO33": [
+          "9"
+        ],
+        "IO34": [
+          "6"
+        ],
+        "IO35": [
+          "7"
+        ],
+        "IO36": [
+          "4"
+        ],
+        "IO39": [
+          "5"
+        ],
+        "IO4": [
+          "26"
+        ],
+        "IO5": [
+          "29"
+        ],
+        "power": [
+          "2",
+          "1"
+        ]
+      },
+      "parameters": {},
+      "height": 3.1
+    },
+    "parameters": [
+      {
+        "id": "idd-wifi-rx-20mhz",
+        "quantity": "supplyCurrent",
+        "unit": "A",
+        "typ": 0.112,
+        "conditions": "Wi-Fi active, receive (RX) 802.11b/g/n 20 MHz, peripherals disabled and CPU idle; VDD33=3.3 V, 25 degC ambient; average equals peak. Typical connected/receiving figure, not the 100 % duty TX peak (TX average 165-239 mA)",
+        "source": {
+          "url": "https://www.espressif.com/sites/default/files/documentation/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf",
+          "revision": "v2.1",
+          "location": "p. 29, section 6.4, Table 16 Current Consumption Depending on RF Modes, RX row",
+          "confidence": "datasheet"
+        }
+      }
+    ]
+  },
+  "support": {
+    "parts": [
+      {
+        "ref": "C1",
+        "kind": "cap",
+        "value": "22uF",
+        "between": [
+          "3V3",
+          "GND"
+        ]
+      },
+      {
+        "ref": "C2",
+        "kind": "cap",
+        "value": "100nF",
+        "between": [
+          "3V3",
+          "GND"
+        ]
+      },
+      {
+        "ref": "R1",
+        "kind": "res",
+        "value": "10kohm",
+        "rating": "EN RC delay",
+        "between": [
+          "EN",
+          "3V3"
+        ]
+      },
+      {
+        "ref": "C3",
+        "kind": "cap",
+        "value": "1uF",
+        "rating": "EN RC delay",
+        "between": [
+          "EN",
+          "GND"
+        ]
+      },
+      {
+        "ref": "SW1",
+        "kind": "button",
+        "value": "RESET",
+        "between": [
+          "EN",
+          "GND"
+        ],
+        "option": "resetButton"
+      },
+      {
+        "ref": "SW2",
+        "kind": "button",
+        "value": "BOOT",
+        "between": [
+          "IO0",
+          "GND"
+        ],
+        "option": "bootButton"
+      },
+      {
+        "ref": "R2",
+        "kind": "res",
+        "value": "10kohm",
+        "rating": "only with PSRAM variants (IO16 pull-up)",
+        "between": [
+          "IO16",
+          "3V3"
+        ]
+      }
+    ],
+    "options": [
+      {
+        "name": "resetButton",
+        "default": true,
+        "description": "The RESET button."
+      },
+      {
+        "name": "bootButton",
+        "default": true,
+        "description": "The BOOT button."
+      }
+    ],
+    "notes": [
+      "EN: 10 kohm to 3V3 and 1 uF to GND so the supply settles before the chip starts; a reset button to GND.",
+      "Firmware download over UART0 (TXD0, RXD0) from a USB-serial bridge; auto-reset: the bridge's DTR and RTS drive EN and IO0 through two transistors (the DevKitC circuit).",
+      "Keep IO12 low at power-up; JTAG: IO14 TMS, IO12 TDI, IO13 TCK, IO15 TDO."
+    ],
+    "page": "9 peripheral schematics (figure 9, p. 39); 4 boot configurations (table 4)"
+  },
+  "notes": [
+    "Supply: 3.0-3.6 V able to deliver 500 mA (Wi-Fi TX peaks); 22 uF and 100 nF at the 3V3 pin.",
+    "Strapping pins sampled at reset: IO0 (pull-up; low = download), IO2 (pull-down), IO12 MTDI (pull-down; high breaks boot with 3.3 V flash), IO15 MTDO (pull-up), IO5 (pull-up). Do not load them so they read wrong at reset.",
+    "IO34, IO35, SENSOR_VP (GPIO36) and SENSOR_VN (GPIO39) are input only, without pull-ups. ADC2 is not usable while Wi-Fi runs: use ADC1 (IO32-IO39) for analog.",
+    "Antenna: the top 6.19 mm of the module. The footprint keeps tracks, vias, pours and other parts out of it (0.5 mm margin). Espressif's hardware design guidelines recommend the antenna outside the base board or at its edge with the board cut away under it, and 15 mm clearance around it: place the module at a board edge with the antenna overhanging it (`place = [edge(.top, overhang = 6mm)]`).",
+    "The EPAD (pin 39) to ground with thermal vias improves heat flow; it is optional, and too much paste lifts the module."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "Espressif ESP32-WROOM-32E & WROOM-32UE datasheet v2.1: table 3 pin definitions, figure 3 pin layout, table 4 strapping pins, tables 13-14 ratings, figure 9 peripheral schematics, figure 10 dimensions and figure 13 land pattern",
+      "url": "https://www.espressif.com/sites/default/files/documentation/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf",
+      "license": "pin numbers and names, dimensions, ratings and application values transcribed from the manufacturer's datasheet (facts, one reading); descriptions and notes our own"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "the datasheet's recommended land pattern (figure 13) as pads; the antenna keepout from figures 3 and 13"
+    },
+    "symbol": {
+      "verified": false,
+      "source": "digikey-kicad",
+      "version": "d4bd68f42e6ccc474526811a853a03692e170b58",
+      "item": "dk_RF-Transceiver-Modules:ESP32-WROOM-32",
+      "url": "https://github.com/Digi-Key/digikey-kicad-library",
+      "license": "CC-BY-SA-4.0"
+    },
+    "parameters": {
+      "verified": false,
+      "source": "digikey-kicad",
+      "version": "d4bd68f42e6ccc474526811a853a03692e170b58",
+      "item": "dk_RF-Transceiver-Modules:ESP32-WROOM-32",
+      "url": "https://github.com/Digi-Key/digikey-kicad-library",
+      "license": "CC-BY-SA-4.0"
+    }
+  }
+}

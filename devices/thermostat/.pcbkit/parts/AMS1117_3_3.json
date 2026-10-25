@@ -1,0 +1,175 @@
+{
+  "id": "AMS1117_3_3",
+  "mpn": "AMS1117-3.3",
+  "manufacturer": "Advanced Monolithic Systems",
+  "category": "regulator",
+  "description": "Linear regulator (LDO), fixed 3.3 V, 1 A, input up to 15 V, about 1.1 V dropout",
+  "tags": [
+    "ldo",
+    "linear regulator",
+    "3.3V",
+    "3V3",
+    "voltage regulator",
+    "1117"
+  ],
+  "datasheet": {
+    "url": "http://www.advanced-monolithic.com/pdf/ds1117.pdf",
+    "revision": "AMS1117 datasheet (8 pages, SOT-223 drawing AMS DRW# 042292)"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "SOT-223",
+    "page": "p. 7, 3 lead SOT-223 plastic package"
+  },
+  "pins": [
+    {
+      "number": "1",
+      "name": "GND",
+      "type": "ground",
+      "description": "ground (adjust on the adjustable version)"
+    },
+    {
+      "number": "2",
+      "name": "VOUT",
+      "type": "power_out",
+      "description": "regulated 3.3 V output"
+    },
+    {
+      "number": "3",
+      "name": "VIN",
+      "type": "power_in",
+      "description": "input"
+    },
+    {
+      "number": "4",
+      "name": "VOUT",
+      "type": "power_out",
+      "description": "tab, the output"
+    }
+  ],
+  "ratings": {
+    "absMax": [
+      {
+        "what": "VIN input voltage",
+        "pins": [
+          "VIN"
+        ],
+        "max": 15.0,
+        "unit": "V"
+      },
+      {
+        "what": "operating junction temperature",
+        "min": -40.0,
+        "max": 125.0,
+        "unit": "°C"
+      }
+    ],
+    "recommended": [
+      {
+        "what": "VIN (VIN - VOUT from 1.5 V to 12 V for the regulation specified)",
+        "pins": [
+          "VIN"
+        ],
+        "min": 4.75,
+        "max": 15.0,
+        "unit": "V"
+      },
+      {
+        "what": "VOUT",
+        "pins": [
+          "VOUT"
+        ],
+        "min": 3.201,
+        "nom": 3.3,
+        "max": 3.399,
+        "unit": "V"
+      },
+      {
+        "what": "output current",
+        "pins": [
+          "VOUT"
+        ],
+        "max": 1.0,
+        "unit": "A"
+      }
+    ]
+  },
+  "simulation": {
+    "parameters": [
+      {
+        "id": "iq-3v3",
+        "quantity": "quiescentCurrent",
+        "unit": "A",
+        "typ": 0.005,
+        "max": 0.011,
+        "conditions": "AMS1117-3.3; IOUT=0 mA bias, (VIN-VOUT)=1.5 V, TJ=25 degC; datasheet row lists the fixed-voltage versions together",
+        "source": {
+          "url": "https://www.advanced-monolithic.com/pdf/ds1117.pdf",
+          "revision": "AMS1117 datasheet (8 pages, as downloaded 2026-10-20; no revision date printed)",
+          "location": "p. 3, Electrical Characteristics, Quiescent Current row",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "tj-range",
+        "quantity": "junctionOperatingTemperature",
+        "unit": "degC",
+        "min": -40.0,
+        "max": 125.0,
+        "conditions": "Operating junction temperature range, control section and power transistor; printed in the Absolute Maximum Ratings box",
+        "source": {
+          "url": "https://www.advanced-monolithic.com/pdf/ds1117.pdf",
+          "revision": "AMS1117 datasheet (8 pages, as downloaded 2026-10-20; no revision date printed)",
+          "location": "p. 2, Absolute Maximum Ratings",
+          "confidence": "datasheet"
+        }
+      }
+    ]
+  },
+  "support": {
+    "parts": [
+      {
+        "ref": "CIN",
+        "kind": "cap",
+        "value": "10uF",
+        "rating": "25V",
+        "between": [
+          "VIN",
+          "GND"
+        ]
+      },
+      {
+        "ref": "COUT",
+        "kind": "cap",
+        "value": "22uF",
+        "rating": "10V, low ESR (the datasheet uses tantalum)",
+        "between": [
+          "VOUT",
+          "GND"
+        ]
+      }
+    ],
+    "notes": [
+      "The output capacitor is part of the regulator's compensation: 22 uF on VOUT keeps it stable in all conditions (the datasheet's figure uses solid tantalum).",
+      "It needs about 10 mA of load to regulate within specification."
+    ],
+    "page": "p. 4, Figure 1"
+  },
+  "notes": [
+    "Dropout up to 1.3 V at 0.8 A: from 5 V in, 3.3 V out is near the limit at full load.",
+    "Dissipation (VIN - VOUT) x IOUT goes out through the tab: give the VOUT tab copper (the datasheet's table: about 55 °C/W with 1000 mm² on top).",
+    "The input capacitor is not in the datasheet's schematic; 10 uF close to VIN is the usual practice."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "AMS1117 datasheet, Pin connections (p. 1): SOT-223 1 GND/ADJ, 2 VOUT, 3 VIN, tab VOUT",
+      "url": "http://www.advanced-monolithic.com/pdf/ds1117.pdf",
+      "license": "facts transcribed from the datasheet; notes in our own words"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "standard SOT-223 (JEDEC TO-261AA); the datasheet's drawing agrees (6.30-6.71 x 3.30-3.71 mm body, 6.71-7.29 mm span, 2.29 mm pitch)"
+    }
+  }
+}

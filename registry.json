@@ -1092,6 +1092,37 @@
         "status": "ready",
         "flash": "swd"
       }
+    },
+    {
+      "slug": "thermostat",
+      "title": "24 V AC thermostat on an ESP32",
+      "category": "devices",
+      "summary": "An ESP32-WROOM-32E with an SHT40, a 0.96″ OLED and three relays calls heat, cooling and the fan on a furnace's R, C, W, Y, G wires, powered from its 24 V AC. Run builds the firmware in your browser and runs it on a model of the ESP32 with a house that warms and cools as it calls. Wi-Fi is not simulated and not used.",
+      "tags": [
+        "esp32",
+        "thermostat",
+        "relay",
+        "oled",
+        "sensors",
+        "hvac"
+      ],
+      "chips": [
+        "ESP32-WROOM-32E",
+        "SHT40",
+        "SSD1306",
+        "ULN2003A",
+        "LM2596"
+      ],
+      "license": "CC0-1.0",
+      "author": "PCBKit",
+      "source": "https://github.com/pcbkit-io/boards/tree/main/devices/thermostat",
+      "copper": null,
+      "path": "devices/thermostat",
+      "open": "github",
+      "production": {
+        "status": "ready",
+        "flash": "uart"
+      }
     }
   ]
 }

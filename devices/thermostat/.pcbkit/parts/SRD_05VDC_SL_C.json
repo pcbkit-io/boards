@@ -1,0 +1,144 @@
+{
+  "id": "SRD_05VDC_SL_C",
+  "mpn": "SRD-05VDC-SL-C",
+  "manufacturer": "Ningbo Songle Relay",
+  "variants": [
+    "SRD-5VDC-SL-C"
+  ],
+  "orderCodes": [
+    "C35449"
+  ],
+  "category": "relay",
+  "description": "Songle SRD-05VDC-SL-C power relay, 5 V coil (70 Ω, 71 mA), one change-over contact (COM, NO and NC, named NCLOSED) up to 10 A 250 VAC, through hole, 19.2 x 15.6 mm",
+  "tags": [
+    "relay",
+    "srd-05vdc-sl-c",
+    "songle",
+    "spdt",
+    "form c",
+    "change-over",
+    "5v relay",
+    "mains",
+    "power relay",
+    "coil",
+    "com",
+    "no",
+    "nc",
+    "tht"
+  ],
+  "datasheet": {
+    "url": "https://datasheet.lcsc.com/datasheet/pdf/9ddfe54b7529126320ff1ddcabf6bab7.pdf",
+    "revision": "Songle SRD series datasheet: coil table, outline and PCB layout (bottom view), C type"
+  },
+  "prefix": "K",
+  "package": {
+    "name": "SRD relay, 5 pins",
+    "family": "other",
+    "pins": 5,
+    "body": {
+      "d": 19.2,
+      "e": 15.6,
+      "a": 15.8
+    },
+    "page": "PCB layout (bottom view): 5 x Ø1.3 holes; the contacts' column 3.4 mm from one end, 12 mm apart; the coil pins 12.2 mm from the contacts' column, 12 mm apart; COM 2 mm beyond the coil pins on the centre line; body 19.2 x 15.6 x 15.8 mm max"
+  },
+  "footprint": "Footprint {\n    let ps = [\n      thtPad(\"1\", (0mm, 0mm), 1.3mm, (2.6mm, 2.6mm), square = true),\n      thtPad(\"2\", (2mm, 6mm), 1.3mm, (2.6mm, 2.6mm)),\n      thtPad(\"3\", (14.2mm, 6mm), 1.3mm, (2.6mm, 2.6mm)),\n      thtPad(\"4\", (14.2mm, -6mm), 1.3mm, (2.6mm, 2.6mm)),\n      thtPad(\"5\", (2mm, -6mm), 1.3mm, (2.6mm, 2.6mm)),\n    ]\n    let b = box((-1.6mm, -7.8mm), (17.6mm, 7.8mm))\n    name = \"Relay_SPDT_Songle_SRD_Form_C\"\n    description = \"Songle SRD relay, form C, top view: 1 COM, 2 and 5 the coil, 3 NC (normally closed), 4 NO; 1.3 mm holes (Songle's PCB layout, mirrored from its bottom view)\"\n    tags = [\"relay\", \"SPDT\", \"THT\"]\n    pads = ps\n    body = b\n    height = 15.8mm\n    silk = silkOf(ps, b, 0.25mm)\n    package = Package { family = .other; body = (19.2mm, 15.6mm); height = 15.8mm }\n    solids = [solid.box((19.2mm, 15.6mm, 15.5mm), at = (8mm, 0mm, 0.3mm), radius = 0.4mm, color = \"#1f5fbf\")]\n  }",
+  "pins": [
+    {
+      "number": "1",
+      "name": "COM",
+      "type": "passive",
+      "description": "the common contact"
+    },
+    {
+      "number": "2",
+      "name": "COIL1",
+      "type": "passive",
+      "description": "coil (no polarity): 5 V across COIL1-COIL2 closes COM-NO"
+    },
+    {
+      "number": "3",
+      "name": "NCLOSED",
+      "type": "passive",
+      "description": "NC, normally closed: joined to COM while the coil is off"
+    },
+    {
+      "number": "4",
+      "name": "NO",
+      "type": "passive",
+      "description": "NO, normally open: joined to COM while the coil is on"
+    },
+    {
+      "number": "5",
+      "name": "COIL2",
+      "type": "passive",
+      "description": "coil, the other end"
+    }
+  ],
+  "ratings": {
+    "recommended": [
+      {
+        "what": "coil voltage",
+        "nom": 5.0
+      },
+      {
+        "what": "coil current",
+        "nom": 0.0714,
+        "unit": "A"
+      },
+      {
+        "what": "pick-up voltage",
+        "max": 3.75
+      },
+      {
+        "what": "drop-out voltage",
+        "min": 0.5
+      },
+      {
+        "what": "contact current at 250 VAC (10 A version)",
+        "max": 10.0,
+        "unit": "A"
+      },
+      {
+        "what": "operating temperature",
+        "min": -40.0,
+        "max": 85.0,
+        "unit": "°C"
+      }
+    ]
+  },
+  "simulation": {
+    "parameters": [
+      {
+        "id": "coil-current-5v",
+        "quantity": "supplyCurrent",
+        "unit": "A",
+        "typ": 0.0714,
+        "conditions": "Coil at nominal 5 VDC, 20 degC, 0.36 W coil (L version) 71.4 mA; the 0.45 W (D version) coil draws 89.3 mA; coil resistance +/-10%",
+        "source": {
+          "url": "https://datasheet.lcsc.com/datasheet/pdf/9ddfe54b7529126320ff1ddcabf6bab7.pdf",
+          "revision": "Songle SRD series datasheet (coil specification table)",
+          "location": "p. 1, coil specification table (0.36 W, L version), 05 VDC row",
+          "confidence": "datasheet"
+        }
+      }
+    ]
+  },
+  "notes": [
+    "The coil draws 71 mA at 5 V: drive it with a transistor or MOSFET (e.g. `mosfet(.n)` from the coil's low side to GND, the gate from a GPIO through 100 Ω with 10 kΩ to GND), never from a GPIO directly, and put a flyback diode (`diode(kind = .rectifier)`, 1N4148 or 1N4007) across the coil, cathode to 5 V.",
+    "Mains on COM/NO/NC: keep at least 6 mm of board (or a slot) between the contacts' copper and low-voltage copper, use wide tracks for the load current, and never route mains under the coil side.",
+    "Contacts 7, 10 or 15 A by version (the case print says which). The normally closed contact is named NCLOSED (NC means no-connect to PCBKit)."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "Songle SRD series datasheet: C-type PCB layout (bottom view, mirrored here for the top view), outline dimensions, coil table (5 V, 71.4 mA, 70 Ω, pick-up 75 % max, drop-out 10 % min)",
+      "url": "https://datasheet.lcsc.com/datasheet/pdf/9ddfe54b7529126320ff1ddcabf6bab7.pdf",
+      "license": "hole positions, ratings and dimensions transcribed from the maker's datasheet (facts); pin numbers, footprint written in PCBKit, 3D body and notes our own"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "holes as the drawing (Ø1.3); 2.6 mm pads our choice; pin numbers ours (the drawing names the contacts only)"
+    }
+  }
+}

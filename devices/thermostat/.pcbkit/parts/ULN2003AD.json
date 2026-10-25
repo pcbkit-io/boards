@@ -1,0 +1,1638 @@
+{
+  "id": "ULN2003AD",
+  "mpn": "ULN2003AD",
+  "manufacturer": "Texas Instruments",
+  "variants": [
+    "ULN2003ADR",
+    "ULN2003ADRG4"
+  ],
+  "category": "driver",
+  "description": "ULN2003A seven-channel Darlington array (open collector, 500 mA, 50 V, flyback diodes), for relays and steppers, SOIC-16",
+  "tags": [
+    "uln2003",
+    "uln2003a",
+    "darlington",
+    "darlington array",
+    "transistor array",
+    "relay driver",
+    "stepper driver",
+    "28byj-48",
+    "low-side driver",
+    "open collector"
+  ],
+  "datasheet": {
+    "url": "https://www.ti.com/lit/ds/symlink/uln2003a.pdf",
+    "revision": "SLRS027T, revised March 2025"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "SOIC-16 (D)",
+    "page": "D (SOIC-16) package outline"
+  },
+  "symbol": {
+    "units": [
+      {
+        "shapes": [
+          {
+            "kind": "line",
+            "points": [
+              [
+                -7.62,
+                -7.62
+              ],
+              [
+                -8.382,
+                -7.62
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -7.62,
+                -5.08
+              ],
+              [
+                -8.382,
+                -5.08
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -7.62,
+                -2.54
+              ],
+              [
+                -8.382,
+                -2.54
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -7.62,
+                2.54
+              ],
+              [
+                -8.382,
+                2.54
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -7.62,
+                5.08
+              ],
+              [
+                -8.382,
+                5.08
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -7.62,
+                7.62
+              ],
+              [
+                -8.382,
+                7.62
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -7.366,
+                0.0
+              ],
+              [
+                -8.382,
+                0.0
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                5.08,
+                -5.08
+              ],
+              [
+                6.858,
+                -5.08
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                5.08,
+                -2.54
+              ],
+              [
+                6.858,
+                -2.54
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                5.08,
+                0.0
+              ],
+              [
+                6.858,
+                0.0
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                5.08,
+                2.54
+              ],
+              [
+                6.858,
+                2.54
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                5.08,
+                5.08
+              ],
+              [
+                6.858,
+                5.08
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                5.08,
+                7.62
+              ],
+              [
+                6.858,
+                7.62
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                5.08,
+                10.16
+              ],
+              [
+                7.62,
+                10.16
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                5.334,
+                -7.62
+              ],
+              [
+                6.858,
+                -7.62
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                7.62,
+                10.16
+              ],
+              [
+                8.636,
+                10.16
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "circle",
+            "center": [
+              -3.556,
+              -7.62
+            ],
+            "radius": 0.254,
+            "width": 0.0
+          },
+          {
+            "kind": "circle",
+            "center": [
+              -3.556,
+              -2.54
+            ],
+            "radius": 0.254,
+            "width": 0.0
+          },
+          {
+            "kind": "circle",
+            "center": [
+              -3.556,
+              2.54
+            ],
+            "radius": 0.254,
+            "width": 0.0
+          },
+          {
+            "kind": "circle",
+            "center": [
+              -3.556,
+              7.62
+            ],
+            "radius": 0.254,
+            "width": 0.0
+          },
+          {
+            "kind": "circle",
+            "center": [
+              -1.778,
+              -7.62
+            ],
+            "radius": 0.254,
+            "width": 0.0,
+            "fill": "outline"
+          },
+          {
+            "kind": "circle",
+            "center": [
+              -1.778,
+              -2.54
+            ],
+            "radius": 0.254,
+            "width": 0.0,
+            "fill": "outline"
+          },
+          {
+            "kind": "circle",
+            "center": [
+              -1.778,
+              2.54
+            ],
+            "radius": 0.254,
+            "width": 0.0,
+            "fill": "outline"
+          },
+          {
+            "kind": "circle",
+            "center": [
+              -1.778,
+              7.62
+            ],
+            "radius": 0.254,
+            "width": 0.0,
+            "fill": "outline"
+          },
+          {
+            "kind": "circle",
+            "center": [
+              -1.651,
+              -5.08
+            ],
+            "radius": 0.254,
+            "width": 0.0
+          },
+          {
+            "kind": "circle",
+            "center": [
+              -1.651,
+              0.0
+            ],
+            "radius": 0.254,
+            "width": 0.0
+          },
+          {
+            "kind": "circle",
+            "center": [
+              -1.651,
+              5.08
+            ],
+            "radius": 0.254,
+            "width": 0.0
+          },
+          {
+            "kind": "circle",
+            "center": [
+              3.175,
+              -6.35
+            ],
+            "radius": 0.254,
+            "width": 0.0,
+            "fill": "outline"
+          },
+          {
+            "kind": "circle",
+            "center": [
+              3.175,
+              -3.81
+            ],
+            "radius": 0.254,
+            "width": 0.0,
+            "fill": "outline"
+          },
+          {
+            "kind": "circle",
+            "center": [
+              3.175,
+              -1.27
+            ],
+            "radius": 0.254,
+            "width": 0.0,
+            "fill": "outline"
+          },
+          {
+            "kind": "circle",
+            "center": [
+              3.175,
+              1.27
+            ],
+            "radius": 0.254,
+            "width": 0.0,
+            "fill": "outline"
+          },
+          {
+            "kind": "circle",
+            "center": [
+              3.175,
+              3.81
+            ],
+            "radius": 0.254,
+            "width": 0.0,
+            "fill": "outline"
+          },
+          {
+            "kind": "circle",
+            "center": [
+              3.175,
+              6.35
+            ],
+            "radius": 0.254,
+            "width": 0.0,
+            "fill": "outline"
+          },
+          {
+            "kind": "circle",
+            "center": [
+              3.175,
+              8.89
+            ],
+            "radius": 0.254,
+            "width": 0.0,
+            "fill": "outline"
+          },
+          {
+            "kind": "rect",
+            "from": [
+              -12.7,
+              12.7
+            ],
+            "to": [
+              12.7,
+              -12.7
+            ],
+            "width": 0.0,
+            "fill": "background"
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -7.62,
+                -5.08
+              ],
+              [
+                -4.445,
+                -5.08
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -7.62,
+                5.08
+              ],
+              [
+                -4.445,
+                5.08
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -7.493,
+                0.0
+              ],
+              [
+                -4.445,
+                0.0
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -6.35,
+                -7.62
+              ],
+              [
+                -7.62,
+                -7.62
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -6.35,
+                -2.54
+              ],
+              [
+                -7.62,
+                -2.54
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -6.35,
+                2.54
+              ],
+              [
+                -7.62,
+                2.54
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -6.35,
+                7.62
+              ],
+              [
+                -7.62,
+                7.62
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -3.302,
+                -7.62
+              ],
+              [
+                5.334,
+                -7.62
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -3.302,
+                -2.54
+              ],
+              [
+                5.08,
+                -2.54
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -3.302,
+                2.54
+              ],
+              [
+                5.08,
+                2.54
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -3.302,
+                7.62
+              ],
+              [
+                -3.048,
+                7.62
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -3.048,
+                7.62
+              ],
+              [
+                5.08,
+                7.62
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -1.397,
+                -5.08
+              ],
+              [
+                5.08,
+                -5.08
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -1.397,
+                0.0
+              ],
+              [
+                5.08,
+                0.0
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -1.397,
+                5.08
+              ],
+              [
+                5.08,
+                5.08
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                1.27,
+                -5.715
+              ],
+              [
+                1.27,
+                -6.985
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                1.27,
+                -3.81
+              ],
+              [
+                3.175,
+                -3.81
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                1.27,
+                -3.175
+              ],
+              [
+                1.27,
+                -4.445
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                1.27,
+                -1.27
+              ],
+              [
+                3.175,
+                -1.27
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                1.27,
+                -0.635
+              ],
+              [
+                1.27,
+                -1.905
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                1.27,
+                1.27
+              ],
+              [
+                3.175,
+                1.27
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                1.27,
+                1.905
+              ],
+              [
+                1.27,
+                0.635
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                1.27,
+                3.81
+              ],
+              [
+                3.175,
+                3.81
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                1.27,
+                4.445
+              ],
+              [
+                1.27,
+                3.175
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                1.27,
+                6.35
+              ],
+              [
+                3.175,
+                6.35
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                1.27,
+                6.985
+              ],
+              [
+                1.27,
+                5.715
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                1.27,
+                8.89
+              ],
+              [
+                3.175,
+                8.89
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                1.27,
+                9.525
+              ],
+              [
+                1.27,
+                8.255
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                3.175,
+                -6.35
+              ],
+              [
+                1.27,
+                -6.35
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -1.778,
+                -7.62
+              ],
+              [
+                -1.778,
+                -6.35
+              ],
+              [
+                0.0,
+                -6.35
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -1.778,
+                -2.54
+              ],
+              [
+                -1.778,
+                -1.27
+              ],
+              [
+                0.0,
+                -1.27
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -1.778,
+                2.54
+              ],
+              [
+                -1.778,
+                3.81
+              ],
+              [
+                0.0,
+                3.81
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -1.651,
+                -4.826
+              ],
+              [
+                -1.651,
+                -3.81
+              ],
+              [
+                0.0,
+                -3.81
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -1.651,
+                0.254
+              ],
+              [
+                -1.651,
+                1.27
+              ],
+              [
+                0.127,
+                1.27
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -1.651,
+                5.334
+              ],
+              [
+                -1.651,
+                6.35
+              ],
+              [
+                0.127,
+                6.35
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                0.0,
+                8.89
+              ],
+              [
+                -1.778,
+                8.89
+              ],
+              [
+                -1.778,
+                7.62
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                3.175,
+                -6.35
+              ],
+              [
+                3.175,
+                10.16
+              ],
+              [
+                5.08,
+                10.16
+              ]
+            ],
+            "width": 0.0
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -6.35,
+                -6.35
+              ],
+              [
+                -6.35,
+                -8.89
+              ],
+              [
+                -3.81,
+                -7.62
+              ]
+            ],
+            "width": 0.0,
+            "closed": true
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -6.35,
+                -1.27
+              ],
+              [
+                -6.35,
+                -3.81
+              ],
+              [
+                -3.81,
+                -2.54
+              ]
+            ],
+            "width": 0.0,
+            "closed": true
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -6.35,
+                3.81
+              ],
+              [
+                -6.35,
+                1.27
+              ],
+              [
+                -3.81,
+                2.54
+              ]
+            ],
+            "width": 0.0,
+            "closed": true
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -6.35,
+                8.89
+              ],
+              [
+                -6.35,
+                6.35
+              ],
+              [
+                -3.81,
+                7.62
+              ]
+            ],
+            "width": 0.0,
+            "closed": true
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -4.445,
+                -3.81
+              ],
+              [
+                -4.445,
+                -6.35
+              ],
+              [
+                -1.905,
+                -5.08
+              ]
+            ],
+            "width": 0.0,
+            "closed": true
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -4.445,
+                1.27
+              ],
+              [
+                -4.445,
+                -1.27
+              ],
+              [
+                -1.905,
+                0.0
+              ]
+            ],
+            "width": 0.0,
+            "closed": true
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                -4.445,
+                6.35
+              ],
+              [
+                -4.445,
+                3.81
+              ],
+              [
+                -1.905,
+                5.08
+              ]
+            ],
+            "width": 0.0,
+            "closed": true
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                0.0,
+                -5.715
+              ],
+              [
+                0.0,
+                -6.985
+              ],
+              [
+                1.27,
+                -6.35
+              ]
+            ],
+            "width": 0.0,
+            "closed": true,
+            "fill": "outline"
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                0.0,
+                -3.175
+              ],
+              [
+                0.0,
+                -4.445
+              ],
+              [
+                1.27,
+                -3.81
+              ]
+            ],
+            "width": 0.0,
+            "closed": true,
+            "fill": "outline"
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                0.0,
+                -0.635
+              ],
+              [
+                0.0,
+                -1.905
+              ],
+              [
+                1.27,
+                -1.27
+              ]
+            ],
+            "width": 0.0,
+            "closed": true,
+            "fill": "outline"
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                0.0,
+                1.905
+              ],
+              [
+                0.0,
+                0.635
+              ],
+              [
+                1.27,
+                1.27
+              ]
+            ],
+            "width": 0.0,
+            "closed": true,
+            "fill": "outline"
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                0.0,
+                4.445
+              ],
+              [
+                0.0,
+                3.175
+              ],
+              [
+                1.27,
+                3.81
+              ]
+            ],
+            "width": 0.0,
+            "closed": true,
+            "fill": "outline"
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                0.0,
+                6.985
+              ],
+              [
+                0.0,
+                5.715
+              ],
+              [
+                1.27,
+                6.35
+              ]
+            ],
+            "width": 0.0,
+            "closed": true,
+            "fill": "outline"
+          },
+          {
+            "kind": "line",
+            "points": [
+              [
+                0.0,
+                9.525
+              ],
+              [
+                0.0,
+                8.255
+              ],
+              [
+                1.27,
+                8.89
+              ]
+            ],
+            "width": 0.0,
+            "closed": true,
+            "fill": "outline"
+          }
+        ],
+        "pins": [
+          {
+            "number": "1",
+            "x": -15.24,
+            "y": 7.62,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "2",
+            "x": -15.24,
+            "y": 5.08,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "3",
+            "x": -15.24,
+            "y": 2.54,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "4",
+            "x": -15.24,
+            "y": 0.0,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "5",
+            "x": -15.24,
+            "y": -2.54,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "6",
+            "x": -15.24,
+            "y": -5.08,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "7",
+            "x": -15.24,
+            "y": -7.62,
+            "angle": 0.0,
+            "length": 2.54
+          },
+          {
+            "number": "8",
+            "x": 0.0,
+            "y": -15.24,
+            "angle": 90.0,
+            "length": 2.54
+          },
+          {
+            "number": "9",
+            "x": 15.24,
+            "y": 10.16,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "10",
+            "x": 15.24,
+            "y": -7.62,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "11",
+            "x": 15.24,
+            "y": -5.08,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "12",
+            "x": 15.24,
+            "y": -2.54,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "13",
+            "x": 15.24,
+            "y": 0.0,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "14",
+            "x": 15.24,
+            "y": 2.54,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "15",
+            "x": 15.24,
+            "y": 5.08,
+            "angle": 180.0,
+            "length": 2.54
+          },
+          {
+            "number": "16",
+            "x": 15.24,
+            "y": 7.62,
+            "angle": 180.0,
+            "length": 2.54
+          }
+        ]
+      }
+    ],
+    "name_offset": 0.0254
+  },
+  "pins": [
+    {
+      "number": "1",
+      "name": "IN1",
+      "type": "input_pulldown",
+      "description": "channel 1 input (TI: 1B): 2.7 kΩ to the Darlington's base, 7.2 kΩ and 3 kΩ from base to emitter inside, so an unused input stays off; 3.3 V or 5 V logic"
+    },
+    {
+      "number": "2",
+      "name": "IN2",
+      "type": "input_pulldown",
+      "description": "channel 2 input (TI: 2B): 2.7 kΩ to the Darlington's base, 7.2 kΩ and 3 kΩ from base to emitter inside, so an unused input stays off; 3.3 V or 5 V logic"
+    },
+    {
+      "number": "3",
+      "name": "IN3",
+      "type": "input_pulldown",
+      "description": "channel 3 input (TI: 3B): 2.7 kΩ to the Darlington's base, 7.2 kΩ and 3 kΩ from base to emitter inside, so an unused input stays off; 3.3 V or 5 V logic"
+    },
+    {
+      "number": "4",
+      "name": "IN4",
+      "type": "input_pulldown",
+      "description": "channel 4 input (TI: 4B): 2.7 kΩ to the Darlington's base, 7.2 kΩ and 3 kΩ from base to emitter inside, so an unused input stays off; 3.3 V or 5 V logic"
+    },
+    {
+      "number": "5",
+      "name": "IN5",
+      "type": "input_pulldown",
+      "description": "channel 5 input (TI: 5B): 2.7 kΩ to the Darlington's base, 7.2 kΩ and 3 kΩ from base to emitter inside, so an unused input stays off; 3.3 V or 5 V logic"
+    },
+    {
+      "number": "6",
+      "name": "IN6",
+      "type": "input_pulldown",
+      "description": "channel 6 input (TI: 6B): 2.7 kΩ to the Darlington's base, 7.2 kΩ and 3 kΩ from base to emitter inside, so an unused input stays off; 3.3 V or 5 V logic"
+    },
+    {
+      "number": "7",
+      "name": "IN7",
+      "type": "input_pulldown",
+      "description": "channel 7 input (TI: 7B): 2.7 kΩ to the Darlington's base, 7.2 kΩ and 3 kΩ from base to emitter inside, so an unused input stays off; 3.3 V or 5 V logic"
+    },
+    {
+      "number": "8",
+      "name": "GND",
+      "type": "ground",
+      "description": "common emitter (TI: E)"
+    },
+    {
+      "number": "9",
+      "name": "COM",
+      "type": "passive",
+      "description": "flyback diodes' common cathode: to the load supply for inductive loads"
+    },
+    {
+      "number": "10",
+      "name": "OUT7",
+      "type": "passive",
+      "description": "channel 7 output (TI: 7C): open collector, sinks up to 500 mA"
+    },
+    {
+      "number": "11",
+      "name": "OUT6",
+      "type": "passive",
+      "description": "channel 6 output (TI: 6C): open collector, sinks up to 500 mA"
+    },
+    {
+      "number": "12",
+      "name": "OUT5",
+      "type": "passive",
+      "description": "channel 5 output (TI: 5C): open collector, sinks up to 500 mA"
+    },
+    {
+      "number": "13",
+      "name": "OUT4",
+      "type": "passive",
+      "description": "channel 4 output (TI: 4C): open collector, sinks up to 500 mA"
+    },
+    {
+      "number": "14",
+      "name": "OUT3",
+      "type": "passive",
+      "description": "channel 3 output (TI: 3C): open collector, sinks up to 500 mA"
+    },
+    {
+      "number": "15",
+      "name": "OUT2",
+      "type": "passive",
+      "description": "channel 2 output (TI: 2C): open collector, sinks up to 500 mA"
+    },
+    {
+      "number": "16",
+      "name": "OUT1",
+      "type": "passive",
+      "description": "channel 1 output (TI: 1C): open collector, sinks up to 500 mA"
+    }
+  ],
+  "ratings": {
+    "absMax": [
+      {
+        "what": "collector-emitter voltage",
+        "pins": [
+          "OUT1",
+          "OUT2",
+          "OUT3",
+          "OUT4",
+          "OUT5",
+          "OUT6",
+          "OUT7"
+        ],
+        "max": 50.0
+      },
+      {
+        "what": "input voltage",
+        "pins": [
+          "IN1",
+          "IN2",
+          "IN3",
+          "IN4",
+          "IN5",
+          "IN6",
+          "IN7"
+        ],
+        "max": 30.0
+      },
+      {
+        "what": "peak collector current",
+        "max": 0.5,
+        "unit": "A"
+      },
+      {
+        "what": "total emitter current",
+        "max": 2.5,
+        "unit": "A"
+      }
+    ],
+    "recommended": [
+      {
+        "what": "operating temperature (ULN2003A)",
+        "min": -20.0,
+        "max": 70.0,
+        "unit": "°C"
+      }
+    ]
+  },
+  "parameters": [
+    {
+      "name": "Digi-Key_PN",
+      "value": "296-1368-1-ND"
+    },
+    {
+      "name": "Category",
+      "value": "Discrete Semiconductor Products"
+    },
+    {
+      "name": "Family",
+      "value": "Transistors - Bipolar (BJT) - Arrays"
+    },
+    {
+      "name": "DK_Datasheet_Link",
+      "value": "http://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=http%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Fuln2003a"
+    },
+    {
+      "name": "DK_Detail_Page",
+      "value": "/product-detail/en/texas-instruments/ULN2003ADR/296-1368-1-ND/404968"
+    },
+    {
+      "name": "Status",
+      "value": "Active"
+    }
+  ],
+  "simulation": {
+    "parameters": [
+      {
+        "id": "theta-jb",
+        "quantity": "thetaJb",
+        "unit": "K/W",
+        "typ": 49.8,
+        "conditions": "D (SOIC, 16 pins) package, RthetaJB",
+        "source": {
+          "url": "https://www.ti.com/lit/ds/symlink/uln2003a.pdf",
+          "revision": "SLRS027T, revised March 2025",
+          "location": "p. 4, section 5.4 Thermal Information",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "tj-operating",
+        "quantity": "junctionOperatingTemperature",
+        "unit": "degC",
+        "min": -40.0,
+        "max": 125.0,
+        "conditions": "Recommended operating junction temperature, TJ",
+        "source": {
+          "url": "https://www.ti.com/lit/ds/symlink/uln2003a.pdf",
+          "revision": "SLRS027T, revised March 2025",
+          "location": "p. 4, section 5.3 Recommended Operating Conditions",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "tj-absolute",
+        "quantity": "junctionAbsoluteTemperature",
+        "unit": "degC",
+        "max": 150.0,
+        "conditions": "Operating virtual junction temperature, absolute maximum",
+        "source": {
+          "url": "https://www.ti.com/lit/ds/symlink/uln2003a.pdf",
+          "revision": "SLRS027T, revised March 2025",
+          "location": "p. 4, section 5.1 Absolute Maximum Ratings",
+          "confidence": "datasheet"
+        }
+      }
+    ]
+  },
+  "notes": [
+    "Application circuit: 4 pin functions; 8 application (driving relays, steppers).",
+    "Each channel sinks its load to GND: the load from the supply to OUTn; a high on INn (3.3 V or 5 V logic) turns it on.",
+    "Inductive loads (relays, the 28BYJ-48 stepper, solenoids): COM to the load supply so the built-in diodes clamp the flyback; no external diodes needed.",
+    "Channels may be paralleled for more current; mind the package's dissipation (all seven on at 500 mA is too much)."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "TI ULN2003A datasheet SLRS027T: figure 4-1 / table 4-1 pin functions (D, N packages), 5.1 absolute maximum ratings",
+      "url": "https://www.ti.com/lit/ds/symlink/uln2003a.pdf",
+      "license": "pin numbers and names, package dimensions, ratings and application values transcribed from the manufacturer's datasheet (facts, one reading); descriptions and notes our own"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "the standard SOIC-16 footprint"
+    },
+    "symbol": {
+      "verified": false,
+      "source": "digikey-kicad",
+      "version": "d4bd68f42e6ccc474526811a853a03692e170b58",
+      "item": "dk_Transistors-Bipolar-BJT-Arrays:ULN2003ADR",
+      "url": "https://github.com/Digi-Key/digikey-kicad-library",
+      "license": "CC-BY-SA-4.0"
+    },
+    "parameters": {
+      "verified": false,
+      "source": "digikey-kicad",
+      "version": "d4bd68f42e6ccc474526811a853a03692e170b58",
+      "item": "dk_Transistors-Bipolar-BJT-Arrays:ULN2003ADR",
+      "url": "https://github.com/Digi-Key/digikey-kicad-library",
+      "license": "CC-BY-SA-4.0"
+    }
+  }
+}

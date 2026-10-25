@@ -1,0 +1,116 @@
+pcbkit 1
+
+// ULN2003AD (Texas Instruments): ULN2003A seven-channel Darlington array (open collector, 500 mA,
+// 50 V, flyback diodes), for relays and steppers, SOIC-16
+// Compiled from the part sheet `parts/ULN2003AD.json` (`parts.create`); status: checked.
+// Datasheet: https://www.ti.com/lit/ds/symlink/uln2003a.pdf (SLRS027T, revised March 2025)
+// Pins: TI ULN2003A datasheet SLRS027T: figure 4-1 / table 4-1 pin functions (D, N packages), 5.1
+// absolute maximum ratings
+// Footprint: the standard package `SOIC-16 (D)`
+// Symbol: digikey-kicad d4bd68f42e6ccc474526811a853a03692e170b58
+// dk_Transistors-Bipolar-BJT-Arrays:ULN2003ADR (CC-BY-SA-4.0),
+// https://github.com/Digi-Key/digikey-kicad-library
+// Parameters: digikey-kicad d4bd68f42e6ccc474526811a853a03692e170b58
+// dk_Transistors-Bipolar-BJT-Arrays:ULN2003ADR (CC-BY-SA-4.0),
+// https://github.com/Digi-Key/digikey-kicad-library
+// This file may be used, changed and shared without conditions, with the board or alone.
+
+// Note: Application circuit: 4 pin functions; 8 application (driving relays, steppers).
+// Note: Each channel sinks its load to GND: the load from the supply to OUTn; a high on INn (3.3 V
+// or 5 V logic) turns it on.
+// Note: Inductive loads (relays, the 28BYJ-48 stepper, solenoids): COM to the load supply so the
+// built-in diodes clamp the flyback; no external diodes needed.
+// Note: Channels may be paralleled for more current; mind the package's dissipation (all seven on
+// at 500 mA is too much).
+
+/// ULN2003AD — ULN2003A seven-channel Darlington array (open collector, 500 mA, 50 V, flyback
+/// diodes), for relays and steppers, SOIC-16
+part Part = device(
+  footprint = soic(16),
+  prefix = "U",
+  mpn = "ULN2003AD",
+  manufacturer = "Texas Instruments",
+  pinout = {
+    IN1: "1",
+    IN2: "2",
+    IN3: "3",
+    IN4: "4",
+    IN5: "5",
+    IN6: "6",
+    IN7: "7",
+    GND: "8",
+    COM: "9",
+    OUT7: "10",
+    OUT6: "11",
+    OUT5: "12",
+    OUT4: "13",
+    OUT3: "14",
+    OUT2: "15",
+    OUT1: "16",
+  },
+  pinTypes = {
+    IN1: io.input(max = 30V, pull = .down),
+    IN2: io.input(max = 30V, pull = .down),
+    IN3: io.input(max = 30V, pull = .down),
+    IN4: io.input(max = 30V, pull = .down),
+    IN5: io.input(max = 30V, pull = .down),
+    IN6: io.input(max = 30V, pull = .down),
+    IN7: io.input(max = 30V, pull = .down),
+    GND: .ground,
+    COM: .passive,
+    OUT7: .passive,
+    OUT6: .passive,
+    OUT5: .passive,
+    OUT4: .passive,
+    OUT3: .passive,
+    OUT2: .passive,
+    OUT1: .passive,
+  },
+) with {
+  fields {
+    Status: "checked",
+    PinoutSource: "TI ULN2003A datasheet SLRS027T: figure 4-1 / table 4-1 pin functions (D, N packages), 5.1 absolute maximum ratings",
+    Datasheet: "https://www.ti.com/lit/ds/symlink/uln2003a.pdf",
+  }
+  simulation = SimulationParameters {
+    parameters = [
+      SimulationParameter {
+        id = "theta-jb"
+        quantity = .thetaJb
+        typ = 49.8K/W
+        conditions = "D (SOIC, 16 pins) package, RthetaJB"
+        source = SimulationEvidence {
+          url = "https://www.ti.com/lit/ds/symlink/uln2003a.pdf"
+          revision = "SLRS027T, revised March 2025"
+          location = "p. 4, section 5.4 Thermal Information"
+          confidence = .datasheet
+        }
+      },
+      SimulationParameter {
+        id = "tj-operating"
+        quantity = .junctionOperatingTemperature
+        min = -40degC
+        max = 125degC
+        conditions = "Recommended operating junction temperature, TJ"
+        source = SimulationEvidence {
+          url = "https://www.ti.com/lit/ds/symlink/uln2003a.pdf"
+          revision = "SLRS027T, revised March 2025"
+          location = "p. 4, section 5.3 Recommended Operating Conditions"
+          confidence = .datasheet
+        }
+      },
+      SimulationParameter {
+        id = "tj-absolute"
+        quantity = .junctionAbsoluteTemperature
+        max = 150degC
+        conditions = "Operating virtual junction temperature, absolute maximum"
+        source = SimulationEvidence {
+          url = "https://www.ti.com/lit/ds/symlink/uln2003a.pdf"
+          revision = "SLRS027T, revised March 2025"
+          location = "p. 4, section 5.1 Absolute Maximum Ratings"
+          confidence = .datasheet
+        }
+      },
+    ]
+  }
+}

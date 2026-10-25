@@ -1,0 +1,110 @@
+pcbkit 1
+
+// SHT40-AD1B-R3 (Sensirion): SHT40 digital humidity and temperature sensor, I2C (address 0x44),
+// 1.08-3.6 V, ±1.8 %RH / ±0.2 °C, DFN-4 1.5 x 1.5 mm
+// Compiled from the part sheet `parts/SHT40_AD1B.json` (`parts.create`); status: checked.
+// Datasheet: https://cdn.sparkfun.com/assets/d/5/f/d/6/SHT40_Datasheet.pdf (SHT4x datasheet
+// (version 1, October 2020): 5.2 package outline, 5.3 land pattern, 5.4 pin assignment)
+// Pins: Sensirion SHT4x datasheet: 5.4 pin assignment (1 SDA, 2 SCL, 3 VDD, 4 VSS, transparent top
+// view), 5.2 package outline, 5.3 land pattern, Figure 1 application circuit
+// Footprint: the datasheet's land pattern
+// This file may be used, changed and shared without conditions, with the board or alone.
+
+// Note: Pull-ups: 10 kΩ in Sensirion's circuit; the bus may share the board's I2C pull-ups
+// (`I2cPullups`).
+
+/// SHT40-AD1B-R3 — SHT40 digital humidity and temperature sensor, I2C (address 0x44), 1.08-3.6 V,
+/// ±1.8 %RH / ±0.2 °C, DFN-4 1.5 x 1.5 mm
+part Part = device(
+  footprint = Footprint {
+    let ps = [
+      Pad { number = "1", at = (-0.7mm, 0.4mm), shape = shape.rect(0.5mm, 0.3mm) },
+      Pad { number = "2", at = (-0.7mm, -0.4mm), shape = shape.rect(0.5mm, 0.3mm) },
+      Pad { number = "3", at = (0.7mm, -0.4mm), shape = shape.rect(0.5mm, 0.3mm) },
+      Pad { number = "4", at = (0.7mm, 0.4mm), shape = shape.rect(0.5mm, 0.3mm) },
+    ]
+    let b = centered(1.5mm, 1.5mm)
+    name = "DFN-4_1.5x1.5mm_0.8mm_pitch"
+    description = "DFN-4 1.5 x 1.5 mm, 0.8 mm pitch: the datasheet's land pattern"
+    pads = ps
+    body = b
+    height = 0.59mm
+    silk = silkOf(ps, b, 0.25mm)
+    package = Package { family = .other, body = (1.5mm, 1.5mm), height = 0.59mm }
+  },
+  prefix = "U",
+  mpn = "SHT40-AD1B-R3",
+  manufacturer = "Sensirion",
+  pinout = { SDA: "1", SCL: "2", VDD: "3", VSS: "4" },
+  pinTypes = {
+    SDA: io.openDrain(),
+    SCL: io.input(),
+    VDD: io.powerIn(min = 1.08V, max = 3.6V),
+    VSS: .ground,
+  },
+) with {
+  fields {
+    Status: "checked",
+    PinoutSource: "Sensirion SHT4x datasheet: 5.4 pin assignment (1 SDA, 2 SCL, 3 VDD, 4 VSS, transparent top view), 5.2 package outline, 5.3 land pattern, Figure 1 application circuit",
+    Datasheet: "https://cdn.sparkfun.com/assets/d/5/f/d/6/SHT40_Datasheet.pdf",
+    I2cAddress: "0x44",
+  }
+  simulation = SimulationParameters {
+    behavior = Behavior {
+      model = "sht4x"
+      ports = { "i2c": ["1", "2"], "power": ["3", "4"] }
+      parameters = {}
+      height = 0.6mm
+    }
+    parameters = [
+      SimulationParameter {
+        id = "idd-avg-1hz-high"
+        quantity = .supplyCurrent
+        typ = 2.3uA
+        conditions = "average current, continuous operation with one measurement per second, high repeatability, no heater, VDD=3.3 V, 25 degC; while a measurement runs the current is 350 uA typ, idle 0.08 uA"
+        source = SimulationEvidence {
+          url = "https://cdn.sparkfun.com/assets/d/5/f/d/6/SHT40_Datasheet.pdf"
+          revision = "Sensirion SHT4x datasheet Version 1 - October 2020"
+          location = "p. 7, section 3.1 Electrical Characteristics, Supply current (no heater)"
+          confidence = .datasheet
+        }
+      },
+    ]
+  }
+}
+
+/// The support circuit of the SHT40-AD1B-R3 as its datasheet shows it (Figure 1 typical application
+/// circuit): every part next to the pin it serves. Add it next to the part: `U1 = SHT40_AD1B.Part {
+/// … }`, `U1Support = SHT40_AD1B.Support(U1) {}`.
+///
+/// - No copper under the sensor except the four pads; the die pad stays unsoldered (it heats with
+/// the heater). Keep it away from hot parts (regulators, the MCU) and give it a slot or cut-out for
+/// a true air temperature.
+///
+/// - Address 0x44 (SHT40-BD1B: 0x45). A 3.3 V part: on a 5 V bus use a level shifter.
+block Support(
+  /// The SHT40-AD1B-R3 this circuit serves (`SHT40_AD1B.Support(U1)`).
+  chip: Any,
+  /// The I2C pull-ups (once per bus: `false` when another part of the bus has them).
+  pullUps: Bool = true,
+) {
+  /// next to the sensor
+  C1 = cap(100nF, package = "0402") {
+    place = [soft(near(chip.pin.VDD, max = 2mm), weight = 2)]
+    pins { a: chip.pin.VDD, b: chip.pin.VSS }
+  }
+  /// I2C pull-up (once per bus)
+  RP1 =
+    if pullUps then res(10kohm, package = "0402") {
+      place = [soft(near(chip.pin.SDA, max = 5mm), weight = 1)]
+      pins { a: chip.pin.SDA, b: chip.pin.VDD }
+    }
+    else null
+  /// I2C pull-up (once per bus)
+  RP2 =
+    if pullUps then res(10kohm, package = "0402") {
+      place = [soft(near(chip.pin.SCL, max = 5mm), weight = 1)]
+      pins { a: chip.pin.SCL, b: chip.pin.VDD }
+    }
+    else null
+}

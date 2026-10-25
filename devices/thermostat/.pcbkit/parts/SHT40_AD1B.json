@@ -1,0 +1,229 @@
+{
+  "id": "SHT40_AD1B",
+  "mpn": "SHT40-AD1B-R3",
+  "manufacturer": "Sensirion",
+  "variants": [
+    "SHT40-AD1B-R2",
+    "SHT41-AD1B-R3",
+    "SHT45-AD1B-R2",
+    "SHT40-BD1B-R3"
+  ],
+  "category": "sensor",
+  "description": "SHT40 digital humidity and temperature sensor, I2C (address 0x44), 1.08-3.6 V, ±1.8 %RH / ±0.2 °C, DFN-4 1.5 x 1.5 mm",
+  "tags": [
+    "sht40",
+    "sht41",
+    "sht45",
+    "sht4x",
+    "humidity",
+    "temperature",
+    "rh",
+    "hygrometer",
+    "sensor",
+    "i2c",
+    "sensirion",
+    "dfn-4"
+  ],
+  "datasheet": {
+    "url": "https://cdn.sparkfun.com/assets/d/5/f/d/6/SHT40_Datasheet.pdf",
+    "revision": "SHT4x datasheet (version 1, October 2020): 5.2 package outline, 5.3 land pattern, 5.4 pin assignment"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "DFN-4 1.5 x 1.5 mm, 0.8 mm pitch",
+    "family": "other",
+    "pins": 4,
+    "pitch": 0.8,
+    "body": {
+      "d": [
+        1.4,
+        1.5,
+        1.6
+      ],
+      "e": [
+        1.4,
+        1.5,
+        1.6
+      ],
+      "a": [
+        0.49,
+        0.54,
+        0.59
+      ]
+    },
+    "landPattern": {
+      "pads": [
+        {
+          "number": "1",
+          "x": -0.7,
+          "y": 0.4,
+          "w": 0.5,
+          "h": 0.3
+        },
+        {
+          "number": "2",
+          "x": -0.7,
+          "y": -0.4,
+          "w": 0.5,
+          "h": 0.3
+        },
+        {
+          "number": "3",
+          "x": 0.7,
+          "y": -0.4,
+          "w": 0.5,
+          "h": 0.3
+        },
+        {
+          "number": "4",
+          "x": 0.7,
+          "y": 0.4,
+          "w": 0.5,
+          "h": 0.3
+        }
+      ],
+      "page": "Figure 10 recommended land pattern: 0.5 x 0.3 mm pads, 1.4 mm apart across (0.2 mm beyond the body), 0.8 mm along; the die pad unsoldered and no copper under the sensor"
+    },
+    "page": "Figure 9: 1.5 ± 0.1 mm square, 0.54 ± 0.05 mm high, pads 0.3 x 0.4 mm at 0.8 mm pitch, die pad not connected"
+  },
+  "pins": [
+    {
+      "number": "1",
+      "name": "SDA",
+      "type": "open_drain",
+      "description": "I2C data"
+    },
+    {
+      "number": "2",
+      "name": "SCL",
+      "type": "input",
+      "description": "I2C clock"
+    },
+    {
+      "number": "3",
+      "name": "VDD",
+      "type": "power_in",
+      "description": "supply 1.08-3.6 V"
+    },
+    {
+      "number": "4",
+      "name": "VSS",
+      "type": "ground"
+    }
+  ],
+  "ratings": {
+    "recommended": [
+      {
+        "what": "VDD supply",
+        "pins": [
+          "VDD"
+        ],
+        "min": 1.08,
+        "nom": 3.3,
+        "max": 3.6
+      },
+      {
+        "what": "operating temperature",
+        "min": -40.0,
+        "max": 125.0,
+        "unit": "°C"
+      }
+    ]
+  },
+  "simulation": {
+    "behavior": {
+      "model": "sht4x",
+      "ports": {
+        "i2c": [
+          "1",
+          "2"
+        ],
+        "power": [
+          "3",
+          "4"
+        ]
+      },
+      "parameters": {},
+      "height": 0.6
+    },
+    "parameters": [
+      {
+        "id": "idd-avg-1hz-high",
+        "quantity": "supplyCurrent",
+        "unit": "A",
+        "typ": 2.3e-6,
+        "conditions": "average current, continuous operation with one measurement per second, high repeatability, no heater, VDD=3.3 V, 25 degC; while a measurement runs the current is 350 uA typ, idle 0.08 uA",
+        "source": {
+          "url": "https://cdn.sparkfun.com/assets/d/5/f/d/6/SHT40_Datasheet.pdf",
+          "revision": "Sensirion SHT4x datasheet Version 1 - October 2020",
+          "location": "p. 7, section 3.1 Electrical Characteristics, Supply current (no heater)",
+          "confidence": "datasheet"
+        }
+      }
+    ]
+  },
+  "support": {
+    "parts": [
+      {
+        "ref": "C1",
+        "kind": "cap",
+        "value": "100nF",
+        "rating": "next to the sensor",
+        "between": [
+          "VDD",
+          "VSS"
+        ]
+      },
+      {
+        "ref": "RP1",
+        "kind": "res",
+        "value": "10kohm",
+        "rating": "I2C pull-up (once per bus)",
+        "between": [
+          "SDA",
+          "VDD"
+        ],
+        "option": "pullUps"
+      },
+      {
+        "ref": "RP2",
+        "kind": "res",
+        "value": "10kohm",
+        "rating": "I2C pull-up (once per bus)",
+        "between": [
+          "SCL",
+          "VDD"
+        ],
+        "option": "pullUps"
+      }
+    ],
+    "options": [
+      {
+        "name": "pullUps",
+        "default": true,
+        "description": "The I2C pull-ups (once per bus: `false` when another part of the bus has them)."
+      }
+    ],
+    "notes": [
+      "No copper under the sensor except the four pads; the die pad stays unsoldered (it heats with the heater). Keep it away from hot parts (regulators, the MCU) and give it a slot or cut-out for a true air temperature.",
+      "Address 0x44 (SHT40-BD1B: 0x45). A 3.3 V part: on a 5 V bus use a level shifter."
+    ],
+    "page": "Figure 1 typical application circuit"
+  },
+  "i2cAddress": "0x44",
+  "notes": [
+    "Pull-ups: 10 kΩ in Sensirion's circuit; the bus may share the board's I2C pull-ups (`I2cPullups`)."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "Sensirion SHT4x datasheet: 5.4 pin assignment (1 SDA, 2 SCL, 3 VDD, 4 VSS, transparent top view), 5.2 package outline, 5.3 land pattern, Figure 1 application circuit",
+      "url": "https://cdn.sparkfun.com/assets/d/5/f/d/6/SHT40_Datasheet.pdf",
+      "license": "pin numbers and names, package dimensions, ratings and application values transcribed from the manufacturer's datasheet (facts, one reading); descriptions and notes our own"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "the datasheet's recommended land pattern"
+    }
+  }
+}

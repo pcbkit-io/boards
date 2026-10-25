@@ -9,7 +9,7 @@ Open them all at **https://app.pcbkit.io/github/pcbkit-io/boards**, or one folde
 
 | Folder | What is in it |
 |---|---|
-| [`devices/`](devices) | Real devices end to end: an STM32G431 sensor node on a robot's CAN bus, its firmware on ST's HAL, the robot around it simulated |
+| [`devices/`](devices) | Real devices end to end: an STM32G431 sensor node on a robot's CAN bus and a 24 V AC thermostat on an ESP32, each with the world around it simulated |
 | [`lab/`](lab) | Interactive boards: an ATmega328P (or two) running real C firmware against sensors, buttons, knobs, displays and servos you can change while it runs |
 | [`arduino/`](arduino) | Arduino projects to play with: an Arduino Nano running a sketch with the usual libraries (Adafruit SSD1306 and SHT31, Sensirion SCD4x, LiquidCrystal, Servo): a weather station, a CO₂ monitor, a thermostat, a character-LCD runner, a pocket console with six games, Simon, a drawing screen |
 | [`examples/`](examples) | Boards to learn from: a design PCBKit placed and routed from parts and connections, circuit blocks, open boards by their authors |

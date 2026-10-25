@@ -1,0 +1,425 @@
+{
+  "id": "LM2596S_ADJ",
+  "mpn": "LM2596S-ADJ/NOPB",
+  "manufacturer": "Texas Instruments",
+  "variants": [
+    "LM2596SX-ADJ/NOPB"
+  ],
+  "category": "regulator",
+  "description": "Non-synchronous buck regulator, 4.5-40 V in, 3 A, 150 kHz, adjustable from 1.23 V, external catch diode (TO-263-5)",
+  "tags": [
+    "buck",
+    "dc-dc",
+    "step-down",
+    "switching regulator",
+    "3A",
+    "24V",
+    "12V to 5V",
+    "lm2596",
+    "simple switcher"
+  ],
+  "datasheet": {
+    "url": "https://www.ti.com/lit/ds/symlink/lm2596.pdf",
+    "revision": "SNVS124G, revised March 2023"
+  },
+  "prefix": "U",
+  "package": {
+    "name": "TO-263-5 (KTT)",
+    "family": "to",
+    "pins": 5,
+    "pitch": 1.7,
+    "body": {
+      "d": [
+        8.39,
+        8.64,
+        8.89
+      ],
+      "e": [
+        10.04,
+        10.16,
+        10.41
+      ],
+      "a": [
+        4.44,
+        4.57,
+        4.65
+      ]
+    },
+    "lead": {
+      "b": [
+        0.71,
+        0.97
+      ]
+    },
+    "exposedPad": {
+      "number": "6"
+    },
+    "landPattern": {
+      "pads": [
+        {
+          "number": "1",
+          "x": -8.86,
+          "y": 3.4,
+          "w": 2.16,
+          "h": 1.07
+        },
+        {
+          "number": "2",
+          "x": -8.86,
+          "y": 1.7,
+          "w": 2.16,
+          "h": 1.07
+        },
+        {
+          "number": "3",
+          "x": -8.86,
+          "y": 0.0,
+          "w": 2.16,
+          "h": 1.07
+        },
+        {
+          "number": "4",
+          "x": -8.86,
+          "y": -1.7,
+          "w": 2.16,
+          "h": 1.07
+        },
+        {
+          "number": "5",
+          "x": -8.86,
+          "y": -3.4,
+          "w": 2.16,
+          "h": 1.07
+        },
+        {
+          "number": "6",
+          "x": -0.22,
+          "y": 0.0,
+          "w": 5.08,
+          "h": 8.33
+        },
+        {
+          "number": "6",
+          "x": 3.275,
+          "y": 0.0,
+          "w": 1.91,
+          "h": 10.8
+        }
+      ],
+      "page": "p. 45, KTT0005B land pattern recommendation"
+    },
+    "page": "p. 45, KTT0005B (TS5B rev D)"
+  },
+  "pins": [
+    {
+      "number": "1",
+      "name": "VIN",
+      "type": "power_in",
+      "description": "input supply, bypass capacitor at this pin"
+    },
+    {
+      "number": "2",
+      "name": "OUTPUT",
+      "type": "power_out",
+      "description": "switch output, to the inductor and the catch diode"
+    },
+    {
+      "number": "3",
+      "name": "GND",
+      "type": "ground"
+    },
+    {
+      "number": "4",
+      "name": "FEEDBACK",
+      "type": "analog",
+      "description": "feedback, 1.23 V"
+    },
+    {
+      "number": "5",
+      "name": "nON/OFF",
+      "type": "input",
+      "description": "shutdown: low or open runs, above 1.3 V shuts down"
+    },
+    {
+      "number": "6",
+      "name": "GND",
+      "type": "ground",
+      "description": "metal tab (ground)"
+    }
+  ],
+  "ratings": {
+    "absMax": [
+      {
+        "what": "VIN maximum supply voltage",
+        "pins": [
+          "VIN"
+        ],
+        "max": 45.0,
+        "unit": "V"
+      },
+      {
+        "what": "FEEDBACK pin voltage",
+        "pins": [
+          "FEEDBACK"
+        ],
+        "min": -0.3,
+        "max": 25.0,
+        "unit": "V"
+      },
+      {
+        "what": "ON/OFF pin voltage",
+        "pins": [
+          "nON/OFF"
+        ],
+        "min": -0.3,
+        "max": 25.0,
+        "unit": "V"
+      },
+      {
+        "what": "OUTPUT to ground, steady state",
+        "pins": [
+          "OUTPUT"
+        ],
+        "min": -1.0,
+        "unit": "V"
+      }
+    ],
+    "recommended": [
+      {
+        "what": "VIN supply voltage",
+        "pins": [
+          "VIN"
+        ],
+        "min": 4.5,
+        "max": 40.0,
+        "unit": "V"
+      },
+      {
+        "what": "load current",
+        "pins": [
+          "OUTPUT"
+        ],
+        "max": 3.0,
+        "unit": "A"
+      },
+      {
+        "what": "temperature",
+        "min": -40.0,
+        "max": 125.0,
+        "unit": "°C"
+      }
+    ]
+  },
+  "simulation": {
+    "parameters": [
+      {
+        "id": "thetaJa-0p5in2",
+        "quantity": "thetaJa",
+        "unit": "K/W",
+        "typ": 50.0,
+        "conditions": "KTW TO-263 package; tab soldered to single-sided PCB with 0.5 square inch of 1 oz copper",
+        "source": {
+          "url": "https://www.ti.com/lit/ds/symlink/lm2596.pdf",
+          "revision": "SNVS124G, revised March 2023",
+          "location": "pp. 5-6, section 7.4, KTW column, footnote 5",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "thetaJa-2p5in2",
+        "quantity": "thetaJa",
+        "unit": "K/W",
+        "typ": 30.0,
+        "conditions": "KTW TO-263 package; tab soldered to single-sided PCB with 2.5 square inches of 1 oz copper",
+        "source": {
+          "url": "https://www.ti.com/lit/ds/symlink/lm2596.pdf",
+          "revision": "SNVS124G, revised March 2023",
+          "location": "pp. 5-6, section 7.4, KTW column, footnote 6",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "thetaJa-double-sided",
+        "quantity": "thetaJa",
+        "unit": "K/W",
+        "typ": 20.0,
+        "conditions": "KTW TO-263 package; tab soldered to double-sided PCB with 3 square inches of 1 oz copper on the device side and approximately 16 square inches of copper on the opposite side",
+        "source": {
+          "url": "https://www.ti.com/lit/ds/symlink/lm2596.pdf",
+          "revision": "SNVS124G, revised March 2023",
+          "location": "pp. 5-6, section 7.4, KTW column, footnote 7",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "thetaJcTop",
+        "quantity": "thetaJcTop",
+        "unit": "K/W",
+        "typ": 2.0,
+        "conditions": "KTW TO-263 package; manufacturer labels this metric junction-to-case top; it is not a junction-to-board value",
+        "source": {
+          "url": "https://www.ti.com/lit/ds/symlink/lm2596.pdf",
+          "revision": "SNVS124G, revised March 2023",
+          "location": "p. 5, section 7.4, RthetaJC(top), KTW column",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "tj-operating",
+        "quantity": "junctionOperatingTemperature",
+        "unit": "degC",
+        "min": -40.0,
+        "max": 125.0,
+        "conditions": "Junction range of the adjustable-version electrical specifications; operating range also listed in section 7.3",
+        "source": {
+          "url": "https://www.ti.com/lit/ds/symlink/lm2596.pdf",
+          "revision": "SNVS124G, revised March 2023",
+          "location": "pp. 5-7, sections 7.3, 7.8 and 7.9, TJ conditions",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "tj-absolute",
+        "quantity": "junctionAbsoluteTemperature",
+        "unit": "degC",
+        "max": 150.0,
+        "conditions": "Absolute maximum junction temperature; storage temperature lower bound is not a junction rating",
+        "source": {
+          "url": "https://www.ti.com/lit/ds/symlink/lm2596.pdf",
+          "revision": "SNVS124G, revised March 2023",
+          "location": "p. 5, section 7.1, maximum junction temperature",
+          "confidence": "datasheet"
+        }
+      },
+      {
+        "id": "iq-switch-off",
+        "quantity": "quiescentCurrent",
+        "unit": "A",
+        "typ": 0.005,
+        "max": 0.01,
+        "conditions": "Adjustable version; VIN=12 V, TJ=25 degC; feedback disconnected from output and held at 12 V to force the output transistor off",
+        "source": {
+          "url": "https://www.ti.com/lit/ds/symlink/lm2596.pdf",
+          "revision": "SNVS124G, revised March 2023",
+          "location": "p. 7, section 7.9, IQ and footnote 6",
+          "confidence": "datasheet"
+        }
+      }
+    ]
+  },
+  "support": {
+    "parts": [
+      {
+        "ref": "CIN",
+        "kind": "cap",
+        "value": "330uF",
+        "package": "D10xL10",
+        "rating": "50V aluminium electrolytic, ripple current at least half the load current (470 uF in the datasheet's example; 330 uF is the largest 50 V can in 10 x 10 mm)",
+        "between": [
+          "VIN",
+          "GND"
+        ]
+      },
+      {
+        "ref": "D1",
+        "kind": "diode",
+        "value": "1N5825",
+        "package": "SMC",
+        "rating": "Schottky 40 V 5 A",
+        "between": [
+          "GND",
+          "OUTPUT"
+        ]
+      },
+      {
+        "ref": "L1",
+        "kind": "inductor",
+        "value": "33uH",
+        "package": "12",
+        "rating": "3 A or more saturation (5 V out): a 12 x 12 mm shielded power inductor",
+        "between": [
+          "OUTPUT",
+          "vout"
+        ]
+      },
+      {
+        "ref": "COUT",
+        "kind": "cap",
+        "value": "220uF",
+        "package": "D8xL10",
+        "rating": "35V aluminium electrolytic, low ESR",
+        "between": [
+          "vout",
+          "GND"
+        ]
+      },
+      {
+        "ref": "R2",
+        "kind": "res",
+        "value": "3.09kohm",
+        "rating": "1% (5 V out)",
+        "between": [
+          "vout",
+          "FEEDBACK"
+        ]
+      },
+      {
+        "ref": "R1",
+        "kind": "res",
+        "value": "1kohm",
+        "rating": "1%",
+        "between": [
+          "FEEDBACK",
+          "GND"
+        ]
+      },
+      {
+        "ref": "ONOFF_GND",
+        "kind": "tie",
+        "value": "",
+        "between": [
+          "nON/OFF",
+          "GND"
+        ],
+        "option": "alwaysOn"
+      }
+    ],
+    "inputs": [
+      {
+        "name": "vout",
+        "description": "The output rail (5 V with R2 = 3.09 kohm; VOUT = 1.23 V x (1 + R2 / R1)).",
+        "required": true
+      }
+    ],
+    "options": [
+      {
+        "name": "alwaysOn",
+        "default": true,
+        "description": "ON/OFF to GND (`false`: drive the shutdown)."
+      }
+    ],
+    "notes": [
+      "VOUT = 1.23 V x (1 + R2 / R1), R1 from 240 ohm to 1.5 kohm; R2 = 3.09 kohm for 5 V, 1.68 kohm for 3.3 V, 8.66 kohm for 12 V.",
+      "The datasheet's adjustable example (Figure 9-13): CIN 470 uF 50 V, COUT 220 uF 35 V, D1 5 A 40 V Schottky, L1 68 uH for 20 V out from 28 V.",
+      "ON/OFF to GND (or open) when the shutdown is not used; the diode's anode on GND, cathode on OUTPUT."
+    ],
+    "page": "p. 27, Figure 9-13 and Section 9.2.2"
+  },
+  "notes": [
+    "Solder the tab to a large ground copper area: it is the heat path (the datasheet's thermal figures assume 0.5 to 3 in² of copper).",
+    "Keep the loop CIN, VIN, OUTPUT, D1 and GND short and wide; route FEEDBACK away from the inductor and the OUTPUT node, taking it from the output capacitor.",
+    "Land pattern: the datasheet's recommendation (pads 2.16 x 1.07 mm at 1.7 mm pitch, tab pad 6.99 mm long, 10.8 mm wide at its outer end and 8.33 mm next to the leads, 14.17 mm overall); the 14.17 mm pattern centred on the 14.35 mm package length (0.09 mm short of the lead tips and of the tab end), rotated so pin 1 is top left."
+  ],
+  "provenance": {
+    "pins": {
+      "verified": false,
+      "source": "LM2596 datasheet SNVS124G, Figure 6-2 (5-pin TO-263 KTT, top view: metal tab GND) and Table 6-1 (pin functions)",
+      "url": "https://www.ti.com/lit/ds/symlink/lm2596.pdf",
+      "license": "facts transcribed from the datasheet; notes in our own words"
+    },
+    "footprint": {
+      "verified": false,
+      "note": "from the KTT0005B land pattern recommendation; the pattern's position relative to the body is assumed (centred on the package length): check before fabrication"
+    }
+  }
+}
