@@ -1,5 +1,5 @@
 /* Doom's platform layer for doom-09: an ESP32-S3-WROOM-1-N16R8 scanning a raw 4.3" 480 × 272 RGB
- * TFT (Newhaven NHD-4.3-480272EF-ASXN) with LCD_CAM from a frame buffer in its octal PSRAM, and
+ * TFT (Newhaven NHD-4.3-480272EF-ASXP) with LCD_CAM from a frame buffer in its octal PSRAM, and
  * ten buttons on an MCP23017. An ordinary program on the chip's devices:
  *
  *   RGB565 on 16 lines: B3–B7 IO9–IO13, G2–G7 IO7 IO15 IO16 IO17 IO18 IO8, R3–R7 IO1 IO2 IO4 IO5
@@ -11,7 +11,8 @@
  * The program and the game's data, the shareware DOOM1.WAD (the processor's `data` in the
  * design), run and are read in place from flash through the caches; the zone heap, the screens,
  * the visplanes and the panel's frame are in the PSRAM. LCD_CAM sends the frame by GDMA without
- * end at 10 MHz (the panel's timing: HSYNC 1 + 43 + 480 + 2, VSYNC 1 + 12 + 272 + 4: 66 Hz);
+ * end at 8.9 MHz (80 MHz / 9; the panel's typical timing in SYNC-DE mode: HSYNC 4 + 39 + 480 + 8
+ * = 531 clocks, 59.7 us a line, VSYNC 4 + 8 + 272 + 8 = 292 lines: 57 Hz);
  * each Doom frame is scaled 1.36 times through the palette into its middle 435 × 272 and written
  * back from the data cache for the DMA to read. Waiting for the next tic sleeps (WAITI until
  * CCOMPARE0). Audio and saved games are absent. The engine is sysprog21/doom_riscv (GPL-2.0) at
@@ -43,8 +44,8 @@
 static const struct pcbkit_rgb panel = {
     .pclk = 42, .de = 40, .hsync = 39, .vsync = 41, .pclk_neg = 0,
     .data = {9, 10, 11, 12, 13, 7, 15, 16, 17, 18, 8, 1, 2, 4, 5, 6},
-    .pclk_hz = 10000000, .width = PANEL_W, .height = PANEL_H,
-    .hsw = 1, .hbp = 43, .hfp = 2, .vsw = 1, .vbp = 12, .vfp = 4,
+    .pclk_hz = 9000000, .width = PANEL_W, .height = PANEL_H,
+    .hsw = 4, .hbp = 39, .hfp = 8, .vsw = 4, .vbp = 8, .vfp = 8,
 };
 
 static PCBKIT_PSRAM uint16_t frame[PANEL_W * PANEL_H] __attribute__((aligned(64)));

@@ -10,7 +10,7 @@ taped on by hand.
 | | |
 |---|---|
 | Processor | ESP32-S3-WROOM-1-N16R8 (2 × Xtensa LX7 240 MHz, 512 KB SRAM, 16 MB flash, 8 MB octal PSRAM) |
-| Display | Newhaven **NHD-4.3-480272EF-ASXN**: 4.3" 480 × 272, 24-bit RGB parallel, DE mode, DCLK 9–15 MHz; driven as RGB565 (R3–R7 IO1/2/4/5/6, G2–G7 IO7/15/16/17/18/8, B3–B7 IO9–IO13; PCLK IO42, DE IO40, VSYNC IO41, HSYNC IO39; the low bits grounded) through a 40-pin 0.5 mm FFC connector (Hirose FH12-40S-0.5SH, bottom contact) on the front under the panel: the panel's cable folds back under it into the connector, Newhaven's own arrangement |
+| Display | Newhaven **NHD-4.3-480272EF-ASXP** (IPS; the ASXN it replaces is discontinued): 4.3" 480 × 272, 24-bit RGB parallel, SYNC-DE mode at 8.9 MHz (HSYNC 4 + 39 + 480 + 8, VSYNC 4 + 8 + 272 + 8: 57 Hz, the sheet's typical timing; its line must last 55–65 µs); driven as RGB565 (R3–R7 IO1/2/4/5/6, G2–G7 IO7/15/16/17/18/8, B3–B7 IO9–IO13; PCLK IO42, DE IO40, VSYNC IO41, HSYNC IO39; the low bits grounded) through a 40-pin 0.5 mm FFC connector (Hirose FH34SRJ-40S-0.5SH, top and bottom contacts, 1 mm high) on the front under the panel: the panel's cable folds back under it into the connector, Newhaven's own arrangement |
 | Backlight | 12 white LEDs, 25.6 V at 40 mA: **MT3608 boost as a constant-current driver** from SYS (FB regulates 0.6 V over 15 Ω), EN/PWM on IO46 (a strap that must be low at reset: 100 kΩ pull-down); a 28 V zener into FB through 1 kΩ holds the output under the switch's 30 V when no panel is plugged in |
 | Input | 10 tact switches on an **MCP23017** (I2C 0x20, IO14 SDA, IO38 SCL), interrupt on change to IO3 |
 | Sound | I2S (IO47 BCK, IO48 LRCK, IO21 DIN) → **PCM5102A** DAC → **PAM8403** stereo class-D from SYS (SHDN on 3.3 V: asleep when switched off) (100 kΩ before each input: at most 0.8 W) → two 15 × 15 mm SMD speakers (FS-1540, 8 Ω, C482341) on the back at the two ends, assembled by JLCPCB |
@@ -19,7 +19,7 @@ taped on by hand.
 | Board | 182 × 80 mm, **4 layers**, matte black mask, white silkscreen, ENIG, plated edges, four M3 holes; front: the panel on 3 mm foam tape (outline in the silkscreen) over its FFC connector, buttons, the power corner (USB-C at the top edge, charger, CHG/USB LEDs, on/off switch); back: two 18650 holders along the bottom edge, module (antenna past the top edge), protection, regulator, backlight driver, expander, audio, the two speakers, test pads; the PCBKit mark (front, under the D-pad), pcbkit.io (front, between the right-hand buttons); no reference designators on the front |
 
 <!-- STATUS -->
-**Board status** (measured on the dev host with PCBKit's CLI): `pcbkit check`: complete — 0 errors, 2 warnings (diff-pair-uncoupled, skew), 0 unrouted nets. 103 components, 88 nets, 983 track segments (3805 mm), 133 vias.
+**Board status** (measured on the dev host with PCBKit's CLI): `pcbkit check`: complete — 0 errors, 2 warnings (diff-pair-uncoupled, skew), 0 unrouted nets. 103 components, 88 nets, 950 track segments (3721 mm), 136 vias.
 `analysis.run { lens: "ready" }`: Typical scenario from the parts' datasheets. Nothing to fix, 4 to consider, 14 ok.
 `pcbkit export --format fab` succeeds without `--force`: every assembled line of the BOM has an LCSC code.
 <!-- /STATUS -->
@@ -46,8 +46,8 @@ F fire, Space use, comma/period strafe, M menu, Enter) or a gamepad (`input.js`)
 Doom is the same port as variant 08 (the program and the WAD in place in flash, the zone heap,
 screens and visplanes in the octal PSRAM, here at 40 MHz). The difference is the display: the
 LCD_CAM peripheral in RGB mode streams a 480 × 272 RGB565 frame buffer from the PSRAM by GDMA
-without end, at a 10 MHz pixel clock with the Newhaven sheet's porches (HSYNC 1 + 43 + 480 + 2,
-VSYNC 1 + 12 + 272 + 4): 66 Hz, 261 KB a frame, about 17 MB/s of the PSRAM's ~40 MB/s at 40 MHz
+without end, at an 8.9 MHz pixel clock with the Newhaven sheet's typical timing (HSYNC 4 + 39 + 480 + 8,
+VSYNC 4 + 8 + 272 + 8): 57 Hz, 261 KB a frame, about 15 MB/s of the PSRAM's ~40 MB/s at 40 MHz
 octal DDR (estimate). Each Doom frame is scaled 1.36 times through the palette into the middle
 435 × 272 of that buffer and written back from the data cache (the DMA reads the PSRAM, not the
 cache). The panel never stops refreshing, which is why this design matters to the simulator: the
@@ -106,13 +106,13 @@ slowly discharge instead of charging. Insert the cells with + at the end the bac
 
 ## Modules plugged in by hand
 
-- **DS1: the panel**, Newhaven NHD-4.3-480272EF-ASXN (or a generic 4.3" 480 × 272 40-pin RGB
-  panel with the same pinout and cable), bought separately. Lay it face down above the board's top
-  edge, its cable toward the board, and push the cable's end straight into J1 (contacts down,
-  toward the board: the FH12 is bottom contact), then close J1's lever. Turn the panel over onto
+- **DS1: the panel**, Newhaven NHD-4.3-480272EF-ASXP (DigiKey, Mouser; its cable and pinout are the
+  discontinued ASXN's), bought separately. Lay it face down above the board's top
+  edge, its cable toward the board, and push the cable's end straight into J1 (J1 has contacts on
+  both sides: either face of the cable works), then close J1's lever. Turn the panel over onto
   the board along the cable's fold and tape it inside its silkscreen outline with 3 mm double-sided
   foam tape on its frame (keep the tape off the cable): the cable then lies folded under the panel,
-  as Newhaven's drawing has it. J1 (2 mm high) and C1 sit under the panel. The firmware scans out
+  as Newhaven's drawing has it. J1 (1 mm high) and C1 sit under the panel. The firmware scans out
   the frame upside-down (the panel's cable side is its bottom).
 - **Two 18650 cells.**
 
@@ -131,8 +131,8 @@ slowly discharge instead of charging. Insert the cells with + at the end the bac
 
 ## Bill of materials
 
-Rough cost at 10 pieces (estimates): ESP32-S3-WROOM-1-N16R8 $4.50 · NHD-4.3-480272EF-ASXN $35 (a
-generic 4.3" 480 × 272 40-pin panel: $8) · Hirose FH12-40S-0.5SH $0.73 · MT3608 $0.15 · MCP23017 $1.20 ·
+Rough cost at 10 pieces (estimates): ESP32-S3-WROOM-1-N16R8 $4.50 · NHD-4.3-480272EF-ASXP $29 · Hirose
+FH34SRJ-40S-0.5SH $0.40 · MT3608 $0.15 · MCP23017 $1.20 ·
 PCM5102A $2.00 · PAM8403 $0.15 · BQ24075, protection and TLV75533 $1.60 · USB-C $0.40 · buttons
 $3.40 · passives $1.80 · two 18650 holders $9.80 · 4-layer PCB $6.00 · 2 SMD speakers $1.60 → **about
 $71** with the Newhaven panel, ~$44 with a generic one, without the cells.
@@ -158,7 +158,7 @@ The assembly BOM as `pcbkit export --format fab` writes it (JLCPCB assembly: LCS
 | 1 | D2 | zener 28V | C3031843 | D_SOD-123 |
 | 1 | D6 | tvs 5V | C918844 | D_SOD-323 |
 | 1 | F1 | PTC 750mA | C20800 | Fuse_1206_3216Metric |
-| 1 | J1 | FH12-40S-0.5SH(55) | C202114 | Hirose_FH12-40S-0.5SH_1x40-1MP_P0.50mm_Horizontal |
+| 1 | J1 | FH34SRJ-40S-0.5SH(50) | C506798 | Hirose_FH34SRJ-40S-0.5SH_1x40-1MP_P0.50mm_Horizontal |
 | 1 | J3 | USB4105-GF-A | C165948 | USB_C_Receptacle_USB2.0_16P |
 | 1 | L1 | 22uH | C83472 | L_Power_4x4mm |
 | 2 | LS1, LS2 | FS-1540 | C482341 | Speaker_FUET_FS-1540_15x15mm |

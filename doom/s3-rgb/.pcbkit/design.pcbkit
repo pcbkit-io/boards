@@ -3,15 +3,15 @@ pcbkit 1
 use "footprints.pcbkit" as fp
 
 // Doom device 09: a big-screen ESP32-S3 handheld. The S3's LCD_CAM peripheral scans a raw 4.3"
-// 480 x 272 RGB TFT (Newhaven NHD-4.3-480272EF-ASXN, 16 colour lines RGB565, DE mode, ~9 MHz
+// 480 x 272 RGB TFT (Newhaven NHD-4.3-480272EF-ASXP, 16 colour lines RGB565, SYNC-DE mode, 9 MHz
 // pixel clock) straight out of a frame buffer in the module's 8 MB octal PSRAM, by DMA; Doom
 // renders 320 x 200 and is scaled 1.36x into it. A 40 mA constant-current MT3608 boost drives
 // the backlight (25.6 V). Ten buttons on an MCP23017 I2C expander, stereo sound from a PCM5102A
 // I2S DAC into a PAM8403 amplifier and two speakers. Power: two 18650 cells in parallel on the
 // back, charged from the USB-C port by a BQ24075 with power path; a low-dropout TLV75533 makes
 // 3.3 V. Four layers. The panel lies on the front on 3 mm foam tape, its cable folded back under
-// it into the connector on the front (Newhaven's own arrangement: the cable's contacts then face
-// the board, as the bottom-contact connector takes them).
+// it into the connector on the front (Newhaven's own arrangement), a connector with top and bottom
+// contacts.
 
 use "parts/ESP32_S3_WROOM_1.pcbkit" as ESP32_S3_WROOM_1
 use "parts/NHD43_RGB_FPC40.pcbkit" as NHD43_RGB_FPC40
@@ -88,7 +88,7 @@ DS1 = device(footprint = Footprint {
   height = 2.95mm
   noCourtyard = true
   solids = displayPanel(centered(98.7mm, 57mm), centered(95.04mm, 53.86mm), 2.95mm, glass = 0.5mm, frame = centered(105.5mm, 67.2mm))
-}, prefix = "DS", mpn = "NHD-4.3-480272EF-ASXN#", manufacturer = "Newhaven Display") with {
+}, prefix = "DS", mpn = "NHD-4.3-480272EF-ASXP", manufacturer = "Newhaven Display") with {
   // In the laboratory: the panel shows the frames LCD_CAM sends down its cable (its pixel clock is
   // J1's CLK, pad 30), on its active area.
   simulation = SimulationParameters { behavior = Behavior {
@@ -136,17 +136,19 @@ U1Support = ESP32_S3_WROOM_1.Support(U1) { side = .bottom }
 // The panel's cable leaves its top edge at x 104.5-125 mm (its drawing: 18.75 mm from the panel's
 // own left edge, the panel turned FPC-side up), contact 1 at the right, and is 45.7 mm long. Folded
 // back under the panel (about 5.5 mm in the bend over 3 mm of tape) its end reaches y = 33.4 mm,
-// contacts down: J1 opens toward the fold with its slot 1.6 mm short of that (slack, not strain)
-// and contact 1 at the right. A Hirose FH12 (bottom contact, 2 mm high: 1 mm under the panel).
+// J1 opens toward the fold with its slot 1.6 mm short of that (slack, not strain), contact 1 at
+// the right. A Hirose FH34SRJ with top and bottom contacts: Newhaven's sheets name a bottom-contact
+// connector for the ASXN and a top-contact one for the ASXP, so the cable's contacts may face
+// either way here; 1 mm high, under the panel.
 J1 = NHD43_RGB_FPC40.Part with {
-  footprint = fp.Hirose_FH12_40S_0_5SH_1x40_1MP_P0_50mm_Horizontal
-  mpn = "FH12-40S-0.5SH(55)"
+  footprint = fp.Hirose_FH34SRJ_40S_0_5SH
+  mpn = "FH34SRJ-40S-0.5SH(50)"
   manufacturer = "Hirose"
 } {
-  orderCode = "C202114"
+  orderCode = "C506798"
   side = .top
-  at = (114.75mm, 33.6mm)
-  rotation = 180deg
+  at = (114.75mm, 34.1mm)
+  rotation = 0deg
   pins {
     LED_K: LED_K, LED_A: LED_A, GND: GND, VDD: V3, MP: GND,
     R0: GND, R1: GND, R2: GND, R3: RED3, R4: RED4, R5: RED5, R6: RED6, R7: RED7,

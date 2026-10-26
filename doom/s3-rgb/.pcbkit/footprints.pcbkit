@@ -1,92 +1,67 @@
 pcbkit 1
 // Footprints of this board.
 
-Hirose_FH12_40S_0_5SH_1x40_1MP_P0_50mm_Horizontal = Footprint {
-  name = "Connector_FFC-FPC:Hirose_FH12-40S-0.5SH_1x40-1MP_P0.50mm_Horizontal"
-  description = "Hirose FH12, FFC/FPC connector, FH12-40S-0.5SH, 40 Pins per row (https://www.hirose.com/product/en/products/FH12/FH12-24S-0.5SH(55)/)"
-  tags = ["connector", "Hirose", "FH12", "horizontal"]
-  let pad = Pad { number = "", shape = shape.rect(0.3mm, 1.3mm), maskExpansion = 0mm }
+// Hirose FH34SRJ-40S-0.5SH(50) (drawing EDC-159714-50-04): 40 contacts at 0.5 mm, top and bottom
+// contacts (an FPC's contacts may face either way), 1 mm high, a back-flip actuator. Its
+// recommended pattern: 0.3 x 0.8 mm leads over B = 19.5 mm, the two fittings 0.4 x 0.8 mm between
+// E = 21.1 and F = 21.9 mm, 3.3 mm from the leads' outer edge to the fittings' (centres 2.5 mm
+// apart); the FPC enters on the fittings' side (+y here), the leads leave at the back. Contact 1
+// at +x, so that with no rotation the FPC's contact 1 at the right meets it.
+Hirose_FH34SRJ_40S_0_5SH = Footprint {
+  name = "Hirose_FH34SRJ-40S-0.5SH_1x40-1MP_P0.50mm_Horizontal"
+  description = "Hirose FH34SRJ-40S-0.5SH(50), FFC/FPC connector, 40 contacts, 0.5 mm pitch, top and bottom contact, 1 mm high"
+  tags = ["connector", "Hirose", "FH34SRJ", "horizontal"]
+  let pad = Pad { number = "", shape = shape.rect(0.3mm, 0.8mm) }
   pads = [
-    pad with { number = "1", at = (-9.75mm, 1.85mm) },
-    pad with { number = "2", at = (-9.25mm, 1.85mm) },
-    pad with { number = "3", at = (-8.75mm, 1.85mm) },
-    pad with { number = "4", at = (-8.25mm, 1.85mm) },
-    pad with { number = "5", at = (-7.75mm, 1.85mm) },
-    pad with { number = "6", at = (-7.25mm, 1.85mm) },
-    pad with { number = "7", at = (-6.75mm, 1.85mm) },
-    pad with { number = "8", at = (-6.25mm, 1.85mm) },
-    pad with { number = "9", at = (-5.75mm, 1.85mm) },
-    pad with { number = "10", at = (-5.25mm, 1.85mm) },
-    pad with { number = "11", at = (-4.75mm, 1.85mm) },
-    pad with { number = "12", at = (-4.25mm, 1.85mm) },
-    pad with { number = "13", at = (-3.75mm, 1.85mm) },
-    pad with { number = "14", at = (-3.25mm, 1.85mm) },
-    pad with { number = "15", at = (-2.75mm, 1.85mm) },
-    pad with { number = "16", at = (-2.25mm, 1.85mm) },
-    pad with { number = "17", at = (-1.75mm, 1.85mm) },
-    pad with { number = "18", at = (-1.25mm, 1.85mm) },
-    pad with { number = "19", at = (-0.75mm, 1.85mm) },
-    pad with { number = "20", at = (-0.25mm, 1.85mm) },
-    pad with { number = "21", at = (0.25mm, 1.85mm) },
-    pad with { number = "22", at = (0.75mm, 1.85mm) },
-    pad with { number = "23", at = (1.25mm, 1.85mm) },
-    pad with { number = "24", at = (1.75mm, 1.85mm) },
-    pad with { number = "25", at = (2.25mm, 1.85mm) },
-    pad with { number = "26", at = (2.75mm, 1.85mm) },
-    pad with { number = "27", at = (3.25mm, 1.85mm) },
-    pad with { number = "28", at = (3.75mm, 1.85mm) },
-    pad with { number = "29", at = (4.25mm, 1.85mm) },
-    pad with { number = "30", at = (4.75mm, 1.85mm) },
-    pad with { number = "31", at = (5.25mm, 1.85mm) },
-    pad with { number = "32", at = (5.75mm, 1.85mm) },
-    pad with { number = "33", at = (6.25mm, 1.85mm) },
-    pad with { number = "34", at = (6.75mm, 1.85mm) },
-    pad with { number = "35", at = (7.25mm, 1.85mm) },
-    pad with { number = "36", at = (7.75mm, 1.85mm) },
-    pad with { number = "37", at = (8.25mm, 1.85mm) },
-    pad with { number = "38", at = (8.75mm, 1.85mm) },
-    pad with { number = "39", at = (9.25mm, 1.85mm) },
-    pad with { number = "40", at = (9.75mm, 1.85mm) },
-    pad with { number = "MP", at = (-11.65mm, -1.4mm), shape = shape.rect(1.8mm, 2.2mm) },
-    pad with { number = "MP", at = (11.65mm, -1.4mm), shape = shape.rect(1.8mm, 2.2mm) },
+    pad with { number = "1", at = (9.75mm, 0mm) },
+    pad with { number = "2", at = (9.25mm, 0mm) },
+    pad with { number = "3", at = (8.75mm, 0mm) },
+    pad with { number = "4", at = (8.25mm, 0mm) },
+    pad with { number = "5", at = (7.75mm, 0mm) },
+    pad with { number = "6", at = (7.25mm, 0mm) },
+    pad with { number = "7", at = (6.75mm, 0mm) },
+    pad with { number = "8", at = (6.25mm, 0mm) },
+    pad with { number = "9", at = (5.75mm, 0mm) },
+    pad with { number = "10", at = (5.25mm, 0mm) },
+    pad with { number = "11", at = (4.75mm, 0mm) },
+    pad with { number = "12", at = (4.25mm, 0mm) },
+    pad with { number = "13", at = (3.75mm, 0mm) },
+    pad with { number = "14", at = (3.25mm, 0mm) },
+    pad with { number = "15", at = (2.75mm, 0mm) },
+    pad with { number = "16", at = (2.25mm, 0mm) },
+    pad with { number = "17", at = (1.75mm, 0mm) },
+    pad with { number = "18", at = (1.25mm, 0mm) },
+    pad with { number = "19", at = (0.75mm, 0mm) },
+    pad with { number = "20", at = (0.25mm, 0mm) },
+    pad with { number = "21", at = (-0.25mm, 0mm) },
+    pad with { number = "22", at = (-0.75mm, 0mm) },
+    pad with { number = "23", at = (-1.25mm, 0mm) },
+    pad with { number = "24", at = (-1.75mm, 0mm) },
+    pad with { number = "25", at = (-2.25mm, 0mm) },
+    pad with { number = "26", at = (-2.75mm, 0mm) },
+    pad with { number = "27", at = (-3.25mm, 0mm) },
+    pad with { number = "28", at = (-3.75mm, 0mm) },
+    pad with { number = "29", at = (-4.25mm, 0mm) },
+    pad with { number = "30", at = (-4.75mm, 0mm) },
+    pad with { number = "31", at = (-5.25mm, 0mm) },
+    pad with { number = "32", at = (-5.75mm, 0mm) },
+    pad with { number = "33", at = (-6.25mm, 0mm) },
+    pad with { number = "34", at = (-6.75mm, 0mm) },
+    pad with { number = "35", at = (-7.25mm, 0mm) },
+    pad with { number = "36", at = (-7.75mm, 0mm) },
+    pad with { number = "37", at = (-8.25mm, 0mm) },
+    pad with { number = "38", at = (-8.75mm, 0mm) },
+    pad with { number = "39", at = (-9.25mm, 0mm) },
+    pad with { number = "40", at = (-9.75mm, 0mm) },
+    Pad { number = "MP", at = (-10.75mm, 2.5mm), shape = shape.rect(0.4mm, 0.8mm) },
+    Pad { number = "MP", at = (10.75mm, 2.5mm), shape = shape.rect(0.4mm, 0.8mm) },
   ]
-  courtyard = box((-13.05mm, -4.9mm), (13.05mm, 3mm))
-  models = [
-    Model3d {
-      path = "${KICAD10_3DMODEL_DIR}/Connector_FFC-FPC.3dshapes/Hirose_FH12-40S-0.5SH_1x40-1MP_P0.50mm_Horizontal.step"
-    },
-  ]
+  body = box((-11mm, -0.4mm), (11mm, 2.9mm))
+  courtyard = box((-11.5mm, -0.9mm), (11.5mm, 3.4mm))
+  height = 1mm
   silk = [
-    Line { points = [(-10.16mm, 1.3mm), (-10.16mm, 2.5mm)] },
-    Line { points = [(-10.16mm, 1.3mm), (-11.65mm, 1.3mm)] },
-    Line { points = [(-11.65mm, -2.76mm), (-11.65mm, -4.5mm)] },
-    Line { points = [(-11.65mm, -4.5mm), (11.65mm, -4.5mm)] },
-    Line { points = [(-11.65mm, 1.3mm), (-11.65mm, -0.04mm)] },
-    Line { points = [(10.16mm, 1.3mm), (11.65mm, 1.3mm)] },
-    Line { points = [(11.65mm, -4.5mm), (11.65mm, -2.76mm)] },
-    Line { points = [(11.65mm, 1.3mm), (11.65mm, -0.04mm)] },
+    Line { points = [(-11.1mm, 1.6mm), (-11.1mm, 3.1mm), (11.1mm, 3.1mm), (11.1mm, 1.6mm)] },
+    Line { points = [(10.6mm, -0.7mm), (10.1mm, -0.7mm)] },
   ]
-  drawings = [
-    Line { points = [(-10.25mm, 1.2mm), (-9.75mm, 0.493mm)], width = 0.1mm, layer = Fab.top },
-    Line { points = [(-10.95mm, -3.4mm), (-10.95mm, -3.7mm)], width = 0.1mm, layer = Fab.top },
-    Line { points = [(-10.95mm, -3.7mm), (-11.45mm, -3.7mm)], width = 0.1mm, layer = Fab.top },
-    Line { points = [(-11.45mm, -3.7mm), (-11.45mm, -4.4mm)], width = 0.1mm, layer = Fab.top },
-    Line { points = [(-11.45mm, -4.4mm), (0mm, -4.4mm)], width = 0.1mm, layer = Fab.top },
-    Line { points = [(-11.55mm, -3.4mm), (-10.95mm, -3.4mm)], width = 0.1mm, layer = Fab.top },
-    Line { points = [(-11.55mm, 1.2mm), (-11.55mm, -3.4mm)], width = 0.1mm, layer = Fab.top },
-    Line { points = [(-9.75mm, 0.493mm), (-9.25mm, 1.2mm)], width = 0.1mm, layer = Fab.top },
-    Line { points = [(0mm, 1.2mm), (-11.55mm, 1.2mm)], width = 0.1mm, layer = Fab.top },
-    Line { points = [(0mm, 1.2mm), (11.55mm, 1.2mm)], width = 0.1mm, layer = Fab.top },
-    Line { points = [(10.95mm, -3.4mm), (10.95mm, -3.7mm)], width = 0.1mm, layer = Fab.top },
-    Line { points = [(10.95mm, -3.7mm), (11.45mm, -3.7mm)], width = 0.1mm, layer = Fab.top },
-    Line { points = [(11.45mm, -3.7mm), (11.45mm, -4.4mm)], width = 0.1mm, layer = Fab.top },
-    Line { points = [(11.45mm, -4.4mm), (0mm, -4.4mm)], width = 0.1mm, layer = Fab.top },
-    Line { points = [(11.55mm, -3.4mm), (10.95mm, -3.4mm)], width = 0.1mm, layer = Fab.top },
-    Line { points = [(11.55mm, 1.2mm), (11.55mm, -3.4mm)], width = 0.1mm, layer = Fab.top },
-    Text { text = "${refdes}", at = (0mm, -3.7mm), layer = Fab.top },
-  ]
-  properties = { "KiLib_Generator": "connector/Hirose" }
   attributes = FootprintAttributes { mount = .smd }
-  source = "KiCad 10.0.7 Connector_FFC-FPC:Hirose_FH12-40S-0.5SH_1x40-1MP_P0.50mm_Horizontal"
-  license = "CC-BY-SA-4.0 with the KiCad libraries exception"
 }
