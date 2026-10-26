@@ -579,6 +579,18 @@ fn zp3(): Footprint = Footprint {
   solids = shape3d
 }
 
+/// The RF output's cable: a coaxial cable soldered to two pads (core and braid), to the
+/// САТ-Г aerial socket on the case.
+fn coaxPads(): Footprint = Footprint {
+  let shape3d = [solid.cylinder(5mm, 3mm, at = (0mm, 0mm, 0mm), color = "#1c1c1e")]
+  name = "Cable_Coax_Pads"
+  description = "Pads of a coaxial cable to the САТ-Г aerial socket"
+  pads = pair(5mm, drill = 1.2mm, pad = 2.4mm)
+  body = centered(9mm, 5mm)
+  height = 3mm
+  solids = shape3d
+}
+
 /// КМ1-1: a push button, two leads 5 mm apart.
 fn km1(): Footprint = Footprint {
   let shape3d = [
@@ -665,6 +677,8 @@ fn onc(pins: Int = 5): Footprint = Footprint {
     ]
   name = "DIN_ONC-VG_\(pins)"
   description = "ОНЦ-ВГ DIN socket, \(pins) contacts, right angle"
+  // Its opening stands at the board's edge, through the back panel.
+  overhang = true
   pads = concat(
     map(range(0, pins), fn(k) -> thtPad("\(k + 1)", arc[k], 1mm, (1.8mm, 1.8mm), square = k == 0)),
     [
@@ -781,6 +795,13 @@ part Crystal14 = device(
 /// ЗП-3 piezo sounder.
 part ZP3 = device(footprint = zp3(), prefix = "HA", mpn = "ЗП-3", pinout = { P1: "1", P2: "2" })
 /// КМ1-1 reset button.
+part CoaxOut = device(
+  footprint = coaxPads(),
+  prefix = "XS",
+  mpn = "РК-75 к гнезду САТ-Г",
+  pinout = { SIG: "1", GND: "2" },
+)
+
 part KM11 = device(footprint = km1(), prefix = "SB", mpn = "КМ1-1", pinout = { P1: "1", P2: "2" })
 /// СП3 22 kΩ trimming resistor (ends 1, 3; wiper 2).
 part SP3 = device(

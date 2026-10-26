@@ -10,6 +10,13 @@
       "interactive": true
     },
     {
+      "id": "retro",
+      "title": "Retro computers",
+      "summary": "Home computers of plain logic chips, from their factory schematics: every chip run from the board's own netlist in the app, games loaded from their tapes.",
+      "icon": "desktop",
+      "interactive": true
+    },
+    {
       "id": "devices",
       "title": "Devices",
       "summary": "Real products end to end: STM32 and ESP32 devices with their sensors, buses and power, running their firmware in the app and ready to order.",
@@ -39,6 +46,38 @@
     }
   ],
   "boards": [
+    {
+      "slug": "delta-s02",
+      "title": "Delta-S02 (Дельта-С-02)",
+      "category": "retro",
+      "summary": "The ZX Spectrum compatible Elara built in Cheboksary in 1993, from its factory schematic: 52 Soviet chips and no ULA, run chip by chip from the board's netlist with the standard 48K ROM. A television on its RGB socket shows the circuit's own picture; type on its keyboard, play The Scorched Earth from its cassette, or press Loaded to start the game at once.",
+      "tags": [
+        "zx-spectrum",
+        "z80",
+        "retro",
+        "soviet",
+        "ttl",
+        "game"
+      ],
+      "chips": [
+        "Z80A",
+        "КР565РУ5В",
+        "КМ573РФ8А",
+        "КР1533",
+        "К555",
+        "К554СА3А"
+      ],
+      "featured": true,
+      "license": "CC0-1.0",
+      "author": "PCBKit",
+      "source": "https://zx-pk.ru/threads/34820",
+      "copper": "Placed as the factory's drawing places it, routed by PCBKit; the board runs in the browser from its netlist.",
+      "path": "retro/delta-s02",
+      "production": {
+        "status": "ready",
+        "flash": "eprom-programmer"
+      }
+    },
     {
       "slug": "air-quality",
       "title": "Air quality meter",

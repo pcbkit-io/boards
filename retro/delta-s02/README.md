@@ -12,7 +12,10 @@ DRAMs behind their multiplexers, the КМ573РФ8А with the standard 48K ROM, t
 with their datasheets' delays. A television on the RGB socket XS9 scans the board's own sync and
 colour lines; the keyboard on XS2/XS3 takes your keys (operate the device, then type: `J`, `"`,
 `"`, Enter is `LOAD ""`); the cassette recorder on XS7 holds The Scorched Earth (X-Project
-Association, 1997, freeware): press **Play** in the laboratory's Computer section.
+Association, 1997, freeware): press **Play** in the laboratory's Computer section to load it as
+the board does (about two minutes of the board's time, much longer in a browser: every chip runs
+at every nanosecond), or **Loaded** to resume the board as that tape leaves it, saved on this
+board with this ROM (a release asset beside the cassette): the game's menu at once.
 
 | Part | What it is |
 |---|---|
@@ -29,10 +32,12 @@ Association, 1997, freeware): press **Play** in the laboratory's Computer sectio
 | XS5 … XS9, XP1 | power, Kempston, tape, Sinclair joystick, RGB; the system connector |
 
 Not simulated: the RF modulator in its can (VT1, L2) and the transistor buffers of the RGB socket;
-the television reads the colour lines behind them. The keyboard itself (a membrane on a steel
+the television reads the colour lines behind them. The modulator's output goes by a coaxial cable
+from the pads XS4 to the aerial socket (САТ-Г) on the case. The keyboard itself (a membrane on a steel
 plate) is off the board, on the flat cables at XS2 and XS3.
 
-The parts are Soviet and long out of production; the board is a 2-layer PCB that can be ordered,
+The board is placed as the factory's drawing places it and routed by PCBKit (two layers, every net,
+no errors). The parts are Soviet and long out of production; the board can be ordered,
 and the chips' equivalents (74ALS, 74LS, 4164, 27128, Z80) fit their 2.5 mm metric sockets only
 with bent legs: the metric pitch is the original's.
 

@@ -1666,6 +1666,13 @@ XS7 = soviet.ONC5 with {
         sha256 = "0c9e017b70a19051eafd5fde1fa48587a40809ee92d5ca150d0243ac53c2a97a"
         bytes = 15748
       }
+      // The board as this tape leaves it once loaded (saved on this board with its ROM): the
+      // game at once instead of the tape's two minutes.
+      state = FirmwareData {
+        url = "https://github.com/pcbkit-io/boards/releases/download/delta-s02/scorched_earth-russian.loaded.state"
+        sha256 = "69ae71aab1f1aba41e828b7f6ec1313209497c115683a8c65b83921cb02d9121"
+        bytes = 73830
+      }
     }
   }
 } {
@@ -1905,6 +1912,12 @@ L1 = soviet.DM02 {
 }
 
 // The RF modulator's screen.
+// The modulator's output: a cable to the aerial socket (САТ-Г) on the case, into the television.
+XS4 = soviet.CoaxOut {
+  at = (22mm, 128mm)
+  pins { SIG: RFOUT, GND: GND }
+}
+
 E1 = soviet.ModulatorCan {
   at = (43.31mm, 108.81mm)
   pins { GND: GND }
