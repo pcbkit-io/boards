@@ -99,6 +99,8 @@ DS1 = device(footprint = Footprint {
   } }
 } {
   at = (91mm, 40mm)
+  // Its cable side (the bottom of its scan) at the board's top edge.
+  rotation = 180deg
 }
 
 // ---- processor (back, top edge, antenna overhanging) --------------------------------------------

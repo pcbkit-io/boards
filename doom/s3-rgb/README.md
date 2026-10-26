@@ -112,8 +112,10 @@ slowly discharge instead of charging. Insert the cells with + at the end the bac
   both sides: either face of the cable works), then close J1's lever. Turn the panel over onto
   the board along the cable's fold and tape it inside its silkscreen outline with 3 mm double-sided
   foam tape on its frame (keep the tape off the cable): the cable then lies folded under the panel,
-  as Newhaven's drawing has it. J1 (1 mm high) and C1 sit under the panel. The firmware scans out
-  the frame upside-down (the panel's cable side is its bottom).
+  as Newhaven's drawing has it. J1 (1 mm high) sits under the panel, and so does one of BT2's
+  locating holes (keep the tape clear of it). The panel lies turned half a turn (its cable side,
+  the bottom of its scan, at the board's top edge), so the firmware sends the frame out from its
+  last pixel to its first.
 - **Two 18650 cells.**
 
 ## Firmware: build and flash

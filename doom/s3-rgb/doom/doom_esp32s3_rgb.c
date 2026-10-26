@@ -147,11 +147,13 @@ void I_SetRelativeMode(boolean enabled) { (void)enabled; }
 void I_MarkDirtyLines(int first, int last) { (void)first; (void)last; }
 void I_UpdateNoBlit(void) {}
 
+/* The panel lies turned half a turn (its cable side, the bottom of its own scan, at the board's top
+ * edge): the frame goes out from its last pixel to its first. */
 void I_FinishUpdate(void) {
     for (unsigned y = 0; y < PANEL_H; y++) {
         const byte *src = screens[0] + row_of[y] * SCREENWIDTH;
-        uint16_t *dst = frame + y * PANEL_W + VIEW_X;
-        for (unsigned x = 0; x < VIEW_W; x++) dst[x] = palette565[src[column_of[x]]];
+        uint16_t *dst = frame + (PANEL_H - 1 - y) * PANEL_W + (PANEL_W - 1 - VIEW_X);
+        for (unsigned x = 0; x < VIEW_W; x++) dst[-(int)x] = palette565[src[column_of[x]]];
     }
     pcbkit_cache_writeback(frame, sizeof frame);
 }
