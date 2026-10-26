@@ -1,0 +1,1125 @@
+pcbkit 1
+// Delta-S02 (Дельта-С-02): the ZX Spectrum 48K compatible home computer Elara (Чебоксары) made in
+// 1993, as its factory documents draw it: «Схема электрическая принципиальная БПК Дельта-С»
+// (Приложение 5) and «Плата процессора БПК Дельта-С-02» (Приложение 6) of its manual. 52 Soviet
+// chips, no ULA: the picture, the memory's RAS/CAS timing and the frame interrupt come from
+// counters and gates. Positions are the assembly drawing's (1:1); every chip's function is its
+// datasheet's, and the board runs as wired (`simulation`): the ROM, the tape, the picture.
+
+use "parts/soviet.pcbkit" as soviet
+
+board = Board {
+  name = "Delta-S02"
+  description = "ZX Spectrum 48K compatible (Элара, 1993) · Z80A · 8 × КР565РУ5В · 52 chips"
+  outline = rect(285.5mm, 150.2mm)
+  fab { mask = .green; silk = .white; finish = .hasl }
+}
+
+net P5V { voltage = 5V }
+net GND { voltage = 0V }
+net A0, A1, A10, A11, A12, A13, A14, A1415, A15, A2, A3, A4
+net A5, A6, A7, A8, A9, AT0, AT1, AT2, AT3, AT4, AT5, AT6
+net AT7, BC, BEEP, BEEPE, BLANK, BRD0, BRD1, BRD2, CB, CG, CI, CLK14
+net CO20, CO3, CR, CSRAM, CVE, D0, D1, D2, D3, D4, D5, D6
+net D7, DB, DG, DR, EAR, F, F7, F7N, FC, FF, FL16, FLN
+net FV6, HS, INFU, INKSEL, IOUT, J1, J2, J3, J4, J5, KA10, KA11
+net KA12, KA13, KA14, KA15, KA8, KA9, KC, KL0, KL1, KL2, KL3, KL4
+net KSEL, M0, M1, M10, M11, M12, M2, M3, M4, M5, M6, M7
+net M8, M9, MA0, MA1, MA2, MA3, MA4, MA5, MA6, MA7, MD0, MD1
+net MD2, MD3, MD4, MD5, MD6, MD7, MICN, MICO, MIX, OB, OG, OR
+net OSC_L, OSC_M, OSC_N, OSC_R, P5V_RF, PA0, PA1, PA10, PA11, PA12, PA13, PA14
+net PA15, PA2, PA3, PA4, PA5, PA6, PA7, PA8, PA9, PD0, PD1, PD2
+net PD3, PD4, PD5, PD6, PD7, PIXF, PORTLE, PORTW, PRSTB, PRW, R1N, R21N
+net RA0, RA1, RA2, RA3, RA4, RA5, RA6, RA7, RAS, RCAS, RDMREQ, RDRF
+net RDROM0, RFB, RFC, RFE, RFM, RFOUT, RP, RRAS, RWE, SCR, SH1, SH2
+net SNDOUT, STR, SYNC, SYNCX, TAPEIN, TBIAS, TIN, TIN1, V0, V1, V2, V3
+net V4, V5, V6, V7, VB, VG, VI, VIDEO, VLD, VR, WIPB, WIPG
+net WIPR, WRBUF, WRCYC, Z2, nA1415, nBC, nBK, nBORDER, nBUSAK, nBUSRQ, nCAS, nCC
+net nCSRAM, nHALT, nINT, nIORC, nIORQ, nIOWC, nKC, nM1, nM6, nMREQ, nNMI, nPBUSAK
+net nPIORQ, nPMREQ, nPRD, nPWR, nRAS, nRD, nRDKL, nRDROM, nRESET, nRFSH, nVF, nWAIT
+net nWE, nWR, nWRBUF, nXPM1
+
+BQ1 = soviet.Crystal14 {
+  at = (39.92mm, 46.67mm)
+  pins { X1: OSC_L, X2: OSC_R }
+}
+
+R11 = soviet.mltResistor(510ohm) {
+  at = (36.53mm, 24.49mm)
+  rotation = 90deg
+  pins { "1": OSC_L, "2": OSC_M }
+}
+
+C2 = soviet.kmCap(300pF) {
+  at = (38.74mm, 16.7mm)
+  pins { "1": OSC_M, "2": OSC_N }
+}
+
+R12 = soviet.mltResistor(510ohm) {
+  at = (41.78mm, 24.49mm)
+  rotation = 90deg
+  pins { "1": OSC_N, "2": OSC_R }
+}
+
+DD1 = soviet.KR1533LN1 {
+  at = (39.58mm, 9.25mm)
+  rotation = 90deg
+  pins { A3: OSC_R, Y3: CLK14, GND: GND, Y4: OSC_R, A4: OSC_N, Y6: OSC_M, A6: OSC_L, VCC: P5V }
+}
+
+DD6 = soviet.KR1533TM2 {
+  at = (59.39mm, 22.96mm)
+  rotation = 90deg
+  pins { CLR1: P5V, D1: F7N, CLK1: CLK14, PRE1: P5V, Q1: F7, QN1: F7N, GND: GND, Q2: nRAS, PRE2: P5V, CLK2: F7, D2: M0, CLR2: P5V, VCC: P5V }
+}
+
+R65 = soviet.mltResistor(510ohm) {
+  at = (199.94mm, 17.38mm)
+  rotation = 90deg
+  pins { "1": nRAS, "2": P5V }
+}
+
+DD9 = soviet.KR1533LN1 {
+  at = (85.98mm, 72.24mm)
+  rotation = 90deg
+  pins { A1: KC, Y1: nINT, A2: nCSRAM, Y2: CSRAM, GND: GND, Y5: PORTLE, A5: PORTW, Y6: RAS, A6: nRAS, VCC: P5V }
+}
+
+DD3 = soviet.KR1533IE7 {
+  at = (60.75mm, 63.6mm)
+  rotation = 90deg
+  pins { B: P5V, QB: M1, QA: M0, DOWN: P5V, UP: F7N, QC: M2, QD: M3, GND: GND, D: P5V, C: P5V, LOAD: P5V, CO: CO3, CLR: GND, A: P5V, VCC: P5V }
+}
+
+DD4 = soviet.KR1533IE7 {
+  at = (60.75mm, 51.24mm)
+  rotation = 90deg
+  pins { B: P5V, QB: M5, QA: M4, DOWN: P5V, UP: CO3, QC: M6, QD: M7, GND: GND, D: GND, C: GND, LOAD: Z2, CO: FC, CLR: GND, A: GND, VCC: P5V }
+}
+
+DD14 = soviet.KR1533TM2 {
+  at = (84.46mm, 8.74mm)
+  rotation = 90deg
+  pins { CLR1: P5V, D1: BC, CLK1: FC, PRE1: P5V, Q1: nBC, QN1: BC, GND: GND, QN2: FF, Q2: nBK, PRE2: P5V, CLK2: VLD, D2: FF, CLR2: P5V, VCC: P5V }
+}
+
+C18 = soviet.kmCap(330pF, 2.5mm, 4mm, 2mm) {
+  at = (118.32mm, 27.54mm)
+  pins { "1": nBC, "2": BC }
+}
+
+DD10 = soviet.KR1533LL1 {
+  at = (84.46mm, 61.06mm)
+  rotation = 90deg
+  pins { A1: BC, B1: FC, Y1: Z2, A2: nCC, B2: M5, Y2: HS, GND: GND, Y3: PRSTB, A3: nIOWC, B3: A1, Y4: M12, A4: M2, B4: V6, VCC: P5V }
+}
+
+DD20 = soviet.KR1533IE7 {
+  at = (112.06mm, 33.8mm)
+  rotation = 90deg
+  pins { B: GND, QB: V1, QA: V0, DOWN: P5V, UP: nBC, QC: V2, QD: V3, GND: GND, D: nBK, C: GND, LOAD: VLD, CO: CO20, CLR: GND, A: GND, VCC: P5V }
+}
+
+DD21 = soviet.KR1533IE7 {
+  at = (112.06mm, 21.1mm)
+  rotation = 90deg
+  pins { B: GND, QB: V5, QA: V4, DOWN: P5V, UP: CO20, QC: V6, QD: V7, GND: GND, D: GND, C: nBK, LOAD: VLD, CLR: GND, A: GND, VCC: P5V }
+}
+
+DD18 = soviet.KR1533LA3 {
+  at = (113.58mm, 59.37mm)
+  rotation = 90deg
+  pins { A1: A5, B1: A1, Y1: KSEL, A2: V6, B2: V7, Y2: VLD, GND: GND, Y3: RDRF, A3: nRFSH, B3: nRD, VCC: P5V }
+}
+
+C13 = soviet.kmCap(330pF) {
+  at = (90.38mm, 15.34mm)
+  pins { "1": VLD, "2": GND }
+}
+
+DD7 = soviet.KR1533IE7 {
+  at = (62.78mm, 8.74mm)
+  rotation = 90deg
+  pins { B: P5V, DOWN: P5V, UP: nBK, QD: FL16, GND: GND, D: P5V, C: P5V, LOAD: P5V, CLR: GND, A: P5V, VCC: P5V }
+}
+
+DD5 = soviet.KR1533TM2 {
+  at = (59.39mm, 39.05mm)
+  rotation = 90deg
+  pins { CLR1: P5V, D1: F, CLK1: FL16, PRE1: P5V, QN1: F, GND: GND, Q2: STR, PRE2: P5V, CLK2: PRSTB, D2: D0, CLR2: P5V, VCC: P5V }
+}
+
+C12 = soviet.kmCap(0.033uF) {
+  at = (80.73mm, 15.68mm)
+  pins { "1": FF, "2": KC }
+}
+
+R15 = soviet.mltResistor(470ohm) {
+  at = (86.49mm, 21.1mm)
+  pins { "1": KC, "2": GND }
+}
+
+VD2 = soviet.KD522B {
+  at = (86.49mm, 18.39mm)
+  pins { A: GND, K: KC }
+}
+
+DD12 = soviet.KR1533LI1 {
+  at = (84.46mm, 39.05mm)
+  rotation = 90deg
+  pins { A1: M0, B1: R1N, Y1: WRBUF, A2: nWRBUF, B2: nVF, Y2: nCAS, GND: GND, Y3: nBORDER, A3: nBK, B3: nBC, Y4: FV6, A4: FF, B4: V6, VCC: P5V }
+}
+
+DD11 = soviet.KR1533LA4 {
+  at = (84.46mm, 49.72mm)
+  rotation = 90deg
+  pins { A1: BC, B1: nM6, A2: M1, B2: M0, C2: nBORDER, Y2: nVF, GND: GND, Y3: nKC, A3: V4, B3: V5, C3: FV6, Y1: nCC, C1: M7, VCC: P5V }
+}
+
+DD13 = soviet.KR1533LN1 {
+  at = (84.46mm, 27.87mm)
+  rotation = 90deg
+  pins { A1: M6, Y1: nM6, A2: PIXF, Y2: SCR, GND: GND, Y4: R1N, A4: M1, Y5: nA1415, A5: A1415, Y6: nWRBUF, A6: WRBUF, VCC: P5V }
+}
+
+DD37 = soviet.KR1533LP5 {
+  at = (185.55mm, 55.98mm)
+  rotation = 90deg
+  pins { A1: P5V, B1: SYNCX, Y1: SYNC, A2: HS, B2: nKC, Y2: SYNCX, GND: GND, Y3: BLANK, A3: nKC, B3: nCC, Y4: INKSEL, A4: FLN, B4: INFU, VCC: P5V }
+}
+
+DD44 = soviet.Z80 {
+  at = (224.32mm, 52.77mm)
+  rotation = 90deg
+  pins { A11: PA11, A12: PA12, A13: PA13, A14: PA14, A15: PA15, CLK: nRAS, D4: PD4, D3: PD3, D5: PD5, D6: PD6, VCC: P5V, D2: PD2, D7: PD7, D0: PD0, D1: PD1, INT: nINT, NMI: nNMI, HALT: nHALT, MREQ: nPMREQ, IORQ: nPIORQ, RD: nPRD, WR: nPWR, BUSACK: nPBUSAK, WAIT: nWAIT, BUSRQ: nBUSRQ, RESET: nRESET, M1: nM1, RFSH: nRFSH, GND: GND, A0: PA0, A1: PA1, A2: PA2, A3: PA3, A4: PA4, A5: PA5, A6: PA6, A7: PA7, A8: PA8, A9: PA9, A10: PA10 }
+}
+
+R42 = soviet.mltResistor(10kohm) {
+  at = (161.5mm, 124.56mm)
+  pins { "1": P5V, "2": nRESET }
+}
+
+C31 = soviet.k50Cap(10uF, 6mm, 11mm, 2.5mm) {
+  at = (161.5mm, 129.64mm)
+  pins { "1": nRESET, "2": GND }
+}
+
+VD5 = soviet.KD522B {
+  at = (154.73mm, 121.18mm)
+  pins { A: nRESET, K: P5V }
+}
+
+R62 = soviet.mltResistor(10kohm) {
+  at = (258.02mm, 74.95mm)
+  pins { "1": nBUSRQ, "2": P5V }
+}
+
+R22 = soviet.mltResistor(10kohm) {
+  at = (107.15mm, 14.84mm)
+  pins { "1": nWAIT, "2": P5V }
+}
+
+R63 = soviet.mltResistor(10kohm) {
+  at = (116.63mm, 103.4mm)
+  pins { "1": nNMI, "2": P5V }
+}
+
+DD42 = soviet.KR1533IR22 {
+  at = (218.4mm, 83.25mm)
+  rotation = 90deg
+  pins { OE: GND, Q0: A12, D0: PA12, D1: PA14, Q1: A14, Q2: A10, D2: PA10, D3: PA1, Q3: A1, GND: GND, LE: P5V, Q4: A0, D4: PA0, D5: PA3, Q5: A3, Q6: A5, D6: PA5, D7: PA13, Q7: A13, VCC: P5V }
+}
+
+DD43 = soviet.KR1533IR22 {
+  at = (213.32mm, 68.01mm)
+  rotation = 90deg
+  pins { OE: GND, Q0: A8, D0: PA8, D1: PA7, Q1: A7, Q2: A11, D2: PA11, D3: PA15, Q3: A15, GND: GND, LE: P5V, Q4: A2, D4: PA2, D5: PA4, Q5: A4, Q6: A6, D6: PA6, D7: PA9, Q7: A9, VCC: P5V }
+}
+
+DD48 = soviet.KR1533IR22 {
+  at = (245.83mm, 68.68mm)
+  rotation = 90deg
+  pins { OE: GND, Q0: nXPM1, D0: nM1, D1: nPBUSAK, Q1: nBUSAK, Q2: nWR, D2: nPWR, D3: nPIORQ, Q3: nIORQ, GND: GND, LE: P5V, Q4: nRD, D4: nPRD, D5: nPMREQ, Q5: nMREQ, VCC: P5V }
+}
+
+DD45 = soviet.KR1533AP6 {
+  at = (221.44mm, 33.63mm)
+  rotation = 90deg
+  pins { DIR: nRD, A1: PD4, A2: PD3, A3: PD5, A4: PD6, A5: PD2, A6: PD7, A7: PD0, A8: PD1, GND: GND, B8: D1, B7: D0, B6: D7, B5: D2, B4: D6, B3: D5, B2: D3, B1: D4, OE: GND, VCC: P5V }
+}
+
+DD29 = soviet.KR1533LL1 {
+  at = (163.53mm, 87.82mm)
+  rotation = 90deg
+  pins { A1: nIORQ, B1: nWR, Y1: nIOWC, A2: nRD, B2: nIORQ, Y2: nIORC, GND: GND, Y3: RDMREQ, A3: nMREQ, B3: nRD, Y4: A1415, A4: A14, B4: A15, VCC: P5V }
+}
+
+DD23 = soviet.KR1533LL1 {
+  at = (140.33mm, 89.0mm)
+  rotation = 90deg
+  pins { A1: RDMREQ, B1: nA1415, Y1: nCSRAM, A2: nIOWC, B2: A5, Y2: PRW, GND: GND, Y4: RDROM0, A4: A1415, B4: RDMREQ, VCC: P5V }
+}
+
+R61 = soviet.mltResistor(470ohm) {
+  at = (151.34mm, 98.82mm)
+  pins { "1": RDROM0, "2": nRDROM }
+}
+
+DD19 = soviet.KR1533LL1 {
+  at = (113.58mm, 47.01mm)
+  rotation = 90deg
+  pins { A1: M2, B1: nVF, Y1: PIXF, A2: RDRF, B2: nMREQ, Y2: WRCYC, GND: GND, Y3: PORTW, A3: A0, B3: nIOWC, Y4: nRDKL, A4: IOUT, B4: nIORC, VCC: P5V }
+}
+
+R64 = soviet.mltResistor(470ohm) {
+  at = (240.41mm, 36.68mm)
+  pins { "1": IOUT, "2": GND }
+}
+
+DD22 = soviet.KR1533TM2 {
+  at = (112.9mm, 8.74mm)
+  rotation = 90deg
+  pins { CLR1: P5V, D1: nM1, CLK1: CSRAM, PRE1: nWRBUF, Q1: nWAIT, GND: GND, Q2: nWE, PRE2: R1N, CLK2: RAS, D2: WRCYC, CLR2: P5V, VCC: P5V }
+}
+
+DD41 = soviet.KM573RF8A with {
+  // The standard 48K ROM (© 1982 Amstrad, who allow it to be shared for emulators), as Elara
+  // programmed it into the КМ573РФ8А.
+  simulation = SimulationParameters { behavior = Behavior { model = "KM573RF8A"; image = FirmwareData {
+    url = "https://raw.githubusercontent.com/speccytools/fuse/d55c7173f522df08c6ab48c7057b3a75723a1f1d/roms/48.rom"
+    sha256 = "d55daa439b673b0e3f5897f99ac37ecb45f974d1862b4dadb85dec34af99cb42"
+    bytes = 16384
+  } } }
+} {
+  at = (222.46mm, 96.96mm)
+  rotation = 90deg
+  pins { VPP: P5V, A12: A12, A7: A7, A6: A6, A5: A5, A4: A4, A3: A3, A2: A2, A1: A1, A0: A0, O0: D0, O1: D1, O2: D2, GND: GND, O3: D3, O4: D4, O5: D5, O6: D6, O7: D7, CE: nRDROM, A10: A10, OE: GND, A11: A11, A9: A9, A8: A8, A13: A13, PGM: P5V, VCC: P5V }
+}
+
+DD46 = soviet.KR1533IR22 {
+  at = (221.44mm, 21.1mm)
+  rotation = 90deg
+  pins { OE: nCSRAM, Q0: D4, D0: MD4, D1: MD5, Q1: D5, Q2: D7, D2: MD7, D3: MD1, Q3: D1, GND: GND, LE: WRBUF, Q4: D0, D4: MD0, D5: MD2, Q5: D2, Q6: D6, D6: MD6, D7: MD3, Q7: D3, VCC: P5V }
+}
+
+DD36 = soviet.KR1533KP11A {
+  at = (183.51mm, 68.34mm)
+  rotation = 90deg
+  pins { S: RAS, A1: A1, B1: A9, Y1: MA1, A2: A0, B2: A8, Y2: MA0, GND: GND, Y3: MA3, B3: A11, A3: A3, Y4: MA2, B4: A10, A4: A2, OE: M1, VCC: P5V }
+}
+
+DD35 = soviet.KR1533KP11A {
+  at = (184.87mm, 90.19mm)
+  rotation = 90deg
+  pins { S: RAS, A1: A4, B1: A12, Y1: MA4, A2: A5, B2: A13, Y2: MA5, GND: GND, Y3: MA6, B3: A14, A3: A6, Y4: MA7, B4: A15, A4: A7, OE: M1, VCC: P5V }
+}
+
+DD30 = soviet.KR1533KP11A {
+  at = (162.01mm, 73.93mm)
+  rotation = 90deg
+  pins { S: RAS, A1: M5, B1: M10, Y1: MA2, A2: M3, B2: M8, Y2: MA0, GND: GND, Y3: MA7, B3: GND, A3: V5, Y4: MA1, B4: M9, A4: M4, OE: R1N, VCC: P5V }
+}
+
+DD24 = soviet.KR1533KP11A {
+  at = (136.61mm, 74.27mm)
+  rotation = 90deg
+  pins { S: RAS, A1: V3, B1: GND, Y1: MA5, A2: M6, B2: M12, Y2: MA3, GND: GND, Y3: MA6, B3: P5V, A3: V4, Y4: MA4, B4: M11, A4: M7, OE: R1N, VCC: P5V }
+}
+
+DD17 = soviet.KR1533KP11A {
+  at = (114.6mm, 72.07mm)
+  rotation = 90deg
+  pins { S: M2, A1: V0, B1: V6, Y1: M8, A2: V1, B2: V7, Y2: M9, GND: GND, Y3: M10, B3: GND, A3: V2, Y4: M11, B4: P5V, A4: V7, OE: GND, VCC: P5V }
+}
+
+R35 = soviet.mltResistor(22ohm) {
+  at = (136.1mm, 58.02mm)
+  rotation = 90deg
+  pins { "1": MA3, "2": RA0 }
+}
+
+R36 = soviet.mltResistor(22ohm) {
+  at = (139.83mm, 58.02mm)
+  rotation = 90deg
+  pins { "1": MA4, "2": RA1 }
+}
+
+R37 = soviet.mltResistor(22ohm) {
+  at = (143.55mm, 58.02mm)
+  rotation = 90deg
+  pins { "1": MA5, "2": RA2 }
+}
+
+R34 = soviet.mltResistor(22ohm) {
+  at = (132.38mm, 58.02mm)
+  rotation = 90deg
+  pins { "1": MA6, "2": RA3 }
+}
+
+R39 = soviet.mltResistor(22ohm) {
+  at = (154.9mm, 58.02mm)
+  rotation = 90deg
+  pins { "1": MA1, "2": RA4 }
+}
+
+R40 = soviet.mltResistor(22ohm) {
+  at = (158.62mm, 58.02mm)
+  rotation = 90deg
+  pins { "1": MA2, "2": RA5 }
+}
+
+R41 = soviet.mltResistor(22ohm) {
+  at = (162.35mm, 58.02mm)
+  rotation = 90deg
+  pins { "1": MA0, "2": RA6 }
+}
+
+R38 = soviet.mltResistor(22ohm) {
+  at = (147.28mm, 58.02mm)
+  rotation = 90deg
+  pins { "1": MA7, "2": RA7 }
+}
+
+R28 = soviet.mltResistor(22ohm) {
+  at = (124.59mm, 25.84mm)
+  rotation = 90deg
+  pins { "1": nRAS, "2": RRAS }
+}
+
+R27 = soviet.mltResistor(22ohm) {
+  at = (124.25mm, 39.39mm)
+  rotation = 90deg
+  pins { "1": nCAS, "2": RCAS }
+}
+
+R29 = soviet.mltResistor(22ohm) {
+  at = (124.59mm, 12.3mm)
+  rotation = 90deg
+  pins { "1": nWE, "2": RWE }
+}
+
+DD25 = soviet.KR565RU5V {
+  at = (136.61mm, 45.32mm)
+  rotation = 90deg
+  pins { DIN: D0, WE: RWE, RAS: RRAS, A0: RA6, A2: RA5, A1: RA4, VCC: P5V, A7: RA7, A5: RA2, A4: RA1, A3: RA0, A6: RA3, DOUT: MD0, CAS: RCAS, GND: GND }
+}
+
+DD26 = soviet.KR565RU5V {
+  at = (136.61mm, 32.95mm)
+  rotation = 90deg
+  pins { DIN: D1, WE: RWE, RAS: RRAS, A0: RA6, A2: RA5, A1: RA4, VCC: P5V, A7: RA7, A5: RA2, A4: RA1, A3: RA0, A6: RA3, DOUT: MD1, CAS: RCAS, GND: GND }
+}
+
+DD27 = soviet.KR565RU5V {
+  at = (136.61mm, 20.59mm)
+  rotation = 90deg
+  pins { DIN: D2, WE: RWE, RAS: RRAS, A0: RA6, A2: RA5, A1: RA4, VCC: P5V, A7: RA7, A5: RA2, A4: RA1, A3: RA0, A6: RA3, DOUT: MD2, CAS: RCAS, GND: GND }
+}
+
+DD28 = soviet.KR565RU5V {
+  at = (136.61mm, 8.06mm)
+  rotation = 90deg
+  pins { DIN: D3, WE: RWE, RAS: RRAS, A0: RA6, A2: RA5, A1: RA4, VCC: P5V, A7: RA7, A5: RA2, A4: RA1, A3: RA0, A6: RA3, DOUT: MD3, CAS: RCAS, GND: GND }
+}
+
+DD31 = soviet.KR565RU5V {
+  at = (161.84mm, 45.15mm)
+  rotation = 90deg
+  pins { DIN: D4, WE: RWE, RAS: RRAS, A0: RA6, A2: RA5, A1: RA4, VCC: P5V, A7: RA7, A5: RA2, A4: RA1, A3: RA0, A6: RA3, DOUT: MD4, CAS: RCAS, GND: GND }
+}
+
+DD32 = soviet.KR565RU5V {
+  at = (161.84mm, 33.46mm)
+  rotation = 90deg
+  pins { DIN: D5, WE: RWE, RAS: RRAS, A0: RA6, A2: RA5, A1: RA4, VCC: P5V, A7: RA7, A5: RA2, A4: RA1, A3: RA0, A6: RA3, DOUT: MD5, CAS: RCAS, GND: GND }
+}
+
+DD33 = soviet.KR565RU5V {
+  at = (161.84mm, 20.42mm)
+  rotation = 90deg
+  pins { DIN: D6, WE: RWE, RAS: RRAS, A0: RA6, A2: RA5, A1: RA4, VCC: P5V, A7: RA7, A5: RA2, A4: RA1, A3: RA0, A6: RA3, DOUT: MD6, CAS: RCAS, GND: GND }
+}
+
+DD34 = soviet.KR565RU5V {
+  at = (161.84mm, 8.06mm)
+  rotation = 90deg
+  pins { DIN: D7, WE: RWE, RAS: RRAS, A0: RA6, A2: RA5, A1: RA4, VCC: P5V, A7: RA7, A5: RA2, A4: RA1, A3: RA0, A6: RA3, DOUT: MD7, CAS: RCAS, GND: GND }
+}
+
+DD39 = soviet.K555IR16 {
+  at = (185.21mm, 32.11mm)
+  rotation = 90deg
+  pins { SER: GND, A: MD0, B: MD1, C: MD2, D: MD3, MODE: SCR, GND: GND, OC: P5V, CLK: F7, QD: SH1, VCC: P5V }
+}
+
+DD40 = soviet.K555IR16 {
+  at = (185.04mm, 18.22mm)
+  rotation = 90deg
+  pins { SER: SH1, A: MD4, B: MD5, C: MD6, D: MD7, MODE: SCR, GND: GND, OC: P5V, CLK: F7, QD: SH2, VCC: P5V }
+}
+
+DD38 = soviet.K555IR16 {
+  at = (185.21mm, 43.96mm)
+  rotation = 90deg
+  pins { SER: SH2, MODE: GND, GND: GND, OC: P5V, CLK: F7, QD: INFU, VCC: P5V }
+}
+
+DD51 = soviet.KR1533KP13 {
+  at = (261.57mm, 19.58mm)
+  rotation = 90deg
+  pins { B2: MD0, A2: MD3, A1: BRD0, B1: BRD0, C2: MD7, D2: MD6, D1: GND, GND: GND, C1: GND, WS: nBORDER, CLK: M2, QD: AT3, QC: AT2, QB: AT1, QA: AT0, VCC: P5V }
+}
+
+DD52 = soviet.KR1533KP13 {
+  at = (261.57mm, 8.4mm)
+  rotation = 90deg
+  pins { B2: MD4, A2: MD1, A1: BRD1, B1: BRD1, C2: MD5, D2: MD2, D1: BRD2, GND: GND, C1: BRD2, WS: nBORDER, CLK: M2, QD: AT7, QC: AT6, QB: AT5, QA: AT4, VCC: P5V }
+}
+
+VD22 = soviet.KD522B {
+  at = (253.28mm, 25.84mm)
+  pins { A: FLN, K: AT2 }
+}
+
+VD1 = soviet.KD522B {
+  at = (61.93mm, 32.62mm)
+  pins { A: FLN, K: F }
+}
+
+R13 = soviet.mltResistor(10kohm) {
+  at = (61.93mm, 29.4mm)
+  pins { "1": FLN, "2": P5V }
+}
+
+DD50 = soviet.KR1533KP11A {
+  at = (261.57mm, 32.28mm)
+  rotation = 90deg
+  pins { S: INKSEL, A1: AT0, B1: AT1, Y1: CB, A2: AT3, B2: AT3, Y2: CI, GND: GND, Y3: CG, B3: AT7, A3: AT6, Y4: CR, B4: AT4, A4: AT5, OE: BLANK, VCC: P5V }
+}
+
+DD49 = soviet.KR1533LP5 {
+  at = (261.57mm, 42.94mm)
+  rotation = 90deg
+  pins { A1: BLANK, B1: CB, Y1: VB, A2: BLANK, B2: CG, Y2: VG, GND: GND, Y3: VR, A3: BLANK, B3: CR, Y4: VI, A4: BLANK, B4: CI, VCC: P5V }
+}
+
+DD47 = soviet.KR1533IR22 {
+  at = (221.44mm, 7.22mm)
+  rotation = 90deg
+  pins { OE: GND, Q0: BEEP, D0: D4, D1: D2, Q1: BRD2, D3: D1, Q3: BRD1, GND: GND, LE: PORTLE, Q4: BRD0, D4: D0, D7: D3, Q7: MICO, VCC: P5V }
+}
+
+DD15 = soviet.KR1533KP11A {
+  at = (93.09mm, 98.65mm)
+  rotation = 90deg
+  pins { S: KSEL, A1: KL0, B1: J2, Y1: D0, A2: KL2, B2: J3, Y2: D2, GND: GND, Y3: D3, B3: J4, A3: KL3, Y4: D1, B4: J1, A4: KL1, OE: nRDKL, VCC: P5V }
+}
+
+DD16 = soviet.KR1533KP11A {
+  at = (114.6mm, 84.94mm)
+  rotation = 90deg
+  pins { S: KSEL, Y1: D5, A2: EAR, Y2: D6, GND: GND, Y3: D7, B3: R21N, Y4: D4, B4: J5, A4: KL4, OE: nRDKL, VCC: P5V }
+}
+
+R21 = soviet.mltResistor(10kohm) {
+  at = (115.61mm, 93.41mm)
+  pins { "1": R21N, "2": P5V }
+}
+
+R16 = soviet.mltResistor(470ohm) {
+  at = (90.72mm, 123.88mm)
+  rotation = 90deg
+  pins { "1": J1, "2": GND }
+}
+
+R17 = soviet.mltResistor(470ohm) {
+  at = (94.45mm, 123.88mm)
+  rotation = 90deg
+  pins { "1": J2, "2": GND }
+}
+
+R18 = soviet.mltResistor(470ohm) {
+  at = (98.17mm, 123.88mm)
+  rotation = 90deg
+  pins { "1": J3, "2": GND }
+}
+
+R19 = soviet.mltResistor(470ohm) {
+  at = (101.9mm, 123.88mm)
+  rotation = 90deg
+  pins { "1": J4, "2": GND }
+}
+
+R20 = soviet.mltResistor(470ohm) {
+  at = (105.62mm, 123.88mm)
+  rotation = 90deg
+  pins { "1": J5, "2": GND }
+}
+
+R32 = soviet.mltResistor(1kohm) {
+  at = (139.49mm, 123.04mm)
+  pins { "1": EAR, "2": P5V }
+}
+
+DD2 = soviet.KR1533IR22 {
+  at = (61.09mm, 75.29mm)
+  rotation = 90deg
+  pins { OE: GND, D0: D0, D1: D1, D2: D2, D3: D3, GND: GND, LE: RP, D4: D4, D5: D5, D6: D6, D7: D7, VCC: P5V }
+}
+
+DA1 = soviet.K554SA3A {
+  at = (117.47mm, 118.64mm)
+  rotation = 90deg
+  pins { OUT: EAR, VCC: P5V, GND: GND, VEE: GND, INP: TBIAS, INN: TIN }
+}
+
+DR1 = soviet.HR1 {
+  at = (92.92mm, 109.15mm)
+  pins { COM: P5V, R1: KL0, R2: KL1, R3: KL2, R4: KL3, R5: KL4 }
+}
+
+// The keyboard's return lines.
+XS2 = soviet.ONP12 with {
+  // The keyboard's return lines (the membrane keyboard's flat cable, KL0–KL4).
+  simulation = SimulationParameters { behavior = Behavior { model = "zx-keyboard"; ports = { returns: ["5", "4", "3", "2", "1"] } } }
+} {
+  at = (87.84mm, 114.4mm)
+  pins { C5: KL0, C4: KL1, C3: KL2, C2: KL3, C1: KL4 }
+}
+
+// The keyboard's half-row lines.
+XS3 = soviet.ONP12 with {
+  // Its half-row lines (KA8–KA15, each through a diode from A8–A15).
+  simulation = SimulationParameters { behavior = Behavior { model = "zx-keyboard"; ports = { rows: ["10", "7", "6", "5", "8", "9", "11", "12"] } } }
+} {
+  at = (223.64mm, 117.11mm)
+  pins { C10: KA8, C7: KA9, C6: KA10, C5: KA11, C8: KA12, C9: KA13, C11: KA14, C12: KA15 }
+}
+
+VD19 = soviet.KD522B {
+  at = (244.64mm, 110.17mm)
+  pins { A: KA8, K: A8 }
+}
+
+VD15 = soviet.KD522B {
+  at = (211.11mm, 106.95mm)
+  pins { A: KA9, K: A9 }
+}
+
+VD14 = soviet.KD522B {
+  at = (211.11mm, 109.32mm)
+  pins { A: KA10, K: A10 }
+}
+
+VD11 = soviet.KD522B {
+  at = (211.11mm, 111.69mm)
+  pins { A: KA11, K: A11 }
+}
+
+VD21 = soviet.KD522B {
+  at = (228.72mm, 111.69mm)
+  pins { A: KA12, K: A12 }
+}
+
+VD20 = soviet.KD522B {
+  at = (228.72mm, 109.15mm)
+  pins { A: KA13, K: A13 }
+}
+
+VD17 = soviet.KD522B {
+  at = (245.32mm, 120.67mm)
+  pins { A: KA14, K: A14 }
+}
+
+VD18 = soviet.KD522B {
+  at = (244.64mm, 112.71mm)
+  pins { A: KA15, K: A15 }
+}
+
+VD4 = soviet.KD522B {
+  at = (150.49mm, 129.64mm)
+  pins { A: KA12, K: A12 }
+}
+
+C1 = soviet.underCap(100nF) {
+  at = (39.58mm, 9.25mm)
+  rotation = -20deg
+  pins { "1": P5V, "2": GND }
+}
+
+C9 = soviet.underCap(100nF) {
+  at = (60.75mm, 51.24mm)
+  rotation = -20deg
+  pins { "1": P5V, "2": GND }
+}
+
+C8 = soviet.underCap(100nF) {
+  at = (60.75mm, 63.6mm)
+  rotation = -20deg
+  pins { "1": P5V, "2": GND }
+}
+
+C10 = soviet.underCap(100nF) {
+  at = (93.09mm, 98.65mm)
+  rotation = -20deg
+  pins { "1": P5V, "2": GND }
+}
+
+C11 = soviet.underCap(100nF) {
+  at = (114.6mm, 84.94mm)
+  rotation = -20deg
+  pins { "1": P5V, "2": GND }
+}
+
+C14 = soviet.underCap(100nF) {
+  at = (114.6mm, 72.07mm)
+  rotation = -20deg
+  pins { "1": P5V, "2": GND }
+}
+
+C15 = soviet.underCap(100nF) {
+  at = (112.06mm, 33.8mm)
+  rotation = -20deg
+  pins { "1": P5V, "2": GND }
+}
+
+C16 = soviet.underCap(100nF) {
+  at = (136.61mm, 74.27mm)
+  rotation = -20deg
+  pins { "1": P5V, "2": GND }
+}
+
+C17 = soviet.underCap(100nF) {
+  at = (136.61mm, 32.95mm)
+  rotation = -20deg
+  pins { "1": P5V, "2": GND }
+}
+
+C22 = soviet.underCap(100nF) {
+  at = (136.61mm, 8.06mm)
+  rotation = -20deg
+  pins { "1": P5V, "2": GND }
+}
+
+C23 = soviet.underCap(100nF) {
+  at = (162.01mm, 73.93mm)
+  rotation = -20deg
+  pins { "1": P5V, "2": GND }
+}
+
+C24 = soviet.underCap(100nF) {
+  at = (161.84mm, 33.46mm)
+  rotation = -20deg
+  pins { "1": P5V, "2": GND }
+}
+
+C25 = soviet.underCap(100nF) {
+  at = (161.84mm, 8.06mm)
+  rotation = -20deg
+  pins { "1": P5V, "2": GND }
+}
+
+C26 = soviet.underCap(100nF) {
+  at = (184.87mm, 90.19mm)
+  rotation = -20deg
+  pins { "1": P5V, "2": GND }
+}
+
+C27 = soviet.underCap(100nF) {
+  at = (183.51mm, 68.34mm)
+  rotation = -20deg
+  pins { "1": P5V, "2": GND }
+}
+
+C28 = soviet.underCap(100nF) {
+  at = (222.46mm, 96.96mm)
+  rotation = -20deg
+  pins { "1": P5V, "2": GND }
+}
+
+C29 = soviet.underCap(100nF) {
+  at = (224.32mm, 52.77mm)
+  rotation = -20deg
+  pins { "1": P5V, "2": GND }
+}
+
+C30 = soviet.underCap(100nF) {
+  at = (221.44mm, 33.63mm)
+  rotation = -20deg
+  pins { "1": P5V, "2": GND }
+}
+
+C33 = soviet.underCap(100nF) {
+  at = (261.57mm, 32.28mm)
+  rotation = -20deg
+  pins { "1": P5V, "2": GND }
+}
+
+// The supply's reservoir.
+C32 = soviet.k50Cap(470uF, 10mm, 20mm, 5mm) {
+  at = (167.77mm, 116.77mm)
+  pins { "1": P5V, "2": GND }
+}
+
+// Reset.
+SB1 = soviet.KM11 {
+  at = (180.97mm, 140.14mm)
+  pins { P1: nRESET, P2: GND }
+}
+
+VT3 = soviet.KT3102BM {
+  at = (30.27mm, 58.02mm)
+  pins { B: BEEP, C: P5V, E: BEEPE }
+}
+
+R10 = soviet.mltResistor(470ohm) {
+  at = (30.27mm, 63.1mm)
+  pins { "1": BEEPE, "2": GND }
+}
+
+// The beeper.
+HA1 = soviet.ZP3 {
+  at = (18.08mm, 33.46mm)
+  pins { P1: BEEPE, P2: GND }
+}
+
+R23 = soviet.mltResistor(22ohm) {
+  at = (79.38mm, 83.41mm)
+  pins { "1": BEEPE, "2": SNDOUT }
+}
+
+R31 = soviet.mltResistor(1.5kohm) {
+  at = (139.49mm, 126.26mm)
+  pins { "1": MICO, "2": MICN }
+}
+
+R30 = soviet.mltResistor(1kohm) {
+  at = (139.49mm, 129.47mm)
+  pins { "1": MICN, "2": GND }
+}
+
+C21 = soviet.kmCap(6800pF) {
+  at = (147.11mm, 116.43mm)
+  rotation = 90deg
+  pins { "1": MICN, "2": GND }
+}
+
+C19 = soviet.k50Cap(4.7uF, 5mm, 11mm, 2.5mm) {
+  at = (133.56mm, 102.55mm)
+  pins { "1": TAPEIN, "2": TIN1 }
+}
+
+R26 = soviet.mltResistor(10kohm) {
+  at = (120.35mm, 108.48mm)
+  pins { "1": TIN1, "2": TIN }
+}
+
+VD3 = soviet.KS119A {
+  at = (129.5mm, 109.66mm)
+  rotation = 90deg
+  pins { A: GND, K: TIN }
+}
+
+R25 = soviet.mltResistor(1kohm) {
+  at = (120.35mm, 111.52mm)
+  pins { "1": TBIAS, "2": P5V }
+}
+
+R33 = soviet.mltResistor(240ohm) {
+  at = (139.49mm, 119.82mm)
+  pins { "1": TBIAS, "2": GND }
+}
+
+R24 = soviet.mltResistor(160kohm) {
+  at = (115.44mm, 125.58mm)
+  pins { "1": EAR, "2": TBIAS }
+}
+
+C44 = soviet.kmCap(47pF) {
+  at = (129.67mm, 121.85mm)
+  rotation = 90deg
+  pins { "1": EAR, "2": GND }
+}
+
+// Tape: 1 out, 3 in, 4 sound.
+XS7 = soviet.ONC5 with {
+  // A cassette recorder on it, its sound into contact 3, with the tank game in it: The Scorched
+  // Earth (X-Project Association, 1997, freeware), the Russian tape.
+  simulation = SimulationParameters { behavior = Behavior {
+    model = "tape-player"
+    ports = { signal: ["3"] }
+    image = FirmwareData {
+      url = "https://github.com/pcbkit-io/boards/releases/download/delta-s02/scorched_earth-russian.tap"
+      sha256 = "0c9e017b70a19051eafd5fde1fa48587a40809ee92d5ca150d0243ac53c2a97a"
+      bytes = 15748
+    }
+  } }
+} {
+  at = (120.86mm, 140.14mm)
+  pins { C1: MICN, C2: GND, C3: TAPEIN, C4: SNDOUT, S: GND }
+}
+
+// Power from «БП-Дельта»: 1 and 3 +5 V, 2 common.
+XS5 = soviet.ONC5 {
+  at = (80.22mm, 140.14mm)
+  pins { C1: P5V, C2: GND, C3: P5V, S: GND }
+}
+
+// Kempston joystick: 2 left, 3 right, 4 down, 5 up, 6 fire.
+XS6 = soviet.ONC7 {
+  at = (101.39mm, 140.14mm)
+  pins { C1: P5V, C2: J1, C3: J2, C4: J3, C5: J4, C6: J5, S: GND }
+}
+
+// Sinclair joystick on the keyboard lines: 1 its half-row, 2 left, 3 right, 4 down, 5 up.
+XS8 = soviet.ONC7 {
+  at = (139.49mm, 140.14mm)
+  pins { C1: KA12, C2: KL0, C3: KL1, C4: KL2, C5: KL3, C6: KL4, S: GND }
+}
+
+R57 = soviet.mltResistor(470ohm) {
+  at = (262.42mm, 114.23mm)
+  rotation = 90deg
+  pins { "1": VR, "2": DR }
+}
+
+R60 = soviet.mltResistor(2.7kohm) {
+  at = (271.06mm, 114.23mm)
+  rotation = 90deg
+  pins { "1": DR, "2": GND }
+}
+
+R49 = soviet.SP3 {
+  at = (234.48mm, 136.75mm)
+  pins { E1: DR, W: WIPR, E2: GND }
+}
+
+VT7 = soviet.KT3102BM {
+  at = (234.31mm, 122.87mm)
+  pins { B: WIPR, C: P5V, E: OR }
+}
+
+R50 = soviet.mltResistor(220ohm) {
+  at = (231.77mm, 127.61mm)
+  pins { "1": OR, "2": GND }
+}
+
+R56 = soviet.mltResistor(470ohm) {
+  at = (259.54mm, 114.23mm)
+  rotation = 90deg
+  pins { "1": VG, "2": DG }
+}
+
+R59 = soviet.mltResistor(2.7kohm) {
+  at = (268.18mm, 114.23mm)
+  rotation = 90deg
+  pins { "1": DG, "2": GND }
+}
+
+R47 = soviet.SP3 {
+  at = (217.72mm, 136.75mm)
+  pins { E1: DG, W: WIPG, E2: GND }
+}
+
+VT6 = soviet.KT3102BM {
+  at = (216.53mm, 122.87mm)
+  pins { B: WIPG, C: P5V, E: OG }
+}
+
+R48 = soviet.mltResistor(220ohm) {
+  at = (215.01mm, 127.61mm)
+  pins { "1": OG, "2": GND }
+}
+
+R55 = soviet.mltResistor(470ohm) {
+  at = (256.66mm, 114.23mm)
+  rotation = 90deg
+  pins { "1": VB, "2": DB }
+}
+
+R58 = soviet.mltResistor(2.7kohm) {
+  at = (265.3mm, 114.23mm)
+  rotation = 90deg
+  pins { "1": DB, "2": GND }
+}
+
+R45 = soviet.SP3 {
+  at = (200.78mm, 136.75mm)
+  pins { E1: DB, W: WIPB, E2: GND }
+}
+
+VT5 = soviet.KT3102BM {
+  at = (202.31mm, 122.87mm)
+  pins { B: WIPB, C: P5V, E: OB }
+}
+
+R46 = soviet.mltResistor(220ohm) {
+  at = (197.91mm, 127.61mm)
+  pins { "1": OB, "2": GND }
+}
+
+R51 = soviet.mltResistor(470ohm) {
+  at = (264.96mm, 140.14mm)
+  pins { "1": SYNC, "2": MIX }
+}
+
+R52 = soviet.mltResistor(5.6kohm) {
+  at = (264.96mm, 136.92mm)
+  pins { "1": DG, "2": MIX }
+}
+
+R53 = soviet.mltResistor(1.3kohm) {
+  at = (264.96mm, 133.71mm)
+  pins { "1": VI, "2": MIX }
+}
+
+R54 = soviet.mltResistor(3kohm) {
+  at = (264.96mm, 130.49mm)
+  pins { "1": MIX, "2": GND }
+}
+
+VD23 = soviet.KD522B {
+  at = (264.11mm, 127.78mm)
+  pins { A: DR, K: MIX }
+}
+
+VD24 = soviet.KD522B {
+  at = (264.11mm, 125.24mm)
+  pins { A: DG, K: MIX }
+}
+
+VD25 = soviet.KD522B {
+  at = (264.11mm, 122.7mm)
+  pins { A: DB, K: MIX }
+}
+
+VT4 = soviet.KT3102BM {
+  at = (191.47mm, 122.87mm)
+  pins { B: MIX, C: P5V, E: CVE }
+}
+
+R44 = soviet.mltResistor(100ohm) {
+  at = (184.36mm, 129.13mm)
+  rotation = 90deg
+  pins { "1": CVE, "2": VIDEO }
+}
+
+R43 = soviet.mltResistor(220ohm) {
+  at = (180.63mm, 129.13mm)
+  rotation = 90deg
+  pins { "1": VIDEO, "2": GND }
+}
+
+// RGB and composite video to a monitor: 1 video, 3 R, 4 B, 5 G.
+XS9 = soviet.ONC5 with {
+  // A colour television on it (the RGB inputs of a set, or a monitor): red, green, blue, and the
+  // composite signal with sync. Its picture is shown on the connector.
+  simulation = SimulationParameters { behavior = Behavior {
+    model = "raster-display"
+    ports = { rgb: ["3", "5", "4"], composite: ["1"] }
+    parameters = { width: 480, height: 320, width_mm: 270, height_mm: 180, offset_x_mm: -20, offset_y_mm: 110 }
+  } }
+} {
+  at = (161.5mm, 142.17mm)
+  pins { C1: VIDEO, C2: GND, C3: OR, C4: OB, C5: OG, S: GND }
+}
+
+// The system connector: the disk controller and other expansions.
+XP1 = soviet.SNP59 {
+  at = (278.51mm, 94.76mm)
+  pins { "A1": A14, "A10": A2, "A11": A3, "A13": GND, "A18": nBUSRQ, "A2": A12, "A20": A7, "A21": A6, "A22": A5, "A23": A4, "A24": nRDROM, "A25": nBUSAK, "A26": A9, "A27": A11, "A29": P5V, "A3": P5V, "A30": GND, "A5": GND, "A6": GND, "A8": A0, "A9": A1, "B1": A15, "B10": D3, "B11": D4, "B12": D5, "B13": nNMI, "B15": nMREQ, "B16": nIORQ, "B17": nRD, "B18": nWR, "B2": A13, "B20": nWAIT, "B23": nXPM1, "B25": A8, "B26": A10, "B27": nRESET, "B28": IOUT, "B29": P5V, "B3": D7, "B30": GND, "B5": D0, "B6": D1, "B7": D2, "B8": D6 }
+}
+
+// The modulator's supply choke.
+L1 = soviet.DM02 {
+  at = (74.3mm, 105.26mm)
+  pins { P1: P5V, P2: P5V_RF }
+}
+
+// The RF modulator's screen.
+E1 = soviet.ModulatorCan {
+  at = (43.31mm, 108.81mm)
+  pins { GND: GND }
+}
+
+L2 = soviet.Coil7 {
+  at = (43.82mm, 118.97mm)
+  pins { P1: RFC, P2: P5V_RF }
+}
+
+VT1 = soviet.KT316BM {
+  at = (36.2mm, 99.16mm)
+  pins { B: RFB, C: RFC, E: RFE }
+}
+
+R1 = soviet.mltResistor(510ohm) {
+  at = (29.42mm, 100.01mm)
+  rotation = 90deg
+  pins { "1": RFE, "2": GND }
+}
+
+R2 = soviet.mltResistor(5.6kohm) {
+  at = (37.04mm, 115.25mm)
+  rotation = 90deg
+  pins { "1": P5V_RF, "2": RFB }
+}
+
+R3 = soviet.mltResistor(2.7kohm) {
+  at = (40.94mm, 100.01mm)
+  rotation = 90deg
+  pins { "1": RFB, "2": GND }
+}
+
+R7 = soviet.mltResistor(1kohm) {
+  at = (29.93mm, 114.4mm)
+  rotation = 90deg
+  pins { "1": VIDEO, "2": RFM }
+}
+
+R9 = soviet.mltResistor(220ohm) {
+  at = (53.98mm, 100.35mm)
+  rotation = 90deg
+  pins { "1": RFM, "2": RFB }
+}
+
+VD6 = soviet.KD522B {
+  at = (32.98mm, 115.25mm)
+  rotation = 90deg
+  pins { A: RFM, K: RFB }
+}
+
+C3 = soviet.kmCap(68nF) {
+  at = (44.15mm, 104.58mm)
+  rotation = 90deg
+  pins { "1": RFB, "2": GND }
+}
+
+C4 = soviet.kmCap(15pF) {
+  at = (53.3mm, 118.97mm)
+  rotation = 90deg
+  pins { "1": RFC, "2": RFE }
+}
+
+C5 = soviet.kmCap(15pF) {
+  at = (50.93mm, 107.97mm)
+  rotation = 90deg
+  pins { "1": RFE, "2": GND }
+}
+
+C6 = soviet.kmCap(110pF) {
+  at = (56.85mm, 118.97mm)
+  rotation = 90deg
+  pins { "1": RFC, "2": RFOUT }
+}
+
+C7 = soviet.kmCap(18pF) {
+  at = (47.54mm, 104.58mm)
+  rotation = 90deg
+  pins { "1": RFC, "2": P5V_RF }
+}
+
+C50 = soviet.k50Cap(10uF, 5mm, 11mm, 2.5mm) {
+  at = (58.72mm, 99.16mm)
+  rotation = 90deg
+  pins { "1": P5V_RF, "2": GND }
+}
