@@ -1,5 +1,7 @@
 pcbkit 1
 
+use "footprints.pcbkit" as fp
+
 // Doom device 09: a big-screen ESP32-S3 handheld. The S3's LCD_CAM peripheral scans a raw 4.3"
 // 480 x 272 RGB TFT (Newhaven NHD-4.3-480272EF-ASXN, 16 colour lines RGB565, DE mode, ~9 MHz
 // pixel clock) straight out of a frame buffer in the module's 8 MB octal PSRAM, by DMA; Doom
@@ -7,8 +9,9 @@ pcbkit 1
 // the backlight (25.6 V). Ten buttons on an MCP23017 I2C expander, stereo sound from a PCM5102A
 // I2S DAC into a PAM8403 amplifier and two speakers. Power: two 18650 cells in parallel on the
 // back, charged from the USB-C port by a BQ24075 with power path; a low-dropout TLV75533 makes
-// 3.3 V. Four layers. The panel lies on the front over the board, its cable folded over the top
-// edge to the connector on the back.
+// 3.3 V. Four layers. The panel lies on the front on 3 mm foam tape, its cable folded back under
+// it into the connector on the front (Newhaven's own arrangement: the cable's contacts then face
+// the board, as the bottom-contact connector takes them).
 
 use "parts/ESP32_S3_WROOM_1.pcbkit" as ESP32_S3_WROOM_1
 use "parts/NHD43_RGB_FPC40.pcbkit" as NHD43_RGB_FPC40
@@ -50,7 +53,7 @@ net CHG_N, PG_N, CHG_LED, PG_LED, ISET, ILIM, TS, LDO_EN
 net DP, DN, EN
 net PCLK, DE, VSYNC, HSYNC, DISP
 net RED3, RED4, RED5, RED6, RED7, GRN2, GRN3, GRN4, GRN5, GRN6, GRN7, BLU3, BLU4, BLU5, BLU6, BLU7
-net BL_EN, BL_SW, LED_A, LED_K
+net BL_EN, BL_SW, BL_FB, LED_A, LED_K
 // The DAC's own rails: its 1.8 V core regulator and its charge pump's negative supply.
 net DAC_1V8 { voltage = 1.8V; current = 5mA }
 net DAC_VNEG { voltage = -3.3V }
@@ -63,6 +66,7 @@ board = Board {
   description = "ESP32-S3 + 4.3in 480x272 RGB TFT (LCD_CAM) · MCP23017 keys · PCM5102A + PAM8403 · 2 x 18650, USB-C charging"
   outline = rect(182mm, 80mm, radius = 8mm)
   layers = [signal(Cu.top), power(Cu.inner[1], label = "GND"), signal(Cu.inner[2]), signal(Cu.bottom)]
+  fab = Fabrication { mask = .matteBlack, silk = .white, finish = .enig, edgePlating = true }
 }
 laboratory = Laboratory { world = "input.js" }
 
@@ -71,7 +75,7 @@ panel = Line {
   points = [(38.25mm, 6.4mm), (143.75mm, 6.4mm), (143.75mm, 73.6mm), (38.25mm, 73.6mm), (38.25mm, 6.4mm)]
   width = 0.2mm
 }
-panelLabel = Text { text = "4.3in 480x272 RGB TFT (NHD-4.3-480272EF-ASXN) on tape; its cable over the top edge to J1 on the back"; at = (91mm, 76.8mm); size = 1mm }
+panelLabel = Text { text = "4.3in 480x272 RGB TFT (NHD-4.3-480272EF-ASXN) on 3 mm foam tape; its cable folded under it into J1"; at = (91mm, 76.8mm); size = 1mm }
 // The panel itself, taped on (its outline drawing: 105.5 x 67.2 x 2.95 mm, the metal frame's
 // opening 98.7 x 57 mm, the active area 95.04 x 53.86 mm; here centred on the outline): nothing
 // to solder, on the bill of materials and in 3D.
@@ -79,6 +83,7 @@ DS1 = device(footprint = Footprint {
   name = "Newhaven_NHD-4.3-480272EF_Panel"
   description = "4.3 inch 480 x 272 RGB TFT panel taped to the board, its FPC folded to J1 on the back"
   pads = []
+  body = centered(105.5mm, 67.2mm)
   height = 2.95mm
   noCourtyard = true
   solids = displayPanel(centered(98.7mm, 57mm), centered(95.04mm, 53.86mm), 2.95mm, glass = 0.5mm, frame = centered(105.5mm, 67.2mm))
@@ -126,11 +131,21 @@ U1 = ESP32_S3_WROOM_1.Part with {
 // EN's RC and the RESET (EN) and BOOT (IO0) buttons, on the back beside the module.
 U1Support = ESP32_S3_WROOM_1.Support(U1) { side = .bottom }
 
-// ---- the panel's connector (back, at the top edge: the panel's cable folds over the edge into it)
-J1 = NHD43_RGB_FPC40.Part {
-  side = .bottom
-  orderCode = "C505102"
-  place = [edge(.top), inside(box((70mm, 50mm), (112mm, 80mm)))]
+// ---- the panel's connector (front, under the panel) ----------------------------------------------
+// The panel's cable leaves its top edge at x 104.5-125 mm (its drawing: 18.75 mm from the panel's
+// own left edge, the panel turned FPC-side up), contact 1 at the right, and is 45.7 mm long. Folded
+// back under the panel (about 5.5 mm in the bend over 3 mm of tape) its end reaches y = 33.4 mm,
+// contacts down: J1 opens toward the fold with its slot 1.6 mm short of that (slack, not strain)
+// and contact 1 at the right. A Hirose FH12 (bottom contact, 2 mm high: 1 mm under the panel).
+J1 = NHD43_RGB_FPC40.Part with {
+  footprint = fp.Hirose_FH12_40S_0_5SH_1x40_1MP_P0_50mm_Horizontal
+  mpn = "FH12-40S-0.5SH(55)"
+  manufacturer = "Hirose"
+} {
+  orderCode = "C202114"
+  side = .top
+  at = (114.75mm, 33.6mm)
+  rotation = 180deg
   pins {
     LED_K: LED_K, LED_A: LED_A, GND: GND, VDD: V3, MP: GND,
     R0: GND, R1: GND, R2: GND, R3: RED3, R4: RED4, R5: RED5, R6: RED6, R7: RED7,
@@ -143,7 +158,12 @@ J1 = NHD43_RGB_FPC40.Part {
 R1 = res(10kohm, package = "0402") { orderCode = "C25744"; side = .bottom; pins { a: DISP, b: V3 } }
 C1 = cap(10uF, package = "0603") { orderCode = "C19702"; side = .bottom; place = [near(J1, max = 6mm)]; pins { a: V3, b: GND } }
 // MT3608 as a constant-current LED driver: FB regulates 0.6 V across 15 ohm = 40 mA.
-U8 = MT3608.Part { side = .bottom; pins { VIN: SYS, GND: GND, EN: BL_EN, SW: BL_SW, FB: LED_K, NC: .nc } }
+U8 = MT3608.Part { side = .bottom; pins { VIN: SYS, GND: GND, EN: BL_EN, SW: BL_SW, FB: BL_FB, NC: .nc } }
+// Open-LED protection: with the panel unplugged FB would stay at 0 V and the boost climb past its
+// switch's 30 V. Above about 28 V the zener drives FB through R15 (0.6 mA) and holds the output
+// there; the panel's strings (22.4-27.2 V at 40 mA) stay below it, and R15 carries no current then.
+R15 = res(1kohm, package = "0402") { orderCode = "C11702"; side = .bottom; place = [near(U8.pin.FB, max = 3mm)]; pins { a: BL_FB, b: LED_K } }
+D2 = diode(kind = .zener, voltage = 28V, package = "SOD-123", mpn = "MMSZ5255B") { orderCode = "C3031843"; side = .bottom; place = [soft(near(U8.pin.FB, max = 6mm))]; pins { A: BL_FB, K: LED_A } }
 R2 = res(100kohm, package = "0402") { orderCode = "C25741"; side = .bottom; pins { a: BL_EN, b: GND } }
 C2 = cap(22uF, package = "0805", ratedVoltage = 10V) { orderCode = "C45783"; side = .bottom; place = [near(U8.pin.VIN, max = 3mm)]; pins { a: SYS, b: GND } }
 L1 = inductor(22uH, package = "4") { orderCode = "C83472"; side = .bottom; place = [near(U8.pin.SW, max = 5mm)]; pins { a: SYS, b: BL_SW } }

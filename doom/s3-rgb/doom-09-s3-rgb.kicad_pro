@@ -53,6 +53,7 @@
       "BLU6": "Default",
       "BLU7": "Default",
       "BL_EN": "Default",
+      "BL_FB": "Default",
       "BL_SW": "Default",
       "CELL_N": "power",
       "CHG_LED": "Default",

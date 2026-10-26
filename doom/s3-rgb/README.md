@@ -4,22 +4,23 @@ The big-screen variant: the ESP32-S3 scans a **raw RGB TFT** (no controller, no 
 a frame buffer in its octal PSRAM with the LCD_CAM peripheral and DMA — the architecture of the
 popular ESP32-S3 "4.3-inch" boards. Ten buttons on an I2C expander (the pins all go to the panel),
 stereo sound through a DAC and an amplifier, and two 18650 cells it charges from its USB-C port.
-JLCPCB assembles everything; the panel is taped on and plugged in by hand.
+JLCPCB assembles everything (matte black mask, ENIG, plated edges); the panel is plugged in and
+taped on by hand.
 
 | | |
 |---|---|
 | Processor | ESP32-S3-WROOM-1-N16R8 (2 × Xtensa LX7 240 MHz, 512 KB SRAM, 16 MB flash, 8 MB octal PSRAM) |
-| Display | Newhaven **NHD-4.3-480272EF-ASXN**: 4.3" 480 × 272, 24-bit RGB parallel, DE mode, DCLK 9–15 MHz; driven as RGB565 (R3–R7 IO1/2/4/5/6, G2–G7 IO7/15/16/17/18/8, B3–B7 IO9–IO13; PCLK IO42, DE IO40, VSYNC IO41, HSYNC IO39; the low bits grounded) through a 40-pin 0.5 mm FFC connector (Molex 54132-4062) on the back at the top edge: the panel's cable folds over the edge into it |
-| Backlight | 12 white LEDs, 25.6 V at 40 mA: **MT3608 boost as a constant-current driver** from SYS (FB regulates 0.6 V over 15 Ω), EN/PWM on IO46 (a strap that must be low at reset: 100 kΩ pull-down) |
+| Display | Newhaven **NHD-4.3-480272EF-ASXN**: 4.3" 480 × 272, 24-bit RGB parallel, DE mode, DCLK 9–15 MHz; driven as RGB565 (R3–R7 IO1/2/4/5/6, G2–G7 IO7/15/16/17/18/8, B3–B7 IO9–IO13; PCLK IO42, DE IO40, VSYNC IO41, HSYNC IO39; the low bits grounded) through a 40-pin 0.5 mm FFC connector (Hirose FH12-40S-0.5SH, bottom contact) on the front under the panel: the panel's cable folds back under it into the connector, Newhaven's own arrangement |
+| Backlight | 12 white LEDs, 25.6 V at 40 mA: **MT3608 boost as a constant-current driver** from SYS (FB regulates 0.6 V over 15 Ω), EN/PWM on IO46 (a strap that must be low at reset: 100 kΩ pull-down); a 28 V zener into FB through 1 kΩ holds the output under the switch's 30 V when no panel is plugged in |
 | Input | 10 tact switches on an **MCP23017** (I2C 0x20, IO14 SDA, IO38 SCL), interrupt on change to IO3 |
 | Sound | I2S (IO47 BCK, IO48 LRCK, IO21 DIN) → **PCM5102A** DAC → **PAM8403** stereo class-D from SYS (SHDN on 3.3 V: asleep when switched off) → two 4–8 Ω speakers on JST PH plugs at the left and right edges |
 | Power | **2 × 18650 Li-ion in parallel** (1S2P) behind a reverse-cell P-FET (AO3401A) and DW01A + FS8205A protection; USB-C (1 A PTC fuse, TVS, ESD array) → **BQ24075** charger with power path → SYS for the backlight driver and the amplifier → **TLV75533** low-dropout regulator for 3.3 V; on/off slide switch on the regulator's EN |
 | Programming | USB-C D+/D− to the S3's native USB (IO19/IO20): esptool over USB-Serial/JTAG; RESET (EN) and BOOT (IO0) buttons on the back |
-| Board | 182 × 80 mm, **4 layers**, four M3 holes; front: the panel on tape (outline in the silkscreen), buttons, the power corner (USB-C at the top edge, charger, CHG/USB LEDs, on/off switch); back: two 18650 holders along the bottom edge, module (antenna past the top edge), FFC connector at the top edge, protection, regulator, backlight driver, expander, audio, test pads |
+| Board | 182 × 80 mm, **4 layers**, matte black mask, white silkscreen, ENIG, plated edges, four M3 holes; front: the panel on 3 mm foam tape (outline in the silkscreen) over its FFC connector, buttons, the power corner (USB-C at the top edge, charger, CHG/USB LEDs, on/off switch); back: two 18650 holders along the bottom edge, module (antenna past the top edge), protection, regulator, backlight driver, expander, audio, test pads |
 
 <!-- STATUS -->
-**Board status** (measured on the dev host with PCBKit's CLI): `pcbkit check`: complete — 0 errors, 1 warning (diff-pair-uncoupled), 0 unrouted nets; `issues` has 1 of 1. 97 components, 85 nets, 882 track segments (3572 mm), 99 vias.
-`analysis.run { lens: "ready" }`: Typical scenario from the parts' datasheets. Nothing to fix, 3 to consider, 14 ok: weigh the warnings (tell the person about the ones that are their choice), then the board is ready to order.
+**Board status** (measured on the dev host with PCBKit's CLI): `pcbkit check`: complete — 0 errors, 2 warnings (diff-pair-uncoupled, skew), 0 unrouted nets. 99 components, 86 nets, 1042 track segments (3854 mm), 131 vias.
+`analysis.run { lens: "ready" }`: Typical scenario from the parts' datasheets. Nothing to fix, 4 to consider, 14 ok.
 `pcbkit export --format fab` succeeds without `--force`: every assembled line of the BOM has an LCSC code.
 <!-- /STATUS -->
 
@@ -27,8 +28,8 @@ What `check` and the ready lens leave to weigh, and why each is acceptable:
 
 | Warning | Why it is acceptable |
 |---|---|
-| `diff-pair-uncoupled`: DP / DN about 21 mm uncoupled (128 mm coupled), over the default 10 mm | USB full speed (12 Mbit/s): the connector is at the top left, the module at the top right; the uncoupled stretch is at the two ends, harmless at 4–20 ns edges |
-| GND's copper heats up by 28 °C (1.5 A on the thinnest GND track) | the lens rates one 0.15 mm GND track alone; GND is also a pour on the top, inner and bottom layers that carries the return current beside it (the Current lens notes the pour runs it cooler) |
+| `diff-pair-uncoupled`, `skew`: DP / DN 14 mm uncoupled (129 mm coupled), 0.35 mm apart in length | USB full speed (12 Mbit/s): the connector is at the top left, the module at the top right; the uncoupled stretch is at the two ends, harmless at 4–20 ns edges |
+| BAT's copper heats up by 10 °C (1 A on its thinnest track) | 1 A is the charger's worst case into flat cells; in play the cells give about 0.6 A |
 | 6 heat sources need exact thermal parameters | the regulator, charger, boost, amplifier, DAC and module dissipate well under 0.5 W each in this design; the estimate uses generic package limits, as for every board here |
 
 ## Run it in the browser
@@ -106,10 +107,13 @@ slowly discharge instead of charging. Insert the cells with + at the end the bac
 ## Modules plugged in by hand
 
 - **DS1: the panel**, Newhaven NHD-4.3-480272EF-ASXN (or a generic 4.3" 480 × 272 40-pin RGB
-  panel with the same pinout), bought separately. Tape it to the front inside its silkscreen
-  outline with double-sided foam tape, its FPC toward the top edge; fold the FPC over the top edge
-  and lock it into J1 on the back (contacts down, Molex 54132 is bottom contact). The firmware
-  scans out the frame upside-down if the panel's FPC side is its bottom.
+  panel with the same pinout and cable), bought separately. Lay it face down above the board's top
+  edge, its cable toward the board, and push the cable's end straight into J1 (contacts down,
+  toward the board: the FH12 is bottom contact), then close J1's lever. Turn the panel over onto
+  the board along the cable's fold and tape it inside its silkscreen outline with 3 mm double-sided
+  foam tape on its frame (keep the tape off the cable): the cable then lies folded under the panel,
+  as Newhaven's drawing has it. J1 (2 mm high) and C1 sit under the panel. The firmware scans out
+  the frame upside-down (the panel's cable side is its bottom).
 - **Two speakers**, 4–8 Ω, 1–3 W, on 2-pin JST PH plugs (J5 left, J6 right).
 - **Two 18650 cells.**
 
@@ -129,7 +133,7 @@ slowly discharge instead of charging. Insert the cells with + at the end the bac
 ## Bill of materials
 
 Rough cost at 10 pieces (estimates): ESP32-S3-WROOM-1-N16R8 $4.50 · NHD-4.3-480272EF-ASXN $35 (a
-generic 4.3" 480 × 272 40-pin panel: $8) · Molex 54132-4062 $1.00 · MT3608 $0.15 · MCP23017 $1.20 ·
+generic 4.3" 480 × 272 40-pin panel: $8) · Hirose FH12-40S-0.5SH $0.73 · MT3608 $0.15 · MCP23017 $1.20 ·
 PCM5102A $2.00 · PAM8403 $0.15 · BQ24075, protection and TLV75533 $1.60 · USB-C $0.40 · buttons
 $3.40 · passives $1.80 · two 18650 holders $9.80 · 4-layer PCB $6.00 · 2 speakers $2.00 → **about
 $71** with the Newhaven panel, ~$44 with a generic one, without the cells.
@@ -152,10 +156,11 @@ The assembly BOM as `pcbkit export --format fab` writes it (JLCPCB assembly: LCS
 | 2 | C24, C25 | 470nF | C47339 | C_0402_1005Metric |
 | 3 | C33, C34, cIn | 1uF | C15849 | C_0603_1608Metric |
 | 1 | D1 | 1N5819HW-7-F | C82544 | D_SOD-123 |
+| 1 | D2 | zener 28V | C3031843 | D_SOD-123 |
 | 1 | D6 | tvs 5V | C918844 | D_SOD-323 |
-| 1 | F1 | PTC 1000mA | C20800 | Fuse_1206_3216Metric |
-| 1 | J1 | 54132-4062 | C505102 | Conn_FFC-FPC_1x40_P0.50mm_Horizontal |
-| 1 | J3 | USB_C_Receptacle_USB2.0_16P | C165948 | USB_C_Receptacle_USB2.0_16P |
+| 1 | F1 | PTC 750mA | C20800 | Fuse_1206_3216Metric |
+| 1 | J1 | FH12-40S-0.5SH(55) | C202114 | Hirose_FH12-40S-0.5SH_1x40-1MP_P0.50mm_Horizontal |
+| 1 | J3 | USB4105-GF-A | C165948 | USB_C_Receptacle_USB2.0_16P |
 | 2 | J5, J6 | S2B-PH-K-S(LF)(SN) | C173752 | JST_PH_S2B-PH-K_1x02_P2.00mm_Horizontal |
 | 1 | L1 | 22uH | C83472 | L_Power_4x4mm |
 | 1 | Q1 | AO3401A | C15127 | SOT-23 |
@@ -166,7 +171,7 @@ The assembly BOM as `pcbkit export --format fab` writes it (JLCPCB assembly: LCS
 | 2 | R7, R8 | 470ohm | C25117 | R_0402_1005Metric |
 | 2 | R9, R10 | 5.1kohm | C25905 | R_0402_1005Metric |
 | 1 | R12 | 100ohm | C25076 | R_0402_1005Metric |
-| 1 | R13 | 1kohm | C11702 | R_0402_1005Metric |
+| 2 | R13, R15 | 1kohm | C11702 | R_0402_1005Metric |
 | 1 | RS1 | 15ohm | C22810 | R_0603_1608Metric |
 | 12 | SW1, SW2, SW3, SW4, SW5, SW6, SW7, SW8, SW9, SW10, SW12, SW13 | PTS645SM43SMTR92 LFS | C221880 | SW_Tactile_SPST_6x6mm_SMD |
 | 1 | SW11 | MSK12C02 | C431540 | SW_Slide_SPDT_Shouhan_MSK12C02 |
@@ -178,7 +183,7 @@ The assembly BOM as `pcbkit export --format fab` writes it (JLCPCB assembly: LCS
 | 1 | U6 | TLV75533PDBVR | C404027 | SOT-23-5 |
 | 1 | U7 | BQ24075RGTR | C15464 | QFN-16-1EP_3x3mm_P0.5mm_EP1.68x1.68mm |
 | 1 | U8 | MT3608 | C84817 | SOT-23-6 |
-| 1 | U9 | ESD 2-line | C7519 | SOT-23-6 |
+| 1 | U9 | USBLC6-2SC6 | C7519 | SOT-23-6 |
 | 2 | cBat, cSys | 4.7uF | C1779 | C_0805_2012Metric |
 | 1 | ledChg | red | C2286 | LED_0603_1608Metric |
 | 1 | ledPg | green | C12624 | LED_0603_1608Metric |
