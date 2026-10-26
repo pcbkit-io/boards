@@ -15,8 +15,12 @@ board = Board {
   fab { mask = .green, silk = .white, finish = .hasl }
 }
 
-// In the laboratory: the television on XS9 in the output panel.
-laboratory = Laboratory { output = "tv.js" }
+// In the laboratory: the television on XS9 in the output panel; the host's keyboard and gamepads
+// operate the keyboard and the joysticks (input.js).
+laboratory = Laboratory {
+  world = "input.js"
+  output = "tv.js"
+}
 
 net P5V { voltage = 5V }
 net GND { voltage = 0V }
@@ -1673,8 +1677,8 @@ XS7 = soviet.ONC5 with {
       // game at once instead of the tape's two minutes.
       state = FirmwareData {
         url = "https://github.com/pcbkit-io/boards/releases/download/delta-s02/scorched_earth-russian.loaded.state"
-        sha256 = "69ae71aab1f1aba41e828b7f6ec1313209497c115683a8c65b83921cb02d9121"
-        bytes = 73830
+        sha256 = "07d06fc1bb536b51e1ab5765683bd060da3638d24dc34af8034bc0ba92421a0b"
+        bytes = 73884
       }
     }
   }
@@ -1690,13 +1694,31 @@ XS5 = soviet.ONC5 {
 }
 
 // Kempston joystick: 2 left, 3 right, 4 down, 5 up, 6 fire.
-XS6 = soviet.ONC7 {
+XS6 = soviet.ONC7 with {
+  // A Kempston joystick: its contacts put +5 V (contact 1) onto the direction and fire lines,
+  // which the board pulls down (R16–R20).
+  simulation = SimulationParameters {
+    behavior = Behavior {
+      model = "joystick"
+      ports = { common: ["1"], left: ["2"], right: ["3"], down: ["4"], up: ["5"], fire: ["6"] }
+    }
+  }
+} {
   at = (101.39mm, 140.14mm)
   pins { C1: P5V, C2: J1, C3: J2, C4: J3, C5: J4, C6: J5, S: GND }
 }
 
 // Sinclair joystick on the keyboard lines: 1 its half-row, 2 left, 3 right, 4 down, 5 up.
-XS8 = soviet.ONC7 {
+XS8 = soviet.ONC7 with {
+  // A Sinclair joystick: its contacts join the scanned half-row (contact 1, KA12) to the
+  // keyboard's returns, as keys of the matrix.
+  simulation = SimulationParameters {
+    behavior = Behavior {
+      model = "joystick"
+      ports = { common: ["1"], left: ["2"], right: ["3"], down: ["4"], up: ["5"], fire: ["6"] }
+    }
+  }
+} {
   at = (139.49mm, 140.14mm)
   pins { C1: KA12, C2: KL0, C3: KL1, C4: KL2, C5: KL3, C6: KL4, S: GND }
 }

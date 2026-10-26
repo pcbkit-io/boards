@@ -10,8 +10,10 @@ Open it at **https://app.pcbkit.io/github/pcbkit-io/boards/tree/main/retro/delta
 the board runs as it is wired, chip by chip (ADR 0043): a Z80A on its pins, eight КР565РУ5В
 DRAMs behind their multiplexers, the КМ573РФ8А with the standard 48K ROM, the КР1533 and К555 logic
 with their datasheets' delays. A television on the RGB socket XS9 scans the board's own sync and
-colour lines; the keyboard on XS2/XS3 takes your keys (operate the device, then type: `J`, `"`,
-`"`, Enter is `LOAD ""`); the cassette recorder on XS7 holds The Scorched Earth (X-Project
+colour lines, shown in the laboratory's output (`tv.js` draws the set around the picture); the
+keyboard on XS2/XS3 takes your keys and the joysticks on XS6 (Kempston) and XS8 (Sinclair) your
+first and second gamepad (`input.js` maps them: operate the device, then type `J`, `"`, `"`, Enter
+for `LOAD ""`); the cassette recorder on XS7 holds The Scorched Earth (X-Project
 Association, 1997, freeware): press **Play** in the laboratory's Computer section to load it as
 the board does (about two minutes of the board's time, much longer in a browser: every chip runs
 at every nanosecond), or **Loaded** to resume the board as that tape leaves it, saved on this
