@@ -15,6 +15,9 @@ board = Board {
   fab { mask = .green, silk = .white, finish = .hasl }
 }
 
+// In the laboratory: the television on XS9 in the output panel.
+laboratory = Laboratory { output = "tv.js" }
+
 net P5V { voltage = 5V }
 net GND { voltage = 0V }
 net A0, A1, A10, A11, A12, A13, A14, A1415, A15, A2, A3, A4
@@ -1834,19 +1837,12 @@ R43 = soviet.mltResistor(220ohm) {
 // RGB and composite video to a monitor: 1 video, 3 R, 4 B, 5 G.
 XS9 = soviet.ONC5 with {
   // A colour television on it (the RGB inputs of a set, or a monitor): red, green, blue, and the
-  // composite signal with sync. Its picture is shown on the connector.
+  // composite signal with sync. Off the board: the laboratory's output (tv.js) shows its picture.
   simulation = SimulationParameters {
     behavior = Behavior {
       model = "raster-display"
       ports = { rgb: ["3", "5", "4"], composite: ["1"] }
-      parameters = {
-        width: 480,
-        height: 320,
-        width_mm: 270,
-        height_mm: 180,
-        offset_x_mm: -20,
-        offset_y_mm: 110,
-      }
+      parameters = { width: 480, height: 320, width_mm: 270, height_mm: 180, off_board: 1 }
     }
   }
 } {
