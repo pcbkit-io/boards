@@ -1,0 +1,32 @@
+pcbkit 1
+
+// PCBKit's mark alone (the chip, its pin-1 dot cut out: brand/logo/mark-mono.svg).
+// Cut from PCBKIT_LOGO.pcbkit (the same polygons, scaled 2x and centred): 12.8 x 12.8 mm.
+// A part with nothing to solder.
+
+/// The PCBKit mark, 12.8 mm wide.
+part Part = device(footprint = Footprint {
+    name = "Logo_PCBKit_mark"
+    description = "The PCBKit mark, silkscreen only"
+    pads = []
+    height = 0mm
+    body = centered(13.8mm, 13.8mm)
+    silk = [
+      Polygon { points = [(-3.84mm, 2.56mm), (3.84mm, 2.56mm), (3.84mm, 3.84mm), (-3.84mm, 3.84mm)] },
+      Polygon { points = [(-3.84mm, 1.28mm), (-2.56mm, 1.28mm), (-2.56mm, 2.56mm), (-3.84mm, 2.56mm)] },
+      Polygon { points = [(-1.28mm, 1.28mm), (3.84mm, 1.28mm), (3.84mm, 2.56mm), (-1.28mm, 2.56mm)] },
+      Polygon { points = [(-3.84mm, -3.84mm), (3.84mm, -3.84mm), (3.84mm, 1.28mm), (-3.84mm, 1.28mm)] },
+      Polygon { points = [(-6.4mm, 2.56mm), (-5.12mm, 2.56mm), (-5.12mm, 3.84mm), (-6.4mm, 3.84mm)] },
+      Polygon { points = [(-6.4mm, 0mm), (-5.12mm, 0mm), (-5.12mm, 1.28mm), (-6.4mm, 1.28mm)] },
+      Polygon { points = [(-6.4mm, -2.56mm), (-5.12mm, -2.56mm), (-5.12mm, -1.28mm), (-6.4mm, -1.28mm)] },
+      Polygon { points = [(5.12mm, 2.56mm), (6.4mm, 2.56mm), (6.4mm, 3.84mm), (5.12mm, 3.84mm)] },
+      Polygon { points = [(5.12mm, 0mm), (6.4mm, 0mm), (6.4mm, 1.28mm), (5.12mm, 1.28mm)] },
+      Polygon { points = [(5.12mm, -2.56mm), (6.4mm, -2.56mm), (6.4mm, -1.28mm), (5.12mm, -1.28mm)] },
+      Polygon { points = [(-3.84mm, 5.12mm), (-2.56mm, 5.12mm), (-2.56mm, 6.4mm), (-3.84mm, 6.4mm)] },
+      Polygon { points = [(-1.28mm, 5.12mm), (0mm, 5.12mm), (0mm, 6.4mm), (-1.28mm, 6.4mm)] },
+      Polygon { points = [(1.28mm, 5.12mm), (2.56mm, 5.12mm), (2.56mm, 6.4mm), (1.28mm, 6.4mm)] },
+      Polygon { points = [(-3.84mm, -6.4mm), (-2.56mm, -6.4mm), (-2.56mm, -5.12mm), (-3.84mm, -5.12mm)] },
+      Polygon { points = [(-1.28mm, -6.4mm), (0mm, -6.4mm), (0mm, -5.12mm), (-1.28mm, -5.12mm)] },
+      Polygon { points = [(1.28mm, -6.4mm), (2.56mm, -6.4mm), (2.56mm, -5.12mm), (1.28mm, -5.12mm)] },
+    ]
+  }, prefix = "LOGO")

@@ -20,7 +20,7 @@ use "parts/PCM5102APWR.pcbkit" as PCM5102APWR
 use "parts/PAM8403DR.pcbkit" as PAM8403DR
 use "parts/MT3608.pcbkit" as MT3608
 use "parts/TLV75533PDBV.pcbkit" as Ldo
-use "parts/S2B_PH_K_S.pcbkit" as S2B_PH_K_S
+use "parts/FS1540.pcbkit" as Speaker
 use "parts/KEYSTONE_1042.pcbkit" as Holder
 use "parts/BQ24075RGT.pcbkit" as Charger
 use "parts/DW01A.pcbkit" as Protection
@@ -28,6 +28,8 @@ use "parts/D_1N5819HW.pcbkit" as Schottky
 use "parts/MSK12C02.pcbkit" as Slide
 use "parts/AO3401A.pcbkit" as Pfet
 use "parts/PCBKIT_LOGO.pcbkit" as Logo
+use "parts/PCBKIT_MARK.pcbkit" as Mark
+use "parts/PCBKIT_WORDMARK.pcbkit" as Wordmark
 
 // Power: USB-C 5 V (VBUS, behind a resettable fuse and a TVS) into the charger; its power path
 // (SYS: the input when there is one, else the cells) feeds the backlight driver, the amplifier
@@ -58,7 +60,7 @@ net BL_EN, BL_SW, BL_FB, LED_A, LED_K
 net DAC_1V8 { voltage = 1.8V; current = 5mA }
 net DAC_VNEG { voltage = -3.3V }
 net SDA, SCL, KEYS_INT
-net I2S_BCK, I2S_LRCK, I2S_DIN, LINE_L, LINE_R, SPK_LP, SPK_LN, SPK_RP, SPK_RN
+net I2S_BCK, I2S_LRCK, I2S_DIN, LINE_L, LINE_R, AMP_L, AMP_R, SPK_LP, SPK_LN, SPK_RP, SPK_RN
 net UP, DOWN, LEFT, RIGHT, FIRE, USE, STRAFE_L, STRAFE_R, MENU, ENTER
 
 board = Board {
@@ -75,7 +77,6 @@ panel = Line {
   points = [(38.25mm, 6.4mm), (143.75mm, 6.4mm), (143.75mm, 73.6mm), (38.25mm, 73.6mm), (38.25mm, 6.4mm)]
   width = 0.2mm
 }
-panelLabel = Text { text = "4.3in 480x272 RGB TFT (NHD-4.3-480272EF-ASXN) on 3 mm foam tape; its cable folded under it into J1"; at = (91mm, 76.8mm); size = 1mm }
 // The panel itself, taped on (its outline drawing: 105.5 x 67.2 x 2.95 mm, the metal frame's
 // opening 98.7 x 57 mm, the active area 95.04 x 53.86 mm; here centred on the outline): nothing
 // to solder, on the bill of materials and in 3D.
@@ -201,10 +202,16 @@ U5 = PAM8403DR.Part {
   orderCode = "C17337"
   pins { VDD: SYS, PVDD: SYS, GND: GND, PGND: GND, SHDN: V3, MUTE: .nc, OUTLP: SPK_LP, OUTLN: SPK_LN, OUTRP: SPK_RP, OUTRN: SPK_RN, NC: .nc }
 }
-U5Support = PAM8403DR.Support(U5, audioL = LINE_L, audioR = LINE_R) { side = .bottom }
-// The speakers' plugs at the left and right edges on the back, clear of the panel on the front.
-J5 = S2B_PH_K_S.Part { side = .bottom; orderCode = "C173752"; place = [edge(.left), inside(box((-8mm, 36mm), (30mm, 80mm)))]; pins { C1: SPK_LN, C2: SPK_LP } }
-J6 = S2B_PH_K_S.Part { side = .bottom; orderCode = "C173752"; place = [edge(.right), inside(box((152mm, 30mm), (190mm, 70mm)))]; pins { C1: SPK_RN, C2: SPK_RP } }
+U5Support = PAM8403DR.Support(U5, audioL = AMP_L, audioR = AMP_R) { side = .bottom }
+// 100 kohm before each input lowers the amplifier's gain from 24 dB to 1.6 dB (142 k / (18 k +
+// 100 k)): the DAC's full 2.1 V rms then gives at most 2.5 V rms, 0.8 W into the 8 ohm speakers,
+// their maximum.
+R16 = res(100kohm, package = "0402") { orderCode = "C25741"; side = .bottom; place = [soft(near(U5.pin.INL, max = 6mm))]; pins { a: LINE_L, b: AMP_L } }
+R17 = res(100kohm, package = "0402") { orderCode = "C25741"; side = .bottom; place = [soft(near(U5.pin.INR, max = 6mm))]; pins { a: LINE_R, b: AMP_R } }
+// Two 15 x 15 mm SMD speakers on the back, one at each end, assembled with the rest: the sound
+// leaves from the back.
+LS1 = Speaker.Part { orderCode = "C482341"; side = .bottom; at = (18mm, 62mm); pins { N: SPK_LN, P: SPK_LP, MP: .nc } }
+LS2 = Speaker.Part { orderCode = "C482341"; side = .bottom; at = (168mm, 50mm); pins { N: SPK_RN, P: SPK_RP, MP: .nc } }
 
 // ---- power ----------------------------------------------------------------------------------------
 // USB-C at the top edge, left of the panel: charging, and the S3's own USB for flashing.
@@ -302,6 +309,9 @@ gndPour = pour(net = GND, layers = [Cu.top, Cu.inner[1], Cu.bottom]) {}
 
 // PCBKit's mark and pcbkit.io, where the board has room.
 logo = Logo.Part { side = .bottom }
+// On the front: the mark under the D-pad, pcbkit.io between the right-hand buttons.
+mark = Mark.Part { at = (20mm, 11mm) }
+wordmark = Wordmark.Part { at = (163mm, 52mm) }
 
 // The support circuits' parts, each pinned to its JLCPCB / LCSC code.
 override reversed.Rg.orderCode = "C25741"
@@ -347,3 +357,40 @@ override U6Support.COUT.orderCode = "C15849"
 override U4Support.C1.place = [near(U4.pin.AVDD, max = 2mm)]
 override U4Support.C3.place = [near(U4.pin.CPVDD, max = 2mm)]
 override U4Support.C5.place = [near(U4.pin.DVDD, max = 2mm)]
+
+// The front carries no reference designators (the back keeps them): only the labels a player reads.
+override H1.reference = Text { text = "" }
+override H2.reference = Text { text = "" }
+override H3.reference = Text { text = "" }
+override H4.reference = Text { text = "" }
+override J1.reference = Text { text = "" }
+override SW1.reference = Text { text = "" }
+override SW10.reference = Text { text = "" }
+override SW11.reference = Text { text = "" }
+override SW2.reference = Text { text = "" }
+override SW3.reference = Text { text = "" }
+override SW4.reference = Text { text = "" }
+override SW5.reference = Text { text = "" }
+override SW6.reference = Text { text = "" }
+override SW7.reference = Text { text = "" }
+override SW8.reference = Text { text = "" }
+override SW9.reference = Text { text = "" }
+override U7.reference = Text { text = "" }
+override cBat.reference = Text { text = "" }
+override cIn.reference = Text { text = "" }
+override cSys.reference = Text { text = "" }
+override ledChg.reference = Text { text = "" }
+override ledPg.reference = Text { text = "" }
+override rChg.reference = Text { text = "" }
+override rIlim.reference = Text { text = "" }
+override rIset.reference = Text { text = "" }
+override rPg.reference = Text { text = "" }
+override rTs.reference = Text { text = "" }
+override reversed.Q.reference = Text { text = "" }
+override reversed.Rg.reference = Text { text = "" }
+override usb.Esd.reference = Text { text = "" }
+override usb.power.D.reference = Text { text = "" }
+override usb.power.F.reference = Text { text = "" }
+override usb.power.J.reference = Text { text = "" }
+override usb.power.R1.reference = Text { text = "" }
+override usb.power.R2.reference = Text { text = "" }

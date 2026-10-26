@@ -1,0 +1,38 @@
+pcbkit 1
+
+// FS-1540 (Taizhou Fusheng / FUET, LCSC C482341): a 15 x 15 x 4 mm surface-mount speaker, 8 ohm,
+// 0.5 W rated (0.8 W max), 87 dB at 0.5 W / 0.1 m, resonance 850 Hz. Its specification (2019-12-26):
+// the recommended land pattern is four 1.8 x 3.5 mm pads, 13.7 mm over their outer edges, 10 mm
+// apart in rows; the two leads on the side of the drawing's "Lead - / Lead +" (pad 1 -, pad 2 +)
+// carry the coil, the other two hold the body. The sound leaves from the face away from the board.
+
+/// FS-1540 — 15 x 15 mm SMD speaker, 8 ohm, 0.5 W (0.8 W max)
+part Part = device(footprint = Footprint {
+    name = "Speaker_FUET_FS-1540_15x15mm"
+    description = "FS-1540 15 x 15 x 4 mm SMD speaker (the maker's land pattern)"
+    let pad = Pad { number = "", shape = shape.rect(1.8mm, 3.5mm) }
+    pads = [
+      pad with { number = "1", at = (-5.95mm, -5mm) },
+      pad with { number = "2", at = (5.95mm, -5mm) },
+      pad with { number = "MP", at = (-5.95mm, 5mm) },
+      pad with { number = "MP", at = (5.95mm, 5mm) },
+    ]
+    body = centered(15mm, 15mm)
+    courtyard = box((-7.75mm, -7.75mm), (7.75mm, 7.75mm))
+    height = 4mm
+    silk = [
+      Line { points = [(-7.6mm, -2.9mm), (-7.6mm, 2.9mm)] },
+      Line { points = [(7.6mm, -2.9mm), (7.6mm, 2.9mm)] },
+      Line { points = [(-4.6mm, 7.6mm), (4.6mm, 7.6mm)] },
+      Line { points = [(-4.6mm, -7.6mm), (4.6mm, -7.6mm)] },
+      Text { text = "+"; at = (5.95mm, -8.6mm); size = 1mm },
+    ]
+  }, prefix = "LS", mpn = "FS-1540", manufacturer = "Taizhou Fusheng Electronic Technology", pinout = {
+  N: "1",
+  P: "2",
+  MP: "MP",
+}, pinTypes = {
+  N: .passive,
+  P: .passive,
+  MP: .nc,
+})

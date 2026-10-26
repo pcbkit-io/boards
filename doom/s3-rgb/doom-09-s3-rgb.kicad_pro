@@ -45,6 +45,8 @@
       }
     ],
     "netclass_assignments": {
+      "AMP_L": "Default",
+      "AMP_R": "Default",
       "BAT": "power",
       "BAT_IN": "power",
       "BLU3": "Default",
