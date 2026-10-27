@@ -14,9 +14,9 @@ colour lines, shown in the laboratory's output (`tv.js` draws the set around the
 keyboard on XS2/XS3 takes your keys and the joysticks on XS6 (Kempston) and XS8 (Sinclair) your
 first and second gamepad (`input.js` maps them: operate the device, then type `J`, `"`, `"`, Enter
 for `LOAD ""`); the cassette recorder on XS7 holds The Scorched Earth (X-Project
-Association, 1997, freeware): press **Play** in the laboratory's Computer section to load it as
+Association, 1997, freeware): press play on the cassette (the laboratory's Plugged in) to load it as
 the board does (about two minutes of the board's time, much longer in a browser: every chip runs
-at every nanosecond), or **Loaded** to resume the board as that tape leaves it, saved on this
+at every nanosecond), or **Skip loading** to resume the board as that tape leaves it, saved on this
 board with this ROM (a release asset beside the cassette): the game's menu at once.
 
 | Part | What it is |

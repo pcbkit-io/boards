@@ -50,7 +50,7 @@
       "slug": "delta-s02",
       "title": "Delta-S02 (Дельта-С-02)",
       "category": "retro",
-      "summary": "The ZX Spectrum compatible Elara built in Cheboksary in 1993, from its factory schematic: 52 Soviet chips and no ULA, run chip by chip from the board's netlist with the standard 48K ROM. A television on its RGB socket shows the circuit's own picture; type on its keyboard, play The Scorched Earth from its cassette, or press Loaded to start the game at once.",
+      "summary": "The ZX Spectrum compatible Elara built in Cheboksary in 1993, from its factory schematic: 52 Soviet chips and no ULA, run chip by chip from the board's netlist with the standard 48K ROM. A television on its RGB socket shows the circuit's own picture; type on its keyboard, play The Scorched Earth from its cassette, or skip the loading to start the game at once; the screen opens full screen and takes your keys.",
       "tags": [
         "zx-spectrum",
         "z80",
@@ -70,7 +70,7 @@
       "featured": true,
       "license": "CC0-1.0",
       "author": "PCBKit",
-      "source": "https://zx-pk.ru/threads/34820",
+      "source": null,
       "copper": "Placed as the factory's drawing places it, routed by PCBKit; the board runs in the browser from its netlist.",
       "path": "retro/delta-s02",
       "production": {
