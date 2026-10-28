@@ -725,6 +725,7 @@ rules = Rules {
   minClearance = 0mm
   minTrackWidth = 0.2mm
   copperToEdge = 0.5mm
+  minSpokes = 1
   vias { minDiameter = 0.5mm, minDrill = 0.3mm }
   holes { clearance = 0.25mm, toHole = 0.25mm }
 }

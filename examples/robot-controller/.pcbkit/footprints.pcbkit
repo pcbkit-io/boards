@@ -664,17 +664,85 @@ Texas_RTY_WQFN_16_1EP_4x4mm_P0_65mm_EP2_1x2_1mm_ThermalVias = Footprint {
       at = (0.975mm, -1.8625mm)
       shape = shape.roundRect(0.35mm, 1.025mm, 0.0875mm)
     },
-    pad with { number = "17", at = (0.8mm, 0.8mm), kind = .tht, drill = 0.3mm, paste = false },
-    pad with { number = "17", at = (0.8mm, 0mm), kind = .tht, drill = 0.3mm, paste = false },
-    pad with { number = "17", at = (0.8mm, -0.8mm), kind = .tht, drill = 0.3mm, paste = false },
-    pad with { number = "17", at = (0mm, 0.8mm), kind = .tht, drill = 0.3mm, paste = false },
-    pad with { number = "17", kind = .tht, drill = 0.3mm, paste = false },
-    pad with { number = "17", shape = shape.rect(2.1mm, 2.1mm), layer = Cu.bottom, paste = false },
-    pad with { number = "17", shape = shape.rect(2.1mm, 2.1mm), paste = false },
-    pad with { number = "17", at = (0mm, -0.8mm), kind = .tht, drill = 0.3mm, paste = false },
-    pad with { number = "17", at = (-0.8mm, 0.8mm), kind = .tht, drill = 0.3mm, paste = false },
-    pad with { number = "17", at = (-0.8mm, 0mm), kind = .tht, drill = 0.3mm, paste = false },
-    pad with { number = "17", at = (-0.8mm, -0.8mm), kind = .tht, drill = 0.3mm, paste = false },
+    pad with {
+      number = "17"
+      at = (0.8mm, 0.8mm)
+      kind = .tht
+      drill = 0.3mm
+      paste = false
+      mask = []
+    },
+    pad with {
+      number = "17"
+      at = (0.8mm, 0mm)
+      kind = .tht
+      drill = 0.3mm
+      paste = false
+      mask = []
+    },
+    pad with {
+      number = "17"
+      at = (0.8mm, -0.8mm)
+      kind = .tht
+      drill = 0.3mm
+      paste = false
+      mask = []
+    },
+    pad with {
+      number = "17"
+      at = (0mm, 0.8mm)
+      kind = .tht
+      drill = 0.3mm
+      paste = false
+      mask = []
+    },
+    pad with { number = "17", kind = .tht, drill = 0.3mm, paste = false, mask = [] },
+    pad with {
+      number = "17"
+      shape = shape.rect(2.1mm, 2.1mm)
+      layer = Cu.bottom
+      paste = false
+      mask = []
+      pour = PadPour { connect = .solid }
+    },
+    pad with {
+      number = "17"
+      shape = shape.rect(2.1mm, 2.1mm)
+      paste = false
+      pour = PadPour { connect = .solid }
+    },
+    pad with {
+      number = "17"
+      at = (0mm, -0.8mm)
+      kind = .tht
+      drill = 0.3mm
+      paste = false
+      mask = []
+    },
+    pad with {
+      number = "17"
+      at = (-0.8mm, 0.8mm)
+      kind = .tht
+      drill = 0.3mm
+      paste = false
+      mask = []
+    },
+    pad with {
+      number = "17"
+      at = (-0.8mm, 0mm)
+      kind = .tht
+      drill = 0.3mm
+      paste = false
+      mask = []
+    },
+    pad with {
+      number = "17"
+      at = (-0.8mm, -0.8mm)
+      kind = .tht
+      drill = 0.3mm
+      paste = false
+      mask = []
+    },
   ]
   courtyard = box((-2.63mm, -2.63mm), (2.63mm, 2.63mm))
   courtyardShape = [
