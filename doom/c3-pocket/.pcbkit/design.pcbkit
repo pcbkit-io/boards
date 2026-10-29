@@ -188,11 +188,12 @@ tpV3 = testPoint() { at = (28mm, 61.5mm); pins = [V3] }
 tpGnd = testPoint() { at = (34mm, 61.5mm); pins = [GND] }
 tpLabel = Text { text = "BAT SYS 3V3 GND"; at = (25mm, 64.3mm); size = 1mm }
 
-// Four M3 holes for a back plate or a case.
+// Four M3 holes for a back plate or a case, none under the cells' holders: the fourth in the
+// middle of the top edge (the module has the corner).
 H1 = hole("M3") { at = (4mm, 4mm) }
 H2 = hole("M3") { at = (48mm, 4mm) }
 H3 = hole("M3") { at = (4mm, 124mm) }
-H4 = hole("M3") { at = (48mm, 62mm) }
+H4 = hole("M3") { at = (26mm, 124mm) }
 
 gndPour = pour(net = GND, layers = [Cu.top, Cu.bottom]) {}
 
@@ -210,3 +211,11 @@ override U1Support.R_IO8.orderCode = "C25744"
 override U1Support.SW1.orderCode = "C221880"
 override U4Support.CIN.orderCode = "C52923"
 override U4Support.COUT.orderCode = "C52923"
+
+// The screen module stands on its socket above the pins and pegs that come through the board under
+// it: KiCad's pth/npth_inside_courtyard waived between them.
+rule ScreenOverBack {
+  select = ofComponent(DS1) and onB(anyOf([ofComponent(BZ1), ofComponent(BT2)]))
+  reason = "the screen module stands on its socket above the pins and pegs that come through the board under it"
+  limits { courtyardClearance: limit(min = -100mm) }
+}

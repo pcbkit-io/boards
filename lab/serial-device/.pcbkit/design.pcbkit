@@ -42,3 +42,11 @@ label = Text {
   at = (39mm, 6mm)
   size = 1.5mm
 }
+
+// The Nano stands on its sockets above the console header's pins: KiCad's pth/npth_inside_courtyard
+// waived between them.
+rule NanoOverConsole {
+  select = ofComponent(U1) and onB(ofComponent(console))
+  reason = "the Nano stands on its sockets above the console header's pins"
+  limits { courtyardClearance: limit(min = -100mm) }
+}

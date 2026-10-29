@@ -29,6 +29,9 @@
         "via_drill": 0.3
       }
     ],
+    "meta": {
+      "version": 3
+    },
     "netclass_assignments": {
       "B1": "Default",
       "B2": "Default",

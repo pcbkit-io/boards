@@ -273,3 +273,11 @@ override U3Support.C6.orderCode = "C47339"
 override U3Support.C1.place = [near(U3["6"], max = 2.5mm)]
 override U3Support.C2.place = [near(U3["4"], max = 2.5mm)]
 override U3Support.C3.place = [near(U3["13"], max = 2.5mm)]
+
+// The screen module stands on its socket above the pins and pegs that come through the board under
+// it: KiCad's pth/npth_inside_courtyard waived between them.
+rule ScreenOverTeensy {
+  select = ofComponent(DS1) and onB(ofComponent(U1))
+  reason = "the screen module stands on its socket above the pins and pegs that come through the board under it"
+  limits { courtyardClearance: limit(min = -100mm) }
+}

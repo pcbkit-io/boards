@@ -57,6 +57,9 @@
         "via_drill": 0.3
       }
     ],
+    "meta": {
+      "version": 3
+    },
     "netclass_assignments": {
       "AVDD": "Default",
       "AVDD_FB": "Default",
@@ -97,13 +100,13 @@
       "I2S_SCLK": "Default",
       "J1/power/cc1": "Default",
       "J1/power/cc2": "Default",
-      "J1/power/raw": "Default",
+      "J1/power/vbusIn": "Default",
       "J2/power/cc1": "Default",
       "J2/power/cc2": "Default",
-      "J2/power/raw": "Default",
+      "J2/power/vbusIn": "Default",
       "J3/power/cc1": "Default",
       "J3/power/cc2": "Default",
-      "J3/power/raw": "Default",
+      "J3/power/vbusIn": "Default",
       "KEY": "Default",
       "LCD_PWM": "Default",
       "LCD_RST": "Default",

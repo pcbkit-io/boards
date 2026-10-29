@@ -1,0 +1,4 @@
+(version 1)
+(rule "ScreenOverUsb"
+	(constraint courtyard_clearance (min -100mm))
+	(condition "(A.Reference == 'DS1') && (B.Reference == 'J1')"))

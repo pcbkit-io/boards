@@ -2022,3 +2022,11 @@ C50 = soviet.k50Cap(10uF, 5mm, 11mm, 2.5mm) {
   rotation = 90deg
   pins { "1": P5V_RF, "2": GND }
 }
+
+// The КМ-6 decoupling capacitors lie flat under the chips, across their supply pins, as the
+// factory placed them: KiCad's pth_inside_courtyard waived for them.
+rule CapsUnderChips {
+  select = anyOf([ofComponent(C1), ofComponent(C8), ofComponent(C9), ofComponent(C10), ofComponent(C11), ofComponent(C14), ofComponent(C15), ofComponent(C16), ofComponent(C17), ofComponent(C22), ofComponent(C23), ofComponent(C24), ofComponent(C25), ofComponent(C26), ofComponent(C27), ofComponent(C28), ofComponent(C29), ofComponent(C30), ofComponent(C33)]) and onB(ofComponent("DD*"))
+  reason = "КМ-6 capacitors flat under the chips (the factory's placement)"
+  limits { courtyardClearance: limit(min = -100mm) }
+}

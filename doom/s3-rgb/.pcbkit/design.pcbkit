@@ -293,10 +293,10 @@ fn key(code: String): Part = button("6x6") with {
   orderCode = "C221880"
   simulation = SimulationParameters { behavior = Behavior { model = "button"; ports = { output: ["1"] }; key = code } }
 }
-SW1 = key("ArrowUp") { at = (20mm, 44mm); pins { a: UP, b: GND } }
-SW2 = key("ArrowDown") { at = (20mm, 24mm); pins { a: DOWN, b: GND } }
-SW3 = key("ArrowLeft") { at = (10mm, 34mm); pins { a: LEFT, b: GND } }
-SW4 = key("ArrowRight") { at = (30mm, 34mm); pins { a: RIGHT, b: GND } }
+SW1 = key("ArrowUp") { at = (20mm, 46mm); pins { a: UP, b: GND } }
+SW2 = key("ArrowDown") { at = (20mm, 26mm); pins { a: DOWN, b: GND } }
+SW3 = key("ArrowLeft") { at = (10mm, 36mm); pins { a: LEFT, b: GND } }
+SW4 = key("ArrowRight") { at = (30mm, 36mm); pins { a: RIGHT, b: GND } }
 SW5 = key("Comma") { at = (152mm, 66mm); pins { a: STRAFE_L, b: GND } }
 SW6 = key("Period") { at = (166mm, 66mm); pins { a: STRAFE_R, b: GND } }
 SW7 = key("KeyF") { at = (172mm, 38mm); pins { a: FIRE, b: GND } }

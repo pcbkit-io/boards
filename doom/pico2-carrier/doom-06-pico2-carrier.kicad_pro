@@ -36,6 +36,9 @@
         "via_drill": 0.4
       }
     ],
+    "meta": {
+      "version": 3
+    },
     "netclass_assignments": {
       "BAT": "power",
       "BAT_IN": "power",

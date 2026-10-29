@@ -174,3 +174,11 @@ cheat = Text { text = "IDDQD"; at = (140mm, 58mm); size = 1.5mm }
 map = Text { text = "E1M1"; at = (20mm, 22mm); size = 1.5mm }
 
 override reversed.Rg.orderCode = "C25741"
+
+// The screen module stands on its socket above the pins and pegs that come through the board under
+// it: KiCad's pth/npth_inside_courtyard waived between them.
+rule ScreenOverCells {
+  select = ofComponent(lcd) and onB(anyOf([ofComponent(BT1), ofComponent(BT2)]))
+  reason = "the screen module stands on its socket above the pins and pegs that come through the board under it"
+  limits { courtyardClearance: limit(min = -100mm) }
+}

@@ -116,3 +116,11 @@ H1 = hole("M3") { at = (12mm, 58mm) }
 H2 = hole("M3") { at = (68mm, 58mm) }
 
 gndPour = pour(net = GND, layers = [Cu.top, Cu.bottom]) {}
+
+// The display module stands on its socket above the pins of the Nano's sockets: KiCad's
+// pth/npth_inside_courtyard waived between them.
+rule ScreenOverNano {
+  select = ofComponent(DS1) and onB(ofComponent(NANO))
+  reason = "the display module stands on its socket above the pins of the Nano's sockets"
+  limits { courtyardClearance: limit(min = -100mm) }
+}

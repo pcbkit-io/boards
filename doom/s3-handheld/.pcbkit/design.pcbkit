@@ -246,3 +246,11 @@ override usb.power.D.orderCode = "C502527"
 override usb.power.R1.orderCode = "C25905"
 override usb.power.R2.orderCode = "C25905"
 override usb.Esd.orderCode = "C7519"
+
+// The screen module stands on its socket above the pins and pegs that come through the board under
+// it: KiCad's pth/npth_inside_courtyard waived between them.
+rule ScreenOverUsb {
+  select = ofComponent(DS1) and onB(ofComponent(usb.power.J))
+  reason = "the screen module stands on its socket above the pins and pegs that come through the board under it"
+  limits { courtyardClearance: limit(min = -100mm) }
+}

@@ -32,7 +32,7 @@ U1 = ARDUINO_NANO.Part with {
   pins { P5V: V5, GND: GND, A0: ANALOG, D2: BUTTON, D9: SERVO, D7: OVERRIDE }
 }
 dial = knob(0.5) {
-  at = (16mm, 18mm)
+  at = (16mm, 15mm)
   pins { CCW: GND, W: ANALOG, CW: V5, MP: GND }
 }
 pushbutton = key("Space") {

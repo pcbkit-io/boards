@@ -218,3 +218,11 @@ override U2Support.C11.orderCode = "C1531"
 override U2Support.C1.place = [near(U2.pin.AVDD, max = 2.5mm)]
 override U2Support.C3.place = [near(U2.pin.CPVDD, max = 2.5mm)]
 override U2Support.C5.place = [near(U2.pin.DVDD, max = 2.5mm)]
+
+// The screen module stands on its socket above the pins and pegs that come through the board under
+// it: KiCad's pth/npth_inside_courtyard waived between them.
+rule ScreenOverBack {
+  select = ofComponent(DS1) and onB(anyOf([ofComponent(U1), ofComponent(BT2)]))
+  reason = "the screen module stands on its socket above the pins and pegs that come through the board under it"
+  limits { courtyardClearance: limit(min = -100mm) }
+}

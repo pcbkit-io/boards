@@ -44,6 +44,9 @@
         "via_drill": 0.3
       }
     ],
+    "meta": {
+      "version": 3
+    },
     "netclass_assignments": {
       "BAT": "power",
       "BAT_IN": "power",
@@ -104,7 +107,7 @@
       "reversed/gate": "Default",
       "usb/power/cc1": "Default",
       "usb/power/cc2": "Default",
-      "usb/power/raw": "Default"
+      "usb/power/vbusIn": "Default"
     },
     "netclass_patterns": []
   }
