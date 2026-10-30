@@ -19,7 +19,7 @@ fn knob(position: Number): Part = PTV09A_4020F_B103.Part with {
 board = Board {
   name = "Interactive controller"
   description = "ADC · interrupts · sleep · servo PWM"
-  outline = rect(90mm, 80mm)
+  outline = rect(70mm, 70mm)
 }
 // The processor: an Arduino Nano on two 15-pin sockets on the back, flashed over its USB (its
 // bootloader); the program in firmware/ is plain C for its ATmega328P.
@@ -50,6 +50,6 @@ override = light(.green) {
 overrideR = res(1kohm, package = "0603") { place = [soft(near(override, max = 4mm))]; pins { a: OVERRIDE_K, b: GND } }
 label = Text {
   text = "INTERACTIVE CONTROLLER"
-  at = (45mm, 6mm)
+  at = (35mm, 5mm)
   size = 1.5mm
 }

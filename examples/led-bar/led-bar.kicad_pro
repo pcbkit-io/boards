@@ -34,6 +34,9 @@
         "via_drill": 0.3
       }
     ],
+    "meta": {
+      "version": 3
+    },
     "netclass_assignments": {
       "+5V": "supply",
       "GND": "supply",

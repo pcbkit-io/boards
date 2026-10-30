@@ -91,3 +91,11 @@ dial = concat(
     width = if i % 5 == 0 then 0.4mm else 0.18mm
   }),
 )
+
+// The display module stands on its socket above the pins of the Nano's sockets: KiCad's
+// pth/npth_inside_courtyard waived between them.
+rule DisplayOverNano {
+  select = ofComponent(display) and onB(ofComponent(U1))
+  reason = "the display module stands on its socket above the pins of the Nano's sockets"
+  limits { courtyardClearance: limit(min = -100mm) }
+}

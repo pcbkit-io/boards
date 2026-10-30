@@ -50,6 +50,9 @@
         "via_drill": 0.3
       }
     ],
+    "meta": {
+      "version": 3
+    },
     "netclass_assignments": {
       "A3V3": "Default",
       "A3V3_BP": "Default",
@@ -141,10 +144,10 @@
       "GPIO52": "Default",
       "H1/power/cc1": "Default",
       "H1/power/cc2": "Default",
-      "H1/power/raw": "Default",
+      "H1/power/vbusIn": "Default",
       "H2/power/cc1": "Default",
       "H2/power/cc2": "Default",
-      "H2/power/raw": "Default",
+      "H2/power/vbusIn": "Default",
       "HP_FB": "Default",
       "I2S_ASDOUT": "Default",
       "I2S_DSDIN": "Default",
@@ -156,9 +159,9 @@
       "KEY": "Default",
       "LCD_STBY": "Default",
       "LCD_SW": "powerClass",
+      "LED1_A": "Default",
       "LEDN": "powerClass",
       "LEDP": "powerClass",
-      "LED_PWR": "Default",
       "MIC1_BIAS": "Default",
       "MIC1_DAT": "Default",
       "MIC1_N": "Default",
