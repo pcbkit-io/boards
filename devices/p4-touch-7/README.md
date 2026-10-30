@@ -9,7 +9,7 @@ PCBKit's model of the chip, the card in the microSD socket holding the release's
 | | |
 |---|---|
 | Processor | ESP32-P4NRW32 (two RISC-V cores at 360 MHz, 32 MB PSRAM in package), W25Q128JV 16 MB flash, 40 MHz crystal |
-| Screen | JC1060M070N-I: 7" 1024 × 600 IPS, JD9165 over 2-lane MIPI-DSI (FPC1, 30 pins), GT911 capacitive touch on I2C0 (FPC2, 6 pins); its AVDD from an MT3608, VGH and VGL from charge pumps, the backlight from a second MT3608 dimmed by LEDC |
+| Screen | JC1060M070N-I: 7" 1024 × 600 IPS, JD9165 over 2-lane MIPI-DSI (FPC1, 30 pins), GT911 capacitive touch on I2C0 (FPC2, 6 pins); its AVDD from an MT3608, VGH and VGL from charge pumps, the backlight from a second MT3608 dimmed by LEDC (an 18 V zener into its FB holds the output near 19 V with the panel unplugged, under the 30 V its switch pin takes) |
 | Radio | ESP32-C6-MINI-1 on the P4's second SD/MMC slot (ESP-Hosted), its antenna over the top edge |
 | Audio | ES8311 codec (electret microphone in, PAM8403 to a speaker connector) on I2S0 and I2C0 |
 | Storage | microSD socket on SD/MMC slot 0 (GPIO39–44, 4-bit) |
@@ -20,9 +20,9 @@ PCBKit's model of the chip, the card in the microSD socket holding the release's
 
 <!-- STATUS -->
 **Board status** (measured on the dev host with PCBKit's CLI): `pcbkit check`: complete — 0 errors,
-14 warnings (the DSI and USB pairs' coupling and skew where they leave the P4's 0.35 mm pins, two
-tracks' current, two narrower tracks in a class), 0 unrouted nets. 174 components, 118 nets, 2723
-track segments, 468 vias.
+25 warnings (the DSI and USB pairs' coupling, impedance and skew where they leave the P4's 0.35 mm
+pins, 13 narrower tracks in a class, two rail names, one via the router left on a single layer),
+0 unrouted nets. 176 components, 118 nets, 2568 track segments (6036 mm), 472 vias.
 `analysis.run { lens: "ready" }`: 12 to fix (decoupling capacitors 3–4 mm from their P4 supply pins,
 under the chip on the back) and 24 to consider.
 Every assembled line has its LCSC code (chosen by stock at JLCPCB, 2026-10-25); `pcbkit export
