@@ -11,13 +11,13 @@ The C3 has no PSRAM, so Doom is cut down the way rp2040-doom cut it for the RP20
 | Display | 1.3" 240 × 240 IPS, ST7789, SPI without CS (mode 3): GPIO6 SCK, GPIO7 MOSI, GPIO5 D/C, GPIO4 RES; backlight on |
 | Input | 8 × 5.1 mm tact switches: d-pad IO0–IO3, fire IO10, use RXD0 (IO20), strafe TXD0 (IO21), menu IO9 (= BOOT: held at reset it enters download mode) |
 | Sound | piezo on IO8 (LEDC PWM; IO8 is a strapping pin held high by 10 kΩ, the piezo is DC-open) |
-| Power | 2 × 18650 Li-ion in parallel (1S2P) behind reverse-cell (AO3401A) and DW01A + FS8205A protection; BQ24075 charger with power path from USB-C (fuse, TVS); SYS → AP2112K-3.3 LDO, its enable on the slide switch |
+| Power | 2 × 18650 Li-ion in parallel (1S2P, a 2 A resettable fuse per cell) behind reverse-cell (AO3401A) and DW01A + FS8205A protection; BQ24075 charger with power path from USB-C (fuse, TVS); SYS → AP2112K-3.3 LDO, its enable on the slide switch |
 | Programming | USB-C to the C3's own USB Serial/JTAG (IO18/IO19): `esptool.py` flashes it, no bridge chip; JTAG debugging over the same cable; RESET on the back, BOOT = MENU |
 | Board | 52 × 128 mm, 2 layers, four M3 holes; front: display, buttons, USB-C (left edge, near the top), charger, switch, test pads; back: two 18650 holders, the module (top edge, antenna away from the hand), RESET, piezo |
 
 <!-- STATUS -->
-**Board status** (measured on the dev host with PCBKit's CLI): `pcbkit check`: complete — 0 errors, 3 warnings (diff-pair-uncoupled, skew, track-width-class), 0 unrouted nets. 58 components, 40 nets, 502 track segments (1483 mm), 79 vias.
-`analysis.run { lens: "ready" }`: Typical scenario, partial. Nothing to fix, 4 to consider, 15 ok: weigh the warnings (tell the person about the ones that are their choice), then the board is ready to order.
+**Board status** (measured on the dev host with PCBKit's CLI): `pcbkit check`: complete — 0 errors, 3 warnings (diff-pair-uncoupled, erc-rail-name), 0 unrouted nets. 60 components, 42 nets, 423 track segments (1466 mm), 54 vias.
+`analysis.run { lens: "ready" }`: Typical scenario, partial. Nothing to fix, 3 to consider, 16 ok: weigh the warnings (tell the person about the ones that are their choice), then the board is ready to order.
 `pcbkit export --format fab` succeeds without `--force`: every assembled line of the BOM has an LCSC code.
 <!-- /STATUS -->
 
@@ -53,9 +53,12 @@ Two 18650 Li-ion cells in Keystone 1042 holders on the back, upright side by sid
 
 - **Reverse cells:** an AO3401A P-MOSFET in the plus line, its gate at the cells' minus: cells put
   in backwards leave it off and the board unpowered (it conducts both ways when they are right, so
-  charging goes through it too). It cannot help one cell reversed against the other: in parallel
-  they would short each other, so check both against the silkscreen's + (at the top end of each
-  holder) before closing a case.
+  charging goes through it too). One cell reversed against the other is what the **per-cell fuses**
+  are for: each holder's + reaches the pack through its own 2 A resettable fuse (Littelfuse
+  1812L200/16GR: 16 V, 100 A interrupting), so a cell put in backwards, or one much fuller than
+  the other, trips both in milliseconds instead of shorting the two cells together (tens of
+  amperes); take the cell out and they reset. Still put each cell's + at the end the silkscreen
+  marks.
 - **Protection:** DW01A + FS8205A in the pack's minus: over-charge 4.3 V, over-discharge 2.4 V,
   over-current about 3 A and short circuit, for the pack. Flat-top unprotected 18650 cells fit
   the holders.
@@ -128,9 +131,10 @@ The assembly BOM as `pcbkit export --format fab` writes it (JLCPCB assembly: LCS
 | 2 | C2, C6 | 100nF | C1525 | C_0402_1005Metric |
 | 3 | C3, C7, C8 | 1uF | C52923 | C_0402_1005Metric |
 | 1 | D1 | tvs 5V | C284108 | D_SOD-123 |
-| 1 | DS1 | Female header 1x7 2.54 mm | C2932672 | TFT_1.3in_ST7789_Socket_1x07_P2.54mm |
-| 1 | F1 | PTC 680mA | C70078 | Fuse_1206_3216Metric |
-| 1 | J1 | USB_C_Receptacle_USB2.0_16P | C165948 | USB_C_Receptacle_USB2.0_16P |
+| 1 | DS1 | MSP1308 1.3in 240x240 IPS SPI module (ST7789) | C2932672 | TFT_1.3in_ST7789_Socket_1x07_P2.54mm |
+| 1 | F1 | PTC 750mA | C70078 | Fuse_1206_3216Metric |
+| 2 | F2, F3 | PTC 2000mA | C18198340 | Fuse_1812_4532Metric |
+| 1 | J1 | USB4105-GF-A | C165948 | USB_C_Receptacle_USB2.0_16P |
 | 1 | Q1 | AO3401A | C15127 | SOT-23 |
 | 1 | Q2 | FS8205A | C5148694 | TSSOP-8_4.4x2.93mm_P0.65mm |
 | 1 | R1 | 1Mohm | C26083 | R_0402_1005Metric |
@@ -146,7 +150,7 @@ The assembly BOM as `pcbkit export --format fab` writes it (JLCPCB assembly: LCS
 | 1 | U2 | BQ24075RGTR | C15464 | QFN-16-1EP_3x3mm_P0.5mm_EP1.68x1.68mm |
 | 1 | U3 | DW01A | C351410 | SOT-6_1.6x2.9mm_P0.95mm |
 | 1 | U4 | AP2112K-3.3TRG1 | C51118 | SOT-23-5 |
-| 1 | U5 | ESD 2-line | C7519 | SOT-23-6 |
+| 1 | U5 | USBLC6-2SC6 | C7519 | SOT-23-6 |
 | 2 | cBat, cSys | 4.7uF | C1779 | C_0805_2012Metric |
 | 1 | cIn | 1uF | C15849 | C_0603_1608Metric |
 | 1 | ledChg | red | C2286 | LED_0603_1608Metric |

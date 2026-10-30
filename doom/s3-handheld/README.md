@@ -12,13 +12,13 @@ JLCPCB assembles everything but the display module, which plugs into the socket 
 | Storage | microSD on SDMMC host, 1-bit mode (IO39 CLK, IO38 CMD, IO40 D0; D1–D3 pulled up) |
 | Input | 10 × 6 mm tact switches: up IO15, down IO16, left IO17, right IO7, fire IO2, use IO41, strafe IO42 / IO1, MENU IO0 (= BOOT), enter RXD0; RESET (EN) beside them |
 | Sound | I2S0 (IO4 BCLK, IO5 LRCLK, IO6 DIN) → MAX98357A (mono mix) → 8 Ω speaker on J5 (bottom edge); amplifier on SYS |
-| Power | 2 × 18650 Li-ion in parallel (1S2P) in Keystone 1042 holders → reverse-cell P-FET (AO3401A) → DW01A + FS8205A; USB-C → **BQ24075** (power path, USB500, 800 mA charge) → SYS → TLV75533 (EN on the slide switch) → 3.3 V; **MAX17048** fuel gauge on the pack, I2C (IO8 SDA, IO18 SCL, 0x36) |
+| Power | 2 × 18650 Li-ion in parallel (1S2P, a 2 A resettable fuse per cell) in Keystone 1042 holders → reverse-cell P-FET (AO3401A) → DW01A + FS8205A; USB-C → **BQ24075** (power path, USB500, 800 mA charge) → SYS → TLV75733 (1 A; EN on the slide switch) → 3.3 V; **MAX17048** fuel gauge on the pack, I2C (IO8 SDA, IO18 SCL, 0x36) |
 | Programming | USB-C to the S3's USB (IO19/IO20): USB Serial/JTAG, `esptool`, or TinyUSB; RESET and BOOT (= MENU) on the front |
 | Board | 156 × 110 mm, **4 layers**, four M3 holes; front: display, buttons, RESET, on/off switch, charger and its LEDs, test pads, speaker connector; back: module (top edge, antenna 6 mm past it), USB-C (top edge, beside the module), microSD (bottom edge), amplifier, regulator, fuel gauge, the two cells |
 
 <!-- STATUS -->
-**Board status** (measured on the dev host with PCBKit's CLI): `pcbkit check`: complete — 0 errors, 2 warnings (diff-pair-uncoupled, skew), 0 unrouted nets; `issues` has 2 of 2. 75 components, 60 nets, 824 track segments (3158 mm), 85 vias.
-`analysis.run { lens: "ready" }`: Typical scenario, partly by family estimates. Nothing to fix, 3 to consider, 15 ok: weigh the warnings (tell the person about the ones that are their choice), then the board is ready to order.
+**Board status** (measured on the dev host with PCBKit's CLI): `pcbkit check`: complete — 0 errors, 3 warnings (diff-pair-uncoupled, erc-rail-name), 0 unrouted nets. 77 components, 62 nets, 665 track segments (3041 mm), 79 vias.
+`analysis.run { lens: "ready" }`: Typical scenario, partly by family estimates. Nothing to fix, 3 to consider, 18 ok: weigh the warnings (tell the person about the ones that are their choice), then the board is ready to order.
 `pcbkit export --format fab` succeeds without `--force`: every assembled line of the BOM has an LCSC code.
 <!-- /STATUS -->
 
@@ -58,8 +58,12 @@ cells to the board:
 
 - **Reverse cells:** an AO3401A P-MOSFET in the plus line, its gate at the cells' minus: cells put
   in backwards leave it off and the board unpowered (it conducts both ways when they are right, so
-  charging goes through it too). It cannot help one cell reversed against the other: in parallel
-  they would short each other, so check both against the silkscreen's + before closing a case.
+  charging goes through it too). One cell reversed against the other is what the **per-cell fuses**
+  are for: each holder's + reaches the pack through its own 2 A resettable fuse (Littelfuse
+  1812L200/16GR: 16 V, 100 A interrupting), so a cell put in backwards, or one much fuller than
+  the other, trips both in milliseconds instead of shorting the two cells together (tens of
+  amperes); take the cell out and they reset. Still put each cell's + at the end the silkscreen
+  marks.
 - **Protection:** DW01A + FS8205A in the pack's minus: over-charge 4.3 V, over-discharge 2.4 V,
   over-current about 3 A and short circuit, for the pack.
 - **Charger with power path:** a TI BQ24075 (the BQ24074's sibling with SYSOFF and a fixed
@@ -68,7 +72,7 @@ cells to the board:
   RILIM 1.18 kΩ, safety timers off (two cells charge longer than its longest timer; termination is
   by current), TS tied to 10 kΩ (no thermistor). Its output SYS runs the board from USB when one is
   plugged in and from the cells otherwise.
-- **Rails:** SYS feeds the TLV75533 LDO (3.3 V, 500 mA: the module, the display, the card) and the
+- **Rails:** SYS feeds the TLV75733 LDO (3.3 V, 1 A, room for the module's 500 mA radio peaks: the module, the display, the card) and the
   MAX98357A directly. Near empty (3.0–3.3 V cells) the LDO drops out and 3.3 V follows the cells;
   the S3 runs to 3.0 V, and the fuel gauge tells the firmware when to stop.
 - **Fuel gauge:** the MAX17048 measures the pack after the reverse-cell FET (ModelGauge, no sense
@@ -122,7 +126,7 @@ The ESP32-S3-WROOM-1-N16R8 itself is soldered by the assembly (LCSC C2913202).
 
 Rough cost at 10 pieces (estimates, JLCPCB prices): ESP32-S3-WROOM-1-N16R8 $4.50 · ILI9341 2.8" touch
 $7.00 · microSD socket $0.90 · MAX98357A $1.00 · BQ24075 $1.10 · MAX17048 $1.20 · DW01A + FS8205A +
-AO3401A $0.25 · TLV75533 $0.15 · two Keystone 1042 $9.80 · USB-C + ESD $0.40 · buttons $3.00 ·
+AO3401A $0.25 · TLV75733 $0.15 · two Keystone 1042 $9.80 · USB-C + ESD $0.40 · buttons $3.00 ·
 passives $1.00 · 4-layer PCB $4.00 · speaker $1.00 → **about $35** without the cells and assembly fees.
 
 <!-- BOM -->
@@ -139,8 +143,9 @@ The assembly BOM as `pcbkit export --format fab` writes it (JLCPCB assembly: LCS
 | 1 | C6 | 10uF | C15850 | C_0805_2012Metric |
 | 3 | C12, C13, cIn | 1uF | C15849 | C_0603_1608Metric |
 | 1 | D1 | tvs 5V | C502527 | D_SOD-323 |
-| 1 | DS1 | Female header 1x14 2.54 mm | C2905420 | TFT_2.8in_ILI9341_Socket_1x14_P2.54mm |
-| 1 | J1 | USB_C_Receptacle_USB2.0_16P | C165948 | USB_C_Receptacle_USB2.0_16P |
+| 1 | DS1 | MSP2807 2.8in 240x320 SPI TFT module with touch (ILI9341) | C2905420 | TFT_2.8in_ILI9341_Socket_1x14_P2.54mm |
+| 2 | F1, F2 | PTC 2000mA | C18198340 | Fuse_1812_4532Metric |
+| 1 | J1 | USB4105-GF-A | C165948 | USB_C_Receptacle_USB2.0_16P |
 | 1 | J4 | DM3AT-SF-PEJM5 | C114218 | Hirose_DM3AT_microSD_socket_push-push |
 | 1 | J5 | S2B-PH-K-S(LF)(SN) | C173752 | JST_PH_S2B-PH-K_1x02_P2.00mm_Horizontal |
 | 1 | Q1 | AO3401A | C15127 | SOT-23 |
@@ -156,8 +161,8 @@ The assembly BOM as `pcbkit export --format fab` writes it (JLCPCB assembly: LCS
 | 1 | SW11 | TS-1187A-B-A-B | C318884 | SW_Tactile_SPST_5.1x5.1mm_SMD |
 | 1 | SW12 | MSK12C02 | C431540 | SW_Slide_SPDT_Shouhan_MSK12C02 |
 | 1 | U1 | ESP32-S3-WROOM-1-N16R8 | C2913202 | ESP32-S3-WROOM-1_module_18x25.5mm_40_edge_pads_EPAD |
-| 1 | U2 | ESD 2-line | C7519 | SOT-23-6 |
-| 1 | U4 | TLV75533PDBVR | C404027 | SOT-23-5 |
+| 1 | U2 | USBLC6-2SC6 | C7519 | SOT-23-6 |
+| 1 | U4 | TLV75733PDBVR | C485517 | SOT-23-5 |
 | 1 | U5 | MAX98357AETE+T | C910544 | QFN-16-1EP_3x3mm_P0.5mm_EP1.1x1.1mm |
 | 1 | U6 | BQ24075RGTR | C15464 | QFN-16-1EP_3x3mm_P0.5mm_EP1.68x1.68mm |
 | 1 | U7 | MAX17048G+T10 | C2682616 | DFN-8-1EP_2x2mm_P0.5mm_EP0.8x1.2mm |

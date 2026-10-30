@@ -11,13 +11,13 @@ Pico's 2 MB flash, 264 KB of RAM) with its VGA/DVI back end replaced by a 1-bit 
 | Display | 2.42" 128 × 64 OLED module, SSD1309, 4-wire SPI on SPI0 (GP18 SCK, GP19 MOSI, GP17 CS, GP20 D/C, GP21 RES) |
 | Input | 8 × 6 mm tact switches to GND: d-pad GP2–GP5, fire GP6, use GP7, strafe GP8, menu GP9 (internal pull-ups) |
 | Sound | passive piezo GPC12075YB on GP15 (PWM) through 100 Ω |
-| Power | 2 × 18650 Li-ion in parallel (1S2P, 3.0–4.2 V) behind reverse-cell (AO3401A) and DW01A + FS8205A protection; BQ24075 charger with power path from the Pico's USB; SYS → 1N5819HW → Pico VSYS; the Pico's RT6150 buck-boost makes 3.3 V |
+| Power | 2 × 18650 Li-ion in parallel (1S2P, a 2 A resettable fuse per cell, 3.0–4.2 V) behind reverse-cell (AO3401A) and DW01A + FS8205A protection; BQ24075 charger with power path from the Pico's USB; SYS → 1N5819HW → Pico VSYS; the Pico's RT6150 buck-boost makes 3.3 V |
 | Programming | the Pico's micro-USB: hold BOOTSEL, plug in, copy `doom.uf2` to the RPI-RP2 drive (the same port charges) |
 | Board | 150 × 100 mm, 2 layers, four M3 holes; front: OLED, buttons, charger, on/off switch, test pads; back: Pico (USB end at the top edge), two 18650 holders, piezo |
 
 <!-- STATUS -->
-**Board status** (measured on the dev host with PCBKit's CLI): `pcbkit check`: complete — 0 errors, 0 warnings, 0 unrouted nets. 43 components, 37 nets, 339 track segments (1685 mm), 24 vias.
-`analysis.run { lens: "ready" }`: Typical scenario, partial. Nothing to fix, 1 to consider, 12 ok: weigh the warnings (tell the person about the ones that are their choice), then the board is ready to order.
+**Board status** (measured on the dev host with PCBKit's CLI): `pcbkit check`: complete — 0 errors, 2 warnings (erc-rail-name), 0 unrouted nets. 45 components, 39 nets, 291 track segments (1671 mm), 24 vias.
+`analysis.run { lens: "ready" }`: Typical scenario, partial. Nothing to fix, 2 to consider, 13 ok: weigh the warnings (tell the person about the ones that are their choice), then the board is ready to order.
 `pcbkit export --format fab` succeeds without `--force`: every assembled line of the BOM has an LCSC code.
 <!-- /STATUS -->
 
@@ -46,8 +46,12 @@ Two 18650 Li-ion cells in Keystone 1042 holders on the back, in parallel (1S2P, 
 
 - **Reverse cells:** an AO3401A P-MOSFET in the plus line, its gate at the cells' minus: cells put
   in backwards leave it off and the board unpowered (it conducts both ways when they are right, so
-  charging goes through it too). It cannot help one cell reversed against the other: in parallel
-  they would short each other, so check both against the silkscreen's + before closing a case.
+  charging goes through it too). One cell reversed against the other is what the **per-cell fuses**
+  are for: each holder's + reaches the pack through its own 2 A resettable fuse (Littelfuse
+  1812L200/16GR: 16 V, 100 A interrupting), so a cell put in backwards, or one much fuller than
+  the other, trips both in milliseconds instead of shorting the two cells together (tens of
+  amperes); take the cell out and they reset. Still put each cell's + at the end the silkscreen
+  marks.
 - **Protection:** DW01A + FS8205A in the pack's minus: over-charge 4.3 V, over-discharge 2.4 V,
   over-current about 3 A and short circuit, for the pack. Flat-top unprotected 18650 cells fit
   the holders.
@@ -119,7 +123,8 @@ The assembly BOM as `pcbkit export --format fab` writes it (JLCPCB assembly: LCS
 | 1 | BZ1 | GPC12075YB-5V4000 | C252948 | Buzzer_D12.0mm_H7.5mm_P6.50mm |
 | 1 | C1 | 100nF | C1525 | C_0402_1005Metric |
 | 1 | D1 | 1N5819HW-7-F | C82544 | D_SOD-123 |
-| 1 | DS1 | Female header 1x7 2.54 mm | C2932672 | OLED_2.42in_SPI_Socket_1x07_P2.54mm |
+| 1 | DS1 | MSP242X 2.42in 128x64 SPI module (SSD1309) | C2932672 | OLED_2.42in_SPI_Socket_1x07_P2.54mm |
+| 2 | F1, F2 | PTC 2000mA | C18198340 | Fuse_1812_4532Metric |
 | 1 | Q1 | AO3401A | C15127 | SOT-23 |
 | 1 | Q2 | FS8205A | C5148694 | TSSOP-8_4.4x2.93mm_P0.65mm |
 | 1 | R1 | 100ohm | C17408 | R_0805_2012Metric |
@@ -128,7 +133,7 @@ The assembly BOM as `pcbkit export --format fab` writes it (JLCPCB assembly: LCS
 | 1 | R4 | 1kohm | C11702 | R_0402_1005Metric |
 | 8 | SW1, SW2, SW3, SW4, SW5, SW6, SW7, SW8 | PTS645SM43SMTR92 LFS | C221880 | SW_Tactile_SPST_6x6mm_SMD |
 | 1 | SW9 | MSK12C02 | C431540 | SW_Slide_SPDT_Shouhan_MSK12C02 |
-| 2 | U1 | Female header 1x20 2.54 mm | C2905423 | Raspberry_Pi_Pico_Socket_2x20_P2.54mm_W17.78mm |
+| 1 | U1 | SC0915 | C2905423 | Raspberry_Pi_Pico_Socket_2x20_P2.54mm_W17.78mm |
 | 1 | U2 | DW01A | C351410 | SOT-6_1.6x2.9mm_P0.95mm |
 | 1 | U3 | BQ24075RGTR | C15464 | QFN-16-1EP_3x3mm_P0.5mm_EP1.68x1.68mm |
 | 2 | cBat, cSys | 4.7uF | C1779 | C_0805_2012Metric |

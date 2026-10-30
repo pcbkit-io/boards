@@ -16,13 +16,13 @@ module, which plugs into the socket it solders.
 | Storage | microSD on SPI1 (GPIO10–13), card detect GPIO14 |
 | Input | 10 × 6 mm tact switches: GPIO0–5 (d-pad, fire, use), GPIO9, GPIO15 (strafe), GPIO25 (menu), GPIO26 (enter) |
 | Sound | PIO I2S (GPIO22 BCK, GPIO23 LRCK, GPIO24 DIN) → MAX98357A → 8 Ω speaker |
-| Power | 2 × 18650 Li-ion in parallel (1S2P) → reverse-cell P-FET (AO3401A) → DW01A + FS8205A; USB-C (1 A PTC + TVS) → **BQ24075** (power path SYS; USB500 mode, 800 mA charge) → TLV75533 (EN on the slide switch) → 3.3 V; **MAX17048** gauge on the pack, on I2C1 (GPIO6 SDA, GPIO7 SCL, 0x36, alert GPIO29); amplifier on SYS |
+| Power | 2 × 18650 Li-ion in parallel (1S2P, a 2 A resettable fuse per cell) → reverse-cell P-FET (AO3401A) → DW01A + FS8205A; USB-C (1 A PTC + TVS) → **BQ24075** (power path SYS; USB500 mode, 800 mA charge) → TLV75533 (EN on the slide switch) → 3.3 V; **MAX17048** gauge on the pack, on I2C1 (GPIO6 SDA, GPIO7 SCL, 0x36, alert GPIO29); amplifier on SYS |
 | Programming | USB-C to the RP2350's USB (27 Ω, USBLC6 ESD array): hold BOOT (1 kΩ on QSPI_SS), tap RESET → the boot ROM's UF2 drive, for ARM or RISC-V images; SWD + RUN on a 4-pin header on the back |
 | Board | 144 × 110 mm, **4 layers** (In1 a solid GND plane), four M3 holes; front: display, buttons, BOOT, RESET, on/off switch, USB-C, charge LEDs, test pads; back: the RP2350 and the rest, the two 18650 holders across the top half. Net classes: 0.15 mm tracks and gaps with 0.45 / 0.2 mm vias by default (the QFN-60's 0.4 mm pitch), 0.3 mm for 3.3 V and the core, 0.6 mm with 0.8 / 0.4 mm vias for the power paths |
 
 <!-- STATUS -->
-**Board status** (measured on the dev host with PCBKit's CLI): `pcbkit check`: complete — 0 errors, 3 warnings (diff-pair-uncoupled, skew, track-width-class), 0 unrouted nets; `issues` has 3 of 3. 100 components, 75 nets, 1224 track segments (3267 mm), 166 vias.
-`analysis.run { lens: "ready" }`: Typical scenario, partly by family estimates. Nothing to fix, 5 to consider, 14 ok: weigh the warnings (tell the person about the ones that are their choice), then the board is ready to order.
+**Board status** (measured on the dev host with PCBKit's CLI): `pcbkit check`: complete — 0 errors, 4 warnings (diff-pair-uncoupled, erc-rail-name, track-width-class), 0 unrouted nets. 102 components, 77 nets, 1183 track segments (3262 mm), 167 vias.
+`analysis.run { lens: "ready" }`: Typical scenario, partly by family estimates. Nothing to fix, 5 to consider, 17 ok: weigh the warnings (tell the person about the ones that are their choice), then the board is ready to order.
 `pcbkit export --format fab` succeeds without `--force`: every assembled line of the BOM has an LCSC code.
 
 | Warning | Why it stays |
@@ -55,8 +55,12 @@ Two 18650 Li-ion cells in Keystone 1042 holders on the back, in parallel (1S2P, 
 
 - **Reverse cells:** an AO3401A P-MOSFET in the plus line, its gate at the cells' minus: cells put
   in backwards leave it off and the board unpowered (it conducts both ways when they are right, so
-  charging goes through it too). It cannot help one cell reversed against the other: in parallel
-  they would short each other, so check both against the silkscreen's + before closing a case.
+  charging goes through it too). One cell reversed against the other is what the **per-cell fuses**
+  are for: each holder's + reaches the pack through its own 2 A resettable fuse (Littelfuse
+  1812L200/16GR: 16 V, 100 A interrupting), so a cell put in backwards, or one much fuller than
+  the other, trips both in milliseconds instead of shorting the two cells together (tens of
+  amperes); take the cell out and they reset. Still put each cell's + at the end the silkscreen
+  marks.
 - **Protection:** DW01A + FS8205A in the pack's minus: over-charge 4.3 V, over-discharge 2.4 V,
   over-current about 3 A and short circuit, for the pack. Flat-top unprotected 18650 cells fit
   the holders.
@@ -144,9 +148,10 @@ The assembly BOM as `pcbkit export --format fab` writes it (JLCPCB assembly: LCS
 | 1 | C22 | 10uF | C15850 | C_0805_2012Metric |
 | 3 | C28, C29, cIn | 1uF | C15849 | C_0603_1608Metric |
 | 1 | D1 | tvs 5V | C918844 | D_SOD-323 |
-| 1 | DS1 | Female header 1x8 2.54 mm | C2905417 | TFT_2.0in_ST7789_Socket_1x08_P2.54mm |
-| 1 | F1 | PTC 1000mA | C20800 | Fuse_1206_3216Metric |
-| 1 | J1 | USB_C_Receptacle_USB2.0_16P | C165948 | USB_C_Receptacle_USB2.0_16P |
+| 1 | DS1 | MSP2008 2.0in 240x320 IPS SPI module (ST7789) | C2905417 | TFT_2.0in_ST7789_Socket_1x08_P2.54mm |
+| 1 | F1 | PTC 750mA | C20800 | Fuse_1206_3216Metric |
+| 2 | F2, F3 | PTC 2000mA | C18198340 | Fuse_1812_4532Metric |
+| 1 | J1 | USB4105-GF-A | C165948 | USB_C_Receptacle_USB2.0_16P |
 | 1 | J3 | PinHeader_1x04_P2.54mm_Vertical | C2691448 | PinHeader_1x04_P2.54mm_Vertical |
 | 1 | J4 | DM3AT-SF-PEJM5 | C114218 | Hirose_DM3AT_microSD_socket_push-push |
 | 1 | J5 | S2B-PH-K-S(LF)(SN) | C173752 | JST_PH_S2B-PH-K_1x02_P2.00mm_Horizontal |
@@ -172,7 +177,7 @@ The assembly BOM as `pcbkit export --format fab` writes it (JLCPCB assembly: LCS
 | 1 | U6 | BQ24075RGTR | C15464 | QFN-16-1EP_3x3mm_P0.5mm_EP1.68x1.68mm |
 | 1 | U7 | MAX17048G+T10 | C2682616 | DFN-8-1EP_2x2mm_P0.5mm_EP0.8x1.2mm |
 | 1 | U8 | DW01A | C351410 | SOT-6_1.6x2.9mm_P0.95mm |
-| 1 | U9 | ESD 2-line | C7519 | SOT-23-6 |
+| 1 | U9 | USBLC6-2SC6 | C7519 | SOT-23-6 |
 | 1 | Y1 | 12MHz 10pF | C20625731 | Crystal_SMD_3225-4Pin |
 | 1 | ledChg | red | C2286 | LED_0603_1608Metric |
 | 1 | ledPg | green | C12624 | LED_0603_1608Metric |

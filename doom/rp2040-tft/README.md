@@ -13,13 +13,13 @@ the socket it solders.
 | Storage | microSD (Hirose DM3AT) on SPI1 (GPIO10–13), card detect GPIO14 |
 | Input | 8 × 6 mm tact switches: GPIO2–GPIO9 |
 | Sound | GPIO15 PWM → 1 kΩ / 10 nF low-pass → PAM8403 (left channel, shutdown on GPIO16) → 8 Ω speaker on JST PH |
-| Power | 2 × 18650 Li-ion in parallel (1S2P) → reverse-cell P-FET (AO3401A) → DW01A + FS8205A protection; BQ24075 charger with power path from USB-C (1 A PTC + TVS on VBUS); its SYS output feeds the TLV75533 3.3 V LDO (enabled by the slide switch) and the PAM8403 |
+| Power | 2 × 18650 Li-ion in parallel (1S2P, a 2 A resettable fuse per cell) → reverse-cell P-FET (AO3401A) → DW01A + FS8205A protection; BQ24075 charger with power path from USB-C (1 A PTC + TVS on VBUS); its SYS output feeds the TLV75533 3.3 V LDO (enabled by the slide switch) and the PAM8403 |
 | Programming | USB-C to the RP2040's USB (27 Ω series, USBLC6 ESD array): hold BOOT, tap RESET → the boot ROM's UF2 drive; SWD on a 3-pin header on the back |
 | Board | 132 × 104 mm, **4 layers** (GND plane on In1), four M3 holes; front: display, buttons, BOOT, RESET, on/off switch, USB-C, charge LEDs, test pads; back: the RP2040 and the rest, the two 18650 holders across the top half |
 
 <!-- STATUS -->
-**Board status** (measured on the dev host with PCBKit's CLI): `pcbkit check`: complete — 0 errors, 4 warnings (track-width-class ×2, diff-pair-uncoupled, skew), 0 unrouted nets; `issues` has 4 of 4. 92 components, 69 nets, 938 track segments (2507 mm), 123 vias.
-`analysis.run { lens: "ready" }`: Typical scenario, partly by family estimates. Nothing to fix, 4 to consider, 14 ok: weigh the warnings (tell the person about the ones that are their choice), then the board is ready to order.
+**Board status** (measured on the dev host with PCBKit's CLI): `pcbkit check`: complete — 0 errors, 4 warnings (diff-pair-uncoupled, erc-rail-name, track-width-class), 0 unrouted nets. 94 components, 71 nets, 973 track segments (2561 mm), 124 vias.
+`analysis.run { lens: "ready" }`: Typical scenario, partly by family estimates. Nothing to fix, 4 to consider, 16 ok: weigh the warnings (tell the person about the ones that are their choice), then the board is ready to order.
 `pcbkit export --format fab` succeeds without `--force`: every assembled line of the BOM has an LCSC code.
 
 | Warning | Why it stays |
@@ -55,8 +55,12 @@ Two 18650 Li-ion cells in Keystone 1042 holders on the back, in parallel (1S2P, 
 
 - **Reverse cells:** an AO3401A P-MOSFET in the plus line, its gate at the cells' minus: cells put
   in backwards leave it off and the board unpowered (it conducts both ways when they are right, so
-  charging goes through it too). It cannot help one cell reversed against the other: in parallel
-  they would short each other, so check both against the silkscreen's + before closing a case.
+  charging goes through it too). One cell reversed against the other is what the **per-cell fuses**
+  are for: each holder's + reaches the pack through its own 2 A resettable fuse (Littelfuse
+  1812L200/16GR: 16 V, 100 A interrupting), so a cell put in backwards, or one much fuller than
+  the other, trips both in milliseconds instead of shorting the two cells together (tens of
+  amperes); take the cell out and they reset. Still put each cell's + at the end the silkscreen
+  marks.
 - **Protection:** DW01A + FS8205A in the pack's minus: over-charge 4.3 V, over-discharge 2.4 V,
   over-current about 3 A and short circuit, for the pack. Flat-top unprotected 18650 cells fit
   the holders.
@@ -129,9 +133,10 @@ The assembly BOM as `pcbkit export --format fab` writes it (JLCPCB assembly: LCS
 | 1 | C27 | 22uF | C12891 | C_1206_3216Metric |
 | 1 | C29 | 470nF | C47339 | C_0402_1005Metric |
 | 1 | D1 | tvs 5V | C918844 | D_SOD-323 |
-| 1 | DS1 | Female header 1x8 2.54 mm | C2905417 | TFT_1.8in_ST7735_Socket_1x08_P2.54mm |
-| 1 | F1 | PTC 1000mA | C20800 | Fuse_1206_3216Metric |
-| 1 | J1 | USB_C_Receptacle_USB2.0_16P | C165948 | USB_C_Receptacle_USB2.0_16P |
+| 1 | DS1 | MSP1803 1.8in 128x160 SPI TFT module (ST7735S) | C2905417 | TFT_1.8in_ST7735_Socket_1x08_P2.54mm |
+| 1 | F1 | PTC 750mA | C20800 | Fuse_1206_3216Metric |
+| 2 | F2, F3 | PTC 2000mA | C18198340 | Fuse_1812_4532Metric |
+| 1 | J1 | USB4105-GF-A | C165948 | USB_C_Receptacle_USB2.0_16P |
 | 1 | J3 | PinHeader_1x03_P2.54mm_Vertical | C49257 | PinHeader_1x03_P2.54mm_Vertical |
 | 1 | J4 | DM3AT-SF-PEJM5 | C114218 | Hirose_DM3AT_microSD_socket_push-push |
 | 1 | J5 | S2B-PH-K-S(LF)(SN) | C173752 | JST_PH_S2B-PH-K_1x02_P2.00mm_Horizontal |
@@ -151,7 +156,7 @@ The assembly BOM as `pcbkit export --format fab` writes it (JLCPCB assembly: LCS
 | 1 | U4 | TLV75533PDBVR | C404027 | SOT-23-5 |
 | 1 | U5 | PAM8403DR | C5122557 | SOIC-16_3.9x9.9mm_P1.27mm |
 | 1 | U6 | BQ24075RGTR | C15464 | QFN-16-1EP_3x3mm_P0.5mm_EP1.68x1.68mm |
-| 1 | U7 | ESD 2-line | C7519 | SOT-23-6 |
+| 1 | U7 | USBLC6-2SC6 | C7519 | SOT-23-6 |
 | 1 | Y1 | 12MHz 10pF | C20625731 | Crystal_SMD_3225-4Pin |
 | 2 | cBat, cSys | 4.7uF | C1779 | C_0805_2012Metric |
 | 1 | ledChg | red | C2286 | LED_0603_1608Metric |

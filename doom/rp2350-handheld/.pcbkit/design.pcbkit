@@ -26,6 +26,11 @@ net VSYS { voltage = 4.2V }
 net BAT { voltage = 4.2V; current = 800mA }
 net BAT_IN { voltage = 4.2V; current = 800mA }
 net CELL_N { current = 800mA }
+// Each cell's + joins BAT_IN through its own resettable fuse (F1, F2): a cell put in the wrong
+// way round, or one at another charge, drives the other through the two fuses, which trip in
+// milliseconds (one cell alone carries all of it).
+net CELL1_P { voltage = 4.2V; current = 800mA }
+net CELL2_P { voltage = 4.2V; current = 800mA }
 net V3 { voltage = 3.3V }
 net GND { voltage = 0V }
 // The power paths: wide tracks, vias that carry an ampere.
@@ -34,7 +39,7 @@ powerClass = NetClass {
   trackWidth = 0.6mm
   viaDiameter = 0.8mm
   viaDrill = 0.4mm
-  nets = [VBUS, SYS, VSYS, BAT, BAT_IN, CELL_N]
+  nets = [VBUS, SYS, VSYS, BAT, BAT_IN, CELL1_P, CELL2_P, CELL_N]
 }
 net PWR_EN, CHG_N, PG_N, CHG_LED, PG_LED, ISET, ILIM, TS
 net UP, DOWN, LEFT, RIGHT, FIRE, USE, STRAFE_L, STRAFE_R, MENU, ENTER
@@ -111,8 +116,11 @@ consoleLabel = Text { text = "TX  RX  GND"; at = (146mm, 4mm); size = 1mm }
 
 // Two 18650 cells on the back, one above the other, in parallel. The holders are not polarized:
 // put each cell's + at the end the silkscreen marks (C2: on the back, at -X of the holder).
-BT1 = Holder.Part { orderCode = "C5249310"; at = (75mm, 11mm); side = .bottom; pins { C2: BAT_IN, C1: CELL_N } }
-BT2 = Holder.Part { orderCode = "C5249310"; at = (75mm, 33mm); side = .bottom; pins { C2: BAT_IN, C1: CELL_N } }
+BT1 = Holder.Part { orderCode = "C5249310"; at = (75mm, 11mm); side = .bottom; pins { C2: CELL1_P, C1: CELL_N } }
+BT2 = Holder.Part { orderCode = "C5249310"; at = (75mm, 33mm); side = .bottom; pins { C2: CELL2_P, C1: CELL_N } }
+// Per-cell protection: a 2 A resettable fuse (16 V, 100 A interrupt) at each holder's + contact.
+F1 = fuse(2A, package = "1812", mpn = "1812L200/16GR") { orderCode = "C18198340"; side = .bottom; place = [soft(near(BT1.pin.C2, max = 20mm), weight = 3)]; pins { a: CELL1_P, b: BAT_IN } }
+F2 = fuse(2A, package = "1812", mpn = "1812L200/16GR") { orderCode = "C18198340"; side = .bottom; place = [soft(near(BT2.pin.C2, max = 20mm), weight = 3)]; pins { a: CELL2_P, b: BAT_IN } }
 cellMarks = [
   Text { text = "+"; at = (28mm, 11mm); size = 2.5mm; layer = Silk.bottom },
   Text { text = "-"; at = (122mm, 11mm); size = 2.5mm; layer = Silk.bottom },
@@ -169,7 +177,7 @@ holes = [
 ]
 
 // PCBKit's mark and pcbkit.io where the wordmark was.
-logo = Logo.Part { at = (80mm, 9mm) }
+logo = Logo.Part { at = (77mm, 7.5mm) }
 cheat = Text { text = "IDDQD"; at = (140mm, 58mm); size = 1.5mm }
 map = Text { text = "E1M1"; at = (20mm, 22mm); size = 1.5mm }
 

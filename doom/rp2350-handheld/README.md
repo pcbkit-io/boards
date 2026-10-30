@@ -21,6 +21,7 @@ strafe, M menu, Enter) or a gamepad (`input.js` maps a standard controller).
 | lcd | 2.8" ILI9341 SPI TFT with touch (MSP2807) | on a 1x14 female header; the touch shares SPI0 and stays deselected |
 | up, down, left, right, strafeLeft, strafeRight, fire, use, menu, enter | 6 x 6 mm tactile switch | to ground; the RP2350's pull-ups |
 | J1 | 1x3 2.54 mm header | the console: UART0 at 115200 baud (TX, RX, GND) |
+| BT1, BT2, F1, F2 | two Keystone 1042 18650 holders on the back; 2 A resettable fuses (Littelfuse 1812L200/16GR) | the cells in parallel, each through its own fuse (a cell put in backwards trips them instead of shorting the other), then the reverse-cell P-FET and DW01A + FS8205A protection |
 
 ## Pins
 

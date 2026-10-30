@@ -1,12 +1,12 @@
 {
-  "id": "TLV75533PDBV",
-  "mpn": "TLV75533PDBVR",
+  "id": "TLV75733PDBV",
+  "mpn": "TLV75733PDBVR",
   "manufacturer": "Texas Instruments",
   "variants": [
-    "TLV75533PDBVT"
+    "TLV75733PDBVT"
   ],
   "category": "regulator",
-  "description": "Linear regulator (LDO), fixed 3.3 V, 500 mA, 1.45-5.5 V in, enable, 238 mV maximum dropout",
+  "description": "Linear regulator (LDO), fixed 3.3 V, 1 A, 1.45-5.5 V in, enable, 425 mV maximum dropout at 1 A",
   "tags": [
     "ldo",
     "linear regulator",
@@ -14,11 +14,11 @@
     "3V3",
     "enable",
     "low dropout",
-    "tlv755"
+    "tlv757"
   ],
   "datasheet": {
-    "url": "https://www.ti.com/lit/ds/symlink/tlv755p.pdf",
-    "revision": "SBVS320D, revised September 2024"
+    "url": "https://www.ti.com/lit/ds/symlink/tlv757p.pdf",
+    "revision": "SBVS322C, revised March 2024"
   },
   "prefix": "U",
   "package": {
@@ -108,7 +108,7 @@
         "pins": [
           "OUT"
         ],
-        "max": 0.5,
+        "max": 1.0,
         "unit": "A"
       },
       {
@@ -128,8 +128,8 @@
         "typ": 64.4,
         "conditions": "DBV, 5 pins; JEDEC 2s2p test board, no vias to inner or bottom planes",
         "source": {
-          "url": "https://www.ti.com/lit/ds/symlink/tlv755p.pdf",
-          "revision": "SBVS320D, revised September 2024",
+          "url": "https://www.ti.com/lit/ds/symlink/tlv757p.pdf",
+          "revision": "SBVS322C, revised March 2024",
           "location": "p. 5, section 5.4, DBV / JEDEC column",
           "confidence": "datasheet"
         }
@@ -141,8 +141,8 @@
         "typ": 231.1,
         "conditions": "DBV, 5 pins; JEDEC 2s2p test board, no vias to inner or bottom planes",
         "source": {
-          "url": "https://www.ti.com/lit/ds/symlink/tlv755p.pdf",
-          "revision": "SBVS320D, revised September 2024",
+          "url": "https://www.ti.com/lit/ds/symlink/tlv757p.pdf",
+          "revision": "SBVS322C, revised March 2024",
           "location": "p. 5, section 5.4, DBV / JEDEC column",
           "confidence": "datasheet"
         }
@@ -154,8 +154,8 @@
         "typ": 118.4,
         "conditions": "DBV, 5 pins; JEDEC case-top test",
         "source": {
-          "url": "https://www.ti.com/lit/ds/symlink/tlv755p.pdf",
-          "revision": "SBVS320D, revised September 2024",
+          "url": "https://www.ti.com/lit/ds/symlink/tlv757p.pdf",
+          "revision": "SBVS322C, revised March 2024",
           "location": "p. 5, section 5.4, DBV / JEDEC column",
           "confidence": "datasheet"
         }
@@ -168,8 +168,8 @@
         "max": 125.0,
         "conditions": "DBV; recommended operation",
         "source": {
-          "url": "https://www.ti.com/lit/ds/symlink/tlv755p.pdf",
-          "revision": "SBVS320D, revised September 2024",
+          "url": "https://www.ti.com/lit/ds/symlink/tlv757p.pdf",
+          "revision": "SBVS322C, revised March 2024",
           "location": "p. 4, section 5.3",
           "confidence": "datasheet"
         }
@@ -182,8 +182,8 @@
         "max": 150.0,
         "conditions": "DBV; absolute rating, not a functional operating range",
         "source": {
-          "url": "https://www.ti.com/lit/ds/symlink/tlv755p.pdf",
-          "revision": "SBVS320D, revised September 2024",
+          "url": "https://www.ti.com/lit/ds/symlink/tlv757p.pdf",
+          "revision": "SBVS322C, revised March 2024",
           "location": "p. 4, section 5.1",
           "confidence": "datasheet"
         }
@@ -195,10 +195,10 @@
         "min": 0.000014,
         "typ": 0.000025,
         "max": 0.000031,
-        "conditions": "TJ=25 degC, IOUT=0 A, VIN=3.8 V, EN=VIN, CIN=COUT=1 uF",
+        "conditions": "TJ=25 degC, IOUT=1 mA, VIN=VOUT+0.5 V, EN=VIN, CIN=COUT=1 uF",
         "source": {
-          "url": "https://www.ti.com/lit/ds/symlink/tlv755p.pdf",
-          "revision": "SBVS320D, revised September 2024",
+          "url": "https://www.ti.com/lit/ds/symlink/tlv757p.pdf",
+          "revision": "SBVS322C, revised March 2024",
           "location": "p. 5, section 5.5, IGND row",
           "confidence": "datasheet"
         }
@@ -207,12 +207,13 @@
         "id": "dropout-full-load",
         "quantity": "dropoutVoltage",
         "unit": "V",
-        "max": 0.238,
-        "conditions": "DBV 3.3 V output; IOUT=0.5 A; TJ=-40 to 125 degC",
+        "typ": 0.3,
+        "max": 0.425,
+        "conditions": "DBV, 3.3 V <= VOUT < 5.0 V; IOUT=1 A; TJ=-40 to 85 degC (475 mV to 125 degC)",
         "source": {
-          "url": "https://www.ti.com/lit/ds/symlink/tlv755p.pdf",
-          "revision": "SBVS320D, revised September 2024",
-          "location": "p. 6, section 5.5, VDO row",
+          "url": "https://www.ti.com/lit/ds/symlink/tlv757p.pdf",
+          "revision": "SBVS322C, revised March 2024",
+          "location": "p. 5, section 5.5, VDO row",
           "confidence": "datasheet"
         }
       }
@@ -267,18 +268,19 @@
   },
   "notes": [
     "Effective capacitance at IN and OUT must exceed 0.47 uF after DC bias, tolerance and temperature (datasheet p. 3 and section 7.1.1). The support circuit starts with 1 uF, 10 V X5R/X7R in 0603; verify the selected capacitor's derating curve. Package size alone does not guarantee effective capacitance.",
-    "The DBV package is about 231 °C/W on a JEDEC board: at 500 mA keep VIN close to 3.6 V or give GND copper."
+    "The DBV package is about 231 °C/W on a JEDEC board: at 1 A keep VIN close to 3.6 V or give GND copper."
   ],
   "provenance": {
     "pins": {
       "verified": false,
-      "source": "TLV755P datasheet SBVS320D, Table 4-1 (pin functions), DBV column",
-      "url": "https://www.ti.com/lit/ds/symlink/tlv755p.pdf",
+      "source": "TLV757P datasheet SBVS322C, Table 4-1 (pin functions), DBV column",
+      "url": "https://www.ti.com/lit/ds/symlink/tlv757p.pdf",
       "license": "facts transcribed from the datasheet; notes in our own words"
     },
     "footprint": {
       "verified": false,
       "note": "standard SOT-23-5 (DBV, 2.9 x 2.8 mm)"
-    }
+    },
+    "by": "user"
   }
 }

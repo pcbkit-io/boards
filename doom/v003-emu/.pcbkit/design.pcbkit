@@ -32,6 +32,11 @@ net SYS { voltage = 5V; current = 100mA }
 net BAT { voltage = 4.2V; current = 500mA }
 net BAT_IN { voltage = 4.2V; current = 500mA }
 net CELL_N { current = 500mA }
+// Each cell's + joins BAT_IN through its own resettable fuse (F2, F3): a cell put in the wrong
+// way round, or one at another charge, drives the other through the two fuses, which trip in
+// milliseconds (one cell alone carries all of it).
+net CELL1_P { voltage = 4.2V; current = 500mA }
+net CELL2_P { voltage = 4.2V; current = 500mA }
 net V3 { voltage = 3.3V }
 net GND { voltage = 0V }
 // The power paths: wide tracks, vias that carry an ampere.
@@ -40,7 +45,7 @@ powerClass = NetClass {
   trackWidth = 0.6mm
   viaDiameter = 0.8mm
   viaDrill = 0.4mm
-  nets = [VBUS, SYS, BAT, BAT_IN, CELL_N]
+  nets = [VBUS, SYS, BAT, BAT_IN, CELL1_P, CELL2_P, CELL_N]
 }
 // Ground carries the charge current back to the cells' minus: its tracks 0.5 mm.
 groundClass = NetClass {
@@ -122,8 +127,11 @@ R3 = res(330ohm, package = "0603") { orderCode = "C23138"; side = .bottom; pins 
 // ---- power: 2 x 18650 (back) -> protection -> BQ24075 power path -> AP2112K 3.3 V -----------
 // Two 18650 cells on the back, side by side along the bottom, in parallel. The holders are not
 // polarized: put each cell's + at the end the silkscreen marks.
-BT1 = Holder.Part { orderCode = "C5249310"; at = (48mm, 12mm); side = .bottom; pins { C2: BAT_IN, C1: CELL_N } }
-BT2 = Holder.Part { orderCode = "C5249310"; at = (48mm, 34mm); side = .bottom; pins { C2: BAT_IN, C1: CELL_N } }
+BT1 = Holder.Part { orderCode = "C5249310"; at = (48mm, 12mm); side = .bottom; pins { C2: CELL1_P, C1: CELL_N } }
+BT2 = Holder.Part { orderCode = "C5249310"; at = (48mm, 34mm); side = .bottom; pins { C2: CELL2_P, C1: CELL_N } }
+// Per-cell protection: a 2 A resettable fuse (16 V, 100 A interrupt) at each holder's + contact.
+F2 = fuse(2A, package = "1812", mpn = "1812L200/16GR") { orderCode = "C18198340"; side = .bottom; place = [soft(near(BT1.pin.C2, max = 20mm), weight = 3)]; pins { a: CELL1_P, b: BAT_IN } }
+F3 = fuse(2A, package = "1812", mpn = "1812L200/16GR") { orderCode = "C18198340"; side = .bottom; place = [soft(near(BT2.pin.C2, max = 20mm), weight = 3)]; pins { a: CELL2_P, b: BAT_IN } }
 cellMarks = [
   Text { text = "+"; at = (1.5mm, 18mm); size = 2mm; layer = Silk.bottom },
   Text { text = "-"; at = (94.5mm, 18mm); size = 2mm; layer = Silk.bottom },
@@ -143,7 +151,7 @@ override U5Support.C1.place = [near(U5.pin.VCC, max = 2mm)]
 
 // USB-C, power only (5.1 kΩ on CC: 500 mA from any source), at the left edge: a 750 mA resettable
 // fuse and a TVS diode before the charger.
-usb = UsbCPower(vbus = VBUS, gnd = GND, fuseHold = 500mA, tvsPackage = "SOD-123") {}
+usb = UsbCPower(vbus = VBUS, gnd = GND, fuseHold = 750mA, tvsPackage = "SOD-123") {}
 override usb.J.place = [edge(.left)]
 override usb.J.orderCode = "C165948"
 override usb.F.orderCode = "C70078"

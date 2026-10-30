@@ -12,13 +12,13 @@ how hobbyists (and small products) use it without a 6-layer BGA board.
 | Display | 3.5" 320 × 480 ILI9488 + XPT2046 touch (MSP3520) on LPSPI4 (D13 SCK, D11 MOSI, D12 MISO, D10 CS, D9 DC, D8 RESET, D6 backlight PWM; touch CS D5, IRQ D4) |
 | Input | 10 × 6 mm tact switches: D0–D3, D14–D17, D22, D24 |
 | Sound | SAI1 I2S (D21 BCLK, D20 LRCLK, D7 TX) → **PCM5102A** → 3.5 mm jack and → **PAM8403** (shutdown on D26) → 8 Ω speaker |
-| Power | 2 × 18650 Li-ion in parallel (1S2P) behind reverse-cell (AO3401A) and DW01A + FS8205A protection; USB-C (charging only, 1 A PTC fuse, TVS) → **BQ24075** power path (SYS); **MAX17048** fuel gauge (D18 SDA, D19 SCL, alert D25); **TPS61023** boost SYS → 5 V (switched by the on/off switch on its EN) → 1N5819HW → Teensy VIN (VIN and VUSB are joined on the Teensy: the diode keeps the boost and a USB host apart) |
+| Power | 2 × 18650 Li-ion in parallel (1S2P, a 2 A resettable fuse per cell) behind reverse-cell (AO3401A) and DW01A + FS8205A protection; USB-C (charging only, 1 A PTC fuse, TVS) → **BQ24075** power path (SYS); **MAX17048** fuel gauge (D18 SDA, D19 SCL, alert D25); **TPS61023** boost SYS → 5 V (switched by the on/off switch on its EN) → 1N5819HW → Teensy VIN (VIN and VUSB are joined on the Teensy: the diode keeps the boost and a USB host apart) |
 | Programming | the Teensy's micro-USB (not the charging USB-C): **Teensy Loader** / `teensy_loader_cli` talking to its MKL02 bootloader chip (HalfKay); the program button forces it |
 | Board | 172 × 112 mm, **4 layers**, four M3 holes; front: display, buttons, on/off switch, charging USB-C, charger and boost, test pads; back: Teensy (its USB at the top edge), two 18650 holders (right of the Teensy, so its microSD card comes out), audio, speaker plug (left edge), jack (right edge) |
 
 <!-- STATUS -->
-**Board status** (measured on the dev host with PCBKit's CLI): `pcbkit check`: complete — 0 errors, 0 warnings, 0 unrouted nets. 88 components, 66 nets, 769 track segments (3204 mm), 43 vias.
-`analysis.run { lens: "ready" }`: Typical scenario, partly by family estimates. Nothing to fix, 1 to consider, 14 ok: weigh the warnings (tell the person about the ones that are their choice), then the board is ready to order.
+**Board status** (measured on the dev host with PCBKit's CLI): `pcbkit check`: complete — 0 errors, 4 warnings (erc-rail-name), 0 unrouted nets. 90 components, 68 nets, 672 track segments (3199 mm), 43 vias.
+`analysis.run { lens: "ready" }`: Typical scenario, partly by family estimates. Nothing to fix, 3 to consider, 15 ok: weigh the warnings (tell the person about the ones that are their choice), then the board is ready to order.
 `pcbkit export --format fab` succeeds without `--force`: every assembled line of the BOM has an LCSC code.
 <!-- /STATUS -->
 
@@ -55,8 +55,12 @@ power section of `doom/rp2350-handheld` with this board's own USB-C, boost and f
 
 - **Reverse cells:** an AO3401A P-MOSFET in the plus line, its gate at the cells' minus: cells put
   in backwards leave it off and the board unpowered (it conducts both ways when they are right, so
-  charging goes through it too). It cannot help one cell reversed against the other: in parallel
-  they would short each other, so check both against the silkscreen's + before closing a case.
+  charging goes through it too). One cell reversed against the other is what the **per-cell fuses**
+  are for: each holder's + reaches the pack through its own 2 A resettable fuse (Littelfuse
+  1812L200/16GR: 16 V, 100 A interrupting), so a cell put in backwards, or one much fuller than
+  the other, trips both in milliseconds instead of shorting the two cells together (tens of
+  amperes); take the cell out and they reset. Still put each cell's + at the end the silkscreen
+  marks.
 - **Protection:** DW01A + FS8205A in the pack's minus: over-charge 4.3 V, over-discharge 2.4 V,
   over-current about 3 A and short circuit, for the pack. Flat-top unprotected 18650 cells fit the
   holders.
@@ -129,10 +133,11 @@ The assembly BOM as `pcbkit export --format fab` writes it (JLCPCB assembly: LCS
 | 1 | C17 | 470nF | C47339 | C_0402_1005Metric |
 | 1 | D1 | 1N5819HW-7-F | C82544 | D_SOD-123 |
 | 1 | D2 | tvs 5V | C19224 | D_SOD-323 |
-| 1 | DS1 | Female header 1x14 2.54 mm | C2905420 | TFT_3.5in_ILI9488_Socket_1x14_P2.54mm |
-| 1 | F1 | PTC 1000mA | C20800 | Fuse_1206_3216Metric |
+| 1 | DS1 | MSP3520 3.5in 320x480 SPI TFT module with touch (ILI9488) | C2905420 | TFT_3.5in_ILI9488_Socket_1x14_P2.54mm |
+| 1 | F1 | PTC 1100mA | C20800 | Fuse_1206_3216Metric |
+| 2 | F2, F3 | PTC 2000mA | C18198340 | Fuse_1812_4532Metric |
 | 1 | J1 | SJ1-3525N | C4991936 | Jack_3.5mm_SameSky_SJ1-352XN_Horizontal |
-| 1 | J3 | USB_C_Receptacle_USB2.0_16P | C165948 | USB_C_Receptacle_USB2.0_16P |
+| 1 | J3 | USB4105-GF-A | C165948 | USB_C_Receptacle_USB2.0_16P |
 | 1 | J5 | S2B-PH-K-S(LF)(SN) | C173752 | JST_PH_S2B-PH-K_1x02_P2.00mm_Horizontal |
 | 1 | L1 | 1uH | C96955 | L_Power_6x6mm |
 | 1 | Q1 | AO3401A | C15127 | SOT-23 |
@@ -148,7 +153,7 @@ The assembly BOM as `pcbkit export --format fab` writes it (JLCPCB assembly: LCS
 | 1 | R17 | 732kohm | C137940 | R_0402_1005Metric |
 | 10 | SW1, SW2, SW3, SW4, SW5, SW6, SW7, SW8, SW9, SW10 | PTS645SM43SMTR92 LFS | C221880 | SW_Tactile_SPST_6x6mm_SMD |
 | 1 | SW12 | MSK12C02 | C431540 | SW_Slide_SPDT_Shouhan_MSK12C02 |
-| 2 | U1 | Female header 1x24 2.54 mm | C41376163 | Teensy41_Socket_2x24_P2.54mm_W15.24mm |
+| 1 | U1 | TEENSY41 | C41376163 | Teensy41_Socket_2x24_P2.54mm_W15.24mm |
 | 1 | U2 | PCM5102APWR | C107671 | TSSOP-20_4.4x6.5mm_P0.65mm |
 | 1 | U3 | PAM8403DR | C17337 | SOIC-16_3.9x9.9mm_P1.27mm |
 | 1 | U4 | BQ24075RGTR | C15464 | QFN-16-1EP_3x3mm_P0.5mm_EP1.68x1.68mm |

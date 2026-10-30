@@ -13,13 +13,13 @@ JLCPCB assembles everything but the two modules, which plug into the sockets it 
 | Display | 2.8" 240 × 320 ILI9341 with XPT2046 resistive touch on SPI0 (GP18 SCK, GP19 MOSI, GP16 MISO, GP17 CS, GP20 DC, GP21 RESET, GP22 backlight; touch CS GP13, IRQ GP14) |
 | Input | 10 × 6 mm tact switches, as the reference: d-pad GP0–GP3, fire GP4, use GP5, strafe L/R GP6/GP7, menu GP8, enter GP9 |
 | Sound | PIO I2S (GP10 BCK, GP11 LRCK, GP12 DIN) → PCM5102A (hardware mode, PLL from BCK, mute on GP15) → 470 Ω / 2.2 nF → 3.5 mm stereo jack |
-| Power | 2 × 18650 Li-ion in parallel (1S2P, 3.0–4.2 V) behind reverse-cell (AO3401A) and DW01A + FS8205A protection; BQ24075 charger with power path from the module's USB; SYS → 1N5819HW → module VSYS; the module's buck-boost makes 3.3 V (up to 300 mA for the carrier) |
+| Power | 2 × 18650 Li-ion in parallel (1S2P, a 2 A resettable fuse per cell, 3.0–4.2 V) behind reverse-cell (AO3401A) and DW01A + FS8205A protection; BQ24075 charger with power path from the module's USB; SYS → 1N5819HW → module VSYS; the module's buck-boost makes 3.3 V (up to 300 mA for the carrier) |
 | Programming | the module's USB: BOOTSEL + plug → UF2 (RP2350's ROM accepts ARM and RISC-V images); SWD on the module's debug pads; the same port charges |
 | Board | 160 × 100 mm, 2 layers, four M3 holes; front: display, ten buttons, charger, on/off switch, test pads; back: module (USB at the top edge), two 18650 holders, DAC, jack (right edge) |
 
 <!-- STATUS -->
-**Board status** (measured on the dev host with PCBKit's CLI): `pcbkit check`: complete — 0 errors, 0 warnings, 0 unrouted nets. 62 components, 53 nets, 504 track segments (2876 mm), 54 vias.
-`analysis.run { lens: "ready" }`: Typical scenario, partly by family estimates. Nothing to fix, 1 to consider, 12 ok: weigh the warnings (tell the person about the ones that are their choice), then the board is ready to order.
+**Board status** (measured on the dev host with PCBKit's CLI): `pcbkit check`: complete — 0 errors, 4 warnings (erc-rail-name), 0 unrouted nets. 64 components, 55 nets, 513 track segments (2894 mm), 52 vias.
+`analysis.run { lens: "ready" }`: Typical scenario, partly by family estimates. Nothing to fix, 2 to consider, 12 ok: weigh the warnings (tell the person about the ones that are their choice), then the board is ready to order.
 `pcbkit export --format fab` succeeds without `--force`: every assembled line of the BOM has an LCSC code.
 <!-- /STATUS -->
 
@@ -49,8 +49,12 @@ power section as `doom/rp2350-handheld`:
 
 - **Reverse cells:** an AO3401A P-MOSFET in the plus line, its gate at the cells' minus: cells put
   in backwards leave it off and the board unpowered (it conducts both ways when they are right, so
-  charging goes through it too). It cannot help one cell reversed against the other: in parallel
-  they would short each other, so check both against the silkscreen's + before closing a case.
+  charging goes through it too). One cell reversed against the other is what the **per-cell fuses**
+  are for: each holder's + reaches the pack through its own 2 A resettable fuse (Littelfuse
+  1812L200/16GR: 16 V, 100 A interrupting), so a cell put in backwards, or one much fuller than
+  the other, trips both in milliseconds instead of shorting the two cells together (tens of
+  amperes); take the cell out and they reset. Still put each cell's + at the end the silkscreen
+  marks.
 - **Protection:** DW01A + FS8205A in the pack's minus: over-charge 4.3 V, over-discharge 2.4 V,
   over-current about 3 A and short circuit, for the pack. Flat-top unprotected 18650 cells fit the
   holders.
@@ -119,7 +123,8 @@ The assembly BOM as `pcbkit export --format fab` writes it (JLCPCB assembly: LCS
 | 2 | C7, C8 | 2.2uF | C87994 | C_0805_2012Metric |
 | 2 | C10, C11 | 2.2nF | C1531 | C_0402_1005Metric |
 | 1 | D1 | 1N5819HW-7-F | C82544 | D_SOD-123 |
-| 1 | DS1 | Female header 1x14 2.54 mm | C2905420 | TFT_2.8in_ILI9341_Socket_1x14_P2.54mm |
+| 1 | DS1 | MSP2807 2.8in 240x320 SPI TFT module with touch (ILI9341) | C2905420 | TFT_2.8in_ILI9341_Socket_1x14_P2.54mm |
+| 2 | F1, F2 | PTC 2000mA | C18198340 | Fuse_1812_4532Metric |
 | 1 | J1 | SJ1-3525N | C4991936 | Jack_3.5mm_SameSky_SJ1-352XN_Horizontal |
 | 1 | Q1 | AO3401A | C15127 | SOT-23 |
 | 1 | Q2 | FS8205A | C5148694 | TSSOP-8_4.4x2.93mm_P0.65mm |
@@ -130,7 +135,7 @@ The assembly BOM as `pcbkit export --format fab` writes it (JLCPCB assembly: LCS
 | 1 | R9 | 1kohm | C11702 | R_0402_1005Metric |
 | 10 | SW1, SW2, SW3, SW4, SW5, SW6, SW7, SW8, SW9, SW10 | PTS645SM43SMTR92 LFS | C221880 | SW_Tactile_SPST_6x6mm_SMD |
 | 1 | SW11 | MSK12C02 | C431540 | SW_Slide_SPDT_Shouhan_MSK12C02 |
-| 2 | U1 | Female header 1x20 2.54 mm | C2905423 | Raspberry_Pi_Pico_2_Socket_2x20_P2.54mm_W17.78mm |
+| 1 | U1 | PIM724 | C2905423 | Pimoroni_Pico_Plus_2_Socket_2x20_P2.54mm_W17.78mm |
 | 1 | U2 | PCM5102APWR | C107671 | TSSOP-20_4.4x6.5mm_P0.65mm |
 | 1 | U3 | DW01A | C351410 | SOT-6_1.6x2.9mm_P0.95mm |
 | 1 | U4 | BQ24075RGTR | C15464 | QFN-16-1EP_3x3mm_P0.5mm_EP1.68x1.68mm |

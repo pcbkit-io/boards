@@ -58,6 +58,8 @@
       "BAT": "power",
       "BAT_IN": "power",
       "BOOTSEL": "Default",
+      "CELL1_P": "power",
+      "CELL2_P": "power",
       "CELL_N": "power",
       "CHG_LED": "Default",
       "CHG_N": "Default",

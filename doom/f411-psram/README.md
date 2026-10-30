@@ -14,13 +14,13 @@ it solders.
 | Display | 2.0" 240 × 320 IPS, ST7789 (MSP2008), SPI2 at 25 MHz (PB13 SCK, PB15 MOSI, PB12 CS, PB14 DC, PB1 RES), backlight PWM on PB10 (TIM2_CH3); used landscape 320 × 240 |
 | Input | 8 × 6 mm tact switches: up PA1, down PA2, left PA3, right PB4, fire PB6, use PB7, strafe PB8, menu PB0 (internal pull-ups) |
 | Sound | I2S3 (PB3 CK, PA15 WS, PB5 SD) → MAX98357A (mono mix, 9 dB) → 8 Ω speaker |
-| Power | 2 × 18650 Li-ion in parallel (1S2P) in Keystone 1042 holders → reverse-cell P-FET (AO3401A) → DW01A + FS8205A; BQ24075 charger with power path from USB-C; SYS → TLV75533 LDO (3.3 V, switched by its EN) and the amplifier |
+| Power | 2 × 18650 Li-ion in parallel (1S2P, a 2 A resettable fuse per cell) in Keystone 1042 holders → reverse-cell P-FET (AO3401A) → DW01A + FS8205A; BQ24075 charger with power path from USB-C; SYS → TLV75533 LDO (3.3 V, switched by its EN) and the amplifier |
 | Programming | USB-C to PA11/PA12: hold BOOT (BOOT0 → 3.3 V) and press RESET → ROM DFU (`dfu-util`); SWD header J1 on the back (VCC, SWDIO, SWCLK, NRST, GND) for an ST-LINK |
 | Board | 140 × 104 mm, **4 layers**, four M3 holes; front: display, buttons, BOOT, RESET, on/off switch, USB-C (top edge), charger, speaker connector (right edge), test pads; back: MCU, memories, amplifier, regulator, SWD header, the two cells |
 
 <!-- STATUS -->
-**Board status** (measured on the dev host with PCBKit's CLI): `pcbkit check`: complete — 0 errors, 2 warnings (diff-pair-uncoupled, skew), 0 unrouted nets; `issues` has 2 of 2. 79 components, 60 nets, 866 track segments (2431 mm), 93 vias.
-`analysis.run { lens: "ready" }`: Typical scenario, partly by family estimates. Nothing to fix, 4 to consider, 14 ok: weigh the warnings (tell the person about the ones that are their choice), then the board is ready to order.
+**Board status** (measured on the dev host with PCBKit's CLI): `pcbkit check`: complete — 0 errors, 3 warnings (erc-rail-name), 0 unrouted nets. 81 components, 62 nets, 759 track segments (2408 mm), 86 vias.
+`analysis.run { lens: "ready" }`: Typical scenario, partly by family estimates. Nothing to fix, 2 to consider, 17 ok: weigh the warnings (tell the person about the ones that are their choice), then the board is ready to order.
 `pcbkit export --format fab` succeeds without `--force`: every assembled line of the BOM has an LCSC code.
 <!-- /STATUS -->
 
@@ -58,8 +58,12 @@ cells to the board:
 
 - **Reverse cells:** an AO3401A P-MOSFET in the plus line, its gate at the cells' minus: cells put
   in backwards leave it off and the board unpowered (it conducts both ways when they are right, so
-  charging goes through it too). It cannot help one cell reversed against the other: in parallel
-  they would short each other, so check both against the silkscreen's + before closing a case.
+  charging goes through it too). One cell reversed against the other is what the **per-cell fuses**
+  are for: each holder's + reaches the pack through its own 2 A resettable fuse (Littelfuse
+  1812L200/16GR: 16 V, 100 A interrupting), so a cell put in backwards, or one much fuller than
+  the other, trips both in milliseconds instead of shorting the two cells together (tens of
+  amperes); take the cell out and they reset. Still put each cell's + at the end the silkscreen
+  marks.
 - **Protection:** DW01A + FS8205A in the pack's minus: over-charge 4.3 V, over-discharge 2.4 V,
   over-current about 3 A and short circuit, for the pack.
 - **Charger with power path:** a TI BQ24075 from the USB-C's VBUS (5.1 kΩ CC pull-downs: any USB-C
@@ -132,9 +136,10 @@ The assembly BOM as `pcbkit export --format fab` writes it (JLCPCB assembly: LCS
 | 1 | C15 | 10uF | C15850 | C_0805_2012Metric |
 | 3 | C20, C21, cIn | 1uF | C15849 | C_0603_1608Metric |
 | 1 | D1 | tvs 5V | C502527 | D_SOD-323 |
-| 1 | DS1 | Female header 1x8 2.54 mm | C2905417 | TFT_2.0in_ST7789_Socket_1x08_P2.54mm |
+| 1 | DS1 | MSP2008 2.0in 240x320 IPS SPI module (ST7789) | C2905417 | TFT_2.0in_ST7789_Socket_1x08_P2.54mm |
+| 2 | F1, F2 | PTC 2000mA | C18198340 | Fuse_1812_4532Metric |
 | 1 | J1 | PinHeader_1x05_P2.54mm_Vertical | C492404 | PinHeader_1x05_P2.54mm_Vertical |
-| 1 | J2 | USB_C_Receptacle_USB2.0_16P | C165948 | USB_C_Receptacle_USB2.0_16P |
+| 1 | J2 | USB4105-GF-A | C165948 | USB_C_Receptacle_USB2.0_16P |
 | 1 | J5 | S2B-PH-K-S(LF)(SN) | C173752 | JST_PH_S2B-PH-K_1x02_P2.00mm_Horizontal |
 | 1 | Q1 | AO3401A | C15127 | SOT-23 |
 | 1 | Q2 | FS8205A | C5148694 | TSSOP-8_4.4x2.93mm_P0.65mm |
@@ -154,7 +159,7 @@ The assembly BOM as `pcbkit export --format fab` writes it (JLCPCB assembly: LCS
 | 1 | U5 | MAX98357AETE+T | C910544 | QFN-16-1EP_3x3mm_P0.5mm_EP1.1x1.1mm |
 | 1 | U6 | BQ24075RGTR | C15464 | QFN-16-1EP_3x3mm_P0.5mm_EP1.68x1.68mm |
 | 1 | U7 | DW01A | C351410 | SOT-6_1.6x2.9mm_P0.95mm |
-| 1 | U8 | ESD 2-line | C7519 | SOT-23-6 |
+| 1 | U8 | USBLC6-2SC6 | C7519 | SOT-23-6 |
 | 1 | Y1 | 25MHz 10pF | C70582 | Crystal_SMD_3225-4Pin |
 | 1 | ledChg | red | C2286 | LED_0603_1608Metric |
 | 1 | ledPg | green | C12624 | LED_0603_1608Metric |

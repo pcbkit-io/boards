@@ -14,13 +14,13 @@ than *programs*.
 | Display | Nokia 5110 module, PCD8544, 84 × 48 monochrome, SPI shared with the memories (CS PC3, D/C PC2), reset by RC at power-up |
 | Input | 8 tact switches (5.1 mm) to GND, internal pull-ups: PD0, PD2–PD6, PA1, PA2 (the crystal pins are free: the HSI runs the chip) |
 | Sound | passive piezo on PC1 (TIM2 CH4 remap) |
-| Power | 2 × 18650 Li-ion in parallel (1S2P) behind reverse-cell (AO3401A) and DW01A + FS8205A protection; BQ24075 charger with power path from a USB-C port (fuse, TVS); SYS → AP2112K-3.3 LDO, its enable on the slide switch |
+| Power | 2 × 18650 Li-ion in parallel (1S2P, a 2 A resettable fuse per cell) behind reverse-cell (AO3401A) and DW01A + FS8205A protection; BQ24075 charger with power path from a USB-C port (fuse, TVS); SYS → AP2112K-3.3 LDO, its enable on the slide switch |
 | Programming | WCH single-wire debug (SDI) on PD1: J2, a 3-pin header (3V3, SWIO, GND) at the right edge of the back for a WCH-LinkE |
 | Board | 96 × 92 mm, 2 layers, four M3 holes; front: LCD, buttons, USB-C, charger, switch, test pads; back: two 18650 holders, the processor and its memories, piezo, J2 |
 
 <!-- STATUS -->
-**Board status** (measured on the dev host with PCBKit's CLI): `pcbkit check`: complete — 0 errors, 0 warnings, 0 unrouted nets. 67 components, 46 nets, 439 track segments (1295 mm), 38 vias.
-`analysis.run { lens: "ready" }`: Typical scenario, partial. Nothing to fix, 1 to consider, 15 ok: weigh the warnings (tell the person about the ones that are their choice), then the board is ready to order.
+**Board status** (measured on the dev host with PCBKit's CLI): `pcbkit check`: complete — 0 errors, 2 warnings (erc-rail-name), 0 unrouted nets. 69 components, 48 nets, 440 track segments (1361 mm), 40 vias.
+`analysis.run { lens: "ready" }`: Typical scenario, partial. Nothing to fix, 2 to consider, 17 ok: weigh the warnings (tell the person about the ones that are their choice), then the board is ready to order.
 `pcbkit export --format fab` succeeds without `--force`: every assembled line of the BOM has an LCSC code.
 <!-- /STATUS -->
 
@@ -66,8 +66,12 @@ the cells to the chips:
 
 - **Reverse cells:** an AO3401A P-MOSFET in the plus line, its gate at the cells' minus: cells put
   in backwards leave it off and the board unpowered (it conducts both ways when they are right, so
-  charging goes through it too). It cannot help one cell reversed against the other: in parallel
-  they would short each other, so check both against the silkscreen's + before closing a case.
+  charging goes through it too). One cell reversed against the other is what the **per-cell fuses**
+  are for: each holder's + reaches the pack through its own 2 A resettable fuse (Littelfuse
+  1812L200/16GR: 16 V, 100 A interrupting), so a cell put in backwards, or one much fuller than
+  the other, trips both in milliseconds instead of shorting the two cells together (tens of
+  amperes); take the cell out and they reset. Still put each cell's + at the end the silkscreen
+  marks.
 - **Protection:** DW01A + FS8205A in the pack's minus: over-charge 4.3 V, over-discharge 2.4 V,
   over-current about 3 A and short circuit, for the pack. Flat-top unprotected 18650 cells fit
   the holders.
@@ -133,8 +137,9 @@ The assembly BOM as `pcbkit export --format fab` writes it (JLCPCB assembly: LCS
 | 3 | C4, C6, C10 | 1uF | C52923 | C_0402_1005Metric |
 | 1 | D1 | tvs 5V | C284108 | D_SOD-123 |
 | 1 | DS1 | Nokia 5110 84x48 LCD module (PCD8544): connector (8-pin) | C2905417 | PinHeader_1x08_P2.54mm_Vertical |
-| 1 | F1 | PTC 680mA | C70078 | Fuse_1206_3216Metric |
-| 1 | J1 | USB_C_Receptacle_USB2.0_16P | C165948 | USB_C_Receptacle_USB2.0_16P |
+| 1 | F1 | PTC 750mA | C70078 | Fuse_1206_3216Metric |
+| 2 | F2, F3 | PTC 2000mA | C18198340 | Fuse_1812_4532Metric |
+| 1 | J1 | USB4105-GF-A | C165948 | USB_C_Receptacle_USB2.0_16P |
 | 1 | J2 | PinHeader_1x03_P2.54mm_Vertical | C49257 | PinHeader_1x03_P2.54mm_Vertical |
 | 1 | Q1 | AO3401A | C15127 | SOT-23 |
 | 1 | Q2 | FS8205A | C5148694 | TSSOP-8_4.4x2.93mm_P0.65mm |

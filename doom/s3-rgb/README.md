@@ -11,16 +11,16 @@ taped on by hand.
 |---|---|
 | Processor | ESP32-S3-WROOM-1-N16R8 (2 × Xtensa LX7 240 MHz, 512 KB SRAM, 16 MB flash, 8 MB octal PSRAM) |
 | Display | Newhaven **NHD-4.3-480272EF-ASXP** (IPS; the ASXN it replaces is discontinued): 4.3" 480 × 272, 24-bit RGB parallel, SYNC-DE mode at 8.9 MHz (HSYNC 4 + 39 + 480 + 8, VSYNC 4 + 8 + 272 + 8: 57 Hz, the sheet's typical timing; its line must last 55–65 µs); driven as RGB565 (R3–R7 IO1/2/4/5/6, G2–G7 IO7/15/16/17/18/8, B3–B7 IO9–IO13; PCLK IO42, DE IO40, VSYNC IO41, HSYNC IO39; the low bits grounded) through a 40-pin 0.5 mm FFC connector (Hirose FH34SRJ-40S-0.5SH, top and bottom contacts, 1 mm high) on the front under the panel: the panel's cable folds back under it into the connector, Newhaven's own arrangement |
-| Backlight | 12 white LEDs, 25.6 V at 40 mA: **MT3608 boost as a constant-current driver** from SYS (FB regulates 0.6 V over 15 Ω), EN/PWM on IO46 (a strap that must be low at reset: 100 kΩ pull-down); a 28 V zener into FB through 1 kΩ holds the output under the switch's 30 V when no panel is plugged in |
+| Backlight | 12 white LEDs, 25.6 V at 40 mA: **MT3608 boost as a constant-current driver** from SYS (FB regulates 0.6 V over 15 Ω), EN/PWM on IO46 (a strap that must be low at reset: 100 kΩ pull-down); two 2 % zeners in series (18 V + 10 V, 27.3–28.6 V) into FB through 1 kΩ hold the output under the switch's 30 V when no panel is plugged in |
 | Input | 10 tact switches on an **MCP23017** (I2C 0x20, IO14 SDA, IO38 SCL), interrupt on change to IO3 |
 | Sound | I2S (IO47 BCK, IO48 LRCK, IO21 DIN) → **PCM5102A** DAC → **PAM8403** stereo class-D from SYS (SHDN on 3.3 V: asleep when switched off) (100 kΩ before each input: at most 0.8 W) → two 15 × 15 mm SMD speakers (FS-1540, 8 Ω, C482341) on the back at the two ends, assembled by JLCPCB |
-| Power | **2 × 18650 Li-ion in parallel** (1S2P) behind a reverse-cell P-FET (AO3401A) and DW01A + FS8205A protection; USB-C (1 A PTC fuse, TVS, ESD array) → **BQ24075** charger with power path → SYS for the backlight driver and the amplifier → **TLV75533** low-dropout regulator for 3.3 V; on/off slide switch on the regulator's EN |
+| Power | **2 × 18650 Li-ion in parallel** (1S2P, a 2 A resettable fuse per cell) behind a reverse-cell P-FET (AO3401A) and DW01A + FS8205A protection; USB-C (1 A PTC fuse, TVS, ESD array) → **BQ24075** charger with power path → SYS for the backlight driver and the amplifier → **TLV75733** low-dropout regulator (1 A) for 3.3 V; on/off slide switch on the regulator's EN |
 | Programming | USB-C D+/D− to the S3's native USB (IO19/IO20): esptool over USB-Serial/JTAG; RESET (EN) and BOOT (IO0) buttons on the back |
 | Board | 182 × 80 mm, **4 layers**, matte black mask, white silkscreen, ENIG, plated edges, four M3 holes; front: the panel on 3 mm foam tape (outline in the silkscreen) over its FFC connector, buttons, the power corner (USB-C at the top edge, charger, CHG/USB LEDs, on/off switch); back: two 18650 holders along the bottom edge, module (antenna past the top edge), protection, regulator, backlight driver, expander, audio, the two speakers, test pads; the PCBKit mark (front, under the D-pad), pcbkit.io (front, between the right-hand buttons); no reference designators on the front |
 
 <!-- STATUS -->
-**Board status** (measured on the dev host with PCBKit's CLI): `pcbkit check`: complete — 0 errors, 2 warnings (diff-pair-uncoupled, skew), 0 unrouted nets. 103 components, 88 nets, 950 track segments (3721 mm), 136 vias.
-`analysis.run { lens: "ready" }`: Typical scenario from the parts' datasheets. Nothing to fix, 4 to consider, 14 ok.
+**Board status** (measured on the dev host with PCBKit's CLI): `pcbkit check`: complete — 0 errors, 3 warnings (erc-rail-name), 0 unrouted nets. 106 components, 91 nets, 923 track segments (3760 mm), 135 vias.
+`analysis.run { lens: "ready" }`: Typical scenario from the parts' datasheets. Nothing to fix, 4 to consider, 16 ok: weigh the warnings (tell the person about the ones that are their choice), then the board is ready to order.
 `pcbkit export --format fab` succeeds without `--force`: every assembled line of the BOM has an LCSC code.
 <!-- /STATUS -->
 
@@ -60,10 +60,17 @@ device time, the demo by 9 s; 16 s simulated in 12 s.
 Two 18650 Li-ion cells in Keystone 1042 holders on the back, end to end along the bottom edge, in
 parallel (1S2P, 3.0–4.2 V, about 5–7 Ah together). From the cells to the loads:
 
+- **Boards ordered before 2026-10-30** (the five of JLCPCB order W2026102705013253) have no per-cell
+  fuses and a 28 V 5 % zener on the backlight: put the cells in one at a time and check each against
+  the silkscreen's + before inserting the other.
 - **Reverse cells:** an AO3401A P-MOSFET in the plus line, its gate at the cells' minus: cells put
   in backwards leave it off and the board unpowered (it conducts both ways when they are right, so
-  charging goes through it too). It cannot help one cell reversed against the other: in parallel
-  they would short each other, so check both against the silkscreen's + before closing a case.
+  charging goes through it too). One cell reversed against the other is what the **per-cell fuses**
+  are for: each holder's + reaches the pack through its own 2 A resettable fuse (Littelfuse
+  1812L200/16GR: 16 V, 100 A interrupting), so a cell put in backwards, or one much fuller than
+  the other, trips both in milliseconds instead of shorting the two cells together (tens of
+  amperes); take the cell out and they reset. Still put each cell's + at the end the silkscreen
+  marks.
 - **Protection:** DW01A + FS8205A in the pack's minus: over-charge 4.3 V, over-discharge 2.4 V,
   over-current about 3 A and short circuit, for the pack. Flat-top unprotected 18650 cells fit
   the holders.
@@ -75,8 +82,8 @@ parallel (1S2P, 3.0–4.2 V, about 5–7 Ah together). From the cells to the loa
   thermistor). Its output SYS runs the board from USB when one is plugged in and from the cells
   through its battery FET otherwise; with more load than USB gives, the cells make up the rest.
 - **SYS** feeds the MT3608 backlight driver and the PAM8403 directly (no 5 V rail: both run from
-  2.8–5.5 V), and a **TLV75533** (500 mA, 238 mV dropout at 500 mA, about 100 mV at this board's
-  ~200 mA) for 3.3 V. It holds 3.3 V down to about 3.4 V of cell; below that the rail follows the
+  2.8–5.5 V), and a **TLV75733** (1 A, so the module's 500 mA radio peaks have room; 425 mV
+  dropout at 1 A, under 100 mV at this board's ~200 mA) for 3.3 V. It holds 3.3 V down to about 3.4 V of cell; below that the rail follows the
   cells down to 3.0 V, where the ESP32-S3 (3.0–3.6 V) still runs and the cells have under 5 % left.
   The AMS1117 it replaces needs 1.1 V of headroom: straight from the cells it would never make 3.3 V.
 - **On/off:** the slide switch on the left edge drives the regulator's EN (100 kΩ holds it low
@@ -92,7 +99,7 @@ parallel (1S2P, 3.0–4.2 V, about 5–7 Ah together). From the cells to the loa
 | PAM8403, moderate volume | ~100 mA |
 | **Typical** | **≈ 2.3 W → ~620 mA at 3.7 V** |
 
-Two 3000 mAh cells → **about 9 h** of play (estimate). The TLV75533 burns (3.7 − 3.3) × 0.15 A ≈
+Two 3000 mAh cells → **about 9 h** of play (estimate). The TLV75733 burns (3.7 − 3.3) × 0.15 A ≈
 0.06 W from the cells (0.3 W from USB).
 
 ## Charging
@@ -135,7 +142,7 @@ slowly discharge instead of charging. Insert the cells with + at the end the bac
 
 Rough cost at 10 pieces (estimates): ESP32-S3-WROOM-1-N16R8 $4.50 · NHD-4.3-480272EF-ASXP $29 · Hirose
 FH34SRJ-40S-0.5SH $0.40 · MT3608 $0.15 · MCP23017 $1.20 ·
-PCM5102A $2.00 · PAM8403 $0.15 · BQ24075, protection and TLV75533 $1.60 · USB-C $0.40 · buttons
+PCM5102A $2.00 · PAM8403 $0.15 · BQ24075, protection and TLV75733 $1.60 · USB-C $0.40 · buttons
 $3.40 · passives $1.80 · two 18650 holders $9.80 · 4-layer PCB $6.00 · 2 SMD speakers $1.60 → **about
 $71** with the Newhaven panel, ~$44 with a generic one, without the cells.
 
@@ -157,9 +164,11 @@ The assembly BOM as `pcbkit export --format fab` writes it (JLCPCB assembly: LCS
 | 2 | C24, C25 | 470nF | C47339 | C_0402_1005Metric |
 | 3 | C33, C34, cIn | 1uF | C15849 | C_0603_1608Metric |
 | 1 | D1 | 1N5819HW-7-F | C82544 | D_SOD-123 |
-| 1 | D2 | zener 28V | C3031843 | D_SOD-123 |
+| 1 | D2 | zener 18V | C150102 | D_SOD-323 |
+| 1 | D3 | zener 10V | C209565 | D_SOD-323 |
 | 1 | D6 | tvs 5V | C918844 | D_SOD-323 |
 | 1 | F1 | PTC 750mA | C20800 | Fuse_1206_3216Metric |
+| 2 | F2, F3 | PTC 2000mA | C18198340 | Fuse_1812_4532Metric |
 | 1 | J1 | FH34SRJ-40S-0.5SH(50) | C506798 | Hirose_FH34SRJ-40S-0.5SH_1x40-1MP_P0.50mm_Horizontal |
 | 1 | J3 | USB4105-GF-A | C165948 | USB_C_Receptacle_USB2.0_16P |
 | 1 | L1 | 22uH | C83472 | L_Power_4x4mm |
@@ -181,7 +190,7 @@ The assembly BOM as `pcbkit export --format fab` writes it (JLCPCB assembly: LCS
 | 1 | U3 | MCP23017-E/SO | C47023 | SOIC-28W_7.5x17.9mm_P1.27mm |
 | 1 | U4 | PCM5102APWR | C107671 | TSSOP-20_4.4x6.5mm_P0.65mm |
 | 1 | U5 | PAM8403DR | C17337 | SOIC-16_3.9x9.9mm_P1.27mm |
-| 1 | U6 | TLV75533PDBVR | C404027 | SOT-23-5 |
+| 1 | U6 | TLV75733PDBVR | C485517 | SOT-23-5 |
 | 1 | U7 | BQ24075RGTR | C15464 | QFN-16-1EP_3x3mm_P0.5mm_EP1.68x1.68mm |
 | 1 | U8 | MT3608 | C84817 | SOT-23-6 |
 | 1 | U9 | USBLC6-2SC6 | C7519 | SOT-23-6 |
