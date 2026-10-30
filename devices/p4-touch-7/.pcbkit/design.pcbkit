@@ -406,13 +406,11 @@ net Q1B, Q2B
 
 // ---- the second and third USB-C: the P4's USB Serial/JTAG and its high-speed host ---------------
 J2 = UsbC2(vbus = VBUS_FS, gnd = GND, dp = FS_DP, dn = FS_DN, current = 500mA) {}
-// The host port gives its device 5 V from the board.
-J3 = UsbC2(vbus = VBUS_HOST, gnd = GND, dp = HS_DP, dn = HS_DN, current = 500mA) {}
-override J3.power.J.place = [edge(.top, from = 125mm, to = 155mm)]
-D11 = diode(kind = .schottky, package = "SMA", ratedVoltage = 40V, ratedCurrent = 2A) {
-  pins { A: VSYS, K: VBUS_HOST }
-  orderCode = "C8678"
-}
+// The host port is a Type-C source: Rp (56 kΩ) on its CC pins, so a device sees a host, and 5 V
+// from VSYS through a current-limited switch (SY6280, 750 mA), on whenever the board is (NucleoOS
+// drives no enable pin).
+J3 = UsbCHost(supply = VSYS, vbus = VBUS_HOST, gnd = GND, dp = HS_DP, dn = HS_DN, current = 500mA) {}
+override J3.J.place = [edge(.top, from = 125mm, to = 155mm)]
 
 // ---- the display: JD9165 panel on a 30-pin FPC, its GT911 touch on a 6-pin FPC -------------------
 // The connector numbers the panel's contacts in reverse (bottom contact): its pin 30 is the
@@ -881,10 +879,9 @@ override J2.power.D.orderCode = "C78401"
 override J2.power.R1.orderCode = "C25905"
 override J2.power.R2.orderCode = "C25905"
 override J2.Esd.orderCode = "C7519"
-override J3.power.J.orderCode = "C5184243"
-override J3.power.D.orderCode = "C78401"
-override J3.power.R1.orderCode = "C25905"
-override J3.power.R2.orderCode = "C25905"
+override J3.J.orderCode = "C5184243"
+override J3.D.orderCode = "C78401"
+override J3.S.orderCode = "C55136"
 override J3.Esd.orderCode = "C7519"
 
 override U1Support.Y1.orderCode = "C426988"

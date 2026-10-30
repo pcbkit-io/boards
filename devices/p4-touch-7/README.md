@@ -14,15 +14,15 @@ PCBKit's model of the chip, the card in the microSD socket holding the release's
 | Audio | ES8311 codec (electret microphone in, PAM8403 to a speaker connector) on I2S0 and I2C0 |
 | Storage | microSD socket on SD/MMC slot 0 (GPIO39–44, 4-bit) |
 | Clock | DS3231 with a CR2032 |
-| USB | three USB-C: the console (CH340C, auto-reset into the boot loader), the P4's full-speed and high-speed ports (the last one supplies 5 V to what is plugged in) |
+| USB | three USB-C: the console (CH340C, auto-reset into the boot loader), the P4's full-speed and high-speed ports (the last one a Type-C host: 56 kΩ Rp on CC, 5 V to what is plugged in through an SY6280 switch limited to 750 mA) |
 | Power | a Li-ion cell on IP5306 (charger and 5 V boost, its key the power button), SY8089 bucks to 3.3 V and to the P4's 1.2 V core supply |
 | Board | 160 × 96 mm, 6 layers (JLCPCB JLC06161H-3313, controlled impedance), four M3 holes onto the panel's standoffs |
 
 <!-- STATUS -->
 **Board status** (measured on the dev host with PCBKit's CLI): `pcbkit check`: complete — 0 errors,
-25 warnings (the DSI and USB pairs' coupling, impedance and skew where they leave the P4's 0.35 mm
-pins, 13 narrower tracks in a class, two rail names, one via the router left on a single layer),
-0 unrouted nets. 176 components, 118 nets, 2568 track segments (6036 mm), 472 vias.
+23 warnings (the DSI and USB pairs' coupling, impedance and skew where they leave the P4's 0.35 mm
+pins, 13 narrower tracks in a class, two rail names, two VSYS stubs the router leaves), 0 unrouted
+nets. 179 components, 118 nets, 2644 track segments (6155 mm), 596 vias.
 `analysis.run { lens: "ready" }`: 12 to fix (decoupling capacitors 3–4 mm from their P4 supply pins,
 under the chip on the back) and 24 to consider.
 Every assembled line has its LCSC code (chosen by stock at JLCPCB, 2026-10-25); `pcbkit export

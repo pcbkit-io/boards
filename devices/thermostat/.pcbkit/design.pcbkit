@@ -4,7 +4,8 @@ pcbkit 1
 // Y, G). An ESP32-WROOM-32E reads the room from an SHT40 every two seconds and closes W (heat) or
 // Y (cool) and G (the fan) through three relays; a 0.96" OLED shows the temperature, the set point
 // and the mode; three buttons set them. The furnace's transformer powers it from R and C: a bridge,
-// an LM2596 buck to 5 V for the relays, an AMS1117 to 3.3 V for the rest. Firmware on ESP-IDF's
+// an 80 V synchronous buck (the standard Buck block: TI's LMR38020) to 5 V for the relays, an
+// AMS1117 to 3.3 V for the rest. Firmware on ESP-IDF's
 // register headers, flashed through the programming header with a USB-serial adapter.
 
 use "parts/ESP32_WROOM_32E.pcbkit" as ESP32_WROOM_32E
@@ -12,7 +13,6 @@ use "parts/SHT40_AD1B.pcbkit" as SHT40_AD1B
 use "parts/SSD1306_OLED_I2C.pcbkit" as SSD1306_OLED_I2C
 use "parts/SRD_05VDC_SL_C.pcbkit" as SRD_05VDC_SL_C
 use "parts/ULN2003AD.pcbkit" as ULN2003AD
-use "parts/LM2596S_ADJ.pcbkit" as LM2596S_ADJ
 use "parts/AMS1117_3_3.pcbkit" as AMS1117_3_3
 
 net R, C, W, Y, G
@@ -45,12 +45,10 @@ D1 = diode(kind = .rectifier, package = "SMA", ratedVoltage = 1000V, ratedCurren
 D2 = diode(kind = .rectifier, package = "SMA", ratedVoltage = 1000V, ratedCurrent = 1A) { place = [soft(near(J1, max = 12mm))]; pins { A: C, K: VDC } }
 D3 = diode(kind = .rectifier, package = "SMA", ratedVoltage = 1000V, ratedCurrent = 1A) { place = [soft(near(J1, max = 12mm))]; pins { A: GND, K: R } }
 D4 = diode(kind = .rectifier, package = "SMA", ratedVoltage = 1000V, ratedCurrent = 1A) { place = [soft(near(J1, max = 12mm))]; pins { A: GND, K: C } }
-// The line's spikes: a 36 V TVS (SMBJ36A) under the LM2596's 45 V.
-D5 = diode(kind = .tvs, package = "SMB", voltage = 36V) { place = [soft(near(U3, max = 10mm))]; pins { A: GND, K: VDC } }
-U3 = LM2596S_ADJ.Part { pins { VIN: VDC, GND: GND } }
-// The ceramic bypass at VIN, under the switch's current edges (the bulk can is too big to sit there).
-C1 = cap(4.7uF, package = "1206", ratedVoltage = 50V) { orderCode = "C29823"; place = [near(U3.pin.VIN, max = 2.5mm)]; pins { a: VDC, b: GND } }
-U3Support = LM2596S_ADJ.Support(U3, vout = V5) {}
+// The line's spikes: a 36 V TVS (SMBJ36A) clamps them near 58 V, under the buck's 80 V (an
+// LM2596's 45 V would not take that).
+buck = Buck(vin = VDC, vout = V5, gnd = GND) {}
+D5 = diode(kind = .tvs, package = "SMB", voltage = 36V) { place = [soft(near(buck.U, max = 10mm))]; pins { A: GND, K: VDC } }
 U4 = AMS1117_3_3.Part { pins { VIN: V5, VOUT: V3, GND: GND } }
 U4Support = AMS1117_3_3.Support(U4) {}
 
@@ -74,9 +72,9 @@ U2 = SHT40_AD1B.Part { place = [edge(.bottom)]; pins { SDA: SDA, SCL: SCL, VDD: 
 U2Support = SHT40_AD1B.Support(U2) {}
 // The 0.96" OLED module (0x3C) on its 4-pin socket.
 DS1 = SSD1306_OLED_I2C.Part { pins { GND: GND, VCC: V3, SCL: SCL, SDA: SDA } }
-SW1 = button("6x6", key = "ArrowUp") { place = [edge(.right)]; pins { a: UP, b: GND } }
-SW2 = button("6x6", key = "ArrowDown") { place = [edge(.right)]; pins { a: DOWN, b: GND } }
-SW3 = button("6x6", key = "KeyM") { place = [edge(.right)]; pins { a: MODE, b: GND } }
+SW1 = button("6x6", key = "ArrowUp") { place = [edge(.right), soft(near(DS1, max = 25mm))]; pins { a: UP, b: GND } }
+SW2 = button("6x6", key = "ArrowDown") { place = [edge(.right), soft(near(DS1, max = 25mm))]; pins { a: DOWN, b: GND } }
+SW3 = button("6x6", key = "KeyM") { place = [edge(.right), soft(near(DS1, max = 25mm))]; pins { a: MODE, b: GND } }
 
 // ---- the calls: three relays switching R to W, Y and G -------------------------------------------
 // In the laboratory the house reads the calls at the driver's inputs (sim/house.js).
@@ -94,8 +92,6 @@ gndPour = pour(net = GND, layers = [Cu.bottom]) {}
 override C2.orderCode = "C1525"
 override U1Support.C2.orderCode = "C1525"
 override U2Support.C1.orderCode = "C1525"
-override U3Support.CIN.orderCode = "C46550419"
-override U3Support.COUT.orderCode = "C970697"
 override U4Support.CIN.orderCode = "C15850"
 override U4Support.COUT.orderCode = "C12891"
 override U1Support.C1.orderCode = "C12891"
@@ -105,7 +101,6 @@ override D2.orderCode = "C81191"
 override D3.orderCode = "C81191"
 override D4.orderCode = "C81191"
 override D5.orderCode = "C114001"
-override U3Support.D1.orderCode = "C85100"
 override DS1.orderCode = "C2718488"
 override J1.orderCode = "C5183929"
 override J2.orderCode = "C492404"
@@ -113,9 +108,6 @@ override J3.orderCode = "C480520"
 override K1.orderCode = "C35449"
 override K2.orderCode = "C35449"
 override K3.orderCode = "C35449"
-override U3Support.L1.orderCode = "C9400"
-override U3Support.R2.orderCode = "C11460"
-override U3Support.R1.orderCode = "C11702"
 override U1Support.R1.orderCode = "C25744"
 override U1Support.R2.orderCode = "C25744"
 override U2Support.RP1.orderCode = "C25744"
@@ -127,7 +119,6 @@ override U1Support.SW1.orderCode = "C221880"
 override U1Support.SW2.orderCode = "C221880"
 override U1.orderCode = "C701341"
 override U2.orderCode = "C2848306"
-override U3.orderCode = "C347423"
 override U4.orderCode = "C6186"
 override U5.orderCode = "C7512"
 override U1Support.C2.place = [near(U1.pin.P3V3, max = 2mm)]
