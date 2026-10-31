@@ -2,3 +2,6 @@
 (rule "ScreenOverTeensy"
 	(constraint courtyard_clearance (min -100mm))
 	(condition "(A.Reference == 'DS1') && (B.Reference == 'U1')"))
+(rule "J3: pads by its own holes"
+	(constraint hole_clearance (min 0mm))
+	(condition "A.memberOfFootprint('J3') && B.memberOfFootprint('J3')"))
