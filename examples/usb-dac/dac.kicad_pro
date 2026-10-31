@@ -30,6 +30,9 @@
         "via_drill": 0.3
       }
     ],
+    "meta": {
+      "version": 3
+    },
     "netclass_assignments": {
       "/ADJ": "Default",
       "/CONN_D+": "Default",

@@ -29,6 +29,9 @@
         "via_drill": 0.3
       }
     ],
+    "meta": {
+      "version": 3
+    },
     "netclass_assignments": {
       "+3.3V": "Default",
       "+5V": "Default",
