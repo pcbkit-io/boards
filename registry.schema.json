@@ -56,7 +56,23 @@
               "console": { "description": "Text a serial terminal must have received, each", "type": "array", "items": { "type": "string" } },
               "frames": { "description": "Displays by component, and the pictures each must have drawn at least", "type": "object", "additionalProperties": { "type": "integer", "minimum": 1 } },
               "toggles": { "description": "Ports a program must have driven both low and high, as processor.port (U1.PB5)", "type": "array", "items": { "type": "string" } },
-              "lit": { "description": "Visuals lit at the end of some phase (an indicator, a digit, a pixel, a servo driven), by component", "type": "array", "items": { "type": "string" } }
+              "lit": { "description": "Visuals lit at the end of some phase (an indicator, a digit, a pixel, a servo driven), by component", "type": "array", "items": { "type": "string" } },
+              "corners": {
+                "description": "What its programs must show or do instead at a temperature where they react to it (a thermostat's heater on in the cold): a corner's expectation replaces this one there. Every board is also run at -40 and 85 \u00b0C; one with no entry for a corner must meet this expectation there.",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["celsius"],
+                  "properties": {
+                    "celsius": { "description": "The laboratory's temperature, \u00b0C", "type": "number", "minimum": -40, "maximum": 125 },
+                    "console": { "description": "Text a serial terminal must have received, each", "type": "array", "items": { "type": "string" } },
+                    "frames": { "description": "Displays by component, and the pictures each must have drawn at least", "type": "object", "additionalProperties": { "type": "integer", "minimum": 1 } },
+                    "toggles": { "description": "Ports a program must have driven both low and high, as processor.port (U1.PB5)", "type": "array", "items": { "type": "string" } },
+                    "lit": { "description": "Visuals lit at the end of some phase (an indicator, a digit, a pixel, a servo driven), by component", "type": "array", "items": { "type": "string" } }
+                  },
+                  "additionalProperties": false
+                }
+              }
             },
             "additionalProperties": false
           }

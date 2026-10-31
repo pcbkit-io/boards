@@ -339,6 +339,21 @@
           "U1.PB1",
           "U1.PB2",
           "U1.PD6"
+        ],
+        "corners": [
+          {
+            "celsius": -40,
+            "lit": [
+              "display",
+              "window",
+              "heat"
+            ],
+            "toggles": [
+              "U1.PB1",
+              "U1.PB2",
+              "U1.PD5"
+            ]
+          }
         ]
       }
     },
