@@ -1,0 +1,7 @@
+(version 1)
+(rule "J5: pads by its own holes"
+	(constraint hole_clearance (min 0mm))
+	(condition "A.memberOfFootprint('J5') && B.memberOfFootprint('J5')"))
+(rule "J6: pads by its own holes"
+	(constraint hole_clearance (min 0mm))
+	(condition "A.memberOfFootprint('J6') && B.memberOfFootprint('J6')"))
