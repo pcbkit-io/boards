@@ -21,13 +21,15 @@ static DMA_HandleTypeDef adc_dma;
 static I2C_HandleTypeDef i2c;
 static TIM_HandleTypeDef tick;
 static FDCAN_HandleTypeDef can;
-static volatile uint16_t raw[4];
+static volatile uint16_t raw[5];
 static volatile int due, led_mode = 2;
 static int imu_ok;
 
 #define IMU 0x68
-/* Each input's divider (the design's Divider: Rt 11 kohm over Rb 20 kohm, 5 V -> 3.23 V). */
-#define INPUT_MV(code) ((uint32_t)(code) * 3300u * 31u / (4095u * 20u))
+/* Each input's divider (the design's Divider: Rt 11 kohm over Rb 20 kohm, 5 V -> 3.23 V), against
+ * VDDA as VREFINT measures it (its factory calibration at 3.0 V): the regulator's +-2 % and its
+ * drift do not reach the reported pressures. */
+#define INPUT_MV(code, vdda) ((uint32_t)(code) * (vdda) * 31u / (4095u * 20u))
 
 void SysTick_Handler(void) { HAL_IncTick(); }
 void TIM6_DAC_IRQHandler(void) { HAL_TIM_IRQHandler(&tick); }
@@ -158,17 +160,18 @@ int main(void) {
     adc.Init.DataAlign = ADC_DATAALIGN_RIGHT;
     adc.Init.ScanConvMode = ADC_SCAN_ENABLE;
     adc.Init.EOCSelection = ADC_EOC_SEQ_CONV;
-    adc.Init.NbrOfConversion = 4;
+    adc.Init.NbrOfConversion = 5;
     adc.Init.ExternalTrigConv = ADC_SOFTWARE_START;
     adc.Init.Overrun = ADC_OVR_DATA_OVERWRITTEN;
     if (HAL_ADC_Init(&adc) != HAL_OK) fail("adc");
-    static const uint32_t channels[4] = {ADC_CHANNEL_1, ADC_CHANNEL_2, ADC_CHANNEL_3, ADC_CHANNEL_4};
-    static const uint32_t ranks[4] = {ADC_REGULAR_RANK_1, ADC_REGULAR_RANK_2, ADC_REGULAR_RANK_3, ADC_REGULAR_RANK_4};
-    for (int k = 0; k < 4; k++) {
+    /* The four inputs, then VREFINT (its sampling time at least the 4 us the data sheet asks). */
+    static const uint32_t channels[5] = {ADC_CHANNEL_1, ADC_CHANNEL_2, ADC_CHANNEL_3, ADC_CHANNEL_4, ADC_CHANNEL_VREFINT};
+    static const uint32_t ranks[5] = {ADC_REGULAR_RANK_1, ADC_REGULAR_RANK_2, ADC_REGULAR_RANK_3, ADC_REGULAR_RANK_4, ADC_REGULAR_RANK_5};
+    for (int k = 0; k < 5; k++) {
         ADC_ChannelConfTypeDef ch = {0};
         ch.Channel = channels[k];
         ch.Rank = ranks[k];
-        ch.SamplingTime = ADC_SAMPLETIME_92CYCLES_5;
+        ch.SamplingTime = k == 4 ? ADC_SAMPLETIME_640CYCLES_5 : ADC_SAMPLETIME_92CYCLES_5;
         ch.SingleDiff = ADC_SINGLE_ENDED;
         ch.OffsetNumber = ADC_OFFSET_NONE;
         if (HAL_ADC_ConfigChannel(&adc, &ch) != HAL_OK) fail("adc channel");
@@ -228,10 +231,11 @@ int main(void) {
     for (;;) {
         while (!due) __WFI();
         due = 0;
-        HAL_ADC_Start_DMA(&adc, (uint32_t *)raw, 4);
+        HAL_ADC_Start_DMA(&adc, (uint32_t *)raw, 5);
         while (HAL_DMA_GetState(&adc_dma) == HAL_DMA_STATE_BUSY) {}
         int16_t pressures[4];
-        for (int k = 0; k < 4; k++) pressures[k] = (int16_t)INPUT_MV(raw[k]);
+        uint32_t vdda = raw[4] ? __HAL_ADC_CALC_VREFANALOG_VOLTAGE(raw[4], ADC_RESOLUTION_12B) : 3300u;
+        for (int k = 0; k < 4; k++) pressures[k] = (int16_t)INPUT_MV(raw[k], vdda);
         send(0x100, pressures, 4);
         if (imu_ok) {
             uint8_t b[14];

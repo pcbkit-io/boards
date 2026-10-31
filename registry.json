@@ -1504,7 +1504,7 @@
         "console": [
           "imu ICM-42688-P",
           "sending at 100 Hz",
-          "p 2900 728 2671 503 mV",
+          "p 2899 ",
           "t102600000000EEFF"
         ],
         "toggles": [
