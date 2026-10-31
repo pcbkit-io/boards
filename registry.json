@@ -80,7 +80,7 @@
       "expect": {
         "seconds": 2,
         "frames": {
-          "XS9": 48
+          "XS9": 86
         }
       }
     },
@@ -180,7 +180,7 @@
       "expect": {
         "seconds": 2,
         "console": [
-          "READY"
+          "READY\n"
         ]
       }
     },
@@ -292,6 +292,12 @@
           "display",
           "orange",
           "red"
+        ],
+        "toggles": [
+          "U1.PB2",
+          "U1.PD5",
+          "U1.PD6",
+          "U1.PD7"
         ]
       }
     },
@@ -405,6 +411,11 @@
           "carGreen",
           "display",
           "walkRed"
+        ],
+        "toggles": [
+          "U1.PB0",
+          "U1.PB2",
+          "U1.PD7"
         ]
       }
     },
@@ -435,10 +446,13 @@
       "expect": {
         "seconds": 2,
         "console": [
-          "Type a message and press Enter."
+          "Type a message and press Enter.\n"
         ],
         "lit": [
           "display"
+        ],
+        "toggles": [
+          "U1.PB2"
         ]
       }
     },
@@ -474,7 +488,7 @@
       "expect": {
         "seconds": 2,
         "frames": {
-          "lcd": 57
+          "lcd": 103
         },
         "toggles": [
           "U1.GP17",
@@ -516,7 +530,7 @@
       "expect": {
         "seconds": 2,
         "frames": {
-          "DS1": 2
+          "DS1": 1
         },
         "toggles": [
           "U1.PC0",
@@ -557,7 +571,7 @@
       "expect": {
         "seconds": 2,
         "frames": {
-          "DS1": 34
+          "DS1": 62
         },
         "toggles": [
           "U1.GP17",
@@ -598,10 +612,15 @@
       "expect": {
         "seconds": 2,
         "frames": {
-          "DS1": 89
+          "DS1": 160
         },
         "console": [
+          "HU_Init: Setting up heads up display.",
           "ST_Init: Init status bar."
+        ],
+        "toggles": [
+          "U1.IO4",
+          "U1.IO5"
         ]
       }
     },
@@ -635,7 +654,7 @@
       "expect": {
         "seconds": 2,
         "frames": {
-          "DS1": 91
+          "DS1": 163
         },
         "toggles": [
           "U1.GP17",
@@ -678,7 +697,7 @@
       "expect": {
         "seconds": 2,
         "frames": {
-          "DS1": 6
+          "DS1": 10
         },
         "toggles": [
           "U1.PA4",
@@ -722,7 +741,7 @@
       "expect": {
         "seconds": 2,
         "frames": {
-          "DS1": 57
+          "DS1": 103
         },
         "toggles": [
           "U1.GP17",
@@ -764,7 +783,7 @@
       "expect": {
         "seconds": 2,
         "frames": {
-          "DS1": 49
+          "DS1": 88
         },
         "toggles": [
           "U1.GP16",
@@ -807,10 +826,17 @@
       "expect": {
         "seconds": 2,
         "frames": {
-          "DS1": 69
+          "DS1": 125
         },
         "console": [
+          "HU_Init: Setting up heads up display.",
           "ST_Init: Init status bar."
+        ],
+        "toggles": [
+          "U1.IO10",
+          "U1.IO14",
+          "U1.IO21",
+          "U1.IO9"
         ]
       }
     },
@@ -849,9 +875,10 @@
       "expect": {
         "seconds": 2,
         "frames": {
-          "DS1": 54
+          "DS1": 98
         },
         "console": [
+          "HU_Init: Setting up heads up display.",
           "ST_Init: Init status bar."
         ]
       }
@@ -888,7 +915,7 @@
       "expect": {
         "seconds": 2,
         "frames": {
-          "DS1": 56
+          "DS1": 100
         },
         "toggles": [
           "U1.B0_00",
@@ -926,7 +953,7 @@
       "expect": {
         "seconds": 2,
         "frames": {
-          "DS1": 328
+          "DS1": 591
         }
       }
     },
@@ -959,7 +986,7 @@
       "expect": {
         "seconds": 2,
         "frames": {
-          "DS1": 166
+          "DS1": 299
         }
       }
     },
@@ -991,7 +1018,7 @@
       "expect": {
         "seconds": 2,
         "frames": {
-          "DS1": 448
+          "DS1": 806
         },
         "toggles": [
           "NANO.PB1"
@@ -1028,8 +1055,16 @@
       "expect": {
         "seconds": 2,
         "frames": {
-          "DS1": 49
-        }
+          "DS1": 89
+        },
+        "toggles": [
+          "NANO.PB3",
+          "NANO.PB4",
+          "NANO.PD2",
+          "NANO.PD3",
+          "NANO.PD4",
+          "NANO.PD5"
+        ]
       }
     },
     {
@@ -1064,7 +1099,7 @@
       "expect": {
         "seconds": 2,
         "frames": {
-          "DS1": 679
+          "DS1": 1222
         }
       }
     },
@@ -1095,7 +1130,7 @@
       "expect": {
         "seconds": 2,
         "frames": {
-          "DS1": 616
+          "DS1": 1109
         }
       }
     },
@@ -1125,7 +1160,7 @@
       "expect": {
         "seconds": 2,
         "frames": {
-          "DS1": 698
+          "DS1": 1257
         }
       }
     },
@@ -1155,7 +1190,7 @@
       "expect": {
         "seconds": 2,
         "frames": {
-          "DS1": 666
+          "DS1": 1198
         }
       }
     },
@@ -1185,7 +1220,7 @@
       "expect": {
         "seconds": 2,
         "frames": {
-          "DS1": 623
+          "DS1": 1121
         }
       }
     },
@@ -1216,7 +1251,7 @@
       "expect": {
         "seconds": 2,
         "frames": {
-          "DS1": 669
+          "DS1": 1204
         }
       }
     },
@@ -1246,7 +1281,7 @@
       "expect": {
         "seconds": 2,
         "frames": {
-          "DS1": 22
+          "DS1": 40
         }
       }
     },
@@ -1276,7 +1311,7 @@
       "expect": {
         "seconds": 2,
         "frames": {
-          "DS1": 22
+          "DS1": 40
         }
       }
     },
@@ -1306,7 +1341,7 @@
       "expect": {
         "seconds": 2,
         "frames": {
-          "DS1": 554
+          "DS1": 997
         }
       }
     },
@@ -1452,8 +1487,10 @@
       "expect": {
         "seconds": 2,
         "console": [
+          "imu ICM-42688-P",
           "sending at 100 Hz",
-          "t10"
+          "p 2900 728 2671 503 mV",
+          "t102600000000EEFF"
         ],
         "toggles": [
           "U1.PB0"
@@ -1496,7 +1533,7 @@
           "thermostat"
         ],
         "frames": {
-          "DS1": 2454
+          "DS1": 4418
         },
         "toggles": [
           "U1.IO14",
@@ -1539,7 +1576,7 @@
       "expect": {
         "seconds": 2,
         "frames": {
-          "LCD1": 2
+          "LCD1": 3
         }
       }
     },
@@ -1580,7 +1617,7 @@
       "expect": {
         "seconds": 2,
         "frames": {
-          "LCD1": 25
+          "LCD1": 45
         },
         "console": [
           "avg_us="
