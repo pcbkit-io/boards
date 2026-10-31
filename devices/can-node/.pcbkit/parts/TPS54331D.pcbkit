@@ -14,11 +14,11 @@ pcbkit 2
 
 /// TPS54331D — Non-synchronous buck converter, 3.5-28 V in, 3 A, 570 kHz, 0.8 V reference,
 /// external catch diode
-part Part = device(
-  footprint = soic(8),
-  prefix = "U",
-  mpn = "TPS54331D",
-  manufacturer = "Texas Instruments",
+part TPS54331D: Part {
+  footprint = soic(8)
+  prefix = "U"
+  mpn = "TPS54331D"
+  manufacturer = "Texas Instruments"
   pinout = {
     BOOT = "1"
     VIN = "2"
@@ -28,7 +28,7 @@ part Part = device(
     COMP = "6"
     GND = "7"
     PH = "8"
-  },
+  }
   pinTypes = {
     BOOT = .passive
     VIN = io.powerIn(min = 3.5V, max = 30V)
@@ -38,8 +38,7 @@ part Part = device(
     COMP = .passive
     GND = .ground
     PH = .powerOut
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "TPS54331 datasheet SLVS839H, Table 5-1 (pin functions)"
@@ -178,7 +177,7 @@ part Part = device(
 
 /// The support circuit of the TPS54331D as its datasheet shows it (p. 14, Figure 8-1 (7-28 V in,
 /// 3.3 V / 3 A out)): every part next to the pin it serves. Add it next to the part: `U1 =
-/// TPS54331D.Part { … }`, `U1Support = TPS54331D.Support(U1) {}`.
+/// TPS54331D.TPS54331D { … }`, `U1Support = TPS54331D.Support(U1) {}`.
 ///
 /// - The figure: 7-28 V in, 3.3 V / 3 A out. VOUT = 0.8 V x (1 + R5 / R6); R5 about 10 kohm.
 ///
@@ -195,8 +194,8 @@ block Support {
 
   net COMP_RC
   @severity(.warning)
-  require vout !=
-    null "TPS54331D needs `vout` (The output rail (3.3 V with R5 = 10.2 kohm; VOUT = 0.8 V x (1 + R5 / R6)).): L1, C8, C9, R5 are left out until it is given, `TPS54331D.Support(U1, vout = …)`"
+  require vout != null
+    "TPS54331D needs `vout` (The output rail (3.3 V with R5 = 10.2 kohm; VOUT = 0.8 V x (1 + R5 / R6)).): L1, C8, C9, R5 are left out until it is given, `TPS54331D.Support(U1, vout = …)`"
   /// 50V X5R/X7R
   C1 = cap(4.7uF, package = "1206", ratedVoltage = 50V) {
     place = [soft(near(chip.pin.VIN, max = 4mm), weight = 2)]

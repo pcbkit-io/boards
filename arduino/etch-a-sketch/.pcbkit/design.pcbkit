@@ -19,9 +19,9 @@ board = Board {
   fab { mask = .red }
 }
 
-NANO = ARDUINO_NANO.Part with {
-  simulation = ARDUINO_NANO.Part.simulation with {
-    behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" }
+NANO = ARDUINO_NANO.ARDUINO_NANO with {
+  simulation = ARDUINO_NANO.ARDUINO_NANO.simulation with {
+    behavior = ARDUINO_NANO.ARDUINO_NANO.simulation.behavior with { firmware = "firmware" }
   }
 } {
   at = (45mm, 22mm)
@@ -36,7 +36,7 @@ NANO = ARDUINO_NANO.Part with {
   D2 -- WIPE
 }
 
-DS1 = SSD1306_OLED_I2C.Part {
+DS1 = SSD1306_OLED_I2C.SSD1306_OLED_I2C {
   at = (45mm, 64mm)
   GND -- GND
   VCC -- V5
@@ -45,14 +45,14 @@ DS1 = SSD1306_OLED_I2C.Part {
 }
 
 // The knobs at the two bottom corners, their wipers into A0 and A1.
-RV1 = Pot.Part {
+RV1 = Pot.PTV09A_4020F_B103 {
   at = (12mm, 12mm)
   CCW -- GND
   W -- X
   CW -- V5
   MP -- GND
 }
-RV2 = Pot.Part {
+RV2 = Pot.PTV09A_4020F_B103 {
   at = (78mm, 12mm)
   CCW -- GND
   W -- Y

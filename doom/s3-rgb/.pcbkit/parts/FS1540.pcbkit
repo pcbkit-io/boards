@@ -8,7 +8,7 @@ pcbkit 2
 // the board.
 
 /// FS-1540 — 15 x 15 mm SMD speaker, 8 ohm, 0.5 W (0.8 W max)
-part Part = device(
+part FS1540: Part {
   footprint = Footprint {
     name = "Speaker_FUET_FS-1540_15x15mm"
     description = "FS-1540 15 x 15 x 4 mm SMD speaker (the maker's land pattern)"
@@ -29,10 +29,10 @@ part Part = device(
       Line { points = [(-4.6mm, -7.6mm), (4.6mm, -7.6mm)] },
       Text { text = "+", at = (5.95mm, -8.6mm), size = 1mm },
     ]
-  },
-  prefix = "LS",
-  mpn = "FS-1540",
-  manufacturer = "Taizhou Fusheng Electronic Technology",
-  pinout = { N = "1", P = "2", MP = "MP" },
-  pinTypes = { N = .passive, P = .passive, MP = .nc },
-)
+  }
+  prefix = "LS"
+  mpn = "FS-1540"
+  manufacturer = "Taizhou Fusheng Electronic Technology"
+  pinout = { N = "1", P = "2", MP = "MP" }
+  pinTypes = { N = .passive, P = .passive, MP = .nc }
+}

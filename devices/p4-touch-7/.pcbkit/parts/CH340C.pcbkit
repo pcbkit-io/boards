@@ -18,11 +18,11 @@ pcbkit 2
 
 /// CH340C — USB 2.0 full-speed to UART bridge, internal clock (no crystal), modem signals, 5 V or
 /// 3.3 V supply (SOP-16)
-part Part = device(
-  footprint = soic(16),
-  prefix = "U",
-  mpn = "CH340C",
-  manufacturer = "WCH (Nanjing Qinheng Microelectronics)",
+part CH340C: Part {
+  footprint = soic(16)
+  prefix = "U"
+  mpn = "CH340C"
+  manufacturer = "WCH (Nanjing Qinheng Microelectronics)"
   pinout = {
     GND = "1"
     TXD = "2"
@@ -40,7 +40,7 @@ part Part = device(
     RTS_N = "14"
     R232 = "15"
     VCC = "16"
-  },
+  }
   pinTypes = {
     GND = .ground
     TXD = .output
@@ -58,8 +58,7 @@ part Part = device(
     RTS_N = .output
     R232 = io.input(pull = .down)
     VCC = io.powerIn(min = 3.1V, max = 6V)
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "WCH datasheet CH340DS1 version 3D, section 4 (pins, SOP16 column), 5.1 and 6 (parameters)"
@@ -86,7 +85,7 @@ part Part = device(
 
 /// The support circuit of the CH340C as its datasheet shows it (5.1 Clock, reset, power; 7.1 and
 /// 7.6 application circuits): every part next to the pin it serves. Add it next to the part: `U1 =
-/// CH340C.Part { … }`, `U1Support = CH340C.Support(U1) {}`.
+/// CH340C.CH340C { … }`, `U1Support = CH340C.Support(U1) {}`.
 ///
 /// - No crystal: the CH340C has an internal clock (baud rate error under 1.8 %).
 ///

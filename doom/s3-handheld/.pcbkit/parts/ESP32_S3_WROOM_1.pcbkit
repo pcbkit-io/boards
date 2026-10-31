@@ -38,7 +38,7 @@ pcbkit 2
 
 /// ESP32-S3-WROOM-1-N16R8 — Wi-Fi 802.11b/g/n and Bluetooth LE 5 module, dual-core Xtensa LX7 240
 /// MHz (ESP32-S3), 16 MB flash, 8 MB octal PSRAM, native USB, PCB antenna, 3.3 V
-part Part = device(
+part ESP32_S3_WROOM_1: Part {
   footprint = (Footprint {
     let ps = [
       Pad { number = "1", at = (-8.75mm, 5.26mm), shape = shape.rect(1.5mm, 0.9mm) },
@@ -112,10 +112,10 @@ part Part = device(
         forbid = [.tracks, .vias, .pours, .footprints]
       },
     ]
-  },
-  prefix = "U",
-  mpn = "ESP32-S3-WROOM-1-N16R8",
-  manufacturer = "Espressif Systems",
+  }
+  prefix = "U"
+  mpn = "ESP32-S3-WROOM-1-N16R8"
+  manufacturer = "Espressif Systems"
   pinout = {
     GND = ["1", "40", "41"]
     P3V3 = "2"
@@ -156,7 +156,7 @@ part Part = device(
     TXD0 = "37"
     IO2 = "38"
     IO1 = "39"
-  },
+  }
   pinTypes = {
     GND = .ground
     P3V3 = io.powerIn(min = 3V, max = 3.6V)
@@ -197,8 +197,7 @@ part Part = device(
     TXD0 = io.bidirectional(max = 3.6V)
     IO2 = io.bidirectional(max = 3.6V)
     IO1 = io.bidirectional(max = 3.6V)
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "Espressif ESP32-S3-WROOM-1 & WROOM-1U datasheet v1.8, Table 3-1 Pin Definitions and Figure 3-1 Pin Layout; land pattern from Figures 10-1 and 11-1, positions cross-checked with Espressif's own footprint (espressif/kicad-libraries)"
@@ -267,7 +266,7 @@ part Part = device(
 
 /// The support circuit of the ESP32-S3-WROOM-1-N16R8 as its datasheet shows it (9 Peripheral
 /// Schematics (p. 41)): every part next to the pin it serves. Add it next to the part: `U1 =
-/// ESP32_S3_WROOM_1.Part { … }`, `U1Support = ESP32_S3_WROOM_1.Support(U1) {}`.
+/// ESP32_S3_WROOM_1.ESP32_S3_WROOM_1 { … }`, `U1Support = ESP32_S3_WROOM_1.Support(U1) {}`.
 ///
 /// - EN RC delay (10 kohm to 3V3, 1 uF to GND) so the supply is stable before the chip starts; a
 /// reset button may pull EN to GND.

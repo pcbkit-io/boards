@@ -19,7 +19,7 @@ pcbkit 2
 /// MSP1803 1.8in 128x160 SPI TFT module (ST7735S) — 1.8" 128 x 160 colour TFT module (ST7735S),
 /// SPI, on a 1x8 female header along its bottom edge: VCC GND CS RESET A0 SDA SCK LED; courtyard
 /// the 34.5 x 58 mm module lying over the board (its SD card header not used)
-part Part = device(
+part ST7735_TFT_1_8: Part {
   footprint = moduleSocket(
     "TFT_1.8in_ST7735_Socket_1x08_P2.54mm",
     socketRow(1, 8, (-8.89mm, 0mm), (2.54mm, 0mm)),
@@ -34,10 +34,10 @@ part Part = device(
       glass = 0.5mm,
       tape = 0.3mm,
     ),
-  ),
-  prefix = "U",
-  mpn = "MSP1803 1.8in 128x160 SPI TFT module (ST7735S)",
-  manufacturer = "generic",
+  )
+  prefix = "U"
+  mpn = "MSP1803 1.8in 128x160 SPI TFT module (ST7735S)"
+  manufacturer = "generic"
   pinout = {
     VCC = "1"
     GND = "2"
@@ -47,7 +47,7 @@ part Part = device(
     SDA = "6"
     SCK = "7"
     LED = "8"
-  },
+  }
   pinTypes = {
     VCC = io.powerIn(min = 3.3V, max = 5V)
     GND = .ground
@@ -57,8 +57,7 @@ part Part = device(
     SDA = io.input()
     SCK = io.input()
     LED = io.input()
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "lcdwiki MSP1803: pins 1 VCC (3.3-5 V), 2 GND, 3 CS, 4 RESET, 5 A0, 6 SDA, 7 SCK, 8 LED; size picture: PCB 34.50 x 58.00 mm, holes 28.50 x 52.00 mm (Ø3.2), header row 2.50 mm from the bottom edge, centred"

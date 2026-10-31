@@ -23,7 +23,7 @@ pcbkit 2
 /// SC0915 — Raspberry Pi Pico (RP2040) on two 20-pin female headers 0.7" apart (the through-hole
 /// socket variant), pins named as its pinout (GP0-GP28, VBUS, VSYS, 3V3, 3V3_EN, RUN, ADC_VREF,
 /// AGND); courtyard the 21 x 51 mm board with its USB end
-part Part = device(
+part RASPBERRY_PI_PICO: Part {
   footprint = moduleSocket(
     "Raspberry_Pi_Pico_Socket_2x20_P2.54mm_W17.78mm",
     concat(
@@ -59,10 +59,10 @@ part Part = device(
       ),
       solid.shell((7.5mm, 5.6mm, 2.6mm), wall = 0.25mm, at = (0mm, 24mm, 0mm), radius = 0.3mm),
     ],
-  ),
-  prefix = "U",
-  mpn = "SC0915",
-  manufacturer = "Raspberry Pi",
+  )
+  prefix = "U"
+  mpn = "SC0915"
+  manufacturer = "Raspberry Pi"
   pinout = {
     GP0 = "1"
     GP1 = "2"
@@ -98,7 +98,7 @@ part Part = device(
     P3V3_EN = "37"
     VSYS = "39"
     VBUS = "40"
-  },
+  }
   pinTypes = {
     GP0 = io.bidirectional()
     GP1 = io.bidirectional()
@@ -134,8 +134,7 @@ part Part = device(
     P3V3_EN = io.input(pull = .up)
     VSYS = .passive
     VBUS = io.powerOut(5V)
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "Raspberry Pi Pico datasheet, Figure 2 (pinout), Figure 4 (pin numbering), §2.1 (VBUS, VSYS, 3V3_EN, 3V3, ADC_VREF, AGND, RUN), Figure 3 (dimensions)"

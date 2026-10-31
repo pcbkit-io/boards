@@ -27,7 +27,7 @@ pcbkit 2
 /// SRAM, 16 MB flash, 8 MB PSRAM on QMI CS1 = GPIO47, USB-C) on two 20-pin female headers 0.7"
 /// apart, the Pico's pinout (GP0-GP22, GP26-GP28, VBUS, VSYS, 3V3, 3V3_EN, RUN, ADC_VREF, AGND);
 /// courtyard the 21 x 51 mm board
-part Part = device(
+part PIMORONI_PICO_PLUS_2: Part {
   footprint = moduleSocket(
     "Pimoroni_Pico_Plus_2_Socket_2x20_P2.54mm_W17.78mm",
     concat(
@@ -56,10 +56,10 @@ part Part = device(
         radius = 1.63mm,
       ),
     ],
-  ),
-  prefix = "U",
-  mpn = "PIM724",
-  manufacturer = "Pimoroni",
+  )
+  prefix = "U"
+  mpn = "PIM724"
+  manufacturer = "Pimoroni"
   pinout = {
     GP0 = "1"
     GP1 = "2"
@@ -95,7 +95,7 @@ part Part = device(
     P3V3_EN = "37"
     VSYS = "39"
     VBUS = "40"
-  },
+  }
   pinTypes = {
     GP0 = io.bidirectional()
     GP1 = io.bidirectional()
@@ -131,8 +131,7 @@ part Part = device(
     P3V3_EN = io.input(pull = .up)
     VSYS = .passive
     VBUS = io.powerOut(5V)
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "Pimoroni Pico Plus 2 product page (Pico pinout, PSRAM on GPIO47) and the Raspberry Pi Pico 2 pinout it shares"

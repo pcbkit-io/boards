@@ -26,7 +26,7 @@ pcbkit 2
 /// MSP3520 3.5in 320x480 SPI TFT module with touch (ILI9488) — 3.5" 320 x 480 colour TFT module
 /// (ILI9488) with resistive touch (XPT2046), SPI, on a 1x14 female header: VCC GND CS RESET DC SDI
 /// SCK LED SDO T_CLK T_CS T_DIN T_DO T_IRQ; courtyard the 56.34 x 98 mm module lying over the board
-part Part = device(
+part ILI9488_TFT_3_5_TOUCH: Part {
   footprint = moduleSocket(
     "TFT_3.5in_ILI9488_Socket_1x14_P2.54mm",
     socketRow(1, 14, (-16.51mm, 0mm), (2.54mm, 0mm)),
@@ -41,10 +41,10 @@ part Part = device(
       glass = 1.2mm,
       tape = 0.5mm,
     ),
-  ),
-  prefix = "U",
-  mpn = "MSP3520 3.5in 320x480 SPI TFT module with touch (ILI9488)",
-  manufacturer = "generic",
+  )
+  prefix = "U"
+  mpn = "MSP3520 3.5in 320x480 SPI TFT module with touch (ILI9488)"
+  manufacturer = "generic"
   pinout = {
     VCC = "1"
     GND = "2"
@@ -60,7 +60,7 @@ part Part = device(
     T_DIN = "12"
     T_DO = "13"
     T_IRQ = "14"
-  },
+  }
   pinTypes = {
     VCC = io.powerIn(min = 3.3V, max = 5V)
     GND = .ground
@@ -76,8 +76,7 @@ part Part = device(
     T_DIN = io.input()
     T_DO = .output
     T_IRQ = .output
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "lcdwiki MSP3520 interface definition and product parameters (56.34 x 98 mm)"

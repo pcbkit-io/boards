@@ -170,7 +170,7 @@ D10 = diode(kind = .schottky, package = "SMA", ratedVoltage = 40V, ratedCurrent 
   K -- VBUS
   orderCode = "C8678"
 }
-U2 = IP5306.Part {
+U2 = IP5306.IP5306 {
   VIN -- VBUS
   BAT -- VBAT
   VOUT -- VSYS
@@ -182,12 +182,12 @@ U2 = IP5306.Part {
   orderCode = "C181692"
 }
 U2Support = IP5306.Support { chip = U2 }
-BT1 = device(
-  wireToBoard(2, pitch = 1.25mm),
-  pinout = { "1" = "1", "2" = "2" },
-  prefix = "J",
-  mpn = "MX1.25-2P",
-) {
+BT1 = Part {
+  footprint = wireToBoard(2, pitch = 1.25mm)
+  pinout = { "1" = "1", "2" = "2" }
+  prefix = "J"
+  mpn = "MX1.25-2P"
+} {
   "1" -- VBAT
   "2" -- GND
   orderCode = "C7430458"
@@ -205,7 +205,7 @@ R2 = res(100kohm) {
 }
 
 // 3.3 V: 0.6 V x (1 + 453k / 100k) = 3.32 V.
-U3 = SY8089AAAC.Part {
+U3 = SY8089AAAC.SY8089AAAC {
   IN -- VSYS
   EN -- VSYS
   GND -- GND
@@ -251,7 +251,7 @@ C4 = cap(22pF) {
 }
 
 // 1.2 V for the P4's HP domain: its EN_DCDC turns the converter on, its FB_DCDC trims the divider.
-U4 = SY8089AAAC.Part {
+U4 = SY8089AAAC.SY8089AAAC {
   IN -- V3
   EN -- EN_DCDC
   GND -- GND
@@ -293,9 +293,9 @@ R7 = res(0ohm) {
 
 // ---- the ESP32-P4 -------------------------------------------------------------------------------
 // It runs the image NucleoOS publishes for this board, from its release.
-U1 = ESP32_P4NRW32.Part with {
-  simulation = ESP32_P4NRW32.Part.simulation with {
-    behavior = ESP32_P4NRW32.Part.simulation.behavior with {
+U1 = ESP32_P4NRW32.ESP32_P4NRW32 with {
+  simulation = ESP32_P4NRW32.ESP32_P4NRW32.simulation with {
+    behavior = ESP32_P4NRW32.ESP32_P4NRW32.simulation.behavior with {
       image = FirmwareData {
         url = "https://github.com/indecenti/NucleoOS-P4/releases/download/v1.2.189/nucleoos-p4-1.2.189-jc1060p470c-factory.bin"
         sha256 = "b23232f844ca4f96a63c9d70255eb6eebd0dae199ccaa37be0a6ef62dc706e40"
@@ -408,7 +408,7 @@ SW2 = button("4.2x3.2") {
 }
 
 // ---- the console: CH340C with automatic reset and boot ------------------------------------------
-U5 = CH340C.Part {
+U5 = CH340C.CH340C {
   VCC -- V3
   V3 -- V3
   GND -- GND
@@ -424,13 +424,13 @@ U5 = CH340C.Part {
 U5Support = CH340C.Support { chip = U5 }
 // The two-transistor auto-program circuit: DTR and RTS reach CHIP_PU and BOOT only when they
 // differ.
-Q1 = MMBT3904.Part {
+Q1 = MMBT3904.MMBT3904 {
   B -- Q1B
   E -- DTR
   C -- CHIP_PU
   orderCode = "C94514"
 }
-Q2 = MMBT3904.Part {
+Q2 = MMBT3904.MMBT3904 {
   B -- Q2B
   E -- RTS
   C -- BOOT
@@ -472,13 +472,13 @@ J3.J.place = [edge(.top, from = 125mm, to = 155mm)]
 // ---- the display: JD9165 panel on a 30-pin FPC, its GT911 touch on a 6-pin FPC -------------------
 // The connector numbers the panel's contacts in reverse (bottom contact): its pin 30 is the
 // panel's 1.
-FPC1 = device(
-  fpc(30, pitch = 0.5mm),
-  pinout = {},
-  prefix = "J",
-  mpn = "FH12-30S-0.5SH(55)",
-  manufacturer = "Hirose",
-) {
+FPC1 = Part {
+  footprint = fpc(30, pitch = 0.5mm)
+  pinout = {}
+  prefix = "J"
+  mpn = "FH12-30S-0.5SH(55)"
+  manufacturer = "Hirose"
+} {
   place = [edge(.top, from = 45mm, to = 75mm)]
 
   "1" -- VCOM
@@ -514,13 +514,13 @@ FPC1 = device(
 
   orderCode = "C506793"
 }
-FPC2 = device(
-  fpc(6, pitch = 1mm),
-  pinout = {},
-  prefix = "J",
-  mpn = "FH12-6S-1SH(55)",
-  manufacturer = "Hirose",
-) {
+FPC2 = Part {
+  footprint = fpc(6, pitch = 1mm)
+  pinout = {}
+  prefix = "J"
+  mpn = "FH12-6S-1SH(55)"
+  manufacturer = "Hirose"
+} {
   place = [edge(.top, from = 20mm, to = 40mm)]
   "1" -- TP_INT
   "2" -- TP_RST
@@ -590,7 +590,7 @@ LCD1 = behavioralPart(
 
 // The panel's supplies: AVDD 9.6 V from a boost, VGH and VGL from charge pumps on its switch node,
 // VCOM from AVDD.
-U6 = MT3608.Part {
+U6 = MT3608.MT3608 {
   VIN -- V3
   EN -- V3
   GND -- GND
@@ -702,7 +702,7 @@ C13 = cap(1uF) {
 
 // The backlight: 27 white LEDs at 180 mA from a boost whose feedback is the current sense resistor
 // (0.6 V / 3.3 ohm, through R48), switched by the P4's LEDC PWM on EN.
-U7 = MT3608.Part {
+U7 = MT3608.MT3608 {
   VIN -- VSYS
   EN -- LCD_PWM
   GND -- GND
@@ -761,7 +761,7 @@ R20 = res(10kohm) {
 }
 
 // ---- sound: the ES8311 codec, its microphone and the speaker's amplifier --------------------------
-U8 = ES8311.Part {
+U8 = ES8311.ES8311 {
   PVDD -- V3
   AVDD -- V3
   DGND -- GND
@@ -782,13 +782,13 @@ U8 = ES8311.Part {
 U8Support = ES8311.Support { chip = U8 }
 // An electret capsule (6 x 2.7 mm) biased from 3.3 V, AC-coupled into the codec's differential
 // input.
-MK1 = device(
-  pinHeader(2),
-  pinout = { "1" = "1", "2" = "2" },
-  prefix = "MK",
-  mpn = "CMEJ-0627-42-P",
-  manufacturer = "CUI Devices",
-) {
+MK1 = Part {
+  footprint = pinHeader(2)
+  pinout = { "1" = "1", "2" = "2" }
+  prefix = "MK"
+  mpn = "CMEJ-0627-42-P"
+  manufacturer = "CUI Devices"
+} {
   "1" -- MIC_BIAS
   "2" -- GND
   orderCode = "C3273888"
@@ -808,7 +808,7 @@ C17 = cap(1uF) {
   b -- GND
   orderCode = "C15849"
 }
-U9 = PAM8403DR.Part {
+U9 = PAM8403DR.PAM8403DR {
   VDD -- VSYS
   PVDD -- VSYS
   GND -- GND
@@ -832,19 +832,19 @@ R22 = res(10kohm) {
   b -- GND
   orderCode = "C25804"
 }
-J4 = device(
-  wireToBoard(2, pitch = 1.25mm),
-  pinout = { "1" = "1", "2" = "2" },
-  prefix = "J",
-  mpn = "MX1.25-2P",
-) {
+J4 = Part {
+  footprint = wireToBoard(2, pitch = 1.25mm)
+  pinout = { "1" = "1", "2" = "2" }
+  prefix = "J"
+  mpn = "MX1.25-2P"
+} {
   "1" -- SPK_P
   "2" -- SPK_N
   orderCode = "C7430458"
 }
 
 // ---- the clock --------------------------------------------------------------------------------------
-U10 = DS3231SN.Part {
+U10 = DS3231SN.DS3231SN {
   VCC -- V3
   GND -- GND
   SDA -- SDA
@@ -860,7 +860,7 @@ U10Support = DS3231SN.Support {
   chip = U10
   pullUps = false
 }
-BT2 = CR2032_HOLDER_SMD.Part {
+BT2 = CR2032_HOLDER_SMD.CR2032_HOLDER_SMD {
   VBAT -- RTC_BAT
   GND -- GND
   orderCode = "C964777"
@@ -875,8 +875,8 @@ C19 = cap(100nF) {
 // ---- microSD -----------------------------------------------------------------------------------------
 // Powered from the P4's VO4 LDO (the firmware switches it), 4-bit SD on its SDMMC slot 0 pads.
 // The card holds what NucleoOS's release publishes for it (its web shell and data).
-J5 = DM3AT_SF_PEJM5.Part with {
-  simulation = DM3AT_SF_PEJM5.Part.simulation with {
+J5 = DM3AT_SF_PEJM5.DM3AT_SF_PEJM5 with {
+  simulation = DM3AT_SF_PEJM5.DM3AT_SF_PEJM5.simulation with {
     behavior = Behavior {
       model = "sd-card"
       ports = { power = ["4", "6"], clk = ["5"], cmd = ["3"], dat0 = ["7"] }
@@ -939,7 +939,7 @@ R27 = res(10kohm) {
 }
 
 // ---- the ESP32-C6 radio, on the P4's second SDMMC slot (ESP-Hosted) --------------------------------
-U11 = ESP32_C6_MINI_1.Part {
+U11 = ESP32_C6_MINI_1.ESP32_C6_MINI_1 {
   // The antenna (the module's top 5.4 mm) beyond the board's top edge, as Espressif recommends.
   rotation = 0deg
   place = [edge(.top, from = 80mm, to = 120mm, overhang = 5.4mm)]

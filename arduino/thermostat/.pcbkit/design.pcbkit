@@ -23,9 +23,9 @@ board = Board {
   fab { mask = .white }
 }
 
-NANO = ARDUINO_NANO.Part with {
-  simulation = ARDUINO_NANO.Part.simulation with {
-    behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" }
+NANO = ARDUINO_NANO.ARDUINO_NANO with {
+  simulation = ARDUINO_NANO.ARDUINO_NANO.simulation with {
+    behavior = ARDUINO_NANO.ARDUINO_NANO.simulation.behavior with { firmware = "firmware" }
   }
 } {
   at = (24mm, 12mm)
@@ -40,7 +40,7 @@ NANO = ARDUINO_NANO.Part with {
   D9 -- VALVE
 }
 
-DS1 = SSD1306_OLED_I2C.Part {
+DS1 = SSD1306_OLED_I2C.SSD1306_OLED_I2C {
   at = (68mm, 51.4mm)
   GND -- GND
   VCC -- V5
@@ -49,7 +49,7 @@ DS1 = SSD1306_OLED_I2C.Part {
 }
 
 // The sensor on its tab beyond the slot, away from the Nano's and the servo's warmth.
-U1 = SHT31_DIS.Part {
+U1 = SHT31_DIS.SHT31_DIS {
   at = (86mm, 14mm)
   VDD -- V5
   VSS -- GND
@@ -61,7 +61,7 @@ U1 = SHT31_DIS.Part {
 U1Support = SHT31_DIS.Support { chip = U1 }
 
 // The valve's servo plugs in here (an SG90 turning a radiator's thermostatic head).
-J1 = SERVO_HEADER.Part {
+J1 = SERVO_HEADER.SERVO_HEADER {
   at = (50mm, 30mm)
   GND -- GND
   VPLUS -- V5

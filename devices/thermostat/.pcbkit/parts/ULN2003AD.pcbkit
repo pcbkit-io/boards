@@ -25,11 +25,11 @@ pcbkit 2
 
 /// ULN2003AD — ULN2003A seven-channel Darlington array (open collector, 500 mA, 50 V, flyback
 /// diodes), for relays and steppers, SOIC-16
-part Part = device(
-  footprint = soic(16),
-  prefix = "U",
-  mpn = "ULN2003AD",
-  manufacturer = "Texas Instruments",
+part ULN2003AD: Part {
+  footprint = soic(16)
+  prefix = "U"
+  mpn = "ULN2003AD"
+  manufacturer = "Texas Instruments"
   pinout = {
     IN1 = "1"
     IN2 = "2"
@@ -47,7 +47,7 @@ part Part = device(
     OUT3 = "14"
     OUT2 = "15"
     OUT1 = "16"
-  },
+  }
   pinTypes = {
     IN1 = io.input(max = 30V, pull = .down)
     IN2 = io.input(max = 30V, pull = .down)
@@ -65,8 +65,7 @@ part Part = device(
     OUT3 = .passive
     OUT2 = .passive
     OUT1 = .passive
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "TI ULN2003A datasheet SLRS027T: figure 4-1 / table 4-1 pin functions (D, N packages), 5.1 absolute maximum ratings"

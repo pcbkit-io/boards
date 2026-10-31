@@ -33,7 +33,7 @@ pcbkit 2
 
 /// ESP32-C3-MINI-1-N4X — Small Wi-Fi 802.11b/g/n and Bluetooth LE 5 module, single-core RISC-V
 /// 160 MHz (ESP32-C3), 4 MB flash, USB Serial/JTAG, PCB antenna, 3.3 V
-part Part = device(
+part ESP32_C3_MINI_1: Part {
   footprint = (Footprint {
     let ps = [
       Pad { number = "1", at = (-5.9mm, 1.3mm), shape = shape.rect(0.8mm, 0.4mm) },
@@ -118,10 +118,10 @@ part Part = device(
         forbid = [.tracks, .vias, .pours, .footprints]
       },
     ]
-  },
-  prefix = "U",
-  mpn = "ESP32-C3-MINI-1-N4X",
-  manufacturer = "Espressif Systems",
+  }
+  prefix = "U"
+  mpn = "ESP32-C3-MINI-1-N4X"
+  manufacturer = "Espressif Systems"
   pinout = {
     GND = [
       "1",
@@ -165,7 +165,7 @@ part Part = device(
     IO19 = "27"
     RXD0 = "30"
     TXD0 = "31"
-  },
+  }
   pinTypes = {
     GND = .ground
     P3V3 = io.powerIn(min = 3V, max = 3.6V)
@@ -186,8 +186,7 @@ part Part = device(
     IO19 = io.bidirectional(max = 3.6V)
     RXD0 = io.bidirectional(max = 3.6V)
     TXD0 = io.bidirectional(max = 3.6V)
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "Espressif ESP32-C3-MINI-1 & MINI-1U datasheet v2.2, Table 3-1 Pin Definitions and Figure 3-1 Pin Layout; land pattern from Figures 10-1 and 11-1, positions cross-checked with Espressif's own footprint (espressif/kicad-libraries)"
@@ -236,7 +235,7 @@ part Part = device(
 
 /// The support circuit of the ESP32-C3-MINI-1-N4X as its datasheet shows it (9 Peripheral
 /// Schematics (p. 34)): every part next to the pin it serves. Add it next to the part: `U1 =
-/// ESP32_C3_MINI_1.Part { … }`, `U1Support = ESP32_C3_MINI_1.Support(U1) {}`.
+/// ESP32_C3_MINI_1.ESP32_C3_MINI_1 { … }`, `U1Support = ESP32_C3_MINI_1.Support(U1) {}`.
 ///
 /// - EN RC delay (10 kohm to 3V3, 1 uF to GND); a reset button may pull EN to GND.
 ///

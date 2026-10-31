@@ -14,7 +14,7 @@ pcbkit 2
 
 /// IP5306 — Power bank SoC: 2.1 A switching Li-ion charger from 5 V and a 5.1 V 2.1 A boost on
 /// one inductor, power path, 1-4 LED fuel gauge, push button, flashlight driver, eSOP-8
-part Part = device(
+part IP5306: Part {
   footprint = rows(
     name = "SOIC-8-1EP_3.9x4.9mm_P1.27mm_EP2.09x2.09mm",
     description = "eSOP-8, 8 pins, 4.9 x 3.9 mm body, 1.27 mm pitch (from the datasheet)",
@@ -27,11 +27,11 @@ part Part = device(
     bodyY = tolerance(4.7mm, 5.1mm),
     bodyHeight = 1.65mm,
     exposedPad = (2.09mm, 2.09mm),
-  ),
-  prefix = "U",
-  mpn = "IP5306",
-  manufacturer = "Injoinic Technology",
-  orderCode = "C181692",
+  )
+  prefix = "U"
+  mpn = "IP5306"
+  manufacturer = "Injoinic Technology"
+  orderCode = "C181692"
   pinout = {
     VIN = "1"
     LED1 = "2"
@@ -42,7 +42,7 @@ part Part = device(
     SW = "7"
     VOUT = "8"
     GND = "9"
-  },
+  }
   pinTypes = {
     VIN = io.powerIn(min = 4.75V, max = 5.5V)
     LED1 = .passive
@@ -53,8 +53,7 @@ part Part = device(
     SW = .passive
     VOUT = io.powerOut(5.1V)
     GND = .ground
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "Injoinic IP5306 datasheet V1.10: pin definition (eSOP8: 1 VIN, 2 LED1, 3 LED2, 4 LED3, 5 KEY, 6 BAT, 7 SW, 8 VOUT, power pad GND), absolute maximum ratings, recommended operation conditions, electrical characteristics, package information"
@@ -105,7 +104,7 @@ part Part = device(
 
 /// The support circuit of the IP5306 as its datasheet shows it (p. 9, Figure 7 (4 LEDs SOC
 /// indicator typical application schematic)): every part next to the pin it serves. Add it next to
-/// the part: `U1 = IP5306.Part { … }`, `U1Support = IP5306.Support(U1) {}`.
+/// the part: `U1 = IP5306.IP5306 { … }`, `U1Support = IP5306.Support(U1) {}`.
 ///
 /// - One inductor does both directions: charging steps 5 V on VIN down to the battery, discharging
 /// steps the battery up to 5.1 V on VOUT; VIN passes to VOUT while charging.

@@ -99,9 +99,9 @@ fn key(code: String) -> Part = button("6x6") with {
 // ---- processor (back) ----------------------------------------------------------------------
 // The program is doom/ (rp2040-doom's engine); its data, rp2040-doom's compressed shareware WAD
 // (DOOM1.WHX, id Software's data, free to share unmodified), is linked into the 16 MB flash.
-U1 = RP2040.Part with {
-  simulation = RP2040.Part.simulation with {
-    behavior = RP2040.Part.simulation.behavior with {
+U1 = RP2040.RP2040 with {
+  simulation = RP2040.RP2040.simulation with {
+    behavior = RP2040.RP2040.simulation.behavior with {
       parameters = { "flash_mib" = 16 }
       firmware = "doom"
       data = {
@@ -250,14 +250,14 @@ usb.power.J.at = (66mm, 8.15mm)
 // ---- power ---------------------------------------------------------------------------------
 // Two 18650 cells on the back, side by side along the top, in parallel. The holders are not
 // polarized: put each cell's + at the end the silkscreen marks.
-BT1 = Holder.Part {
+BT1 = Holder.KEYSTONE_1042 {
   orderCode = "C5249310"
   at = (66mm, 69mm)
   side = .bottom
   C2 -- CELL1_P
   C1 -- CELL_N
 }
-BT2 = Holder.Part {
+BT2 = Holder.KEYSTONE_1042 {
   orderCode = "C5249310"
   at = (66mm, 91mm)
   side = .bottom
@@ -303,12 +303,12 @@ reversed = ReversePolarity {
   current = 800mA
   rdsOn = 60mohm
   maxGateVoltage = 12V
-  fet = Pfet.Part with { orderCode = "C15127" }
+  fet = Pfet.AO3401A with { orderCode = "C15127" }
   side = .bottom
 }
 
 // Protection: over-charge 4.3 V, over-discharge 2.4 V, over-current about 3 A, in the pack's minus.
-U2 = Protection.Part {
+U2 = Protection.DW01A {
   orderCode = "C351410"
   side = .bottom
   GND -- CELL_N
@@ -324,7 +324,7 @@ U2Support = Protection.Support {
 // any port), 800 mA fast charge (RISET = 890 AΩ / 0.8 A), its current-based termination; SYSOFF
 // low (the cells always connected); the safety timers off (TMR to VSS): two cells charge longer
 // than its longest timer. TS: 10 kΩ without an NTC.
-U6 = Charger.Part {
+U6 = Charger.BQ24075RGT {
   at = (44.25mm, 9mm)
   rotation = 180deg
   IN -- VBUS
@@ -412,7 +412,7 @@ chargeLabel = Text {
 }
 
 // 3.3 V: the LDO from SYS, enabled by the on/off switch (R11 holds it off when the switch is open).
-U4 = TLV75533PDBV.Part {
+U4 = TLV75533PDBV.TLV75533PDBV {
   side = .bottom
   orderCode = "C404027"
   IN -- SYS
@@ -431,7 +431,7 @@ R11 = res(100kohm, package = "0402") {
   a -- LDO_EN
   b -- GND
 }
-SW9 = Slide.Part {
+SW9 = Slide.MSK12C02 {
   at = (1.9mm, 45mm)
   rotation = 90deg
   COM -- LDO_EN
@@ -470,7 +470,7 @@ tpLabel = Text {
 }
 
 // ---- display (front) -------------------------------------------------------------------------
-DS1 = ST7735_TFT_1_8.Part {
+DS1 = ST7735_TFT_1_8.ST7735_TFT_1_8 {
   at = (94mm, 29mm)
   rotation = 90deg
   // The 1x8 socket it plugs into (the module: a 1.8" ST7735 SPI TFT, bought separately).
@@ -486,7 +486,7 @@ DS1 = ST7735_TFT_1_8.Part {
 }
 
 // ---- storage (back, right edge): the WAD on a microSD card --------------------------------
-J4 = DM3AT_SF_PEJM5.Part {
+J4 = DM3AT_SF_PEJM5.DM3AT_SF_PEJM5 {
   side = .bottom
   orderCode = "C114218"
   place = [edge(.right)]
@@ -540,7 +540,7 @@ C7 = cap(10nF, package = "0402") {
   a -- AUDIO
   b -- GND
 }
-U5 = PAM8403DR.Part {
+U5 = PAM8403DR.PAM8403DR {
   at = (102mm, 37.25mm)
   side = .bottom
   orderCode = "C5122557"
@@ -580,7 +580,7 @@ R12 = res(100kohm, package = "0402") {
   b -- GND
 }
 // The speaker plugs in at the board's right edge.
-J5 = S2B_PH_K_S.Part {
+J5 = S2B_PH_K_S.S2B_PH_K_S {
   side = .bottom
   orderCode = "C173752"
   place = [edge(.right)]
@@ -639,7 +639,7 @@ H4 = hole("M3") { at = (127.5mm, 99.5mm) }
 gndPour = pour(net = GND, layers = [Cu.top, Cu.inner[1], Cu.bottom]) {}
 
 // PCBKit's mark and pcbkit.io, where the board has room.
-logo = Logo.Part { at = (66mm, 80mm) }
+logo = Logo.PCBKIT_LOGO { at = (66mm, 80mm) }
 
 // Orderable parts (JLCPCB / LCSC) for the parts the blocks add.
 U1Support.C_IOVDD_1.orderCode = "C1525"

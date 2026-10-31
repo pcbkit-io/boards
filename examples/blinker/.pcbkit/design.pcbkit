@@ -6,10 +6,10 @@ pcbkit 2
 
 net VCC, GND, TRIG, DIS, OUT, LEDK
 
-part NE555 = device(
-  footprint = soic(8),
-  mpn = "NE555DR",
-  manufacturer = "Texas Instruments",
+part NE555: Part {
+  footprint = soic(8)
+  mpn = "NE555DR"
+  manufacturer = "Texas Instruments"
   pinout = {
     GND = "1"
     TRIG = "2"
@@ -19,8 +19,8 @@ part NE555 = device(
     THR = "6"
     DIS = "7"
     VCC = "8"
-  },
-)
+  }
+}
 
 U1 = NE555 {
   GND -- GND

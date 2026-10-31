@@ -27,7 +27,7 @@ use ./W25Q128JVSIQ as W25Q128JVSIQ
 /// RP2040 — Dual Arm Cortex-M0+ MCU, 133 MHz, 264 KB SRAM, external QSPI flash, USB 1.1
 /// device/host, 2 PIO blocks (8 state machines), 4-channel 12-bit ADC, 1.8-3.3 V IO, internal 1.1 V
 /// core regulator
-part Part = device(
+part RP2040: Part {
   footprint = rows(
     name = "QFN-56-1EP_7x7mm_P0.4mm_EP3.1x3.1mm",
     description = "QFN-56 7x7 mm, 0.4 mm pitch, 3.1 mm exposed pad, 56 pins, 7 x 7 mm body, 0.4 mm pitch (from the datasheet)",
@@ -43,10 +43,10 @@ part Part = device(
     bodyY = tolerance(7mm, 7mm),
     bodyHeight = 0.9mm,
     exposedPad = (3.1mm, 3.1mm),
-  ),
-  prefix = "U",
-  mpn = "RP2040",
-  manufacturer = "Raspberry Pi",
+  )
+  prefix = "U"
+  mpn = "RP2040"
+  manufacturer = "Raspberry Pi"
   pinout = {
     IOVDD = ["1", "10", "22", "33", "42", "49"]
     GPIO0 = "2"
@@ -99,7 +99,7 @@ part Part = device(
     QSPI_SD1 = "55"
     QSPI_SS = "56"
     GND = "57"
-  },
+  }
   pinTypes = {
     IOVDD = io.powerIn(min = 1.62V, max = 3.63V)
     GPIO0 = io.bidirectional(max = 3.63V)
@@ -152,8 +152,7 @@ part Part = device(
     QSPI_SD1 = io.bidirectional(max = 3.63V)
     QSPI_SS = io.bidirectional(max = 3.63V)
     GND = .ground
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "Raspberry Pi RP2040 datasheet (build 2025-02-20), 1.4 Pinout reference (Tables 1-2) and 5.5.2 Pin list (Tables 615-621)"
@@ -231,7 +230,7 @@ let Y1Crystal = crystal(12MHz, load = 10pF, package = "3225")
 
 /// The support circuit of the RP2040 as its datasheet shows it (Hardware design with RP2040
 /// (minimal design example); datasheet 2.9 Power supplies, 2.16 Crystal oscillator): every part
-/// next to the pin it serves. Add it next to the part: `U1 = RP2040.Part { … }`, `U1Support =
+/// next to the pin it serves. Add it next to the part: `U1 = RP2040.RP2040 { … }`, `U1Support =
 /// RP2040.Support(U1) {}`.
 ///
 /// - The core regulator: VREG_VIN from 3.3 V, VREG_VOUT straight to both DVDD pins, 1 uF at its
@@ -363,7 +362,7 @@ block Support {
     }
     else null
   /// QSPI NOR flash, 3.3 V, SOIC-8 208 mil
-  U_FLASH = W25Q128JVSIQ.Part {
+  U_FLASH = W25Q128JVSIQ.W25Q128JVSIQ {
     place = [soft(near(chip, max = 8mm), weight = 1)]
 
     nCS -- chip.pin.QSPI_SS

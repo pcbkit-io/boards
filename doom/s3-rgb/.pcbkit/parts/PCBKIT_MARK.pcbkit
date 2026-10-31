@@ -5,7 +5,7 @@ pcbkit 2
 // A part with nothing to solder.
 
 /// The PCBKit mark, 12.8 mm wide.
-part Part = device(
+part PCBKIT_MARK: Part {
   footprint = Footprint {
     name = "Logo_PCBKit_mark"
     description = "The PCBKit mark, silkscreen only"
@@ -50,6 +50,6 @@ part Part = device(
         points = [(1.28mm, -6.4mm), (2.56mm, -6.4mm), (2.56mm, -5.12mm), (1.28mm, -5.12mm)]
       },
     ]
-  },
-  prefix = "LOGO",
-)
+  }
+  prefix = "LOGO"
+}

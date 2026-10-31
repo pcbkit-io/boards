@@ -24,11 +24,11 @@ pcbkit 2
 /// 54132-4062 — 40-contact 0.5 mm FFC connector for the Newhaven NHD-4.3-480272EF-ASXN 4.3" 480 x
 /// 272 24-bit RGB TFT (pins named as the panel's: backlight, R0-R7, G0-G7, B0-B7, CLK, DISP, HSYNC,
 /// VSYNC, DEN)
-part Part = device(
-  footprint = fpc(40, pitch = 0.5mm),
-  prefix = "J",
-  mpn = "54132-4062",
-  manufacturer = "Molex",
+part NHD43_RGB_FPC40: Part {
+  footprint = fpc(40, pitch = 0.5mm)
+  prefix = "J"
+  mpn = "54132-4062"
+  manufacturer = "Molex"
   pinout = {
     LED_K = "1"
     LED_A = "2"
@@ -69,7 +69,7 @@ part Part = device(
     NC39 = "39"
     NC40 = "40"
     MP = "MP"
-  },
+  }
   pinTypes = {
     LED_K = .passive
     LED_A = .passive
@@ -110,8 +110,7 @@ part Part = device(
     NC39 = .nc
     NC40 = .nc
     MP = .passive
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "Newhaven NHD-4.3-480272EF-ASXN specification, Pin Description table (1 LED-, 2 LED+, 3 GND, 4 VDD, 5-12 R0-R7, 13-20 G0-G7, 21-28 B0-B7, 29 GND, 30 CLK, 31 DISP, 32 HSYNC, 33 VSYNC, 34 DEN, 35 NC, 36 GND, 37-40 NC)"

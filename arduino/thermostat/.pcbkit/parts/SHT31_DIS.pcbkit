@@ -18,7 +18,7 @@ pcbkit 2
 
 /// SHT31-DIS-B2.5kS — Humidity and temperature sensor, ±2 %RH / ±0.2 °C typical, I2C up to 1
 /// MHz with alert output and reset, 2.15-5.5 V (DFN-8 2.5 x 2.5 mm)
-part Part = device(
+part SHT31_DIS: Part {
   footprint = rows(
     name = "DFN-8-1EP_2.5x2.5mm_P0.5mm_EP1.1x1.8mm",
     description = "DFN-8 2.5 x 2.5 mm, 0.5 mm pitch, die pad, 8 pins, 2.5 x 2.5 mm body, 0.5 mm pitch (from the datasheet)",
@@ -32,10 +32,10 @@ part Part = device(
     bodyY = tolerance(2.4mm, 2.6mm),
     bodyHeight = 1mm,
     exposedPad = (1.1mm, 1.8mm),
-  ),
-  prefix = "U",
-  mpn = "SHT31-DIS-B2.5kS",
-  manufacturer = "Sensirion",
+  )
+  prefix = "U"
+  mpn = "SHT31-DIS-B2.5kS"
+  manufacturer = "Sensirion"
   pinout = {
     SDA = "1"
     ADDR = "2"
@@ -45,7 +45,7 @@ part Part = device(
     nRESET = "6"
     R = "7"
     VSS = ["8", "9"]
-  },
+  }
   pinTypes = {
     SDA = io.openDrain()
     ADDR = io.input()
@@ -55,8 +55,7 @@ part Part = device(
     nRESET = io.input(pull = .up)
     R = .passive
     VSS = .ground
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "Sensirion SHT3x-DIS datasheet, Version 7 (December 2022), Table 7 pin assignment and section 3"
@@ -76,7 +75,7 @@ part Part = device(
 
 /// The support circuit of the SHT31-DIS-B2.5kS as its datasheet shows it (Figure 11 typical
 /// application circuit (p. 8)): every part next to the pin it serves. Add it next to the part: `U1
-/// = SHT31_DIS.Part { … }`, `U1Support = SHT31_DIS.Support(U1) {}`.
+/// = SHT31_DIS.SHT31_DIS { … }`, `U1Support = SHT31_DIS.Support(U1) {}`.
 ///
 /// - ADDR to VSS (0x44) or VDD (0x45); R (pin 7) and the die pad to VSS; ALERT and nRESET may stay
 /// open.

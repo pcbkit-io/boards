@@ -16,21 +16,20 @@ pcbkit 2
 
 /// SY8089AAAC — Synchronous buck converter, 2.7-5.5 V in, 2 A (3 A peak), 1 MHz, 0.6 V feedback,
 /// 100 % dropout, hiccup short-circuit protection, SOT-23-5
-part Part = device(
-  footprint = sot23(5),
-  prefix = "U",
-  mpn = "SY8089AAAC",
-  manufacturer = "Silergy",
-  orderCode = "C78988",
-  pinout = { EN = "1", GND = "2", LX = "3", IN = "4", FB = "5" },
+part SY8089AAAC: Part {
+  footprint = sot23(5)
+  prefix = "U"
+  mpn = "SY8089AAAC"
+  manufacturer = "Silergy"
+  orderCode = "C78988"
+  pinout = { EN = "1", GND = "2", LX = "3", IN = "4", FB = "5" }
   pinTypes = {
     EN = io.input(max = 6V, high = 1.5V)
     GND = .ground
     LX = .powerOut
     IN = io.powerIn(min = 2.7V, max = 6V)
     FB = .passive
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "Silergy AN_SY8089/A Rev. 0.9A: pinout and pin description (SOT23-5: 1 EN, 2 GND, 3 LX, 4 IN, 5 FB), absolute maximum ratings, recommended operating conditions, electrical characteristics"
@@ -80,8 +79,8 @@ part Part = device(
 }
 
 /// The support circuit of the SY8089AAAC as its datasheet shows it (p. 1, Figure 1 (schematic
-/// diagram)): every part next to the pin it serves. Add it next to the part: `U1 = SY8089AAAC.Part
-/// { … }`, `U1Support = SY8089AAAC.Support(U1) {}`.
+/// diagram)): every part next to the pin it serves. Add it next to the part: `U1 =
+/// SY8089AAAC.SY8089AAAC { … }`, `U1Support = SY8089AAAC.Support(U1) {}`.
 ///
 /// - VOUT = 0.6 V x (1 + R1 / R2): 200k / 100k gives 1.8 V (the datasheet's figure); 453k / 100k
 /// gives 3.3 V, 220k / 100k 1.92 V.
@@ -97,8 +96,8 @@ block Support {
   vout: Endpoint? = null
 
   @severity(.warning)
-  require vout !=
-    null "SY8089AAAC needs `vout` (The output rail.): L1, R1, C1, COUTA, COUTB are left out until it is given, `SY8089AAAC.Support(U1, vout = …)`"
+  require vout != null
+    "SY8089AAAC needs `vout` (The output rail.): L1, R1, C1, COUTA, COUTB are left out until it is given, `SY8089AAAC.Support(U1, vout = …)`"
   /// 10V ceramic
   CIN = cap(22uF, package = "1206", ratedVoltage = 10V) {
     place = [soft(near(chip.pin.IN, max = 4mm), weight = 2)]

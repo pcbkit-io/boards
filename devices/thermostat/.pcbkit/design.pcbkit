@@ -41,22 +41,22 @@ laboratory = Laboratory { world = "sim/house.js" }
 // ---- 24 V AC in, to 5 V and 3.3 V --------------------------------------------------------------
 // The furnace's wires on two terminal blocks at the left edge (Phoenix MKDS 1,5, 5.08 mm): R
 // (24 V AC) and C (its common), then the calls W, Y, G that the relays connect to R.
-J1 = device(
-  terminalBlock(2, pitch = 5.08mm),
-  pinout = { "1" = "1", "2" = "2" },
-  prefix = "J",
-  mpn = "1715721",
-) {
+J1 = Part {
+  footprint = terminalBlock(2, pitch = 5.08mm)
+  pinout = { "1" = "1", "2" = "2" }
+  prefix = "J"
+  mpn = "1715721"
+} {
   place = [edge(.left)]
   "1" -- R
   "2" -- C
 }
-J3 = device(
-  terminalBlock(3, pitch = 5.08mm),
-  pinout = { "1" = "1", "2" = "2", "3" = "3" },
-  prefix = "J",
-  mpn = "1715734",
-) {
+J3 = Part {
+  footprint = terminalBlock(3, pitch = 5.08mm)
+  pinout = { "1" = "1", "2" = "2", "3" = "3" }
+  prefix = "J"
+  mpn = "1715734"
+} {
   place = [edge(.left), soft(near(J1, max = 4mm))]
   "1" -- W
   "2" -- Y
@@ -95,7 +95,7 @@ D5 = diode(kind = .tvs, package = "SMB", voltage = 36V) {
   A -- GND
   K -- VDC
 }
-U4 = AMS1117_3_3.Part {
+U4 = AMS1117_3_3.AMS1117_3_3 {
   VIN -- V5
   VOUT -- V3
   GND -- GND
@@ -103,9 +103,9 @@ U4 = AMS1117_3_3.Part {
 U4Support = AMS1117_3_3.Support { chip = U4 }
 
 // ---- processor -----------------------------------------------------------------------------------
-U1 = ESP32_WROOM_32E.Part with {
-  simulation = ESP32_WROOM_32E.Part.simulation with {
-    behavior = ESP32_WROOM_32E.Part.simulation.behavior with { firmware = "firmware" }
+U1 = ESP32_WROOM_32E.ESP32_WROOM_32E with {
+  simulation = ESP32_WROOM_32E.ESP32_WROOM_32E.simulation with {
+    behavior = ESP32_WROOM_32E.ESP32_WROOM_32E.simulation.behavior with { firmware = "firmware" }
   }
 } {
   place = [edge(.top, overhang = 6mm)]
@@ -137,7 +137,7 @@ J2 = header(5) {
 
 // ---- the room, the screen, the buttons ------------------------------------------------------------
 // The SHT40 at the bottom edge, away from the regulators' heat, at 0x44 with the bus's pull-ups.
-U2 = SHT40_AD1B.Part {
+U2 = SHT40_AD1B.SHT40_AD1B {
   place = [edge(.bottom)]
   SDA -- SDA
   SCL -- SCL
@@ -146,7 +146,7 @@ U2 = SHT40_AD1B.Part {
 }
 U2Support = SHT40_AD1B.Support { chip = U2 }
 // The 0.96" OLED module (0x3C) on its 4-pin socket.
-DS1 = SSD1306_OLED_I2C.Part {
+DS1 = SSD1306_OLED_I2C.SSD1306_OLED_I2C {
   GND -- GND
   VCC -- V3
   SCL -- SCL
@@ -170,7 +170,7 @@ SW3 = button("6x6", key = "KeyM") {
 
 // ---- the calls: three relays switching R to W, Y and G -------------------------------------------
 // In the laboratory the house reads the calls at the driver's inputs (sim/house.js).
-U5 = physicalLines(ULN2003AD.Part, { input = ["1"], input2 = ["2"], input3 = ["3"] }) {
+U5 = physicalLines(ULN2003AD.ULN2003AD, { input = ["1"], input2 = ["2"], input3 = ["3"] }) {
   IN1 -- HEAT
   IN2 -- COOL
   IN3 -- FAN
@@ -193,21 +193,21 @@ C2 = cap(100nF, package = "0402") {
   a -- V5
   b -- GND
 }
-K1 = SRD_05VDC_SL_C.Part {
+K1 = SRD_05VDC_SL_C.SRD_05VDC_SL_C {
   COIL1 -- V5
   COIL2 -- KW
   COM -- R
   NO -- W
   NCLOSED -- .nc
 }
-K2 = SRD_05VDC_SL_C.Part {
+K2 = SRD_05VDC_SL_C.SRD_05VDC_SL_C {
   COIL1 -- V5
   COIL2 -- KY
   COM -- R
   NO -- Y
   NCLOSED -- .nc
 }
-K3 = SRD_05VDC_SL_C.Part {
+K3 = SRD_05VDC_SL_C.SRD_05VDC_SL_C {
   COIL1 -- V5
   COIL2 -- KG
   COM -- R

@@ -22,7 +22,7 @@ pcbkit 2
 
 /// S2B-PH-K-S(LF)(SN) — JST PH 2-pin header, 2.0 mm pitch, side entry (right angle), through
 /// hole: the common LiPo battery connector, 2 A; contacts C1 C2 (polarity in the notes)
-part Part = device(
+part S2B_PH_K_S: Part {
   footprint = Footprint {
     let ps = [
       thtPad("1", (-1mm, 0mm), 0.75mm, (1.3mm, 1.6mm), square = true),
@@ -47,13 +47,12 @@ part Part = device(
         slab(0.75mm, -5.4mm, 2.1mm, 1.25mm, 0.25mm, 2.6mm, material = .tin),
       ],
     )
-  },
-  prefix = "J",
-  mpn = "S2B-PH-K-S(LF)(SN)",
-  manufacturer = "J.S.T. Mfg.",
-  pinout = { C1 = "1", C2 = "2" },
-  pinTypes = { C1 = .passive, C2 = .passive },
-) with {
+  }
+  prefix = "J"
+  mpn = "S2B-PH-K-S(LF)(SN)"
+  manufacturer = "J.S.T. Mfg."
+  pinout = { C1 = "1", C2 = "2" }
+  pinTypes = { C1 = .passive, C2 = .passive }
   fields {
     Status = "checked"
     PinoutSource = "JST PH catalog: PC board layout and assembly layout (through-hole, side entry), header table (S2B-PH-K-S: A 2.0, B 5.9) and drawing (7.6 x 4.8 mm)"

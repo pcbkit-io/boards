@@ -88,9 +88,9 @@ laboratory = Laboratory { world = "input.js" }
 // ---- processor (back, top edge, antenna overhanging) ------------------------------------------
 // The program is doom/; the game's data, id Software's shareware DOOM1.WAD (free to share
 // unmodified), is linked into its flash from where it is published.
-U1 = ESP32_S3_WROOM_1.Part with {
-  simulation = ESP32_S3_WROOM_1.Part.simulation with {
-    behavior = ESP32_S3_WROOM_1.Part.simulation.behavior with {
+U1 = ESP32_S3_WROOM_1.ESP32_S3_WROOM_1 with {
+  simulation = ESP32_S3_WROOM_1.ESP32_S3_WROOM_1.simulation with {
+    behavior = ESP32_S3_WROOM_1.ESP32_S3_WROOM_1.simulation.behavior with {
       firmware = "doom"
       data = {
         "DOOM1.WAD" = FirmwareData {
@@ -164,7 +164,7 @@ resetLabel = Text {
 }
 
 // ---- display (front) ------------------------------------------------------------------------------
-DS1 = ILI9341_TFT_2_8_TOUCH.Part {
+DS1 = ILI9341_TFT_2_8_TOUCH.ILI9341_TFT_2_8_TOUCH {
   at = (122mm, 79mm)
   rotation = 90deg
   // The 1x14 socket it plugs into (the module: an MSP2807, bought separately).
@@ -199,7 +199,7 @@ R2 = res(10kohm, package = "0402") {
 }
 
 // ---- storage (back, bottom edge): SDMMC 1-bit, DAT1-DAT3 held high -------------------------------
-J4 = DM3AT_SF_PEJM5.Part {
+J4 = DM3AT_SF_PEJM5.DM3AT_SF_PEJM5 {
   orderCode = "C114218"
   side = .bottom
   place = [edge(.bottom)]
@@ -254,7 +254,7 @@ C1 = cap(10uF, package = "0603") {
 }
 
 // ---- audio (back) ---------------------------------------------------------------------------------
-U5 = MAX98357AETE.Part {
+U5 = MAX98357AETE.MAX98357AETE {
   orderCode = "C910544"
   side = .bottom
   BCLK -- I2S_BCK
@@ -277,7 +277,7 @@ U5Support = MAX98357AETE.Support {
   side = .bottom
 }
 // The speaker's connector at the bottom edge, on the front (its wires leave over the edge).
-J5 = S2B_PH_K_S.Part {
+J5 = S2B_PH_K_S.S2B_PH_K_S {
   orderCode = "C173752"
   at = (50mm, 6.5mm)
   C1 -- SPK_N
@@ -300,14 +300,14 @@ usb.power.J.rotation = 180deg
 // ---- power: two 18650 cells (back), protection, charger with power path, fuel gauge, LDO ---------
 // Two 18650 cells on the back, side by side along the bottom, in parallel. The holders are not
 // polarized: put each cell's + at the end the silkscreen marks.
-BT1 = Holder.Part {
+BT1 = Holder.KEYSTONE_1042 {
   orderCode = "C5249310"
   at = (104mm, 13mm)
   side = .bottom
   C2 -- CELL1_P
   C1 -- CELL_N
 }
-BT2 = Holder.Part {
+BT2 = Holder.KEYSTONE_1042 {
   orderCode = "C5249310"
   at = (104mm, 35mm)
   side = .bottom
@@ -347,11 +347,11 @@ reversed = ReversePolarity {
   current = 800mA
   rdsOn = 60mohm
   maxGateVoltage = 12V
-  fet = Pfet.Part with { orderCode = "C15127" }
+  fet = Pfet.AO3401A with { orderCode = "C15127" }
 }
 
 // Protection: over-charge 4.3 V, over-discharge 2.4 V, over-current about 3 A, in the pack's minus.
-U8 = Protection.Part {
+U8 = Protection.DW01A {
   orderCode = "C351410"
   GND -- CELL_N
 }
@@ -365,7 +365,7 @@ U8Support = Protection.Support {
 // any port), 800 mA fast charge (RISET = 890 AΩ / 0.8 A), its current-based termination; SYSOFF
 // low (the cells always connected); the safety timers off (TMR to VSS): two cells charge longer
 // than its longest timer. TS: 10 kΩ without an NTC.
-U6 = Charger.Part {
+U6 = Charger.BQ24075RGT {
   at = (40mm, 28mm)
   IN -- VBUS
   OUT -- SYS
@@ -452,7 +452,7 @@ chargeLabel = Text {
 }
 
 // The fuel gauge on the pack (after the reverse-cell FET), on I2C with the firmware.
-U7 = MAX17048G.Part {
+U7 = MAX17048G.MAX17048G {
   orderCode = "C2682616"
   side = .bottom
   VDD -- BAT
@@ -478,7 +478,7 @@ i2c = I2cPullups {
 }
 
 // 3.3 V from SYS; the switch drives its enable (off: the cells still charge).
-U4 = TLV75733PDBV.Part {
+U4 = TLV75733PDBV.TLV75733PDBV {
   orderCode = "C485517"
   side = .bottom
   IN -- SYS
@@ -504,7 +504,7 @@ C2 = cap(22uF, package = "0805", ratedVoltage = 10V) {
   a -- V3
   b -- GND
 }
-SW12 = Slide.Part {
+SW12 = Slide.MSK12C02 {
   at = (1.9mm, 96mm)
   rotation = 90deg
   A -- SYS
@@ -615,7 +615,7 @@ H4 = hole("M3") { at = (151.5mm, 105.5mm) }
 gndPour = pour(net = GND, layers = [Cu.top, Cu.inner[1], Cu.bottom]) {}
 
 // PCBKit's mark and pcbkit.io, where the board has room.
-logo = Logo.Part {}
+logo = Logo.PCBKIT_LOGO {}
 
 reversed.Rg.orderCode = "C25741"
 

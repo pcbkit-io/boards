@@ -7,7 +7,7 @@ pcbkit 2
 // solder: the placer finds it room where the design gives it no `at`.
 
 /// The PCBKit mark and pcbkit.io, 41.6 mm wide.
-part Part = device(
+part PCBKIT_LOGO: Part {
   footprint = Footprint {
     name = "Logo_PCBKit_pcbkit.io"
     description = "The PCBKit mark and pcbkit.io, silkscreen only"
@@ -308,6 +308,6 @@ part Part = device(
         points = [(17.92mm, -2.4mm), (19.84mm, -2.4mm), (19.84mm, -2.08mm), (17.92mm, -2.08mm)]
       },
     ]
-  },
-  prefix = "LOGO",
-)
+  }
+  prefix = "LOGO"
+}

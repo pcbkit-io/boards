@@ -15,7 +15,7 @@ pcbkit 2
 
 /// SHT40-AD1B-R3 — SHT40 digital humidity and temperature sensor, I2C (address 0x44), 1.08-3.6 V,
 /// ±1.8 %RH / ±0.2 °C, DFN-4 1.5 x 1.5 mm
-part Part = device(
+part SHT40_AD1B: Part {
   footprint = Footprint {
     let ps = [
       Pad { number = "1", at = (-0.7mm, 0.4mm), shape = shape.rect(0.5mm, 0.3mm) },
@@ -31,18 +31,17 @@ part Part = device(
     height = 0.59mm
     silk = silkOf(ps, b, 0.25mm)
     package = Package { family = .other, body = (1.5mm, 1.5mm), height = 0.59mm }
-  },
-  prefix = "U",
-  mpn = "SHT40-AD1B-R3",
-  manufacturer = "Sensirion",
-  pinout = { SDA = "1", SCL = "2", VDD = "3", VSS = "4" },
+  }
+  prefix = "U"
+  mpn = "SHT40-AD1B-R3"
+  manufacturer = "Sensirion"
+  pinout = { SDA = "1", SCL = "2", VDD = "3", VSS = "4" }
   pinTypes = {
     SDA = io.openDrain()
     SCL = io.input()
     VDD = io.powerIn(min = 1.08V, max = 3.6V)
     VSS = .ground
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "Sensirion SHT4x datasheet: 5.4 pin assignment (1 SDA, 2 SCL, 3 VDD, 4 VSS, transparent top view), 5.2 package outline, 5.3 land pattern, Figure 1 application circuit"
@@ -74,8 +73,8 @@ part Part = device(
 }
 
 /// The support circuit of the SHT40-AD1B-R3 as its datasheet shows it (Figure 1 typical application
-/// circuit): every part next to the pin it serves. Add it next to the part: `U1 = SHT40_AD1B.Part {
-/// … }`, `U1Support = SHT40_AD1B.Support(U1) {}`.
+/// circuit): every part next to the pin it serves. Add it next to the part: `U1 =
+/// SHT40_AD1B.SHT40_AD1B { … }`, `U1Support = SHT40_AD1B.Support(U1) {}`.
 ///
 /// - No copper under the sensor except the four pads; the die pad stays unsoldered (it heats with
 /// the heater). Keep it away from hot parts (regulators, the MCU) and give it a slot or cut-out for

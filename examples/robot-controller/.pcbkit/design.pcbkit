@@ -83,7 +83,9 @@ board = Board {
   layers = [signal(Cu.top), signal(Cu.inner[1]), signal(Cu.inner[2]), signal(Cu.bottom)]
 }
 
-part NMOSPart = device(footprint = fp.SOT_23_Handsoldering_nchannel, displayValue = "NMOS") with {
+part NMOSPart: Part {
+  footprint = fp.SOT_23_Handsoldering_nchannel
+  displayValue = "NMOS"
   fields { "Sim.Device" = "NMOS", "Sim.Pins" = "1=D 2=G 3=S", "Sim.Type" = "VDMOS" }
 }
 

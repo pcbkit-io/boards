@@ -19,11 +19,11 @@ pcbkit 2
 /// DS3231SN# — DS3231 extremely accurate I2C real-time clock (address 0x68) with integrated
 /// temperature-compensated crystal (±2 ppm), battery backup, two alarms, 32 kHz output, 2.3-5.5 V,
 /// SO-16 300 mil
-part Part = device(
-  footprint = soicWide(16),
-  prefix = "U",
-  mpn = "DS3231SN#",
-  manufacturer = "Analog Devices (Maxim)",
+part DS3231SN: Part {
+  footprint = soicWide(16)
+  prefix = "U"
+  mpn = "DS3231SN#"
+  manufacturer = "Analog Devices (Maxim)"
   pinout = {
     P32kHz = "1"
     VCC = "2"
@@ -33,7 +33,7 @@ part Part = device(
     VBAT = "14"
     SDA = "15"
     SCL = "16"
-  },
+  }
   pinTypes = {
     P32kHz = io.openDrain(max = 6V)
     VCC = io.powerIn(min = 2.3V, max = 6V)
@@ -43,8 +43,7 @@ part Part = device(
     VBAT = io.powerIn(min = 2.3V, max = 6V)
     SDA = io.openDrain(max = 6V)
     SCL = io.input(max = 6V)
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "Maxim DS3231 datasheet 19-5170 Rev 10: pin description, absolute maximum ratings, recommended operating conditions, typical operating circuit, I2C serial data bus (slave address 1101000)"
@@ -88,7 +87,7 @@ part Part = device(
 
 /// The support circuit of the DS3231SN# as its datasheet shows it (Typical operating circuit (p.
 /// 1); pin description (decoupling)): every part next to the pin it serves. Add it next to the
-/// part: `U1 = DS3231SN.Part { … }`, `U1Support = DS3231SN.Support(U1) {}`.
+/// part: `U1 = DS3231SN.DS3231SN { … }`, `U1Support = DS3231SN.Support(U1) {}`.
 ///
 /// - Pins 5-12 are N.C. but must go to ground (here named GND so connecting GND grounds them).
 ///

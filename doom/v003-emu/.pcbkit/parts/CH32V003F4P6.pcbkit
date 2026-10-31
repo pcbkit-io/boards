@@ -19,11 +19,11 @@ pcbkit 2
 
 /// CH32V003F4P6 — CH32V003 32-bit RISC-V (QingKe V2A) MCU, 48 MHz, 16 KB flash, 2 KB SRAM, USART,
 /// SPI, I2C, 8-channel 10-bit ADC, op-amp, single-wire debug, 2.7-5.5 V, TSSOP-20
-part Part = device(
-  footprint = tssop(20),
-  prefix = "U",
-  mpn = "CH32V003F4P6",
-  manufacturer = "WCH (Nanjing Qinheng Microelectronics)",
+part CH32V003F4P6: Part {
+  footprint = tssop(20)
+  prefix = "U"
+  mpn = "CH32V003F4P6"
+  manufacturer = "WCH (Nanjing Qinheng Microelectronics)"
   pinout = {
     PD4 = "1"
     PD5 = "2"
@@ -45,7 +45,7 @@ part Part = device(
     PD1 = "18"
     PD2 = "19"
     PD3 = "20"
-  },
+  }
   pinTypes = {
     PD4 = io.bidirectional()
     PD5 = io.bidirectional()
@@ -67,8 +67,7 @@ part Part = device(
     PD1 = io.bidirectional()
     PD2 = io.bidirectional()
     PD3 = io.bidirectional()
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "WCH CH32V003 datasheet V1.8 (Chinese, from LCSC's mirror): 2.1 pin arrangement (CH32V003F4P6), 2.2 table 2-1 pin definitions, 3.1 figure 3-1, 3.2 table 3-1 absolute maximum, 3.3.1 table 3-2 operating conditions, 4.1 TSSOP20 package"
@@ -134,8 +133,8 @@ part Part = device(
 
 /// The support circuit of the CH32V003F4P6 as its datasheet shows it (3.1 figure 3-1 typical supply
 /// circuit; 3.3.x figure 3-11 analog supply decoupling; 2.2 table 2-1 pin definitions): every part
-/// next to the pin it serves. Add it next to the part: `U1 = CH32V003F4P6.Part { … }`, `U1Support
-/// = CH32V003F4P6.Support(U1) {}`.
+/// next to the pin it serves. Add it next to the part: `U1 = CH32V003F4P6.CH32V003F4P6 { … }`,
+/// `U1Support = CH32V003F4P6.Support(U1) {}`.
 ///
 /// - Programming and debug over one wire: PD1 (SWIO), VDD and GND to a WCH-LinkE; a 3-pin header is
 /// enough.

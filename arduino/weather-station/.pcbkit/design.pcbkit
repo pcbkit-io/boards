@@ -23,9 +23,9 @@ board = Board {
 }
 
 // The Arduino on two 15-pin sockets; its program is the sketch in firmware/.
-NANO = ARDUINO_NANO.Part with {
-  simulation = ARDUINO_NANO.Part.simulation with {
-    behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" }
+NANO = ARDUINO_NANO.ARDUINO_NANO with {
+  simulation = ARDUINO_NANO.ARDUINO_NANO.simulation with {
+    behavior = ARDUINO_NANO.ARDUINO_NANO.simulation.behavior with { firmware = "firmware" }
   }
 } {
   // Lengthwise along the bottom, its USB at the board's left edge.
@@ -39,7 +39,7 @@ NANO = ARDUINO_NANO.Part with {
 }
 
 // The display on its 4-pin socket.
-DS1 = SSD1306_OLED_I2C.Part {
+DS1 = SSD1306_OLED_I2C.SSD1306_OLED_I2C {
   at = (68mm, 51.4mm)
   GND -- GND
   VCC -- V5
@@ -49,7 +49,7 @@ DS1 = SSD1306_OLED_I2C.Part {
 
 // The sensor at the board's right edge, with its decoupling and the bus's pull-ups; ADDR low
 // (0x44).
-U1 = SHT31_DIS.Part {
+U1 = SHT31_DIS.SHT31_DIS {
   at = (86mm, 14mm)
   VDD -- V5
   VSS -- GND

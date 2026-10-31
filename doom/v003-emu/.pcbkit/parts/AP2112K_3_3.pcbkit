@@ -21,20 +21,19 @@ pcbkit 2
 
 /// AP2112K-3.3TRG1 — Linear regulator (CMOS LDO), fixed 3.3 V, 600 mA, 2.5-6 V in, enable, 250 mV
 /// dropout
-part Part = device(
-  footprint = (sot23(5)) with { models = [Model3d { path = "Package_TO_SOT_SMD:SOT-23-5" }] },
-  prefix = "U",
-  mpn = "AP2112K-3.3TRG1",
-  manufacturer = "Diodes Incorporated",
-  pinout = { VIN = "1", GND = "2", EN = "3", NC = "4", VOUT = "5" },
+part AP2112K_3_3: Part {
+  footprint = (sot23(5)) with { models = [Model3d { path = "Package_TO_SOT_SMD:SOT-23-5" }] }
+  prefix = "U"
+  mpn = "AP2112K-3.3TRG1"
+  manufacturer = "Diodes Incorporated"
+  pinout = { VIN = "1", GND = "2", EN = "3", NC = "4", VOUT = "5" }
   pinTypes = {
     VIN = io.powerIn(min = 2.5V, max = 6.5V)
     GND = .ground
     EN = io.input(max = 6.5V, pull = .down)
     NC = .nc
     VOUT = io.powerOut(3.3V)
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "AP2112 datasheet DS39724 Rev. 2-2, Pin descriptions (p. 2), SOT25 column"
@@ -135,8 +134,8 @@ part Part = device(
 }
 
 /// The support circuit of the AP2112K-3.3TRG1 as its datasheet shows it (p. 1, Typical applications
-/// circuit): every part next to the pin it serves. Add it next to the part: `U1 = AP2112K_3_3.Part
-/// { … }`, `U1Support = AP2112K_3_3.Support(U1) {}`.
+/// circuit): every part next to the pin it serves. Add it next to the part: `U1 =
+/// AP2112K_3_3.AP2112K_3_3 { … }`, `U1Support = AP2112K_3_3.Support(U1) {}`.
 ///
 /// - EN to VIN for always on, or to a logic output (high above 1.5 V, low below 0.4 V).
 block Support {

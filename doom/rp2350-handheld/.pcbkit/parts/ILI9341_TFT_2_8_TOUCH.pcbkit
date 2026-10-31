@@ -25,7 +25,7 @@ pcbkit 2
 /// MSP2807 2.8in 240x320 SPI TFT module with touch (ILI9341) — 2.8" 240 x 320 colour TFT module
 /// (ILI9341) with resistive touch (XPT2046), SPI, on a 1x14 female header: VCC GND CS RESET DC SDI
 /// SCK LED SDO T_CLK T_CS T_DIN T_DO T_IRQ; courtyard the 50 x 86 mm module lying over the board
-part Part = device(
+part ILI9341_TFT_2_8_TOUCH: Part {
   footprint = moduleSocket(
     "TFT_2.8in_ILI9341_Socket_1x14_P2.54mm",
     socketRow(1, 14, (-16.51mm, 0mm), (2.54mm, 0mm)),
@@ -43,10 +43,10 @@ part Part = device(
       ),
       [slab(-25mm, 27mm, -3.8mm, -5.6mm, 57mm, -1.6mm, material = .metal)],
     ),
-  ),
-  prefix = "U",
-  mpn = "MSP2807 2.8in 240x320 SPI TFT module with touch (ILI9341)",
-  manufacturer = "generic",
+  )
+  prefix = "U"
+  mpn = "MSP2807 2.8in 240x320 SPI TFT module with touch (ILI9341)"
+  manufacturer = "generic"
   pinout = {
     VCC = "1"
     GND = "2"
@@ -62,7 +62,7 @@ part Part = device(
     T_DIN = "12"
     T_DO = "13"
     T_IRQ = "14"
-  },
+  }
   pinTypes = {
     VCC = io.powerIn(min = 3.3V, max = 5V)
     GND = .ground
@@ -78,8 +78,7 @@ part Part = device(
     T_DIN = io.input()
     T_DO = .output
     T_IRQ = .output
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "lcdwiki MSP2807: pins 1 VCC, 2 GND, 3 CS, 4 RESET, 5 DC, 6 SDI(MOSI), 7 SCK, 8 LED, 9 SDO(MISO), 10 T_CLK, 11 T_CS, 12 T_DIN, 13 T_DO, 14 T_IRQ; outline drawing: PCB 50.00 x 86.00 mm, header J2 13 x 2.54 mm, first pin 8.49 mm from the left edge, 2.00 mm from the bottom edge; 5.6 mm thick without the header"

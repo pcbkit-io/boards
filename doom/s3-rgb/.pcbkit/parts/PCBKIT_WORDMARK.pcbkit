@@ -5,7 +5,7 @@ pcbkit 2
 // A part with nothing to solder.
 
 /// pcbkit.io in the brand's letters, 29.952 mm wide.
-part Part = device(
+part PCBKIT_WORDMARK: Part {
   footprint = Footprint {
     name = "Logo_PCBKit_wordmark"
     description = "pcbkit.io in the brand's letters, silkscreen only"
@@ -541,6 +541,6 @@ part Part = device(
         ]
       },
     ]
-  },
-  prefix = "LOGO",
-)
+  }
+  prefix = "LOGO"
+}

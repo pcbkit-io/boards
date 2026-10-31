@@ -19,7 +19,7 @@ pcbkit 2
 
 /// GPC12075YB-5V4000 — Passive piezo buzzer (externally driven), Ø12 x 7.5 mm, through hole with
 /// pins 6.5 mm apart, 4 kHz resonance, 80 dB at 10 cm; pins A, B (no polarity)
-part Part = device(
+part GPC12075YB_5V: Part {
   footprint = Footprint {
     let ps = [
       thtPad("1", (-3.25mm, 0mm), 1mm, (1.8mm, 1.8mm), square = true),
@@ -48,14 +48,13 @@ part Part = device(
       solid.cylinder(12mm, 7.5mm, at = (0mm, 0mm, 0mm), color = "#141414"),
       solid.cylinder(2mm, 0.05mm, at = (0mm, 0mm, 7.5mm), color = "#000000"),
     ]
-  },
-  prefix = "BZ",
-  mpn = "GPC12075YB-5V4000",
-  manufacturer = "Dongguan INGHAi Electronics",
-  orderCode = "C252948",
-  pinout = { A = "1", B = "2" },
-  pinTypes = { A = .passive, B = .passive },
-) with {
+  }
+  prefix = "BZ"
+  mpn = "GPC12075YB-5V4000"
+  manufacturer = "Dongguan INGHAi Electronics"
+  orderCode = "C252948"
+  pinout = { A = "1", B = "2" }
+  pinTypes = { A = .passive, B = .passive }
   fields {
     Status = "checked"
     PinoutSource = "INGHAi GPC12075YB-5V4000 specification: A. dimensions (Ø12, 7.5 mm, pins Ø0.7 at 6.5 mm), B. specifications"

@@ -20,7 +20,7 @@ pcbkit 2
 
 /// TEENSY41 — Teensy 4.1 (NXP i.MX RT1062 Cortex-M7 600 MHz, 1 MB RAM, 8 MB flash, PSRAM pads,
 /// microSD) on two 24-pin female headers 0.6" apart; pins named as its card (D0-D41, VIN, 3V3, GND)
-part Part = device(
+part TEENSY_41: Part {
   footprint = moduleSocket(
     "Teensy41_Socket_2x24_P2.54mm_W15.24mm",
     concat(
@@ -50,10 +50,10 @@ part Part = device(
       solid.box((4.2mm, 3.2mm, 1.6mm), at = (16mm, 4.5mm, 0mm), material = .whitePlastic),
       solid.box((12mm, 13.5mm, 1.9mm), at = (24.6mm, 0mm, 0mm), radius = 0.2mm, material = .metal),
     ],
-  ),
-  prefix = "U",
-  mpn = "TEENSY41",
-  manufacturer = "PJRC",
+  )
+  prefix = "U"
+  mpn = "TEENSY41"
+  manufacturer = "PJRC"
   pinout = {
     GND = ["1", "26", "39"]
     D0 = "2"
@@ -100,7 +100,7 @@ part Part = device(
     D35 = "46"
     D34 = "47"
     D33 = "48"
-  },
+  }
   pinTypes = {
     GND = .ground
     D0 = io.bidirectional()
@@ -147,8 +147,7 @@ part Part = device(
     D35 = io.bidirectional()
     D34 = io.bidirectional()
     D33 = io.bidirectional()
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "PJRC Teensy 4.1 pinout card card11a_rev4_web.pdf (front): bottom row from USB GND,0..12,3.3V,24..32; top row from USB Vin,GND,3.3V,23..13,GND,41..33"

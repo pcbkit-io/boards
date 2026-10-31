@@ -17,7 +17,7 @@ pcbkit 2
 
 /// ICM-42688-P — ICM-42688-P 6-axis IMU (3-axis gyroscope ±15.6-2000 dps, 3-axis accelerometer
 /// ±2-16 g), I2C (0x68/0x69 by AP_AD0) / I3C / SPI, 1.71-3.6 V, LGA-14 2.5 x 3 mm
-part Part = device(
+part ICM_42688_P: Part {
   footprint = Footprint {
     let ps = [
       Pad { number = "1", at = (-1.1625mm, 0.75mm), shape = shape.rect(0.475mm, 0.25mm) },
@@ -43,10 +43,10 @@ part Part = device(
     height = 0.97mm
     silk = silkOf(ps, b, 0.25mm)
     package = Package { family = .other, body = (3mm, 2.5mm), height = 0.97mm }
-  },
-  prefix = "U",
-  mpn = "ICM-42688-P",
-  manufacturer = "TDK InvenSense",
+  }
+  prefix = "U"
+  mpn = "ICM-42688-P"
+  manufacturer = "TDK InvenSense"
   pinout = {
     AP_AD0 = "1"
     RESV2 = "2"
@@ -62,7 +62,7 @@ part Part = device(
     AP_CS = "12"
     AP_SCL = "13"
     AP_SDA = "14"
-  },
+  }
   pinTypes = {
     AP_AD0 = io.bidirectional()
     RESV2 = .passive
@@ -78,8 +78,7 @@ part Part = device(
     AP_CS = io.input()
     AP_SCL = io.input()
     AP_SDA = io.bidirectional()
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "TDK InvenSense ICM-42688-P datasheet DS-000347 rev 1.2: Table 9 signal descriptions, Figure 4 pin out, Figures 5-6 application schematics, Table 10 BOM, Table 8 absolute maximum ratings, 10.2 package dimensions"
@@ -111,7 +110,8 @@ part Part = device(
 
 /// The support circuit of the ICM-42688-P as its datasheet shows it (Figure 5 application schematic
 /// (I2C), Figure 6 (SPI), Table 10 bill of materials): every part next to the pin it serves. Add it
-/// next to the part: `U1 = ICM_42688_P.Part { … }`, `U1Support = ICM_42688_P.Support(U1) {}`.
+/// next to the part: `U1 = ICM_42688_P.ICM_42688_P { … }`,
+/// `U1Support = ICM_42688_P.Support(U1) {}`.
 ///
 /// - I2C: AP_CS to VDDIO, AP_AD0 to GND (0x68) or VDDIO (0x69). SPI (up to 24 MHz): AP_CS, AP_SCLK,
 /// AP_SDI, AP_SDO to the host.

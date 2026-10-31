@@ -19,7 +19,7 @@ pcbkit 2
 /// MAX7219 8-digit 7-segment LED display module — The common 8-digit red 7-segment display
 /// module: a MAX7219 driving two 0.36" 4-digit common-cathode displays on an 82 x 15 mm board,
 /// plugged into a 1x5 female header at its input end: VCC GND DIN CS CLK as the module prints them
-part Part = device(
+part MAX7219_7SEG_MODULE: Part {
   footprint = moduleSocket(
     "MAX7219_8digit_Module_Socket_1x05_P2.54mm",
     socketRow(1, 5, (-38.6mm, 5.08mm), (0mm, -2.54mm)),
@@ -30,19 +30,18 @@ part Part = device(
     spacer = 2.5mm,
     pins = true,
     module = modules.max7219Digits(),
-  ),
-  prefix = "DS",
-  mpn = "MAX7219 8-digit 7-segment LED display module",
-  manufacturer = "generic",
-  pinout = { VCC = "1", GND = "2", DIN = "3", CS = "4", CLK = "5" },
+  )
+  prefix = "DS"
+  mpn = "MAX7219 8-digit 7-segment LED display module"
+  manufacturer = "generic"
+  pinout = { VCC = "1", GND = "2", DIN = "3", CS = "4", CLK = "5" }
   pinTypes = {
     VCC = io.powerIn(min = 4V, max = 5.5V)
     GND = .ground
     DIN = io.input(high = 3.5V)
     CS = io.input(high = 3.5V)
     CLK = io.input(high = 3.5V)
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "the module's silkscreen (VCC, GND, DIN, CS, CLK); MAX7219 datasheet 19-4452 Rev 4"

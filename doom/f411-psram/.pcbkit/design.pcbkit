@@ -94,9 +94,9 @@ laboratory = Laboratory { world = "input.js" }
 
 // ---- processor (back) ------------------------------------------------------------------------
 // Its program is emu/: the RISC-V computer it builds from the PSRAM, the flash and the screen.
-U1 = STM32F411CEU6.Part with {
-  simulation = STM32F411CEU6.Part.simulation with {
-    behavior = STM32F411CEU6.Part.simulation.behavior with {
+U1 = STM32F411CEU6.STM32F411CEU6 with {
+  simulation = STM32F411CEU6.STM32F411CEU6.simulation with {
+    behavior = STM32F411CEU6.STM32F411CEU6.simulation.behavior with {
       firmware = "emu"
       // The board's 25 MHz HSE crystal.
       parameters = { "hse_hz" = 25000000 }
@@ -193,7 +193,7 @@ R1 = res(10kohm, package = "0402") {
 }
 
 // ---- memory (back): PSRAM and the WAD's flash on SPI1 ------------------------------------------
-U2 = APS6404L_3SQR.Part {
+U2 = APS6404L_3SQR.APS6404L_3SQR {
   orderCode = "C5333729"
   at = (88mm, 62mm)
   side = .bottom
@@ -213,9 +213,9 @@ U2Support = APS6404L_3SQR.Support {
 // The flash holds the guest: doom/ built for that computer (pcbkit-virt, 8 MB of RAM), with the
 // game's data, id Software's shareware DOOM1.WAD (free to share unmodified), linked in from where
 // it is published.
-U3 = W25Q128JVSIQ.Part with {
-  simulation = W25Q128JVSIQ.Part.simulation with {
-    behavior = W25Q128JVSIQ.Part.simulation.behavior with {
+U3 = W25Q128JVSIQ.W25Q128JVSIQ with {
+  simulation = W25Q128JVSIQ.W25Q128JVSIQ.simulation with {
+    behavior = W25Q128JVSIQ.W25Q128JVSIQ.simulation.behavior with {
       firmware = "doom"
       parameters = { "ram_mib" = 8 }
       data = {
@@ -244,7 +244,7 @@ U3Support = W25Q128JVSIQ.Support {
 }
 
 // ---- display (front) ----------------------------------------------------------------------------
-DS1 = ST7789_TFT_2_0.Part {
+DS1 = ST7789_TFT_2_0.ST7789_TFT_2_0 {
   at = (40mm, 72mm)
   rotation = 90deg
   // The 1x8 socket it plugs into (the module: an MSP2008 2.0" ST7789 IPS, bought separately).
@@ -260,7 +260,7 @@ DS1 = ST7789_TFT_2_0.Part {
 }
 
 // ---- audio (back): I2S3 -> MAX98357A -> 8 ohm speaker -------------------------------------------
-U5 = MAX98357AETE.Part {
+U5 = MAX98357AETE.MAX98357AETE {
   orderCode = "C910544"
   at = (118mm, 56mm)
   side = .bottom
@@ -284,7 +284,7 @@ U5Support = MAX98357AETE.Support {
   side = .bottom
 } // 634k pull-up on SD_MODE: (L+R)/2
 // The speaker's connector at the right edge, on the front (its wires leave over the edge).
-J5 = S2B_PH_K_S.Part {
+J5 = S2B_PH_K_S.S2B_PH_K_S {
   orderCode = "C173752"
   at = (133.5mm, 24mm)
   rotation = 90deg
@@ -306,14 +306,14 @@ usb.power.J.rotation = 180deg
 // ---- power: two 18650 cells (back), protection, charger with power path, LDO ----------------------
 // Two 18650 cells on the back, side by side along the bottom, in parallel. The holders are not
 // polarized: put each cell's + at the end the silkscreen marks.
-BT1 = KEYSTONE_1042.Part {
+BT1 = KEYSTONE_1042.KEYSTONE_1042 {
   orderCode = "C5249310"
   at = (70mm, 13mm)
   side = .bottom
   C2 -- CELL1_P
   C1 -- CELL_N
 }
-BT2 = KEYSTONE_1042.Part {
+BT2 = KEYSTONE_1042.KEYSTONE_1042 {
   orderCode = "C5249310"
   at = (70mm, 35mm)
   side = .bottom
@@ -359,11 +359,11 @@ reversed = ReversePolarity {
   current = 800mA
   rdsOn = 60mohm
   maxGateVoltage = 12V
-  fet = Pfet.Part with { orderCode = "C15127" }
+  fet = Pfet.AO3401A with { orderCode = "C15127" }
 }
 
 // Protection: over-charge 4.3 V, over-discharge 2.4 V, over-current about 3 A, in the pack's minus.
-U7 = Protection.Part {
+U7 = Protection.DW01A {
   orderCode = "C351410"
   GND -- CELL_N
 }
@@ -377,7 +377,7 @@ U7Support = Protection.Support {
 // any port), 800 mA fast charge (RISET = 890 AΩ / 0.8 A), its current-based termination; SYSOFF
 // low (the cells always connected); the safety timers off (TMR to VSS): two cells charge longer
 // than its longest timer. TS: 10 kΩ without an NTC.
-U6 = Charger.Part {
+U6 = Charger.BQ24075RGT {
   at = (70mm, 30mm)
   IN -- VBUS
   OUT -- SYS
@@ -464,7 +464,7 @@ chargeLabel = Text {
 }
 
 // 3.3 V from SYS; the switch drives its enable (off: the cells still charge).
-U4 = TLV75533PDBV.Part {
+U4 = TLV75533PDBV.TLV75533PDBV {
   orderCode = "C404027"
   at = (52mm, 54mm)
   side = .bottom
@@ -484,7 +484,7 @@ R2 = res(100kohm, package = "0402") {
   a -- LDO_EN
   b -- GND
 }
-SW9 = Slide.Part {
+SW9 = Slide.MSK12C02 {
   at = (1.9mm, 52mm)
   rotation = 90deg
   A -- SYS
@@ -580,7 +580,7 @@ H4 = hole("M3") { at = (135mm, 99mm) }
 gndPour = pour(net = GND, layers = [Cu.top, Cu.inner[1], Cu.bottom]) {}
 
 // PCBKit's mark and pcbkit.io, where the board has room.
-logo = Logo.Part {}
+logo = Logo.PCBKIT_LOGO {}
 
 reversed.Rg.orderCode = "C25741"
 

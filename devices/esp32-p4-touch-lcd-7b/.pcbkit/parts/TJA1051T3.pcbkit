@@ -17,7 +17,7 @@ pcbkit 2
 
 /// TJA1051T/3/1J — High-speed CAN transceiver, 5 V supply with a VIO pin for 2.8-5 V logic (3.3 V
 /// MCUs), up to 5 Mbps, silent mode (SO-8)
-part Part = device(
+part TJA1051T3: Part {
   footprint = rows(
     name = "SOIC-8_3.9x4.9mm_P1.27mm",
     description = "SO8 (SOT96-1), 8 pins, 4.9 x 3.9 mm body, 1.27 mm pitch (from the datasheet)",
@@ -29,10 +29,10 @@ part Part = device(
     bodyX = tolerance(3.8mm, 4mm),
     bodyY = tolerance(4.8mm, 5mm),
     bodyHeight = 1.75mm,
-  ),
-  prefix = "U",
-  mpn = "TJA1051T/3/1J",
-  manufacturer = "NXP Semiconductors",
+  )
+  prefix = "U"
+  mpn = "TJA1051T/3/1J"
+  manufacturer = "NXP Semiconductors"
   pinout = {
     TXD = "1"
     GND = "2"
@@ -42,7 +42,7 @@ part Part = device(
     CANL = "6"
     CANH = "7"
     S = "8"
-  },
+  }
   pinTypes = {
     TXD = io.input(max = 7V, pull = .up)
     GND = .ground
@@ -52,8 +52,7 @@ part Part = device(
     CANL = io.bidirectional(max = 58V)
     CANH = io.bidirectional(max = 58V)
     S = io.input(max = 7V, pull = .down)
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "NXP TJA1051 product data sheet Rev. 9 (28 November 2017), Table 3 pin description and Fig 2c (TJA1051T/3, SO8)"
@@ -112,7 +111,7 @@ part Part = device(
 
 /// The support circuit of the TJA1051T/3/1J as its datasheet shows it (Fig 6, typical application
 /// of the TJA1051T/3 (p. 13)): every part next to the pin it serves. Add it next to the part: `U1 =
-/// TJA1051T3.Part { … }`, `U1Support = TJA1051T3.Support(U1) {}`.
+/// TJA1051T3.TJA1051T3 { … }`, `U1Support = TJA1051T3.Support(U1) {}`.
 ///
 /// - VCC from a 5 V supply, VIO from the microcontroller's supply (3.3 V): TXD, RXD and S then work
 /// at the MCU's levels without level shifting.

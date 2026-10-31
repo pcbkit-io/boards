@@ -13,13 +13,13 @@ pcbkit 2
 
 /// MT3608 — Boost (step-up) converter, 2-24 V in, up to 28 V out, 80 mohm 4 A switch, 1.2 MHz,
 /// 0.6 V feedback, needs an external Schottky diode, SOT-23-6
-part Part = device(
-  footprint = sot23(6),
-  prefix = "U",
-  mpn = "MT3608",
-  manufacturer = "Xi'an Aerosemi Technology",
-  orderCode = "C84817",
-  pinout = { SW = "1", GND = "2", FB = "3", EN = "4", VIN = "5", NC = "6" },
+part MT3608: Part {
+  footprint = sot23(6)
+  prefix = "U"
+  mpn = "MT3608"
+  manufacturer = "Xi'an Aerosemi Technology"
+  orderCode = "C84817"
+  pinout = { SW = "1", GND = "2", FB = "3", EN = "4", VIN = "5", NC = "6" }
   pinTypes = {
     SW = .passive
     GND = .ground
@@ -27,8 +27,7 @@ part Part = device(
     EN = io.input(max = 26V, high = 1.5V)
     VIN = io.powerIn(min = 2V, max = 26V)
     NC = .nc
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "Aerosemi MT3608 datasheet Rev 1.1: package/order information (SOT23-6 top view: 1 SW, 2 GND, 3 FB, 4 EN, 5 VIN, 6 NC), pin description, absolute maximum ratings, electrical characteristics"
@@ -67,7 +66,7 @@ part Part = device(
 
 /// The support circuit of the MT3608 as its datasheet shows it (p. 1, Figure 1 basic application
 /// circuit; p. 6 applications information): every part next to the pin it serves. Add it next to
-/// the part: `U1 = MT3608.Part { … }`, `U1Support = MT3608.Support(U1) {}`.
+/// the part: `U1 = MT3608.MT3608 { … }`, `U1Support = MT3608.Support(U1) {}`.
 ///
 /// - VOUT = 0.6 V x (1 + R1 / R2): 110k / 15k gives 5 V; for 12 V use 110k / 5.76k.
 ///
@@ -83,8 +82,8 @@ block Support {
   vout: Endpoint? = null
 
   @severity(.warning)
-  require vout !=
-    null "MT3608 needs `vout` (The output rail.): D, R1, COUT are left out until it is given, `MT3608.Support(U1, vout = …)`"
+  require vout != null
+    "MT3608 needs `vout` (The output rail.): D, R1, COUT are left out until it is given, `MT3608.Support(U1, vout = …)`"
   /// ceramic
   CIN = cap(22uF, package = "1206") {
     place = [soft(near(chip.pin.VIN, max = 4mm), weight = 2)]

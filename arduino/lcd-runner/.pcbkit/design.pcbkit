@@ -19,9 +19,9 @@ board = Board {
   outline = rect(96mm, 66mm, radius = 4mm)
 }
 
-NANO = ARDUINO_NANO.Part with {
-  simulation = ARDUINO_NANO.Part.simulation with {
-    behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" }
+NANO = ARDUINO_NANO.ARDUINO_NANO with {
+  simulation = ARDUINO_NANO.ARDUINO_NANO.simulation with {
+    behavior = ARDUINO_NANO.ARDUINO_NANO.simulation.behavior with { firmware = "firmware" }
   }
 } {
   at = (48mm, 12mm)
@@ -39,7 +39,7 @@ NANO = ARDUINO_NANO.Part with {
 }
 
 // The LCD over the top half, on its 16-pin socket; R/W on ground (writes only).
-DS1 = LCD1602.Part {
+DS1 = LCD1602.LCD1602 {
   at = (35mm, 63mm)
   VSS -- GND
   VDD -- V5
@@ -58,10 +58,10 @@ DS1 = LCD1602.Part {
   A -- LED_A
   K -- GND
 }
-RV1 = Pot.Part with {
+RV1 = Pot.PTV09A_4020F_B103 with {
   // Turned for a crisp picture: about 0.6 V on V0.
-  simulation = Pot.Part.simulation with {
-    behavior = Pot.Part.simulation.behavior with {
+  simulation = Pot.PTV09A_4020F_B103.simulation with {
+    behavior = Pot.PTV09A_4020F_B103.simulation.behavior with {
       parameters = { position = 0.12, volts = 5, ohms = 10000 }
     }
   }

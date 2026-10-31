@@ -19,7 +19,7 @@ pcbkit 2
 
 /// BS-08-B2AA001 — CR2032 coin cell holder, SMD (for CR2032 / CR2025 20 mm cells): VBAT (+) and
 /// GND (−) terminals; courtyard the holder and the 20 mm cell
-part Part = device(
+part CR2032_HOLDER_SMD: Part {
   footprint = Footprint {
     let ps = [
       Pad { number = "1", at = (14.75mm, 0mm), shape = shape.roundRect(3.5mm, 3.8mm, 1.3mm) },
@@ -39,14 +39,13 @@ part Part = device(
       solid.cylinder(20mm, 3.2mm, at = (0mm, 0mm, 1.2mm), material = .metal),
       slab(12.95mm, -2.5mm, 0mm, 16.4mm, 2.5mm, 4.6mm, material = .gold),
     ]
-  },
-  prefix = "BT",
-  mpn = "BS-08-B2AA001",
-  manufacturer = "MYOUNG",
-  orderCode = "C964777",
-  pinout = { VBAT = "1", GND = "2" },
-  pinTypes = { VBAT = io.powerOut(3V), GND = .ground },
-) with {
+  }
+  prefix = "BT"
+  mpn = "BS-08-B2AA001"
+  manufacturer = "MYOUNG"
+  orderCode = "C964777"
+  pinout = { VBAT = "1", GND = "2" }
+  pinTypes = { VBAT = io.powerOut(3V), GND = .ground }
   fields {
     Status = "checked"
     PinoutSource = "MYOUNG BS-08-B2AA001 drawing (BS-2032-8 SMT): terminals ② + and ③ −, PCB layout diagram (top view), housing dimensions"

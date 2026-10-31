@@ -11,12 +11,12 @@ pcbkit 2
 
 /// TPS61023DRLR — Synchronous boost converter, 0.5-5.5 V in (1.8 V to start), 2.2-5.5 V
 /// adjustable out, 3.7 A valley switch limit, 1 MHz, true output disconnect, SOT-563
-part Part = device(
-  footprint = sot("SOT-563"),
-  prefix = "U",
-  mpn = "TPS61023DRLR",
-  manufacturer = "Texas Instruments",
-  pinout = { FB = "1", EN = "2", VIN = "3", GND = "4", SW = "5", VOUT = "6" },
+part TPS61023DRL: Part {
+  footprint = sot("SOT-563")
+  prefix = "U"
+  mpn = "TPS61023DRLR"
+  manufacturer = "Texas Instruments"
+  pinout = { FB = "1", EN = "2", VIN = "3", GND = "4", SW = "5", VOUT = "6" }
   pinTypes = {
     FB = .passive
     EN = io.input(max = 7V, high = 1.2V)
@@ -24,8 +24,7 @@ part Part = device(
     GND = .ground
     SW = .passive
     VOUT = .powerOut
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "TI TPS61023 datasheet SLVSF14B: pin functions (DRL), 6.1 absolute maximum ratings, 6.3 recommended operating conditions, 6.5 electrical characteristics (VREF 595 mV, EN high 1.2 V)"
@@ -211,7 +210,7 @@ part Part = device(
 
 /// The support circuit of the TPS61023DRLR as its datasheet shows it (p. 12, Figure 8-1 (Li-ion
 /// battery to 5 V boost converter)): every part next to the pin it serves. Add it next to the part:
-/// `U1 = TPS61023DRL.Part { … }`, `U1Support = TPS61023DRL.Support(U1) {}`.
+/// `U1 = TPS61023DRL.TPS61023DRL { … }`, `U1Support = TPS61023DRL.Support(U1) {}`.
 ///
 /// - VOUT = 0.595 V x (1 + R1 / R2); keep R2 under 300 kohm. 732k / 100k gives 5 V.
 ///

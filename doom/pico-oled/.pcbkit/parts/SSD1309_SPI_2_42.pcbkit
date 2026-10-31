@@ -19,7 +19,7 @@ pcbkit 2
 /// MSP242X 2.42in 128x64 SPI module (SSD1309) — 2.42" 128 x 64 OLED display module (SSD1309),
 /// 4-wire SPI (or I2C), on a 1x7 female header along its left edge: GND VCC SCL SDA RES DC CS;
 /// courtyard the 72 x 43 mm module lying over the board
-part Part = device(
+part SSD1309_SPI_2_42: Part {
   footprint = moduleSocket(
     "OLED_2.42in_SPI_Socket_1x07_P2.54mm",
     socketRow(1, 7, (0mm, -7.62mm), (0mm, 2.54mm)),
@@ -35,11 +35,11 @@ part Part = device(
       frame = box((2.95mm, -19.4mm), (65.05mm, 19.4mm)),
       face = "#040506",
     ),
-  ),
-  prefix = "U",
-  mpn = "MSP242X 2.42in 128x64 SPI module (SSD1309)",
-  manufacturer = "generic",
-  pinout = { GND = "1", VCC = "2", SCL = "3", SDA = "4", RES = "5", DC = "6", CS = "7" },
+  )
+  prefix = "U"
+  mpn = "MSP242X 2.42in 128x64 SPI module (SSD1309)"
+  manufacturer = "generic"
+  pinout = { GND = "1", VCC = "2", SCL = "3", SDA = "4", RES = "5", DC = "6", CS = "7" }
   pinTypes = {
     GND = .ground
     VCC = io.powerIn(min = 3V, max = 5V)
@@ -48,8 +48,7 @@ part Part = device(
     RES = io.input()
     DC = io.input()
     CS = io.input()
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "lcdwiki MSP242X: pins 1 GND, 2 VCC, 3 SCL, 4 SDA, 5 RES, 6 DC, 7 CS; outline drawing: PCB 72.00 x 43.00 mm, holes 68 x 39 mm, header 2.54 x 6 = 15.24 mm centred on the left edge (13.88 mm from the bottom), 12.39 mm total height"

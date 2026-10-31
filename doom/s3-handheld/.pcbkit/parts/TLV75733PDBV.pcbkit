@@ -17,20 +17,19 @@ pcbkit 2
 
 /// TLV75733PDBVR — Linear regulator (LDO), fixed 3.3 V, 1 A, 1.45-5.5 V in, enable, 425 mV
 /// maximum dropout at 1 A
-part Part = device(
-  footprint = sot23(5),
-  prefix = "U",
-  mpn = "TLV75733PDBVR",
-  manufacturer = "Texas Instruments",
-  pinout = { IN = "1", GND = "2", EN = "3", NC = "4", OUT = "5" },
+part TLV75733PDBV: Part {
+  footprint = sot23(5)
+  prefix = "U"
+  mpn = "TLV75733PDBVR"
+  manufacturer = "Texas Instruments"
+  pinout = { IN = "1", GND = "2", EN = "3", NC = "4", OUT = "5" }
   pinTypes = {
     IN = io.powerIn(min = 1.45V, max = 6V)
     GND = .ground
     EN = io.input(max = 6V)
     NC = .nc
     OUT = io.powerOut(3.3V)
-  },
-) with {
+  }
   fields {
     Status = "checked"
     Sheet = "TLV75733PDBV"
@@ -134,7 +133,7 @@ part Part = device(
 }
 
 /// The support circuit of the TLV75733PDBVR as its datasheet shows it (Typical application): every
-/// part next to the pin it serves. Add it next to the part: `U1 = TLV75733PDBV.Part { … }`,
+/// part next to the pin it serves. Add it next to the part: `U1 = TLV75733PDBV.TLV75733PDBV { … }`,
 /// `U1Support = TLV75733PDBV.Support(U1) {}`.
 ///
 /// - EN to IN for always on; EN must not be left floating.

@@ -19,9 +19,9 @@ fn light(color: LedColor) -> Part = led(package = "1206", color = color) with {
     }
   }
 }
-fn knob(position: Number) -> Part = PTV09A_4020F_B103.Part with {
-  simulation = PTV09A_4020F_B103.Part.simulation with {
-    behavior = PTV09A_4020F_B103.Part.simulation.behavior with {
+fn knob(position: Number) -> Part = PTV09A_4020F_B103.PTV09A_4020F_B103 with {
+  simulation = PTV09A_4020F_B103.PTV09A_4020F_B103.simulation with {
+    behavior = PTV09A_4020F_B103.PTV09A_4020F_B103.simulation.behavior with {
       parameters = { position = position, volts = 5, ohms = 10000 }
     }
   }
@@ -41,9 +41,9 @@ laboratory = Laboratory {
 }
 // The processor: an Arduino Nano on two 15-pin sockets on the back, flashed over its USB (its
 // bootloader); the program in firmware/ is plain C for its ATmega328P.
-U1 = ARDUINO_NANO.Part with {
-  simulation = ARDUINO_NANO.Part.simulation with {
-    behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" }
+U1 = ARDUINO_NANO.ARDUINO_NANO with {
+  simulation = ARDUINO_NANO.ARDUINO_NANO.simulation with {
+    behavior = ARDUINO_NANO.ARDUINO_NANO.simulation.behavior with { firmware = "firmware" }
   }
 } {
   at = (50mm, 20mm)
@@ -62,13 +62,13 @@ U1 = ARDUINO_NANO.Part with {
   D6 -- VENT
   D7 -- OK
 }
-window = SERVO_HEADER.Part {
+window = SERVO_HEADER.SERVO_HEADER {
   at = (30mm, 64mm)
   GND -- GND
   VPLUS -- V5
   SIG -- WINDOW
 }
-display = MAX7219_7SEG_MODULE.Part {
+display = MAX7219_7SEG_MODULE.MAX7219_7SEG_MODULE {
   at = (50mm, 45mm)
   VCC -- V5
   GND -- GND
@@ -76,7 +76,7 @@ display = MAX7219_7SEG_MODULE.Part {
   CS -- LOAD
   CLK -- SCK
 }
-climate = SHT31_DIS.Part {
+climate = SHT31_DIS.SHT31_DIS {
   at = (12mm, 24mm)
   VDD -- V5
   VSS -- GND
@@ -86,7 +86,7 @@ climate = SHT31_DIS.Part {
   ALERT -- .nc
 }
 climateSupport = SHT31_DIS.Support { chip = climate }
-co2 = SCD40.Part {
+co2 = SCD40.SCD40 {
   at = (12mm, 10mm)
   VDD -- V5
   VDDH -- V5

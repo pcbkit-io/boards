@@ -27,7 +27,7 @@ pcbkit 2
 /// PTV09A-4020F-B103 — Potentiometer, 9 mm, carbon, 10 kΩ linear, 20 mm flatted insulated shaft
 /// upright (horizontal/rear mount, bushingless), through hole: pins named CCW, W (wiper), CW and
 /// two mounting tabs — the 9 mm panel pot of hobby boards (RK09 size)
-part Part = device(
+part PTV09A_4020F_B103: Part {
   footprint = Footprint {
     let ps = [
       thtPad("1", (-2.5mm, 0mm), 1mm, (1.8mm, 1.8mm), square = true),
@@ -50,13 +50,12 @@ part Part = device(
       solid.box((10mm, 9.9mm, 0.5mm), at = (0mm, 6.45mm, 6.3mm), material = .metal),
       solid.cylinder(6mm, 20mm, at = (0mm, 5.9mm, 6.8mm), color = "#2a2a2a"),
     ]
-  },
-  prefix = "RV",
-  mpn = "PTV09A-4020F-B103",
-  manufacturer = "Bourns",
-  pinout = { CCW = "1", W = "2", CW = "3", MP = "MP" },
-  pinTypes = { CCW = .passive, W = .passive, CW = .passive, MP = .passive },
-) with {
+  }
+  prefix = "RV"
+  mpn = "PTV09A-4020F-B103"
+  manufacturer = "Bourns"
+  pinout = { CCW = "1", W = "2", CW = "3", MP = "MP" }
+  pinTypes = { CCW = .passive, W = .passive, CW = .passive, MP = .passive }
   fields {
     Status = "checked"
     PinoutSource = "Bourns PTV09 Series datasheet: PTV09A-4 product dimensions (front view: body 10.0, 11.4, shaft 5.5 from the far edge, pins 1.5 outside), recommended PCB layout (horizontal/rear mount), schematic (1, 2 wiper, 3), characteristics"

@@ -15,11 +15,11 @@ pcbkit 2
 
 /// PCM5102APWR — PCM5102A stereo audio DAC, I2S / left-justified up to 384 kHz 32-bit, 2.1 Vrms
 /// ground-centred line outputs (charge pump), 112 dB, hardware controlled, 3.3 V, TSSOP-20
-part Part = device(
-  footprint = tssop(20),
-  prefix = "U",
-  mpn = "PCM5102APWR",
-  manufacturer = "Texas Instruments",
+part PCM5102APWR: Part {
+  footprint = tssop(20)
+  prefix = "U"
+  mpn = "PCM5102APWR"
+  manufacturer = "Texas Instruments"
   pinout = {
     CPVDD = "1"
     CAPP = "2"
@@ -41,7 +41,7 @@ part Part = device(
     LDOO = "18"
     DGND = "19"
     DVDD = "20"
-  },
+  }
   pinTypes = {
     CPVDD = io.powerIn(min = 3.1V, max = 3.9V)
     CAPP = .passive
@@ -63,8 +63,7 @@ part Part = device(
     LDOO = .powerOut
     DGND = .ground
     DVDD = io.powerIn(min = 1.65V, max = 3.9V)
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "PCM510xA datasheet SLAS859C: pin functions (p. 5), 8.1 absolute maximum ratings, 8.3 recommended operating conditions, Figure 33 typical application, 11.1"
@@ -127,7 +126,7 @@ part Part = device(
 
 /// The support circuit of the PCM5102APWR as its datasheet shows it (Figure 33 simplified
 /// schematic, hardware-controlled subsystem; 10.1.1.2; 11.1 power supply pin descriptions): every
-/// part next to the pin it serves. Add it next to the part: `U1 = PCM5102APWR.Part { … }`,
+/// part next to the pin it serves. Add it next to the part: `U1 = PCM5102APWR.PCM5102APWR { … }`,
 /// `U1Support = PCM5102APWR.Support(U1) {}`.
 ///
 /// - Hardware mode: FLT, DEMP and FMT low (normal latency filter, no de-emphasis, I2S); SCK to

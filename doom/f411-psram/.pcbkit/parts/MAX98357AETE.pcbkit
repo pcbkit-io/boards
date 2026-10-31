@@ -19,11 +19,11 @@ pcbkit 2
 
 /// MAX98357AETE+T — MAX98357A I2S digital-input class-D mono amplifier, 3.2 W into 4 Ω at 5 V,
 /// 2.5-5.5 V, no MCLK, gain 3-15 dB by GAIN_SLOT, channel and shutdown by SD_MODE, TQFN-16 3 x 3 mm
-part Part = device(
-  footprint = qfn(16, size = (3mm, 3mm), ep = (1.1mm, 1.1mm), pitch = 0.5mm),
-  prefix = "U",
-  mpn = "MAX98357AETE+T",
-  manufacturer = "Analog Devices (Maxim Integrated)",
+part MAX98357AETE: Part {
+  footprint = qfn(16, size = (3mm, 3mm), ep = (1.1mm, 1.1mm), pitch = 0.5mm)
+  prefix = "U"
+  mpn = "MAX98357AETE+T"
+  manufacturer = "Analog Devices (Maxim Integrated)"
   pinout = {
     DIN = "1"
     GAIN_SLOT = "2"
@@ -39,7 +39,7 @@ part Part = device(
     LRCLK = "14"
     BCLK = "16"
     EP = "17"
-  },
+  }
   pinTypes = {
     DIN = io.input(max = 6V)
     GAIN_SLOT = .passive
@@ -55,8 +55,7 @@ part Part = device(
     LRCLK = io.input(max = 6V)
     BCLK = io.input(max = 6V)
     EP = .passive
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "MAX98357A/MAX98357B datasheet 19-6779 Rev 13: pin configurations and pin description (TQFN column), absolute maximum ratings, electrical characteristics (supply range), Tables 5, 6 and 8, power-supply input, package information (T1633+4, 21-0136)"
@@ -108,7 +107,7 @@ part Part = device(
 /// The support circuit of the MAX98357AETE+T as its datasheet shows it (Typical application
 /// circuits; Table 5 SD_MODE control, Table 6 SD_MODE pull-up values, Table 8 gain selection;
 /// power-supply input (p. 33)): every part next to the pin it serves. Add it next to the part: `U1
-/// = MAX98357AETE.Part { … }`, `U1Support = MAX98357AETE.Support(U1) {}`.
+/// = MAX98357AETE.MAX98357AETE { … }`, `U1Support = MAX98357AETE.Support(U1) {}`.
 ///
 /// - SD_MODE: driven low = shutdown; high = left channel; pull-up through RSMALL (kΩ) = 94.0 x
 /// VDDIO - 100 (210 kΩ at 3.3 V) = right; through RLARGE = 222.2 x VDDIO - 100 (634 kΩ at 3.3 V)

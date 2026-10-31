@@ -27,14 +27,13 @@ pcbkit 2
 
 /// MMBT3904-7-F — NPN small-signal transistor, 40 V, 200 mA, hFE 100-300 at 10 mA, SOT-23 (the
 /// SMD 2N3904)
-part Part = device(
-  footprint = (sot23(3)) with { models = [Model3d { path = "Package_TO_SOT_SMD:SOT-23" }] },
-  prefix = "Q",
-  mpn = "MMBT3904-7-F",
-  manufacturer = "Diodes Incorporated",
-  pinout = { B = "1", E = "2", C = "3" },
-  pinTypes = { B = io.input(), E = .passive, C = .passive },
-) with {
+part MMBT3904: Part {
+  footprint = (sot23(3)) with { models = [Model3d { path = "Package_TO_SOT_SMD:SOT-23" }] }
+  prefix = "Q"
+  mpn = "MMBT3904-7-F"
+  manufacturer = "Diodes Incorporated"
+  pinout = { B = "1", E = "2", C = "3" }
+  pinTypes = { B = io.input(), E = .passive, C = .passive }
   fields {
     Status = "checked"
     PinoutSource = "Diodes Incorporated MMBT3904 datasheet DS30036 Rev. 27-2, March 2025: SOT23 top view pinout (B and E on the two-lead side, C alone: JEDEC numbering 1 B, 2 E, 3 C), absolute maximum ratings, electrical characteristics"

@@ -21,7 +21,7 @@ pcbkit 2
 
 /// 1042 — 18650 Li-ion cell holder, surface mount (Keystone 1042): two 7.3 x 6.4 mm pads 86 mm
 /// apart over all, three locating holes, nylon 77.1 x 20.7 mm
-part Part = device(
+part KEYSTONE_1042: Part {
   footprint = Footprint {
     let ps = [
       Pad { number = "1", at = (-39.35mm, 0mm), shape = shape.rect(7.3mm, 6.4mm) },
@@ -58,13 +58,12 @@ part Part = device(
     silk = silkOf(ps, b, 0.25mm)
     package = Package { family = .other, body = (77.1mm, 20.7mm), height = 18mm }
     solids = body.cellHolder(77.1mm, 20.7mm, tabs = 4.45mm)
-  },
-  prefix = "BT",
-  mpn = "1042",
-  manufacturer = "Keystone Electronics",
-  pinout = { C1 = "1", C2 = "2" },
-  pinTypes = { C1 = .passive, C2 = .passive },
-) with {
+  }
+  prefix = "BT"
+  mpn = "1042"
+  manufacturer = "Keystone Electronics"
+  pinout = { C1 = "1", C2 = "2" }
+  pinTypes = { C1 = .passive, C2 = .passive }
   fields {
     Status = "checked"
     PinoutSource = "Keystone catalog, 18650 lithium-ion battery holders (K75 p. 29): 1042 outline (77.1 x 20.7 mm, 86.0 mm over the tabs) and pad layout"

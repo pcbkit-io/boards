@@ -19,9 +19,9 @@ board = Board {
   fab { mask = .black }
 }
 
-NANO = ARDUINO_NANO.Part with {
-  simulation = ARDUINO_NANO.Part.simulation with {
-    behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" }
+NANO = ARDUINO_NANO.ARDUINO_NANO with {
+  simulation = ARDUINO_NANO.ARDUINO_NANO.simulation with {
+    behavior = ARDUINO_NANO.ARDUINO_NANO.simulation.behavior with { firmware = "firmware" }
   }
 } {
   at = (50mm, 14mm)
@@ -39,7 +39,7 @@ NANO = ARDUINO_NANO.Part with {
   D7 -- B
 }
 
-DS1 = SSD1306_OLED_I2C.Part {
+DS1 = SSD1306_OLED_I2C.SSD1306_OLED_I2C {
   at = (50mm, 49.4mm)
   GND -- GND
   VCC -- V5

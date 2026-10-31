@@ -30,9 +30,9 @@ board = Board {
 }
 // The processor: an Arduino Nano on two 15-pin sockets on the back, flashed over its USB (its
 // bootloader); the program in firmware/ is plain C for its ATmega328P.
-U1 = ARDUINO_NANO.Part with {
-  simulation = ARDUINO_NANO.Part.simulation with {
-    behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" }
+U1 = ARDUINO_NANO.ARDUINO_NANO with {
+  simulation = ARDUINO_NANO.ARDUINO_NANO.simulation with {
+    behavior = ARDUINO_NANO.ARDUINO_NANO.simulation.behavior with { firmware = "firmware" }
   }
 } {
   at = (24mm, 40mm)
@@ -100,7 +100,7 @@ walkGreenR = res(1kohm, package = "0603") {
   a -- WALK_GREEN_K
   b -- GND
 }
-display = MAX7219_7SEG_MODULE.Part {
+display = MAX7219_7SEG_MODULE.MAX7219_7SEG_MODULE {
   at = (46mm, 62mm)
   VCC -- V5
   GND -- GND

@@ -21,9 +21,9 @@ fn key(code: String) -> Part = button("6x6") with {
     behavior = Behavior { model = "button", ports = { output = ["1"] }, key = code }
   }
 }
-fn knob(position: Number) -> Part = PTV09A_4020F_B103.Part with {
-  simulation = PTV09A_4020F_B103.Part.simulation with {
-    behavior = PTV09A_4020F_B103.Part.simulation.behavior with {
+fn knob(position: Number) -> Part = PTV09A_4020F_B103.PTV09A_4020F_B103 with {
+  simulation = PTV09A_4020F_B103.PTV09A_4020F_B103.simulation with {
+    behavior = PTV09A_4020F_B103.PTV09A_4020F_B103.simulation.behavior with {
       parameters = { position = position, volts = 5, ohms = 10000 }
     }
   }
@@ -42,9 +42,9 @@ fn ring(i: Int) -> Point = (
 )
 // The processor: an Arduino Nano on two 15-pin sockets on the back, flashed over its USB (its
 // bootloader); the program in firmware/ is plain C for its ATmega328P.
-U1 = ARDUINO_NANO.Part with {
-  simulation = ARDUINO_NANO.Part.simulation with {
-    behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" }
+U1 = ARDUINO_NANO.ARDUINO_NANO with {
+  simulation = ARDUINO_NANO.ARDUINO_NANO.simulation with {
+    behavior = ARDUINO_NANO.ARDUINO_NANO.simulation.behavior with { firmware = "firmware" }
   }
 } {
   at = (40mm, 30mm)

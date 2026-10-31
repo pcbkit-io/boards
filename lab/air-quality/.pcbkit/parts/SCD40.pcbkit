@@ -18,7 +18,7 @@ pcbkit 2
 
 /// SCD40-D-R2 — SCD40 photoacoustic CO2 sensor (400-2000 ppm ±(50 ppm + 5 %), with temperature
 /// and humidity), I2C (address 0x62), 2.4-5.5 V, SMD LGA 10.1 x 10.1 x 6.5 mm
-part Part = device(
+part SCD40: Part {
   footprint = Footprint {
     let ps = [
       Pad { number = "1", at = (-4mm, 2.5mm), shape = shape.rect(1.5mm, 0.8mm) },
@@ -51,10 +51,10 @@ part Part = device(
     height = 6.5mm
     silk = silkOf(ps, b, 0.25mm)
     package = Package { family = .other, body = (10.1mm, 10.1mm), height = 6.5mm }
-  },
-  prefix = "U",
-  mpn = "SCD40-D-R2",
-  manufacturer = "Sensirion",
+  }
+  prefix = "U"
+  mpn = "SCD40-D-R2"
+  manufacturer = "Sensirion"
   pinout = {
     DNC = ["1", "2", "3", "4", "5", "8", "11", "12", "13", "14", "15", "16", "17", "18"]
     GND = ["6", "20", "21"]
@@ -62,7 +62,7 @@ part Part = device(
     SCL = "9"
     SDA = "10"
     VDDH = "19"
-  },
+  }
   pinTypes = {
     DNC = .nc
     GND = .ground
@@ -70,8 +70,7 @@ part Part = device(
     SCL = io.input()
     SDA = io.openDrain()
     VDDH = io.powerIn(min = 2.4V, max = 6V)
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "Sensirion SCD4x datasheet version 1.1 (April 2021): Table 4 electrical specifications, Table 5 maximum ratings, Table 6 pin assignment, Figure 1 application circuit, 3.1 I2C address, Table 31 and Figure 4 package and land pattern"
@@ -104,7 +103,7 @@ part Part = device(
 
 /// The support circuit of the SCD40-D-R2 as its datasheet shows it (Figure 1 typical application
 /// circuit; 2.3 interface specifications): every part next to the pin it serves. Add it next to the
-/// part: `U1 = SCD40.Part { … }`, `U1Support = SCD40.Support(U1) {}`.
+/// part: `U1 = SCD40.SCD40 { … }`, `U1Support = SCD40.Support(U1) {}`.
 ///
 /// - VDD and VDDH joined next to the sensor, on one low-noise supply (an LDO, ripple under 30 mV
 /// p-p) good for 205 mA peaks at 3.3 V.

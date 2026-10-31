@@ -21,9 +21,9 @@ fn key(code: String) -> Part = button("6x6") with {
     behavior = Behavior { model = "button", ports = { output = ["1"] }, key = code }
   }
 }
-fn knob(position: Number) -> Part = PTV09A_4020F_B103.Part with {
-  simulation = PTV09A_4020F_B103.Part.simulation with {
-    behavior = PTV09A_4020F_B103.Part.simulation.behavior with {
+fn knob(position: Number) -> Part = PTV09A_4020F_B103.PTV09A_4020F_B103 with {
+  simulation = PTV09A_4020F_B103.PTV09A_4020F_B103.simulation with {
+    behavior = PTV09A_4020F_B103.PTV09A_4020F_B103.simulation.behavior with {
       parameters = { position = position, volts = 5, ohms = 10000 }
     }
   }
@@ -38,9 +38,9 @@ board = Board {
 // Three moving servos draw more than the starter module's 500 mA: a 1 A regulator.
 // The processor: an Arduino Nano on two 15-pin sockets on the back, flashed over its USB (its
 // bootloader); the program in firmware/ is plain C for its ATmega328P.
-U1 = ARDUINO_NANO.Part with {
-  simulation = ARDUINO_NANO.Part.simulation with {
-    behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" }
+U1 = ARDUINO_NANO.ARDUINO_NANO with {
+  simulation = ARDUINO_NANO.ARDUINO_NANO.simulation with {
+    behavior = ARDUINO_NANO.ARDUINO_NANO.simulation.behavior with { firmware = "firmware" }
   }
 } {
   at = (35mm, 28mm)
@@ -58,19 +58,19 @@ U1 = ARDUINO_NANO.Part with {
   D3 -- REC
   D4 -- PLAY
 }
-servo0 = SERVO_HEADER.Part {
+servo0 = SERVO_HEADER.SERVO_HEADER {
   at = (18mm, 68mm)
   GND -- GND
   VPLUS -- VSERVO
   SIG -- SERVO0
 }
-servo1 = SERVO_HEADER.Part {
+servo1 = SERVO_HEADER.SERVO_HEADER {
   at = (52mm, 68mm)
   GND -- GND
   VPLUS -- VSERVO
   SIG -- SERVO1
 }
-servo2 = SERVO_HEADER.Part {
+servo2 = SERVO_HEADER.SERVO_HEADER {
   at = (86mm, 68mm)
   GND -- GND
   VPLUS -- VSERVO
@@ -124,7 +124,10 @@ playR = res(1kohm, package = "0603") {
 }
 // The servos' own supply: 5 V up to 2 A on a screw terminal (three moving servos draw more than
 // a USB port gives), its bulk capacitor at the terminal; the Nano runs from its USB.
-J4 = device(footprint = terminalBlock(2), displayValue = "5 V 2 A") {
+J4 = Part {
+  footprint = terminalBlock(2)
+  displayValue = "5 V 2 A"
+} {
   at = (52mm, 12mm)
   "1" -- VSERVO
   "2" -- GND

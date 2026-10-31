@@ -18,7 +18,7 @@ pcbkit 2
 /// BQ24075RGTR — Single-cell Li-ion linear charger with power path (system output OUT at 5.5 V
 /// at most from the input, the battery behind it), 1.5 A charge, input 4.35-6.4 V (26 V tolerant,
 /// 6.6 V OVP), USB 100/500 mA or resistor-set input limit, VQFN-16 3 x 3 mm
-part Part = device(
+part BQ24075RGT: Part {
   footprint = rows(
     name = "QFN-16-1EP_3x3mm_P0.5mm_EP1.68x1.68mm",
     description = "VQFN-16 (RGT) 3x3, 16 pins, 3 x 3 mm body, 0.5 mm pitch (from the datasheet)",
@@ -34,11 +34,11 @@ part Part = device(
     bodyY = tolerance(2.9mm, 3.1mm),
     bodyHeight = 1mm,
     exposedPad = (1.68mm, 1.68mm),
-  ),
-  prefix = "U",
-  mpn = "BQ24075RGTR",
-  manufacturer = "Texas Instruments",
-  orderCode = "C15464",
+  )
+  prefix = "U"
+  mpn = "BQ24075RGTR"
+  manufacturer = "Texas Instruments"
+  orderCode = "C15464"
   pinout = {
     TS = "1"
     BAT = ["2", "3"]
@@ -54,7 +54,7 @@ part Part = device(
     TMR = "14"
     SYSOFF = "15"
     ISET = "16"
-  },
+  }
   pinTypes = {
     TS = .passive
     // The cell's terminal: it charges the cell and draws from it (one net with the cell).
@@ -71,8 +71,7 @@ part Part = device(
     TMR = .passive
     SYSOFF = .input
     ISET = .passive
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "TI BQ2407x datasheet SLUS810N: Figure 7-2 and table 7-1 pin functions (BQ24074, RGT), 8.1 absolute maximum ratings, 8.3 recommended operating conditions, 8.5 electrical characteristics, 10.2 design example, RGT0016C package outline"

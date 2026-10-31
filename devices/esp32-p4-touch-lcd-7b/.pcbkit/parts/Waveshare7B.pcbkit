@@ -7,12 +7,12 @@ pcbkit 2
 
 /// CH343P (WCH): USB to UART bridge, full-speed USB, 6 Mbaud, VIO 1.8 to 5 V, TQFN-16 3 x 3 mm
 /// (the exposed pad is ground); its modem inputs are pulled up inside.
-part CH343P = device(
-  footprint = qfn(16, size = (3mm, 3mm), ep = (1.7mm, 1.7mm)),
-  prefix = "U",
-  mpn = "CH343P",
-  manufacturer = "WCH",
-  orderCode = "C2846043",
+part CH343P: Part {
+  footprint = qfn(16, size = (3mm, 3mm), ep = (1.7mm, 1.7mm))
+  prefix = "U"
+  mpn = "CH343P"
+  manufacturer = "WCH"
+  orderCode = "C2846043"
   pinout = {
     VIO = "1"
     GND = ["2", "17"]
@@ -30,7 +30,7 @@ part CH343P = device(
     "DSR#" = "14"
     "CTS#" = "15"
     "RI#" = "16"
-  },
+  }
   pinTypes = {
     VIO = .powerIn
     GND = .ground
@@ -48,17 +48,17 @@ part CH343P = device(
     "DSR#" = .passive
     "CTS#" = .passive
     "RI#" = .passive
-  },
-)
+  }
+}
 
 /// ES7210 (Everest Semiconductor): four-channel audio ADC with microphone bias, I2S/TDM out, I2C
 /// control, QFN-32 4 x 4 mm, 0.4 mm pitch (the exposed pad, E_GND, is ground).
-part ES7210 = device(
-  footprint = qfn(32, size = (4mm, 4mm), ep = (2.7mm, 2.7mm), pitch = 0.4mm),
-  prefix = "U",
-  mpn = "ES7210",
-  manufacturer = "Everest Semiconductor",
-  orderCode = "C365743",
+part ES7210: Part {
+  footprint = qfn(32, size = (4mm, 4mm), ep = (2.7mm, 2.7mm), pitch = 0.4mm)
+  prefix = "U"
+  mpn = "ES7210"
+  manufacturer = "Everest Semiconductor"
+  orderCode = "C365743"
   pinout = {
     AD0 = "1"
     AD1 = "2"
@@ -93,7 +93,7 @@ part ES7210 = device(
     MIC3P = "31"
     MIC3N = "32"
     E_GND = "33"
-  },
+  }
   pinTypes = {
     AD0 = .input
     AD1 = .input
@@ -128,17 +128,17 @@ part ES7210 = device(
     MIC3P = .passive
     MIC3N = .passive
     E_GND = .ground
-  },
-)
+  }
+}
 
 /// NS4150B (Nsiway): 3 W mono class-D amplifier, filterless, 3 to 5.25 V, MSOP-8; CTRL high
 /// turns it on.
-part NS4150B = device(
-  footprint = msop(8),
-  prefix = "U",
-  mpn = "NS4150B",
-  manufacturer = "Nsiway",
-  orderCode = "C189961",
+part NS4150B: Part {
+  footprint = msop(8)
+  prefix = "U"
+  mpn = "NS4150B"
+  manufacturer = "Nsiway"
+  orderCode = "C189961"
   pinout = {
     CTRL = "1"
     BYPASS = "2"
@@ -148,7 +148,7 @@ part NS4150B = device(
     VDD = "6"
     GND = "7"
     "OUT+" = "8"
-  },
+  }
   pinTypes = {
     CTRL = .input
     BYPASS = .passive
@@ -158,30 +158,30 @@ part NS4150B = device(
     VDD = .powerIn
     GND = .ground
     "OUT+" = .output
-  },
-)
+  }
+}
 
 /// AP3012 (Diodes): boost converter, 1.5 MHz, 29 V switch, 1.25 V feedback, SOT-23-5; SHDN low
 /// turns it off.
-part AP3012 = device(
-  footprint = sot23(5),
-  prefix = "U",
-  mpn = "AP3012KTR-E1",
-  manufacturer = "Diodes Incorporated",
-  orderCode = "C460356",
-  pinout = { SW = "1", GND = "2", FB = "3", SHDN = "4", VIN = "5" },
-  pinTypes = { SW = .passive, GND = .ground, FB = .passive, SHDN = .input, VIN = .powerIn },
-)
+part AP3012: Part {
+  footprint = sot23(5)
+  prefix = "U"
+  mpn = "AP3012KTR-E1"
+  manufacturer = "Diodes Incorporated"
+  orderCode = "C460356"
+  pinout = { SW = "1", GND = "2", FB = "3", SHDN = "4", VIN = "5" }
+  pinTypes = { SW = .passive, GND = .ground, FB = .passive, SHDN = .input, VIN = .powerIn }
+}
 
 /// AP3032 (Diodes): white LED boost driver, 1 MHz, 0.2 V current feedback, output over-voltage
 /// sense, SOT-23-6.
-part AP3032 = device(
-  footprint = sot23(6),
-  prefix = "U",
-  mpn = "AP3032KTR-G1",
-  manufacturer = "Diodes Incorporated",
-  orderCode = "C264086",
-  pinout = { SW = "1", GND = "2", FB = "3", EN = "4", OV = "5", VIN = "6" },
+part AP3032: Part {
+  footprint = sot23(6)
+  prefix = "U"
+  mpn = "AP3032KTR-G1"
+  manufacturer = "Diodes Incorporated"
+  orderCode = "C264086"
+  pinout = { SW = "1", GND = "2", FB = "3", EN = "4", OV = "5", VIN = "6" }
   pinTypes = {
     SW = .passive
     GND = .ground
@@ -189,78 +189,78 @@ part AP3032 = device(
     EN = .input
     OV = .passive
     VIN = .powerIn
-  },
-)
+  }
+}
 
 /// RT9193 (Richtek): 300 mA low-noise LDO with a bypass pin, SOT-23-5; the fixed output by its
 /// suffix (`-18`: 1.8 V, `-33`: 3.3 V).
-fn rt9193(volts: String, code: String) -> Part = device(
-  footprint = sot23(5),
-  prefix = "U",
-  mpn = "RT9193-\(volts)GB",
-  manufacturer = "Richtek",
-  orderCode = code,
-  pinout = { VIN = "1", GND = "2", EN = "3", BP = "4", VOUT = "5" },
-  pinTypes = { VIN = .powerIn, GND = .ground, EN = .input, BP = .passive, VOUT = .powerOut },
-)
+fn rt9193(volts: String, code: String) -> Part = Part {
+  footprint = sot23(5)
+  prefix = "U"
+  mpn = "RT9193-\(volts)GB"
+  manufacturer = "Richtek"
+  orderCode = code
+  pinout = { VIN = "1", GND = "2", EN = "3", BP = "4", VOUT = "5" }
+  pinTypes = { VIN = .powerIn, GND = .ground, EN = .input, BP = .passive, VOUT = .powerOut }
+}
 part RT9193_18 = rt9193("18", "C27416")
 part RT9193_33 = rt9193("33", "C15651")
 
 /// SY6280AAC (Silergy): current-limited power distribution switch, 2.4 to 5.5 V, 70 mohm, the
 /// limit set by ISET (6800 V / RSET), SOT-23-5; EN high turns it on.
-part SY6280AAC = device(
-  footprint = sot23(5),
-  prefix = "U",
-  mpn = "SY6280AAC",
-  manufacturer = "Silergy",
-  orderCode = "C55136",
-  pinout = { OUT = "1", GND = "2", ISET = "3", EN = "4", IN = "5" },
-  pinTypes = { OUT = .powerOut, GND = .ground, ISET = .passive, EN = .input, IN = .powerIn },
-)
+part SY6280AAC: Part {
+  footprint = sot23(5)
+  prefix = "U"
+  mpn = "SY6280AAC"
+  manufacturer = "Silergy"
+  orderCode = "C55136"
+  pinout = { OUT = "1", GND = "2", ISET = "3", EN = "4", IN = "5" }
+  pinTypes = { OUT = .powerOut, GND = .ground, ISET = .passive, EN = .input, IN = .powerIn }
+}
 
 /// NDC7002N: two N-channel MOSFETs, 50 V, 510 mA, SuperSOT-6 (the SOT-23-6 land pattern), as
 /// Waveshare's schematic numbers them.
-part NDC7002N = device(
-  footprint = sot23(6),
-  prefix = "Q",
-  mpn = "NDC7002N",
-  manufacturer = "onsemi",
-  orderCode = "C404322",
-  pinout = { G1 = "1", S2 = "2", G2 = "3", D2 = "4", S1 = "5", D1 = "6" },
-  pinType = .passive,
-)
+part NDC7002N: Part {
+  footprint = sot23(6)
+  prefix = "Q"
+  mpn = "NDC7002N"
+  manufacturer = "onsemi"
+  orderCode = "C404322"
+  pinout = { G1 = "1", S2 = "2", G2 = "3", D2 = "4", S1 = "5", D1 = "6" }
+  pinType = .passive
+}
 
 /// BAT54S: two Schottky diodes in series (A1-K1/A2 common-K2), 30 V, 200 mA, SOT-23.
-part BAT54S = device(
-  footprint = sot23(3),
-  prefix = "D",
-  mpn = "BAT54S-7-F",
-  manufacturer = "Diodes Incorporated",
-  orderCode = "C83574",
-  pinout = { A1 = "1", K2 = "2", COM = "3" },
-  pinType = .passive,
-)
+part BAT54S: Part {
+  footprint = sot23(3)
+  prefix = "D"
+  mpn = "BAT54S-7-F"
+  manufacturer = "Diodes Incorporated"
+  orderCode = "C83574"
+  pinout = { A1 = "1", K2 = "2", COM = "3" }
+  pinType = .passive
+}
 
 /// MMDT3906DW: two matched PNP transistors, 40 V, 200 mA, SOT-363, as Waveshare's schematic
 /// numbers them (the ideal-diode controller of each 5 V input).
-part MMDT3906DW = device(
-  footprint = sot("SOT-363"),
-  prefix = "U",
-  mpn = "MMDT3906DW",
-  manufacturer = "Diodes Incorporated",
-  orderCode = "C2836075",
-  pinout = { E2 = "1", B2 = "2", C1 = "3", E1 = "4", B1 = "5", C2 = "6" },
-  pinType = .passive,
-)
+part MMDT3906DW: Part {
+  footprint = sot("SOT-363")
+  prefix = "U"
+  mpn = "MMDT3906DW"
+  manufacturer = "Diodes Incorporated"
+  orderCode = "C2836075"
+  pinout = { E2 = "1", B2 = "2", C1 = "3", E1 = "4", B1 = "5", C2 = "6" }
+  pinType = .passive
+}
 
 /// GD25Q256E (GigaDevice): 256 Mbit (32 MB) quad SPI NOR flash, 2.7 to 3.6 V, WSON-8 8 x 6 mm
 /// (the exposed pad to ground); its pins named as the W25Q128JV's.
-part GD25Q256 = device(
-  footprint = dfn(8, size = (6mm, 8mm), ep = (3.4mm, 4.3mm), pitch = 1.27mm),
-  prefix = "U",
-  mpn = "GD25Q256EYIGR",
-  manufacturer = "GigaDevice",
-  orderCode = "C2927043",
+part GD25Q256: Part {
+  footprint = dfn(8, size = (6mm, 8mm), ep = (3.4mm, 4.3mm), pitch = 1.27mm)
+  prefix = "U"
+  mpn = "GD25Q256EYIGR"
+  manufacturer = "GigaDevice"
+  orderCode = "C2927043"
   pinout = {
     nCS = "1"
     DO = "2"
@@ -270,7 +270,7 @@ part GD25Q256 = device(
     CLK = "6"
     nHOLD = "7"
     VCC = "8"
-  },
+  }
   pinTypes = {
     nCS = .input
     DO = .bidirectional
@@ -280,5 +280,5 @@ part GD25Q256 = device(
     CLK = .input
     nHOLD = .bidirectional
     VCC = .powerIn
-  },
-)
+  }
+}

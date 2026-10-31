@@ -23,7 +23,7 @@ pcbkit 2
 
 /// SRD-05VDC-SL-C — Songle SRD-05VDC-SL-C power relay, 5 V coil (70 Ω, 71 mA), one change-over
 /// contact (COM, NO and NC, named NCLOSED) up to 10 A 250 VAC, through hole, 19.2 x 15.6 mm
-part Part = device(
+part SRD_05VDC_SL_C: Part {
   footprint = Footprint {
     let ps = [
       thtPad("1", (0mm, 0mm), 1.3mm, (2.6mm, 2.6mm), square = true),
@@ -49,20 +49,19 @@ part Part = device(
         color = "#1f5fbf",
       ),
     ]
-  },
-  prefix = "K",
-  mpn = "SRD-05VDC-SL-C",
-  manufacturer = "Ningbo Songle Relay",
-  orderCode = "C35449",
-  pinout = { COM = "1", COIL1 = "2", NCLOSED = "3", NO = "4", COIL2 = "5" },
+  }
+  prefix = "K"
+  mpn = "SRD-05VDC-SL-C"
+  manufacturer = "Ningbo Songle Relay"
+  orderCode = "C35449"
+  pinout = { COM = "1", COIL1 = "2", NCLOSED = "3", NO = "4", COIL2 = "5" }
   pinTypes = {
     COM = .passive
     COIL1 = .passive
     NCLOSED = .passive
     NO = .passive
     COIL2 = .passive
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "Songle SRD series datasheet: C-type PCB layout (bottom view, mirrored here for the top view), outline dimensions, coil table (5 V, 71.4 mA, 70 Ω, pick-up 75 % max, drop-out 10 % min)"

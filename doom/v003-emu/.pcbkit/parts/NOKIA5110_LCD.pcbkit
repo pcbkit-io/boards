@@ -22,7 +22,7 @@ pcbkit 2
 /// Nokia 5110 84x48 LCD module (PCD8544): connector (8-pin) — Connector for the Nokia 5110 / 3310
 /// 84 x 48 monochrome LCD module (PCD8544 controller, SPI, 3.3 V): a 1x8 2.54 mm pin header, RST CE
 /// DC DIN CLK VCC BL GND as the common red module prints them
-part Part = device(
+part NOKIA5110_LCD: Part {
   footprint = pinHeader(8) with {
     models = [
       Model3d { path = "Connector_PinHeader_2.54mm:PinHeader_1x08_P2.54mm_Vertical", hide = true },
@@ -49,11 +49,11 @@ part Part = device(
         p => p with { at = (p.at[0], p.at[1], clean(p.at[2] + 3.5mm)) },
       ),
     )
-  },
-  prefix = "J",
-  mpn = "Nokia 5110 84x48 LCD module (PCD8544): connector (8-pin)",
-  manufacturer = "generic",
-  pinout = { RST = "1", CE = "2", DC = "3", DIN = "4", CLK = "5", VCC = "6", BL = "7", GND = "8" },
+  }
+  prefix = "J"
+  mpn = "Nokia 5110 84x48 LCD module (PCD8544): connector (8-pin)"
+  manufacturer = "generic"
+  pinout = { RST = "1", CE = "2", DC = "3", DIN = "4", CLK = "5", VCC = "6", BL = "7", GND = "8" }
   pinTypes = {
     RST = io.input()
     CE = io.input()
@@ -63,8 +63,7 @@ part Part = device(
     VCC = io.powerIn(min = 2.7V, max = 3.3V)
     BL = .passive
     GND = .ground
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "the red Nokia 5110 module's silkscreen as sellers and tutorials document it (RST, CE, DC, DIN, CLK, VCC, BL/LIGHT, GND); Philips PCD8544 specification: VDD 2.7-3.3 V, serial interface up to 4.0 Mbit/s"

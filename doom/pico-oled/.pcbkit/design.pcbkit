@@ -73,9 +73,9 @@ laboratory = Laboratory { world = "input.js" }
 // and the firmware flashed over USB as a UF2: hold BOOTSEL while plugging in).
 // The program is doom/ (rp2040-doom's engine); its data, rp2040-doom's compressed shareware WAD
 // (DOOM1.WHX, id Software's data, free to share unmodified), is linked into the Pico's 2 MB flash.
-U1 = RASPBERRY_PI_PICO.Part with {
-  simulation = RASPBERRY_PI_PICO.Part.simulation with {
-    behavior = RASPBERRY_PI_PICO.Part.simulation.behavior with {
+U1 = RASPBERRY_PI_PICO.RASPBERRY_PI_PICO with {
+  simulation = RASPBERRY_PI_PICO.RASPBERRY_PI_PICO.simulation with {
+    behavior = RASPBERRY_PI_PICO.RASPBERRY_PI_PICO.simulation.behavior with {
       firmware = "doom"
       data = {
         "DOOM1.WHX" = FirmwareData {
@@ -118,7 +118,7 @@ U1 = RASPBERRY_PI_PICO.Part with {
 }
 
 // The screen on the front: its 1x7 socket at the left of the module, the glass to its right.
-DS1 = SSD1309_SPI_2_42.Part {
+DS1 = SSD1309_SPI_2_42.SSD1309_SPI_2_42 {
   at = (41mm, 69mm)
   // The 1x7 socket it plugs into (the module: a 2.42" SSD1309 SPI OLED, bought separately).
   orderCode = "C2932672"
@@ -133,14 +133,14 @@ DS1 = SSD1309_SPI_2_42.Part {
 
 // Two 18650 cells on the back, side by side along the bottom, in parallel. The holders are not
 // polarized: put each cell's + at the end the silkscreen marks.
-BT1 = Holder.Part {
+BT1 = Holder.KEYSTONE_1042 {
   orderCode = "C5249310"
   at = (75mm, 13mm)
   side = .bottom
   C2 -- CELL1_P
   C1 -- CELL_N
 }
-BT2 = Holder.Part {
+BT2 = Holder.KEYSTONE_1042 {
   orderCode = "C5249310"
   at = (75mm, 35mm)
   side = .bottom
@@ -186,11 +186,11 @@ reversed = ReversePolarity {
   current = 800mA
   rdsOn = 60mohm
   maxGateVoltage = 12V
-  fet = Pfet.Part with { orderCode = "C15127" }
+  fet = Pfet.AO3401A with { orderCode = "C15127" }
 }
 
 // Protection: over-charge 4.3 V, over-discharge 2.4 V, over-current about 3 A, in the pack's minus.
-U2 = Protection.Part {
+U2 = Protection.DW01A {
   orderCode = "C351410"
   GND -- CELL_N
 }
@@ -204,7 +204,7 @@ U2Support = Protection.Support {
 // any port), 800 mA fast charge (RISET = 890 AΩ / 0.8 A), its current-based termination; SYSOFF
 // low (the cells always connected); the safety timers off (TMR to VSS): two cells charge longer
 // than its longest timer. TS: 10 kΩ without an NTC.
-U3 = Charger.Part {
+U3 = Charger.BQ24075RGT {
   at = (75mm, 30mm)
   IN -- VBUS
   OUT -- SYS
@@ -291,7 +291,7 @@ chargeLabel = Text {
 }
 
 // The power path into the Pico's VSYS, beside its own VBUS diode.
-D1 = Schottky.Part {
+D1 = Schottky.D_1N5819HW {
   orderCode = "C82544"
   place = [soft(near(U1.pin.VSYS, max = 15mm))]
   A -- SYS
@@ -299,7 +299,7 @@ D1 = Schottky.Part {
 }
 
 // On/off: the switch holds the Pico's 3V3_EN low (its regulator off, the cells still charging).
-SW9 = Slide.Part {
+SW9 = Slide.MSK12C02 {
   at = (1.9mm, 30mm)
   rotation = 90deg
   COM -- PWR_EN
@@ -314,7 +314,7 @@ switchLabel = Text {
 }
 
 // Sound: a passive piezo driven by PWM through a series resistor.
-BZ1 = GPC12075YB_5V.Part {
+BZ1 = GPC12075YB_5V.GPC12075YB_5V {
   side = .bottom
   orderCode = "C252948"
   A -- BUZZ_R
@@ -409,7 +409,7 @@ H4 = hole("M3") { at = (145mm, 95mm) }
 gndPour = pour(net = GND, layers = [Cu.top, Cu.bottom]) {}
 
 // PCBKit's mark and pcbkit.io, where the board has room.
-logo = Logo.Part {}
+logo = Logo.PCBKIT_LOGO {}
 
 reversed.Rg.orderCode = "C25741"
 

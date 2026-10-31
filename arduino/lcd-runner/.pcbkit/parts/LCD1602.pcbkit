@@ -25,7 +25,7 @@ pcbkit 2
 /// 1602 16x2 character LCD module (HD44780 compatible) — 16 x 2 character LCD module (HD44780 /
 /// ST7066U compatible, 4- or 8-bit parallel), 5 V, on a 1x16 female header along its top edge;
 /// courtyard the 80 x 36 mm module lying over the board
-part Part = device(
+part LCD1602: Part {
   footprint = moduleSocket(
     "LCD_1602_Socket_1x16_P2.54mm",
     socketRow(1, 16, (-19.05mm, 0mm), (2.54mm, 0mm)),
@@ -37,10 +37,10 @@ part Part = device(
     spacer = 2.5mm,
     pins = true,
     module = modules.lcd1602(),
-  ),
-  prefix = "U",
-  mpn = "1602 16x2 character LCD module (HD44780 compatible)",
-  manufacturer = "generic",
+  )
+  prefix = "U"
+  mpn = "1602 16x2 character LCD module (HD44780 compatible)"
+  manufacturer = "generic"
   pinout = {
     VSS = "1"
     VDD = "2"
@@ -58,7 +58,7 @@ part Part = device(
     DB7 = "14"
     A = "15"
     K = "16"
-  },
+  }
   pinTypes = {
     VSS = .ground
     VDD = io.powerIn(min = 4.5V, max = 5.5V)
@@ -76,8 +76,7 @@ part Part = device(
     DB7 = io.bidirectional()
     A = .passive
     K = .passive
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "Newhaven NHD-0216K1Z-FL-YBW rev. 13: pin assignment (1 VSS, 2 VDD, 3 V0, 4 RS, 5 R/W, 6 E, 7-14 DB0-DB7, 15 A, 16 K), mechanical drawing (PCB 80.00 x 36.00 mm, P2.54 x 15 = 38.10, first pin 8.00 mm from the left edge, row 2.00 mm from the top edge, holes 75 x 31 mm, 13.2 mm max thick), VDD 4.5-5.5 V, VIH 0.7 VDD"

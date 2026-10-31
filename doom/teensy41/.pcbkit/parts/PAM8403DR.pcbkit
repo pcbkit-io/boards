@@ -20,7 +20,7 @@ pcbkit 2
 /// PAM8403DR — PAM8403 filterless class-D stereo audio amplifier, 2 x 3 W into 4 Ω at 5 V,
 /// 2.5-5.5 V, fixed 24 dB gain, mute and shutdown, SOP-16 (not recommended for new designs:
 /// PAM8406)
-part Part = device(
+part PAM8403DR: Part {
   footprint = rows(
     name = "SOIC-16_3.9x9.9mm_P1.27mm",
     description = "SOP-16, 16 pins, 9.9 x 3.9 mm body, 1.27 mm pitch (from the datasheet)",
@@ -32,10 +32,10 @@ part Part = device(
     bodyX = tolerance(3.8mm, 4mm),
     bodyY = tolerance(9.8mm, 10mm),
     bodyHeight = 1.75mm,
-  ),
-  prefix = "U",
-  mpn = "PAM8403DR",
-  manufacturer = "Diodes Incorporated",
+  )
+  prefix = "U"
+  mpn = "PAM8403DR"
+  manufacturer = "Diodes Incorporated"
   pinout = {
     OUTLP = "1"
     PGND = ["2", "15"]
@@ -51,7 +51,7 @@ part Part = device(
     SHDN = "12"
     OUTRN = "14"
     OUTRP = "16"
-  },
+  }
   pinTypes = {
     OUTLP = .output
     PGND = .ground
@@ -67,8 +67,7 @@ part Part = device(
     SHDN = io.input(pull = .up)
     OUTRN = .output
     OUTRP = .output
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "PAM8403 datasheet DS36439 Rev. 2-3: pin descriptions (p. 2), absolute maximum and recommended operating conditions (p. 3), application information (p. 7-9), SO-16 package outline (p. 10)"
@@ -132,7 +131,7 @@ part Part = device(
 /// The support circuit of the PAM8403DR as its datasheet shows it (Typical applications circuit (p.
 /// 1); application information (p. 7-9): maximum gain, mute, shutdown, power supply decoupling,
 /// input capacitor, VREF bypass capacitor, EMI): every part next to the pin it serves. Add it next
-/// to the part: `U1 = PAM8403DR.Part { … }`, `U1Support = PAM8403DR.Support(U1) {}`.
+/// to the part: `U1 = PAM8403DR.PAM8403DR { … }`, `U1Support = PAM8403DR.Support(U1) {}`.
 ///
 /// - Bridge-tied outputs: each speaker between +OUT and -OUT, never to ground; no output filter
 /// needed with short speaker leads (ferrite beads on the outputs against EMI).

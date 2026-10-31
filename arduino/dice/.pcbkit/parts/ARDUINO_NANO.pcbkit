@@ -25,7 +25,7 @@ pcbkit 2
 
 /// A000005 — Arduino Nano (classic, ATmega328P, 5 V, 16 MHz) plugged into two 15-pin female
 /// headers 0.6" apart, pins named as its silkscreen; the courtyard is the Nano's 18 x 43.2 mm board
-part Part = device(
+part ARDUINO_NANO: Part {
   footprint = moduleSocket(
     "Arduino_Nano_Socket_2x15_P2.54mm_W15.24mm",
     concat(
@@ -40,10 +40,10 @@ part Part = device(
     spacer = 2.5mm,
     pins = true,
     module = modules.arduinoNano(),
-  ),
-  prefix = "U",
-  mpn = "A000005",
-  manufacturer = "Arduino",
+  )
+  prefix = "U"
+  mpn = "A000005"
+  manufacturer = "Arduino"
   pinout = {
     D1 = "1"
     D0 = "2"
@@ -73,7 +73,7 @@ part Part = device(
     A7 = "26"
     P5V = "27"
     VIN = "30"
-  },
+  }
   pinTypes = {
     D1 = io.bidirectional()
     D0 = io.bidirectional()
@@ -103,8 +103,7 @@ part Part = device(
     A7 = .passive
     P5V = io.powerOut(5V)
     VIN = .passive
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "Arduino Nano product reference manual (A000005), §5 connector pinout figure and tables (pin 27 5V, pin 30 VIN), §6 mechanical drawing"

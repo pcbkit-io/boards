@@ -16,14 +16,13 @@ pcbkit 2
 // practice.
 
 /// AMS1117-3.3 — Linear regulator (LDO), fixed 3.3 V, 1 A, input up to 15 V, about 1.1 V dropout
-part Part = device(
-  footprint = sot("SOT-223"),
-  prefix = "U",
-  mpn = "AMS1117-3.3",
-  manufacturer = "Advanced Monolithic Systems",
-  pinout = { GND = "1", VOUT = ["2", "4"], VIN = "3" },
-  pinTypes = { GND = .ground, VOUT = io.powerOut(3.3V), VIN = io.powerIn(min = 4.75V, max = 15V) },
-) with {
+part AMS1117_3_3: Part {
+  footprint = sot("SOT-223")
+  prefix = "U"
+  mpn = "AMS1117-3.3"
+  manufacturer = "Advanced Monolithic Systems"
+  pinout = { GND = "1", VOUT = ["2", "4"], VIN = "3" }
+  pinTypes = { GND = .ground, VOUT = io.powerOut(3.3V), VIN = io.powerIn(min = 4.75V, max = 15V) }
   fields {
     Status = "checked"
     PinoutSource = "AMS1117 datasheet, Pin connections (p. 1): SOT-223 1 GND/ADJ, 2 VOUT, 3 VIN, tab VOUT"
@@ -62,8 +61,8 @@ part Part = device(
 }
 
 /// The support circuit of the AMS1117-3.3 as its datasheet shows it (p. 4, Figure 1): every part
-/// next to the pin it serves. Add it next to the part: `U1 = AMS1117_3_3.Part { … }`, `U1Support
-/// = AMS1117_3_3.Support(U1) {}`.
+/// next to the pin it serves. Add it next to the part: `U1 = AMS1117_3_3.AMS1117_3_3 { … }`,
+/// `U1Support = AMS1117_3_3.Support(U1) {}`.
 ///
 /// - The output capacitor is part of the regulator's compensation: 22 uF on VOUT keeps it stable in
 /// all conditions (the datasheet's figure uses solid tantalum).

@@ -121,7 +121,7 @@ panel = Line {
 // The panel itself, taped on (its outline drawing: 105.5 x 67.2 x 2.95 mm, the metal frame's
 // opening 98.7 x 57 mm, the active area 95.04 x 53.86 mm; here centred on the outline): nothing
 // to solder, on the bill of materials and in 3D.
-DS1 = device(
+DS1 = Part {
   footprint = Footprint {
     name = "Newhaven_NHD-4.3-480272EF_Panel"
     description = "4.3 inch 480 x 272 RGB TFT panel taped to the board, its FPC folded to J1 on the back"
@@ -136,11 +136,11 @@ DS1 = device(
       glass = 0.5mm,
       frame = centered(105.5mm, 67.2mm),
     )
-  },
-  prefix = "DS",
-  mpn = "NHD-4.3-480272EF-ASXP",
-  manufacturer = "Newhaven Display",
-) with {
+  }
+  prefix = "DS"
+  mpn = "NHD-4.3-480272EF-ASXP"
+  manufacturer = "Newhaven Display"
+} with {
   // In the laboratory: the panel shows the frames LCD_CAM sends down its cable (its pixel clock is
   // J1's CLK, pad 30), on its active area.
   simulation = SimulationParameters {
@@ -160,9 +160,9 @@ DS1 = device(
 // ---- processor (back, top edge, antenna overhanging) --------------------------------------------
 // The program is doom/; the game's data, id Software's shareware DOOM1.WAD (free to share
 // unmodified), is linked into its flash from where it is published.
-U1 = ESP32_S3_WROOM_1.Part with {
-  simulation = ESP32_S3_WROOM_1.Part.simulation with {
-    behavior = ESP32_S3_WROOM_1.Part.simulation.behavior with {
+U1 = ESP32_S3_WROOM_1.ESP32_S3_WROOM_1 with {
+  simulation = ESP32_S3_WROOM_1.ESP32_S3_WROOM_1.simulation with {
+    behavior = ESP32_S3_WROOM_1.ESP32_S3_WROOM_1.simulation.behavior with {
       firmware = "doom"
       data = {
         "DOOM1.WAD" = FirmwareData {
@@ -229,7 +229,7 @@ U1Support = ESP32_S3_WROOM_1.Support {
 // the right. A Hirose FH34SRJ with top and bottom contacts: Newhaven's sheets name a bottom-contact
 // connector for the ASXN and a top-contact one for the ASXP, so the cable's contacts may face
 // either way here; 1 mm high, under the panel.
-J1 = NHD43_RGB_FPC40.Part with {
+J1 = NHD43_RGB_FPC40.NHD43_RGB_FPC40 with {
   footprint = fp.Hirose_FH34SRJ_40S_0_5SH
   mpn = "FH34SRJ-40S-0.5SH(50)"
   manufacturer = "Hirose"
@@ -293,7 +293,7 @@ C1 = cap(10uF, package = "0603") {
   b -- GND
 }
 // MT3608 as a constant-current LED driver: FB regulates 0.6 V across 15 ohm = 40 mA.
-U8 = MT3608.Part {
+U8 = MT3608.MT3608 {
   side = .bottom
   VIN -- SYS
   GND -- GND
@@ -361,7 +361,7 @@ L1 = inductor(22uH, package = "4") {
   a -- SYS
   b -- BL_SW
 }
-D1 = Schottky.Part {
+D1 = Schottky.D_1N5819HW {
   side = .bottom
   orderCode = "C82544"
   place = [soft(near(U8.pin.SW, max = 6mm))]
@@ -382,7 +382,7 @@ RS1 = res(15ohm, package = "0603", tolerance = 1%) {
 }
 
 // ---- keys: ten buttons on an MCP23017 (0x20), interrupt on change -----------------------------------
-U3 = MCP23017_E_SO.Part {
+U3 = MCP23017_E_SO.MCP23017_E_SO {
   side = .bottom
   orderCode = "C47023"
 
@@ -419,7 +419,7 @@ U3Support = MCP23017_E_SO.Support {
 }
 
 // ---- sound (back): I2S -> PCM5102A -> PAM8403 -> two speakers ------------------------------------------
-U4 = PCM5102APWR.Part {
+U4 = PCM5102APWR.PCM5102APWR {
   side = .bottom
   orderCode = "C107671"
 
@@ -447,7 +447,7 @@ U4Support = PCM5102APWR.Support {
   side = .bottom
 }
 // SHDN on 3.3 V: the amplifier sleeps whenever the switch turns the regulator off.
-U5 = PAM8403DR.Part {
+U5 = PAM8403DR.PAM8403DR {
   side = .bottom
   // PAM8403DR-H: the same chip, pins and package.
   orderCode = "C17337"
@@ -488,7 +488,7 @@ R17 = res(100kohm, package = "0402") {
 }
 // Two 15 x 15 mm SMD speakers on the back, one at each end, assembled with the rest: the sound
 // leaves from the back.
-LS1 = Speaker.Part {
+LS1 = Speaker.FS1540 {
   orderCode = "C482341"
   side = .bottom
   at = (18mm, 62mm)
@@ -496,7 +496,7 @@ LS1 = Speaker.Part {
   P -- SPK_LP
   MP -- .nc
 }
-LS2 = Speaker.Part {
+LS2 = Speaker.FS1540 {
   orderCode = "C482341"
   side = .bottom
   at = (168mm, 50mm)
@@ -520,14 +520,14 @@ usb.power.J.rotation = 180deg
 
 // Two 18650 cells on the back along the bottom edge, end to end, in parallel. The holders are not
 // polarized: put each cell's + at the end the silkscreen marks.
-BT1 = Holder.Part {
+BT1 = Holder.KEYSTONE_1042 {
   orderCode = "C5249310"
   at = (47mm, 12.5mm)
   side = .bottom
   C2 -- CELL1_P
   C1 -- CELL_N
 }
-BT2 = Holder.Part {
+BT2 = Holder.KEYSTONE_1042 {
   orderCode = "C5249310"
   at = (135mm, 12.5mm)
   side = .bottom
@@ -567,11 +567,11 @@ reversed = ReversePolarity {
   current = 1A
   rdsOn = 60mohm
   maxGateVoltage = 12V
-  fet = Pfet.Part with { orderCode = "C15127" }
+  fet = Pfet.AO3401A with { orderCode = "C15127" }
 }
 
 // Protection: over-charge 4.3 V, over-discharge 2.4 V, over-current about 3 A, in the pack's minus.
-U2 = Protection.Part {
+U2 = Protection.DW01A {
   orderCode = "C351410"
   side = .bottom
   GND -- CELL_N
@@ -588,7 +588,7 @@ U2Support = Protection.Support {
 // low (the cells always connected); the safety timers off (TMR to VSS): two cells charge longer
 // than its longest timer. TS: 10 kΩ without an NTC. Its OUT (SYS) follows VBUS (at most 5.5 V)
 // when USB is in, else the cells through its 50 mΩ battery FET.
-U7 = Charger.Part {
+U7 = Charger.BQ24075RGT {
   place = [inside(box((2mm, 48mm), (37mm, 70mm)))]
   IN -- VBUS
   OUT -- SYS
@@ -675,7 +675,7 @@ chargeLabel = [
 // module's 500 mA radio peaks have room beside the rest; 425 mV dropout at 1 A, under 100 mV at
 // this board's 200 mA), so 3.3 V holds down to about 3.4 V of cell; below that the rail follows
 // the cells (the ESP32-S3 runs from 3.0 V).
-U6 = Ldo.Part {
+U6 = Ldo.TLV75733PDBV {
   orderCode = "C485517"
   side = .bottom
   IN -- SYS
@@ -699,7 +699,7 @@ R14 = res(100kohm, package = "0402") {
 
 // On/off: the switch at the left edge enables the regulator (the cells still charge when off;
 // the backlight driver and the amplifier sleep with 3.3 V gone).
-SW11 = Slide.Part {
+SW11 = Slide.MSK12C02 {
   at = (1.9mm, 55mm)
   rotation = 90deg
   COM -- LDO_EN
@@ -799,10 +799,10 @@ H4 = hole("M3") { at = (177mm, 75mm) }
 gndPour = pour(net = GND, layers = [Cu.top, Cu.inner[1], Cu.bottom]) {}
 
 // PCBKit's mark and pcbkit.io, where the board has room.
-logo = Logo.Part { side = .bottom }
+logo = Logo.PCBKIT_LOGO { side = .bottom }
 // On the front: the mark under the D-pad, pcbkit.io between the right-hand buttons.
-mark = Mark.Part { at = (20mm, 11mm) }
-wordmark = Wordmark.Part { at = (163mm, 52mm) }
+mark = Mark.PCBKIT_MARK { at = (20mm, 11mm) }
+wordmark = Wordmark.PCBKIT_WORDMARK { at = (163mm, 52mm) }
 
 // The support circuits' parts, each pinned to its JLCPCB / LCSC code.
 reversed.Rg.orderCode = "C25741"

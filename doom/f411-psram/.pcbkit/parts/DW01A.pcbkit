@@ -18,7 +18,7 @@ use ./FS8205A as FS8205A
 
 /// DW01A — One-cell Li-Ion / Li-Po protection IC: overcharge 4.3 V, overdischarge 2.4 V,
 /// overcurrent and short circuit, drives two external N-MOSFETs
-part Part = device(
+part DW01A: Part {
   footprint = rows(
     name = "SOT-6_1.6x2.9mm_P0.95mm",
     description = "SOT-23-6, 6 pins, 2.9 x 1.6 mm body, 0.95 mm pitch (from the datasheet)",
@@ -30,11 +30,11 @@ part Part = device(
     bodyX = tolerance(1.45mm, 1.75mm),
     bodyY = tolerance(2.75mm, 3.05mm),
     bodyHeight = 1.45mm,
-  ),
-  prefix = "U",
-  mpn = "DW01A",
-  manufacturer = "Fortune Semiconductor",
-  pinout = { OD = "1", CS = "2", OC = "3", TD = "4", VCC = "5", GND = "6" },
+  )
+  prefix = "U"
+  mpn = "DW01A"
+  manufacturer = "Fortune Semiconductor"
+  pinout = { OD = "1", CS = "2", OC = "3", TD = "4", VCC = "5", GND = "6" }
   pinTypes = {
     OD = .output
     CS = .passive
@@ -42,8 +42,7 @@ part Part = device(
     TD = io.input(pull = .down)
     VCC = io.powerIn(min = 2.4V, max = 10V)
     GND = .ground
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "DW01A datasheet DW01A-DS-12 Rev. 1.2, section 6 (pin configuration)"
@@ -69,7 +68,7 @@ part Part = device(
 }
 
 /// The support circuit of the DW01A as its datasheet shows it (p. 5, Typical application circuit):
-/// every part next to the pin it serves. Add it next to the part: `U1 = DW01A.Part { … }`,
+/// every part next to the pin it serves. Add it next to the part: `U1 = DW01A.DW01A { … }`,
 /// `U1Support = DW01A.Support(U1) {}`.
 ///
 /// - BAT_P is the cell's positive terminal and the pack's BATT+; GND the cell's negative terminal;
@@ -89,11 +88,11 @@ block Support {
 
   net DRAIN
   @severity(.warning)
-  require batteryPlus !=
-    null "DW01A needs `batteryPlus` (The cell's positive terminal (the pack's BATT+).): R1 are left out until it is given, `DW01A.Support(U1, batteryPlus = …)`"
+  require batteryPlus != null
+    "DW01A needs `batteryPlus` (The cell's positive terminal (the pack's BATT+).): R1 are left out until it is given, `DW01A.Support(U1, batteryPlus = …)`"
   @severity(.warning)
-  require packMinus !=
-    null "DW01A needs `packMinus` (The pack's negative terminal (BATT-: load and charger).): R2, M1_M2 are left out until it is given, `DW01A.Support(U1, packMinus = …)`"
+  require packMinus != null
+    "DW01A needs `packMinus` (The pack's negative terminal (BATT-: load and charger).): R2, M1_M2 are left out until it is given, `DW01A.Support(U1, packMinus = …)`"
   R1 =
     if batteryPlus != null then res(100ohm, package = "0402") {
       orderCode = "C25076"
@@ -118,7 +117,7 @@ block Support {
     }
     else null
   /// dual N-MOSFET, common drain: M1 gate OD, source GND (cell -); M2 gate OC, source BATT-
-  M1_M2 = FS8205A.Part {
+  M1_M2 = FS8205A.FS8205A {
     // JLCPCB stocks the TSSOP-8 8205A as C5148694.
     orderCode = "C5148694"
     place = [soft(near(chip, max = 8mm), weight = 1)]

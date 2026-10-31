@@ -28,7 +28,7 @@ pcbkit 2
 /// RP2350A — RP2350A dual Arm Cortex-M33 / Hazard3 RISC-V MCU, 150 MHz, 520 KB SRAM, external
 /// QSPI flash, USB 1.1 device/host, 3 PIO blocks (12 state machines), HSTX, 4 ADC inputs, 30 GPIO,
 /// internal 1.1 V switching regulator, QFN-60 7 x 7 mm (the Raspberry Pi Pico 2's chip)
-part Part = device(
+part RP2350A: Part {
   footprint = rows(
     name = "QFN-60-1EP_7x7mm_P0.4mm_EP3.4x3.4mm",
     description = "QFN-60 7 x 7 mm, 0.4 mm pitch, 3.4 mm exposed pad, 60 pins, 7 x 7 mm body, 0.4 mm pitch (from the datasheet)",
@@ -44,10 +44,10 @@ part Part = device(
     bodyY = tolerance(7mm, 7mm),
     bodyHeight = 0.9mm,
     exposedPad = (3.4mm, 3.4mm),
-  ),
-  prefix = "U",
-  mpn = "RP2350A",
-  manufacturer = "Raspberry Pi",
+  )
+  prefix = "U"
+  mpn = "RP2350A"
+  manufacturer = "Raspberry Pi"
   pinout = {
     IOVDD = ["1", "11", "20", "30", "38", "45"]
     GPIO0 = "2"
@@ -103,7 +103,7 @@ part Part = device(
     QSPI_SD1 = "59"
     QSPI_SS = "60"
     GND = "61"
-  },
+  }
   pinTypes = {
     IOVDD = io.powerIn(min = 1.62V, max = 3.63V)
     GPIO0 = io.bidirectional()
@@ -159,8 +159,7 @@ part Part = device(
     QSPI_SD1 = io.bidirectional()
     QSPI_SS = io.bidirectional()
     GND = .ground
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "Raspberry Pi RP2350 datasheet (build 06a7f75e58a1): figure 152 QFN-60 pinout (label positions read from the PDF), 1.2.2 pin descriptions, table 3 GPIO functions, 14.1 QFN-60 package dimensions, 14.9.5 table 1688 power supplies; Hardware design with RP2350 (same build): regulator, decoupling, crystal, flash and USB components"
@@ -239,7 +238,7 @@ let Y1Crystal = crystal(12MHz, load = 10pF, package = "3225")
 /// The support circuit of the RP2350A as its datasheet shows it (Hardware design with RP2350
 /// (minimal design): 2.1 core regulator, 2.3 decoupling, 3 flash, 4 crystal, 5 USB; RP2350
 /// datasheet 14.9.5 power supplies, 1.2.2 pin descriptions): every part next to the pin it serves.
-/// Add it next to the part: `U1 = RP2350A.Part { … }`, `U1Support = RP2350A.Support(U1) {}`.
+/// Add it next to the part: `U1 = RP2350A.RP2350A { … }`, `U1Support = RP2350A.Support(U1) {}`.
 ///
 /// - The core regulator's layout matters: copy Raspberry Pi's reference layout (inductor
 /// orientation, C12/C13 next to VREG_VIN/VREG_PGND, short LX node); VREG_PGND joins GND so the

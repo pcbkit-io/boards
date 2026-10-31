@@ -16,14 +16,13 @@ pcbkit 2
 
 /// RC servo header, 1 x 3 pins, 2.54 mm — Header for one RC servo (SG90, MG90S, MG996R…): 1 x 3
 /// male pins at 2.54 mm in the servo plug's order, GND (brown) - V+ (red, middle) - SIGNAL (orange)
-part Part = device(
-  footprint = pinHeader(3),
-  prefix = "J",
-  mpn = "RC servo header, 1 x 3 pins, 2.54 mm",
-  manufacturer = "generic",
-  pinout = { GND = "1", VPLUS = "2", SIG = "3" },
-  pinTypes = { GND = .ground, VPLUS = io.powerIn(min = 4.8V, max = 6V), SIG = io.input() },
-) with {
+part SERVO_HEADER: Part {
+  footprint = pinHeader(3)
+  prefix = "J"
+  mpn = "RC servo header, 1 x 3 pins, 2.54 mm"
+  manufacturer = "generic"
+  pinout = { GND = "1", VPLUS = "2", SIG = "3" }
+  pinTypes = { GND = .ground, VPLUS = io.powerIn(min = 4.8V, max = 6V), SIG = io.input() }
   fields {
     Status = "checked"
     PinoutSource = "the RC servo plug's wire order (brown ground, red V+ in the middle, orange signal, as Tower Pro labels the SG90's lead); SG90 ratings from the Rapid 37-1330 datasheet"
@@ -42,7 +41,7 @@ part Part = device(
 
 /// The support circuit of the RC servo header, 1 x 3 pins, 2.54 mm as its datasheet shows it (our
 /// own circuit): every part next to the pin it serves. Add it next to the part: `U1 =
-/// SERVO_HEADER.Part { … }`, `U1Support = SERVO_HEADER.Support(U1) {}`.
+/// SERVO_HEADER.SERVO_HEADER { … }`, `U1Support = SERVO_HEADER.Support(U1) {}`.
 ///
 /// - A servo draws hundreds of mA moving and much more when stalled: feed V+ from a 5 V supply (or
 /// a 2S pack through a 5-6 V regulator) with wide tracks, never through a USB port's 500 mA for

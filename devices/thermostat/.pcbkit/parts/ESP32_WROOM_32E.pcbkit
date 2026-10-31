@@ -37,7 +37,7 @@ pcbkit 2
 /// ESP32-WROOM-32E-N4 — Wi-Fi 802.11b/g/n, Bluetooth classic and LE module, dual-core Xtensa LX6
 /// 240 MHz (ESP32-D0WD-V3), 4 MB flash, PCB antenna, 3.3 V, 18 x 25.5 mm with 38 castellated pads
 /// (the ESP32 DevKitC's module)
-part Part = device(
+part ESP32_WROOM_32E: Part {
   footprint = (Footprint {
     let ps = [
       Pad { number = "1", at = (-8.75mm, 5.26mm), shape = shape.rect(1.5mm, 0.9mm) },
@@ -112,10 +112,10 @@ part Part = device(
         forbid = [.tracks, .vias, .pours, .footprints]
       },
     ]
-  },
-  prefix = "U",
-  mpn = "ESP32-WROOM-32E-N4",
-  manufacturer = "Espressif Systems",
+  }
+  prefix = "U"
+  mpn = "ESP32-WROOM-32E-N4"
+  manufacturer = "Espressif Systems"
   pinout = {
     GND = ["1", "15", "38", "39"]
     P3V3 = "2"
@@ -147,7 +147,7 @@ part Part = device(
     TXD0 = "35"
     IO22 = "36"
     IO23 = "37"
-  },
+  }
   pinTypes = {
     GND = .ground
     P3V3 = io.powerIn(min = 3V, max = 3.6V)
@@ -179,8 +179,7 @@ part Part = device(
     TXD0 = io.bidirectional()
     IO22 = io.bidirectional()
     IO23 = io.bidirectional()
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "Espressif ESP32-WROOM-32E & WROOM-32UE datasheet v2.1: table 3 pin definitions, figure 3 pin layout, table 4 strapping pins, tables 13-14 ratings, figure 9 peripheral schematics, figure 10 dimensions and figure 13 land pattern"
@@ -240,7 +239,7 @@ part Part = device(
 
 /// The support circuit of the ESP32-WROOM-32E-N4 as its datasheet shows it (9 peripheral schematics
 /// (figure 9, p. 39); 4 boot configurations (table 4)): every part next to the pin it serves. Add
-/// it next to the part: `U1 = ESP32_WROOM_32E.Part { … }`, `U1Support =
+/// it next to the part: `U1 = ESP32_WROOM_32E.ESP32_WROOM_32E { … }`, `U1Support =
 /// ESP32_WROOM_32E.Support(U1) {}`.
 ///
 /// - EN: 10 kohm to 3V3 and 1 uF to GND so the supply settles before the chip starts; a reset

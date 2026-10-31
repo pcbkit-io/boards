@@ -22,7 +22,7 @@ pcbkit 2
 
 /// SN65HVD230DR — CAN transceiver, 3.3 V supply, up to 1 Mbps, ISO 11898-2, slope control and
 /// standby pin (SOIC-8)
-part Part = device(
+part SN65HVD230: Part {
   footprint = rows(
     name = "SOIC-8_3.895x4.905mm_P1.27mm",
     description = "SOIC-8 (D), 8 pins, 4.905 x 3.895 mm body, 1.27 mm pitch (from the datasheet)",
@@ -34,11 +34,11 @@ part Part = device(
     bodyX = tolerance(3.81mm, 3.98mm),
     bodyY = tolerance(4.81mm, 5mm),
     bodyHeight = 1.75mm,
-  ),
-  prefix = "U",
-  mpn = "SN65HVD230DR",
-  manufacturer = "Texas Instruments",
-  pinout = { D = "1", GND = "2", VCC = "3", R = "4", Vref = "5", CANL = "6", CANH = "7", RS = "8" },
+  )
+  prefix = "U"
+  mpn = "SN65HVD230DR"
+  manufacturer = "Texas Instruments"
+  pinout = { D = "1", GND = "2", VCC = "3", R = "4", Vref = "5", CANL = "6", CANH = "7", RS = "8" }
   pinTypes = {
     D = io.input(max = 3.6V)
     GND = .ground
@@ -48,8 +48,7 @@ part Part = device(
     CANL = io.bidirectional(max = 16V)
     CANH = io.bidirectional(max = 16V)
     RS = io.input()
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "TI datasheet SLOS346O (March 2001, revised April 2018), Pin Functions table and package drawing D0008A"
@@ -94,7 +93,7 @@ part Part = device(
 
 /// The support circuit of the SN65HVD230DR as its datasheet shows it (11.2 Typical application,
 /// 13.1 Layout guidelines): every part next to the pin it serves. Add it next to the part: `U1 =
-/// SN65HVD230.Part { … }`, `U1Support = SN65HVD230.Support(U1) {}`.
+/// SN65HVD230.SN65HVD230 { … }`, `U1Support = SN65HVD230.Support(U1) {}`.
 ///
 /// - RS straight to GND gives the fastest edges; 10-100 kohm to GND limits the slew rate (lower
 /// emissions); driving RS high puts the part in standby (receiver only).

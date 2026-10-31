@@ -18,7 +18,7 @@ pcbkit 2
 /// MSP2008 2.0in 240x320 IPS SPI module (ST7789) — 2.0" 240 x 320 IPS colour TFT module (ST7789),
 /// SPI, 3.3 V, on a 1x8 female header: GND VCC SCL SDA RES DC CS BLK; courtyard the 36.48 x 61.12
 /// mm module lying over the board
-part Part = device(
+part ST7789_TFT_2_0: Part {
   footprint = moduleSocket(
     "TFT_2.0in_ST7789_Socket_1x08_P2.54mm",
     socketRow(1, 8, (-8.89mm, 0mm), (2.54mm, 0mm)),
@@ -33,11 +33,11 @@ part Part = device(
       glass = 0.5mm,
       tape = 0.3mm,
     ),
-  ),
-  prefix = "U",
-  mpn = "MSP2008 2.0in 240x320 IPS SPI module (ST7789)",
-  manufacturer = "generic",
-  pinout = { GND = "1", VCC = "2", SCL = "3", SDA = "4", RES = "5", DC = "6", CS = "7", BLK = "8" },
+  )
+  prefix = "U"
+  mpn = "MSP2008 2.0in 240x320 IPS SPI module (ST7789)"
+  manufacturer = "generic"
+  pinout = { GND = "1", VCC = "2", SCL = "3", SDA = "4", RES = "5", DC = "6", CS = "7", BLK = "8" }
   pinTypes = {
     GND = .ground
     VCC = io.powerIn(min = 3V, max = 3.6V)
@@ -47,8 +47,7 @@ part Part = device(
     DC = io.input()
     CS = io.input()
     BLK = io.input()
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "lcdwiki MSP2008: pins 1 GND, 2 VCC (3.3 V), 3 SCL, 4 SDA, 5 RES, 6 DC, 7 CS, 8 BLK; size picture: PCB 36.48 x 61.12 mm, header row 2.50 mm from the top edge, first pin 9.35 mm from the left (centred)"

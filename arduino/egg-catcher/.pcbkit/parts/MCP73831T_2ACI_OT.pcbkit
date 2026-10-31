@@ -26,20 +26,19 @@ pcbkit 2
 
 /// MCP73831T-2ACI/OT — Single-cell Li-Ion / Li-Po linear charger, 4.20 V, 15-500 mA set by one
 /// resistor, tri-state status output
-part Part = device(
-  footprint = (sot23(5)) with { models = [Model3d { path = "Package_TO_SOT_SMD:SOT-23-5" }] },
-  prefix = "U",
-  mpn = "MCP73831T-2ACI/OT",
-  manufacturer = "Microchip Technology",
-  pinout = { STAT = "1", VSS = "2", VBAT = "3", VDD = "4", PROG = "5" },
+part MCP73831T_2ACI_OT: Part {
+  footprint = (sot23(5)) with { models = [Model3d { path = "Package_TO_SOT_SMD:SOT-23-5" }] }
+  prefix = "U"
+  mpn = "MCP73831T-2ACI/OT"
+  manufacturer = "Microchip Technology"
+  pinout = { STAT = "1", VSS = "2", VBAT = "3", VDD = "4", PROG = "5" }
   pinTypes = {
     STAT = .output
     VSS = .ground
     VBAT = io.powerOut(4.2V)
     VDD = io.powerIn(min = 4.5V, max = 7V)
     PROG = .passive
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "MCP73831/2 datasheet DS20001984H, Table 3-1 (pin function tables), SOT-23-5 column"
@@ -66,7 +65,8 @@ part Part = device(
 
 /// The support circuit of the MCP73831T-2ACI/OT as its datasheet shows it (p. 1, Typical
 /// application (500 mA Li-Ion battery charger)): every part next to the pin it serves. Add it next
-/// to the part: `U1 = MCP73831T_2ACI_OT.Part { … }`, `U1Support = MCP73831T_2ACI_OT.Support(U1)
+/// to the part: `U1 = MCP73831T_2ACI_OT.MCP73831T_2ACI_OT { … }`, `U1Support =
+/// MCP73831T_2ACI_OT.Support(U1)
 /// {}`.
 ///
 /// - Charge current IREG (mA) = 1000 / RPROG (kohm): 2 kohm 500 mA, 10 kohm 100 mA.

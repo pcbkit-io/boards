@@ -19,11 +19,11 @@ pcbkit 2
 
 /// APS6404L-3SQR-SN — 64 Mbit (8 MB) SPI/QPI pseudo-SRAM with self-managed refresh, up to 133
 /// MHz, 2.7-3.6 V (SOP-8 150 mil)
-part Part = device(
-  footprint = soic(8),
-  prefix = "U",
-  mpn = "APS6404L-3SQR-SN",
-  manufacturer = "AP Memory",
+part APS6404L_3SQR: Part {
+  footprint = soic(8)
+  prefix = "U"
+  mpn = "APS6404L-3SQR-SN"
+  manufacturer = "AP Memory"
   pinout = {
     CE = "1"
     SIO1 = "2"
@@ -33,7 +33,7 @@ part Part = device(
     SCLK = "6"
     SIO3 = "7"
     VDD = "8"
-  },
+  }
   pinTypes = {
     CE = io.input()
     SIO1 = io.bidirectional()
@@ -43,8 +43,7 @@ part Part = device(
     SCLK = io.input()
     SIO3 = io.bidirectional()
     VDD = io.powerIn(min = 2.7V, max = 3.6V)
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "AP Memory APS6404L-3SQR datasheet Rev. 2.3, §3.1 (1 /CE, 2 SO/SIO1, 3 SIO2, 4 VSS, 5 SI/SIO0, 6 SCLK, 7 SIO3, 8 VDD); §4.1 outline refers to JEDEC MS-012 AA (SOIC-8: D 4.90, E1 3.90, E 6.00 BSC, e 1.27)"
@@ -71,7 +70,7 @@ part Part = device(
 
 /// The support circuit of the APS6404L-3SQR-SN as its datasheet shows it (§14.3 decoupling
 /// capacitor requirement): every part next to the pin it serves. Add it next to the part: `U1 =
-/// APS6404L_3SQR.Part { … }`, `U1Support = APS6404L_3SQR.Support(U1) {}`.
+/// APS6404L_3SQR.APS6404L_3SQR { … }`, `U1Support = APS6404L_3SQR.Support(U1) {}`.
 ///
 /// - Wait 150 us after power-up before the first command; the device then answers in SPI mode until
 /// Enter Quad Mode (35h).

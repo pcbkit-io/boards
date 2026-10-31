@@ -18,12 +18,12 @@ pcbkit 2
 
 /// SP3485EN-L/TR — RS-485/RS-422 transceiver, half duplex, 3.3 V supply, 10 Mbps, 32 unit loads,
 /// 5 V tolerant logic (SOIC-8, 75176 pinout): the common 3.3 V RS485 module chip
-part Part = device(
-  footprint = soic(8),
-  prefix = "U",
-  mpn = "SP3485EN-L/TR",
-  manufacturer = "MaxLinear (Exar, Sipex)",
-  pinout = { RO = "1", RE = "2", DE = "3", DI = "4", GND = "5", A = "6", B = "7", VCC = "8" },
+part SP3485: Part {
+  footprint = soic(8)
+  prefix = "U"
+  mpn = "SP3485EN-L/TR"
+  manufacturer = "MaxLinear (Exar, Sipex)"
+  pinout = { RO = "1", RE = "2", DE = "3", DI = "4", GND = "5", A = "6", B = "7", VCC = "8" }
   pinTypes = {
     RO = .output
     RE = io.input(max = 6V)
@@ -33,8 +33,7 @@ part Part = device(
     A = io.bidirectional(max = 15V)
     B = io.bidirectional(max = 15V)
     VCC = io.powerIn(min = 3.135V, max = 6V)
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "Exar SP3485 datasheet (rev. 1.0.0, 06/19/12): pin function, absolute maximum ratings, electrical characteristics (VCC = 3.3 V ± 5 %), ordering information (8-pin NSOIC); read from the copy the distributor hosts (https://www.lcsc.com/datasheet/C8963.pdf)"
@@ -85,7 +84,7 @@ part Part = device(
 
 /// The support circuit of the SP3485EN-L/TR as its datasheet shows it (pin function; electrical
 /// characteristics (VCC = 3.3 V ± 5 %); typical half-duplex network): every part next to the pin
-/// it serves. Add it next to the part: `U1 = SP3485.Part { … }`, `U1Support = SP3485.Support(U1)
+/// it serves. Add it next to the part: `U1 = SP3485.SP3485 { … }`, `U1Support = SP3485.Support(U1)
 /// {}`.
 ///
 /// - RE and DE are usually tied together and driven by one GPIO (high = transmit); RO to the UART

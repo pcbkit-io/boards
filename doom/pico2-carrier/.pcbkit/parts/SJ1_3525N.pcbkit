@@ -23,7 +23,7 @@ pcbkit 2
 
 /// SJ1-3525N — 3.5 mm stereo audio jack (TRS), right angle, through hole, with tip and ring
 /// switches: pins SLEEVE, TIP, RING, TIP_SW, RING_SW — headphones, line in/out
-part Part = device(
+part SJ1_3525N: Part {
   footprint = Footprint {
     let ps = [
       thtPad("1", (0mm, -3.5mm), 0.8mm, (2.3mm, 1.6mm), slot = (1.5mm, 0.8mm)),
@@ -92,19 +92,18 @@ part Part = device(
         color = "#050505"
       },
     ]
-  },
-  prefix = "J",
-  mpn = "SJ1-3525N",
-  manufacturer = "Same Sky (CUI Devices)",
-  pinout = { SLEEVE = "1", TIP = "2", RING = "3", TIP_SW = "10", RING_SW = "11" },
+  }
+  prefix = "J"
+  mpn = "SJ1-3525N"
+  manufacturer = "Same Sky (CUI Devices)"
+  pinout = { SLEEVE = "1", TIP = "2", RING = "3", TIP_SW = "10", RING_SW = "11" }
   pinTypes = {
     SLEEVE = .passive
     TIP = .passive
     RING = .passive
     TIP_SW = .passive
     RING_SW = .passive
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "Same Sky SJ1-352XN datasheet (09/12/2024), p. 2: pin table (1 sleeve, 2 tip, 3 ring, 10 tip switch, 11 ring switch; SJ1-3525N), recommended PCB layout top view (slots 1.5 x 0.8, pegs dia. 1.2), mechanical drawing"

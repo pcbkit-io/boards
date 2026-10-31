@@ -20,7 +20,7 @@ use ./W25Q128JVSIQ as W25Q128JVSIQ
 /// ESP32-P4NRW32 — Dual-core RISC-V 400 MHz application processor (chip revision v1.x) with 32 MB
 /// in-package PSRAM, MIPI-DSI and CSI (2 lanes each), USB 2.0 high speed, SD/MMC, Ethernet MAC,
 /// H.264 and JPEG, no radio; QFN-104 10 x 10 mm
-part Part = device(
+part ESP32_P4NRW32: Part {
   footprint = Footprint {
     let ps = [
       Pad { number = "1", at = (-4.95mm, 4.375mm), shape = shape.rect(0.7mm, 0.2mm) },
@@ -137,10 +137,10 @@ part Part = device(
     height = 0.9mm
     silk = silkOf(ps, b, 0.25mm)
     package = Package { family = .other, body = (10mm, 10mm), height = 0.9mm }
-  },
-  prefix = "U",
-  mpn = "ESP32-P4NRW32",
-  manufacturer = "Espressif Systems",
+  }
+  prefix = "U"
+  mpn = "ESP32-P4NRW32"
+  manufacturer = "Espressif Systems"
   pinout = {
     GPIO1 = "1"
     GPIO2 = "2"
@@ -247,7 +247,7 @@ part Part = device(
     CHIP_PU = "103"
     GPIO0 = "104"
     GND = "105"
-  },
+  }
   pinTypes = {
     GPIO1 = io.bidirectional()
     GPIO2 = io.bidirectional()
@@ -354,8 +354,7 @@ part Part = device(
     CHIP_PU = io.input()
     GPIO0 = io.bidirectional()
     GND = .ground
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "Espressif ESP32-P4 Series Datasheet v1.2 (chip revision v1.3), Table 2-1 Pin Overview"
@@ -434,8 +433,8 @@ let Y1Crystal = crystal(40MHz, load = crystalLoad(10pF), package = "3225")
 
 /// The support circuit of the ESP32-P4NRW32 as its datasheet shows it (ESP32-P4 Hardware Design
 /// Guidelines, 2 Schematic Checklist (power, crystal, flash, chip enable); datasheet 2.6 Power
-/// Supply): every part next to the pin it serves. Add it next to the part: `U1 = ESP32_P4NRW32.Part
-/// { … }`, `U1Support = ESP32_P4NRW32.Support(U1) {}`.
+/// Supply): every part next to the pin it serves. Add it next to the part: `U1 =
+/// ESP32_P4NRW32.ESP32_P4NRW32 { … }`, `U1Support = ESP32_P4NRW32.Support(U1) {}`.
 ///
 /// - VDD_HP_0/2/3 (1.1 V) come from an external step-down converter that EN_DCDC switches on and
 /// whose feedback FB_DCDC trims: give the block its output (vddHp).
@@ -611,7 +610,7 @@ block Support {
     b -- chip.pin.GND
   }
   /// 16 MiB quad SPI NOR flash, 3.3 V
-  U_FLASH = W25Q128JVSIQ.Part {
+  U_FLASH = W25Q128JVSIQ.W25Q128JVSIQ {
     place = [soft(near(chip, max = 8mm), weight = 1)]
 
     nCS -- chip.pin.FLASH_CS

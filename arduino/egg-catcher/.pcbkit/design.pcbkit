@@ -46,9 +46,9 @@ board = Board {
   fab { mask = .red, silk = .white }
 }
 
-NANO = ARDUINO_NANO.Part with {
-  simulation = ARDUINO_NANO.Part.simulation with {
-    behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" }
+NANO = ARDUINO_NANO.ARDUINO_NANO with {
+  simulation = ARDUINO_NANO.ARDUINO_NANO.simulation with {
+    behavior = ARDUINO_NANO.ARDUINO_NANO.simulation.behavior with { firmware = "firmware" }
   }
 } {
   at = (60mm, 20mm)
@@ -64,7 +64,7 @@ NANO = ARDUINO_NANO.Part with {
   D5 -- RIGHT_DOWN
 }
 
-DS1 = SSD1306_OLED_I2C.Part {
+DS1 = SSD1306_OLED_I2C.SSD1306_OLED_I2C {
   at = (60mm, 57.4mm)
   GND -- GND
   VCC -- V5
@@ -100,7 +100,7 @@ usb = UsbCPower {
   vbus = VBUS
   gnd = GND
 }
-U2 = MCP73831T_2ACI_OT.Part {
+U2 = MCP73831T_2ACI_OT.MCP73831T_2ACI_OT {
   VDD -- VBUS
   VSS -- GND
   VBAT -- BAT
@@ -108,7 +108,7 @@ U2 = MCP73831T_2ACI_OT.Part {
 U2Support = MCP73831T_2ACI_OT.Support { chip = U2 }
 // The cell's + on C1: check the cell's plug (JST PH polarity is not standard) before plugging it
 // in.
-J2 = B2B_PH_K_S.Part {
+J2 = B2B_PH_K_S.B2B_PH_K_S {
   side = .bottom
   C1 -- BAT
   C2 -- GND
@@ -121,7 +121,7 @@ cellLabel = Text {
 
 // On/off: the switch pulls the MOSFET's gate to ground (on); open, 100 kΩ holds it at the cell
 // (off). The switch carries no current.
-Q1 = AO3401A.Part {
+Q1 = AO3401A.AO3401A {
   S -- BAT
   D -- VSW
   G -- GATE
@@ -131,7 +131,7 @@ rGate = res(100kohm, package = "0603") {
   a -- GATE
   b -- BAT
 }
-SW5 = MSK12C02.Part {
+SW5 = MSK12C02.MSK12C02 {
   at = (1.9mm, 32mm)
   rotation = 90deg
   COM -- GATE
@@ -147,7 +147,7 @@ switchLabel = Text {
 }
 
 // 5 V from the cell: the MT3608 (110k / 15k: 5 V), enabled whenever the switch is on.
-U3 = MT3608.Part {
+U3 = MT3608.MT3608 {
   VIN -- VSW
   EN -- VSW
   GND -- GND

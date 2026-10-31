@@ -18,7 +18,7 @@ pcbkit 2
 
 /// W25Q128JVSIQ — 128 Mbit (16 MB) serial NOR flash, standard/dual/quad SPI up to 133 MHz,
 /// 2.7-3.6 V, quad pins enabled from the factory (SOIC-8 208 mil)
-part Part = device(
+part W25Q128JVSIQ: Part {
   footprint = rows(
     name = "SOIC-8_5.23x5.28mm_P1.27mm",
     description = "SOIC-8 208 mil (S), 8 pins, 5.28 x 5.23 mm body, 1.27 mm pitch (from the datasheet)",
@@ -30,10 +30,10 @@ part Part = device(
     bodyX = tolerance(5.13mm, 5.33mm),
     bodyY = tolerance(5.18mm, 5.38mm),
     bodyHeight = 2.16mm,
-  ),
-  prefix = "U",
-  mpn = "W25Q128JVSIQ",
-  manufacturer = "Winbond",
+  )
+  prefix = "U"
+  mpn = "W25Q128JVSIQ"
+  manufacturer = "Winbond"
   pinout = {
     nCS = "1"
     DO = "2"
@@ -43,7 +43,7 @@ part Part = device(
     CLK = "6"
     nHOLD = "7"
     VCC = "8"
-  },
+  }
   pinTypes = {
     nCS = io.input(max = 3.6V)
     DO = io.bidirectional(max = 3.6V)
@@ -53,8 +53,7 @@ part Part = device(
     CLK = io.input(max = 3.6V)
     nHOLD = io.bidirectional(max = 3.6V)
     VCC = io.powerIn(min = 2.7V, max = 4.6V)
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "Winbond W25Q128JV datasheet revision F (2018-03-27), 3.1/3.3 pin configuration and description (SOIC 208-mil) and 10.1 package dimensions"
@@ -85,7 +84,7 @@ part Part = device(
 }
 
 /// The support circuit of the W25Q128JVSIQ as its datasheet shows it: every part next to the pin it
-/// serves. Add it next to the part: `U1 = W25Q128JVSIQ.Part { … }`, `U1Support =
+/// serves. Add it next to the part: `U1 = W25Q128JVSIQ.W25Q128JVSIQ { … }`, `U1Support =
 /// W25Q128JVSIQ.Support(U1) {}`.
 ///
 /// - The pull-ups on /WP and /HOLD are for standard or dual SPI, where nothing drives IO2 and IO3;

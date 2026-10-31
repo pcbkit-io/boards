@@ -22,7 +22,7 @@ pcbkit 2
 /// DM3AT-SF-PEJM5 — microSD (TF) card socket, push-push, SMD, 1.68 mm high, with card-detect
 /// switch; contacts in SD order DAT2, CD/DAT3, CMD, VDD, CLK, VSS, DAT0, DAT1 (SPI: CS = CD/DAT3,
 /// DI = CMD, DO = DAT0)
-part Part = device(
+part DM3AT_SF_PEJM5: Part {
   footprint = (Footprint {
     let ps = [
       Pad { number = "1", at = (2.775mm, 7.975mm), shape = shape.rect(0.7mm, 1.2mm) },
@@ -89,10 +89,10 @@ part Part = device(
         forbid = [.tracks, .vias, .pours]
       },
     ]
-  },
-  prefix = "J",
-  mpn = "DM3AT-SF-PEJM5",
-  manufacturer = "Hirose",
+  }
+  prefix = "J"
+  mpn = "DM3AT-SF-PEJM5"
+  manufacturer = "Hirose"
   pinout = {
     DAT2 = "1"
     CD_DAT3 = "2"
@@ -105,7 +105,7 @@ part Part = device(
     CD_A = "9"
     CD_B = "10"
     SH = "SH"
-  },
+  }
   pinTypes = {
     DAT2 = .passive
     CD_DAT3 = .passive
@@ -118,8 +118,7 @@ part Part = device(
     CD_A = .passive
     CD_B = .passive
     SH = .passive
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "Hirose drawing EDC-325165-00-00 for DM3AT-SF-PEJM5 (CL0609-0031-0-00, revision 4): contact assignment #1 DAT2, #2 CD/DAT3, #3 CMD, #4 VDD, #5 CLK, #6 VSS, #7 DAT0, #8 DAT1; card detection switch A/B; recommended PCB layout; pad numbers 9, 10 and SH are ours (the drawing names them only)"
@@ -129,8 +128,8 @@ part Part = device(
 
 /// The support circuit of the DM3AT-SF-PEJM5 as its datasheet shows it (drawing notes (card
 /// detection switch open without card, closed with card); the SD specification for the card side):
-/// every part next to the pin it serves. Add it next to the part: `U1 = DM3AT_SF_PEJM5.Part { …
-/// }`, `U1Support = DM3AT_SF_PEJM5.Support(U1) {}`.
+/// every part next to the pin it serves. Add it next to the part: `U1 =
+/// DM3AT_SF_PEJM5.DM3AT_SF_PEJM5 { … }`, `U1Support = DM3AT_SF_PEJM5.Support(U1) {}`.
 ///
 /// - Cards are 3.3 V only: from a 5 V controller, shift CLK, CMD and CD/DAT3 down and DAT0 up.
 ///

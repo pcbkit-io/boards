@@ -26,9 +26,9 @@ board = Board {
 }
 // The processor: an Arduino Nano on two 15-pin sockets on the back, flashed over its USB (its
 // bootloader); the program in firmware/ is plain C for its ATmega328P.
-U1 = ARDUINO_NANO.Part with {
-  simulation = ARDUINO_NANO.Part.simulation with {
-    behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" }
+U1 = ARDUINO_NANO.ARDUINO_NANO with {
+  simulation = ARDUINO_NANO.ARDUINO_NANO.simulation with {
+    behavior = ARDUINO_NANO.ARDUINO_NANO.simulation.behavior with { firmware = "firmware" }
   }
 } {
   at = (45mm, 39mm)
@@ -45,7 +45,7 @@ U1 = ARDUINO_NANO.Part with {
   D6 -- ORANGE
   D7 -- RED
 }
-sensor = SHT31_DIS.Part {
+sensor = SHT31_DIS.SHT31_DIS {
   at = (12mm, 43mm)
   VDD -- V5
   VSS -- GND
@@ -55,7 +55,7 @@ sensor = SHT31_DIS.Part {
   ALERT -- .nc
 }
 sensorSupport = SHT31_DIS.Support { chip = sensor }
-display = MAX7219_7SEG_MODULE.Part {
+display = MAX7219_7SEG_MODULE.MAX7219_7SEG_MODULE {
   at = (45mm, 20mm)
   VCC -- V5
   GND -- GND
@@ -63,7 +63,7 @@ display = MAX7219_7SEG_MODULE.Part {
   CS -- LOAD
   CLK -- SCK
 }
-co2 = SCD40.Part {
+co2 = SCD40.SCD40 {
   at = (14mm, 65mm)
   VDD -- V5
   VDDH -- V5

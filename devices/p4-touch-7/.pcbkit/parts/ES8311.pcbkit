@@ -17,7 +17,7 @@ pcbkit 2
 
 /// ES8311 — Low-power mono audio codec: 24-bit ADC with a microphone preamplifier and a DAC with
 /// a differential output, I2S/PCM and I2C control, 1.8-3.3 V (QFN-20 3x3)
-part Part = device(
+part ES8311: Part {
   footprint = rows(
     name = "QFN-20-1EP_3x3mm_P0.4mm_EP1.65x1.65mm",
     description = "QFN-20 3x3 mm, 0.4 mm pitch, exposed pad, 20 pins, 3 x 3 mm body, 0.4 mm pitch (from the datasheet)",
@@ -33,10 +33,10 @@ part Part = device(
     bodyY = tolerance(3mm, 3mm),
     bodyHeight = 0.8mm,
     exposedPad = (1.65mm, 1.65mm),
-  ),
-  prefix = "U",
-  mpn = "ES8311",
-  manufacturer = "Everest Semiconductor",
+  )
+  prefix = "U"
+  mpn = "ES8311"
+  manufacturer = "Everest Semiconductor"
   pinout = {
     CCLK = "1"
     MCLK = "2"
@@ -59,7 +59,7 @@ part Part = device(
     CDATA = "19"
     CE = "20"
     EP = "21"
-  },
+  }
   pinTypes = {
     CCLK = io.input()
     MCLK = io.input()
@@ -82,8 +82,7 @@ part Part = device(
     CDATA = io.bidirectional()
     CE = io.input()
     EP = .ground
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "pin numbers and names from Guition's JC1060P470C schematic (U10) cross-checked with Espressif's ES8311 board designs"
@@ -102,7 +101,7 @@ part Part = device(
 
 /// The support circuit of the ES8311 as its datasheet shows it (application circuit (Espressif
 /// ESP32-S3-BOX and Guition JC1060P470C use the same)): every part next to the pin it serves. Add
-/// it next to the part: `U1 = ES8311.Part { … }`, `U1Support = ES8311.Support(U1) {}`.
+/// it next to the part: `U1 = ES8311.ES8311 { … }`, `U1Support = ES8311.Support(U1) {}`.
 ///
 /// - Keep the reference capacitors next to pins 14-16 and the analog ground under the part; the
 /// microphone pair and the DAC outputs as differential pairs.

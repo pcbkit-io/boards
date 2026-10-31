@@ -21,7 +21,7 @@ pcbkit 2
 /// SSD1306 0.96in 128x64 I2C OLED module — 0.96" 128 x 64 OLED display module (SSD1306, I2C
 /// address 0x3C) on a 1x4 female header: GND VCC SCL SDA; courtyard the 27.3 x 27.8 mm module lying
 /// over the board
-part Part = device(
+part SSD1306_OLED_I2C: Part {
   footprint = moduleSocket(
     "OLED_0.96in_I2C_Socket_1x04_P2.54mm",
     socketRow(1, 4, (-3.81mm, 0mm), (2.54mm, 0mm)),
@@ -33,18 +33,17 @@ part Part = device(
     spacer = 2.5mm,
     pins = true,
     module = modules.oled096(["GND", "VCC", "SCL", "SDA"], edge = 1.5mm),
-  ),
-  prefix = "U",
-  mpn = "SSD1306 0.96in 128x64 I2C OLED module",
-  manufacturer = "generic (Solomon Systech SSD1306 controller)",
-  pinout = { GND = "1", VCC = "2", SCL = "3", SDA = "4" },
+  )
+  prefix = "U"
+  mpn = "SSD1306 0.96in 128x64 I2C OLED module"
+  manufacturer = "generic (Solomon Systech SSD1306 controller)"
+  pinout = { GND = "1", VCC = "2", SCL = "3", SDA = "4" }
   pinTypes = {
     GND = .ground
     VCC = io.powerIn(min = 3.3V, max = 5.5V)
     SCL = io.input(pull = .up)
     SDA = io.bidirectional()
-  },
-) with {
+  }
   fields {
     Status = "checked"
     PinoutSource = "the module's silkscreen as its makers print it (GND VCC SCL SDA); controller facts from Solomon Systech's SSD1306 datasheet"

@@ -16,11 +16,11 @@ pcbkit 2
 
 /// STM32G431CBU6 — Arm Cortex-M4 MCU with FPU, 170 MHz, 128 KB flash, 32 KB RAM, motor-control
 /// timers (TIM1/TIM8), 2 ADCs, op-amps, comparators, FDCAN, USB, 1.71-3.6 V
-part Part = device(
-  footprint = qfn(48, size = (7mm, 7mm), ep = (5.6mm, 5.6mm)),
-  prefix = "U",
-  mpn = "STM32G431CBU6",
-  manufacturer = "STMicroelectronics",
+part STM32G431CBU6: Part {
+  footprint = qfn(48, size = (7mm, 7mm), ep = (5.6mm, 5.6mm))
+  prefix = "U"
+  mpn = "STM32G431CBU6"
+  manufacturer = "STMicroelectronics"
   pinout = {
     VBAT = "1"
     PC13 = "2"
@@ -69,7 +69,7 @@ part Part = device(
     PB8 = "46"
     PB9 = "47"
     VSS = "49"
-  },
+  }
   pinTypes = {
     VBAT = io.powerIn()
     PC13 = io.bidirectional()
@@ -118,8 +118,7 @@ part Part = device(
     PB8 = io.bidirectional()
     PB9 = io.bidirectional()
     VSS = .ground
-  },
-) with {
+  }
   fields {
     Status = "verified"
     PinoutSource = "verified: STM32_open_pin_data STM32G431C(6-8-B)Ux (7d1f1514ed55); pad 49 (VSS, the exposed pad) cross-checked with the KiCad symbol STM32G431CBUx"
@@ -182,7 +181,7 @@ part Part = device(
 
 /// The support circuit of the STM32G431CBU6 as its datasheet shows it (the datasheet's power supply
 /// scheme; AN5093 (reset and boot circuits)): every part next to the pin it serves. Add it next to
-/// the part: `U1 = STM32G431CBU6.Part { … }`, `U1Support = STM32G431CBU6.Support(U1) {}`.
+/// the part: `U1 = STM32G431CBU6.STM32G431CBU6 { … }`, `U1Support = STM32G431CBU6.Support(U1) {}`.
 ///
 /// - No crystal: the HSI16 and HSI48 (USB, trimmed by the clock recovery system) need none; an HSE
 /// crystal on PF0/PF1 is optional.

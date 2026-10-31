@@ -27,11 +27,11 @@ pcbkit 2
 /// STM32F411CEU6 — Arm Cortex-M4 MCU with FPU, 100 MHz, 512 KB flash, 128 KB RAM, USB OTG full
 /// speed, 12-bit ADC, 3 USART, 5 SPI/I2S, 3 I2C, SDIO, 1.7-3.6 V, UFQFPN48 (the WeAct Black Pill
 /// chip)
-part Part = device(
-  footprint = qfn(48, size = (7mm, 7mm), ep = (5.6mm, 5.6mm)),
-  prefix = "U",
-  mpn = "STM32F411CEU6",
-  manufacturer = "STMicroelectronics",
+part STM32F411CEU6: Part {
+  footprint = qfn(48, size = (7mm, 7mm), ep = (5.6mm, 5.6mm))
+  prefix = "U"
+  mpn = "STM32F411CEU6"
+  manufacturer = "STMicroelectronics"
   pinout = {
     VBAT = "1"
     PC13 = "2"
@@ -77,7 +77,7 @@ part Part = device(
     BOOT0 = "44"
     PB8 = "45"
     PB9 = "46"
-  },
+  }
   pinTypes = {
     VBAT = io.powerIn(min = 1.65V, max = 4V)
     PC13 = io.bidirectional()
@@ -123,8 +123,7 @@ part Part = device(
     BOOT0 = io.input()
     PB8 = io.bidirectional()
     PB9 = io.bidirectional()
-  },
-) with {
+  }
   fields {
     Status = "verified"
     PinoutSource = "verified: STM32_open_pin_data STM32F411C(C-E)Ux (7d1f1514ed55); pad 49 (the exposed die pad, to ground) from the datasheet note to the UFQFPN48 outline; STM32F411xC/xE datasheet DocID026289 Rev 4: power supply scheme, VCAP1, UFQFPN48 mechanical data and exposed pad note"
@@ -185,7 +184,7 @@ let Y2Crystal = crystal(32.768kHz, load = crystalLoad(12.5pF), package = "3225")
 
 /// The support circuit of the STM32F411CEU6 as its datasheet shows it (6.1.6 power supply scheme
 /// (figure 17), 6.3.2 VCAP1 external capacitor (table 16), 6.1.1x HSE): every part next to the pin
-/// it serves. Add it next to the part: `U1 = STM32F411CEU6.Part { … }`, `U1Support =
+/// it serves. Add it next to the part: `U1 = STM32F411CEU6.STM32F411CEU6 { … }`, `U1Support =
 /// STM32F411CEU6.Support(U1) {}`.
 ///
 /// - VDDA must be at the same potential as VDD: to VDD through a ferrite bead or directly, with 100

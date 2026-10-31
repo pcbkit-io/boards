@@ -38,9 +38,9 @@ board = Board {
 laboratory = Laboratory { world = "sim/robot.js" }
 
 // ---- processor --------------------------------------------------------------------------------
-U1 = STM32G431CBU6.Part with {
-  simulation = STM32G431CBU6.Part.simulation with {
-    behavior = STM32G431CBU6.Part.simulation.behavior with {
+U1 = STM32G431CBU6.STM32G431CBU6 with {
+  simulation = STM32G431CBU6.STM32G431CBU6.simulation with {
+    behavior = STM32G431CBU6.STM32G431CBU6.simulation.behavior with {
       firmware = "firmware"
       // The board's 8 MHz HSE crystal (CAN wants a crystal's accuracy).
       parameters = { "hse_hz" = 8000000 }
@@ -108,7 +108,7 @@ R1 = res(1kohm, package = "0402") {
 }
 
 // ---- CAN ------------------------------------------------------------------------------------------
-U2 = SN65HVD230.Part {
+U2 = SN65HVD230.SN65HVD230 {
   D -- CAN_TX
   R -- CAN_RX
   VCC -- V3
@@ -131,12 +131,12 @@ J2 = header(2) {
   "2" -- CANL
 }
 // The bus and the robot's 12 V on one JST GH (1.25 mm) 4-pin header at the left edge.
-J1 = device(
-  wireToBoard(4, 1.25mm),
-  pinout = { "1" = "1", "2" = "2", "3" = "3", "4" = "4" },
-  prefix = "J",
-  mpn = "SM04B-GHS-TB",
-) {
+J1 = Part {
+  footprint = wireToBoard(4, 1.25mm)
+  pinout = { "1" = "1", "2" = "2", "3" = "3", "4" = "4" }
+  prefix = "J"
+  mpn = "SM04B-GHS-TB"
+} {
   at = (3mm, 20mm)
   rotation = 90deg
   "1" -- VIN
@@ -171,7 +171,7 @@ reversed = ReversePolarity {
   current = 200mA
   rdsOn = 60mohm
   maxGateVoltage = 12V
-  fet = AO3401A.Part
+  fet = AO3401A.AO3401A
 }
 // The motor's spikes: an 18 V TVS (SMBJ18A) across the protected supply.
 D4 = diode(kind = .tvs, package = "SMB", voltage = 18V) {
@@ -179,7 +179,7 @@ D4 = diode(kind = .tvs, package = "SMB", voltage = 18V) {
   A -- GND
   K -- V12
 }
-U4 = TPS54331D.Part {
+U4 = TPS54331D.TPS54331D {
   VIN -- V12
   GND -- GND
 }
@@ -242,7 +242,7 @@ inputsLabel = Text {
 }
 
 // The IMU at 0x68 (AD0 low), on I2C1 with the bus's pull-ups (its support circuit).
-U3 = ICM_42688_P.Part {
+U3 = ICM_42688_P.ICM_42688_P {
   VDD -- V3
   VDDIO -- V3
   GND -- GND

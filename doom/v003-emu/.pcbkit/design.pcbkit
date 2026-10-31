@@ -88,9 +88,9 @@ laboratory = Laboratory { world = "input.js" }
 
 // ---- processor (back) ------------------------------------------------------------------------
 // Its program is emu/: the RISC-V computer it builds from the PSRAM, the flash and the LCD.
-U1 = CH32V003F4P6.Part with {
-  simulation = CH32V003F4P6.Part.simulation with {
-    behavior = CH32V003F4P6.Part.simulation.behavior with { firmware = "emu" }
+U1 = CH32V003F4P6.CH32V003F4P6 with {
+  simulation = CH32V003F4P6.CH32V003F4P6.simulation with {
+    behavior = CH32V003F4P6.CH32V003F4P6.simulation.behavior with { firmware = "emu" }
   }
 } {
   at = (48mm, 67mm)
@@ -163,7 +163,7 @@ swioLabel = Text {
 }
 
 // ---- memory (back): the guest's RAM and its disk on the same SPI bus -------------------------
-U2 = APS6404L_3SQR.Part {
+U2 = APS6404L_3SQR.APS6404L_3SQR {
   side = .bottom
   orderCode = "C5333729"
   CE -- RAM_CS
@@ -182,9 +182,9 @@ U2Support = APS6404L_3SQR.Support {
 // The flash holds the guest: doom/ built for that computer (pcbkit-virt, 8 MB of RAM), with the
 // game's data, id Software's shareware DOOM1.WAD (free to share unmodified), linked in from where
 // it is published.
-U3 = W25Q128JVSIQ.Part with {
-  simulation = W25Q128JVSIQ.Part.simulation with {
-    behavior = W25Q128JVSIQ.Part.simulation.behavior with {
+U3 = W25Q128JVSIQ.W25Q128JVSIQ with {
+  simulation = W25Q128JVSIQ.W25Q128JVSIQ.simulation with {
+    behavior = W25Q128JVSIQ.W25Q128JVSIQ.simulation.behavior with {
       firmware = "doom"
       parameters = { "ram_mib" = 8 }
       data = {
@@ -212,7 +212,7 @@ U3Support = W25Q128JVSIQ.Support {
 }
 
 // ---- display (front) -------------------------------------------------------------------------
-DS1 = NOKIA5110_LCD.Part {
+DS1 = NOKIA5110_LCD.NOKIA5110_LCD {
   at = (48mm, 86mm)
   rotation = 90deg
   // The 1x8 socket it plugs into (the module: a red Nokia 5110 / PCD8544 board, bought separately).
@@ -245,14 +245,14 @@ R3 = res(330ohm, package = "0603") {
 // ---- power: 2 x 18650 (back) -> protection -> BQ24075 power path -> AP2112K 3.3 V -----------
 // Two 18650 cells on the back, side by side along the bottom, in parallel. The holders are not
 // polarized: put each cell's + at the end the silkscreen marks.
-BT1 = Holder.Part {
+BT1 = Holder.KEYSTONE_1042 {
   orderCode = "C5249310"
   at = (48mm, 12mm)
   side = .bottom
   C2 -- CELL1_P
   C1 -- CELL_N
 }
-BT2 = Holder.Part {
+BT2 = Holder.KEYSTONE_1042 {
   orderCode = "C5249310"
   at = (48mm, 34mm)
   side = .bottom
@@ -292,11 +292,11 @@ reversed = ReversePolarity {
   current = 800mA
   rdsOn = 60mohm
   maxGateVoltage = 12V
-  fet = Pfet.Part with { orderCode = "C15127" }
+  fet = Pfet.AO3401A with { orderCode = "C15127" }
 }
 
 // Protection: over-charge 4.3 V, over-discharge 2.4 V, over-current about 3 A, in the pack's minus.
-U5 = Protection.Part {
+U5 = Protection.DW01A {
   orderCode = "C351410"
   GND -- CELL_N
 }
@@ -324,7 +324,7 @@ usb.D.orderCode = "C284108"
 // any port), 800 mA fast charge (RISET = 890 AΩ / 0.8 A), its current-based termination; SYSOFF
 // low (the cells always connected); the safety timers off (TMR to VSS): two cells charge longer
 // than its longest timer. TS: 10 kΩ without an NTC.
-U6 = Charger.Part {
+U6 = Charger.BQ24075RGT {
   at = (30mm, 30mm)
   IN -- VBUS
   OUT -- SYS
@@ -413,7 +413,7 @@ chargeLabel = Text {
 // 3.3 V from SYS (3.0-5 V): an LDO (250 mV dropout at 600 mA; at this board's 20 mA the rail
 // follows the cells below 3.3 V, and every chip here runs from 2.7 V). The slide switch drives
 // its enable: off, the board draws nothing but the charger's and the protection's few µA.
-U4 = AP2112K_3_3.Part {
+U4 = AP2112K_3_3.AP2112K_3_3 {
   orderCode = "C51118"
   VIN -- SYS
   VOUT -- V3
@@ -432,7 +432,7 @@ R4 = res(1Mohm, package = "0402") {
   a -- LDO_EN
   b -- GND
 }
-SW9 = Slide.Part {
+SW9 = Slide.MSK12C02 {
   at = (80mm, 90.1mm)
   COM -- LDO_EN
   A -- SYS
@@ -446,7 +446,7 @@ switchLabel = Text {
 }
 
 // ---- sound (back): a piezo from a timer channel -----------------------------------------------
-BZ1 = GPC12075YB_5V.Part {
+BZ1 = GPC12075YB_5V.GPC12075YB_5V {
   side = .bottom
   orderCode = "C252948"
   A -- BUZZ
@@ -534,7 +534,7 @@ H4 = hole("M3") { at = (92mm, 88mm) }
 gndPour = pour(net = GND, layers = [Cu.top, Cu.bottom]) {}
 
 // PCBKit's mark and pcbkit.io, where the board has room.
-logo = Logo.Part { at = (68mm, 18mm) }
+logo = Logo.PCBKIT_LOGO { at = (68mm, 18mm) }
 
 reversed.Rg.orderCode = "C25741"
 // The support blocks' passives: JLCPCB Basic parts.

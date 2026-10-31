@@ -6,10 +6,10 @@ pcbkit 2
 // («Перечень элементов», Приложение 6) gives them.
 
 /// КР1533ЛН1: six inverters (74ALS04).
-part KR1533LN1 = device(
-  footprint = dip(14, 7.5mm, pitch = 2.5mm),
-  prefix = "DD",
-  mpn = "КР1533ЛН1",
+part KR1533LN1: Part {
+  footprint = dip(14, 7.5mm, pitch = 2.5mm)
+  prefix = "DD"
+  mpn = "КР1533ЛН1"
   pinout = {
     A1 = "1"
     Y1 = "2"
@@ -25,14 +25,15 @@ part KR1533LN1 = device(
     Y6 = "12"
     A6 = "13"
     VCC = "14"
-  },
-) with { simulation = SimulationParameters { behavior = Behavior { model = "KR1533LN1" } } }
+  }
+  simulation = SimulationParameters { behavior = Behavior { model = "KR1533LN1" } }
+}
 
 /// КР1533ЛА3: four 2-input NAND gates (74ALS00).
-part KR1533LA3 = device(
-  footprint = dip(14, 7.5mm, pitch = 2.5mm),
-  prefix = "DD",
-  mpn = "КР1533ЛА3",
+part KR1533LA3: Part {
+  footprint = dip(14, 7.5mm, pitch = 2.5mm)
+  prefix = "DD"
+  mpn = "КР1533ЛА3"
   pinout = {
     A1 = "1"
     B1 = "2"
@@ -48,14 +49,15 @@ part KR1533LA3 = device(
     A4 = "12"
     B4 = "13"
     VCC = "14"
-  },
-) with { simulation = SimulationParameters { behavior = Behavior { model = "KR1533LA3" } } }
+  }
+  simulation = SimulationParameters { behavior = Behavior { model = "KR1533LA3" } }
+}
 
 /// КР1533ЛА4: three 3-input NAND gates (74ALS10).
-part KR1533LA4 = device(
-  footprint = dip(14, 7.5mm, pitch = 2.5mm),
-  prefix = "DD",
-  mpn = "КР1533ЛА4",
+part KR1533LA4: Part {
+  footprint = dip(14, 7.5mm, pitch = 2.5mm)
+  prefix = "DD"
+  mpn = "КР1533ЛА4"
   pinout = {
     A1 = "1"
     B1 = "2"
@@ -71,14 +73,15 @@ part KR1533LA4 = device(
     Y1 = "12"
     C1 = "13"
     VCC = "14"
-  },
-) with { simulation = SimulationParameters { behavior = Behavior { model = "KR1533LA4" } } }
+  }
+  simulation = SimulationParameters { behavior = Behavior { model = "KR1533LA4" } }
+}
 
 /// КР1533ЛИ1: four 2-input AND gates (74ALS08).
-part KR1533LI1 = device(
-  footprint = dip(14, 7.5mm, pitch = 2.5mm),
-  prefix = "DD",
-  mpn = "КР1533ЛИ1",
+part KR1533LI1: Part {
+  footprint = dip(14, 7.5mm, pitch = 2.5mm)
+  prefix = "DD"
+  mpn = "КР1533ЛИ1"
   pinout = {
     A1 = "1"
     B1 = "2"
@@ -94,14 +97,15 @@ part KR1533LI1 = device(
     A4 = "12"
     B4 = "13"
     VCC = "14"
-  },
-) with { simulation = SimulationParameters { behavior = Behavior { model = "KR1533LI1" } } }
+  }
+  simulation = SimulationParameters { behavior = Behavior { model = "KR1533LI1" } }
+}
 
 /// КР1533ЛЛ1: four 2-input OR gates (74ALS32).
-part KR1533LL1 = device(
-  footprint = dip(14, 7.5mm, pitch = 2.5mm),
-  prefix = "DD",
-  mpn = "КР1533ЛЛ1",
+part KR1533LL1: Part {
+  footprint = dip(14, 7.5mm, pitch = 2.5mm)
+  prefix = "DD"
+  mpn = "КР1533ЛЛ1"
   pinout = {
     A1 = "1"
     B1 = "2"
@@ -117,14 +121,15 @@ part KR1533LL1 = device(
     A4 = "12"
     B4 = "13"
     VCC = "14"
-  },
-) with { simulation = SimulationParameters { behavior = Behavior { model = "KR1533LL1" } } }
+  }
+  simulation = SimulationParameters { behavior = Behavior { model = "KR1533LL1" } }
+}
 
 /// КР1533ЛП5: four 2-input exclusive-OR gates (74ALS86).
-part KR1533LP5 = device(
-  footprint = dip(14, 7.5mm, pitch = 2.5mm),
-  prefix = "DD",
-  mpn = "КР1533ЛП5",
+part KR1533LP5: Part {
+  footprint = dip(14, 7.5mm, pitch = 2.5mm)
+  prefix = "DD"
+  mpn = "КР1533ЛП5"
   pinout = {
     A1 = "1"
     B1 = "2"
@@ -140,14 +145,15 @@ part KR1533LP5 = device(
     A4 = "12"
     B4 = "13"
     VCC = "14"
-  },
-) with { simulation = SimulationParameters { behavior = Behavior { model = "KR1533LP5" } } }
+  }
+  simulation = SimulationParameters { behavior = Behavior { model = "KR1533LP5" } }
+}
 
 /// КР1533ТМ2: two D flip-flops with preset and clear (74ALS74).
-part KR1533TM2 = device(
-  footprint = dip(14, 7.5mm, pitch = 2.5mm),
-  prefix = "DD",
-  mpn = "КР1533ТМ2",
+part KR1533TM2: Part {
+  footprint = dip(14, 7.5mm, pitch = 2.5mm)
+  prefix = "DD"
+  mpn = "КР1533ТМ2"
   pinout = {
     CLR1 = "1"
     D1 = "2"
@@ -163,14 +169,15 @@ part KR1533TM2 = device(
     D2 = "12"
     CLR2 = "13"
     VCC = "14"
-  },
-) with { simulation = SimulationParameters { behavior = Behavior { model = "KR1533TM2" } } }
+  }
+  simulation = SimulationParameters { behavior = Behavior { model = "KR1533TM2" } }
+}
 
 /// КР1533ИЕ7: 4-bit synchronous up/down binary counter (74ALS193).
-part KR1533IE7 = device(
-  footprint = dip(16, 7.5mm, pitch = 2.5mm),
-  prefix = "DD",
-  mpn = "КР1533ИЕ7",
+part KR1533IE7: Part {
+  footprint = dip(16, 7.5mm, pitch = 2.5mm)
+  prefix = "DD"
+  mpn = "КР1533ИЕ7"
   pinout = {
     B = "1"
     QB = "2"
@@ -188,14 +195,15 @@ part KR1533IE7 = device(
     CLR = "14"
     A = "15"
     VCC = "16"
-  },
-) with { simulation = SimulationParameters { behavior = Behavior { model = "KR1533IE7" } } }
+  }
+  simulation = SimulationParameters { behavior = Behavior { model = "KR1533IE7" } }
+}
 
 /// КР1533КП11А: four 2-to-1 multiplexers, three-state (74ALS257).
-part KR1533KP11A = device(
-  footprint = dip(16, 7.5mm, pitch = 2.5mm),
-  prefix = "DD",
-  mpn = "КР1533КП11А",
+part KR1533KP11A: Part {
+  footprint = dip(16, 7.5mm, pitch = 2.5mm)
+  prefix = "DD"
+  mpn = "КР1533КП11А"
   pinout = {
     S = "1"
     A1 = "2"
@@ -213,14 +221,15 @@ part KR1533KP11A = device(
     A4 = "14"
     OE = "15"
     VCC = "16"
-  },
-) with { simulation = SimulationParameters { behavior = Behavior { model = "KR1533KP11A" } } }
+  }
+  simulation = SimulationParameters { behavior = Behavior { model = "KR1533KP11A" } }
+}
 
 /// КР1533КП13: four 2-to-1 multiplexers with storage (74LS298 function).
-part KR1533KP13 = device(
-  footprint = dip(16, 7.5mm, pitch = 2.5mm),
-  prefix = "DD",
-  mpn = "КР1533КП13",
+part KR1533KP13: Part {
+  footprint = dip(16, 7.5mm, pitch = 2.5mm)
+  prefix = "DD"
+  mpn = "КР1533КП13"
   pinout = {
     B2 = "1"
     A2 = "2"
@@ -238,14 +247,15 @@ part KR1533KP13 = device(
     QB = "14"
     QA = "15"
     VCC = "16"
-  },
-) with { simulation = SimulationParameters { behavior = Behavior { model = "KR1533KP13" } } }
+  }
+  simulation = SimulationParameters { behavior = Behavior { model = "KR1533KP13" } }
+}
 
 /// К555ИР16: 4-bit shift register, three-state (74LS295).
-part K555IR16 = device(
-  footprint = dip(14, 7.5mm, pitch = 2.5mm),
-  prefix = "DD",
-  mpn = "К555ИР16",
+part K555IR16: Part {
+  footprint = dip(14, 7.5mm, pitch = 2.5mm)
+  prefix = "DD"
+  mpn = "К555ИР16"
   pinout = {
     SER = "1"
     A = "2"
@@ -261,14 +271,15 @@ part K555IR16 = device(
     QB = "12"
     QA = "13"
     VCC = "14"
-  },
-) with { simulation = SimulationParameters { behavior = Behavior { model = "K555IR16" } } }
+  }
+  simulation = SimulationParameters { behavior = Behavior { model = "K555IR16" } }
+}
 
 /// КР1533ИР22: eight transparent latches, three-state (74ALS373).
-part KR1533IR22 = device(
-  footprint = dip(20, 7.5mm, pitch = 2.5mm),
-  prefix = "DD",
-  mpn = "КР1533ИР22",
+part KR1533IR22: Part {
+  footprint = dip(20, 7.5mm, pitch = 2.5mm)
+  prefix = "DD"
+  mpn = "КР1533ИР22"
   pinout = {
     OE = "1"
     Q0 = "2"
@@ -290,14 +301,15 @@ part KR1533IR22 = device(
     D7 = "18"
     Q7 = "19"
     VCC = "20"
-  },
-) with { simulation = SimulationParameters { behavior = Behavior { model = "KR1533IR22" } } }
+  }
+  simulation = SimulationParameters { behavior = Behavior { model = "KR1533IR22" } }
+}
 
 /// КР1533АП6: eight bus transceivers (74ALS245).
-part KR1533AP6 = device(
-  footprint = dip(20, 7.5mm, pitch = 2.5mm),
-  prefix = "DD",
-  mpn = "КР1533АП6",
+part KR1533AP6: Part {
+  footprint = dip(20, 7.5mm, pitch = 2.5mm)
+  prefix = "DD"
+  mpn = "КР1533АП6"
   pinout = {
     DIR = "1"
     A1 = "2"
@@ -319,14 +331,15 @@ part KR1533AP6 = device(
     B1 = "18"
     OE = "19"
     VCC = "20"
-  },
-) with { simulation = SimulationParameters { behavior = Behavior { model = "KR1533AP6" } } }
+  }
+  simulation = SimulationParameters { behavior = Behavior { model = "KR1533AP6" } }
+}
 
 /// КР565РУ5В: 65536 x 1 dynamic RAM, 150 ns (4164).
-part KR565RU5V = device(
-  footprint = dip(16, 7.5mm, pitch = 2.5mm),
-  prefix = "DD",
-  mpn = "КР565РУ5В",
+part KR565RU5V: Part {
+  footprint = dip(16, 7.5mm, pitch = 2.5mm)
+  prefix = "DD"
+  mpn = "КР565РУ5В"
   pinout = {
     DIN = "2"
     WE = "3"
@@ -343,14 +356,15 @@ part KR565RU5V = device(
     DOUT = "14"
     CAS = "15"
     GND = "16"
-  },
-) with { simulation = SimulationParameters { behavior = Behavior { model = "KR565RU5V" } } }
+  }
+  simulation = SimulationParameters { behavior = Behavior { model = "KR565RU5V" } }
+}
 
 /// КМ573РФ8А: 16384 x 8 UV EPROM (27128).
-part KM573RF8A = device(
-  footprint = dip(28, 15mm, pitch = 2.5mm),
-  prefix = "DD",
-  mpn = "КМ573РФ8А",
+part KM573RF8A: Part {
+  footprint = dip(28, 15mm, pitch = 2.5mm)
+  prefix = "DD"
+  mpn = "КМ573РФ8А"
   pinout = {
     VPP = "1"
     A12 = "2"
@@ -380,58 +394,65 @@ part KM573RF8A = device(
     A13 = "26"
     PGM = "27"
     VCC = "28"
-  },
-) with { simulation = SimulationParameters { behavior = Behavior { model = "KM573RF8A" } } }
+  }
+  simulation = SimulationParameters { behavior = Behavior { model = "KM573RF8A" } }
+}
 
 /// Z80A: Z80 CPU, 4 MHz (КР1858ВМ1 class).
-part Z80 = device(footprint = dip(40, 15mm, pitch = 2.5mm), prefix = "DD", mpn = "Z80A", pinout = {
-  A11 = "1"
-  A12 = "2"
-  A13 = "3"
-  A14 = "4"
-  A15 = "5"
-  CLK = "6"
-  D4 = "7"
-  D3 = "8"
-  D5 = "9"
-  D6 = "10"
-  VCC = "11"
-  D2 = "12"
-  D7 = "13"
-  D0 = "14"
-  D1 = "15"
-  INT = "16"
-  NMI = "17"
-  HALT = "18"
-  MREQ = "19"
-  IORQ = "20"
-  RD = "21"
-  WR = "22"
-  BUSACK = "23"
-  WAIT = "24"
-  BUSRQ = "25"
-  RESET = "26"
-  M1 = "27"
-  RFSH = "28"
-  GND = "29"
-  A0 = "30"
-  A1 = "31"
-  A2 = "32"
-  A3 = "33"
-  A4 = "34"
-  A5 = "35"
-  A6 = "36"
-  A7 = "37"
-  A8 = "38"
-  A9 = "39"
-  A10 = "40"
-}) with { simulation = SimulationParameters { behavior = Behavior { model = "Z80" } } }
+part Z80: Part {
+  footprint = dip(40, 15mm, pitch = 2.5mm)
+  prefix = "DD"
+  mpn = "Z80A"
+  pinout = {
+    A11 = "1"
+    A12 = "2"
+    A13 = "3"
+    A14 = "4"
+    A15 = "5"
+    CLK = "6"
+    D4 = "7"
+    D3 = "8"
+    D5 = "9"
+    D6 = "10"
+    VCC = "11"
+    D2 = "12"
+    D7 = "13"
+    D0 = "14"
+    D1 = "15"
+    INT = "16"
+    NMI = "17"
+    HALT = "18"
+    MREQ = "19"
+    IORQ = "20"
+    RD = "21"
+    WR = "22"
+    BUSACK = "23"
+    WAIT = "24"
+    BUSRQ = "25"
+    RESET = "26"
+    M1 = "27"
+    RFSH = "28"
+    GND = "29"
+    A0 = "30"
+    A1 = "31"
+    A2 = "32"
+    A3 = "33"
+    A4 = "34"
+    A5 = "35"
+    A6 = "36"
+    A7 = "37"
+    A8 = "38"
+    A9 = "39"
+    A10 = "40"
+  }
+  simulation = SimulationParameters { behavior = Behavior { model = "Z80" } }
+}
 
 /// К554СА3А: voltage comparator, open-collector output (LM311 class).
-part K554SA3A = device(
-  footprint = dip(14, 7.5mm, pitch = 2.5mm),
-  prefix = "DD",
-  mpn = "К554СА3А",
+part K554SA3A: Part {
+  footprint = dip(14, 7.5mm, pitch = 2.5mm)
+  prefix = "DD"
+  mpn = "К554СА3А"
   pinout = {
     GND = "2"
     INP = "3"
@@ -441,8 +462,9 @@ part K554SA3A = device(
     STB = "8"
     OUT = "9"
     VCC = "11"
-  },
-) with { simulation = SimulationParameters { behavior = Behavior { model = "K554SA3A" } } }
+  }
+  simulation = SimulationParameters { behavior = Behavior { model = "K554SA3A" } }
+}
 
 // --- Footprints of the Soviet passives and connectors ------------------------------------------
 
@@ -761,136 +783,165 @@ fn k50Cap(value: Capacitance, diameter: Length, height: Length, pitch: Length) -
   value,
 ) with { footprint = k50(diameter, height, pitch) }
 /// A КД522Б diode (anode A, cathode K).
-part KD522B = device(
-  footprint = kd522(),
-  kind = .diode,
-  prefix = "VD",
-  mpn = "КД522Б",
-  pinout = { K = "1", A = "2" },
-)
+part KD522B: Part {
+  footprint = kd522()
+  kind = .diode
+  prefix = "VD"
+  mpn = "КД522Б"
+  pinout = { K = "1", A = "2" }
+}
 /// A КС119А stabistor (anode A, cathode K).
-part KS119A = device(
-  footprint = kd522(),
-  kind = .diode,
-  prefix = "VD",
-  mpn = "КС119А",
-  pinout = { K = "1", A = "2" },
-)
+part KS119A: Part {
+  footprint = kd522()
+  kind = .diode
+  prefix = "VD"
+  mpn = "КС119А"
+  pinout = { K = "1", A = "2" }
+}
 /// КТ3102БМ: an NPN transistor (E, B, C in a row).
-part KT3102BM = device(
-  footprint = kt26(),
-  kind = .transistor,
-  prefix = "VT",
-  mpn = "КТ3102БМ",
-  pinout = { E = "1", B = "2", C = "3" },
-)
+part KT3102BM: Part {
+  footprint = kt26()
+  kind = .transistor
+  prefix = "VT"
+  mpn = "КТ3102БМ"
+  pinout = { E = "1", B = "2", C = "3" }
+}
 /// КТ316БМ: an NPN UHF transistor (the modulator's oscillator).
-part KT316BM = device(
-  footprint = kt26(),
-  kind = .transistor,
-  prefix = "VT",
-  mpn = "КТ316БМ",
-  pinout = { E = "1", B = "2", C = "3" },
-)
+part KT316BM: Part {
+  footprint = kt26()
+  kind = .transistor
+  prefix = "VT"
+  mpn = "КТ316БМ"
+  pinout = { E = "1", B = "2", C = "3" }
+}
 /// The 14 MHz crystal.
-part Crystal14 = device(
-  footprint = hc49(),
-  value = 14MHz,
-  kind = .crystal,
-  prefix = "BQ",
-  mpn = "РК169 14 МГц",
-  pinout = { X1 = "1", X2 = "2" },
-)
+part Crystal14: Part {
+  footprint = hc49()
+  value = 14MHz
+  kind = .crystal
+  prefix = "BQ"
+  mpn = "РК169 14 МГц"
+  pinout = { X1 = "1", X2 = "2" }
+}
 /// ЗП-3 piezo sounder.
-part ZP3 = device(footprint = zp3(), prefix = "HA", mpn = "ЗП-3", pinout = { P1 = "1", P2 = "2" })
+part ZP3: Part {
+  footprint = zp3()
+  prefix = "HA"
+  mpn = "ЗП-3"
+  pinout = { P1 = "1", P2 = "2" }
+}
 /// КМ1-1 reset button.
-part CoaxOut = device(
-  footprint = coaxPads(),
-  prefix = "XS",
-  mpn = "РК-75 к гнезду САТ-Г",
-  pinout = { SIG = "1", GND = "2" },
-)
+part CoaxOut: Part {
+  footprint = coaxPads()
+  prefix = "XS"
+  mpn = "РК-75 к гнезду САТ-Г"
+  pinout = { SIG = "1", GND = "2" }
+}
 
-part KM11 = device(footprint = km1(), prefix = "SB", mpn = "КМ1-1", pinout = { P1 = "1", P2 = "2" })
+part KM11: Part {
+  footprint = km1()
+  prefix = "SB"
+  mpn = "КМ1-1"
+  pinout = { P1 = "1", P2 = "2" }
+}
 /// СП3 22 kΩ trimming resistor (ends 1, 3; wiper 2).
-part SP3 = device(
-  footprint = sp3(),
-  prefix = "R",
-  mpn = "СП3-38б 22 кОм",
-  pinout = { E1 = "1", W = "2", E2 = "3" },
-)
+part SP3: Part {
+  footprint = sp3()
+  prefix = "R"
+  mpn = "СП3-38б 22 кОм"
+  pinout = { E1 = "1", W = "2", E2 = "3" }
+}
 /// НР1-4-9 10 kΩ resistor network: pin 1 common, 2–10 the nine resistors' other ends.
-part HR1 = device(footprint = hr1(), prefix = "DR", mpn = "НР1-4-9 10 кОм", pinout = {
-  COM = "1"
-  R1 = "2"
-  R2 = "3"
-  R3 = "4"
-  R4 = "5"
-  R5 = "6"
-  R6 = "7"
-  R7 = "8"
-  R8 = "9"
-  R9 = "10"
-})
+part HR1: Part {
+  footprint = hr1()
+  prefix = "DR"
+  mpn = "НР1-4-9 10 кОм"
+  pinout = {
+    COM = "1"
+    R1 = "2"
+    R2 = "3"
+    R3 = "4"
+    R4 = "5"
+    R5 = "6"
+    R6 = "7"
+    R7 = "8"
+    R8 = "9"
+    R9 = "10"
+  }
+}
 /// ДМ-0,2 100 µH choke.
-part DM02 = device(
-  footprint = dm(),
-  prefix = "L",
-  mpn = "ДМ-0,2 100 мкГн",
-  pinout = { P1 = "1", P2 = "2" },
-)
+part DM02: Part {
+  footprint = dm()
+  prefix = "L"
+  mpn = "ДМ-0,2 100 мкГн"
+  pinout = { P1 = "1", P2 = "2" }
+}
 /// The keyboard's flat-cable socket, twelve contacts.
-part ONP12 = device(footprint = onp(), prefix = "XS", mpn = "ОНП-СГ-83-12", pinout = {
-  C1 = "1"
-  C2 = "2"
-  C3 = "3"
-  C4 = "4"
-  C5 = "5"
-  C6 = "6"
-  C7 = "7"
-  C8 = "8"
-  C9 = "9"
-  C10 = "10"
-  C11 = "11"
-  C12 = "12"
-})
+part ONP12: Part {
+  footprint = onp()
+  prefix = "XS"
+  mpn = "ОНП-СГ-83-12"
+  pinout = {
+    C1 = "1"
+    C2 = "2"
+    C3 = "3"
+    C4 = "4"
+    C5 = "5"
+    C6 = "6"
+    C7 = "7"
+    C8 = "8"
+    C9 = "9"
+    C10 = "10"
+    C11 = "11"
+    C12 = "12"
+  }
+}
 /// A five-contact DIN socket (ОНЦ-ВГ-4-5/16-Р).
-part ONC5 = device(
-  footprint = onc(5),
-  prefix = "XS",
-  mpn = "ОНЦ-ВГ-4-5/16-Р",
-  pinout = { C1 = "1", C2 = "2", C3 = "3", C4 = "4", C5 = "5", S = ["S1", "S2"] },
-)
+part ONC5: Part {
+  footprint = onc(5)
+  prefix = "XS"
+  mpn = "ОНЦ-ВГ-4-5/16-Р"
+  pinout = { C1 = "1", C2 = "2", C3 = "3", C4 = "4", C5 = "5", S = ["S1", "S2"] }
+}
 /// A seven-contact DIN socket (ОНЦ-ВГ-11-7/16-Р).
-part ONC7 = device(footprint = onc(7), prefix = "XS", mpn = "ОНЦ-ВГ-11-7/16-Р", pinout = {
-  C1 = "1"
-  C2 = "2"
-  C3 = "3"
-  C4 = "4"
-  C5 = "5"
-  C6 = "6"
-  C7 = "7"
-  S = ["S1", "S2"]
-})
+part ONC7: Part {
+  footprint = onc(7)
+  prefix = "XS"
+  mpn = "ОНЦ-ВГ-11-7/16-Р"
+  pinout = {
+    C1 = "1"
+    C2 = "2"
+    C3 = "3"
+    C4 = "4"
+    C5 = "5"
+    C6 = "6"
+    C7 = "7"
+    S = ["S1", "S2"]
+  }
+}
 /// The RF modulator's can.
-part ModulatorCan = device(
-  footprint = modulatorCan((35.5mm, 36.5mm)),
-  prefix = "E",
-  mpn = "Экран модулятора",
-  pinout = { GND = ["1", "2", "3", "4"] },
-)
+part ModulatorCan: Part {
+  footprint = modulatorCan((35.5mm, 36.5mm))
+  prefix = "E"
+  mpn = "Экран модулятора"
+  pinout = { GND = ["1", "2", "3", "4"] }
+}
 /// The modulator's coil: 7 turns of ПЭТВ-2 0.535 on 6.5 mm.
-part Coil7 = device(
+part Coil7: Part {
   footprint = Footprint {
     name = "L_Air_7T_D6.5mm"
     pads = pair(7.5mm)
     body = centered(10mm, 7.5mm)
     height = 7mm
     solids = [solid.cylinder(6.5mm, 7mm, at = (0mm, 0mm, 0.5mm), material = .copper)]
-  },
-  prefix = "L",
-  mpn = "7 вит. ПЭТВ-2 0,535",
-  pinout = { P1 = "1", P2 = "2" },
-)
+  }
+  prefix = "L"
+  mpn = "7 вит. ПЭТВ-2 0,535"
+  pinout = { P1 = "1", P2 = "2" }
+}
 /// СНП59-64 system connector.
-part SNP59 = device(footprint = snp59(), prefix = "XP", mpn = "СНП59-64/94-11В-23-2")
+part SNP59: Part {
+  footprint = snp59()
+  prefix = "XP"
+  mpn = "СНП59-64/94-11В-23-2"
+}
