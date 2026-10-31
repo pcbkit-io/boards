@@ -55,6 +55,7 @@
               "seconds": { "description": "Device time to run", "type": "number", "exclusiveMinimum": 0, "maximum": 10 },
               "console": { "description": "Text a serial terminal must have received, each", "type": "array", "items": { "type": "string" } },
               "frames": { "description": "Displays by component, and the pictures each must have drawn at least", "type": "object", "additionalProperties": { "type": "integer", "minimum": 1 } },
+              "pictures": { "description": "Displays by component, and the pictures each must show: in phase `phase` (0 to 4) the display showed the picture whose RGBA8 pixels have this SHA-256 at some moment (lab.simulate pictures, lab.frame sha256): what the screen shows, not only that it drew", "type": "object", "additionalProperties": { "type": "array", "items": { "type": "object", "required": ["phase", "sha256"], "properties": { "phase": { "type": "integer", "minimum": 0, "maximum": 4 }, "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" } }, "additionalProperties": false } } },
               "toggles": { "description": "Ports a program must have driven both low and high, as processor.port (U1.PB5)", "type": "array", "items": { "type": "string" } },
               "lit": { "description": "Visuals lit at the end of some phase (an indicator, a digit, a pixel, a servo driven), by component", "type": "array", "items": { "type": "string" } },
               "responds": { "description": "Inputs its programs must answer, each: a button or switch by component (or key:Name), pressed from the run's middle phase and released at the next, must change what some later phase shows (displays, lights, servos, console text) against the same run without it", "type": "array", "items": { "type": "string" } },
@@ -68,8 +69,10 @@
                     "celsius": { "description": "The laboratory's temperature, \u00b0C", "type": "number", "minimum": -40, "maximum": 125 },
                     "console": { "description": "Text a serial terminal must have received, each", "type": "array", "items": { "type": "string" } },
                     "frames": { "description": "Displays by component, and the pictures each must have drawn at least", "type": "object", "additionalProperties": { "type": "integer", "minimum": 1 } },
+                    "pictures": { "description": "Displays by component, and the pictures each must show: in phase `phase` (0 to 4) the display showed the picture whose RGBA8 pixels have this SHA-256 at some moment (lab.simulate pictures, lab.frame sha256): what the screen shows, not only that it drew", "type": "object", "additionalProperties": { "type": "array", "items": { "type": "object", "required": ["phase", "sha256"], "properties": { "phase": { "type": "integer", "minimum": 0, "maximum": 4 }, "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" } }, "additionalProperties": false } } },
                     "toggles": { "description": "Ports a program must have driven both low and high, as processor.port (U1.PB5)", "type": "array", "items": { "type": "string" } },
-                    "lit": { "description": "Visuals lit at the end of some phase (an indicator, a digit, a pixel, a servo driven), by component", "type": "array", "items": { "type": "string" } }
+                    "lit": { "description": "Visuals lit at the end of some phase (an indicator, a digit, a pixel, a servo driven), by component", "type": "array", "items": { "type": "string" } },
+                    "responds": { "description": "Inputs its programs must answer there", "type": "array", "items": { "type": "string" } }
                   },
                   "additionalProperties": false
                 }
