@@ -76,6 +76,12 @@
       "production": {
         "status": "ready",
         "flash": "eprom-programmer"
+      },
+      "expect": {
+        "seconds": 2,
+        "frames": {
+          "XS9": 48
+        }
       }
     },
     {
@@ -104,6 +110,15 @@
       "production": {
         "status": "ready",
         "flash": "usb-arduino-bootloader"
+      },
+      "expect": {
+        "seconds": 2,
+        "lit": [
+          "display"
+        ],
+        "toggles": [
+          "U1.PB2"
+        ]
       }
     },
     {
@@ -129,6 +144,15 @@
       "production": {
         "status": "ready",
         "flash": "usb-arduino-bootloader"
+      },
+      "expect": {
+        "seconds": 2,
+        "toggles": [
+          "U1.PB1"
+        ],
+        "lit": [
+          "servo"
+        ]
       }
     },
     {
@@ -152,6 +176,12 @@
       "production": {
         "status": "ready",
         "flash": "usb-arduino-bootloader"
+      },
+      "expect": {
+        "seconds": 2,
+        "console": [
+          "READY"
+        ]
       }
     },
     {
@@ -176,6 +206,23 @@
       "production": {
         "status": "ready",
         "flash": "usb-arduino-bootloader"
+      },
+      "expect": {
+        "seconds": 2,
+        "toggles": [
+          "U1.PB0",
+          "U1.PB1",
+          "U1.PB2",
+          "U1.PB3",
+          "U1.PD0",
+          "U1.PD1",
+          "U1.PD2",
+          "U1.PD3",
+          "U1.PD4",
+          "U1.PD5",
+          "U1.PD6",
+          "U1.PD7"
+        ]
       }
     },
     {
@@ -202,6 +249,17 @@
       "production": {
         "status": "ready",
         "flash": "usb-arduino-bootloader"
+      },
+      "expect": {
+        "seconds": 2,
+        "lit": [
+          "display",
+          "red"
+        ],
+        "toggles": [
+          "U1.PB2",
+          "U1.PD7"
+        ]
       }
     },
     {
@@ -227,6 +285,14 @@
       "production": {
         "status": "ready",
         "flash": "usb-arduino-bootloader"
+      },
+      "expect": {
+        "seconds": 2,
+        "lit": [
+          "display",
+          "orange",
+          "red"
+        ]
       }
     },
     {
@@ -255,6 +321,19 @@
       "production": {
         "status": "ready",
         "flash": "usb-arduino-bootloader"
+      },
+      "expect": {
+        "seconds": 2,
+        "lit": [
+          "display",
+          "vent",
+          "window"
+        ],
+        "toggles": [
+          "U1.PB1",
+          "U1.PB2",
+          "U1.PD6"
+        ]
       }
     },
     {
@@ -279,6 +358,21 @@
       "production": {
         "status": "ready",
         "flash": "usb-arduino-bootloader"
+      },
+      "expect": {
+        "seconds": 2,
+        "lit": [
+          "play",
+          "servo0",
+          "servo1",
+          "servo2"
+        ],
+        "toggles": [
+          "U1.PD4",
+          "U1.PD5",
+          "U1.PD6",
+          "U1.PD7"
+        ]
       }
     },
     {
@@ -304,6 +398,14 @@
       "production": {
         "status": "ready",
         "flash": "usb-arduino-bootloader"
+      },
+      "expect": {
+        "seconds": 2,
+        "lit": [
+          "carGreen",
+          "display",
+          "walkRed"
+        ]
       }
     },
     {
@@ -329,6 +431,15 @@
       "production": {
         "status": "ready",
         "flash": "usb-arduino-bootloader"
+      },
+      "expect": {
+        "seconds": 2,
+        "console": [
+          "Type a message and press Enter."
+        ],
+        "lit": [
+          "display"
+        ]
       }
     },
     {
@@ -359,6 +470,18 @@
       "production": {
         "status": "ready",
         "flash": "usb-uf2"
+      },
+      "expect": {
+        "seconds": 2,
+        "frames": {
+          "lcd": 57
+        },
+        "toggles": [
+          "U1.GP17",
+          "U1.GP20",
+          "U1.GP21",
+          "U1.GP22"
+        ]
       }
     },
     {
@@ -389,6 +512,17 @@
       "production": {
         "status": "ready",
         "flash": "swio"
+      },
+      "expect": {
+        "seconds": 2,
+        "frames": {
+          "DS1": 2
+        },
+        "toggles": [
+          "U1.PC0",
+          "U1.PC3",
+          "U1.PC4"
+        ]
       }
     },
     {
@@ -419,6 +553,17 @@
       "production": {
         "status": "ready",
         "flash": "usb-uf2"
+      },
+      "expect": {
+        "seconds": 2,
+        "frames": {
+          "DS1": 34
+        },
+        "toggles": [
+          "U1.GP17",
+          "U1.GP20",
+          "U1.GP21"
+        ]
       }
     },
     {
@@ -449,6 +594,15 @@
       "production": {
         "status": "ready",
         "flash": "usb-esptool"
+      },
+      "expect": {
+        "seconds": 2,
+        "frames": {
+          "DS1": 89
+        },
+        "console": [
+          "ST_Init: Init status bar."
+        ]
       }
     },
     {
@@ -477,6 +631,18 @@
       "production": {
         "status": "ready",
         "flash": "usb-uf2"
+      },
+      "expect": {
+        "seconds": 2,
+        "frames": {
+          "DS1": 91
+        },
+        "toggles": [
+          "U1.GP17",
+          "U1.GP20",
+          "U1.GP21",
+          "U1.GP22"
+        ]
       }
     },
     {
@@ -508,6 +674,20 @@
       "production": {
         "status": "ready",
         "flash": "usb-dfu"
+      },
+      "expect": {
+        "seconds": 2,
+        "frames": {
+          "DS1": 6
+        },
+        "toggles": [
+          "U1.PA4",
+          "U1.PB1",
+          "U1.PB10",
+          "U1.PB12",
+          "U1.PB14",
+          "U1.PB2"
+        ]
       }
     },
     {
@@ -538,6 +718,18 @@
       "production": {
         "status": "ready",
         "flash": "usb-uf2"
+      },
+      "expect": {
+        "seconds": 2,
+        "frames": {
+          "DS1": 57
+        },
+        "toggles": [
+          "U1.GP17",
+          "U1.GP20",
+          "U1.GP21",
+          "U1.GP22"
+        ]
       }
     },
     {
@@ -568,6 +760,18 @@
       "production": {
         "status": "ready",
         "flash": "usb-uf2"
+      },
+      "expect": {
+        "seconds": 2,
+        "frames": {
+          "DS1": 49
+        },
+        "toggles": [
+          "U1.GP16",
+          "U1.GP17",
+          "U1.GP20",
+          "U1.GP21"
+        ]
       }
     },
     {
@@ -599,6 +803,15 @@
       "production": {
         "status": "ready",
         "flash": "usb-esptool"
+      },
+      "expect": {
+        "seconds": 2,
+        "frames": {
+          "DS1": 69
+        },
+        "console": [
+          "ST_Init: Init status bar."
+        ]
       }
     },
     {
@@ -632,6 +845,15 @@
       "production": {
         "status": "ready",
         "flash": "usb-esptool"
+      },
+      "expect": {
+        "seconds": 2,
+        "frames": {
+          "DS1": 54
+        },
+        "console": [
+          "ST_Init: Init status bar."
+        ]
       }
     },
     {
@@ -662,6 +884,18 @@
       "production": {
         "status": "ready",
         "flash": "usb-teensy"
+      },
+      "expect": {
+        "seconds": 2,
+        "frames": {
+          "DS1": 56
+        },
+        "toggles": [
+          "U1.B0_00",
+          "U1.B0_10",
+          "U1.B0_11",
+          "U1.B1_00"
+        ]
       }
     },
     {
@@ -688,6 +922,12 @@
       "production": {
         "status": "ready",
         "flash": "usb-arduino-bootloader"
+      },
+      "expect": {
+        "seconds": 2,
+        "frames": {
+          "DS1": 328
+        }
       }
     },
     {
@@ -715,6 +955,12 @@
       "production": {
         "status": "ready",
         "flash": "usb-arduino-bootloader"
+      },
+      "expect": {
+        "seconds": 2,
+        "frames": {
+          "DS1": 166
+        }
       }
     },
     {
@@ -741,6 +987,18 @@
       "production": {
         "status": "ready",
         "flash": "usb-arduino-bootloader"
+      },
+      "expect": {
+        "seconds": 2,
+        "frames": {
+          "DS1": 448
+        },
+        "toggles": [
+          "NANO.PB1"
+        ],
+        "lit": [
+          "J1"
+        ]
       }
     },
     {
@@ -766,6 +1024,12 @@
       "production": {
         "status": "ready",
         "flash": "usb-arduino-bootloader"
+      },
+      "expect": {
+        "seconds": 2,
+        "frames": {
+          "DS1": 49
+        }
       }
     },
     {
@@ -796,6 +1060,12 @@
       "production": {
         "status": "ready",
         "flash": "usb-arduino-bootloader"
+      },
+      "expect": {
+        "seconds": 2,
+        "frames": {
+          "DS1": 679
+        }
       }
     },
     {
@@ -821,6 +1091,12 @@
       "production": {
         "status": "ready",
         "flash": "usb-arduino-bootloader"
+      },
+      "expect": {
+        "seconds": 2,
+        "frames": {
+          "DS1": 616
+        }
       }
     },
     {
@@ -845,6 +1121,12 @@
       "production": {
         "status": "ready",
         "flash": "usb-arduino-bootloader"
+      },
+      "expect": {
+        "seconds": 2,
+        "frames": {
+          "DS1": 698
+        }
       }
     },
     {
@@ -869,6 +1151,12 @@
       "production": {
         "status": "ready",
         "flash": "usb-arduino-bootloader"
+      },
+      "expect": {
+        "seconds": 2,
+        "frames": {
+          "DS1": 666
+        }
       }
     },
     {
@@ -893,6 +1181,12 @@
       "production": {
         "status": "ready",
         "flash": "usb-arduino-bootloader"
+      },
+      "expect": {
+        "seconds": 2,
+        "frames": {
+          "DS1": 623
+        }
       }
     },
     {
@@ -918,6 +1212,12 @@
       "production": {
         "status": "ready",
         "flash": "usb-arduino-bootloader"
+      },
+      "expect": {
+        "seconds": 2,
+        "frames": {
+          "DS1": 669
+        }
       }
     },
     {
@@ -942,6 +1242,12 @@
       "production": {
         "status": "ready",
         "flash": "usb-arduino-bootloader"
+      },
+      "expect": {
+        "seconds": 2,
+        "frames": {
+          "DS1": 22
+        }
       }
     },
     {
@@ -966,6 +1272,12 @@
       "production": {
         "status": "ready",
         "flash": "usb-arduino-bootloader"
+      },
+      "expect": {
+        "seconds": 2,
+        "frames": {
+          "DS1": 22
+        }
       }
     },
     {
@@ -990,6 +1302,12 @@
       "production": {
         "status": "ready",
         "flash": "usb-arduino-bootloader"
+      },
+      "expect": {
+        "seconds": 2,
+        "frames": {
+          "DS1": 554
+        }
       }
     },
     {
@@ -1130,6 +1448,16 @@
       "production": {
         "status": "ready",
         "flash": "swd"
+      },
+      "expect": {
+        "seconds": 2,
+        "console": [
+          "sending at 100 Hz",
+          "t10"
+        ],
+        "toggles": [
+          "U1.PB0"
+        ]
       }
     },
     {
@@ -1161,6 +1489,19 @@
       "production": {
         "status": "ready",
         "flash": "uart"
+      },
+      "expect": {
+        "seconds": 2,
+        "console": [
+          "thermostat"
+        ],
+        "frames": {
+          "DS1": 2454
+        },
+        "toggles": [
+          "U1.IO14",
+          "U1.IO26"
+        ]
       }
     },
     {
@@ -1194,6 +1535,12 @@
       "production": {
         "status": "ready",
         "flash": "uart"
+      },
+      "expect": {
+        "seconds": 2,
+        "frames": {
+          "LCD1": 2
+        }
       }
     },
     {
@@ -1229,6 +1576,15 @@
       "production": {
         "status": "ready",
         "flash": "uart"
+      },
+      "expect": {
+        "seconds": 2,
+        "frames": {
+          "LCD1": 25
+        },
+        "console": [
+          "avg_us="
+        ]
       }
     }
   ]

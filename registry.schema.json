@@ -46,6 +46,19 @@
               "flash": { "description": "How the ordered board takes its firmware", "type": "string" }
             },
             "additionalProperties": false
+          },
+          "expect": {
+            "description": "What its programs must show or do in the laboratory (PCBKit's lab.simulate `expect`): run for `seconds` of device time in five phases, the report's `expected.met` must be true. The lab's registry count: a board that works, not one that only runs.",
+            "type": "object",
+            "required": ["seconds"],
+            "properties": {
+              "seconds": { "description": "Device time to run", "type": "number", "exclusiveMinimum": 0, "maximum": 10 },
+              "console": { "description": "Text a serial terminal must have received, each", "type": "array", "items": { "type": "string" } },
+              "frames": { "description": "Displays by component, and the pictures each must have drawn at least", "type": "object", "additionalProperties": { "type": "integer", "minimum": 1 } },
+              "toggles": { "description": "Ports a program must have driven both low and high, as processor.port (U1.PB5)", "type": "array", "items": { "type": "string" } },
+              "lit": { "description": "Visuals lit at the end of some phase (an indicator, a digit, a pixel, a servo driven), by component", "type": "array", "items": { "type": "string" } }
+            },
+            "additionalProperties": false
           }
         },
         "additionalProperties": false
