@@ -40,7 +40,7 @@
     },
     "page": "lcdwiki MSP1803: pins 1 VCC (3.3-5 V), 2 GND, 3 CS, 4 RESET, 5 A0, 6 SDA, 7 SCK, 8 LED; size picture: PCB 34.50 x 58.00 mm, holes 28.50 x 52.00 mm (Ø3.2), header row 2.50 mm from the bottom edge, centred"
   },
-  "footprint": "moduleSocket(\"TFT_1.8in_ST7735_Socket_1x08_P2.54mm\", socketRow(1, 8, (-8.89mm, 0mm), (2.54mm, 0mm)), box((-17.25mm, -2.5mm), (17.25mm, 55.5mm)), description = \"1.8 inch ST7735 TFT module on a 1x8 female header along its bottom edge, the display facing up over +Y: VCC, GND, CS, RESET, A0, SDA, SCK, LED left to right\", parts = 4mm, color = \"#b02020\", module = displayPanel(box((-17.35mm, 2.8mm), (17.35mm, 49.5mm)), box((-14.015mm, 11.46mm), (14.015mm, 46.5mm)), 2.4mm, glass = 0.5mm, tape = 0.3mm))",
+  "footprint": "moduleSocket(\n\"TFT_1.8in_ST7735_Socket_1x08_P2.54mm\",\nsocketRow(1, 8, (-8.89mm, 0mm), (2.54mm, 0mm)),\nbox((-17.25mm, -2.5mm), (17.25mm, 55.5mm)),\ndescription = \"1.8 inch ST7735 TFT module on a 1x8 female header along its bottom edge, the display facing up over +Y: VCC, GND, CS, RESET, A0, SDA, SCK, LED left to right\",\nparts = 4mm,\ncolor = \"#b02020\",\nmodule = displayPanel(\n  box((-17.35mm, 2.8mm), (17.35mm, 49.5mm)),\n  box((-14.015mm, 11.46mm), (14.015mm, 46.5mm)),\n  2.4mm,\n  glass = 0.5mm,\n  tape = 0.3mm,\n),\n)",
   "pins": [
     {
       "number": "1",

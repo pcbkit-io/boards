@@ -397,7 +397,7 @@
     },
     "page": "10.1 module dimensions (figure 10): 18 ± 0.15 x 25.5 ± 0.15 x 3.1 ± 0.15 mm"
   },
-  "solids": "modules.radio((0mm, 0mm), (18mm, 25.5mm), (15.8mm, 17.6mm), [\"ESPRESSIF\", \"ESP32-WROOM-32E\", \"FCC ID:2AC7Z-ESP32WROOM32E\"], bottom = 10, height = 3.1mm)",
+  "solids": "modules.radio(\n(0mm, 0mm),\n(18mm, 25.5mm),\n(15.8mm, 17.6mm),\n[\"ESPRESSIF\", \"ESP32-WROOM-32E\", \"FCC ID:2AC7Z-ESP32WROOM32E\"],\nbottom = 10,\nheight = 3.1mm,\n)",
   "symbol": {
     "units": [
       {

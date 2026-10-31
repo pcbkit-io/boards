@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // SN65HVD230DR (Texas Instruments): CAN transceiver, 3.3 V supply, up to 1 Mbps, ISO 11898-2,
 // slope control and standby pin (SOIC-8)
@@ -38,28 +38,28 @@ part Part = device(
   prefix = "U",
   mpn = "SN65HVD230DR",
   manufacturer = "Texas Instruments",
-  pinout = { D: "1", GND: "2", VCC: "3", R: "4", Vref: "5", CANL: "6", CANH: "7", RS: "8" },
+  pinout = { D = "1", GND = "2", VCC = "3", R = "4", Vref = "5", CANL = "6", CANH = "7", RS = "8" },
   pinTypes = {
-    D: io.input(max = 3.6V),
-    GND: .ground,
-    VCC: io.powerIn(min = 3V, max = 6V),
-    R: .output,
-    Vref: .passive,
-    CANL: io.bidirectional(max = 16V),
-    CANH: io.bidirectional(max = 16V),
-    RS: io.input(),
+    D = io.input(max = 3.6V)
+    GND = .ground
+    VCC = io.powerIn(min = 3V, max = 6V)
+    R = .output
+    Vref = .passive
+    CANL = io.bidirectional(max = 16V)
+    CANH = io.bidirectional(max = 16V)
+    RS = io.input()
   },
 ) with {
   fields {
-    Status: "checked",
-    PinoutSource: "TI datasheet SLOS346O (March 2001, revised April 2018), Pin Functions table and package drawing D0008A",
-    Datasheet: "https://www.ti.com/lit/ds/symlink/sn65hvd230.pdf",
+    Status = "checked"
+    PinoutSource = "TI datasheet SLOS346O (March 2001, revised April 2018), Pin Functions table and package drawing D0008A"
+    Datasheet = "https://www.ti.com/lit/ds/symlink/sn65hvd230.pdf"
   }
   simulation = SimulationParameters {
     behavior = Behavior {
       model = "can-transceiver"
-      ports = { "bus": ["7", "6"], "can": ["1", "4"], "mode": ["8"], "power": ["3", "2"] }
-      parameters = { "mode_high": 1 }
+      ports = { "bus" = ["7", "6"], "can" = ["1", "4"], "mode" = ["8"], "power" = ["3", "2"] }
+      parameters = { "mode_high" = 1 }
       height = 1.75mm
     }
     parameters = [
@@ -101,25 +101,27 @@ part Part = device(
 ///
 /// - Terminate the bus with 120 ohm at its two ends only; split termination (2 x 60 ohm with a 4.7
 /// nF to GND at the midpoint) filters common-mode noise, Vref may drive that midpoint.
-block Support(
+block Support {
   /// The SN65HVD230DR this circuit serves (`SN65HVD230.Support(U1)`).
-  chip: Any,
+  chip: Any
   /// The 120 ohm termination (only at the bus's two ends).
-  termination: Bool = false,
+  termination: Bool = false
   /// RS straight to GND: the fastest edges (`false`: a slope resistor or standby control).
-  fastEdges: Bool = true,
-) {
+  fastEdges: Bool = true
+
   /// X7R
   C1 = cap(100nF, package = "0402", dielectric = .X7R) {
     place = [soft(near(chip.pin.VCC, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VCC, b: chip.pin.GND }
+    a -- chip.pin.VCC
+    b -- chip.pin.GND
   }
   /// at each end of the bus only
   RT =
     if termination then res(120ohm, package = "0402") {
       place = [soft(near(chip.pin.CANH, max = 5mm), weight = 1)]
-      pins { a: chip.pin.CANH, b: chip.pin.CANL }
+      a -- chip.pin.CANH
+      b -- chip.pin.CANL
     }
     else null
-  connect(chip.pin.RS, if fastEdges then chip.pin.GND else chip.pin.RS)
+  chip.pin.RS -- (if fastEdges then chip.pin.GND else chip.pin.RS)
 }

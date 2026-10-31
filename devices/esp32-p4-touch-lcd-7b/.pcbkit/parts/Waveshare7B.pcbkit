@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // The chips of Waveshare's ESP32-P4-WIFI6-Touch-LCD-7B that PCBKit's registry does not have yet,
 // each with the pin numbers Waveshare's schematic gives it (its board is built with them) and the
@@ -14,40 +14,40 @@ part CH343P = device(
   manufacturer = "WCH",
   orderCode = "C2846043",
   pinout = {
-    VIO: "1",
-    GND: ["2", "17"],
-    VDD5: "3",
-    TXD: "4",
-    RXD: "5",
-    V3: "6",
-    "UD+": "7",
-    "UD-": "8",
-    VBUS: "9",
-    "ACT#": "10",
-    "DCD#": "11",
-    "DTR#": "12",
-    "RTS#": "13",
-    "DSR#": "14",
-    "CTS#": "15",
-    "RI#": "16",
+    VIO = "1"
+    GND = ["2", "17"]
+    VDD5 = "3"
+    TXD = "4"
+    RXD = "5"
+    V3 = "6"
+    "UD+" = "7"
+    "UD-" = "8"
+    VBUS = "9"
+    "ACT#" = "10"
+    "DCD#" = "11"
+    "DTR#" = "12"
+    "RTS#" = "13"
+    "DSR#" = "14"
+    "CTS#" = "15"
+    "RI#" = "16"
   },
   pinTypes = {
-    VIO: .powerIn,
-    GND: .ground,
-    VDD5: .powerIn,
-    TXD: .output,
-    RXD: .input,
-    V3: .passive,
-    "UD+": .bidirectional,
-    "UD-": .bidirectional,
-    VBUS: .input,
-    "ACT#": .output,
-    "DCD#": .passive,
-    "DTR#": .output,
-    "RTS#": .output,
-    "DSR#": .passive,
-    "CTS#": .passive,
-    "RI#": .passive,
+    VIO = .powerIn
+    GND = .ground
+    VDD5 = .powerIn
+    TXD = .output
+    RXD = .input
+    V3 = .passive
+    "UD+" = .bidirectional
+    "UD-" = .bidirectional
+    VBUS = .input
+    "ACT#" = .output
+    "DCD#" = .passive
+    "DTR#" = .output
+    "RTS#" = .output
+    "DSR#" = .passive
+    "CTS#" = .passive
+    "RI#" = .passive
   },
 )
 
@@ -60,74 +60,74 @@ part ES7210 = device(
   manufacturer = "Everest Semiconductor",
   orderCode = "C365743",
   pinout = {
-    AD0: "1",
-    AD1: "2",
-    CDATA: "3",
-    CCLK: "4",
-    MCLK: "5",
-    VDDP: "6",
-    VDDD: "7",
-    GNDD: "8",
-    SCLK: "9",
-    LRCK: "10",
-    SDOUT1: "11",
-    SDOUT2: "12",
-    INT: "13",
-    DMIC_CLK: "14",
-    MIC1N: "15",
-    MIC1P: "16",
-    REFP12: "17",
-    REFQ12: "18",
-    MIC2P: "19",
-    MIC2N: "20",
-    GNDA: "21",
-    VDDA: "22",
-    VDDM: "23",
-    MICBIAS12: "24",
-    REFQM: "25",
-    MICBIAS34: "26",
-    MIC4N: "27",
-    MIC4P: "28",
-    REFP34: "29",
-    REFQ34: "30",
-    MIC3P: "31",
-    MIC3N: "32",
-    E_GND: "33",
+    AD0 = "1"
+    AD1 = "2"
+    CDATA = "3"
+    CCLK = "4"
+    MCLK = "5"
+    VDDP = "6"
+    VDDD = "7"
+    GNDD = "8"
+    SCLK = "9"
+    LRCK = "10"
+    SDOUT1 = "11"
+    SDOUT2 = "12"
+    INT = "13"
+    DMIC_CLK = "14"
+    MIC1N = "15"
+    MIC1P = "16"
+    REFP12 = "17"
+    REFQ12 = "18"
+    MIC2P = "19"
+    MIC2N = "20"
+    GNDA = "21"
+    VDDA = "22"
+    VDDM = "23"
+    MICBIAS12 = "24"
+    REFQM = "25"
+    MICBIAS34 = "26"
+    MIC4N = "27"
+    MIC4P = "28"
+    REFP34 = "29"
+    REFQ34 = "30"
+    MIC3P = "31"
+    MIC3N = "32"
+    E_GND = "33"
   },
   pinTypes = {
-    AD0: .input,
-    AD1: .input,
-    CDATA: .bidirectional,
-    CCLK: .input,
-    MCLK: .input,
-    VDDP: .powerIn,
-    VDDD: .powerIn,
-    GNDD: .ground,
-    SCLK: .input,
-    LRCK: .input,
-    SDOUT1: .output,
-    SDOUT2: .bidirectional,
-    INT: .output,
-    DMIC_CLK: .output,
-    MIC1N: .passive,
-    MIC1P: .passive,
-    REFP12: .passive,
-    REFQ12: .passive,
-    MIC2P: .passive,
-    MIC2N: .passive,
-    GNDA: .ground,
-    VDDA: .powerIn,
-    VDDM: .powerIn,
-    MICBIAS12: .powerOut,
-    REFQM: .passive,
-    MICBIAS34: .powerOut,
-    MIC4N: .passive,
-    MIC4P: .passive,
-    REFP34: .passive,
-    REFQ34: .passive,
-    MIC3P: .passive,
-    MIC3N: .passive,
-    E_GND: .ground,
+    AD0 = .input
+    AD1 = .input
+    CDATA = .bidirectional
+    CCLK = .input
+    MCLK = .input
+    VDDP = .powerIn
+    VDDD = .powerIn
+    GNDD = .ground
+    SCLK = .input
+    LRCK = .input
+    SDOUT1 = .output
+    SDOUT2 = .bidirectional
+    INT = .output
+    DMIC_CLK = .output
+    MIC1N = .passive
+    MIC1P = .passive
+    REFP12 = .passive
+    REFQ12 = .passive
+    MIC2P = .passive
+    MIC2N = .passive
+    GNDA = .ground
+    VDDA = .powerIn
+    VDDM = .powerIn
+    MICBIAS12 = .powerOut
+    REFQM = .passive
+    MICBIAS34 = .powerOut
+    MIC4N = .passive
+    MIC4P = .passive
+    REFP34 = .passive
+    REFQ34 = .passive
+    MIC3P = .passive
+    MIC3N = .passive
+    E_GND = .ground
   },
 )
 
@@ -140,24 +140,24 @@ part NS4150B = device(
   manufacturer = "Nsiway",
   orderCode = "C189961",
   pinout = {
-    CTRL: "1",
-    BYPASS: "2",
-    "IN+": "3",
-    "IN-": "4",
-    "OUT-": "5",
-    VDD: "6",
-    GND: "7",
-    "OUT+": "8",
+    CTRL = "1"
+    BYPASS = "2"
+    "IN+" = "3"
+    "IN-" = "4"
+    "OUT-" = "5"
+    VDD = "6"
+    GND = "7"
+    "OUT+" = "8"
   },
   pinTypes = {
-    CTRL: .input,
-    BYPASS: .passive,
-    "IN+": .input,
-    "IN-": .input,
-    "OUT-": .output,
-    VDD: .powerIn,
-    GND: .ground,
-    "OUT+": .output,
+    CTRL = .input
+    BYPASS = .passive
+    "IN+" = .input
+    "IN-" = .input
+    "OUT-" = .output
+    VDD = .powerIn
+    GND = .ground
+    "OUT+" = .output
   },
 )
 
@@ -169,8 +169,8 @@ part AP3012 = device(
   mpn = "AP3012KTR-E1",
   manufacturer = "Diodes Incorporated",
   orderCode = "C460356",
-  pinout = { SW: "1", GND: "2", FB: "3", SHDN: "4", VIN: "5" },
-  pinTypes = { SW: .passive, GND: .ground, FB: .passive, SHDN: .input, VIN: .powerIn },
+  pinout = { SW = "1", GND = "2", FB = "3", SHDN = "4", VIN = "5" },
+  pinTypes = { SW = .passive, GND = .ground, FB = .passive, SHDN = .input, VIN = .powerIn },
 )
 
 /// AP3032 (Diodes): white LED boost driver, 1 MHz, 0.2 V current feedback, output over-voltage
@@ -181,20 +181,27 @@ part AP3032 = device(
   mpn = "AP3032KTR-G1",
   manufacturer = "Diodes Incorporated",
   orderCode = "C264086",
-  pinout = { SW: "1", GND: "2", FB: "3", EN: "4", OV: "5", VIN: "6" },
-  pinTypes = { SW: .passive, GND: .ground, FB: .passive, EN: .input, OV: .passive, VIN: .powerIn },
+  pinout = { SW = "1", GND = "2", FB = "3", EN = "4", OV = "5", VIN = "6" },
+  pinTypes = {
+    SW = .passive
+    GND = .ground
+    FB = .passive
+    EN = .input
+    OV = .passive
+    VIN = .powerIn
+  },
 )
 
 /// RT9193 (Richtek): 300 mA low-noise LDO with a bypass pin, SOT-23-5; the fixed output by its
 /// suffix (`-18`: 1.8 V, `-33`: 3.3 V).
-fn rt9193(volts: String, code: String): Part = device(
+fn rt9193(volts: String, code: String) -> Part = device(
   footprint = sot23(5),
   prefix = "U",
   mpn = "RT9193-\(volts)GB",
   manufacturer = "Richtek",
   orderCode = code,
-  pinout = { VIN: "1", GND: "2", EN: "3", BP: "4", VOUT: "5" },
-  pinTypes = { VIN: .powerIn, GND: .ground, EN: .input, BP: .passive, VOUT: .powerOut },
+  pinout = { VIN = "1", GND = "2", EN = "3", BP = "4", VOUT = "5" },
+  pinTypes = { VIN = .powerIn, GND = .ground, EN = .input, BP = .passive, VOUT = .powerOut },
 )
 part RT9193_18 = rt9193("18", "C27416")
 part RT9193_33 = rt9193("33", "C15651")
@@ -207,8 +214,8 @@ part SY6280AAC = device(
   mpn = "SY6280AAC",
   manufacturer = "Silergy",
   orderCode = "C55136",
-  pinout = { OUT: "1", GND: "2", ISET: "3", EN: "4", IN: "5" },
-  pinTypes = { OUT: .powerOut, GND: .ground, ISET: .passive, EN: .input, IN: .powerIn },
+  pinout = { OUT = "1", GND = "2", ISET = "3", EN = "4", IN = "5" },
+  pinTypes = { OUT = .powerOut, GND = .ground, ISET = .passive, EN = .input, IN = .powerIn },
 )
 
 /// NDC7002N: two N-channel MOSFETs, 50 V, 510 mA, SuperSOT-6 (the SOT-23-6 land pattern), as
@@ -219,7 +226,7 @@ part NDC7002N = device(
   mpn = "NDC7002N",
   manufacturer = "onsemi",
   orderCode = "C404322",
-  pinout = { G1: "1", S2: "2", G2: "3", D2: "4", S1: "5", D1: "6" },
+  pinout = { G1 = "1", S2 = "2", G2 = "3", D2 = "4", S1 = "5", D1 = "6" },
   pinType = .passive,
 )
 
@@ -230,7 +237,7 @@ part BAT54S = device(
   mpn = "BAT54S-7-F",
   manufacturer = "Diodes Incorporated",
   orderCode = "C83574",
-  pinout = { A1: "1", K2: "2", COM: "3" },
+  pinout = { A1 = "1", K2 = "2", COM = "3" },
   pinType = .passive,
 )
 
@@ -242,7 +249,7 @@ part MMDT3906DW = device(
   mpn = "MMDT3906DW",
   manufacturer = "Diodes Incorporated",
   orderCode = "C2836075",
-  pinout = { E2: "1", B2: "2", C1: "3", E1: "4", B1: "5", C2: "6" },
+  pinout = { E2 = "1", B2 = "2", C1 = "3", E1 = "4", B1 = "5", C2 = "6" },
   pinType = .passive,
 )
 
@@ -255,23 +262,23 @@ part GD25Q256 = device(
   manufacturer = "GigaDevice",
   orderCode = "C2927043",
   pinout = {
-    nCS: "1",
-    DO: "2",
-    nWP: "3",
-    GND: ["4", "9"],
-    DI: "5",
-    CLK: "6",
-    nHOLD: "7",
-    VCC: "8",
+    nCS = "1"
+    DO = "2"
+    nWP = "3"
+    GND = ["4", "9"]
+    DI = "5"
+    CLK = "6"
+    nHOLD = "7"
+    VCC = "8"
   },
   pinTypes = {
-    nCS: .input,
-    DO: .bidirectional,
-    nWP: .bidirectional,
-    GND: .ground,
-    DI: .bidirectional,
-    CLK: .input,
-    nHOLD: .bidirectional,
-    VCC: .powerIn,
+    nCS = .input
+    DO = .bidirectional
+    nWP = .bidirectional
+    GND = .ground
+    DI = .bidirectional
+    CLK = .input
+    nHOLD = .bidirectional
+    VCC = .powerIn
   },
 )

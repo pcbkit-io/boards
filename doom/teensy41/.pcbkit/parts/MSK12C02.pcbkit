@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // MSK12C02 (Shenzhen Shouhan Technology): Slide switch, SPDT, miniature, side actuated (right
 // angle at the board edge), SMD, 8 x 2.8 x 1.4 mm, 12 V 50 mA: pins A, COM, B and four shell legs
@@ -25,58 +25,56 @@ pcbkit 1
 /// MSK12C02 — Slide switch, SPDT, miniature, side actuated (right angle at the board edge), SMD,
 /// 8 x 2.8 x 1.4 mm, 12 V 50 mA: pins A, COM, B and four shell legs — the tiny power switch of
 /// hobby boards
-part Part = device(footprint = Footprint {
-  let ps = [
-    Pad { number = "1"; at = (2.25mm, -1.95mm); shape = shape.rect(0.6mm, 1.3mm) },
-    Pad { number = "2"; at = (-0.75mm, -1.95mm); shape = shape.rect(0.6mm, 1.3mm) },
-    Pad { number = "3"; at = (-2.25mm, -1.95mm); shape = shape.rect(0.6mm, 1.3mm) },
-    Pad { number = "4"; at = (-3.675mm, 1.1mm); shape = shape.rect(1.05mm, 0.7mm) },
-    Pad { number = "4"; at = (3.675mm, 1.1mm); shape = shape.rect(1.05mm, 0.7mm) },
-    Pad { number = "4"; at = (-3.675mm, -1.1mm); shape = shape.rect(1.05mm, 0.7mm) },
-    Pad { number = "4"; at = (3.675mm, -1.1mm); shape = shape.rect(1.05mm, 0.7mm) },
-    Pad {
-      number = ""
-      kind = .npth
-      at = (-1.5mm, 0mm)
-      drill = 0.85mm
-      shape = shape.round(0.85mm)
-    },
-    Pad {
-      number = ""
-      kind = .npth
-      at = (1.5mm, 0mm)
-      drill = 0.85mm
-      shape = shape.round(0.85mm)
-    },
-  ]
-  let b = box((-4mm, -1.4mm), (4mm, 1.4mm))
-  name = "SW_Slide_SPDT_Shouhan_MSK12C02"
-  description = "MSK12C02 slide switch, SPDT, side actuated SMD: contacts 3 (B), 2 (COM), 1 (A) at -Y, four shell legs (4), two 0.85 mm peg holes; the actuator comes out at +Y"
-  tags = ["switch", "slide switch", "SPDT", "SMD", "right angle"]
-  pads = ps
-  body = b
-  height = 1.5mm
-  mating = .up
-  silk = silkOf(ps, b, 0.25mm, pin1 = (2.25mm, -3mm))
-  package = Package { family = .other; body = (8mm, 2.8mm); height = 1.4mm }
-  solids = [
-    solid.box((8mm, 2.8mm, 1.4mm), at = (0mm, 0mm, 0mm), radius = 0.1mm, material = .metal),
-    solid.box((1.3mm, 1.45mm, 0.9mm), at = (-0.75mm, 2.12mm, 0.25mm), color = "#f2ede0"),
-  ]
-}, prefix = "SW", mpn = "MSK12C02", manufacturer = "Shenzhen Shouhan Technology", orderCode = "C431540", pinout = {
-  A: "1",
-  COM: "2",
-  B: "3",
-  SHELL: "4",
-}, pinTypes = {
-  A: .passive,
-  COM: .passive,
-  B: .passive,
-  SHELL: .passive,
-}) with {
+part Part = device(
+  footprint = Footprint {
+    let ps = [
+      Pad { number = "1", at = (2.25mm, -1.95mm), shape = shape.rect(0.6mm, 1.3mm) },
+      Pad { number = "2", at = (-0.75mm, -1.95mm), shape = shape.rect(0.6mm, 1.3mm) },
+      Pad { number = "3", at = (-2.25mm, -1.95mm), shape = shape.rect(0.6mm, 1.3mm) },
+      Pad { number = "4", at = (-3.675mm, 1.1mm), shape = shape.rect(1.05mm, 0.7mm) },
+      Pad { number = "4", at = (3.675mm, 1.1mm), shape = shape.rect(1.05mm, 0.7mm) },
+      Pad { number = "4", at = (-3.675mm, -1.1mm), shape = shape.rect(1.05mm, 0.7mm) },
+      Pad { number = "4", at = (3.675mm, -1.1mm), shape = shape.rect(1.05mm, 0.7mm) },
+      Pad {
+        number = ""
+        kind = .npth
+        at = (-1.5mm, 0mm)
+        drill = 0.85mm
+        shape = shape.round(0.85mm)
+      },
+      Pad {
+        number = ""
+        kind = .npth
+        at = (1.5mm, 0mm)
+        drill = 0.85mm
+        shape = shape.round(0.85mm)
+      },
+    ]
+    let b = box((-4mm, -1.4mm), (4mm, 1.4mm))
+    name = "SW_Slide_SPDT_Shouhan_MSK12C02"
+    description = "MSK12C02 slide switch, SPDT, side actuated SMD: contacts 3 (B), 2 (COM), 1 (A) at -Y, four shell legs (4), two 0.85 mm peg holes; the actuator comes out at +Y"
+    tags = ["switch", "slide switch", "SPDT", "SMD", "right angle"]
+    pads = ps
+    body = b
+    height = 1.5mm
+    mating = .up
+    silk = silkOf(ps, b, 0.25mm, pin1 = (2.25mm, -3mm))
+    package = Package { family = .other, body = (8mm, 2.8mm), height = 1.4mm }
+    solids = [
+      solid.box((8mm, 2.8mm, 1.4mm), at = (0mm, 0mm, 0mm), radius = 0.1mm, material = .metal),
+      solid.box((1.3mm, 1.45mm, 0.9mm), at = (-0.75mm, 2.12mm, 0.25mm), color = "#f2ede0"),
+    ]
+  },
+  prefix = "SW",
+  mpn = "MSK12C02",
+  manufacturer = "Shenzhen Shouhan Technology",
+  orderCode = "C431540",
+  pinout = { A = "1", COM = "2", B = "3", SHELL = "4" },
+  pinTypes = { A = .passive, COM = .passive, B = .passive, SHELL = .passive },
+) with {
   fields {
-    Status: "checked",
-    PinoutSource: "Shouhan MSK12C02 specification for approval, version A/0, 2024-12-14: assembly drawing with the recommended mounting pattern (p. 1), ratings (p. 3): top view (contacts 3, 2, 1 at 1.5 and 3 spacing; 4 the cover's legs), circuit (2 the common), recommended mounting pattern, technical parameters (DC 12 V 50 mA, 100 mΩ, -20 to 70 °C)",
-    Datasheet: "https://datasheet.lcsc.com/datasheet/pdf/5162155576bfd231c35aa9a893d25c8c.pdf",
+    Status = "checked"
+    PinoutSource = "Shouhan MSK12C02 specification for approval, version A/0, 2024-12-14: assembly drawing with the recommended mounting pattern (p. 1), ratings (p. 3): top view (contacts 3, 2, 1 at 1.5 and 3 spacing; 4 the cover's legs), circuit (2 the common), recommended mounting pattern, technical parameters (DC 12 V 50 mA, 100 mΩ, -20 to 70 °C)"
+    Datasheet = "https://datasheet.lcsc.com/datasheet/pdf/5162155576bfd231c35aa9a893d25c8c.pdf"
   }
 }

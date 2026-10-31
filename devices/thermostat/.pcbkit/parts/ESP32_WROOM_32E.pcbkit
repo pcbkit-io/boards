@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // ESP32-WROOM-32E-N4 (Espressif Systems): Wi-Fi 802.11b/g/n, Bluetooth classic and LE module,
 // dual-core Xtensa LX6 240 MHz (ESP32-D0WD-V3), 4 MB flash, PCB antenna, 3.3 V, 18 x 25.5 mm with
@@ -117,106 +117,106 @@ part Part = device(
   mpn = "ESP32-WROOM-32E-N4",
   manufacturer = "Espressif Systems",
   pinout = {
-    GND: ["1", "15", "38", "39"],
-    P3V3: "2",
-    EN: "3",
-    SENSOR_VP: "4",
-    SENSOR_VN: "5",
-    IO34: "6",
-    IO35: "7",
-    IO32: "8",
-    IO33: "9",
-    IO25: "10",
-    IO26: "11",
-    IO27: "12",
-    IO14: "13",
-    IO12: "14",
-    IO13: "16",
-    NC: ["17", "18", "19", "20", "21", "22", "32"],
-    IO15: "23",
-    IO2: "24",
-    IO0: "25",
-    IO4: "26",
-    IO16: "27",
-    IO17: "28",
-    IO5: "29",
-    IO18: "30",
-    IO19: "31",
-    IO21: "33",
-    RXD0: "34",
-    TXD0: "35",
-    IO22: "36",
-    IO23: "37",
+    GND = ["1", "15", "38", "39"]
+    P3V3 = "2"
+    EN = "3"
+    SENSOR_VP = "4"
+    SENSOR_VN = "5"
+    IO34 = "6"
+    IO35 = "7"
+    IO32 = "8"
+    IO33 = "9"
+    IO25 = "10"
+    IO26 = "11"
+    IO27 = "12"
+    IO14 = "13"
+    IO12 = "14"
+    IO13 = "16"
+    NC = ["17", "18", "19", "20", "21", "22", "32"]
+    IO15 = "23"
+    IO2 = "24"
+    IO0 = "25"
+    IO4 = "26"
+    IO16 = "27"
+    IO17 = "28"
+    IO5 = "29"
+    IO18 = "30"
+    IO19 = "31"
+    IO21 = "33"
+    RXD0 = "34"
+    TXD0 = "35"
+    IO22 = "36"
+    IO23 = "37"
   },
   pinTypes = {
-    GND: .ground,
-    P3V3: io.powerIn(min = 3V, max = 3.6V),
-    EN: io.input(),
-    SENSOR_VP: .passive,
-    SENSOR_VN: .passive,
-    IO34: .passive,
-    IO35: .passive,
-    IO32: io.bidirectional(),
-    IO33: io.bidirectional(),
-    IO25: io.bidirectional(),
-    IO26: io.bidirectional(),
-    IO27: io.bidirectional(),
-    IO14: io.bidirectional(),
-    IO12: io.bidirectional(),
-    IO13: io.bidirectional(),
-    NC: .nc,
-    IO15: io.bidirectional(),
-    IO2: io.bidirectional(),
-    IO0: io.bidirectional(),
-    IO4: io.bidirectional(),
-    IO16: io.bidirectional(),
-    IO17: io.bidirectional(),
-    IO5: io.bidirectional(),
-    IO18: io.bidirectional(),
-    IO19: io.bidirectional(),
-    IO21: io.bidirectional(),
-    RXD0: io.bidirectional(),
-    TXD0: io.bidirectional(),
-    IO22: io.bidirectional(),
-    IO23: io.bidirectional(),
+    GND = .ground
+    P3V3 = io.powerIn(min = 3V, max = 3.6V)
+    EN = io.input()
+    SENSOR_VP = .passive
+    SENSOR_VN = .passive
+    IO34 = .passive
+    IO35 = .passive
+    IO32 = io.bidirectional()
+    IO33 = io.bidirectional()
+    IO25 = io.bidirectional()
+    IO26 = io.bidirectional()
+    IO27 = io.bidirectional()
+    IO14 = io.bidirectional()
+    IO12 = io.bidirectional()
+    IO13 = io.bidirectional()
+    NC = .nc
+    IO15 = io.bidirectional()
+    IO2 = io.bidirectional()
+    IO0 = io.bidirectional()
+    IO4 = io.bidirectional()
+    IO16 = io.bidirectional()
+    IO17 = io.bidirectional()
+    IO5 = io.bidirectional()
+    IO18 = io.bidirectional()
+    IO19 = io.bidirectional()
+    IO21 = io.bidirectional()
+    RXD0 = io.bidirectional()
+    TXD0 = io.bidirectional()
+    IO22 = io.bidirectional()
+    IO23 = io.bidirectional()
   },
 ) with {
   fields {
-    Status: "checked",
-    PinoutSource: "Espressif ESP32-WROOM-32E & WROOM-32UE datasheet v2.1: table 3 pin definitions, figure 3 pin layout, table 4 strapping pins, tables 13-14 ratings, figure 9 peripheral schematics, figure 10 dimensions and figure 13 land pattern",
-    Datasheet: "https://www.espressif.com/sites/default/files/documentation/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf",
+    Status = "checked"
+    PinoutSource = "Espressif ESP32-WROOM-32E & WROOM-32UE datasheet v2.1: table 3 pin definitions, figure 3 pin layout, table 4 strapping pins, tables 13-14 ratings, figure 9 peripheral schematics, figure 10 dimensions and figure 13 land pattern"
+    Datasheet = "https://www.espressif.com/sites/default/files/documentation/esp32-wroom-32e_esp32-wroom-32ue_datasheet_en.pdf"
   }
   simulation = SimulationParameters {
     behavior = Behavior {
       model = "esp32"
       ports = {
-        "IO0": ["25"],
-        "IO1": ["35"],
-        "IO12": ["14"],
-        "IO13": ["16"],
-        "IO14": ["13"],
-        "IO15": ["23"],
-        "IO16": ["27"],
-        "IO17": ["28"],
-        "IO18": ["30"],
-        "IO19": ["31"],
-        "IO2": ["24"],
-        "IO21": ["33"],
-        "IO22": ["36"],
-        "IO23": ["37"],
-        "IO25": ["10"],
-        "IO26": ["11"],
-        "IO27": ["12"],
-        "IO3": ["34"],
-        "IO32": ["8"],
-        "IO33": ["9"],
-        "IO34": ["6"],
-        "IO35": ["7"],
-        "IO36": ["4"],
-        "IO39": ["5"],
-        "IO4": ["26"],
-        "IO5": ["29"],
-        "power": ["2", "1"],
+        "IO0" = ["25"]
+        "IO1" = ["35"]
+        "IO12" = ["14"]
+        "IO13" = ["16"]
+        "IO14" = ["13"]
+        "IO15" = ["23"]
+        "IO16" = ["27"]
+        "IO17" = ["28"]
+        "IO18" = ["30"]
+        "IO19" = ["31"]
+        "IO2" = ["24"]
+        "IO21" = ["33"]
+        "IO22" = ["36"]
+        "IO23" = ["37"]
+        "IO25" = ["10"]
+        "IO26" = ["11"]
+        "IO27" = ["12"]
+        "IO3" = ["34"]
+        "IO32" = ["8"]
+        "IO33" = ["9"]
+        "IO34" = ["6"]
+        "IO35" = ["7"]
+        "IO36" = ["4"]
+        "IO39" = ["5"]
+        "IO4" = ["26"]
+        "IO5" = ["29"]
+        "power" = ["2", "1"]
       }
       parameters = {}
       height = 3.1mm
@@ -250,37 +250,42 @@ part Part = device(
 /// DTR and RTS drive EN and IO0 through two transistors (the DevKitC circuit).
 ///
 /// - Keep IO12 low at power-up; JTAG: IO14 TMS, IO12 TDI, IO13 TCK, IO15 TDO.
-block Support(
+block Support {
   /// The ESP32-WROOM-32E-N4 this circuit serves (`ESP32_WROOM_32E.Support(U1)`).
-  chip: Any,
+  chip: Any
   /// The RESET button.
-  resetButton: Bool = true,
+  resetButton: Bool = true
   /// The BOOT button.
-  bootButton: Bool = true,
-) {
+  bootButton: Bool = true
+
   C1 = cap(22uF, package = "1206") {
     place = [soft(near(chip.pin.P3V3, max = 4mm), weight = 2)]
-    pins { a: chip.pin.P3V3, b: chip.pin.GND }
+    a -- chip.pin.P3V3
+    b -- chip.pin.GND
   }
   C2 = cap(100nF, package = "0402") {
     place = [soft(near(chip.pin.P3V3, max = 2mm), weight = 2)]
-    pins { a: chip.pin.P3V3, b: chip.pin.GND }
+    a -- chip.pin.P3V3
+    b -- chip.pin.GND
   }
   /// EN RC delay
   R1 = res(10kohm, package = "0402") {
     place = [soft(near(chip.pin.EN, max = 5mm), weight = 1)]
-    pins { a: chip.pin.EN, b: chip.pin.P3V3 }
+    a -- chip.pin.EN
+    b -- chip.pin.P3V3
   }
   /// EN RC delay
   C3 = cap(1uF, package = "0402") {
     place = [soft(near(chip.pin.EN, max = 2mm), weight = 2)]
-    pins { a: chip.pin.EN, b: chip.pin.GND }
+    a -- chip.pin.EN
+    b -- chip.pin.GND
   }
-  SW1 = if resetButton then button("6x6") { pins { a: chip.pin.EN, b: chip.pin.GND } } else null
-  SW2 = if bootButton then button("6x6") { pins { a: chip.pin.IO0, b: chip.pin.GND } } else null
+  SW1 = if resetButton then button("6x6") { a -- chip.pin.EN, b -- chip.pin.GND } else null
+  SW2 = if bootButton then button("6x6") { a -- chip.pin.IO0, b -- chip.pin.GND } else null
   /// only with PSRAM variants (IO16 pull-up)
   R2 = res(10kohm, package = "0402") {
     place = [soft(near(chip.pin.IO16, max = 5mm), weight = 1)]
-    pins { a: chip.pin.IO16, b: chip.pin.P3V3 }
+    a -- chip.pin.IO16
+    b -- chip.pin.P3V3
   }
 }

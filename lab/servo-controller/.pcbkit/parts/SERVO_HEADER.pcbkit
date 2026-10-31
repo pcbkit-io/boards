@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // RC servo header, 1 x 3 pins, 2.54 mm (generic): Header for one RC servo (SG90, MG90S,
 // MG996R…): 1 x 3 male pins at 2.54 mm in the servo plug's order, GND (brown) - V+ (red, middle)
@@ -21,19 +21,19 @@ part Part = device(
   prefix = "J",
   mpn = "RC servo header, 1 x 3 pins, 2.54 mm",
   manufacturer = "generic",
-  pinout = { GND: "1", VPLUS: "2", SIG: "3" },
-  pinTypes = { GND: .ground, VPLUS: io.powerIn(min = 4.8V, max = 6V), SIG: io.input() },
+  pinout = { GND = "1", VPLUS = "2", SIG = "3" },
+  pinTypes = { GND = .ground, VPLUS = io.powerIn(min = 4.8V, max = 6V), SIG = io.input() },
 ) with {
   fields {
-    Status: "checked",
-    PinoutSource: "the RC servo plug's wire order (brown ground, red V+ in the middle, orange signal, as Tower Pro labels the SG90's lead); SG90 ratings from the Rapid 37-1330 datasheet",
-    Datasheet: "https://static.rapidonline.com/pdf/37-1330t.pdf",
+    Status = "checked"
+    PinoutSource = "the RC servo plug's wire order (brown ground, red V+ in the middle, orange signal, as Tower Pro labels the SG90's lead); SG90 ratings from the Rapid 37-1330 datasheet"
+    Datasheet = "https://static.rapidonline.com/pdf/37-1330t.pdf"
   }
   simulation = SimulationParameters {
     behavior = Behavior {
       model = "servo"
-      ports = { "power": ["2", "1"], "signal": ["3"] }
-      parameters = { "maximum_us": 2400, "minimum_us": 544 }
+      ports = { "power" = ["2", "1"], "signal" = ["3"] }
+      parameters = { "maximum_us" = 2400, "minimum_us" = 544 }
       height = 22mm
     }
     parameters = []
@@ -50,22 +50,24 @@ part Part = device(
 ///
 /// - The pulse: 50 Hz, about 1.0 ms one end, 1.5 ms centre, 2.0 ms the other end (many servos
 /// accept 0.5-2.5 ms). Many servos at once: a PCA9685 (`PCA9685PW`) makes the pulses over I2C.
-block Support(
+block Support {
   /// The RC servo header, 1 x 3 pins, 2.54 mm this circuit serves (`SERVO_HEADER.Support(U1)`).
-  chip: Any,
+  chip: Any
   /// The controller pin it connects to. (`null`: its parts are left out)
-  gpio: Endpoint? = null,
-) {
+  gpio: Endpoint? = null
+
   /// our choice: electrolytic, 10 V, near the header (one per few servos)
   C1 = cap(220uF, package = "D8xL10", ratedVoltage = 10V) {
     place = [soft(near(chip.pin.VPLUS, max = 4mm), weight = 2)]
-    pins { a: chip.pin.VPLUS, b: chip.pin.GND }
+    a -- chip.pin.VPLUS
+    b -- chip.pin.GND
   }
   /// our choice: series resistor from the controller's PWM pin
   R1 =
     if gpio != null then res(220ohm, package = "0402") {
       place = [soft(near(chip.pin.SIG, max = 5mm), weight = 1)]
-      pins { a: chip.pin.SIG, b: gpio }
+      a -- chip.pin.SIG
+      b -- gpio
     }
     else null
 }

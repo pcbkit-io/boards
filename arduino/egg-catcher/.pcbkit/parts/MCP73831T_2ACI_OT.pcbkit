@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // MCP73831T-2ACI/OT (Microchip Technology): Single-cell Li-Ion / Li-Po linear charger, 4.20 V,
 // 15-500 mA set by one resistor, tri-state status output
@@ -31,19 +31,19 @@ part Part = device(
   prefix = "U",
   mpn = "MCP73831T-2ACI/OT",
   manufacturer = "Microchip Technology",
-  pinout = { STAT: "1", VSS: "2", VBAT: "3", VDD: "4", PROG: "5" },
+  pinout = { STAT = "1", VSS = "2", VBAT = "3", VDD = "4", PROG = "5" },
   pinTypes = {
-    STAT: .output,
-    VSS: .ground,
-    VBAT: io.powerOut(4.2V),
-    VDD: io.powerIn(min = 4.5V, max = 7V),
-    PROG: .passive,
+    STAT = .output
+    VSS = .ground
+    VBAT = io.powerOut(4.2V)
+    VDD = io.powerIn(min = 4.5V, max = 7V)
+    PROG = .passive
   },
 ) with {
   fields {
-    Status: "checked",
-    PinoutSource: "MCP73831/2 datasheet DS20001984H, Table 3-1 (pin function tables), SOT-23-5 column",
-    Datasheet: "https://ww1.microchip.com/downloads/en/DeviceDoc/MCP73831-Family-Data-Sheet-DS20001984H.pdf",
+    Status = "checked"
+    PinoutSource = "MCP73831/2 datasheet DS20001984H, Table 3-1 (pin function tables), SOT-23-5 column"
+    Datasheet = "https://ww1.microchip.com/downloads/en/DeviceDoc/MCP73831-Family-Data-Sheet-DS20001984H.pdf"
   }
   simulation = SimulationParameters {
     parameters = [
@@ -73,39 +73,44 @@ part Part = device(
 ///
 /// - The datasheet's front page wires the LED from VDD through 470 ohm into STAT (lit while
 /// charging, STAT low); STAT can instead drive a microcontroller input with a pull-up.
-block Support(
+block Support {
   /// The MCP73831T-2ACI/OT this circuit serves (`MCP73831T_2ACI_OT.Support(U1)`).
-  chip: Any,
+  chip: Any
   /// The charge LED from VDD through 470 ohm into STAT.
-  statusLed: Bool = true,
-) {
+  statusLed: Bool = true
+
   net LED_K
   /// 10V X7R
   CIN = cap(4.7uF, package = "0805", ratedVoltage = 10V, dielectric = .X7R) {
     place = [soft(near(chip.pin.VDD, max = 4mm), weight = 2)]
-    pins { a: chip.pin.VDD, b: chip.pin.VSS }
+    a -- chip.pin.VDD
+    b -- chip.pin.VSS
   }
   /// 10V X7R
   COUT = cap(4.7uF, package = "0805", ratedVoltage = 10V, dielectric = .X7R) {
     place = [soft(near(chip.pin.VBAT, max = 4mm), weight = 2)]
-    pins { a: chip.pin.VBAT, b: chip.pin.VSS }
+    a -- chip.pin.VBAT
+    b -- chip.pin.VSS
   }
   /// 1% (500 mA; IREG = 1000 V / RPROG, 10 kohm for 100 mA)
-  RPROG = res(2kohm, package = "0402", tolerance = 1pct) {
+  RPROG = res(2kohm, package = "0402", tolerance = 1%) {
     place = [soft(near(chip.pin.PROG, max = 5mm), weight = 1)]
-    pins { a: chip.pin.PROG, b: chip.pin.VSS }
+    a -- chip.pin.PROG
+    b -- chip.pin.VSS
   }
   /// on while charging
   LED1 =
     if statusLed then led(package = "0603", color = .red) {
       place = [soft(near(chip.pin.VDD, max = 5mm), weight = 1)]
-      pins { A: chip.pin.VDD, K: LED_K }
+      A -- chip.pin.VDD
+      K -- LED_K
     }
     else null
   RLED =
     if statusLed then res(470ohm, package = "0402") {
       place = [soft(near(chip.pin.STAT, max = 5mm), weight = 1)]
-      pins { a: LED_K, b: chip.pin.STAT }
+      a -- LED_K
+      b -- chip.pin.STAT
     }
     else null
 }

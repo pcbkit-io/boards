@@ -1,12 +1,12 @@
-pcbkit 1
+pcbkit 2
 
 // A magic drawing screen on an Arduino Nano: the left knob moves the pen across, the right one up
 // and down, the button wipes the picture. A 0.96" OLED is the screen; the knobs are 10 kΩ pots
 // read by the ADC. Power: the Nano's USB.
 
-use "parts/ARDUINO_NANO.pcbkit" as ARDUINO_NANO
-use "parts/SSD1306_OLED_I2C.pcbkit" as SSD1306_OLED_I2C
-use "parts/PTV09A_4020F_B103.pcbkit" as Pot
+use ./parts/ARDUINO_NANO as ARDUINO_NANO
+use ./parts/SSD1306_OLED_I2C as SSD1306_OLED_I2C
+use ./parts/PTV09A_4020F_B103 as Pot
 
 net V5 { voltage = 5V }
 net GND { voltage = 0V }
@@ -27,31 +27,47 @@ NANO = ARDUINO_NANO.Part with {
   at = (45mm, 22mm)
   rotation = 90deg
   side = .bottom
-  pins { P5V: V5, GND: GND, A4: SDA, A5: SCL, A0: X, A1: Y, D2: WIPE }
+  P5V -- V5
+  GND -- GND
+  A4 -- SDA
+  A5 -- SCL
+  A0 -- X
+  A1 -- Y
+  D2 -- WIPE
 }
 
 DS1 = SSD1306_OLED_I2C.Part {
   at = (45mm, 64mm)
-  pins { GND: GND, VCC: V5, SCL: SCL, SDA: SDA }
+  GND -- GND
+  VCC -- V5
+  SCL -- SCL
+  SDA -- SDA
 }
 
 // The knobs at the two bottom corners, their wipers into A0 and A1.
 RV1 = Pot.Part {
   at = (12mm, 12mm)
-  pins { CCW: GND, W: X, CW: V5, MP: GND }
+  CCW -- GND
+  W -- X
+  CW -- V5
+  MP -- GND
 }
 RV2 = Pot.Part {
   at = (78mm, 12mm)
-  pins { CCW: GND, W: Y, CW: V5, MP: GND }
+  CCW -- GND
+  W -- Y
+  CW -- V5
+  MP -- GND
 }
 
 SW1 = button("6x6") with {
   simulation = SimulationParameters {
-    behavior = Behavior { model = "button", ports = { output: ["1"] }, key = "Space" }
+    behavior = Behavior { model = "button", ports = { output = ["1"] }, key = "Space" }
   }
 } {
   at = (45mm, 8mm)
-  pins { a: WIPE, b: GND }
+  a -- WIPE
+  b -- GND
 }
 wipeLabel = Text {
   text = "WIPE"

@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // 1042 (Keystone Electronics): 18650 Li-ion cell holder, surface mount (Keystone 1042): two 7.3 x
 // 6.4 mm pads 86 mm apart over all, three locating holes, nylon 77.1 x 20.7 mm
@@ -21,52 +21,53 @@ pcbkit 1
 
 /// 1042 — 18650 Li-ion cell holder, surface mount (Keystone 1042): two 7.3 x 6.4 mm pads 86 mm
 /// apart over all, three locating holes, nylon 77.1 x 20.7 mm
-part Part = device(footprint = Footprint {
-  let ps = [
-    Pad { number = "1"; at = (-39.35mm, 0mm); shape = shape.rect(7.3mm, 6.4mm) },
-    Pad { number = "2"; at = (39.35mm, 0mm); shape = shape.rect(7.3mm, 6.4mm) },
-    Pad {
-      number = ""
-      kind = .npth
-      at = (-27.6mm, -8mm)
-      drill = 3.5mm
-      shape = shape.round(3.5mm)
-    },
-    Pad {
-      number = ""
-      kind = .npth
-      at = (27.6mm, 8mm)
-      drill = 3.5mm
-      shape = shape.round(3.5mm)
-    },
-    Pad {
-      number = ""
-      kind = .npth
-      at = (35.8mm, -8mm)
-      drill = 2.4mm
-      shape = shape.round(2.4mm)
-    },
-  ]
-  let b = box((-43mm, -10.35mm), (43mm, 10.35mm))
-  name = "BatteryHolder_Keystone_1042_1x18650"
-  description = "18650 holder, SMT (Keystone 1042): contact pads 7.3 x 6.4 mm, 86 mm over all; locating holes Ø3.5 at (±27.6, ∓8) mm and Ø2.4 at (35.8, -8) mm"
-  tags = ["18650", "battery holder", "SMD"]
-  pads = ps
-  body = b
-  height = 18mm
-  silk = silkOf(ps, b, 0.25mm)
-  package = Package { family = .other; body = (77.1mm, 20.7mm); height = 18mm }
-  solids = body.cellHolder(77.1mm, 20.7mm, tabs = 4.45mm)
-}, prefix = "BT", mpn = "1042", manufacturer = "Keystone Electronics", pinout = {
-  C1: "1",
-  C2: "2",
-}, pinTypes = {
-  C1: .passive,
-  C2: .passive,
-}) with {
+part Part = device(
+  footprint = Footprint {
+    let ps = [
+      Pad { number = "1", at = (-39.35mm, 0mm), shape = shape.rect(7.3mm, 6.4mm) },
+      Pad { number = "2", at = (39.35mm, 0mm), shape = shape.rect(7.3mm, 6.4mm) },
+      Pad {
+        number = ""
+        kind = .npth
+        at = (-27.6mm, -8mm)
+        drill = 3.5mm
+        shape = shape.round(3.5mm)
+      },
+      Pad {
+        number = ""
+        kind = .npth
+        at = (27.6mm, 8mm)
+        drill = 3.5mm
+        shape = shape.round(3.5mm)
+      },
+      Pad {
+        number = ""
+        kind = .npth
+        at = (35.8mm, -8mm)
+        drill = 2.4mm
+        shape = shape.round(2.4mm)
+      },
+    ]
+    let b = box((-43mm, -10.35mm), (43mm, 10.35mm))
+    name = "BatteryHolder_Keystone_1042_1x18650"
+    description = "18650 holder, SMT (Keystone 1042): contact pads 7.3 x 6.4 mm, 86 mm over all; locating holes Ø3.5 at (±27.6, ∓8) mm and Ø2.4 at (35.8, -8) mm"
+    tags = ["18650", "battery holder", "SMD"]
+    pads = ps
+    body = b
+    height = 18mm
+    silk = silkOf(ps, b, 0.25mm)
+    package = Package { family = .other, body = (77.1mm, 20.7mm), height = 18mm }
+    solids = body.cellHolder(77.1mm, 20.7mm, tabs = 4.45mm)
+  },
+  prefix = "BT",
+  mpn = "1042",
+  manufacturer = "Keystone Electronics",
+  pinout = { C1 = "1", C2 = "2" },
+  pinTypes = { C1 = .passive, C2 = .passive },
+) with {
   fields {
-    Status: "checked",
-    PinoutSource: "Keystone catalog, 18650 lithium-ion battery holders (K75 p. 29): 1042 outline (77.1 x 20.7 mm, 86.0 mm over the tabs) and pad layout",
-    Datasheet: "https://www.keyelco.com/userAssets/file/K75p29.pdf",
+    Status = "checked"
+    PinoutSource = "Keystone catalog, 18650 lithium-ion battery holders (K75 p. 29): 1042 outline (77.1 x 20.7 mm, 86.0 mm over the tabs) and pad layout"
+    Datasheet = "https://www.keyelco.com/userAssets/file/K75p29.pdf"
   }
 }

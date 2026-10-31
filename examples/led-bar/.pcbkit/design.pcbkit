@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // An eight-LED bar on a 74HC595 shift register. One LED channel is written once
 // (`blocks/channel.pcbkit`) and placed eight times in a row; the supply nets have their own class
@@ -6,11 +6,11 @@ pcbkit 1
 // capacitor at its pin; the outline is sized around the parts; the fabrication asks for a black
 // mask and gold. Four lines from a microcontroller drive it.
 
-use "blocks/channel.pcbkit" as channel
+use ./blocks/channel as channel
 
-net V5 named "+5V"
+net V5 { name = "+5V" }
 net GND, SER, SRCLK, RCLK
-bus Q[8]
+net Q[8]
 
 board = Board {
   name = "led-bar"
@@ -24,49 +24,55 @@ supply = NetClass {
   nets = [V5, GND]
 }
 
-part ShiftRegister = device(footprint = soic(16), prefix = "U", mpn = "SN74HC595DR", manufacturer = "Texas Instruments", pinout = {
-  QB: "1",
-  QC: "2",
-  QD: "3",
-  QE: "4",
-  QF: "5",
-  QG: "6",
-  QH: "7",
-  GND: "8",
-  QH2: "9",
-  SRCLR: "10",
-  SRCLK: "11",
-  RCLK: "12",
-  OE: "13",
-  SER: "14",
-  QA: "15",
-  VCC: "16",
-})
+part ShiftRegister = device(
+  footprint = soic(16),
+  prefix = "U",
+  mpn = "SN74HC595DR",
+  manufacturer = "Texas Instruments",
+  pinout = {
+    QB = "1"
+    QC = "2"
+    QD = "3"
+    QE = "4"
+    QF = "5"
+    QG = "6"
+    QH = "7"
+    GND = "8"
+    QH2 = "9"
+    SRCLR = "10"
+    SRCLK = "11"
+    RCLK = "12"
+    OE = "13"
+    SER = "14"
+    QA = "15"
+    VCC = "16"
+  },
+)
 
 U1 = ShiftRegister {
   at = (14mm, 4mm)
-  pins {
-    QA: Q[0],
-    QB: Q[1],
-    QC: Q[2],
-    QD: Q[3],
-    QE: Q[4],
-    QF: Q[5],
-    QG: Q[6],
-    QH: Q[7],
-    SER: SER,
-    SRCLK: SRCLK,
-    RCLK: RCLK,
-    SRCLR: V5,
-    OE: GND,
-    VCC: V5,
-    GND: GND,
-  }
+
+  QA -- Q[0]
+  QB -- Q[1]
+  QC -- Q[2]
+  QD -- Q[3]
+  QE -- Q[4]
+  QF -- Q[5]
+  QG -- Q[6]
+  QH -- Q[7]
+  SER -- SER
+  SRCLK -- SRCLK
+  RCLK -- RCLK
+  SRCLR -- V5
+  OE -- GND
+  VCC -- V5
+  GND -- GND
 }
 
 C1 = cap(100nF, package = "0603") {
   place = [near(U1.pin.VCC, max = 3mm)]
-  pins { a: V5, b: GND }
+  a -- V5
+  b -- GND
 }
 
 J1 = header(5) {
@@ -74,7 +80,15 @@ J1 = header(5) {
   pins = [V5, SER, SRCLK, RCLK, GND]
 }
 
-leds = { for (i in 1..=8) { [i]: channel.Channel(Q[i - 1], GND) { at = (20mm + 4mm * i, 4mm) } } }
+leds = {
+  for i in 1..8 {
+    [i] = channel.Channel {
+      input -- Q[i - 1]
+      ground -- GND
+      at = (20mm + 4mm * i, 4mm)
+    }
+  }
+}
 
 ground = pour(net = GND, layers = [Cu.bottom]) {}
 

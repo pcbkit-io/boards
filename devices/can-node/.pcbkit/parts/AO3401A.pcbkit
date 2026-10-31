@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // AO3401A (Alpha & Omega Semiconductor): P-channel MOSFET, -30 V, -4 A, 60 mohm at -4.5 V gate,
 // logic level (-2.5 V rated), SOT-23: a high-side load switch or reverse-polarity protection
@@ -35,12 +35,12 @@ part Part = device(
   prefix = "Q",
   mpn = "AO3401A",
   manufacturer = "Alpha & Omega Semiconductor",
-  pinout = { G: "1", S: "2", D: "3" },
-  pinTypes = { G: io.input(max = 12V), S: .passive, D: .passive },
+  pinout = { G = "1", S = "2", D = "3" },
+  pinTypes = { G = io.input(max = 12V), S = .passive, D = .passive },
 ) with {
   fields {
-    Status: "checked",
-    PinoutSource: "AO3401A datasheet Rev 3.1, SOT23 top view (p. 1): gate and source on the side with the pin 1 mark, drain alone (JEDEC SOT-23 numbering 1 G, 2 S, 3 D; the drawing draws no numbers), absolute maximum ratings and electrical characteristics",
-    Datasheet: "https://www.aosmd.com/res/datasheets/AO3401A.pdf",
+    Status = "checked"
+    PinoutSource = "AO3401A datasheet Rev 3.1, SOT23 top view (p. 1): gate and source on the side with the pin 1 mark, drain alone (JEDEC SOT-23 numbering 1 G, 2 S, 3 D; the drawing draws no numbers), absolute maximum ratings and electrical characteristics"
+    Datasheet = "https://www.aosmd.com/res/datasheets/AO3401A.pdf"
   }
 }

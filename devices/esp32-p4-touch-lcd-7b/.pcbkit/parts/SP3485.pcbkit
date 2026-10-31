@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // SP3485EN-L/TR (MaxLinear (Exar, Sipex)): RS-485/RS-422 transceiver, half duplex, 3.3 V supply,
 // 10 Mbps, 32 unit loads, 5 V tolerant logic (SOIC-8, 75176 pinout): the common 3.3 V RS485 module
@@ -23,22 +23,22 @@ part Part = device(
   prefix = "U",
   mpn = "SP3485EN-L/TR",
   manufacturer = "MaxLinear (Exar, Sipex)",
-  pinout = { RO: "1", RE: "2", DE: "3", DI: "4", GND: "5", A: "6", B: "7", VCC: "8" },
+  pinout = { RO = "1", RE = "2", DE = "3", DI = "4", GND = "5", A = "6", B = "7", VCC = "8" },
   pinTypes = {
-    RO: .output,
-    RE: io.input(max = 6V),
-    DE: io.input(max = 6V),
-    DI: io.input(max = 6V),
-    GND: .ground,
-    A: io.bidirectional(max = 15V),
-    B: io.bidirectional(max = 15V),
-    VCC: io.powerIn(min = 3.135V, max = 6V),
+    RO = .output
+    RE = io.input(max = 6V)
+    DE = io.input(max = 6V)
+    DI = io.input(max = 6V)
+    GND = .ground
+    A = io.bidirectional(max = 15V)
+    B = io.bidirectional(max = 15V)
+    VCC = io.powerIn(min = 3.135V, max = 6V)
   },
 ) with {
   fields {
-    Status: "checked",
-    PinoutSource: "Exar SP3485 datasheet (rev. 1.0.0, 06/19/12): pin function, absolute maximum ratings, electrical characteristics (VCC = 3.3 V ± 5 %), ordering information (8-pin NSOIC); read from the copy the distributor hosts (https://www.lcsc.com/datasheet/C8963.pdf)",
-    Datasheet: "https://www.maxlinear.com/ds/sp3485.pdf",
+    Status = "checked"
+    PinoutSource = "Exar SP3485 datasheet (rev. 1.0.0, 06/19/12): pin function, absolute maximum ratings, electrical characteristics (VCC = 3.3 V ± 5 %), ordering information (8-pin NSOIC); read from the copy the distributor hosts (https://www.lcsc.com/datasheet/C8963.pdf)"
+    Datasheet = "https://www.maxlinear.com/ds/sp3485.pdf"
   }
   simulation = SimulationParameters {
     parameters = [
@@ -92,18 +92,20 @@ part Part = device(
 /// RX, DI to its TX.
 ///
 /// - Terminate the bus at its two ends only, 120 ohm across A-B.
-block Support(
+block Support {
   /// The SP3485EN-L/TR this circuit serves (`SP3485.Support(U1)`).
-  chip: Any,
-) {
+  chip: Any
+
   /// X7R
   C1 = cap(100nF, package = "0402", dielectric = .X7R) {
     place = [soft(near(chip.pin.VCC, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VCC, b: chip.pin.GND }
+    a -- chip.pin.VCC
+    b -- chip.pin.GND
   }
   /// at each end of the bus only
   RT = res(120ohm, package = "0402") {
     place = [soft(near(chip.pin.A, max = 5mm), weight = 1)]
-    pins { a: chip.pin.A, b: chip.pin.B }
+    a -- chip.pin.A
+    b -- chip.pin.B
   }
 }

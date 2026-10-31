@@ -489,7 +489,7 @@
     },
     "page": "10.1 Module Dimensions, 11.1 PCB Land Pattern"
   },
-  "solids": "modules.radio((0mm, 0mm), (13.2mm, 16.6mm), (11.95mm, 9.95mm), [\"ESPRESSIF\", \"ESP32-C6-MINI-1\", \"N4\"], pins = 0, height = 2.4mm)",
+  "solids": "modules.radio(\n(0mm, 0mm),\n(13.2mm, 16.6mm),\n(11.95mm, 9.95mm),\n[\"ESPRESSIF\", \"ESP32-C6-MINI-1\", \"N4\"],\npins = 0,\nheight = 2.4mm,\n)",
   "keepouts": [
     {
       "name": "antenna",

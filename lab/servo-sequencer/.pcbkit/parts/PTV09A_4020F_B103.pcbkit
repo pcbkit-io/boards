@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // PTV09A-4020F-B103 (Bourns): Potentiometer, 9 mm, carbon, 10 kΩ linear, 20 mm flatted insulated
 // shaft upright (horizontal/rear mount, bushingless), through hole: pins named CCW, W (wiper), CW
@@ -54,19 +54,19 @@ part Part = device(
   prefix = "RV",
   mpn = "PTV09A-4020F-B103",
   manufacturer = "Bourns",
-  pinout = { CCW: "1", W: "2", CW: "3", MP: "MP" },
-  pinTypes = { CCW: .passive, W: .passive, CW: .passive, MP: .passive },
+  pinout = { CCW = "1", W = "2", CW = "3", MP = "MP" },
+  pinTypes = { CCW = .passive, W = .passive, CW = .passive, MP = .passive },
 ) with {
   fields {
-    Status: "checked",
-    PinoutSource: "Bourns PTV09 Series datasheet: PTV09A-4 product dimensions (front view: body 10.0, 11.4, shaft 5.5 from the far edge, pins 1.5 outside), recommended PCB layout (horizontal/rear mount), schematic (1, 2 wiper, 3), characteristics",
-    Datasheet: "https://www.bourns.com/docs/Product-Datasheets/PTV09.pdf",
+    Status = "checked"
+    PinoutSource = "Bourns PTV09 Series datasheet: PTV09A-4 product dimensions (front view: body 10.0, 11.4, shaft 5.5 from the far edge, pins 1.5 outside), recommended PCB layout (horizontal/rear mount), schematic (1, 2 wiper, 3), characteristics"
+    Datasheet = "https://www.bourns.com/docs/Product-Datasheets/PTV09.pdf"
   }
   simulation = SimulationParameters {
     behavior = Behavior {
       model = "potentiometer"
-      ports = { "output": ["2"], "power": ["3", "1"] }
-      parameters = { "ohms": 10000, "position": 0.5, "volts": 5 }
+      ports = { "output" = ["2"], "power" = ["3", "1"] }
+      parameters = { "ohms" = 10000, "position" = 0.5, "volts" = 5 }
       height = 6.8mm
     }
     parameters = []

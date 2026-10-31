@@ -1,19 +1,31 @@
-pcbkit 1
-use "parts/ARDUINO_NANO.pcbkit" as ARDUINO_NANO
-use "parts/PTV09A_4020F_B103.pcbkit" as PTV09A_4020F_B103
-use "parts/SERVO_HEADER.pcbkit" as SERVO_HEADER
+pcbkit 2
+use ./parts/ARDUINO_NANO as ARDUINO_NANO
+use ./parts/PTV09A_4020F_B103 as PTV09A_4020F_B103
+use ./parts/SERVO_HEADER as SERVO_HEADER
 net V5, GND, ANALOG, BUTTON, SERVO, OVERRIDE, OVERRIDE_K
 // The parts every lab board shares: a light (an LED from its pin through 1 kΩ, `.green` to
 // `.white`), a key (a tactile switch to ground, the pin's pull-up on; in the lab the keyboard key
 // named), a knob (a 10 kΩ pot between 5 V and ground into an ADC pin) and the FTDI header.
-fn light(color: LedColor): Part = led(package = "1206", color = color) with {
-  simulation = SimulationParameters { behavior = Behavior { model = "indicator"; ports = { input: ["2"] }; parameters = { color: labColorIndex(color), milliamps: 3 } } }
+fn light(color: LedColor) -> Part = led(package = "1206", color = color) with {
+  simulation = SimulationParameters {
+    behavior = Behavior {
+      model = "indicator"
+      ports = { input = ["2"] }
+      parameters = { color = labColorIndex(color), milliamps = 3 }
+    }
+  }
 }
-fn key(code: String): Part = button("6x6") with {
-  simulation = SimulationParameters { behavior = Behavior { model = "button"; ports = { output: ["1"] }; key = code } }
+fn key(code: String) -> Part = button("6x6") with {
+  simulation = SimulationParameters {
+    behavior = Behavior { model = "button", ports = { output = ["1"] }, key = code }
+  }
 }
-fn knob(position: Number): Part = PTV09A_4020F_B103.Part with {
-  simulation = PTV09A_4020F_B103.Part.simulation with { behavior = PTV09A_4020F_B103.Part.simulation.behavior with { parameters = { position: position, volts: 5, ohms: 10000 } } }
+fn knob(position: Number) -> Part = PTV09A_4020F_B103.Part with {
+  simulation = PTV09A_4020F_B103.Part.simulation with {
+    behavior = PTV09A_4020F_B103.Part.simulation.behavior with {
+      parameters = { position = position, volts = 5, ohms = 10000 }
+    }
+  }
 }
 
 board = Board {
@@ -24,30 +36,48 @@ board = Board {
 // The processor: an Arduino Nano on two 15-pin sockets on the back, flashed over its USB (its
 // bootloader); the program in firmware/ is plain C for its ATmega328P.
 U1 = ARDUINO_NANO.Part with {
-  simulation = ARDUINO_NANO.Part.simulation with { behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" } }
+  simulation = ARDUINO_NANO.Part.simulation with {
+    behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" }
+  }
 } {
   at = (35mm, 35mm)
   rotation = 90deg
   side = .bottom
-  pins { P5V: V5, GND: GND, A0: ANALOG, D2: BUTTON, D9: SERVO, D7: OVERRIDE }
+  P5V -- V5
+  GND -- GND
+  A0 -- ANALOG
+  D2 -- BUTTON
+  D9 -- SERVO
+  D7 -- OVERRIDE
 }
 dial = knob(0.5) {
   at = (16mm, 15mm)
-  pins { CCW: GND, W: ANALOG, CW: V5, MP: GND }
+  CCW -- GND
+  W -- ANALOG
+  CW -- V5
+  MP -- GND
 }
 pushbutton = key("Space") {
   at = (30mm, 60mm)
-  pins { a: BUTTON, b: GND }
+  a -- BUTTON
+  b -- GND
 }
 servo = SERVO_HEADER.Part {
   at = (59mm, 28mm)
-  pins { GND: GND, VPLUS: V5, SIG: SERVO }
+  GND -- GND
+  VPLUS -- V5
+  SIG -- SERVO
 }
 override = light(.green) {
   at = (16mm, 56mm)
-  pins { A: OVERRIDE, K: OVERRIDE_K }
+  A -- OVERRIDE
+  K -- OVERRIDE_K
 }
-overrideR = res(1kohm, package = "0603") { place = [soft(near(override, max = 4mm))]; pins { a: OVERRIDE_K, b: GND } }
+overrideR = res(1kohm, package = "0603") {
+  place = [soft(near(override, max = 4mm))]
+  a -- OVERRIDE_K
+  b -- GND
+}
 label = Text {
   text = "INTERACTIVE CONTROLLER"
   at = (35mm, 5mm)

@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // 1N5819HW-7-F (Diodes Incorporated): Schottky rectifier, 40 V, 1 A, 0.45 V at 1 A, SOD-123:
 // reverse-polarity and OR-ing diodes, buck converter catch diode
@@ -20,18 +20,17 @@ pcbkit 1
 
 /// 1N5819HW-7-F — Schottky rectifier, 40 V, 1 A, 0.45 V at 1 A, SOD-123: reverse-polarity and
 /// OR-ing diodes, buck converter catch diode
-part Part = device(footprint = sod(
-  "SOD-123",
-), prefix = "D", mpn = "1N5819HW-7-F", manufacturer = "Diodes Incorporated", pinout = {
-  K: "1",
-  A: "2",
-}, pinTypes = {
-  K: .passive,
-  A: .passive,
-}) with {
+part Part = device(
+  footprint = sod("SOD-123"),
+  prefix = "D",
+  mpn = "1N5819HW-7-F",
+  manufacturer = "Diodes Incorporated",
+  pinout = { K = "1", A = "2" },
+  pinTypes = { K = .passive, A = .passive },
+) with {
   fields {
-    Status: "checked",
-    PinoutSource: "Diodes Incorporated 1N5819HW datasheet DS30217 Rev. 22-2: SOD123 package, cathode band, maximum ratings, electrical characteristics",
-    Datasheet: "https://www.diodes.com/assets/Datasheets/ds30217.pdf",
+    Status = "checked"
+    PinoutSource = "Diodes Incorporated 1N5819HW datasheet DS30217 Rev. 22-2: SOD123 package, cathode band, maximum ratings, electrical characteristics"
+    Datasheet = "https://www.diodes.com/assets/Datasheets/ds30217.pdf"
   }
 }

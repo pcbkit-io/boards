@@ -39,7 +39,7 @@
     },
     "page": "lcdwiki MSP3520: pins 1 VCC, 2 GND, 3 CS, 4 RESET, 5 DC/RS, 6 SDI(MOSI), 7 SCK, 8 LED, 9 SDO(MISO), 10 T_CLK, 11 T_CS, 12 T_DIN, 13 T_DO, 14 T_IRQ; module PCB 56.34 x 98 mm. The header position is assumed as on the MSP2807 (a centred row 2 mm from the bottom short edge): not read from MSP3520_Size.pdf"
   },
-  "footprint": "moduleSocket(\"TFT_3.5in_ILI9488_Socket_1x14_P2.54mm\", socketRow(1, 14, (-16.51mm, 0mm), (2.54mm, 0mm)), box((-28.17mm, -2.0mm), (28.17mm, 96.0mm)), description = \"3.5 inch ILI9488 TFT module with touch on a 1x14 female header along its bottom edge, the display facing up over +Y: VCC, GND, CS, RESET, DC, SDI, SCK, LED, SDO, T_CLK, T_CS, T_DIN, T_DO, T_IRQ left to right\", parts = 5.8mm, color = \"#b02020\", module = displayPanel(box((-27.75mm, 4.5mm), (27.75mm, 89.46mm)), box((-24.48mm, 12.61mm), (24.48mm, 86.05mm)), 3.7mm, glass = 1.2mm, tape = 0.5mm))",
+  "footprint": "moduleSocket(\n\"TFT_3.5in_ILI9488_Socket_1x14_P2.54mm\",\nsocketRow(1, 14, (-16.51mm, 0mm), (2.54mm, 0mm)),\nbox((-28.17mm, -2.0mm), (28.17mm, 96.0mm)),\ndescription = \"3.5 inch ILI9488 TFT module with touch on a 1x14 female header along its bottom edge, the display facing up over +Y: VCC, GND, CS, RESET, DC, SDI, SCK, LED, SDO, T_CLK, T_CS, T_DIN, T_DO, T_IRQ left to right\",\nparts = 5.8mm,\ncolor = \"#b02020\",\nmodule = displayPanel(\n  box((-27.75mm, 4.5mm), (27.75mm, 89.46mm)),\n  box((-24.48mm, 12.61mm), (24.48mm, 86.05mm)),\n  3.7mm,\n  glass = 1.2mm,\n  tape = 0.5mm,\n),\n)",
   "pins": [
     {
       "number": "1",

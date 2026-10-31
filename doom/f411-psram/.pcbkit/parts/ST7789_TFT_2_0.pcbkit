@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // MSP2008 2.0in 240x320 IPS SPI module (ST7789) (generic): 2.0" 240 x 320 IPS colour TFT module
 // (ST7789), SPI, 3.3 V, on a 1x8 female header: GND VCC SCL SDA RES DC CS BLK; courtyard the 36.48
@@ -18,56 +18,59 @@ pcbkit 1
 /// MSP2008 2.0in 240x320 IPS SPI module (ST7789) — 2.0" 240 x 320 IPS colour TFT module (ST7789),
 /// SPI, 3.3 V, on a 1x8 female header: GND VCC SCL SDA RES DC CS BLK; courtyard the 36.48 x 61.12
 /// mm module lying over the board
-part Part = device(footprint = moduleSocket(
-  "TFT_2.0in_ST7789_Socket_1x08_P2.54mm",
-  socketRow(1, 8, (-8.89mm, 0mm), (2.54mm, 0mm)),
-  box((-18.24mm, -58.62mm), (18.24mm, 2.5mm)),
-  description = "2.0 inch ST7789 IPS module on a 1x8 female header along its top edge, the display facing up over -Y: GND, VCC, SCL, SDA, RES, DC, CS, BLK left to right",
-  parts = 3mm,
-  color = "#1d3f8c",
-  module = displayPanel(
-    box((-18mm, -53.96mm), (18mm, -2.16mm)),
-    box((-15.3mm, -45.76mm), (15.3mm, -4.96mm)),
-    2.45mm,
-    glass = 0.5mm,
-    tape = 0.3mm,
+part Part = device(
+  footprint = moduleSocket(
+    "TFT_2.0in_ST7789_Socket_1x08_P2.54mm",
+    socketRow(1, 8, (-8.89mm, 0mm), (2.54mm, 0mm)),
+    box((-18.24mm, -58.62mm), (18.24mm, 2.5mm)),
+    description = "2.0 inch ST7789 IPS module on a 1x8 female header along its top edge, the display facing up over -Y: GND, VCC, SCL, SDA, RES, DC, CS, BLK left to right",
+    parts = 3mm,
+    color = "#1d3f8c",
+    module = displayPanel(
+      box((-18mm, -53.96mm), (18mm, -2.16mm)),
+      box((-15.3mm, -45.76mm), (15.3mm, -4.96mm)),
+      2.45mm,
+      glass = 0.5mm,
+      tape = 0.3mm,
+    ),
   ),
-), prefix = "U", mpn = "MSP2008 2.0in 240x320 IPS SPI module (ST7789)", manufacturer = "generic", pinout = {
-  GND: "1",
-  VCC: "2",
-  SCL: "3",
-  SDA: "4",
-  RES: "5",
-  DC: "6",
-  CS: "7",
-  BLK: "8",
-}, pinTypes = {
-  GND: .ground,
-  VCC: io.powerIn(min = 3V, max = 3.6V),
-  SCL: io.input(),
-  SDA: io.input(),
-  RES: io.input(),
-  DC: io.input(),
-  CS: io.input(),
-  BLK: io.input(),
-}) with {
+  prefix = "U",
+  mpn = "MSP2008 2.0in 240x320 IPS SPI module (ST7789)",
+  manufacturer = "generic",
+  pinout = { GND = "1", VCC = "2", SCL = "3", SDA = "4", RES = "5", DC = "6", CS = "7", BLK = "8" },
+  pinTypes = {
+    GND = .ground
+    VCC = io.powerIn(min = 3V, max = 3.6V)
+    SCL = io.input()
+    SDA = io.input()
+    RES = io.input()
+    DC = io.input()
+    CS = io.input()
+    BLK = io.input()
+  },
+) with {
   fields {
-    Status: "checked",
-    PinoutSource: "lcdwiki MSP2008: pins 1 GND, 2 VCC (3.3 V), 3 SCL, 4 SDA, 5 RES, 6 DC, 7 CS, 8 BLK; size picture: PCB 36.48 x 61.12 mm, header row 2.50 mm from the top edge, first pin 9.35 mm from the left (centred)",
-    Datasheet: "https://www.lcdwiki.com/2.0inch_IPS_Module",
+    Status = "checked"
+    PinoutSource = "lcdwiki MSP2008: pins 1 GND, 2 VCC (3.3 V), 3 SCL, 4 SDA, 5 RES, 6 DC, 7 CS, 8 BLK; size picture: PCB 36.48 x 61.12 mm, header row 2.50 mm from the top edge, first pin 9.35 mm from the left (centred)"
+    Datasheet = "https://www.lcdwiki.com/2.0inch_IPS_Module"
   }
   simulation = SimulationParameters {
     behavior = Behavior {
       model = "st7789"
       ports = {
-        "backlight": ["8"],
-        "cs": ["7"],
-        "dc": ["6"],
-        "power": ["2", "1"],
-        "reset": ["5"],
-        "spi": ["4", "3"],
+        "backlight" = ["8"]
+        "cs" = ["7"]
+        "dc" = ["6"]
+        "power" = ["2", "1"]
+        "reset" = ["5"]
+        "spi" = ["4", "3"]
       }
-      parameters = { "height_mm": 40.8, "offset_x_mm": 0.0, "offset_y_mm": -25.36, "width_mm": 30.6 }
+      parameters = {
+        "height_mm" = 40.8
+        "offset_x_mm" = 0.0
+        "offset_y_mm" = -25.36
+        "width_mm" = 30.6
+      }
       height = 12.85mm
     }
     parameters = []

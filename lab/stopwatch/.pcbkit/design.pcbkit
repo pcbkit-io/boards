@@ -1,16 +1,24 @@
-pcbkit 1
-use "parts/ARDUINO_NANO.pcbkit" as ARDUINO_NANO
-use "parts/MAX7219_7SEG_MODULE.pcbkit" as MAX7219_7SEG_MODULE
+pcbkit 2
+use ./parts/ARDUINO_NANO as ARDUINO_NANO
+use ./parts/MAX7219_7SEG_MODULE as MAX7219_7SEG_MODULE
 // A stopwatch: Timer0 counts milliseconds in decimal, a MAX7219 shows hours to hundredths.
 net V5, GND, MOSI, SCK, LOAD, RUN, LAP, GREEN, ORANGE, RED, GREEN_K, ORANGE_K, RED_K
 // The parts every lab board shares: a light (an LED from its pin through 1 kΩ, `.green` to
 // `.white`), a key (a tactile switch to ground, the pin's pull-up on; in the lab the keyboard key
 // named), a knob (a 10 kΩ pot between 5 V and ground into an ADC pin) and the FTDI header.
-fn light(color: LedColor): Part = led(package = "1206", color = color) with {
-  simulation = SimulationParameters { behavior = Behavior { model = "indicator"; ports = { input: ["2"] }; parameters = { color: labColorIndex(color), milliamps: 3 } } }
+fn light(color: LedColor) -> Part = led(package = "1206", color = color) with {
+  simulation = SimulationParameters {
+    behavior = Behavior {
+      model = "indicator"
+      ports = { input = ["2"] }
+      parameters = { color = labColorIndex(color), milliamps = 3 }
+    }
+  }
 }
-fn key(code: String): Part = button("6x6") with {
-  simulation = SimulationParameters { behavior = Behavior { model = "button"; ports = { output: ["1"] }; key = code } }
+fn key(code: String) -> Part = button("6x6") with {
+  simulation = SimulationParameters {
+    behavior = Behavior { model = "button", ports = { output = ["1"] }, key = code }
+  }
 }
 
 board = Board {
@@ -22,40 +30,72 @@ board = Board {
 // The processor: an Arduino Nano on two 15-pin sockets on the back, flashed over its USB (its
 // bootloader); the program in firmware/ is plain C for its ATmega328P.
 U1 = ARDUINO_NANO.Part with {
-  simulation = ARDUINO_NANO.Part.simulation with { behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" } }
+  simulation = ARDUINO_NANO.Part.simulation with {
+    behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" }
+  }
 } {
   at = (45mm, 36mm)
   rotation = 90deg
   side = .bottom
-  pins { P5V: V5, GND: GND, D11: MOSI, D13: SCK, D10: LOAD, D2: RUN, D3: LAP, D5: GREEN, D6: ORANGE, D7: RED }
+  P5V -- V5
+  GND -- GND
+  D11 -- MOSI
+  D13 -- SCK
+  D10 -- LOAD
+  D2 -- RUN
+  D3 -- LAP
+  D5 -- GREEN
+  D6 -- ORANGE
+  D7 -- RED
 }
 display = MAX7219_7SEG_MODULE.Part {
   at = (45mm, 52mm)
-  pins { VCC: V5, GND: GND, DIN: MOSI, CS: LOAD, CLK: SCK }
+  VCC -- V5
+  GND -- GND
+  DIN -- MOSI
+  CS -- LOAD
+  CLK -- SCK
 }
 run = key("Space") {
   at = (31mm, 75mm)
-  pins { a: RUN, b: GND }
+  a -- RUN
+  b -- GND
 }
 lap = key("KeyL") {
   at = (59mm, 75mm)
-  pins { a: LAP, b: GND }
+  a -- LAP
+  b -- GND
 }
 green = light(.green) {
   at = (37mm, 66mm)
-  pins { A: GREEN, K: GREEN_K }
+  A -- GREEN
+  K -- GREEN_K
 }
-greenR = res(1kohm, package = "0603") { place = [soft(near(green, max = 4mm))]; pins { a: GREEN_K, b: GND } }
+greenR = res(1kohm, package = "0603") {
+  place = [soft(near(green, max = 4mm))]
+  a -- GREEN_K
+  b -- GND
+}
 orange = light(.orange) {
   at = (45mm, 66mm)
-  pins { A: ORANGE, K: ORANGE_K }
+  A -- ORANGE
+  K -- ORANGE_K
 }
-orangeR = res(1kohm, package = "0603") { place = [soft(near(orange, max = 4mm))]; pins { a: ORANGE_K, b: GND } }
+orangeR = res(1kohm, package = "0603") {
+  place = [soft(near(orange, max = 4mm))]
+  a -- ORANGE_K
+  b -- GND
+}
 red = light(.red) {
   at = (53mm, 66mm)
-  pins { A: RED, K: RED_K }
+  A -- RED
+  K -- RED_K
 }
-redR = res(1kohm, package = "0603") { place = [soft(near(red, max = 4mm))]; pins { a: RED_K, b: GND } }
+redR = res(1kohm, package = "0603") {
+  place = [soft(near(red, max = 4mm))]
+  a -- RED_K
+  b -- GND
+}
 gnd = pour(net = GND, layers = [Cu.top, Cu.bottom]) {}
 runLabel = Text {
   text = "RUN"
@@ -80,22 +120,22 @@ dial = concat(
     Arc { center = (45mm, 45mm), radius = 43.3mm, start = 0deg, angle = 180deg, width = 0.2mm },
     Arc { center = (45mm, 45mm), radius = 43.3mm, start = 180deg, angle = 180deg, width = 0.2mm },
   ],
-  map(range(0, 60), fn(i) -> Line {
+  map(range(0, 60), i => Line {
     points = [
       (clean(45mm + 43mm * cos(i * 6deg)), clean(45mm + 43mm * sin(i * 6deg))),
       (
-        clean(45mm + (if i % 5 == 0 then 39.5mm else 41.3mm) * cos(i * 6deg)),
-        clean(45mm + (if i % 5 == 0 then 39.5mm else 41.3mm) * sin(i * 6deg)),
+        clean(45mm + (if mod(i, 5) == 0 then 39.5mm else 41.3mm) * cos(i * 6deg)),
+        clean(45mm + (if mod(i, 5) == 0 then 39.5mm else 41.3mm) * sin(i * 6deg)),
       ),
     ]
-    width = if i % 5 == 0 then 0.4mm else 0.18mm
+    width = if mod(i, 5) == 0 then 0.4mm else 0.18mm
   }),
 )
 
 // The display module stands on its socket above the pins of the Nano's sockets: KiCad's
 // pth/npth_inside_courtyard waived between them.
-rule DisplayOverNano {
+DisplayOverNano = Rule {
   select = ofComponent(display) and onB(ofComponent(U1))
   reason = "the display module stands on its socket above the pins of the Nano's sockets"
-  limits { courtyardClearance: limit(min = -100mm) }
+  limits = { courtyardClearance = limit(min = -100mm) }
 }

@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // MSP2807 2.8in 240x320 SPI TFT module with touch (ILI9341) (generic): 2.8" 240 x 320 colour TFT
 // module (ILI9341) with resistive touch (XPT2046), SPI, on a 1x14 female header: VCC GND CS RESET
@@ -25,70 +25,83 @@ pcbkit 1
 /// MSP2807 2.8in 240x320 SPI TFT module with touch (ILI9341) — 2.8" 240 x 320 colour TFT module
 /// (ILI9341) with resistive touch (XPT2046), SPI, on a 1x14 female header: VCC GND CS RESET DC SDI
 /// SCK LED SDO T_CLK T_CS T_DIN T_DO T_IRQ; courtyard the 50 x 86 mm module lying over the board
-part Part = device(footprint = moduleSocket(
-  "TFT_2.8in_ILI9341_Socket_1x14_P2.54mm",
-  socketRow(1, 14, (-16.51mm, 0mm), (2.54mm, 0mm)),
-  box((-25.0mm, -2.0mm), (25.0mm, 84.0mm)),
-  description = "2.8 inch ILI9341 TFT module with touch on a 1x14 female header along its bottom edge, the display facing up over +Y: VCC, GND, CS, RESET, DC, SDI, SCK, LED, SDO, T_CLK, T_CS, T_DIN, T_DO, T_IRQ left to right",
-  parts = 5.6mm,
-  color = "#15181c",
-  module = concat(displayPanel(
-    box((-25mm, 8.4mm), (25mm, 77.6mm)),
-    box((-21.6mm, 17.1mm), (21.6mm, 74.7mm)),
-    3.5mm,
-    glass = 1.2mm,
-    tape = 0.5mm,
-  ), [
-    slab(-25mm, 27mm, -3.8mm, -5.6mm, 57mm, -1.6mm, material = .metal),
-  ]),
-), prefix = "U", mpn = "MSP2807 2.8in 240x320 SPI TFT module with touch (ILI9341)", manufacturer = "generic", pinout = {
-  VCC: "1",
-  GND: "2",
-  CS: "3",
-  RESET: "4",
-  DC: "5",
-  SDI: "6",
-  SCK: "7",
-  LED: "8",
-  SDO: "9",
-  T_CLK: "10",
-  T_CS: "11",
-  T_DIN: "12",
-  T_DO: "13",
-  T_IRQ: "14",
-}, pinTypes = {
-  VCC: io.powerIn(min = 3.3V, max = 5V),
-  GND: .ground,
-  CS: io.input(),
-  RESET: io.input(),
-  DC: io.input(),
-  SDI: io.input(),
-  SCK: io.input(),
-  LED: io.input(),
-  SDO: .output,
-  T_CLK: io.input(),
-  T_CS: io.input(),
-  T_DIN: io.input(),
-  T_DO: .output,
-  T_IRQ: .output,
-}) with {
+part Part = device(
+  footprint = moduleSocket(
+    "TFT_2.8in_ILI9341_Socket_1x14_P2.54mm",
+    socketRow(1, 14, (-16.51mm, 0mm), (2.54mm, 0mm)),
+    box((-25.0mm, -2.0mm), (25.0mm, 84.0mm)),
+    description = "2.8 inch ILI9341 TFT module with touch on a 1x14 female header along its bottom edge, the display facing up over +Y: VCC, GND, CS, RESET, DC, SDI, SCK, LED, SDO, T_CLK, T_CS, T_DIN, T_DO, T_IRQ left to right",
+    parts = 5.6mm,
+    color = "#15181c",
+    module = concat(
+      displayPanel(
+        box((-25mm, 8.4mm), (25mm, 77.6mm)),
+        box((-21.6mm, 17.1mm), (21.6mm, 74.7mm)),
+        3.5mm,
+        glass = 1.2mm,
+        tape = 0.5mm,
+      ),
+      [slab(-25mm, 27mm, -3.8mm, -5.6mm, 57mm, -1.6mm, material = .metal)],
+    ),
+  ),
+  prefix = "U",
+  mpn = "MSP2807 2.8in 240x320 SPI TFT module with touch (ILI9341)",
+  manufacturer = "generic",
+  pinout = {
+    VCC = "1"
+    GND = "2"
+    CS = "3"
+    RESET = "4"
+    DC = "5"
+    SDI = "6"
+    SCK = "7"
+    LED = "8"
+    SDO = "9"
+    T_CLK = "10"
+    T_CS = "11"
+    T_DIN = "12"
+    T_DO = "13"
+    T_IRQ = "14"
+  },
+  pinTypes = {
+    VCC = io.powerIn(min = 3.3V, max = 5V)
+    GND = .ground
+    CS = io.input()
+    RESET = io.input()
+    DC = io.input()
+    SDI = io.input()
+    SCK = io.input()
+    LED = io.input()
+    SDO = .output
+    T_CLK = io.input()
+    T_CS = io.input()
+    T_DIN = io.input()
+    T_DO = .output
+    T_IRQ = .output
+  },
+) with {
   fields {
-    Status: "checked",
-    PinoutSource: "lcdwiki MSP2807: pins 1 VCC, 2 GND, 3 CS, 4 RESET, 5 DC, 6 SDI(MOSI), 7 SCK, 8 LED, 9 SDO(MISO), 10 T_CLK, 11 T_CS, 12 T_DIN, 13 T_DO, 14 T_IRQ; outline drawing: PCB 50.00 x 86.00 mm, header J2 13 x 2.54 mm, first pin 8.49 mm from the left edge, 2.00 mm from the bottom edge; 5.6 mm thick without the header",
-    Datasheet: "http://www.lcdwiki.com/2.8inch_SPI_Module_ILI9341_SKU:MSP2807",
+    Status = "checked"
+    PinoutSource = "lcdwiki MSP2807: pins 1 VCC, 2 GND, 3 CS, 4 RESET, 5 DC, 6 SDI(MOSI), 7 SCK, 8 LED, 9 SDO(MISO), 10 T_CLK, 11 T_CS, 12 T_DIN, 13 T_DO, 14 T_IRQ; outline drawing: PCB 50.00 x 86.00 mm, header J2 13 x 2.54 mm, first pin 8.49 mm from the left edge, 2.00 mm from the bottom edge; 5.6 mm thick without the header"
+    Datasheet = "http://www.lcdwiki.com/2.8inch_SPI_Module_ILI9341_SKU:MSP2807"
   }
   simulation = SimulationParameters {
     behavior = Behavior {
       model = "ili9341"
       ports = {
-        "backlight": ["8"],
-        "cs": ["3"],
-        "dc": ["5"],
-        "power": ["1", "2"],
-        "reset": ["4"],
-        "spi": ["6", "7"],
+        "backlight" = ["8"]
+        "cs" = ["3"]
+        "dc" = ["5"]
+        "power" = ["1", "2"]
+        "reset" = ["4"]
+        "spi" = ["6", "7"]
       }
-      parameters = { "height_mm": 57.6, "offset_x_mm": 0.0, "offset_y_mm": 45.9, "width_mm": 43.2 }
+      parameters = {
+        "height_mm" = 57.6
+        "offset_x_mm" = 0.0
+        "offset_y_mm" = 45.9
+        "width_mm" = 43.2
+      }
       height = 14.1mm
     }
     parameters = []

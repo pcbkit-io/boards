@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // 1602 16x2 character LCD module (HD44780 compatible) (generic): 16 x 2 character LCD module
 // (HD44780 / ST7066U compatible, 4- or 8-bit parallel), 5 V, on a 1x16 female header along its top
@@ -42,72 +42,72 @@ part Part = device(
   mpn = "1602 16x2 character LCD module (HD44780 compatible)",
   manufacturer = "generic",
   pinout = {
-    VSS: "1",
-    VDD: "2",
-    V0: "3",
-    RS: "4",
-    RW: "5",
-    E: "6",
-    DB0: "7",
-    DB1: "8",
-    DB2: "9",
-    DB3: "10",
-    DB4: "11",
-    DB5: "12",
-    DB6: "13",
-    DB7: "14",
-    A: "15",
-    K: "16",
+    VSS = "1"
+    VDD = "2"
+    V0 = "3"
+    RS = "4"
+    RW = "5"
+    E = "6"
+    DB0 = "7"
+    DB1 = "8"
+    DB2 = "9"
+    DB3 = "10"
+    DB4 = "11"
+    DB5 = "12"
+    DB6 = "13"
+    DB7 = "14"
+    A = "15"
+    K = "16"
   },
   pinTypes = {
-    VSS: .ground,
-    VDD: io.powerIn(min = 4.5V, max = 5.5V),
-    V0: .passive,
-    RS: io.input(high = 0.7),
-    RW: io.input(high = 0.7),
-    E: io.input(high = 0.7),
-    DB0: io.bidirectional(),
-    DB1: io.bidirectional(),
-    DB2: io.bidirectional(),
-    DB3: io.bidirectional(),
-    DB4: io.bidirectional(),
-    DB5: io.bidirectional(),
-    DB6: io.bidirectional(),
-    DB7: io.bidirectional(),
-    A: .passive,
-    K: .passive,
+    VSS = .ground
+    VDD = io.powerIn(min = 4.5V, max = 5.5V)
+    V0 = .passive
+    RS = io.input(high = 0.7)
+    RW = io.input(high = 0.7)
+    E = io.input(high = 0.7)
+    DB0 = io.bidirectional()
+    DB1 = io.bidirectional()
+    DB2 = io.bidirectional()
+    DB3 = io.bidirectional()
+    DB4 = io.bidirectional()
+    DB5 = io.bidirectional()
+    DB6 = io.bidirectional()
+    DB7 = io.bidirectional()
+    A = .passive
+    K = .passive
   },
 ) with {
   fields {
-    Status: "checked",
-    PinoutSource: "Newhaven NHD-0216K1Z-FL-YBW rev. 13: pin assignment (1 VSS, 2 VDD, 3 V0, 4 RS, 5 R/W, 6 E, 7-14 DB0-DB7, 15 A, 16 K), mechanical drawing (PCB 80.00 x 36.00 mm, P2.54 x 15 = 38.10, first pin 8.00 mm from the left edge, row 2.00 mm from the top edge, holes 75 x 31 mm, 13.2 mm max thick), VDD 4.5-5.5 V, VIH 0.7 VDD",
-    Datasheet: "https://newhavendisplay.com/content/specs/NHD-0216K1Z-FL-YBW.pdf",
+    Status = "checked"
+    PinoutSource = "Newhaven NHD-0216K1Z-FL-YBW rev. 13: pin assignment (1 VSS, 2 VDD, 3 V0, 4 RS, 5 R/W, 6 E, 7-14 DB0-DB7, 15 A, 16 K), mechanical drawing (PCB 80.00 x 36.00 mm, P2.54 x 15 = 38.10, first pin 8.00 mm from the left edge, row 2.00 mm from the top edge, holes 75 x 31 mm, 13.2 mm max thick), VDD 4.5-5.5 V, VIH 0.7 VDD"
+    Datasheet = "https://newhavendisplay.com/content/specs/NHD-0216K1Z-FL-YBW.pdf"
   }
   simulation = SimulationParameters {
     behavior = Behavior {
       model = "hd44780"
       ports = {
-        "d0": ["7"],
-        "d1": ["8"],
-        "d2": ["9"],
-        "d3": ["10"],
-        "d4": ["11"],
-        "d5": ["12"],
-        "d6": ["13"],
-        "d7": ["14"],
-        "e": ["6"],
-        "power": ["2", "1"],
-        "rs": ["4"],
-        "rw": ["5"],
-        "v0": ["3"],
+        "d0" = ["7"]
+        "d1" = ["8"]
+        "d2" = ["9"]
+        "d3" = ["10"]
+        "d4" = ["11"]
+        "d5" = ["12"]
+        "d6" = ["13"]
+        "d7" = ["14"]
+        "e" = ["6"]
+        "power" = ["2", "1"]
+        "rs" = ["4"]
+        "rw" = ["5"]
+        "v0" = ["3"]
       }
       parameters = {
-        "columns": 16,
-        "height_mm": 11.5,
-        "offset_x_mm": 12.95,
-        "offset_y_mm": -16,
-        "rows": 2,
-        "width_mm": 56.2,
+        "columns" = 16
+        "height_mm" = 11.5
+        "offset_x_mm" = 12.95
+        "offset_y_mm" = -16
+        "rows" = 2
+        "width_mm" = 56.2
       }
       height = 19.6mm
     }

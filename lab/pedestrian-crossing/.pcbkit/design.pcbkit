@@ -1,16 +1,25 @@
-pcbkit 1
-use "parts/ARDUINO_NANO.pcbkit" as ARDUINO_NANO
-use "parts/MAX7219_7SEG_MODULE.pcbkit" as MAX7219_7SEG_MODULE
+pcbkit 2
+use ./parts/ARDUINO_NANO as ARDUINO_NANO
+use ./parts/MAX7219_7SEG_MODULE as MAX7219_7SEG_MODULE
 // A pedestrian crossing: a light for cars, one for people, a request button and a countdown.
-net V5, GND, MOSI, SCK, LOAD, REQUEST, CAR_RED, CAR_AMBER, CAR_GREEN, WALK_RED, WALK_GREEN, CAR_RED_K, CAR_AMBER_K, CAR_GREEN_K, WALK_RED_K, WALK_GREEN_K
+net V5, GND, MOSI, SCK, LOAD, REQUEST, CAR_RED, CAR_AMBER, CAR_GREEN, WALK_RED, WALK_GREEN,
+  CAR_RED_K, CAR_AMBER_K, CAR_GREEN_K, WALK_RED_K, WALK_GREEN_K
 // The parts every lab board shares: a light (an LED from its pin through 1 kΩ, `.green` to
 // `.white`), a key (a tactile switch to ground, the pin's pull-up on; in the lab the keyboard key
 // named), a knob (a 10 kΩ pot between 5 V and ground into an ADC pin) and the FTDI header.
-fn light(color: LedColor): Part = led(package = "1206", color = color) with {
-  simulation = SimulationParameters { behavior = Behavior { model = "indicator"; ports = { input: ["2"] }; parameters = { color: labColorIndex(color), milliamps: 3 } } }
+fn light(color: LedColor) -> Part = led(package = "1206", color = color) with {
+  simulation = SimulationParameters {
+    behavior = Behavior {
+      model = "indicator"
+      ports = { input = ["2"] }
+      parameters = { color = labColorIndex(color), milliamps = 3 }
+    }
+  }
 }
-fn key(code: String): Part = button("6x6") with {
-  simulation = SimulationParameters { behavior = Behavior { model = "button"; ports = { output: ["1"] }; key = code } }
+fn key(code: String) -> Part = button("6x6") with {
+  simulation = SimulationParameters {
+    behavior = Behavior { model = "button", ports = { output = ["1"] }, key = code }
+  }
 }
 
 board = Board {
@@ -22,50 +31,92 @@ board = Board {
 // The processor: an Arduino Nano on two 15-pin sockets on the back, flashed over its USB (its
 // bootloader); the program in firmware/ is plain C for its ATmega328P.
 U1 = ARDUINO_NANO.Part with {
-  simulation = ARDUINO_NANO.Part.simulation with { behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" } }
+  simulation = ARDUINO_NANO.Part.simulation with {
+    behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" }
+  }
 } {
   at = (24mm, 40mm)
   rotation = 90deg
   side = .bottom
-  pins { P5V: V5, GND: GND, D11: MOSI, D13: SCK, D10: LOAD, D2: REQUEST, D5: CAR_RED, D6: CAR_AMBER, D7: CAR_GREEN, D8: WALK_RED, D9: WALK_GREEN }
+  P5V -- V5
+  GND -- GND
+  D11 -- MOSI
+  D13 -- SCK
+  D10 -- LOAD
+  D2 -- REQUEST
+  D5 -- CAR_RED
+  D6 -- CAR_AMBER
+  D7 -- CAR_GREEN
+  D8 -- WALK_RED
+  D9 -- WALK_GREEN
 }
 carRed = light(.red) {
   at = (22mm, 98mm)
-  pins { A: CAR_RED, K: CAR_RED_K }
+  A -- CAR_RED
+  K -- CAR_RED_K
 }
-carRedR = res(1kohm, package = "0603") { place = [soft(near(carRed, max = 4mm))]; pins { a: CAR_RED_K, b: GND } }
+carRedR = res(1kohm, package = "0603") {
+  place = [soft(near(carRed, max = 4mm))]
+  a -- CAR_RED_K
+  b -- GND
+}
 carAmber = light(.orange) {
   at = (22mm, 88mm)
-  pins { A: CAR_AMBER, K: CAR_AMBER_K }
+  A -- CAR_AMBER
+  K -- CAR_AMBER_K
 }
-carAmberR = res(1kohm, package = "0603") { place = [soft(near(carAmber, max = 4mm))]; pins { a: CAR_AMBER_K, b: GND } }
+carAmberR = res(1kohm, package = "0603") {
+  place = [soft(near(carAmber, max = 4mm))]
+  a -- CAR_AMBER_K
+  b -- GND
+}
 carGreen = light(.green) {
   at = (22mm, 78mm)
-  pins { A: CAR_GREEN, K: CAR_GREEN_K }
+  A -- CAR_GREEN
+  K -- CAR_GREEN_K
 }
-carGreenR = res(1kohm, package = "0603") { place = [soft(near(carGreen, max = 4mm))]; pins { a: CAR_GREEN_K, b: GND } }
+carGreenR = res(1kohm, package = "0603") {
+  place = [soft(near(carGreen, max = 4mm))]
+  a -- CAR_GREEN_K
+  b -- GND
+}
 walkRed = light(.red) {
   at = (58mm, 98mm)
-  pins { A: WALK_RED, K: WALK_RED_K }
+  A -- WALK_RED
+  K -- WALK_RED_K
 }
-walkRedR = res(1kohm, package = "0603") { place = [soft(near(walkRed, max = 4mm))]; pins { a: WALK_RED_K, b: GND } }
+walkRedR = res(1kohm, package = "0603") {
+  place = [soft(near(walkRed, max = 4mm))]
+  a -- WALK_RED_K
+  b -- GND
+}
 walkGreen = light(.green) {
   at = (58mm, 88mm)
-  pins { A: WALK_GREEN, K: WALK_GREEN_K }
+  A -- WALK_GREEN
+  K -- WALK_GREEN_K
 }
-walkGreenR = res(1kohm, package = "0603") { place = [soft(near(walkGreen, max = 4mm))]; pins { a: WALK_GREEN_K, b: GND } }
+walkGreenR = res(1kohm, package = "0603") {
+  place = [soft(near(walkGreen, max = 4mm))]
+  a -- WALK_GREEN_K
+  b -- GND
+}
 display = MAX7219_7SEG_MODULE.Part {
   at = (46mm, 62mm)
-  pins { VCC: V5, GND: GND, DIN: MOSI, CS: LOAD, CLK: SCK }
+  VCC -- V5
+  GND -- GND
+  DIN -- MOSI
+  CS -- LOAD
+  CLK -- SCK
 }
 request = key("Space") {
   at = (58mm, 40mm)
-  pins { a: REQUEST, b: GND }
+  a -- REQUEST
+  b -- GND
 }
 gnd = pour(net = GND, layers = [Cu.top, Cu.bottom]) {}
-holes = MountingHoles(screw = "M2") {}
+holes = MountingHoles { screw = "M2" }
 // The two lights' housings.
-fn closed(points: List<Point>): List<Point> = concat(points, [first(points)])
+fn closed(points: List[Point]) -> List[Point] = concat(points, [first(points)])
 housings = [
   Line { points = closed(translated(rect(14mm, 34mm, radius = 3mm), (15mm, 71mm))), width = 0.5mm },
   Line { points = closed(translated(rect(14mm, 24mm, radius = 3mm), (51mm, 81mm))), width = 0.5mm },

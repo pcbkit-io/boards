@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // A 555 LED blinker written as a minimal agent writes it: parts and connections only, and a
 // plated mounting hole in each corner. No board, no positions: the engine places the parts
@@ -10,15 +10,50 @@ part NE555 = device(
   footprint = soic(8),
   mpn = "NE555DR",
   manufacturer = "Texas Instruments",
-  pinout = { GND: "1", TRIG: "2", OUT: "3", RESET: "4", CTRL: "5", THR: "6", DIS: "7", VCC: "8" },
+  pinout = {
+    GND = "1"
+    TRIG = "2"
+    OUT = "3"
+    RESET = "4"
+    CTRL = "5"
+    THR = "6"
+    DIS = "7"
+    VCC = "8"
+  },
 )
 
-U1 = NE555 { pins { GND: GND, TRIG: TRIG, THR: TRIG, OUT: OUT, RESET: VCC, VCC: VCC, DIS: DIS } }
-R1 = res(1kohm) { pins { a: VCC, b: DIS } }
-R2 = res(10kohm) { pins { a: DIS, b: TRIG } }
-C1 = cap(10uF, package = "0805") { pins { a: TRIG, b: GND } }
-C2 = cap(100nF) { pins { a: VCC, b: GND } }
-R3 = res(330ohm) { pins { a: OUT, b: LEDK } }
-D1 = led() { pins { A: LEDK, K: GND } }
+U1 = NE555 {
+  GND -- GND
+  TRIG -- TRIG
+  THR -- TRIG
+  OUT -- OUT
+  RESET -- VCC
+  VCC -- VCC
+  DIS -- DIS
+}
+R1 = res(1kohm) {
+  a -- VCC
+  b -- DIS
+}
+R2 = res(10kohm) {
+  a -- DIS
+  b -- TRIG
+}
+C1 = cap(10uF, package = "0805") {
+  a -- TRIG
+  b -- GND
+}
+C2 = cap(100nF) {
+  a -- VCC
+  b -- GND
+}
+R3 = res(330ohm) {
+  a -- OUT
+  b -- LEDK
+}
+D1 = led() {
+  A -- LEDK
+  K -- GND
+}
 J1 = header(2) { pins = [VCC, GND] }
-holes = MountingHoles() {}
+holes = MountingHoles {}

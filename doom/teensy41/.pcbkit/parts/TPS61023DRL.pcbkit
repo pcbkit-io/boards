@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // TPS61023DRLR (Texas Instruments): Synchronous boost converter, 0.5-5.5 V in (1.8 V to start),
 // 2.2-5.5 V adjustable out, 3.7 A valley switch limit, 1 MHz, true output disconnect, SOT-563
@@ -11,27 +11,25 @@ pcbkit 1
 
 /// TPS61023DRLR — Synchronous boost converter, 0.5-5.5 V in (1.8 V to start), 2.2-5.5 V
 /// adjustable out, 3.7 A valley switch limit, 1 MHz, true output disconnect, SOT-563
-part Part = device(footprint = sot(
-  "SOT-563",
-), prefix = "U", mpn = "TPS61023DRLR", manufacturer = "Texas Instruments", pinout = {
-  FB: "1",
-  EN: "2",
-  VIN: "3",
-  GND: "4",
-  SW: "5",
-  VOUT: "6",
-}, pinTypes = {
-  FB: .passive,
-  EN: io.input(max = 7V, high = 1.2V),
-  VIN: io.powerIn(min = 0.5V, max = 7V),
-  GND: .ground,
-  SW: .passive,
-  VOUT: .powerOut,
-}) with {
+part Part = device(
+  footprint = sot("SOT-563"),
+  prefix = "U",
+  mpn = "TPS61023DRLR",
+  manufacturer = "Texas Instruments",
+  pinout = { FB = "1", EN = "2", VIN = "3", GND = "4", SW = "5", VOUT = "6" },
+  pinTypes = {
+    FB = .passive
+    EN = io.input(max = 7V, high = 1.2V)
+    VIN = io.powerIn(min = 0.5V, max = 7V)
+    GND = .ground
+    SW = .passive
+    VOUT = .powerOut
+  },
+) with {
   fields {
-    Status: "checked",
-    PinoutSource: "TI TPS61023 datasheet SLVSF14B: pin functions (DRL), 6.1 absolute maximum ratings, 6.3 recommended operating conditions, 6.5 electrical characteristics (VREF 595 mV, EN high 1.2 V)",
-    Datasheet: "https://www.ti.com/lit/ds/symlink/tps61023.pdf",
+    Status = "checked"
+    PinoutSource = "TI TPS61023 datasheet SLVSF14B: pin functions (DRL), 6.1 absolute maximum ratings, 6.3 recommended operating conditions, 6.5 electrical characteristics (VREF 595 mV, EN high 1.2 V)"
+    Datasheet = "https://www.ti.com/lit/ds/symlink/tps61023.pdf"
   }
   simulation = SimulationParameters {
     parameters = [
@@ -222,38 +220,44 @@ part Part = device(footprint = sot(
 ///
 /// - Keep the loop VIN capacitor - SW - VOUT capacitor - GND as small as possible; the output
 /// capacitors right at VOUT and GND.
-block Support(
+block Support {
   /// The TPS61023DRLR this circuit serves (`TPS61023DRL.Support(U1)`).
-  chip: Any,
-) {
+  chip: Any
+
   /// 10V X5R/X7R
   C1 = cap(10uF, package = "0805", ratedVoltage = 10V) {
     place = [soft(near(chip.pin.VIN, max = 4mm), weight = 2)]
-    pins { a: chip.pin.VIN, b: chip.pin.GND }
+    a -- chip.pin.VIN
+    b -- chip.pin.GND
   }
   /// saturation above the peak current (about 4.5 A for 5 V 1.5 A from 2.7 V)
   L1 = inductor(1uH, package = "6") {
     place = [soft(near(chip.pin.VIN, max = 5mm), weight = 1)]
-    pins { a: chip.pin.VIN, b: chip.pin.SW }
+    a -- chip.pin.VIN
+    b -- chip.pin.SW
   }
   /// 10V X5R/X7R
   C2A = cap(22uF, package = "1206", ratedVoltage = 10V) {
     place = [soft(near(chip.pin.VOUT, max = 4mm), weight = 2)]
-    pins { a: chip.pin.VOUT, b: chip.pin.GND }
+    a -- chip.pin.VOUT
+    b -- chip.pin.GND
   }
   /// 10V X5R/X7R
   C2B = cap(22uF, package = "1206", ratedVoltage = 10V) {
     place = [soft(near(chip.pin.VOUT, max = 4mm), weight = 2)]
-    pins { a: chip.pin.VOUT, b: chip.pin.GND }
+    a -- chip.pin.VOUT
+    b -- chip.pin.GND
   }
   /// 1% (5 V out)
-  R1 = res(732kohm, package = "0402", tolerance = 1pct) {
+  R1 = res(732kohm, package = "0402", tolerance = 1%) {
     place = [soft(near(chip.pin.VOUT, max = 5mm), weight = 1)]
-    pins { a: chip.pin.VOUT, b: chip.pin.FB }
+    a -- chip.pin.VOUT
+    b -- chip.pin.FB
   }
   /// 1%
-  R2 = res(100kohm, package = "0402", tolerance = 1pct) {
+  R2 = res(100kohm, package = "0402", tolerance = 1%) {
     place = [soft(near(chip.pin.FB, max = 5mm), weight = 1)]
-    pins { a: chip.pin.FB, b: chip.pin.GND }
+    a -- chip.pin.FB
+    b -- chip.pin.GND
   }
 }

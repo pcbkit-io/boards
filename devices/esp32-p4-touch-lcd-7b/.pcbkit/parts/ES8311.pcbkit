@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // ES8311 (Everest Semiconductor): Low-power mono audio codec: 24-bit ADC with a microphone
 // preamplifier and a DAC with a differential output, I2S/PCM and I2C control, 1.8-3.3 V (QFN-20
@@ -38,61 +38,61 @@ part Part = device(
   mpn = "ES8311",
   manufacturer = "Everest Semiconductor",
   pinout = {
-    CCLK: "1",
-    MCLK: "2",
-    PVDD: "3",
-    DVDD: "4",
-    DGND: "5",
-    SCLK: "6",
-    ASDOUT: "7",
-    LRCK: "8",
-    DSDIN: "9",
-    AGND: "10",
-    AVDD: "11",
-    OUTP: "12",
-    OUTN: "13",
-    DACVREF: "14",
-    ADCVREF: "15",
-    VMID: "16",
-    MIC1N: "17",
-    MIC1P: "18",
-    CDATA: "19",
-    CE: "20",
-    EP: "21",
+    CCLK = "1"
+    MCLK = "2"
+    PVDD = "3"
+    DVDD = "4"
+    DGND = "5"
+    SCLK = "6"
+    ASDOUT = "7"
+    LRCK = "8"
+    DSDIN = "9"
+    AGND = "10"
+    AVDD = "11"
+    OUTP = "12"
+    OUTN = "13"
+    DACVREF = "14"
+    ADCVREF = "15"
+    VMID = "16"
+    MIC1N = "17"
+    MIC1P = "18"
+    CDATA = "19"
+    CE = "20"
+    EP = "21"
   },
   pinTypes = {
-    CCLK: io.input(),
-    MCLK: io.input(),
-    PVDD: io.powerIn(min = 1.7V, max = 3.6V),
-    DVDD: io.powerIn(min = 1.7V, max = 3.6V),
-    DGND: .ground,
-    SCLK: io.input(),
-    ASDOUT: .output,
-    LRCK: io.input(),
-    DSDIN: io.input(),
-    AGND: .ground,
-    AVDD: io.powerIn(min = 1.7V, max = 3.6V),
-    OUTP: .output,
-    OUTN: .output,
-    DACVREF: .passive,
-    ADCVREF: .passive,
-    VMID: .passive,
-    MIC1N: io.input(),
-    MIC1P: io.input(),
-    CDATA: io.bidirectional(),
-    CE: io.input(),
-    EP: .ground,
+    CCLK = io.input()
+    MCLK = io.input()
+    PVDD = io.powerIn(min = 1.7V, max = 3.6V)
+    DVDD = io.powerIn(min = 1.7V, max = 3.6V)
+    DGND = .ground
+    SCLK = io.input()
+    ASDOUT = .output
+    LRCK = io.input()
+    DSDIN = io.input()
+    AGND = .ground
+    AVDD = io.powerIn(min = 1.7V, max = 3.6V)
+    OUTP = .output
+    OUTN = .output
+    DACVREF = .passive
+    ADCVREF = .passive
+    VMID = .passive
+    MIC1N = io.input()
+    MIC1P = io.input()
+    CDATA = io.bidirectional()
+    CE = io.input()
+    EP = .ground
   },
 ) with {
   fields {
-    Status: "checked",
-    PinoutSource: "pin numbers and names from Guition's JC1060P470C schematic (U10) cross-checked with Espressif's ES8311 board designs",
-    Datasheet: "https://www.lcsc.com/datasheet/lcsc_datasheet_2302221730_Everest-semi-Everest-Semiconductor-ES8311_C962342.pdf",
+    Status = "checked"
+    PinoutSource = "pin numbers and names from Guition's JC1060P470C schematic (U10) cross-checked with Espressif's ES8311 board designs"
+    Datasheet = "https://www.lcsc.com/datasheet/lcsc_datasheet_2302221730_Everest-semi-Everest-Semiconductor-ES8311_C962342.pdf"
   }
   simulation = SimulationParameters {
     behavior = Behavior {
       model = "es8311"
-      ports = { "i2c": ["19", "1"], "power": ["3", "5"] }
+      ports = { "i2c" = ["19", "1"], "power" = ["3", "5"] }
       parameters = {}
       height = 0.75mm
     }
@@ -106,35 +106,41 @@ part Part = device(
 ///
 /// - Keep the reference capacitors next to pins 14-16 and the analog ground under the part; the
 /// microphone pair and the DAC outputs as differential pairs.
-block Support(
+block Support {
   /// The ES8311 this circuit serves (`ES8311.Support(U1)`).
-  chip: Any,
-) {
+  chip: Any
+
   C_PVDD = cap(10uF, package = "0805") {
     place = [soft(near(chip.pin.PVDD, max = 4mm), weight = 2)]
-    pins { a: chip.pin.PVDD, b: chip.pin.DGND }
+    a -- chip.pin.PVDD
+    b -- chip.pin.DGND
   }
   C_PVDD2 = cap(100nF, package = "0402") {
     place = [soft(near(chip.pin.PVDD, max = 2mm), weight = 2)]
-    pins { a: chip.pin.PVDD, b: chip.pin.DGND }
+    a -- chip.pin.PVDD
+    b -- chip.pin.DGND
   }
-  connect(chip.pin.DVDD, chip.pin.PVDD)
+  chip.pin.DVDD -- chip.pin.PVDD
   C_AVDD = cap(1uF, package = "0402") {
     place = [soft(near(chip.pin.AVDD, max = 2mm), weight = 2)]
-    pins { a: chip.pin.AVDD, b: chip.pin.AGND }
+    a -- chip.pin.AVDD
+    b -- chip.pin.AGND
   }
   C_VMID = cap(1uF, package = "0402") {
     place = [soft(near(chip.pin.VMID, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VMID, b: chip.pin.AGND }
+    a -- chip.pin.VMID
+    b -- chip.pin.AGND
   }
   C_ADCVREF = cap(1uF, package = "0402") {
     place = [soft(near(chip.pin.ADCVREF, max = 2mm), weight = 2)]
-    pins { a: chip.pin.ADCVREF, b: chip.pin.AGND }
+    a -- chip.pin.ADCVREF
+    b -- chip.pin.AGND
   }
   C_DACVREF = cap(1uF, package = "0402") {
     place = [soft(near(chip.pin.DACVREF, max = 2mm), weight = 2)]
-    pins { a: chip.pin.DACVREF, b: chip.pin.AGND }
+    a -- chip.pin.DACVREF
+    b -- chip.pin.AGND
   }
-  connect(chip.pin.AGND, chip.pin.DGND)
-  connect(chip.pin.CE, chip.pin.DGND)
+  chip.pin.AGND -- chip.pin.DGND
+  chip.pin.CE -- chip.pin.DGND
 }

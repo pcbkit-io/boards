@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // MT3608 (Xi'an Aerosemi Technology): Boost (step-up) converter, 2-24 V in, up to 28 V out, 80
 // mohm 4 A switch, 1.2 MHz, 0.6 V feedback, needs an external Schottky diode, SOT-23-6
@@ -19,20 +19,20 @@ part Part = device(
   mpn = "MT3608",
   manufacturer = "Xi'an Aerosemi Technology",
   orderCode = "C84817",
-  pinout = { SW: "1", GND: "2", FB: "3", EN: "4", VIN: "5", NC: "6" },
+  pinout = { SW = "1", GND = "2", FB = "3", EN = "4", VIN = "5", NC = "6" },
   pinTypes = {
-    SW: .passive,
-    GND: .ground,
-    FB: .passive,
-    EN: io.input(max = 26V, high = 1.5V),
-    VIN: io.powerIn(min = 2V, max = 26V),
-    NC: .nc,
+    SW = .passive
+    GND = .ground
+    FB = .passive
+    EN = io.input(max = 26V, high = 1.5V)
+    VIN = io.powerIn(min = 2V, max = 26V)
+    NC = .nc
   },
 ) with {
   fields {
-    Status: "checked",
-    PinoutSource: "Aerosemi MT3608 datasheet Rev 1.1: package/order information (SOT23-6 top view: 1 SW, 2 GND, 3 FB, 4 EN, 5 VIN, 6 NC), pin description, absolute maximum ratings, electrical characteristics",
-    Datasheet: "https://datasheet.lcsc.com/datasheet/pdf/87b648f6991783104e708a12c210cc63.pdf",
+    Status = "checked"
+    PinoutSource = "Aerosemi MT3608 datasheet Rev 1.1: package/order information (SOT23-6 top view: 1 SW, 2 GND, 3 FB, 4 EN, 5 VIN, 6 NC), pin description, absolute maximum ratings, electrical characteristics"
+    Datasheet = "https://datasheet.lcsc.com/datasheet/pdf/87b648f6991783104e708a12c210cc63.pdf"
   }
   simulation = SimulationParameters {
     parameters = [
@@ -76,50 +76,55 @@ part Part = device(
 ///
 /// - EN to VIN for automatic start; driving EN low leaves VIN connected to the output through the
 /// inductor and the diode (a boost cannot disconnect).
-block Support(
+block Support {
   /// The MT3608 this circuit serves (`MT3608.Support(U1)`).
-  chip: Any,
+  chip: Any
   /// The output rail. (required)
-  vout: Endpoint? = null,
-) {
-  warn(
-    vout != null,
-    "MT3608 needs `vout` (The output rail.): D, R1, COUT are left out until it is given, `MT3608.Support(U1, vout = …)`",
-  )
+  vout: Endpoint? = null
+
+  @severity(.warning)
+  require vout !=
+    null "MT3608 needs `vout` (The output rail.): D, R1, COUT are left out until it is given, `MT3608.Support(U1, vout = …)`"
   /// ceramic
   CIN = cap(22uF, package = "1206") {
     place = [soft(near(chip.pin.VIN, max = 4mm), weight = 2)]
-    pins { a: chip.pin.VIN, b: chip.pin.GND }
+    a -- chip.pin.VIN
+    b -- chip.pin.GND
   }
   /// 4.7-22 uH, low core loss at 1.2 MHz, saturation above the 4 A switch limit for full power
   L = inductor(4.7uH, package = "6") {
     place = [soft(near(chip.pin.VIN, max = 5mm), weight = 1)]
-    pins { a: chip.pin.VIN, b: chip.pin.SW }
+    a -- chip.pin.VIN
+    b -- chip.pin.SW
   }
   /// anode SW, cathode VOUT; rated for the output voltage and the peak inductor current (e.g. SS34)
   D =
     if vout != null then (diode(.schottky, package = "SOD-123") with { mpn = "Schottky" }) {
       place = [soft(near(chip.pin.SW, max = 5mm), weight = 1)]
-      pins { A: chip.pin.SW, K: vout }
+      A -- chip.pin.SW
+      K -- vout
     }
     else null
   /// 1% (5 V out)
   R1 =
-    if vout != null then res(110kohm, package = "0402", tolerance = 1pct) {
+    if vout != null then res(110kohm, package = "0402", tolerance = 1%) {
       place = [soft(near(chip.pin.FB, max = 5mm), weight = 1)]
-      pins { a: vout, b: chip.pin.FB }
+      a -- vout
+      b -- chip.pin.FB
     }
     else null
   /// 1%
-  R2 = res(15kohm, package = "0402", tolerance = 1pct) {
+  R2 = res(15kohm, package = "0402", tolerance = 1%) {
     place = [soft(near(chip.pin.FB, max = 5mm), weight = 1)]
-    pins { a: chip.pin.FB, b: chip.pin.GND }
+    a -- chip.pin.FB
+    b -- chip.pin.GND
   }
   /// ceramic, rated above VOUT
   COUT =
     if vout != null then cap(22uF, package = "1206") {
       place = [soft(near(chip, max = 8mm), weight = 1)]
-      pins { a: vout, b: chip.pin.GND }
+      a -- vout
+      b -- chip.pin.GND
     }
     else null
 }

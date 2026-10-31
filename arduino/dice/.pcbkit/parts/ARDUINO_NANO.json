@@ -43,7 +43,7 @@
     },
     "page": "§6: board 43.2 x 18 mm, rows 15.24 mm apart, 2.54 mm pitch, mounting holes 40.64 mm apart in line with the rows, 18.6 mm high over the pins"
   },
-  "footprint": "moduleSocket(\"Arduino_Nano_Socket_2x15_P2.54mm_W15.24mm\", concat(socketRow(1, 15, (7.62mm, -17.78mm), (0mm, 2.54mm)), socketRow(16, 15, (-7.62mm, 17.78mm))), box((-9mm, -21.6mm), (9mm, 23.1mm)), description = \"Arduino Nano on two 1x15 female headers 15.24 mm apart, its USB end at +Y (Arduino's drawing): pins 1-15 the right row from the bottom (D1/TX … D12), 16-30 the left row from the top (D13 … VIN)\", color = \"#0f6e8c\", board = 1.6mm, parts = 4mm, spacer = 2.5mm, pins = true, module = modules.arduinoNano())",
+  "footprint": "moduleSocket(\n\"Arduino_Nano_Socket_2x15_P2.54mm_W15.24mm\",\nconcat(\n  socketRow(1, 15, (7.62mm, -17.78mm), (0mm, 2.54mm)),\n  socketRow(16, 15, (-7.62mm, 17.78mm)),\n),\nbox((-9mm, -21.6mm), (9mm, 23.1mm)),\ndescription = \"Arduino Nano on two 1x15 female headers 15.24 mm apart, its USB end at +Y (Arduino's drawing): pins 1-15 the right row from the bottom (D1/TX … D12), 16-30 the left row from the top (D13 … VIN)\",\ncolor = \"#0f6e8c\",\nboard = 1.6mm,\nparts = 4mm,\nspacer = 2.5mm,\npins = true,\nmodule = modules.arduinoNano(),\n)",
   "symbol": {
     "units": [
       {

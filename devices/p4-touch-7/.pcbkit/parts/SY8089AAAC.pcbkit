@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // SY8089AAAC (Silergy): Synchronous buck converter, 2.7-5.5 V in, 2 A (3 A peak), 1 MHz, 0.6 V
 // feedback, 100 % dropout, hiccup short-circuit protection, SOT-23-5
@@ -22,19 +22,19 @@ part Part = device(
   mpn = "SY8089AAAC",
   manufacturer = "Silergy",
   orderCode = "C78988",
-  pinout = { EN: "1", GND: "2", LX: "3", IN: "4", FB: "5" },
+  pinout = { EN = "1", GND = "2", LX = "3", IN = "4", FB = "5" },
   pinTypes = {
-    EN: io.input(max = 6V, high = 1.5V),
-    GND: .ground,
-    LX: .powerOut,
-    IN: io.powerIn(min = 2.7V, max = 6V),
-    FB: .passive,
+    EN = io.input(max = 6V, high = 1.5V)
+    GND = .ground
+    LX = .powerOut
+    IN = io.powerIn(min = 2.7V, max = 6V)
+    FB = .passive
   },
 ) with {
   fields {
-    Status: "checked",
-    PinoutSource: "Silergy AN_SY8089/A Rev. 0.9A: pinout and pin description (SOT23-5: 1 EN, 2 GND, 3 LX, 4 IN, 5 FB), absolute maximum ratings, recommended operating conditions, electrical characteristics",
-    Datasheet: "https://datasheet.lcsc.com/datasheet/pdf/400ca014d7a690f5be0127468f87fcc6.pdf",
+    Status = "checked"
+    PinoutSource = "Silergy AN_SY8089/A Rev. 0.9A: pinout and pin description (SOT23-5: 1 EN, 2 GND, 3 LX, 4 IN, 5 FB), absolute maximum ratings, recommended operating conditions, electrical characteristics"
+    Datasheet = "https://datasheet.lcsc.com/datasheet/pdf/400ca014d7a690f5be0127468f87fcc6.pdf"
   }
   simulation = SimulationParameters {
     parameters = [
@@ -90,59 +90,65 @@ part Part = device(
 /// falls near the output.
 ///
 /// - Keep CIN right at IN and GND, the LX copper small, and FB's divider away from the inductor.
-block Support(
+block Support {
   /// The SY8089AAAC this circuit serves (`SY8089AAAC.Support(U1)`).
-  chip: Any,
+  chip: Any
   /// The output rail. (required)
-  vout: Endpoint? = null,
-) {
-  warn(
-    vout != null,
-    "SY8089AAAC needs `vout` (The output rail.): L1, R1, C1, COUTA, COUTB are left out until it is given, `SY8089AAAC.Support(U1, vout = …)`",
-  )
+  vout: Endpoint? = null
+
+  @severity(.warning)
+  require vout !=
+    null "SY8089AAAC needs `vout` (The output rail.): L1, R1, C1, COUTA, COUTB are left out until it is given, `SY8089AAAC.Support(U1, vout = …)`"
   /// 10V ceramic
   CIN = cap(22uF, package = "1206", ratedVoltage = 10V) {
     place = [soft(near(chip.pin.IN, max = 4mm), weight = 2)]
-    pins { a: chip.pin.IN, b: chip.pin.GND }
+    a -- chip.pin.IN
+    b -- chip.pin.GND
   }
   /// saturation above 3 A
   L1 =
     if vout != null then inductor(2.2uH, package = "6", current = 3A) {
       place = [soft(near(chip.pin.LX, max = 5mm), weight = 1)]
-      pins { a: chip.pin.LX, b: vout }
+      a -- chip.pin.LX
+      b -- vout
     }
     else null
   /// 1% (1.8 V out with R2 100 kohm; see notes)
   R1 =
-    if vout != null then res(200kohm, package = "0402", tolerance = 1pct) {
+    if vout != null then res(200kohm, package = "0402", tolerance = 1%) {
       place = [soft(near(chip.pin.FB, max = 5mm), weight = 1)]
-      pins { a: vout, b: chip.pin.FB }
+      a -- vout
+      b -- chip.pin.FB
     }
     else null
   /// feed-forward across R1
   C1 =
     if vout != null then cap(22pF, package = "0402") {
       place = [soft(near(chip.pin.FB, max = 2mm), weight = 2)]
-      pins { a: vout, b: chip.pin.FB }
+      a -- vout
+      b -- chip.pin.FB
     }
     else null
   /// 1%
-  R2 = res(100kohm, package = "0402", tolerance = 1pct) {
+  R2 = res(100kohm, package = "0402", tolerance = 1%) {
     place = [soft(near(chip.pin.FB, max = 5mm), weight = 1)]
-    pins { a: chip.pin.FB, b: chip.pin.GND }
+    a -- chip.pin.FB
+    b -- chip.pin.GND
   }
   /// ceramic
   COUTA =
     if vout != null then cap(22uF, package = "1206") {
       place = [soft(near(chip, max = 8mm), weight = 1)]
-      pins { a: vout, b: chip.pin.GND }
+      a -- vout
+      b -- chip.pin.GND
     }
     else null
   /// ceramic
   COUTB =
     if vout != null then cap(22uF, package = "1206") {
       place = [soft(near(chip, max = 8mm), weight = 1)]
-      pins { a: vout, b: chip.pin.GND }
+      a -- vout
+      b -- chip.pin.GND
     }
     else null
 }

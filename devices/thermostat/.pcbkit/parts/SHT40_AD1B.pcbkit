@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // SHT40-AD1B-R3 (Sensirion): SHT40 digital humidity and temperature sensor, I2C (address 0x44),
 // 1.08-3.6 V, ±1.8 %RH / ±0.2 °C, DFN-4 1.5 x 1.5 mm
@@ -35,24 +35,24 @@ part Part = device(
   prefix = "U",
   mpn = "SHT40-AD1B-R3",
   manufacturer = "Sensirion",
-  pinout = { SDA: "1", SCL: "2", VDD: "3", VSS: "4" },
+  pinout = { SDA = "1", SCL = "2", VDD = "3", VSS = "4" },
   pinTypes = {
-    SDA: io.openDrain(),
-    SCL: io.input(),
-    VDD: io.powerIn(min = 1.08V, max = 3.6V),
-    VSS: .ground,
+    SDA = io.openDrain()
+    SCL = io.input()
+    VDD = io.powerIn(min = 1.08V, max = 3.6V)
+    VSS = .ground
   },
 ) with {
   fields {
-    Status: "checked",
-    PinoutSource: "Sensirion SHT4x datasheet: 5.4 pin assignment (1 SDA, 2 SCL, 3 VDD, 4 VSS, transparent top view), 5.2 package outline, 5.3 land pattern, Figure 1 application circuit",
-    Datasheet: "https://cdn.sparkfun.com/assets/d/5/f/d/6/SHT40_Datasheet.pdf",
-    I2cAddress: "0x44",
+    Status = "checked"
+    PinoutSource = "Sensirion SHT4x datasheet: 5.4 pin assignment (1 SDA, 2 SCL, 3 VDD, 4 VSS, transparent top view), 5.2 package outline, 5.3 land pattern, Figure 1 application circuit"
+    Datasheet = "https://cdn.sparkfun.com/assets/d/5/f/d/6/SHT40_Datasheet.pdf"
+    I2cAddress = "0x44"
   }
   simulation = SimulationParameters {
     behavior = Behavior {
       model = "sht4x"
-      ports = { "i2c": ["1", "2"], "power": ["3", "4"] }
+      ports = { "i2c" = ["1", "2"], "power" = ["3", "4"] }
       parameters = {}
       height = 0.6mm
     }
@@ -82,29 +82,32 @@ part Part = device(
 /// a true air temperature.
 ///
 /// - Address 0x44 (SHT40-BD1B: 0x45). A 3.3 V part: on a 5 V bus use a level shifter.
-block Support(
+block Support {
   /// The SHT40-AD1B-R3 this circuit serves (`SHT40_AD1B.Support(U1)`).
-  chip: Any,
+  chip: Any
   /// The I2C pull-ups (once per bus: `false` when another part of the bus has them).
-  pullUps: Bool = true,
-) {
+  pullUps: Bool = true
+
   /// next to the sensor
   C1 = cap(100nF, package = "0402") {
     place = [soft(near(chip.pin.VDD, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VDD, b: chip.pin.VSS }
+    a -- chip.pin.VDD
+    b -- chip.pin.VSS
   }
   /// I2C pull-up (once per bus)
   RP1 =
     if pullUps then res(10kohm, package = "0402") {
       place = [soft(near(chip.pin.SDA, max = 5mm), weight = 1)]
-      pins { a: chip.pin.SDA, b: chip.pin.VDD }
+      a -- chip.pin.SDA
+      b -- chip.pin.VDD
     }
     else null
   /// I2C pull-up (once per bus)
   RP2 =
     if pullUps then res(10kohm, package = "0402") {
       place = [soft(near(chip.pin.SCL, max = 5mm), weight = 1)]
-      pins { a: chip.pin.SCL, b: chip.pin.VDD }
+      a -- chip.pin.SCL
+      b -- chip.pin.VDD
     }
     else null
 }

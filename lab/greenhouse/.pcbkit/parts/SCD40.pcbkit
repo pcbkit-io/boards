@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // SCD40-D-R2 (Sensirion): SCD40 photoacoustic CO2 sensor (400-2000 ppm ±(50 ppm + 5 %), with
 // temperature and humidity), I2C (address 0x62), 2.4-5.5 V, SMD LGA 10.1 x 10.1 x 6.5 mm
@@ -56,31 +56,31 @@ part Part = device(
   mpn = "SCD40-D-R2",
   manufacturer = "Sensirion",
   pinout = {
-    DNC: ["1", "2", "3", "4", "5", "8", "11", "12", "13", "14", "15", "16", "17", "18"],
-    GND: ["6", "20", "21"],
-    VDD: "7",
-    SCL: "9",
-    SDA: "10",
-    VDDH: "19",
+    DNC = ["1", "2", "3", "4", "5", "8", "11", "12", "13", "14", "15", "16", "17", "18"]
+    GND = ["6", "20", "21"]
+    VDD = "7"
+    SCL = "9"
+    SDA = "10"
+    VDDH = "19"
   },
   pinTypes = {
-    DNC: .nc,
-    GND: .ground,
-    VDD: io.powerIn(min = 2.4V, max = 6V),
-    SCL: io.input(),
-    SDA: io.openDrain(),
-    VDDH: io.powerIn(min = 2.4V, max = 6V),
+    DNC = .nc
+    GND = .ground
+    VDD = io.powerIn(min = 2.4V, max = 6V)
+    SCL = io.input()
+    SDA = io.openDrain()
+    VDDH = io.powerIn(min = 2.4V, max = 6V)
   },
 ) with {
   fields {
-    Status: "checked",
-    PinoutSource: "Sensirion SCD4x datasheet version 1.1 (April 2021): Table 4 electrical specifications, Table 5 maximum ratings, Table 6 pin assignment, Figure 1 application circuit, 3.1 I2C address, Table 31 and Figure 4 package and land pattern",
-    Datasheet: "https://cdn.sparkfun.com/assets/d/4/9/a/d/Sensirion_CO2_Sensors_SCD4x_Datasheet.pdf",
+    Status = "checked"
+    PinoutSource = "Sensirion SCD4x datasheet version 1.1 (April 2021): Table 4 electrical specifications, Table 5 maximum ratings, Table 6 pin assignment, Figure 1 application circuit, 3.1 I2C address, Table 31 and Figure 4 package and land pattern"
+    Datasheet = "https://cdn.sparkfun.com/assets/d/4/9/a/d/Sensirion_CO2_Sensors_SCD4x_Datasheet.pdf"
   }
   simulation = SimulationParameters {
     behavior = Behavior {
       model = "scd40"
-      ports = { "i2c": ["10", "9"], "power": ["7", "6"] }
+      ports = { "i2c" = ["10", "9"], "power" = ["7", "6"] }
       parameters = {}
       height = 6.5mm
     }
@@ -110,35 +110,39 @@ part Part = device(
 /// p-p) good for 205 mA peaks at 3.3 V.
 ///
 /// - The DNC pads are soldered to floating pads (mechanical), never connected.
-block Support(
+block Support {
   /// The SCD40-D-R2 this circuit serves (`SCD40.Support(U1)`).
-  chip: Any,
+  chip: Any
   /// The I2C pull-ups (once per bus: `false` when another part of the bus has them).
-  pullUps: Bool = true,
-) {
+  pullUps: Bool = true
+
   /// our choice: holds up the 205 mA peaks of the IR source (the datasheet asks for a low-noise LDO
   /// sized for the peaks)
   C1 = cap(10uF, package = "0805") {
     place = [soft(near(chip.pin.VDD, max = 4mm), weight = 2)]
-    pins { a: chip.pin.VDD, b: chip.pin.GND }
+    a -- chip.pin.VDD
+    b -- chip.pin.GND
   }
   /// next to VDD/VDDH
   C2 = cap(100nF, package = "0402") {
     place = [soft(near(chip.pin.VDD, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VDD, b: chip.pin.GND }
+    a -- chip.pin.VDD
+    b -- chip.pin.GND
   }
   /// I2C pull-up (once per bus)
   RP1 =
     if pullUps then res(10kohm, package = "0402") {
       place = [soft(near(chip.pin.SDA, max = 5mm), weight = 1)]
-      pins { a: chip.pin.SDA, b: chip.pin.VDD }
+      a -- chip.pin.SDA
+      b -- chip.pin.VDD
     }
     else null
   /// I2C pull-up (once per bus)
   RP2 =
     if pullUps then res(10kohm, package = "0402") {
       place = [soft(near(chip.pin.SCL, max = 5mm), weight = 1)]
-      pins { a: chip.pin.SCL, b: chip.pin.VDD }
+      a -- chip.pin.SCL
+      b -- chip.pin.VDD
     }
     else null
 }

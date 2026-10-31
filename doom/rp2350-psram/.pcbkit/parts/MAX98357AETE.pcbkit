@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // MAX98357AETE+T (Analog Devices (Maxim Integrated)): MAX98357A I2S digital-input class-D mono
 // amplifier, 3.2 W into 4 Ω at 5 V, 2.5-5.5 V, no MCLK, gain 3-15 dB by GAIN_SLOT, channel and
@@ -19,46 +19,48 @@ pcbkit 1
 
 /// MAX98357AETE+T — MAX98357A I2S digital-input class-D mono amplifier, 3.2 W into 4 Ω at 5 V,
 /// 2.5-5.5 V, no MCLK, gain 3-15 dB by GAIN_SLOT, channel and shutdown by SD_MODE, TQFN-16 3 x 3 mm
-part Part = device(footprint = qfn(
-  16,
-  size = (3mm, 3mm),
-  ep = (1.1mm, 1.1mm),
-  pitch = 0.5mm,
-), prefix = "U", mpn = "MAX98357AETE+T", manufacturer = "Analog Devices (Maxim Integrated)", pinout = {
-  DIN: "1",
-  GAIN_SLOT: "2",
-  GND: ["3", "11", "15"],
-  SD_MODE: "4",
-  NC5: "5",
-  NC6: "6",
-  VDD: ["7", "8"],
-  OUTP: "9",
-  OUTN: "10",
-  NC12: "12",
-  NC13: "13",
-  LRCLK: "14",
-  BCLK: "16",
-  EP: "17",
-}, pinTypes = {
-  DIN: io.input(max = 6V),
-  GAIN_SLOT: .passive,
-  GND: .ground,
-  SD_MODE: io.input(),
-  NC5: .nc,
-  NC6: .nc,
-  VDD: io.powerIn(min = 2.5V, max = 6V),
-  OUTP: .output,
-  OUTN: .output,
-  NC12: .nc,
-  NC13: .nc,
-  LRCLK: io.input(max = 6V),
-  BCLK: io.input(max = 6V),
-  EP: .passive,
-}) with {
+part Part = device(
+  footprint = qfn(16, size = (3mm, 3mm), ep = (1.1mm, 1.1mm), pitch = 0.5mm),
+  prefix = "U",
+  mpn = "MAX98357AETE+T",
+  manufacturer = "Analog Devices (Maxim Integrated)",
+  pinout = {
+    DIN = "1"
+    GAIN_SLOT = "2"
+    GND = ["3", "11", "15"]
+    SD_MODE = "4"
+    NC5 = "5"
+    NC6 = "6"
+    VDD = ["7", "8"]
+    OUTP = "9"
+    OUTN = "10"
+    NC12 = "12"
+    NC13 = "13"
+    LRCLK = "14"
+    BCLK = "16"
+    EP = "17"
+  },
+  pinTypes = {
+    DIN = io.input(max = 6V)
+    GAIN_SLOT = .passive
+    GND = .ground
+    SD_MODE = io.input()
+    NC5 = .nc
+    NC6 = .nc
+    VDD = io.powerIn(min = 2.5V, max = 6V)
+    OUTP = .output
+    OUTN = .output
+    NC12 = .nc
+    NC13 = .nc
+    LRCLK = io.input(max = 6V)
+    BCLK = io.input(max = 6V)
+    EP = .passive
+  },
+) with {
   fields {
-    Status: "checked",
-    PinoutSource: "MAX98357A/MAX98357B datasheet 19-6779 Rev 13: pin configurations and pin description (TQFN column), absolute maximum ratings, electrical characteristics (supply range), Tables 5, 6 and 8, power-supply input, package information (T1633+4, 21-0136)",
-    Datasheet: "https://www.analog.com/media/en/technical-documentation/data-sheets/MAX98357A-MAX98357B.pdf",
+    Status = "checked"
+    PinoutSource = "MAX98357A/MAX98357B datasheet 19-6779 Rev 13: pin configurations and pin description (TQFN column), absolute maximum ratings, electrical characteristics (supply range), Tables 5, 6 and 8, power-supply input, package information (T1633+4, 21-0136)"
+    Datasheet = "https://www.analog.com/media/en/technical-documentation/data-sheets/MAX98357A-MAX98357B.pdf"
   }
   simulation = SimulationParameters {
     parameters = [
@@ -120,27 +122,30 @@ part Part = device(footprint = qfn(
 ///
 /// - Filterless bridge-tied output: the speaker between OUTP and OUTN (never to ground), speaker
 /// inductance > 10 µH; short wide output and supply traces, ferrite beads on long speaker leads.
-block Support(
+block Support {
   /// The MAX98357AETE+T this circuit serves (`MAX98357AETE.Support(U1)`).
-  chip: Any,
+  chip: Any
   /// The board's VIO. (`null`: its parts are left out)
-  vio: Endpoint? = null,
-) {
+  vio: Endpoint? = null
+
   /// VDD bypass
   C1 = cap(10uF, package = "0805") {
     place = [soft(near(chip.pin.VDD, max = 4mm), weight = 2)]
-    pins { a: chip.pin.VDD, b: chip.pin.GND }
+    a -- chip.pin.VDD
+    b -- chip.pin.GND
   }
   /// VDD bypass, close to pins 7-8
   C2 = cap(100nF, package = "0402") {
     place = [soft(near(chip.pin.VDD, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VDD, b: chip.pin.GND }
+    a -- chip.pin.VDD
+    b -- chip.pin.GND
   }
   /// RLARGE for 3.3 V logic: (L+R)/2 mono mix (210 kΩ = right only; tied high = left)
   R1 =
     if vio != null then res(634kohm, package = "0402") {
       place = [soft(near(chip.pin.SD_MODE, max = 5mm), weight = 1)]
-      pins { a: chip.pin.SD_MODE, b: vio }
+      a -- chip.pin.SD_MODE
+      b -- vio
     }
     else null
 }

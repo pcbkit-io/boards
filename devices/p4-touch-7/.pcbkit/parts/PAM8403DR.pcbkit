@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // PAM8403DR (Diodes Incorporated): PAM8403 filterless class-D stereo audio amplifier, 2 x 3 W into
 // 4 Ω at 5 V, 2.5-5.5 V, fixed 24 dB gain, mute and shutdown, SOP-16 (not recommended for new
@@ -37,42 +37,42 @@ part Part = device(
   mpn = "PAM8403DR",
   manufacturer = "Diodes Incorporated",
   pinout = {
-    OUTLP: "1",
-    PGND: ["2", "15"],
-    OUTLN: "3",
-    PVDD: ["4", "13"],
-    MUTE: "5",
-    VDD: "6",
-    INL: "7",
-    VREF: "8",
-    NC: "9",
-    INR: "10",
-    GND: "11",
-    SHDN: "12",
-    OUTRN: "14",
-    OUTRP: "16",
+    OUTLP = "1"
+    PGND = ["2", "15"]
+    OUTLN = "3"
+    PVDD = ["4", "13"]
+    MUTE = "5"
+    VDD = "6"
+    INL = "7"
+    VREF = "8"
+    NC = "9"
+    INR = "10"
+    GND = "11"
+    SHDN = "12"
+    OUTRN = "14"
+    OUTRP = "16"
   },
   pinTypes = {
-    OUTLP: .output,
-    PGND: .ground,
-    OUTLN: .output,
-    PVDD: io.powerIn(min = 2.5V, max = 6V),
-    MUTE: io.input(pull = .up),
-    VDD: io.powerIn(min = 2.5V, max = 6V),
-    INL: .passive,
-    VREF: .passive,
-    NC: .nc,
-    INR: .passive,
-    GND: .ground,
-    SHDN: io.input(pull = .up),
-    OUTRN: .output,
-    OUTRP: .output,
+    OUTLP = .output
+    PGND = .ground
+    OUTLN = .output
+    PVDD = io.powerIn(min = 2.5V, max = 6V)
+    MUTE = io.input(pull = .up)
+    VDD = io.powerIn(min = 2.5V, max = 6V)
+    INL = .passive
+    VREF = .passive
+    NC = .nc
+    INR = .passive
+    GND = .ground
+    SHDN = io.input(pull = .up)
+    OUTRN = .output
+    OUTRP = .output
   },
 ) with {
   fields {
-    Status: "checked",
-    PinoutSource: "PAM8403 datasheet DS36439 Rev. 2-3: pin descriptions (p. 2), absolute maximum and recommended operating conditions (p. 3), application information (p. 7-9), SO-16 package outline (p. 10)",
-    Datasheet: "https://www.diodes.com/assets/Datasheets/PAM8403.pdf",
+    Status = "checked"
+    PinoutSource = "PAM8403 datasheet DS36439 Rev. 2-3: pin descriptions (p. 2), absolute maximum and recommended operating conditions (p. 3), application information (p. 7-9), SO-16 package outline (p. 10)"
+    Datasheet = "https://www.diodes.com/assets/Datasheets/PAM8403.pdf"
   }
   simulation = SimulationParameters {
     parameters = [
@@ -143,51 +143,58 @@ part Part = device(
 /// - MUTE and SHDN have internal pull-ups: leave them open or drive them low from GPIO.
 ///
 /// - Wide, short PVDD and PGND traces; never above 5.5 V (four fresh alkaline cells exceed 6 V).
-block Support(
+block Support {
   /// The PAM8403DR this circuit serves (`PAM8403DR.Support(U1)`).
-  chip: Any,
+  chip: Any
   /// The board's AUDIO_L. (`null`: its parts are left out)
-  audioL: Endpoint? = null,
+  audioL: Endpoint? = null
   /// The board's AUDIO_R. (`null`: its parts are left out)
-  audioR: Endpoint? = null,
-) {
+  audioR: Endpoint? = null
+
   /// low-ESR ceramic at VDD
   C1 = cap(1uF, package = "0402") {
     place = [soft(near(chip.pin.VDD, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VDD, b: chip.pin.GND }
+    a -- chip.pin.VDD
+    b -- chip.pin.GND
   }
   /// low-ESR ceramic at PVDD (pin 4)
   C2 = cap(1uF, package = "0402") {
     place = [soft(near(chip.pin.PVDD, max = 2mm), weight = 2)]
-    pins { a: chip.pin.PVDD, b: chip.pin.PGND }
+    a -- chip.pin.PVDD
+    b -- chip.pin.PGND
   }
   /// low-ESR ceramic at PVDD (pin 13)
   C3 = cap(1uF, package = "0402") {
     place = [soft(near(chip.pin.PVDD, max = 2mm), weight = 2)]
-    pins { a: chip.pin.PVDD, b: chip.pin.PGND }
+    a -- chip.pin.PVDD
+    b -- chip.pin.PGND
   }
   /// bulk, near the amplifier (20 µF or more)
   C4 = cap(22uF, package = "1206") {
     place = [soft(near(chip.pin.PVDD, max = 4mm), weight = 2)]
-    pins { a: chip.pin.PVDD, b: chip.pin.PGND }
+    a -- chip.pin.PVDD
+    b -- chip.pin.PGND
   }
   /// VREF bypass, 0.47-1 µF ceramic (the most critical capacitor)
   C5 = cap(1uF, package = "0402") {
     place = [soft(near(chip.pin.VREF, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VREF, b: chip.pin.GND }
+    a -- chip.pin.VREF
+    b -- chip.pin.GND
   }
   /// left input coupling
   C6 =
     if audioL != null then cap(470nF, package = "0402") {
       place = [soft(near(chip.pin.INL, max = 2mm), weight = 2)]
-      pins { a: chip.pin.INL, b: audioL }
+      a -- chip.pin.INL
+      b -- audioL
     }
     else null
   /// right input coupling
   C7 =
     if audioR != null then cap(470nF, package = "0402") {
       place = [soft(near(chip.pin.INR, max = 2mm), weight = 2)]
-      pins { a: chip.pin.INR, b: audioR }
+      a -- chip.pin.INR
+      b -- audioR
     }
     else null
 }

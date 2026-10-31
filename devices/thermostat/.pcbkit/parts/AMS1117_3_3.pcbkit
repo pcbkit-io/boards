@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // AMS1117-3.3 (Advanced Monolithic Systems): Linear regulator (LDO), fixed 3.3 V, 1 A, input up to
 // 15 V, about 1.1 V dropout
@@ -21,13 +21,13 @@ part Part = device(
   prefix = "U",
   mpn = "AMS1117-3.3",
   manufacturer = "Advanced Monolithic Systems",
-  pinout = { GND: "1", VOUT: ["2", "4"], VIN: "3" },
-  pinTypes = { GND: .ground, VOUT: io.powerOut(3.3V), VIN: io.powerIn(min = 4.75V, max = 15V) },
+  pinout = { GND = "1", VOUT = ["2", "4"], VIN = "3" },
+  pinTypes = { GND = .ground, VOUT = io.powerOut(3.3V), VIN = io.powerIn(min = 4.75V, max = 15V) },
 ) with {
   fields {
-    Status: "checked",
-    PinoutSource: "AMS1117 datasheet, Pin connections (p. 1): SOT-223 1 GND/ADJ, 2 VOUT, 3 VIN, tab VOUT",
-    Datasheet: "http://www.advanced-monolithic.com/pdf/ds1117.pdf",
+    Status = "checked"
+    PinoutSource = "AMS1117 datasheet, Pin connections (p. 1): SOT-223 1 GND/ADJ, 2 VOUT, 3 VIN, tab VOUT"
+    Datasheet = "http://www.advanced-monolithic.com/pdf/ds1117.pdf"
   }
   simulation = SimulationParameters {
     parameters = [
@@ -69,18 +69,20 @@ part Part = device(
 /// all conditions (the datasheet's figure uses solid tantalum).
 ///
 /// - It needs about 10 mA of load to regulate within specification.
-block Support(
+block Support {
   /// The AMS1117-3.3 this circuit serves (`AMS1117_3_3.Support(U1)`).
-  chip: Any,
-) {
+  chip: Any
+
   /// 25V
   CIN = cap(10uF, package = "0805", ratedVoltage = 25V) {
     place = [soft(near(chip.pin.VIN, max = 4mm), weight = 2)]
-    pins { a: chip.pin.VIN, b: chip.pin.GND }
+    a -- chip.pin.VIN
+    b -- chip.pin.GND
   }
   /// 10V, low ESR (the datasheet uses tantalum)
   COUT = cap(22uF, package = "1206", ratedVoltage = 10V) {
     place = [soft(near(chip.pin.VOUT, max = 4mm), weight = 2)]
-    pins { a: chip.pin.VOUT, b: chip.pin.GND }
+    a -- chip.pin.VOUT
+    b -- chip.pin.GND
   }
 }

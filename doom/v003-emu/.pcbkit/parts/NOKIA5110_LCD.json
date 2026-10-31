@@ -32,7 +32,7 @@
     "pitch": 2.54,
     "page": "a 1x8 pin header at 2.54 mm for the cable to the module: pin 1 square"
   },
-  "footprint": "pinHeader(8) with { models = [Model3d { path = \"Connector_PinHeader_2.54mm:PinHeader_1x08_P2.54mm_Vertical\"; hide = true }]; solids = concat([slab(-1.27mm, -10.16mm, 0mm, 1.27mm, 10.16mm, 2.5mm, color = \"#141416\"), slab(-41.4mm, -21.55mm, 2.5mm, 2.2mm, 21.55mm, 3.5mm, color = \"#b3202a\")], map(range(0, 8), fn(i) -> solid.box((0.64mm, 0.64mm, 4.4mm), at = (0mm, clean((3.5 - i) * 2.54mm), 0mm), material = .gold)), map(displayPanel(box((-34.35mm, -18mm), (-8.85mm, 18mm)), box((-30.25mm, -15.1mm), (-12.95mm, 15.1mm)), 2.8mm, frame = box((-38.1mm, -19.5mm), (-5.1mm, 19.5mm)), face = \"#9da697\", mask = \"#8e978a\"), fn(p) -> p with { at = (p.at[0], p.at[1], clean(p.at[2] + 3.5mm)) })) }",
+  "footprint": "pinHeader(8) with {\nmodels = [\n  Model3d { path = \"Connector_PinHeader_2.54mm:PinHeader_1x08_P2.54mm_Vertical\", hide = true },\n]\nsolids = concat(\n  [\n    slab(-1.27mm, -10.16mm, 0mm, 1.27mm, 10.16mm, 2.5mm, color = \"#141416\"),\n    slab(-41.4mm, -21.55mm, 2.5mm, 2.2mm, 21.55mm, 3.5mm, color = \"#b3202a\"),\n  ],\n  map(range(0, 8), i => solid.box(\n    (0.64mm, 0.64mm, 4.4mm),\n    at = (0mm, clean((3.5 - i) * 2.54mm), 0mm),\n    material = .gold,\n  )),\n  map(\n    displayPanel(\n      box((-34.35mm, -18mm), (-8.85mm, 18mm)),\n      box((-30.25mm, -15.1mm), (-12.95mm, 15.1mm)),\n      2.8mm,\n      frame = box((-38.1mm, -19.5mm), (-5.1mm, 19.5mm)),\n      face = \"#9da697\",\n      mask = \"#8e978a\",\n    ),\n    p => p with { at = (p.at[0], p.at[1], clean(p.at[2] + 3.5mm)) },\n  ),\n)\n}",
   "pins": [
     {
       "number": "1",

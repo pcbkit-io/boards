@@ -1,15 +1,27 @@
-pcbkit 1
-use "parts/ARDUINO_NANO.pcbkit" as ARDUINO_NANO
+pcbkit 2
+use ./parts/ARDUINO_NANO as ARDUINO_NANO
 // A UART-controlled indicator: the Nano's UART on its USB and on the FTDI header.
 net V5, GND, TX, RX, LIGHT, LIGHT_K
 // The parts every lab board shares: a light (an LED from its pin through 1 kΩ, `.green` to
 // `.white`), a key (a tactile switch to ground, the pin's pull-up on; in the lab the keyboard key
 // named), a knob (a 10 kΩ pot between 5 V and ground into an ADC pin) and the FTDI header.
-fn light(color: LedColor): Part = led(package = "1206", color = color) with {
-  simulation = SimulationParameters { behavior = Behavior { model = "indicator"; ports = { input: ["2"] }; parameters = { color: labColorIndex(color), milliamps: 3 } } }
+fn light(color: LedColor) -> Part = led(package = "1206", color = color) with {
+  simulation = SimulationParameters {
+    behavior = Behavior {
+      model = "indicator"
+      ports = { input = ["2"] }
+      parameters = { color = labColorIndex(color), milliamps = 3 }
+    }
+  }
 }
-fn ftdi(): Part = header(6) with {
-  simulation = SimulationParameters { behavior = Behavior { model = "serial-terminal"; ports = { power: ["3", "1"], uart: ["5", "4"] }; parameters = { baud: 9600 } } }
+fn ftdi() -> Part = header(6) with {
+  simulation = SimulationParameters {
+    behavior = Behavior {
+      model = "serial-terminal"
+      ports = { power = ["3", "1"], uart = ["5", "4"] }
+      parameters = { baud = 9600 }
+    }
+  }
 }
 
 board = Board {
@@ -20,12 +32,18 @@ board = Board {
 // The processor: an Arduino Nano on two 15-pin sockets on the back, flashed over its USB (its
 // bootloader); the program in firmware/ is plain C for its ATmega328P.
 U1 = ARDUINO_NANO.Part with {
-  simulation = ARDUINO_NANO.Part.simulation with { behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" } }
+  simulation = ARDUINO_NANO.Part.simulation with {
+    behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" }
+  }
 } {
   at = (36mm, 26mm)
   rotation = 90deg
   side = .bottom
-  pins { P5V: V5, GND: GND, D1: TX, D0: RX, D8: LIGHT }
+  P5V -- V5
+  GND -- GND
+  D1 -- TX
+  D0 -- RX
+  D8 -- LIGHT
 }
 // A 6-pin FTDI header: plug a USB-serial adapter in (or use the Nano's own USB, the same UART).
 console = ftdi() {
@@ -34,9 +52,14 @@ console = ftdi() {
 }
 status = light(.green) {
   at = (61mm, 22mm)
-  pins { A: LIGHT, K: LIGHT_K }
+  A -- LIGHT
+  K -- LIGHT_K
 }
-statusR = res(1kohm, package = "0603") { place = [soft(near(status, max = 4mm))]; pins { a: LIGHT_K, b: GND } }
+statusR = res(1kohm, package = "0603") {
+  place = [soft(near(status, max = 4mm))]
+  a -- LIGHT_K
+  b -- GND
+}
 label = Text {
   text = "UART COMMAND DEVICE"
   at = (39mm, 6mm)
@@ -45,8 +68,8 @@ label = Text {
 
 // The Nano stands on its sockets above the console header's pins: KiCad's pth/npth_inside_courtyard
 // waived between them.
-rule NanoOverConsole {
+NanoOverConsole = Rule {
   select = ofComponent(U1) and onB(ofComponent(console))
   reason = "the Nano stands on its sockets above the console header's pins"
-  limits { courtyardClearance: limit(min = -100mm) }
+  limits = { courtyardClearance = limit(min = -100mm) }
 }

@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // APS6404L-3SQR-SN (AP Memory): 64 Mbit (8 MB) SPI/QPI pseudo-SRAM with self-managed refresh, up
 // to 133 MHz, 2.7-3.6 V (SOP-8 150 mil)
@@ -19,31 +19,36 @@ pcbkit 1
 
 /// APS6404L-3SQR-SN — 64 Mbit (8 MB) SPI/QPI pseudo-SRAM with self-managed refresh, up to 133
 /// MHz, 2.7-3.6 V (SOP-8 150 mil)
-part Part = device(footprint = soic(
-  8,
-), prefix = "U", mpn = "APS6404L-3SQR-SN", manufacturer = "AP Memory", pinout = {
-  CE: "1",
-  SIO1: "2",
-  SIO2: "3",
-  VSS: "4",
-  SIO0: "5",
-  SCLK: "6",
-  SIO3: "7",
-  VDD: "8",
-}, pinTypes = {
-  CE: io.input(),
-  SIO1: io.bidirectional(),
-  SIO2: io.bidirectional(),
-  VSS: .ground,
-  SIO0: io.bidirectional(),
-  SCLK: io.input(),
-  SIO3: io.bidirectional(),
-  VDD: io.powerIn(min = 2.7V, max = 3.6V),
-}) with {
+part Part = device(
+  footprint = soic(8),
+  prefix = "U",
+  mpn = "APS6404L-3SQR-SN",
+  manufacturer = "AP Memory",
+  pinout = {
+    CE = "1"
+    SIO1 = "2"
+    SIO2 = "3"
+    VSS = "4"
+    SIO0 = "5"
+    SCLK = "6"
+    SIO3 = "7"
+    VDD = "8"
+  },
+  pinTypes = {
+    CE = io.input()
+    SIO1 = io.bidirectional()
+    SIO2 = io.bidirectional()
+    VSS = .ground
+    SIO0 = io.bidirectional()
+    SCLK = io.input()
+    SIO3 = io.bidirectional()
+    VDD = io.powerIn(min = 2.7V, max = 3.6V)
+  },
+) with {
   fields {
-    Status: "checked",
-    PinoutSource: "AP Memory APS6404L-3SQR datasheet Rev. 2.3, §3.1 (1 /CE, 2 SO/SIO1, 3 SIO2, 4 VSS, 5 SI/SIO0, 6 SCLK, 7 SIO3, 8 VDD); §4.1 outline refers to JEDEC MS-012 AA (SOIC-8: D 4.90, E1 3.90, E 6.00 BSC, e 1.27)",
-    Datasheet: "https://www.pjrc.com/store/APS6404L_3SQR.pdf",
+    Status = "checked"
+    PinoutSource = "AP Memory APS6404L-3SQR datasheet Rev. 2.3, §3.1 (1 /CE, 2 SO/SIO1, 3 SIO2, 4 VSS, 5 SI/SIO0, 6 SCLK, 7 SIO3, 8 VDD); §4.1 outline refers to JEDEC MS-012 AA (SOIC-8: D 4.90, E1 3.90, E 6.00 BSC, e 1.27)"
+    Datasheet = "https://www.pjrc.com/store/APS6404L_3SQR.pdf"
   }
   simulation = SimulationParameters {
     parameters = [
@@ -70,23 +75,26 @@ part Part = device(footprint = soic(
 ///
 /// - Wait 150 us after power-up before the first command; the device then answers in SPI mode until
 /// Enter Quad Mode (35h).
-block Support(
+block Support {
   /// The APS6404L-3SQR-SN this circuit serves (`APS6404L_3SQR.Support(U1)`).
-  chip: Any,
-) {
+  chip: Any
+
   /// low-ESR ceramic as close to VDD as possible (required)
   C1 = cap(1uF, package = "0402") {
     place = [soft(near(chip.pin.VDD, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VDD, b: chip.pin.VSS }
+    a -- chip.pin.VDD
+    b -- chip.pin.VSS
   }
   /// optional high-frequency decoupling at VDD
   C2 = cap(100nF, package = "0402") {
     place = [soft(near(chip.pin.VDD, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VDD, b: chip.pin.VSS }
+    a -- chip.pin.VDD
+    b -- chip.pin.VSS
   }
   /// keeps the PSRAM deselected while the host boots
   R1 = res(10kohm, package = "0402") {
     place = [soft(near(chip.pin.CE, max = 5mm), weight = 1)]
-    pins { a: chip.pin.CE, b: chip.pin.VDD }
+    a -- chip.pin.CE
+    b -- chip.pin.VDD
   }
 }

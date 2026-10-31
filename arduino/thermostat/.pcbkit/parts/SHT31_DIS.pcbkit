@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // SHT31-DIS-B2.5kS (Sensirion): Humidity and temperature sensor, ±2 %RH / ±0.2 °C typical, I2C
 // up to 1 MHz with alert output and reset, 2.15-5.5 V (DFN-8 2.5 x 2.5 mm)
@@ -37,37 +37,37 @@ part Part = device(
   mpn = "SHT31-DIS-B2.5kS",
   manufacturer = "Sensirion",
   pinout = {
-    SDA: "1",
-    ADDR: "2",
-    ALERT: "3",
-    SCL: "4",
-    VDD: "5",
-    nRESET: "6",
-    R: "7",
-    VSS: ["8", "9"],
+    SDA = "1"
+    ADDR = "2"
+    ALERT = "3"
+    SCL = "4"
+    VDD = "5"
+    nRESET = "6"
+    R = "7"
+    VSS = ["8", "9"]
   },
   pinTypes = {
-    SDA: io.openDrain(),
-    ADDR: io.input(),
-    ALERT: .output,
-    SCL: io.openDrain(),
-    VDD: io.powerIn(min = 2.15V, max = 6V),
-    nRESET: io.input(pull = .up),
-    R: .passive,
-    VSS: .ground,
+    SDA = io.openDrain()
+    ADDR = io.input()
+    ALERT = .output
+    SCL = io.openDrain()
+    VDD = io.powerIn(min = 2.15V, max = 6V)
+    nRESET = io.input(pull = .up)
+    R = .passive
+    VSS = .ground
   },
 ) with {
   fields {
-    Status: "checked",
-    PinoutSource: "Sensirion SHT3x-DIS datasheet, Version 7 (December 2022), Table 7 pin assignment and section 3",
-    Datasheet: "https://sensirion.com/media/documents/213E6A3B/63A5A569/Datasheet_SHT3x_DIS.pdf",
-    I2cAddress: "0x44 ADDR",
+    Status = "checked"
+    PinoutSource = "Sensirion SHT3x-DIS datasheet, Version 7 (December 2022), Table 7 pin assignment and section 3"
+    Datasheet = "https://sensirion.com/media/documents/213E6A3B/63A5A569/Datasheet_SHT3x_DIS.pdf"
+    I2cAddress = "0x44 ADDR"
   }
   simulation = SimulationParameters {
     behavior = Behavior {
       model = "sht31"
-      ports = { "i2c": ["1", "4"], "power": ["5", "8"] }
-      parameters = { "address": 68 }
+      ports = { "i2c" = ["1", "4"], "power" = ["5", "8"] }
+      parameters = { "address" = 68 }
       height = 0.9mm
     }
     parameters = []
@@ -82,31 +82,34 @@ part Part = device(
 /// open.
 ///
 /// - The pull-ups are per bus, not per sensor; size them for the bus capacitance and speed.
-block Support(
+block Support {
   /// The SHT31-DIS-B2.5kS this circuit serves (`SHT31_DIS.Support(U1)`).
-  chip: Any,
+  chip: Any
   /// The I2C pull-ups (once per bus: `false` when another part of the bus has them).
-  pullUps: Bool = true,
+  pullUps: Bool = true
   /// ADDR to VSS: address 0x44.
-  address44: Bool = true,
-) {
+  address44: Bool = true
+
   /// X7R
   C1 = cap(100nF, package = "0402", dielectric = .X7R) {
     place = [soft(near(chip.pin.VDD, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VDD, b: chip.pin.VSS }
+    a -- chip.pin.VDD
+    b -- chip.pin.VSS
   }
   RP1 =
     if pullUps then res(10kohm, package = "0402") {
       place = [soft(near(chip.pin.SDA, max = 5mm), weight = 1)]
-      pins { a: chip.pin.SDA, b: chip.pin.VDD }
+      a -- chip.pin.SDA
+      b -- chip.pin.VDD
     }
     else null
   RP2 =
     if pullUps then res(10kohm, package = "0402") {
       place = [soft(near(chip.pin.SCL, max = 5mm), weight = 1)]
-      pins { a: chip.pin.SCL, b: chip.pin.VDD }
+      a -- chip.pin.SCL
+      b -- chip.pin.VDD
     }
     else null
-  connect(chip.pin.R, chip.pin.VSS)
-  connect(chip.pin.ADDR, if address44 then chip.pin.VSS else chip.pin.ADDR)
+  chip.pin.R -- chip.pin.VSS
+  chip.pin.ADDR -- (if address44 then chip.pin.VSS else chip.pin.ADDR)
 }

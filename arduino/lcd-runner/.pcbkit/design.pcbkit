@@ -1,13 +1,13 @@
-pcbkit 1
+pcbkit 2
 
 // A runner on a 16 x 2 character LCD, the classic Arduino wiring: an HD44780 module on
 // LiquidCrystal's pins (RS 12, E 11, D4–D7 on 5, 4, 3, 2), its contrast on a trimmer and its
 // backlight through 220 Ω. The dinosaur, the cacti and the birds are custom characters in the
 // LCD's CGRAM; the button (Space in the lab) jumps. Power: the Nano's USB.
 
-use "parts/ARDUINO_NANO.pcbkit" as ARDUINO_NANO
-use "parts/LCD1602.pcbkit" as LCD1602
-use "parts/PTV09A_4020F_B103.pcbkit" as Pot
+use ./parts/ARDUINO_NANO as ARDUINO_NANO
+use ./parts/LCD1602 as LCD1602
+use ./parts/PTV09A_4020F_B103 as Pot
 
 net V5 { voltage = 5V }
 net GND { voltage = 0V }
@@ -20,36 +20,83 @@ board = Board {
 }
 
 NANO = ARDUINO_NANO.Part with {
-  simulation = ARDUINO_NANO.Part.simulation with { behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" } }
+  simulation = ARDUINO_NANO.Part.simulation with {
+    behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" }
+  }
 } {
   at = (48mm, 12mm)
   rotation = 90deg
   side = .bottom
-  pins { P5V: V5, GND: GND, D12: RS, D11: E, D5: D4, D4: D5, D3: D6, D2: D7, D8: JUMP }
+  P5V -- V5
+  GND -- GND
+  D12 -- RS
+  D11 -- E
+  D5 -- D4
+  D4 -- D5
+  D3 -- D6
+  D2 -- D7
+  D8 -- JUMP
 }
 
 // The LCD over the top half, on its 16-pin socket; R/W on ground (writes only).
 DS1 = LCD1602.Part {
   at = (35mm, 63mm)
-  pins { VSS: GND, VDD: V5, V0: V0, RS: RS, RW: GND, E: E, DB0: .nc, DB1: .nc, DB2: .nc, DB3: .nc, DB4: D4, DB5: D5, DB6: D6, DB7: D7, A: LED_A, K: GND }
+  VSS -- GND
+  VDD -- V5
+  V0 -- V0
+  RS -- RS
+  RW -- GND
+  E -- E
+  DB0 -- .nc
+  DB1 -- .nc
+  DB2 -- .nc
+  DB3 -- .nc
+  DB4 -- D4
+  DB5 -- D5
+  DB6 -- D6
+  DB7 -- D7
+  A -- LED_A
+  K -- GND
 }
 RV1 = Pot.Part with {
   // Turned for a crisp picture: about 0.6 V on V0.
-  simulation = Pot.Part.simulation with { behavior = Pot.Part.simulation.behavior with { parameters = { position: 0.12, volts: 5, ohms: 10000 } } }
+  simulation = Pot.Part.simulation with {
+    behavior = Pot.Part.simulation.behavior with {
+      parameters = { position = 0.12, volts = 5, ohms = 10000 }
+    }
+  }
 } {
   at = (86mm, 12mm)
-  pins { CCW: GND, W: V0, CW: V5, MP: GND }
+  CCW -- GND
+  W -- V0
+  CW -- V5
+  MP -- GND
 }
-contrastLabel = Text { text = "CONTRAST"; at = (86mm, 21mm); size = 1.2mm }
-R1 = res(220ohm, package = "0805") { place = [soft(near(DS1.pin.A, max = 8mm))]; pins { a: V5, b: LED_A } }
+contrastLabel = Text {
+  text = "CONTRAST"
+  at = (86mm, 21mm)
+  size = 1.2mm
+}
+R1 = res(220ohm, package = "0805") {
+  place = [soft(near(DS1.pin.A, max = 8mm))]
+  a -- V5
+  b -- LED_A
+}
 
 SW1 = button("6x6") with {
-  simulation = SimulationParameters { behavior = Behavior { model = "button"; ports = { output: ["1"] }; key = "Space" } }
+  simulation = SimulationParameters {
+    behavior = Behavior { model = "button", ports = { output = ["1"] }, key = "Space" }
+  }
 } {
   at = (10mm, 12mm)
-  pins { a: JUMP, b: GND }
+  a -- JUMP
+  b -- GND
 }
-jumpLabel = Text { text = "JUMP"; at = (10mm, 18mm); size = 1.2mm }
+jumpLabel = Text {
+  text = "JUMP"
+  at = (10mm, 18mm)
+  size = 1.2mm
+}
 
 H1 = hole("M3") { at = (4mm, 62mm) }
 H2 = hole("M3") { at = (92mm, 62mm) }

@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // TJA1051T/3/1J (NXP Semiconductors): High-speed CAN transceiver, 5 V supply with a VIO pin for
 // 2.8-5 V logic (3.3 V MCUs), up to 5 Mbps, silent mode (SO-8)
@@ -33,28 +33,37 @@ part Part = device(
   prefix = "U",
   mpn = "TJA1051T/3/1J",
   manufacturer = "NXP Semiconductors",
-  pinout = { TXD: "1", GND: "2", VCC: "3", RXD: "4", VIO: "5", CANL: "6", CANH: "7", S: "8" },
+  pinout = {
+    TXD = "1"
+    GND = "2"
+    VCC = "3"
+    RXD = "4"
+    VIO = "5"
+    CANL = "6"
+    CANH = "7"
+    S = "8"
+  },
   pinTypes = {
-    TXD: io.input(max = 7V, pull = .up),
-    GND: .ground,
-    VCC: io.powerIn(min = 4.5V, max = 7V),
-    RXD: .output,
-    VIO: io.powerIn(min = 2.8V, max = 7V),
-    CANL: io.bidirectional(max = 58V),
-    CANH: io.bidirectional(max = 58V),
-    S: io.input(max = 7V, pull = .down),
+    TXD = io.input(max = 7V, pull = .up)
+    GND = .ground
+    VCC = io.powerIn(min = 4.5V, max = 7V)
+    RXD = .output
+    VIO = io.powerIn(min = 2.8V, max = 7V)
+    CANL = io.bidirectional(max = 58V)
+    CANH = io.bidirectional(max = 58V)
+    S = io.input(max = 7V, pull = .down)
   },
 ) with {
   fields {
-    Status: "checked",
-    PinoutSource: "NXP TJA1051 product data sheet Rev. 9 (28 November 2017), Table 3 pin description and Fig 2c (TJA1051T/3, SO8)",
-    Datasheet: "https://www.nxp.com/docs/en/data-sheet/TJA1051.pdf",
+    Status = "checked"
+    PinoutSource = "NXP TJA1051 product data sheet Rev. 9 (28 November 2017), Table 3 pin description and Fig 2c (TJA1051T/3, SO8)"
+    Datasheet = "https://www.nxp.com/docs/en/data-sheet/TJA1051.pdf"
   }
   simulation = SimulationParameters {
     behavior = Behavior {
       model = "can-transceiver"
-      ports = { "bus": ["7", "6"], "can": ["1", "4"], "mode": ["8"], "power": ["3", "2"] }
-      parameters = { "mode_high": 0 }
+      ports = { "bus" = ["7", "6"], "can" = ["1", "4"], "mode" = ["8"], "power" = ["3", "2"] }
+      parameters = { "mode_high" = 0 }
       height = 1.75mm
     }
     parameters = [
@@ -110,41 +119,46 @@ part Part = device(
 ///
 /// - Terminate the bus at its two ends only: 120 ohm across CANH-CANL, or split into 2 x 60 ohm
 /// with 4.7 nF to GND at the midpoint.
-block Support(
+block Support {
   /// The TJA1051T/3/1J this circuit serves (`TJA1051T3.Support(U1)`).
-  chip: Any,
+  chip: Any
   /// The split termination, 2 x 60 ohm with 4.7 nF to GND (only at the bus's two ends).
-  termination: Bool = false,
-) {
+  termination: Bool = false
+
   net SPLIT
   /// X7R
   C1 = cap(100nF, package = "0402", dielectric = .X7R) {
     place = [soft(near(chip.pin.VCC, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VCC, b: chip.pin.GND }
+    a -- chip.pin.VCC
+    b -- chip.pin.GND
   }
   /// X7R
   C2 = cap(100nF, package = "0402", dielectric = .X7R) {
     place = [soft(near(chip.pin.VIO, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VIO, b: chip.pin.GND }
+    a -- chip.pin.VIO
+    b -- chip.pin.GND
   }
   /// split termination, bus ends only
   R1 =
     if termination then res(60ohm, package = "0402") {
       place = [soft(near(chip.pin.CANH, max = 5mm), weight = 1)]
-      pins { a: chip.pin.CANH, b: SPLIT }
+      a -- chip.pin.CANH
+      b -- SPLIT
     }
     else null
   /// split termination, bus ends only
   R2 =
     if termination then res(60ohm, package = "0402") {
       place = [soft(near(chip.pin.CANL, max = 5mm), weight = 1)]
-      pins { a: SPLIT, b: chip.pin.CANL }
+      a -- SPLIT
+      b -- chip.pin.CANL
     }
     else null
   C3 =
     if termination then cap(4.7nF, package = "0402") {
       place = [soft(near(chip, max = 8mm), weight = 1)]
-      pins { a: SPLIT, b: chip.pin.GND }
+      a -- SPLIT
+      b -- chip.pin.GND
     }
     else null
 }

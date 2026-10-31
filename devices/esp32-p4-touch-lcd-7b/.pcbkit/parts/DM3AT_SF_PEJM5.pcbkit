@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // DM3AT-SF-PEJM5 (Hirose): microSD (TF) card socket, push-push, SMD, 1.68 mm high, with
 // card-detect switch; contacts in SD order DAT2, CD/DAT3, CMD, VDD, CLK, VSS, DAT0, DAT1 (SPI: CS
@@ -94,36 +94,36 @@ part Part = device(
   mpn = "DM3AT-SF-PEJM5",
   manufacturer = "Hirose",
   pinout = {
-    DAT2: "1",
-    CD_DAT3: "2",
-    CMD: "3",
-    VDD: "4",
-    CLK: "5",
-    VSS: "6",
-    DAT0: "7",
-    DAT1: "8",
-    CD_A: "9",
-    CD_B: "10",
-    SH: "SH",
+    DAT2 = "1"
+    CD_DAT3 = "2"
+    CMD = "3"
+    VDD = "4"
+    CLK = "5"
+    VSS = "6"
+    DAT0 = "7"
+    DAT1 = "8"
+    CD_A = "9"
+    CD_B = "10"
+    SH = "SH"
   },
   pinTypes = {
-    DAT2: .passive,
-    CD_DAT3: .passive,
-    CMD: .passive,
-    VDD: .passive,
-    CLK: .passive,
-    VSS: .passive,
-    DAT0: .passive,
-    DAT1: .passive,
-    CD_A: .passive,
-    CD_B: .passive,
-    SH: .passive,
+    DAT2 = .passive
+    CD_DAT3 = .passive
+    CMD = .passive
+    VDD = .passive
+    CLK = .passive
+    VSS = .passive
+    DAT0 = .passive
+    DAT1 = .passive
+    CD_A = .passive
+    CD_B = .passive
+    SH = .passive
   },
 ) with {
   fields {
-    Status: "checked",
-    PinoutSource: "Hirose drawing EDC-325165-00-00 for DM3AT-SF-PEJM5 (CL0609-0031-0-00, revision 4): contact assignment #1 DAT2, #2 CD/DAT3, #3 CMD, #4 VDD, #5 CLK, #6 VSS, #7 DAT0, #8 DAT1; card detection switch A/B; recommended PCB layout; pad numbers 9, 10 and SH are ours (the drawing names them only)",
-    Datasheet: "https://www.hirose.com/en/product/p/CL0609-0033-6-00",
+    Status = "checked"
+    PinoutSource = "Hirose drawing EDC-325165-00-00 for DM3AT-SF-PEJM5 (CL0609-0031-0-00, revision 4): contact assignment #1 DAT2, #2 CD/DAT3, #3 CMD, #4 VDD, #5 CLK, #6 VSS, #7 DAT0, #8 DAT1; card detection switch A/B; recommended PCB layout; pad numbers 9, 10 and SH are ours (the drawing names them only)"
+    Datasheet = "https://www.hirose.com/en/product/p/CL0609-0033-6-00"
   }
 }
 
@@ -138,48 +138,56 @@ part Part = device(
 /// CD/DAT3, MOSI = CMD, SCK = CLK, MISO = DAT0, DAT1/DAT2 pulled up.
 ///
 /// - Card detect: CD_B to GND and CD_A to a GPIO with a pull-up: low with a card in.
-block Support(
+block Support {
   /// The DM3AT-SF-PEJM5 this circuit serves (`DM3AT_SF_PEJM5.Support(U1)`).
-  chip: Any,
-) {
+  chip: Any
+
   /// bulk at the socket (card inrush)
   C1 = cap(10uF, package = "0805") {
     place = [soft(near(chip.pin.VDD, max = 4mm), weight = 2)]
-    pins { a: chip.pin.VDD, b: chip.pin.VSS }
+    a -- chip.pin.VDD
+    b -- chip.pin.VSS
   }
   /// at the socket
   C2 = cap(100nF, package = "0402") {
     place = [soft(near(chip.pin.VDD, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VDD, b: chip.pin.VSS }
+    a -- chip.pin.VDD
+    b -- chip.pin.VSS
   }
   /// pull-up
   R1 = res(47kohm, package = "0402") {
     place = [soft(near(chip.pin.CMD, max = 5mm), weight = 1)]
-    pins { a: chip.pin.CMD, b: chip.pin.VDD }
+    a -- chip.pin.CMD
+    b -- chip.pin.VDD
   }
   /// pull-up
   R2 = res(47kohm, package = "0402") {
     place = [soft(near(chip.pin.DAT0, max = 5mm), weight = 1)]
-    pins { a: chip.pin.DAT0, b: chip.pin.VDD }
+    a -- chip.pin.DAT0
+    b -- chip.pin.VDD
   }
   /// pull-up
   R3 = res(47kohm, package = "0402") {
     place = [soft(near(chip.pin.DAT1, max = 5mm), weight = 1)]
-    pins { a: chip.pin.DAT1, b: chip.pin.VDD }
+    a -- chip.pin.DAT1
+    b -- chip.pin.VDD
   }
   /// pull-up
   R4 = res(47kohm, package = "0402") {
     place = [soft(near(chip.pin.DAT2, max = 5mm), weight = 1)]
-    pins { a: chip.pin.DAT2, b: chip.pin.VDD }
+    a -- chip.pin.DAT2
+    b -- chip.pin.VDD
   }
   /// pull-up (SPI: keeps the card deselected)
   R5 = res(47kohm, package = "0402") {
     place = [soft(near(chip.pin.CD_DAT3, max = 5mm), weight = 1)]
-    pins { a: chip.pin.CD_DAT3, b: chip.pin.VDD }
+    a -- chip.pin.CD_DAT3
+    b -- chip.pin.VDD
   }
   /// card-detect pull-up, CD_B to ground
   R6 = res(10kohm, package = "0402") {
     place = [soft(near(chip.pin.CD_A, max = 5mm), weight = 1)]
-    pins { a: chip.pin.CD_A, b: chip.pin.VDD }
+    a -- chip.pin.CD_A
+    b -- chip.pin.VDD
   }
 }

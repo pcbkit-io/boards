@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // MSP3520 3.5in 320x480 SPI TFT module with touch (ILI9488) (generic): 3.5" 320 x 480 colour TFT
 // module (ILI9488) with resistive touch (XPT2046), SPI, on a 1x14 female header: VCC GND CS RESET
@@ -26,68 +26,80 @@ pcbkit 1
 /// MSP3520 3.5in 320x480 SPI TFT module with touch (ILI9488) — 3.5" 320 x 480 colour TFT module
 /// (ILI9488) with resistive touch (XPT2046), SPI, on a 1x14 female header: VCC GND CS RESET DC SDI
 /// SCK LED SDO T_CLK T_CS T_DIN T_DO T_IRQ; courtyard the 56.34 x 98 mm module lying over the board
-part Part = device(footprint = moduleSocket(
-  "TFT_3.5in_ILI9488_Socket_1x14_P2.54mm",
-  socketRow(1, 14, (-16.51mm, 0mm), (2.54mm, 0mm)),
-  box((-28.17mm, -2.0mm), (28.17mm, 96.0mm)),
-  description = "3.5 inch ILI9488 TFT module with touch on a 1x14 female header along its bottom edge, the display facing up over +Y: VCC, GND, CS, RESET, DC, SDI, SCK, LED, SDO, T_CLK, T_CS, T_DIN, T_DO, T_IRQ left to right",
-  parts = 5.8mm,
-  color = "#b02020",
-  module = displayPanel(
-    box((-27.75mm, 4.5mm), (27.75mm, 89.46mm)),
-    box((-24.48mm, 12.61mm), (24.48mm, 86.05mm)),
-    3.7mm,
-    glass = 1.2mm,
-    tape = 0.5mm,
+part Part = device(
+  footprint = moduleSocket(
+    "TFT_3.5in_ILI9488_Socket_1x14_P2.54mm",
+    socketRow(1, 14, (-16.51mm, 0mm), (2.54mm, 0mm)),
+    box((-28.17mm, -2.0mm), (28.17mm, 96.0mm)),
+    description = "3.5 inch ILI9488 TFT module with touch on a 1x14 female header along its bottom edge, the display facing up over +Y: VCC, GND, CS, RESET, DC, SDI, SCK, LED, SDO, T_CLK, T_CS, T_DIN, T_DO, T_IRQ left to right",
+    parts = 5.8mm,
+    color = "#b02020",
+    module = displayPanel(
+      box((-27.75mm, 4.5mm), (27.75mm, 89.46mm)),
+      box((-24.48mm, 12.61mm), (24.48mm, 86.05mm)),
+      3.7mm,
+      glass = 1.2mm,
+      tape = 0.5mm,
+    ),
   ),
-), prefix = "U", mpn = "MSP3520 3.5in 320x480 SPI TFT module with touch (ILI9488)", manufacturer = "generic", pinout = {
-  VCC: "1",
-  GND: "2",
-  CS: "3",
-  RESET: "4",
-  DC: "5",
-  SDI: "6",
-  SCK: "7",
-  LED: "8",
-  SDO: "9",
-  T_CLK: "10",
-  T_CS: "11",
-  T_DIN: "12",
-  T_DO: "13",
-  T_IRQ: "14",
-}, pinTypes = {
-  VCC: io.powerIn(min = 3.3V, max = 5V),
-  GND: .ground,
-  CS: io.input(),
-  RESET: io.input(),
-  DC: io.input(),
-  SDI: io.input(),
-  SCK: io.input(),
-  LED: io.input(),
-  SDO: .output,
-  T_CLK: io.input(),
-  T_CS: io.input(),
-  T_DIN: io.input(),
-  T_DO: .output,
-  T_IRQ: .output,
-}) with {
+  prefix = "U",
+  mpn = "MSP3520 3.5in 320x480 SPI TFT module with touch (ILI9488)",
+  manufacturer = "generic",
+  pinout = {
+    VCC = "1"
+    GND = "2"
+    CS = "3"
+    RESET = "4"
+    DC = "5"
+    SDI = "6"
+    SCK = "7"
+    LED = "8"
+    SDO = "9"
+    T_CLK = "10"
+    T_CS = "11"
+    T_DIN = "12"
+    T_DO = "13"
+    T_IRQ = "14"
+  },
+  pinTypes = {
+    VCC = io.powerIn(min = 3.3V, max = 5V)
+    GND = .ground
+    CS = io.input()
+    RESET = io.input()
+    DC = io.input()
+    SDI = io.input()
+    SCK = io.input()
+    LED = io.input()
+    SDO = .output
+    T_CLK = io.input()
+    T_CS = io.input()
+    T_DIN = io.input()
+    T_DO = .output
+    T_IRQ = .output
+  },
+) with {
   fields {
-    Status: "checked",
-    PinoutSource: "lcdwiki MSP3520 interface definition and product parameters (56.34 x 98 mm)",
-    Datasheet: "http://www.lcdwiki.com/3.5inch_SPI_Module_ILI9488_SKU:MSP3520",
+    Status = "checked"
+    PinoutSource = "lcdwiki MSP3520 interface definition and product parameters (56.34 x 98 mm)"
+    Datasheet = "http://www.lcdwiki.com/3.5inch_SPI_Module_ILI9488_SKU:MSP3520"
   }
   simulation = SimulationParameters {
     behavior = Behavior {
       model = "ili9488"
       ports = {
-        "backlight": ["8"],
-        "cs": ["3"],
-        "dc": ["5"],
-        "power": ["1", "2"],
-        "reset": ["4"],
-        "spi": ["6", "7"],
+        "backlight" = ["8"]
+        "cs" = ["3"]
+        "dc" = ["5"]
+        "power" = ["1", "2"]
+        "reset" = ["4"]
+        "spi" = ["6", "7"]
       }
-      parameters = { "height_mm": 73.44, "offset_x_mm": 0.0, "offset_y_mm": 49.33, "width_mm": 48.96 }
+      parameters = {
+        "height_mm" = 73.44
+        "offset_x_mm" = 0.0
+        "offset_y_mm" = 49.33
+        "width_mm" = 48.96
+      }
       height = 14.3mm
     }
     parameters = []

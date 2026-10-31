@@ -1,11 +1,11 @@
-pcbkit 1
+pcbkit 2
 
 // Simon on an Arduino Nano: four coloured lights, each with its button below it. The Nano plays a
 // sequence, you repeat it; every round adds one. The OLED shows the round and the best. In the
 // lab: keys 1 to 4 press the buttons. Power: the Nano's USB.
 
-use "parts/ARDUINO_NANO.pcbkit" as ARDUINO_NANO
-use "parts/SSD1306_OLED_I2C.pcbkit" as SSD1306_OLED_I2C
+use ./parts/ARDUINO_NANO as ARDUINO_NANO
+use ./parts/SSD1306_OLED_I2C as SSD1306_OLED_I2C
 
 net V5 { voltage = 5V }
 net GND { voltage = 0V }
@@ -27,89 +27,103 @@ NANO = ARDUINO_NANO.Part with {
   at = (40mm, 40mm)
   rotation = 90deg
   side = .bottom
-  pins {
-    P5V: V5,
-    GND: GND,
-    A4: SDA,
-    A5: SCL,
-    D2: B1,
-    D3: B2,
-    D4: B3,
-    D5: B4,
-    D6: L1,
-    D7: L2,
-    D8: L3,
-    D9: L4,
-  }
+
+  P5V -- V5
+  GND -- GND
+  A4 -- SDA
+  A5 -- SCL
+  D2 -- B1
+  D3 -- B2
+  D4 -- B3
+  D5 -- B4
+  D6 -- L1
+  D7 -- L2
+  D8 -- L3
+  D9 -- L4
 }
 
 DS1 = SSD1306_OLED_I2C.Part {
   at = (40mm, 66mm)
-  pins { GND: GND, VCC: V5, SCL: SCL, SDA: SDA }
+  GND -- GND
+  VCC -- V5
+  SCL -- SCL
+  SDA -- SDA
 }
 
-fn light(color: LedColor, index: Number): Part = led(package = "1206", color = color) with {
+fn light(color: LedColor, index: Number) -> Part = led(package = "1206", color = color) with {
   simulation = SimulationParameters {
     behavior = Behavior {
       model = "indicator"
-      ports = { input: ["2"] }
-      parameters = { color: index, milliamps: 4 }
+      ports = { input = ["2"] }
+      parameters = { color = index, milliamps = 4 }
     }
   }
 }
-fn key(code: String): Part = button("6x6") with {
+fn key(code: String) -> Part = button("6x6") with {
   simulation = SimulationParameters {
-    behavior = Behavior { model = "button", ports = { output: ["1"] }, key = code }
+    behavior = Behavior { model = "button", ports = { output = ["1"] }, key = code }
   }
 }
 // Green and red on the left and right of the top half, blue and yellow below.
 D1 = light(.green, 0) {
   at = (14mm, 36mm)
-  pins { A: L1, K: K1 }
+  A -- L1
+  K -- K1
 }
 D2 = light(.red, 2) {
   at = (66mm, 36mm)
-  pins { A: L2, K: K2 }
+  A -- L2
+  K -- K2
 }
 D3 = light(.blue, 3) {
   at = (26mm, 16mm)
-  pins { A: L3, K: K3 }
+  A -- L3
+  K -- K3
 }
 D4 = light(.yellow, 4) {
   at = (54mm, 16mm)
-  pins { A: L4, K: K4 }
+  A -- L4
+  K -- K4
 }
 R1 = res(680ohm, package = "0603") {
   place = [soft(near(D1, max = 4mm))]
-  pins { a: K1, b: GND }
+  a -- K1
+  b -- GND
 }
 R2 = res(680ohm, package = "0603") {
   place = [soft(near(D2, max = 4mm))]
-  pins { a: K2, b: GND }
+  a -- K2
+  b -- GND
 }
 R3 = res(680ohm, package = "0603") {
   place = [soft(near(D3, max = 4mm))]
-  pins { a: K3, b: GND }
+  a -- K3
+  b -- GND
 }
 R4 = res(680ohm, package = "0603") {
   place = [soft(near(D4, max = 4mm))]
-  pins { a: K4, b: GND }
+  a -- K4
+  b -- GND
 }
 SW1 = key("Digit1") {
   at = (14mm, 28mm)
-  pins { a: B1, b: GND }
+  a -- B1
+  b -- GND
 }
 SW2 = key("Digit2") {
   at = (66mm, 28mm)
-  pins { a: B2, b: GND }
+  a -- B2
+  b -- GND
 }
 SW3 = key("Digit3") {
   at = (26mm, 8mm)
-  pins { a: B3, b: GND }
+  a -- B3
+  b -- GND
 }
 SW4 = key("Digit4") {
   at = (54mm, 8mm)
-  pins { a: B4, b: GND }
+  a -- B4
+  b -- GND
 }
 
 H1 = hole("M3") { at = (12mm, 58mm) }
@@ -119,8 +133,8 @@ gndPour = pour(net = GND, layers = [Cu.top, Cu.bottom]) {}
 
 // The display module stands on its socket above the pins of the Nano's sockets: KiCad's
 // pth/npth_inside_courtyard waived between them.
-rule ScreenOverNano {
+ScreenOverNano = Rule {
   select = ofComponent(DS1) and onB(ofComponent(NANO))
   reason = "the display module stands on its socket above the pins of the Nano's sockets"
-  limits { courtyardClearance: limit(min = -100mm) }
+  limits = { courtyardClearance = limit(min = -100mm) }
 }

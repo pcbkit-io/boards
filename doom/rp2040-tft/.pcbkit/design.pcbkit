@@ -1,40 +1,62 @@
-pcbkit 1
+pcbkit 2
 
 // Doom device 04: the bare RP2040 (dual Cortex-M0+ at 133 MHz, 264 KB SRAM) with its datasheet's
 // minimal circuit (12 MHz crystal, 16 MB W25Q128 QSPI flash, BOOTSEL and RESET buttons), a 1.8"
 // 128 x 160 ST7735 TFT on SPI0, a microSD socket on SPI1 for the game data, eight buttons, PWM
 // audio into a PAM8403 class-D amplifier and a speaker, and two 18650 cells in parallel it charges
 // from its USB-C (BQ24075 with power path; reverse-cell and DW01A protection).
-// Front (top): the display, the buttons, the power switch, USB-C. Back (bottom): the rest, the cells.
+// Front (top): the display, the buttons, the power switch, USB-C. Back (bottom): the rest, the
+// cells.
 
-use "parts/RP2040.pcbkit" as RP2040
-use "parts/ST7735_TFT_1_8.pcbkit" as ST7735_TFT_1_8
-use "parts/DM3AT_SF_PEJM5.pcbkit" as DM3AT_SF_PEJM5
-use "parts/TLV75533PDBV.pcbkit" as TLV75533PDBV
-use "parts/PAM8403DR.pcbkit" as PAM8403DR
-use "parts/S2B_PH_K_S.pcbkit" as S2B_PH_K_S
-use "parts/KEYSTONE_1042.pcbkit" as Holder
-use "parts/BQ24075RGT.pcbkit" as Charger
-use "parts/DW01A.pcbkit" as Protection
-use "parts/MSK12C02.pcbkit" as Slide
-use "parts/AO3401A.pcbkit" as Pfet
-use "parts/PCBKIT_LOGO.pcbkit" as Logo
+use ./parts/RP2040 as RP2040
+use ./parts/ST7735_TFT_1_8 as ST7735_TFT_1_8
+use ./parts/DM3AT_SF_PEJM5 as DM3AT_SF_PEJM5
+use ./parts/TLV75533PDBV as TLV75533PDBV
+use ./parts/PAM8403DR as PAM8403DR
+use ./parts/S2B_PH_K_S as S2B_PH_K_S
+use ./parts/KEYSTONE_1042 as Holder
+use ./parts/BQ24075RGT as Charger
+use ./parts/DW01A as Protection
+use ./parts/MSK12C02 as Slide
+use ./parts/AO3401A as Pfet
+use ./parts/PCBKIT_LOGO as Logo
 
 // Power: USB-C 5 V into the charger; its power path (SYS: the input when there is one, else the
 // cells) feeds the 3.3 V LDO and the amplifier. The two cells in parallel (1S2P, 3.0-4.2 V) behind
 // one protection circuit; the pack's minus is the board's ground.
-net VBUS { voltage = 5V; current = 500mA }
+net VBUS {
+  voltage = 5V
+  current = 500mA
+}
 // SYS feeds the LDO (RP2040, flash, display, card: about 120 mA) and the amplifier (up to ~300 mA).
-net SYS { voltage = 5V; current = 500mA }
-net BAT { voltage = 4.2V; current = 800mA }
-net BAT_IN { voltage = 4.2V; current = 800mA }
+net SYS {
+  voltage = 5V
+  current = 500mA
+}
+net BAT {
+  voltage = 4.2V
+  current = 800mA
+}
+net BAT_IN {
+  voltage = 4.2V
+  current = 800mA
+}
 net CELL_N { current = 800mA }
 // Each cell's + joins BAT_IN through its own resettable fuse (F2, F3): a cell put in the wrong
 // way round, or one at another charge, drives the other through the two fuses, which trip in
 // milliseconds (one cell alone carries all of it).
-net CELL1_P { voltage = 4.2V; current = 800mA }
-net CELL2_P { voltage = 4.2V; current = 800mA }
-net V3 { voltage = 3.3V; current = 150mA }
+net CELL1_P {
+  voltage = 4.2V
+  current = 800mA
+}
+net CELL2_P {
+  voltage = 4.2V
+  current = 800mA
+}
+net V3 {
+  voltage = 3.3V
+  current = 150mA
+}
 net GND { voltage = 0V }
 // The power paths: wide tracks, vias that carry an ampere.
 powerClass = NetClass {
@@ -55,133 +77,248 @@ board = Board {
   name = "doom-04-rp2040-tft"
   description = "RP2040 bare chip · 16 MB flash · 1.8in ST7735 · microSD · 2 x 18650, USB-C charging"
   outline = rect(132mm, 104mm, radius = 5mm)
-  layers = [signal(Cu.top), power(Cu.inner[1], label = "GND"), signal(Cu.inner[2]), signal(Cu.bottom)]
+  layers = [
+    signal(Cu.top),
+    plane(Cu.inner[1], label = "GND"),
+    signal(Cu.inner[2]),
+    signal(Cu.bottom),
+  ]
 }
 laboratory = Laboratory { world = "input.js" }
 
 // A tactile switch to ground.
 part Btn = button("6x6") with { orderCode = "C221880" }
 // A tactile switch that pulls its line to ground, operated by `code` while the device runs.
-fn key(code: String): Part = button("6x6") with {
+fn key(code: String) -> Part = button("6x6") with {
   orderCode = "C221880"
-  simulation = SimulationParameters { behavior = Behavior { model = "button"; ports = { output: ["1"] }; key = code } }
+  simulation = SimulationParameters {
+    behavior = Behavior { model = "button", ports = { output = ["1"] }, key = code }
+  }
 }
 
 // ---- processor (back) ----------------------------------------------------------------------
 // The program is doom/ (rp2040-doom's engine); its data, rp2040-doom's compressed shareware WAD
 // (DOOM1.WHX, id Software's data, free to share unmodified), is linked into the 16 MB flash.
 U1 = RP2040.Part with {
-  simulation = RP2040.Part.simulation with { behavior = RP2040.Part.simulation.behavior with {
-    parameters = { "flash_mib": 16 }
-    firmware = "doom"
-    data = { "DOOM1.WHX": FirmwareData {
-      url = "https://raw.githubusercontent.com/kilograham/rp2040-doom/29a453c980918a03e40fc8b69b024e7a3bdb5dc2/doom1.whx"
-      sha256 = "87ea79020578fa2e72fc204f67ff2ce45bd73a266a369670da7a019028b0d893"
-      bytes = 1800344
-    } }
-  } }
+  simulation = RP2040.Part.simulation with {
+    behavior = RP2040.Part.simulation.behavior with {
+      parameters = { "flash_mib" = 16 }
+      firmware = "doom"
+      data = {
+        "DOOM1.WHX" = FirmwareData {
+          url = "https://raw.githubusercontent.com/kilograham/rp2040-doom/29a453c980918a03e40fc8b69b024e7a3bdb5dc2/doom1.whx"
+          sha256 = "87ea79020578fa2e72fc204f67ff2ce45bd73a266a369670da7a019028b0d893"
+          bytes = 1800344
+        }
+      }
+    }
+  }
 } {
   at = (66mm, 24mm)
   side = .bottom
   orderCode = "C2040"
-  pins {
-    IOVDD: V3, GND: GND, RUN: RUN, DVDD: DVDD,
-    GPIO18: SCK, GPIO19: MOSI, GPIO17: LCD_CS, GPIO20: LCD_DC, GPIO21: LCD_RST, GPIO22: LCD_BL,
-    GPIO10: SD_SCK, GPIO11: SD_MOSI, GPIO12: SD_MISO, GPIO13: SD_CS, GPIO14: SD_CD,
-    GPIO2: UP, GPIO3: DOWN, GPIO4: LEFT, GPIO5: RIGHT, GPIO6: FIRE, GPIO7: USE, GPIO8: START, GPIO9: SELECT,
-    GPIO15: PWM_L, GPIO16: AMP_SD,
-    SWDIO: SWDIO, SWCLK: SWCLK,
-  }
+
+  IOVDD -- V3
+  GND -- GND
+  RUN -- RUN
+  DVDD -- DVDD
+  GPIO18 -- SCK
+  GPIO19 -- MOSI
+  GPIO17 -- LCD_CS
+  GPIO20 -- LCD_DC
+  GPIO21 -- LCD_RST
+  GPIO22 -- LCD_BL
+  GPIO10 -- SD_SCK
+  GPIO11 -- SD_MOSI
+  GPIO12 -- SD_MISO
+  GPIO13 -- SD_CS
+  GPIO14 -- SD_CD
+  GPIO2 -- UP
+  GPIO3 -- DOWN
+  GPIO4 -- LEFT
+  GPIO5 -- RIGHT
+  GPIO6 -- FIRE
+  GPIO7 -- USE
+  GPIO8 -- START
+  GPIO9 -- SELECT
+  GPIO15 -- PWM_L
+  GPIO16 -- AMP_SD
+  SWDIO -- SWDIO
+  SWCLK -- SWCLK
 }
 // The datasheet's minimal design: decoupling, the core regulator, crystal, 16 MB flash, the
 // 27 ohm USB series resistors; each supply pin's capacitor within 3 mm of it.
-U1Support = RP2040.Support(U1, dp = CONN_DP, dm = CONN_DN, bootButton = false) { side = .bottom }
-override U1Support.C_IOVDD_1.place = [near(U1["1"], max = 2.9mm)]
-override U1Support.C_IOVDD_10.place = [near(U1["10"], max = 2.9mm)]
-override U1Support.C_IOVDD_22.place = [near(U1["22"], max = 2.9mm)]
-override U1Support.C_IOVDD_33.place = [near(U1["33"], max = 2.9mm)]
-override U1Support.C_IOVDD_42.place = [near(U1["42"], max = 2.9mm)]
+U1Support = RP2040.Support {
+  chip = U1
+  dp -- CONN_DP
+  dm -- CONN_DN
+  bootButton = false
+  side = .bottom
+}
+U1Support.C_IOVDD_1.place = [near(U1["1"], max = 2.9mm)]
+U1Support.C_IOVDD_10.place = [near(U1["10"], max = 2.9mm)]
+U1Support.C_IOVDD_22.place = [near(U1["22"], max = 2.9mm)]
+U1Support.C_IOVDD_33.place = [near(U1["33"], max = 2.9mm)]
+U1Support.C_IOVDD_42.place = [near(U1["42"], max = 2.9mm)]
 // IOVDD at pin 49 has C_USB (the same 3.3 V) within 1.5 mm; its own 100 nF sits a row behind.
-override U1Support.C_IOVDD_49.place = []
-override U1Support.C_DVDD_23.place = [near(U1["23"], max = 2.9mm)]
-override U1Support.C_DVDD_50.place = [near(U1["50"], max = 2.9mm)]
-override U1Support.C_VIN.place = [near(U1.pin.VREG_VIN, max = 2.9mm)]
-override U1Support.C_VOUT.place = [near(U1.pin.VREG_VOUT, max = 2.9mm)]
-override U1Support.C_USB.place = [near(U1.pin.USB_VDD, max = 2.9mm)]
-override U1Support.C_ADC.place = [near(U1.pin.ADC_AVDD, max = 2.9mm)]
+U1Support.C_IOVDD_49.place = []
+U1Support.C_DVDD_23.place = [near(U1["23"], max = 2.9mm)]
+U1Support.C_DVDD_50.place = [near(U1["50"], max = 2.9mm)]
+U1Support.C_VIN.place = [near(U1.pin.VREG_VIN, max = 2.9mm)]
+U1Support.C_VOUT.place = [near(U1.pin.VREG_VOUT, max = 2.9mm)]
+U1Support.C_USB.place = [near(U1.pin.USB_VDD, max = 2.9mm)]
+U1Support.C_ADC.place = [near(U1.pin.ADC_AVDD, max = 2.9mm)]
 // (Positions in the block's frame: the block is on the back, so x is mirrored.)
-override U1Support.C_IOVDD_1.at = (-72.8mm, 26.6mm)
-override U1Support.C_IOVDD_1.rotation = 180deg
-override U1Support.C_IOVDD_10.at = (-72.8mm, 23.0mm)
-override U1Support.C_IOVDD_10.rotation = 180deg
-override U1Support.C_IOVDD_22.at = (-66.3mm, 17.6mm)
-override U1Support.C_IOVDD_22.rotation = 270deg
-override U1Support.C_DVDD_23.at = (-65.1mm, 17.6mm)
-override U1Support.C_DVDD_23.rotation = 270deg
-override U1Support.C_IOVDD_33.at = (-59.3mm, 23.0mm)
-override U1Support.C_IOVDD_33.rotation = 0deg
-override U1Support.C_IOVDD_42.at = (-59.3mm, 26.6mm)
-override U1Support.C_IOVDD_42.rotation = 0deg
-override U1Support.C_ADC.at = (-60.6mm, 28.9mm)
-override U1Support.C_ADC.rotation = 0deg
-override U1Support.C_VIN.at = (-62.7mm, 30.0mm)
-override U1Support.C_VIN.rotation = 90deg
-override U1Support.C_VOUT.at = (-63.7mm, 30.0mm)
-override U1Support.C_VOUT.rotation = 90deg
-override U1Support.C_USB.at = (-64.7mm, 30.0mm)
-override U1Support.C_USB.rotation = 90deg
-override U1Support.C_IOVDD_49.at = (-65.2mm, 32.0mm)
-override U1Support.C_IOVDD_49.rotation = 90deg
-override U1Support.C_DVDD_50.at = (-65.7mm, 30.0mm)
-override U1Support.C_DVDD_50.rotation = 90deg
+U1Support.C_IOVDD_1.at = (-72.8mm, 26.6mm)
+U1Support.C_IOVDD_1.rotation = 180deg
+U1Support.C_IOVDD_10.at = (-72.8mm, 23.0mm)
+U1Support.C_IOVDD_10.rotation = 180deg
+U1Support.C_IOVDD_22.at = (-66.3mm, 17.6mm)
+U1Support.C_IOVDD_22.rotation = 270deg
+U1Support.C_DVDD_23.at = (-65.1mm, 17.6mm)
+U1Support.C_DVDD_23.rotation = 270deg
+U1Support.C_IOVDD_33.at = (-59.3mm, 23.0mm)
+U1Support.C_IOVDD_33.rotation = 0deg
+U1Support.C_IOVDD_42.at = (-59.3mm, 26.6mm)
+U1Support.C_IOVDD_42.rotation = 0deg
+U1Support.C_ADC.at = (-60.6mm, 28.9mm)
+U1Support.C_ADC.rotation = 0deg
+U1Support.C_VIN.at = (-62.7mm, 30.0mm)
+U1Support.C_VIN.rotation = 90deg
+U1Support.C_VOUT.at = (-63.7mm, 30.0mm)
+U1Support.C_VOUT.rotation = 90deg
+U1Support.C_USB.at = (-64.7mm, 30.0mm)
+U1Support.C_USB.rotation = 90deg
+U1Support.C_IOVDD_49.at = (-65.2mm, 32.0mm)
+U1Support.C_IOVDD_49.rotation = 90deg
+U1Support.C_DVDD_50.at = (-65.7mm, 30.0mm)
+U1Support.C_DVDD_50.rotation = 90deg
 // The QSPI flash beside the RP2040's QSPI pins, its capacitor at VCC (pin 8).
-override U1Support.U_FLASH.at = (-72.25mm, 34mm)
-override U1Support.U_FLASH_support.C1.at = (-68.65mm, 37.9mm)
-override U1Support.U_FLASH_support.C1.rotation = 90deg
+U1Support.U_FLASH.at = (-72.25mm, 34mm)
+U1Support.U_FLASH_support.C1.at = (-68.65mm, 37.9mm)
+U1Support.U_FLASH_support.C1.rotation = 90deg
 // The core rail (the RP2040's own 1.1 V regulator): about 40 mA at full speed.
-net DVDD { voltage = 1.1V; current = 40mA }
+net DVDD {
+  voltage = 1.1V
+  current = 40mA
+}
 
 // BOOTSEL (QSPI_SS through 1 kohm to ground) and RESET (RUN) on the front's lower edge: hold BOOT,
 // tap RESET, and the boot ROM's USB drive (RPI-RP2) appears.
 net BOOTSEL
-rBoot = res(1kohm, package = "0402") { side = .bottom; orderCode = "C11702"; place = [soft(near(U1.pin.QSPI_SS, max = 5mm))]; pins { a: U1.pin.QSPI_SS, b: BOOTSEL } }
-boot = Btn { at = (52mm, 6mm); pins { a: BOOTSEL, b: GND } }
-reset = Btn { at = (80mm, 6mm); pins { a: RUN, b: GND } }
+rBoot = res(1kohm, package = "0402") {
+  side = .bottom
+  orderCode = "C11702"
+  place = [soft(near(U1.pin.QSPI_SS, max = 5mm))]
+  a -- U1.pin.QSPI_SS
+  b -- BOOTSEL
+}
+boot = Btn {
+  at = (52mm, 6mm)
+  a -- BOOTSEL
+  b -- GND
+}
+reset = Btn {
+  at = (80mm, 6mm)
+  a -- RUN
+  b -- GND
+}
 bootLabels = [
-  Text { text = "BOOT"; at = (52mm, 10.5mm); size = 1mm },
-  Text { text = "RESET"; at = (80mm, 10.5mm); size = 1mm },
+  Text { text = "BOOT", at = (52mm, 10.5mm), size = 1mm },
+  Text { text = "RESET", at = (80mm, 10.5mm), size = 1mm },
 ]
 
 // Debug: SWD on three pads of a header on the back (a Raspberry Pi Debug Probe or picoprobe).
-J3 = header(3) { side = .bottom; orderCode = "C49257"; place = [edge(.bottom)]; pins = [SWCLK, GND, SWDIO] }
+J3 = header(3) {
+  side = .bottom
+  orderCode = "C49257"
+  place = [edge(.bottom)]
+  pins = [SWCLK, GND, SWDIO]
+}
 
 // ---- USB-C (front, bottom edge): charging and UF2 flashing over the boot ROM's USB -----------
-usb = UsbC2(vbus = VBUS, gnd = GND, dp = CONN_DP, dn = CONN_DN, fuseHold = 750mA, tvsPackage = "SOD-323") {}
-override usb.power.J.at = (66mm, 8.15mm)
+usb = UsbC2 {
+  vbus = VBUS
+  gnd = GND
+  dp = CONN_DP
+  dn = CONN_DN
+  fuseHold = 750mA
+  tvsPackage = "SOD-323"
+}
+usb.power.J.at = (66mm, 8.15mm)
 
 // ---- power ---------------------------------------------------------------------------------
 // Two 18650 cells on the back, side by side along the top, in parallel. The holders are not
 // polarized: put each cell's + at the end the silkscreen marks.
-BT1 = Holder.Part { orderCode = "C5249310"; at = (66mm, 69mm); side = .bottom; pins { C2: CELL1_P, C1: CELL_N } }
-BT2 = Holder.Part { orderCode = "C5249310"; at = (66mm, 91mm); side = .bottom; pins { C2: CELL2_P, C1: CELL_N } }
+BT1 = Holder.Part {
+  orderCode = "C5249310"
+  at = (66mm, 69mm)
+  side = .bottom
+  C2 -- CELL1_P
+  C1 -- CELL_N
+}
+BT2 = Holder.Part {
+  orderCode = "C5249310"
+  at = (66mm, 91mm)
+  side = .bottom
+  C2 -- CELL2_P
+  C1 -- CELL_N
+}
 // Per-cell protection: a 2 A resettable fuse (16 V, 100 A interrupt) at each holder's + contact.
-F2 = fuse(2A, package = "1812", mpn = "1812L200/16GR") { orderCode = "C18198340"; side = .bottom; place = [soft(near(BT1.pin.C2, max = 20mm), weight = 3)]; pins { a: CELL1_P, b: BAT_IN } }
-F3 = fuse(2A, package = "1812", mpn = "1812L200/16GR") { orderCode = "C18198340"; side = .bottom; place = [soft(near(BT2.pin.C2, max = 20mm), weight = 3)]; pins { a: CELL2_P, b: BAT_IN } }
+F2 = fuse(2A, package = "1812", mpn = "1812L200/16GR") {
+  orderCode = "C18198340"
+  side = .bottom
+  place = [soft(near(BT1.pin.C2, max = 20mm), weight = 3)]
+  a -- CELL1_P
+  b -- BAT_IN
+}
+F3 = fuse(2A, package = "1812", mpn = "1812L200/16GR") {
+  orderCode = "C18198340"
+  side = .bottom
+  place = [soft(near(BT2.pin.C2, max = 20mm), weight = 3)]
+  a -- CELL2_P
+  b -- BAT_IN
+}
 cellMarks = [
-  Text { text = "+"; at = (19mm, 69mm); size = 2.5mm; layer = Silk.bottom },
-  Text { text = "-"; at = (113mm, 69mm); size = 2.5mm; layer = Silk.bottom },
-  Text { text = "+"; at = (19mm, 91mm); size = 2.5mm; layer = Silk.bottom },
-  Text { text = "-"; at = (113mm, 91mm); size = 2.5mm; layer = Silk.bottom },
-  Text { text = "2 x 18650 Li-ion 3.7 V"; at = (121mm, 80mm); size = 1.5mm; rotation = 90deg; layer = Silk.bottom },
+  Text { text = "+", at = (19mm, 69mm), size = 2.5mm, layer = Silk.bottom },
+  Text { text = "-", at = (113mm, 69mm), size = 2.5mm, layer = Silk.bottom },
+  Text { text = "+", at = (19mm, 91mm), size = 2.5mm, layer = Silk.bottom },
+  Text { text = "-", at = (113mm, 91mm), size = 2.5mm, layer = Silk.bottom },
+  Text {
+    text = "2 x 18650 Li-ion 3.7 V"
+    at = (121mm, 80mm)
+    size = 1.5mm
+    rotation = 90deg
+    layer = Silk.bottom
+  },
 ]
 
 // A cell put in the wrong way round: a P-MOSFET in the plus line, its gate at the cells' minus,
 // on (both ways: charging too) only when the cells are the right way round.
-reversed = ReversePolarity(vin = BAT_IN, vout = BAT, gnd = CELL_N, inputVoltage = 4.2V, current = 800mA, rdsOn = 60mohm, maxGateVoltage = 12V, fet = Pfet.Part with { orderCode = "C15127" }) { side = .bottom }
+reversed = ReversePolarity {
+  vin = BAT_IN
+  vout = BAT
+  gnd = CELL_N
+  inputVoltage = 4.2V
+  current = 800mA
+  rdsOn = 60mohm
+  maxGateVoltage = 12V
+  fet = Pfet.Part with { orderCode = "C15127" }
+  side = .bottom
+}
 
 // Protection: over-charge 4.3 V, over-discharge 2.4 V, over-current about 3 A, in the pack's minus.
-U2 = Protection.Part { orderCode = "C351410"; side = .bottom; pins { GND: CELL_N } }
-U2Support = Protection.Support(U2, batteryPlus = BAT, packMinus = GND) { side = .bottom }
+U2 = Protection.Part {
+  orderCode = "C351410"
+  side = .bottom
+  GND -- CELL_N
+}
+U2Support = Protection.Support {
+  chip = U2
+  batteryPlus -- BAT
+  packMinus -- GND
+  side = .bottom
+}
 
 // The charger (BQ24075, datasheet SLUS810): USB500 mode (EN1 high, EN2 low: at most 500 mA from
 // any port), 800 mA fast charge (RISET = 890 AΩ / 0.8 A), its current-based termination; SYSOFF
@@ -190,34 +327,147 @@ U2Support = Protection.Support(U2, batteryPlus = BAT, packMinus = GND) { side = 
 U6 = Charger.Part {
   at = (44.25mm, 9mm)
   rotation = 180deg
-  pins { IN: VBUS, OUT: SYS, BAT: BAT, VSS: GND, nCE: GND, EN1: SYS, EN2: GND, TMR: GND, ISET: ISET, ILIM: ILIM, SYSOFF: GND, TS: TS, nCHG: CHG_N, nPGOOD: PG_N }
+  IN -- VBUS
+  OUT -- SYS
+  BAT -- BAT
+  VSS -- GND
+  nCE -- GND
+  EN1 -- SYS
+  EN2 -- GND
+  TMR -- GND
+  ISET -- ISET
+  ILIM -- ILIM
+  SYSOFF -- GND
+  TS -- TS
+  nCHG -- CHG_N
+  nPGOOD -- PG_N
 }
-cIn = cap(1uF, package = "0603", ratedVoltage = 16V) { orderCode = "C15849"; at = (43.5mm, 5.3mm); rotation = 270deg; place = [near(U6.pin.IN, max = 2.5mm)]; pins { a: VBUS, b: GND } }
-cSys = cap(4.7uF, package = "0805", ratedVoltage = 10V) { orderCode = "C1779"; place = [soft(near(U6.pin.OUT, max = 2mm), weight = 3)]; pins { a: SYS, b: GND } }
-cBat = cap(4.7uF, package = "0805", ratedVoltage = 10V) { orderCode = "C1779"; place = [soft(near(U6.pin.BAT, max = 2mm), weight = 3)]; pins { a: BAT, b: GND } }
-rIset = res(1.13kohm, package = "0402", tolerance = 1pct) { orderCode = "C67014"; place = [soft(near(U6.pin.ISET, max = 5mm))]; pins { a: ISET, b: GND } }
-rIlim = res(1.18kohm, package = "0402", tolerance = 1pct) { orderCode = "C270651"; place = [soft(near(U6.pin.ILIM, max = 5mm))]; pins { a: ILIM, b: GND } }
-rTs = res(10kohm, package = "0402") { orderCode = "C25744"; place = [soft(near(U6.pin.TS, max = 5mm))]; pins { a: TS, b: GND } }
+cIn = cap(1uF, package = "0603", ratedVoltage = 16V) {
+  orderCode = "C15849"
+  at = (43.5mm, 5.3mm)
+  rotation = 270deg
+  place = [near(U6.pin.IN, max = 2.5mm)]
+  a -- VBUS
+  b -- GND
+}
+cSys = cap(4.7uF, package = "0805", ratedVoltage = 10V) {
+  orderCode = "C1779"
+  place = [soft(near(U6.pin.OUT, max = 2mm), weight = 3)]
+  a -- SYS
+  b -- GND
+}
+cBat = cap(4.7uF, package = "0805", ratedVoltage = 10V) {
+  orderCode = "C1779"
+  place = [soft(near(U6.pin.BAT, max = 2mm), weight = 3)]
+  a -- BAT
+  b -- GND
+}
+rIset = res(1.13kohm, package = "0402", tolerance = 1%) {
+  orderCode = "C67014"
+  place = [soft(near(U6.pin.ISET, max = 5mm))]
+  a -- ISET
+  b -- GND
+}
+rIlim = res(1.18kohm, package = "0402", tolerance = 1%) {
+  orderCode = "C270651"
+  place = [soft(near(U6.pin.ILIM, max = 5mm))]
+  a -- ILIM
+  b -- GND
+}
+rTs = res(10kohm, package = "0402") {
+  orderCode = "C25744"
+  place = [soft(near(U6.pin.TS, max = 5mm))]
+  a -- TS
+  b -- GND
+}
 // Charging (red) and USB present (green), each through 1.5 kΩ, on the front by the USB-C.
-ledChg = led(package = "0603", color = .red) { orderCode = "C2286"; at = (92mm, 6mm); pins { A: SYS, K: CHG_LED } }
-rChg = res(1.5kohm, package = "0402") { orderCode = "C25867"; place = [soft(near(ledChg, max = 3mm))]; pins { a: CHG_LED, b: CHG_N } }
-ledPg = led(package = "0603", color = .green) { orderCode = "C12624"; at = (98mm, 6mm); pins { A: SYS, K: PG_LED } }
-rPg = res(1.5kohm, package = "0402") { orderCode = "C25867"; place = [soft(near(ledPg, max = 3mm))]; pins { a: PG_LED, b: PG_N } }
-chargeLabel = Text { text = "CHG USB"; at = (95mm, 9mm); size = 1mm }
+ledChg = led(package = "0603", color = .red) {
+  orderCode = "C2286"
+  at = (92mm, 6mm)
+  A -- SYS
+  K -- CHG_LED
+}
+rChg = res(1.5kohm, package = "0402") {
+  orderCode = "C25867"
+  place = [soft(near(ledChg, max = 3mm))]
+  a -- CHG_LED
+  b -- CHG_N
+}
+ledPg = led(package = "0603", color = .green) {
+  orderCode = "C12624"
+  at = (98mm, 6mm)
+  A -- SYS
+  K -- PG_LED
+}
+rPg = res(1.5kohm, package = "0402") {
+  orderCode = "C25867"
+  place = [soft(near(ledPg, max = 3mm))]
+  a -- PG_LED
+  b -- PG_N
+}
+chargeLabel = Text {
+  text = "CHG USB"
+  at = (95mm, 9mm)
+  size = 1mm
+}
 
 // 3.3 V: the LDO from SYS, enabled by the on/off switch (R11 holds it off when the switch is open).
-U4 = TLV75533PDBV.Part { side = .bottom; orderCode = "C404027"; pins { IN: SYS, OUT: V3, GND: GND, EN: LDO_EN } }
-U4Support = TLV75533PDBV.Support(U4, alwaysOn = false) { side = .bottom }
-R11 = res(100kohm, package = "0402") { side = .bottom; orderCode = "C25741"; pins { a: LDO_EN, b: GND } }
-SW9 = Slide.Part { at = (1.9mm, 45mm); rotation = 90deg; pins { COM: LDO_EN, A: SYS, B: .nc, SHELL: GND } }
-switchLabel = Text { text = "ON / OFF"; at = (6mm, 45mm); size = 1mm; rotation = 90deg }
+U4 = TLV75533PDBV.Part {
+  side = .bottom
+  orderCode = "C404027"
+  IN -- SYS
+  OUT -- V3
+  GND -- GND
+  EN -- LDO_EN
+}
+U4Support = TLV75533PDBV.Support {
+  chip = U4
+  alwaysOn = false
+  side = .bottom
+}
+R11 = res(100kohm, package = "0402") {
+  side = .bottom
+  orderCode = "C25741"
+  a -- LDO_EN
+  b -- GND
+}
+SW9 = Slide.Part {
+  at = (1.9mm, 45mm)
+  rotation = 90deg
+  COM -- LDO_EN
+  A -- SYS
+  B -- .nc
+  SHELL -- GND
+}
+switchLabel = Text {
+  text = "ON / OFF"
+  at = (6mm, 45mm)
+  size = 1mm
+  rotation = 90deg
+}
 
 // Bring-up: the cells, the power path, 3.3 V and ground on test pads (front).
-tpBat = testPoint() { at = (104mm, 12mm); pins = [BAT] }
-tpSys = testPoint() { at = (108mm, 12mm); pins = [SYS] }
-tpV3 = testPoint() { at = (112mm, 12mm); pins = [V3] }
-tpGnd = testPoint() { at = (116mm, 12mm); pins = [GND] }
-tpLabel = Text { text = "BAT SYS 3V3 GND"; at = (110mm, 15mm); size = 1mm }
+tpBat = testPoint() {
+  at = (104mm, 12mm)
+  pins = [BAT]
+}
+tpSys = testPoint() {
+  at = (108mm, 12mm)
+  pins = [SYS]
+}
+tpV3 = testPoint() {
+  at = (112mm, 12mm)
+  pins = [V3]
+}
+tpGnd = testPoint() {
+  at = (116mm, 12mm)
+  pins = [GND]
+}
+tpLabel = Text {
+  text = "BAT SYS 3V3 GND"
+  at = (110mm, 15mm)
+  size = 1mm
+}
 
 // ---- display (front) -------------------------------------------------------------------------
 DS1 = ST7735_TFT_1_8.Part {
@@ -225,7 +475,14 @@ DS1 = ST7735_TFT_1_8.Part {
   rotation = 90deg
   // The 1x8 socket it plugs into (the module: a 1.8" ST7735 SPI TFT, bought separately).
   orderCode = "C2905417"
-  pins { VCC: V3, GND: GND, CS: LCD_CS, RESET: LCD_RST, A0: LCD_DC, SDA: MOSI, SCK: SCK, LED: LCD_BL }
+  VCC -- V3
+  GND -- GND
+  CS -- LCD_CS
+  RESET -- LCD_RST
+  A0 -- LCD_DC
+  SDA -- MOSI
+  SCK -- SCK
+  LED -- LCD_BL
 }
 
 // ---- storage (back, right edge): the WAD on a microSD card --------------------------------
@@ -233,47 +490,145 @@ J4 = DM3AT_SF_PEJM5.Part {
   side = .bottom
   orderCode = "C114218"
   place = [edge(.right)]
-  pins { DAT2: .nc, CD_DAT3: SD_CS, CMD: SD_MOSI, VDD: V3, CLK: SD_SCK, VSS: GND, DAT0: SD_MISO, DAT1: .nc, CD_A: SD_CD, CD_B: GND, SH: GND }
+  DAT2 -- .nc
+  CD_DAT3 -- SD_CS
+  CMD -- SD_MOSI
+  VDD -- V3
+  CLK -- SD_SCK
+  VSS -- GND
+  DAT0 -- SD_MISO
+  DAT1 -- .nc
+  CD_A -- SD_CD
+  CD_B -- GND
+  SH -- GND
 }
-R7 = res(10kohm, package = "0402") { side = .bottom; orderCode = "C25744"; pins { a: SD_CD, b: V3 } }
-R8 = res(10kohm, package = "0402") { side = .bottom; orderCode = "C25744"; pins { a: SD_CS, b: V3 } }
-R9 = res(10kohm, package = "0402") { side = .bottom; orderCode = "C25744"; pins { a: SD_MISO, b: V3 } }
-C6 = cap(10uF, package = "0603") { side = .bottom; orderCode = "C19702"; pins { a: V3, b: GND } }
+R7 = res(10kohm, package = "0402") {
+  side = .bottom
+  orderCode = "C25744"
+  a -- SD_CD
+  b -- V3
+}
+R8 = res(10kohm, package = "0402") {
+  side = .bottom
+  orderCode = "C25744"
+  a -- SD_CS
+  b -- V3
+}
+R9 = res(10kohm, package = "0402") {
+  side = .bottom
+  orderCode = "C25744"
+  a -- SD_MISO
+  b -- V3
+}
+C6 = cap(10uF, package = "0603") {
+  side = .bottom
+  orderCode = "C19702"
+  a -- V3
+  b -- GND
+}
 
 // ---- audio (back): PWM -> RC low-pass -> PAM8403 (left channel) -> 8 ohm speaker -------------
-R10 = res(1kohm, package = "0402") { side = .bottom; orderCode = "C11702"; pins { a: PWM_L, b: AUDIO } }
-C7 = cap(10nF, package = "0402") { side = .bottom; orderCode = "C15195"; pins { a: AUDIO, b: GND } }
+R10 = res(1kohm, package = "0402") {
+  side = .bottom
+  orderCode = "C11702"
+  a -- PWM_L
+  b -- AUDIO
+}
+C7 = cap(10nF, package = "0402") {
+  side = .bottom
+  orderCode = "C15195"
+  a -- AUDIO
+  b -- GND
+}
 U5 = PAM8403DR.Part {
   at = (102mm, 37.25mm)
   side = .bottom
   orderCode = "C5122557"
-  pins { VDD: SYS, PVDD: SYS, GND: GND, PGND: GND, SHDN: AMP_SD, MUTE: .nc, OUTLP: SPK_P, OUTLN: SPK_N, OUTRP: .nc, OUTRN: .nc, NC: .nc }
+  VDD -- SYS
+  PVDD -- SYS
+  GND -- GND
+  PGND -- GND
+  SHDN -- AMP_SD
+  MUTE -- .nc
+  OUTLP -- SPK_P
+  OUTLN -- SPK_N
+  OUTRP -- .nc
+  OUTRN -- .nc
+  NC -- .nc
 }
-U5Support = PAM8403DR.Support(U5, audioL = AUDIO) { side = .bottom }
-override U5Support.C1.place = [near(U5.pin.VDD, max = 2.5mm)]
-override U5Support.C2.place = [near(U5["4"], max = 2.5mm)]
-override U5Support.C3.place = [near(U5["13"], max = 2.5mm)]
+U5Support = PAM8403DR.Support {
+  chip = U5
+  audioL -- AUDIO
+  side = .bottom
+}
+U5Support.C1.place = [near(U5.pin.VDD, max = 2.5mm)]
+U5Support.C2.place = [near(U5["4"], max = 2.5mm)]
+U5Support.C3.place = [near(U5["13"], max = 2.5mm)]
 // (In the block's frame: on the back, x mirrored.)
-override U5Support.C1.at = (-106.25mm, 35.345mm)
-override U5Support.C1.rotation = 90deg
-override U5Support.C2.at = (-106.25mm, 37.885mm)
-override U5Support.C2.rotation = 90deg
-override U5Support.C3.at = (-97.75mm, 37.885mm)
-override U5Support.C3.rotation = 90deg
+U5Support.C1.at = (-106.25mm, 35.345mm)
+U5Support.C1.rotation = 90deg
+U5Support.C2.at = (-106.25mm, 37.885mm)
+U5Support.C2.rotation = 90deg
+U5Support.C3.at = (-97.75mm, 37.885mm)
+U5Support.C3.rotation = 90deg
 // The amplifier stays shut down while the RP2040 is off (SYS still powers it).
-R12 = res(100kohm, package = "0402") { side = .bottom; orderCode = "C25741"; place = [soft(near(U5.pin.SHDN, max = 5mm))]; pins { a: AMP_SD, b: GND } }
+R12 = res(100kohm, package = "0402") {
+  side = .bottom
+  orderCode = "C25741"
+  place = [soft(near(U5.pin.SHDN, max = 5mm))]
+  a -- AMP_SD
+  b -- GND
+}
 // The speaker plugs in at the board's right edge.
-J5 = S2B_PH_K_S.Part { side = .bottom; orderCode = "C173752"; place = [edge(.right)]; pins { C1: SPK_N, C2: SPK_P } }
+J5 = S2B_PH_K_S.Part {
+  side = .bottom
+  orderCode = "C173752"
+  place = [edge(.right)]
+  C1 -- SPK_N
+  C2 -- SPK_P
+}
 
 // ---- input (front) ---------------------------------------------------------------------------
-SW1 = key("ArrowUp") { at = (20mm, 39mm); pins { a: UP, b: GND } }
-SW2 = key("ArrowDown") { at = (20mm, 19mm); pins { a: DOWN, b: GND } }
-SW3 = key("ArrowLeft") { at = (10mm, 29mm); pins { a: LEFT, b: GND } }
-SW4 = key("ArrowRight") { at = (30mm, 29mm); pins { a: RIGHT, b: GND } }
-SW5 = key("KeyF") { at = (123mm, 34mm); pins { a: FIRE, b: GND } }
-SW6 = key("Space") { at = (112mm, 24mm); pins { a: USE, b: GND } }
-SW7 = key("Enter") { at = (112mm, 47mm); pins { a: SELECT, b: GND } }
-SW8 = key("KeyM") { at = (124mm, 47mm); pins { a: START, b: GND } }
+SW1 = key("ArrowUp") {
+  at = (20mm, 39mm)
+  a -- UP
+  b -- GND
+}
+SW2 = key("ArrowDown") {
+  at = (20mm, 19mm)
+  a -- DOWN
+  b -- GND
+}
+SW3 = key("ArrowLeft") {
+  at = (10mm, 29mm)
+  a -- LEFT
+  b -- GND
+}
+SW4 = key("ArrowRight") {
+  at = (30mm, 29mm)
+  a -- RIGHT
+  b -- GND
+}
+SW5 = key("KeyF") {
+  at = (123mm, 34mm)
+  a -- FIRE
+  b -- GND
+}
+SW6 = key("Space") {
+  at = (112mm, 24mm)
+  a -- USE
+  b -- GND
+}
+SW7 = key("Enter") {
+  at = (112mm, 47mm)
+  a -- SELECT
+  b -- GND
+}
+SW8 = key("KeyM") {
+  at = (124mm, 47mm)
+  a -- START
+  b -- GND
+}
 
 // Four M3 holes for a back plate or a case.
 H1 = hole("M3") { at = (4.5mm, 4.5mm) }
@@ -287,40 +642,40 @@ gndPour = pour(net = GND, layers = [Cu.top, Cu.inner[1], Cu.bottom]) {}
 logo = Logo.Part { at = (66mm, 80mm) }
 
 // Orderable parts (JLCPCB / LCSC) for the parts the blocks add.
-override U1Support.C_IOVDD_1.orderCode = "C1525"
-override U1Support.C_IOVDD_10.orderCode = "C1525"
-override U1Support.C_IOVDD_22.orderCode = "C1525"
-override U1Support.C_IOVDD_33.orderCode = "C1525"
-override U1Support.C_IOVDD_42.orderCode = "C1525"
-override U1Support.C_IOVDD_49.orderCode = "C1525"
-override U1Support.C_DVDD_23.orderCode = "C1525"
-override U1Support.C_DVDD_50.orderCode = "C1525"
-override U1Support.C_USB.orderCode = "C1525"
-override U1Support.C_ADC.orderCode = "C1525"
-override U1Support.C_VIN.orderCode = "C52923"
-override U1Support.C_VOUT.orderCode = "C52923"
-override U1Support.Y1.orderCode = "C20625731"
-override U1Support.Y1_C1.orderCode = "C1548"
-override U1Support.Y1_C2.orderCode = "C1548"
-override U1Support.R_X.orderCode = "C11702"
-override U1Support.R_DP.orderCode = "C25100"
-override U1Support.R_DM.orderCode = "C25100"
-override U1Support.R_RUN.orderCode = "C25744"
-override U1Support.U_FLASH.orderCode = "C97521"
-override U1Support.U_FLASH_support.C1.orderCode = "C1525"
-override U1Support.U_FLASH_support.R1.orderCode = "C25744"
-override U4Support.CIN.orderCode = "C15849"
-override U4Support.COUT.orderCode = "C15849"
-override U5Support.C1.orderCode = "C52923"
-override U5Support.C2.orderCode = "C52923"
-override U5Support.C3.orderCode = "C52923"
-override U5Support.C4.orderCode = "C12891"
-override U5Support.C5.orderCode = "C52923"
-override U5Support.C6.orderCode = "C47339"
-override usb.power.J.orderCode = "C165948"
-override usb.power.R1.orderCode = "C25905"
-override usb.power.R2.orderCode = "C25905"
-override usb.power.F.orderCode = "C20800"
-override usb.power.D.orderCode = "C918844"
-override usb.Esd.orderCode = "C7519"
-override reversed.Rg.orderCode = "C25741"
+U1Support.C_IOVDD_1.orderCode = "C1525"
+U1Support.C_IOVDD_10.orderCode = "C1525"
+U1Support.C_IOVDD_22.orderCode = "C1525"
+U1Support.C_IOVDD_33.orderCode = "C1525"
+U1Support.C_IOVDD_42.orderCode = "C1525"
+U1Support.C_IOVDD_49.orderCode = "C1525"
+U1Support.C_DVDD_23.orderCode = "C1525"
+U1Support.C_DVDD_50.orderCode = "C1525"
+U1Support.C_USB.orderCode = "C1525"
+U1Support.C_ADC.orderCode = "C1525"
+U1Support.C_VIN.orderCode = "C52923"
+U1Support.C_VOUT.orderCode = "C52923"
+U1Support.Y1.orderCode = "C20625731"
+U1Support.Y1_C1.orderCode = "C1548"
+U1Support.Y1_C2.orderCode = "C1548"
+U1Support.R_X.orderCode = "C11702"
+U1Support.R_DP.orderCode = "C25100"
+U1Support.R_DM.orderCode = "C25100"
+U1Support.R_RUN.orderCode = "C25744"
+U1Support.U_FLASH.orderCode = "C97521"
+U1Support.U_FLASH_support.C1.orderCode = "C1525"
+U1Support.U_FLASH_support.R1.orderCode = "C25744"
+U4Support.CIN.orderCode = "C15849"
+U4Support.COUT.orderCode = "C15849"
+U5Support.C1.orderCode = "C52923"
+U5Support.C2.orderCode = "C52923"
+U5Support.C3.orderCode = "C52923"
+U5Support.C4.orderCode = "C12891"
+U5Support.C5.orderCode = "C52923"
+U5Support.C6.orderCode = "C47339"
+usb.power.J.orderCode = "C165948"
+usb.power.R1.orderCode = "C25905"
+usb.power.R2.orderCode = "C25905"
+usb.power.F.orderCode = "C20800"
+usb.power.D.orderCode = "C918844"
+usb.Esd.orderCode = "C7519"
+reversed.Rg.orderCode = "C25741"

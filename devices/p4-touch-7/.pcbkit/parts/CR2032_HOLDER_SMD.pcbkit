@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // BS-08-B2AA001 (MYOUNG): CR2032 coin cell holder, SMD (for CR2032 / CR2025 20 mm cells): VBAT (+)
 // and GND (−) terminals; courtyard the holder and the 20 mm cell
@@ -44,12 +44,12 @@ part Part = device(
   mpn = "BS-08-B2AA001",
   manufacturer = "MYOUNG",
   orderCode = "C964777",
-  pinout = { VBAT: "1", GND: "2" },
-  pinTypes = { VBAT: io.powerOut(3V), GND: .ground },
+  pinout = { VBAT = "1", GND = "2" },
+  pinTypes = { VBAT = io.powerOut(3V), GND = .ground },
 ) with {
   fields {
-    Status: "checked",
-    PinoutSource: "MYOUNG BS-08-B2AA001 drawing (BS-2032-8 SMT): terminals ② + and ③ −, PCB layout diagram (top view), housing dimensions",
-    Datasheet: "https://datasheet.lcsc.com/datasheet/pdf/49f6d6c6b0d14154978fa264323cad6a.pdf",
+    Status = "checked"
+    PinoutSource = "MYOUNG BS-08-B2AA001 drawing (BS-2032-8 SMT): terminals ② + and ③ −, PCB layout diagram (top view), housing dimensions"
+    Datasheet = "https://datasheet.lcsc.com/datasheet/pdf/49f6d6c6b0d14154978fa264323cad6a.pdf"
   }
 }

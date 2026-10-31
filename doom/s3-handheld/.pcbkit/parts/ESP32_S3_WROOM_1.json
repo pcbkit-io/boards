@@ -410,7 +410,7 @@
     },
     "page": "10.1 Module Dimensions, 11.1 PCB Land Pattern"
   },
-  "solids": "[solid.box((18mm, 25.5mm, 0.8mm), at = (0mm, 0mm, 0mm), color = \"#1f3f8a\"), solid.box((15.8mm, 17.6mm, 2.3mm), at = (0mm, -3mm, 0.8mm), material = .metal)]",
+  "solids": "[\nsolid.box((18mm, 25.5mm, 0.8mm), at = (0mm, 0mm, 0mm), color = \"#1f3f8a\"),\nsolid.box((15.8mm, 17.6mm, 2.3mm), at = (0mm, -3mm, 0.8mm), material = .metal),\n]",
   "keepouts": [
     {
       "name": "antenna",

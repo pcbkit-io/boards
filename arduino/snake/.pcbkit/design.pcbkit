@@ -1,12 +1,12 @@
-pcbkit 1
+pcbkit 2
 
 // Snake on the pocket console: steer with the D-pad, eat, grow, don't bite yourself; A pauses.
 // The pocket console: a 0.96" I2C OLED in front, a D-pad on the left and A and B on the right
 // (each a tactile switch to ground, read with the sketch's INPUT_PULLUP), an Arduino Nano on the
 // back, powered from its USB. In the lab: the arrow keys, X (A) and Z (B).
 
-use "parts/ARDUINO_NANO.pcbkit" as ARDUINO_NANO
-use "parts/SSD1306_OLED_I2C.pcbkit" as SSD1306_OLED_I2C
+use ./parts/ARDUINO_NANO as ARDUINO_NANO
+use ./parts/SSD1306_OLED_I2C as SSD1306_OLED_I2C
 
 net V5 { voltage = 5V }
 net GND { voltage = 0V }
@@ -27,42 +27,60 @@ NANO = ARDUINO_NANO.Part with {
   at = (50mm, 14mm)
   rotation = 90deg
   side = .bottom
-  pins { P5V: V5, GND: GND, A4: SDA, A5: SCL, D2: UP, D3: DOWN, D4: LEFT, D5: RIGHT, D6: A, D7: B }
+  P5V -- V5
+  GND -- GND
+  A4 -- SDA
+  A5 -- SCL
+  D2 -- UP
+  D3 -- DOWN
+  D4 -- LEFT
+  D5 -- RIGHT
+  D6 -- A
+  D7 -- B
 }
 
 DS1 = SSD1306_OLED_I2C.Part {
   at = (50mm, 49.4mm)
-  pins { GND: GND, VCC: V5, SCL: SCL, SDA: SDA }
+  GND -- GND
+  VCC -- V5
+  SCL -- SCL
+  SDA -- SDA
 }
 
-fn key(code: String): Part = button("6x6") with {
+fn key(code: String) -> Part = button("6x6") with {
   simulation = SimulationParameters {
-    behavior = Behavior { model = "button", ports = { output: ["1"] }, key = code }
+    behavior = Behavior { model = "button", ports = { output = ["1"] }, key = code }
   }
 }
 SW1 = key("ArrowUp") {
   at = (16mm, 36mm)
-  pins { a: UP, b: GND }
+  a -- UP
+  b -- GND
 }
 SW2 = key("ArrowDown") {
   at = (16mm, 16mm)
-  pins { a: DOWN, b: GND }
+  a -- DOWN
+  b -- GND
 }
 SW3 = key("ArrowLeft") {
   at = (6mm, 26mm)
-  pins { a: LEFT, b: GND }
+  a -- LEFT
+  b -- GND
 }
 SW4 = key("ArrowRight") {
   at = (26mm, 26mm)
-  pins { a: RIGHT, b: GND }
+  a -- RIGHT
+  b -- GND
 }
 SW5 = key("KeyX") {
   at = (88mm, 32mm)
-  pins { a: A, b: GND }
+  a -- A
+  b -- GND
 }
 SW6 = key("KeyZ") {
   at = (78mm, 20mm)
-  pins { a: B, b: GND }
+  a -- B
+  b -- GND
 }
 labelA = Text {
   text = "A"

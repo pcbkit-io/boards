@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // A robot's sensor node on CAN: an STM32G431CBU6 (Cortex-M4F at 170 MHz with FDCAN) reads four
 // 0-5 V pressure sensors through dividers into ADC1 (IN1-IN4) and an ICM-42688-P IMU on I2C1, and
@@ -7,11 +7,11 @@ pcbkit 1
 // bus. Power: 12 V (motor spikes) through a reverse-polarity P-MOSFET and an 18 V TVS
 // into a TPS54331 buck to 3.3 V. Firmware: ST's HAL, flashed over SWD (an ST-LINK on J4).
 
-use "parts/STM32G431CBU6.pcbkit" as STM32G431CBU6
-use "parts/SN65HVD230.pcbkit" as SN65HVD230
-use "parts/ICM_42688_P.pcbkit" as ICM_42688_P
-use "parts/TPS54331D.pcbkit" as TPS54331D
-use "parts/AO3401A.pcbkit" as AO3401A
+use ./parts/STM32G431CBU6 as STM32G431CBU6
+use ./parts/SN65HVD230 as SN65HVD230
+use ./parts/ICM_42688_P as ICM_42688_P
+use ./parts/TPS54331D as TPS54331D
+use ./parts/AO3401A as AO3401A
 
 net VIN {
   voltage = 12V
@@ -43,72 +43,106 @@ U1 = STM32G431CBU6.Part with {
     behavior = STM32G431CBU6.Part.simulation.behavior with {
       firmware = "firmware"
       // The board's 8 MHz HSE crystal (CAN wants a crystal's accuracy).
-      parameters = { "hse_hz": 8000000 }
+      parameters = { "hse_hz" = 8000000 }
     }
   }
 } {
-  pins {
-    VDD: V3,
-    VSS: GND,
-    VDDA: V3,
-    VREFP: V3,
-    VBAT: V3,
-    PG10: NRST,
-    PB8: .nc,
-    PF0: XIN,
-    PF1: XOUT,
-    PA13: SWDIO,
-    PA14: SWCLK,
-    PA0: A1,
-    PA1: A2,
-    PA2: A3,
-    PA3: A4,
-    PA15: SCL,
-    PB7: SDA,
-    PA11: CAN_RX,
-    PA12: CAN_TX,
-    PA9: TX,
-    PA10: RX,
-    PB0: LED,
-  }
+  VDD -- V3
+  VSS -- GND
+  VDDA -- V3
+  VREFP -- V3
+  VBAT -- V3
+  PG10 -- NRST
+  PB8 -- .nc
+  PF0 -- XIN
+  PF1 -- XOUT
+  PA13 -- SWDIO
+  PA14 -- SWCLK
+  PA0 -- A1
+  PA1 -- A2
+  PA2 -- A3
+  PA3 -- A4
+  PA15 -- SCL
+  PB7 -- SDA
+  PA11 -- CAN_RX
+  PA12 -- CAN_TX
+  PA9 -- TX
+  PA10 -- RX
+  PB0 -- LED
 }
-U1Support = STM32G431CBU6.Support(U1, noBattery = false) {}
-crystal = Crystal(xin = XIN, xout = XOUT, gnd = GND, frequency = 8MHz, load = 10pF, mcu = U1) {}
-swd = SwdHeader(vcc = V3, gnd = GND, swdio = SWDIO, swclk = SWCLK, nrst = NRST) {}
+U1Support = STM32G431CBU6.Support {
+  chip = U1
+  noBattery = false
+}
+crystal = Crystal {
+  xin = XIN
+  xout = XOUT
+  gnd = GND
+  frequency = 8MHz
+  load = 10pF
+  mcu = U1
+}
+swd = SwdHeader {
+  vcc = V3
+  gnd = GND
+  swdio = SWDIO
+  swclk = SWCLK
+  nrst = NRST
+}
 // The debug console (USART1, 115200 baud): TX, RX, GND for a 3.3 V USB-serial cable.
-J3 = header(3) { pins { "1": TX, "2": RX, "3": GND } }
+J3 = header(3) {
+  "1" -- TX
+  "2" -- RX
+  "3" -- GND
+}
 
 // Status: blinks while frames go out (frame 0x200 sets it on, off or blinking).
-D1 = led(package = "0603", color = .green) { pins { A: LED, K: LED_K } }
+D1 = led(package = "0603", color = .green) {
+  A -- LED
+  K -- LED_K
+}
 R1 = res(1kohm, package = "0402") {
   place = [soft(near(D1, max = 3mm))]
-  pins { a: LED_K, b: GND }
+  a -- LED_K
+  b -- GND
 }
 
 // ---- CAN ------------------------------------------------------------------------------------------
 U2 = SN65HVD230.Part {
-  pins { D: CAN_TX, R: CAN_RX, VCC: V3, GND: GND, CANH: CANH, CANL: CANL, Vref: .nc, RS: GND }
+  D -- CAN_TX
+  R -- CAN_RX
+  VCC -- V3
+  GND -- GND
+  CANH -- CANH
+  CANL -- CANL
+  Vref -- .nc
+  RS -- GND
 }
-U2Support = SN65HVD230.Support(U2) {}
+U2Support = SN65HVD230.Support { chip = U2 }
 // 120 ohm across the bus through jumper J2: fit the shunt on the bus's two end nodes only.
 R2 = res(120ohm, package = "0805") {
   place = [soft(near(U2, max = 8mm))]
-  pins { a: CANH, b: TERM }
+  a -- CANH
+  b -- TERM
 }
 J2 = header(2) {
   place = [soft(near(R2, max = 6mm))]
-  pins { "1": TERM, "2": CANL }
+  "1" -- TERM
+  "2" -- CANL
 }
 // The bus and the robot's 12 V on one JST GH (1.25 mm) 4-pin header at the left edge.
 J1 = device(
   wireToBoard(4, 1.25mm),
-  pinout = { "1": "1", "2": "2", "3": "3", "4": "4" },
+  pinout = { "1" = "1", "2" = "2", "3" = "3", "4" = "4" },
   prefix = "J",
   mpn = "SM04B-GHS-TB",
 ) {
   at = (3mm, 20mm)
   rotation = 90deg
-  pins { "1": VIN, "2": CANH, "3": CANL, "4": GND }
+  "1" -- VIN
+  "2" -- CANH
+  "3" -- CANL
+  "4" -- GND
 }
 busLabel = Text {
   text = "12V H L GND"
@@ -119,31 +153,40 @@ busLabel = Text {
 // ESD and transients on the bus lines: a dual TVS for CAN (24 V stand-off).
 D2 = diode(kind = .tvs, package = "SOD-323", voltage = 24V, bidirectional = true) {
   place = [soft(near(J1, max = 6mm))]
-  pins { A: CANH, K: GND }
+  A -- CANH
+  K -- GND
 }
 D3 = diode(kind = .tvs, package = "SOD-323", voltage = 24V, bidirectional = true) {
   place = [soft(near(J1, max = 6mm))]
-  pins { A: CANL, K: GND }
+  A -- CANL
+  K -- GND
 }
 
 // ---- power: 12 V in, protected, to 3.3 V ------------------------------------------------------------
-reversed = ReversePolarity(
-  vin = VIN,
-  vout = V12,
-  gnd = GND,
-  inputVoltage = 12V,
-  current = 200mA,
-  rdsOn = 60mohm,
-  maxGateVoltage = 12V,
-  fet = AO3401A.Part,
-) {}
+reversed = ReversePolarity {
+  vin = VIN
+  vout = V12
+  gnd = GND
+  inputVoltage = 12V
+  current = 200mA
+  rdsOn = 60mohm
+  maxGateVoltage = 12V
+  fet = AO3401A.Part
+}
 // The motor's spikes: an 18 V TVS (SMBJ18A) across the protected supply.
 D4 = diode(kind = .tvs, package = "SMB", voltage = 18V) {
   place = [soft(near(J1, max = 10mm))]
-  pins { A: GND, K: V12 }
+  A -- GND
+  K -- V12
 }
-U4 = TPS54331D.Part { pins { VIN: V12, GND: GND } }
-U4Support = TPS54331D.Support(U4, vout = V3) {}
+U4 = TPS54331D.Part {
+  VIN -- V12
+  GND -- GND
+}
+U4Support = TPS54331D.Support {
+  chip = U4
+  vout -- V3
+}
 
 // ---- sensors ---------------------------------------------------------------------------------------
 // The four pressure inputs (0-5 V) on a 2x4 header: each with its ground, into ADC1 IN1-IN4 through
@@ -152,15 +195,46 @@ U4Support = TPS54331D.Support(U4, vout = V3) {}
 // `world.drive("J5", "analog", 2.5)`.
 J5 = physicalLines(
   header(4, rows = 2),
-  { analog: ["1"], analog2: ["3"], analog3: ["5"], analog4: ["7"] },
+  { analog = ["1"], analog2 = ["3"], analog3 = ["5"], analog4 = ["7"] },
 ) {
   at = (57mm, 20mm)
-  pins { "1": P1, "2": GND, "3": P2, "4": GND, "5": P3, "6": GND, "7": P4, "8": GND }
+  "1" -- P1
+  "2" -- GND
+  "3" -- P2
+  "4" -- GND
+  "5" -- P3
+  "6" -- GND
+  "7" -- P4
+  "8" -- GND
 }
-in1 = Divider(vin = P1, vout = A1, gnd = GND, inputVoltage = 5V, total = 30kohm) {}
-in2 = Divider(vin = P2, vout = A2, gnd = GND, inputVoltage = 5V, total = 30kohm) {}
-in3 = Divider(vin = P3, vout = A3, gnd = GND, inputVoltage = 5V, total = 30kohm) {}
-in4 = Divider(vin = P4, vout = A4, gnd = GND, inputVoltage = 5V, total = 30kohm) {}
+in1 = Divider {
+  vin = P1
+  vout = A1
+  gnd = GND
+  inputVoltage = 5V
+  total = 30kohm
+}
+in2 = Divider {
+  vin = P2
+  vout = A2
+  gnd = GND
+  inputVoltage = 5V
+  total = 30kohm
+}
+in3 = Divider {
+  vin = P3
+  vout = A3
+  gnd = GND
+  inputVoltage = 5V
+  total = 30kohm
+}
+in4 = Divider {
+  vin = P4
+  vout = A4
+  gnd = GND
+  inputVoltage = 5V
+  total = 30kohm
+}
 inputsLabel = Text {
   text = "P1-P4 0-5V"
   at = (52mm, 30mm)
@@ -169,93 +243,91 @@ inputsLabel = Text {
 
 // The IMU at 0x68 (AD0 low), on I2C1 with the bus's pull-ups (its support circuit).
 U3 = ICM_42688_P.Part {
-  pins {
-    VDD: V3,
-    VDDIO: V3,
-    GND: GND,
-    AP_SDA: SDA,
-    AP_SCL: SCL,
-    AP_AD0: GND,
-    AP_CS: V3,
-    INT1: .nc,
-    INT2: GND,
-    RESV2: .nc,
-    RESV3: .nc,
-    RESV7: GND,
-    RESV10: .nc,
-    RESV11: .nc,
-  }
+  VDD -- V3
+  VDDIO -- V3
+  GND -- GND
+  AP_SDA -- SDA
+  AP_SCL -- SCL
+  AP_AD0 -- GND
+  AP_CS -- V3
+  INT1 -- .nc
+  INT2 -- GND
+  RESV2 -- .nc
+  RESV3 -- .nc
+  RESV7 -- GND
+  RESV10 -- .nc
+  RESV11 -- .nc
 }
-U3Support = ICM_42688_P.Support(U3) {}
+U3Support = ICM_42688_P.Support { chip = U3 }
 
-holes = MountingHoles(corners = [.bottomLeft, .topRight]) {}
+holes = MountingHoles { corners = [.bottomLeft, .topRight] }
 gndPour = pour(net = GND, layers = [Cu.top, Cu.bottom]) {}
 
-override U1Support.C_VDD_23.orderCode = "C1525"
-override U1Support.C_VDD_35.orderCode = "C1525"
-override U1Support.C_VDD_48.orderCode = "C1525"
-override U1Support.C_VREF1.orderCode = "C1525"
-override U1Support.C_NRST.orderCode = "C1525"
-override U2Support.C1.orderCode = "C1525"
-override U3Support.C1.orderCode = "C1525"
-override U4Support.C4.orderCode = "C1525"
-override U1Support.C_BULK.orderCode = "C1779"
-override U1Support.C_VDDA1.orderCode = "C15195"
-override U4Support.C5.orderCode = "C15195"
-override U4Support.C3.orderCode = "C15195"
-override U3Support.C3.orderCode = "C15195"
-override U1Support.C_VDDA2.orderCode = "C52923"
-override U1Support.C_VREF2.orderCode = "C52923"
-override crystal.C1.orderCode = "C1548"
-override crystal.C2.orderCode = "C1548"
-override U4Support.C1.orderCode = "C29823"
-override U4Support.C2.orderCode = "C29823"
-override U4Support.C8.orderCode = "C94034"
-override U4Support.C9.orderCode = "C94034"
-override U4Support.C6.orderCode = "C1523"
-override U4Support.C7.orderCode = "C1567"
-override in1.C.orderCode = "C1532"
-override in2.C.orderCode = "C1532"
-override in3.C.orderCode = "C1532"
-override in4.C.orderCode = "C1532"
-override U3Support.C2.orderCode = "C19110"
-override D1.orderCode = "C125098"
-override D2.orderCode = "C207246"
-override D3.orderCode = "C207246"
-override D4.orderCode = "C152104"
-override reversed.Dz.orderCode = "C72743"
-override U4Support.D1.orderCode = "C64982"
-override J1.orderCode = "C51940118"
-override J2.orderCode = "C492401"
-override J3.orderCode = "C2937625"
-override swd.J.orderCode = "C492404"
-override J5.orderCode = "C225519"
-override U4Support.L1.orderCode = "C57254"
-override reversed.Q.orderCode = "C15127"
-override R1.orderCode = "C11702"
-override R2.orderCode = "C17437"
-override U1Support.R_BOOT0.orderCode = "C25744"
-override U3Support.RP1.orderCode = "C25744"
-override U3Support.RP2.orderCode = "C25744"
-override reversed.Rg.orderCode = "C25741"
-override U4Support.R1.orderCode = "C138005"
-override U4Support.R2.orderCode = "C11537"
-override U4Support.R5.orderCode = "C11660"
-override U4Support.R6.orderCode = "C11457"
-override U4Support.R3.orderCode = "C226949"
-override in1.Rt.orderCode = "C25749"
-override in2.Rt.orderCode = "C25749"
-override in3.Rt.orderCode = "C25749"
-override in4.Rt.orderCode = "C25749"
-override in1.Rb.orderCode = "C25765"
-override in2.Rb.orderCode = "C25765"
-override in3.Rb.orderCode = "C25765"
-override in4.Rb.orderCode = "C25765"
-override U1.orderCode = "C529356"
-override U2.orderCode = "C12084"
-override U3.orderCode = "C1850418"
-override U4.orderCode = "C9865"
-override crystal.Y.orderCode = "C400090"
-override U1Support.C_VBAT.orderCode = "C1525"
-override U1Support.C_VDD_48.place = [near(U1["48"], max = 2mm)]
-override U4Support.C2.place = [near(U4.pin.VIN, max = 2.5mm)]
+U1Support.C_VDD_23.orderCode = "C1525"
+U1Support.C_VDD_35.orderCode = "C1525"
+U1Support.C_VDD_48.orderCode = "C1525"
+U1Support.C_VREF1.orderCode = "C1525"
+U1Support.C_NRST.orderCode = "C1525"
+U2Support.C1.orderCode = "C1525"
+U3Support.C1.orderCode = "C1525"
+U4Support.C4.orderCode = "C1525"
+U1Support.C_BULK.orderCode = "C1779"
+U1Support.C_VDDA1.orderCode = "C15195"
+U4Support.C5.orderCode = "C15195"
+U4Support.C3.orderCode = "C15195"
+U3Support.C3.orderCode = "C15195"
+U1Support.C_VDDA2.orderCode = "C52923"
+U1Support.C_VREF2.orderCode = "C52923"
+crystal.C1.orderCode = "C1548"
+crystal.C2.orderCode = "C1548"
+U4Support.C1.orderCode = "C29823"
+U4Support.C2.orderCode = "C29823"
+U4Support.C8.orderCode = "C94034"
+U4Support.C9.orderCode = "C94034"
+U4Support.C6.orderCode = "C1523"
+U4Support.C7.orderCode = "C1567"
+in1.C.orderCode = "C1532"
+in2.C.orderCode = "C1532"
+in3.C.orderCode = "C1532"
+in4.C.orderCode = "C1532"
+U3Support.C2.orderCode = "C19110"
+D1.orderCode = "C125098"
+D2.orderCode = "C207246"
+D3.orderCode = "C207246"
+D4.orderCode = "C152104"
+reversed.Dz.orderCode = "C72743"
+U4Support.D1.orderCode = "C64982"
+J1.orderCode = "C51940118"
+J2.orderCode = "C492401"
+J3.orderCode = "C2937625"
+swd.J.orderCode = "C492404"
+J5.orderCode = "C225519"
+U4Support.L1.orderCode = "C57254"
+reversed.Q.orderCode = "C15127"
+R1.orderCode = "C11702"
+R2.orderCode = "C17437"
+U1Support.R_BOOT0.orderCode = "C25744"
+U3Support.RP1.orderCode = "C25744"
+U3Support.RP2.orderCode = "C25744"
+reversed.Rg.orderCode = "C25741"
+U4Support.R1.orderCode = "C138005"
+U4Support.R2.orderCode = "C11537"
+U4Support.R5.orderCode = "C11660"
+U4Support.R6.orderCode = "C11457"
+U4Support.R3.orderCode = "C226949"
+in1.Rt.orderCode = "C25749"
+in2.Rt.orderCode = "C25749"
+in3.Rt.orderCode = "C25749"
+in4.Rt.orderCode = "C25749"
+in1.Rb.orderCode = "C25765"
+in2.Rb.orderCode = "C25765"
+in3.Rb.orderCode = "C25765"
+in4.Rb.orderCode = "C25765"
+U1.orderCode = "C529356"
+U2.orderCode = "C12084"
+U3.orderCode = "C1850418"
+U4.orderCode = "C9865"
+crystal.Y.orderCode = "C400090"
+U1Support.C_VBAT.orderCode = "C1525"
+U1Support.C_VDD_48.place = [near(U1["48"], max = 2mm)]
+U4Support.C2.place = [near(U4.pin.VIN, max = 2.5mm)]

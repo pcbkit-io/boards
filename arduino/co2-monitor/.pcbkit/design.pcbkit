@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // A CO₂ monitor on an Arduino Nano: Sensirion's SCD40 measures CO₂ (photoacoustic), temperature
 // and humidity every five seconds; a 0.96" OLED shows the concentration large with a graph of the
@@ -6,9 +6,9 @@ pcbkit 1
 // 1400, red above, blinking past 2000). The sketch (firmware/) uses Sensirion's own SCD4x library
 // and Adafruit's SSD1306. Power: the Nano's USB.
 
-use "parts/ARDUINO_NANO.pcbkit" as ARDUINO_NANO
-use "parts/SSD1306_OLED_I2C.pcbkit" as SSD1306_OLED_I2C
-use "parts/SCD40.pcbkit" as SCD40
+use ./parts/ARDUINO_NANO as ARDUINO_NANO
+use ./parts/SSD1306_OLED_I2C as SSD1306_OLED_I2C
+use ./parts/SCD40 as SCD40
 
 net V5 { voltage = 5V }
 net GND { voltage = 0V }
@@ -28,54 +28,73 @@ NANO = ARDUINO_NANO.Part with {
   // Lengthwise along the bottom, its USB at the board's left edge.
   at = (24mm, 12mm)
   rotation = 90deg
-  pins { P5V: V5, GND: GND, A4: SDA, A5: SCL, D5: GREEN, D6: AMBER, D7: RED }
+  P5V -- V5
+  GND -- GND
+  A4 -- SDA
+  A5 -- SCL
+  D5 -- GREEN
+  D6 -- AMBER
+  D7 -- RED
 }
 
 DS1 = SSD1306_OLED_I2C.Part {
   at = (68mm, 51.4mm)
-  pins { GND: GND, VCC: V5, SCL: SCL, SDA: SDA }
+  GND -- GND
+  VCC -- V5
+  SCL -- SCL
+  SDA -- SDA
 }
 
 // The sensor where air moves past it, with its bulk and ceramic capacitors and the bus's pull-ups.
 U1 = SCD40.Part {
   at = (84mm, 12mm)
-  pins { VDD: V5, VDDH: V5, GND: GND, SDA: SDA, SCL: SCL }
+  VDD -- V5
+  VDDH -- V5
+  GND -- GND
+  SDA -- SDA
+  SCL -- SCL
 }
-U1Support = SCD40.Support(U1) {}
+U1Support = SCD40.Support { chip = U1 }
 
 // The traffic light: each LED from its pin through 1 kΩ to ground (3 mA).
-fn light(color: LedColor, index: Number): Part = led(package = "0805", color = color) with {
+fn light(color: LedColor, index: Number) -> Part = led(package = "0805", color = color) with {
   simulation = SimulationParameters {
     behavior = Behavior {
       model = "indicator"
-      ports = { input: ["2"] }
-      parameters = { color: index, milliamps: 3 }
+      ports = { input = ["2"] }
+      parameters = { color = index, milliamps = 3 }
     }
   }
 }
 D1 = light(.green, 0) {
   at = (8mm, 40mm)
-  pins { A: GREEN, K: GREEN_K }
+  A -- GREEN
+  K -- GREEN_K
 }
 D2 = light(.orange, 1) {
   at = (8mm, 34mm)
-  pins { A: AMBER, K: AMBER_K }
+  A -- AMBER
+  K -- AMBER_K
 }
 D3 = light(.red, 2) {
   at = (8mm, 28mm)
-  pins { A: RED, K: RED_K }
+  A -- RED
+  K -- RED_K
 }
 R1 = res(1kohm, package = "0603") {
   place = [soft(near(D1, max = 4mm))]
-  pins { a: GREEN_K, b: GND }
+  a -- GREEN_K
+  b -- GND
 }
 R2 = res(1kohm, package = "0603") {
   place = [soft(near(D2, max = 4mm))]
-  pins { a: AMBER_K, b: GND }
+  a -- AMBER_K
+  b -- GND
 }
 R3 = res(1kohm, package = "0603") {
   place = [soft(near(D3, max = 4mm))]
-  pins { a: RED_K, b: GND }
+  a -- RED_K
+  b -- GND
 }
 lightLabel = Text {
   text = "OPEN A WINDOW"

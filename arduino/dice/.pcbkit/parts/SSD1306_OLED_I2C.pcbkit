@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // SSD1306 0.96in 128x64 I2C OLED module (generic (Solomon Systech SSD1306 controller)): 0.96" 128
 // x 64 OLED display module (SSD1306, I2C address 0x3C) on a 1x4 female header: GND VCC SCL SDA;
@@ -37,30 +37,30 @@ part Part = device(
   prefix = "U",
   mpn = "SSD1306 0.96in 128x64 I2C OLED module",
   manufacturer = "generic (Solomon Systech SSD1306 controller)",
-  pinout = { GND: "1", VCC: "2", SCL: "3", SDA: "4" },
+  pinout = { GND = "1", VCC = "2", SCL = "3", SDA = "4" },
   pinTypes = {
-    GND: .ground,
-    VCC: io.powerIn(min = 3.3V, max = 5.5V),
-    SCL: io.input(pull = .up),
-    SDA: io.bidirectional(),
+    GND = .ground
+    VCC = io.powerIn(min = 3.3V, max = 5.5V)
+    SCL = io.input(pull = .up)
+    SDA = io.bidirectional()
   },
 ) with {
   fields {
-    Status: "checked",
-    PinoutSource: "the module's silkscreen as its makers print it (GND VCC SCL SDA); controller facts from Solomon Systech's SSD1306 datasheet",
-    Datasheet: "https://cdn-shop.adafruit.com/datasheets/SSD1306.pdf",
-    I2cAddress: "0x3C",
+    Status = "checked"
+    PinoutSource = "the module's silkscreen as its makers print it (GND VCC SCL SDA); controller facts from Solomon Systech's SSD1306 datasheet"
+    Datasheet = "https://cdn-shop.adafruit.com/datasheets/SSD1306.pdf"
+    I2cAddress = "0x3C"
   }
   simulation = SimulationParameters {
     behavior = Behavior {
       model = "ssd1306-i2c"
-      ports = { "i2c": ["4", "3"], "power": ["2", "1"] }
+      ports = { "i2c" = ["4", "3"], "power" = ["2", "1"] }
       parameters = {
-        "address": 60,
-        "height_mm": 10.86,
-        "offset_x_mm": 0,
-        "offset_y_mm": -13.4,
-        "width_mm": 21.74,
+        "address" = 60
+        "height_mm" = 10.86
+        "offset_x_mm" = 0
+        "offset_y_mm" = -13.4
+        "width_mm" = 21.74
       }
       height = 14mm
     }

@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 // Footprints of this board (imported). The library's are in the standard prelude (`soic(8)`,
 // `chipResistor("0603")`, …).
 

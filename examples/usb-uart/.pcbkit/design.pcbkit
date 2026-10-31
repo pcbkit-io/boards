@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // A USB-C to UART adapter from the standard blocks: the USB 2.0 Type-C port (CC pull-downs,
 // ESD, the 90 Ω pair's class), a 3.3 V LDO, the USB to UART bridge, a power LED and the UART
@@ -8,8 +8,35 @@ net VBUS, V3, GND, DP, DN, TX, RX
 
 board = Board { name = "blocks-usb" }
 
-usb = UsbC2(vbus = VBUS, gnd = GND, dp = DP, dn = DN) {}
-ldo = Ldo(vin = VBUS, vout = V3, gnd = GND, current = 50mA) {}
-bridge = UsbUart(dp = DP, dn = DN, vcc = V3, gnd = GND, tx = TX, rx = RX) {}
-power = LedIndicator(signal = V3, gnd = GND, color = .green, current = 1mA) {}
-uart = UartHeader(tx = TX, rx = RX, vcc = V3, gnd = GND) {}
+usb = UsbC2 {
+  vbus = VBUS
+  gnd = GND
+  dp = DP
+  dn = DN
+}
+ldo = Ldo {
+  vin = VBUS
+  vout = V3
+  gnd = GND
+  current = 50mA
+}
+bridge = UsbUart {
+  dp = DP
+  dn = DN
+  vcc = V3
+  gnd = GND
+  tx = TX
+  rx = RX
+}
+power = LedIndicator {
+  signal = V3
+  gnd = GND
+  color = .green
+  current = 1mA
+}
+uart = UartHeader {
+  tx = TX
+  rx = RX
+  vcc = V3
+  gnd = GND
+}

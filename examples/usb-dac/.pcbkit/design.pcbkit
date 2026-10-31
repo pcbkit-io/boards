@@ -1,35 +1,35 @@
-pcbkit 1
+pcbkit 2
 // Imported (`pcbkit import`). Edit freely: `pcbkit check` verifies the design.
 
-use "footprints.pcbkit" as fp
+use ./footprints as fp
 
-net ADJ named "/ADJ"
-net CONN_D named "/CONN_D+"
-net CONN_D_2 named "/CONN_D-"
-net HID0 named "/HID0"
-net HID1 named "/HID1"
-net HID2 named "/HID2"
-net USB_D named "/USB_D+"
-net USB_D_2 named "/USB_D-"
-net VCCP1I named "/VCCP1I"
-net VCCP2I named "/VCCP2I"
-net VCCXI named "/VCCXI"
-net VCOM named "/VCOM"
-net VINL named "/VINL"
-net VINR named "/VINR"
-net VOUTL named "/VOUTL"
-net VOUTR named "/VOUTR"
-net XTI named "/XTI"
-net XTO named "/XTO"
-net n_SSPND named "/~{SSPND}"
-net n3V7 named "3V7"
+net ADJ { name = "/ADJ" }
+net CONN_D { name = "/CONN_D+" }
+net CONN_D_2 { name = "/CONN_D-" }
+net HID0 { name = "/HID0" }
+net HID1 { name = "/HID1" }
+net HID2 { name = "/HID2" }
+net USB_D { name = "/USB_D+" }
+net USB_D_2 { name = "/USB_D-" }
+net VCCP1I { name = "/VCCP1I" }
+net VCCP2I { name = "/VCCP2I" }
+net VCCXI { name = "/VCCXI" }
+net VCOM { name = "/VCOM" }
+net VINL { name = "/VINL" }
+net VINR { name = "/VINR" }
+net VOUTL { name = "/VOUTL" }
+net VOUTR { name = "/VOUTR" }
+net XTI { name = "/XTI" }
+net XTO { name = "/XTO" }
+net n_SSPND { name = "/~{SSPND}" }
+net n3V7 { name = "3V7" }
 net CGND
 net GND
 net VBUS
 net VDDI
 net VUSB_CONN
-net unconnected_U1_DIN_Pad24 named "unconnected-(U1-DIN-Pad24)"
-net unconnected_U1_DOUT_Pad25 named "unconnected-(U1-DOUT-Pad25)"
+net unconnected_U1_DIN_Pad24 { name = "unconnected-(U1-DIN-Pad24)" }
+net unconnected_U1_DOUT_Pad25 { name = "unconnected-(U1-DOUT-Pad25)" }
 
 board = Board {
   name = "dac"
@@ -273,7 +273,8 @@ C1 = fp.C_0805_2012Metric_Pad1_18x1_45mm_HandSolder {
   at = (34.536mm, 10.42mm)
   rotation = 90deg
   side = .bottom
-  pins { "1": VCOM, "2": GND }
+  "1" -- VCOM
+  "2" -- GND
 }
 
 C2 = fp.C_0402_1005Metric_Pad0_74x0_62mm_HandSolder {
@@ -281,35 +282,40 @@ C2 = fp.C_0402_1005Metric_Pad0_74x0_62mm_HandSolder {
   at = (41.705mm, 10.095mm)
   rotation = 90deg
   side = .bottom
-  pins { "1": VCCP1I, "2": GND }
+  "1" -- VCCP1I
+  "2" -- GND
 }
 
 C3 = fp.C_0402_1005Metric_Pad0_74x0_62mm_HandSolder_2 {
   displayValue = "1u"
   at = (43.705mm, 10.095mm)
   rotation = 270deg
-  pins { "1": VCCP2I, "2": GND }
+  "1" -- VCCP2I
+  "2" -- GND
 }
 
 C4 = fp.C_0402_1005Metric_Pad0_74x0_62mm_HandSolder_2 {
   displayValue = "1u"
   at = (43.705mm, 13.721mm)
   rotation = 270deg
-  pins { "1": VCCXI, "2": GND }
+  "1" -- VCCXI
+  "2" -- GND
 }
 
 C5 = fp.C_0402_1005Metric_Pad0_74x0_62mm_HandSolder_2 {
   displayValue = "1u"
   at = (43.7mm, 16.165mm)
   rotation = 270deg
-  pins { "1": VDDI, "2": GND }
+  "1" -- VDDI
+  "2" -- GND
 }
 
 C6 = fp.C_0805_2012Metric_Pad1_18x1_45mm_HandSolder_2 {
   displayValue = "10u"
   at = (32.095mm, 10.42mm)
   rotation = 270deg
-  pins { "1": n3V7, "2": GND }
+  "1" -- n3V7
+  "2" -- GND
 }
 
 C7 = fp.C_0402_1005Metric_Pad0_74x0_62mm_HandSolder {
@@ -317,216 +323,252 @@ C7 = fp.C_0402_1005Metric_Pad0_74x0_62mm_HandSolder {
   at = (34.535mm, 15.385mm)
   rotation = 270deg
   side = .bottom
-  pins { "1": VBUS, "2": GND }
+  "1" -- VBUS
+  "2" -- GND
 }
 
 C8 = fp.C_0402_1005Metric_Pad0_74x0_62mm_HandSolder_2 {
   displayValue = "20p"
   at = (47.285mm, 9.105mm)
   rotation = 180deg
-  pins { "1": XTO, "2": GND }
+  "1" -- XTO
+  "2" -- GND
 }
 
 C9 = fp.C_0402_1005Metric_Pad0_74x0_62mm_HandSolder_2 {
   displayValue = "20p"
   at = (47.285mm, 14.365mm)
-  pins { "1": XTI, "2": GND }
+  "1" -- XTI
+  "2" -- GND
 }
 
 C10 = fp.C_0805_2012Metric_Pad1_18x1_45mm_HandSolder_2 {
   displayValue = "2n2"
   at = (11.925mm, 22.005mm)
-  pins { "1": CGND, "2": GND }
+  "1" -- CGND
+  "2" -- GND
 }
 
 C11 = fp.C_0402_1005Metric_Pad0_74x0_62mm_HandSolder_2 {
   displayValue = "1u"
   at = (20.735mm, 8.335mm)
   rotation = 90deg
-  pins { "1": VBUS, "2": GND }
+  "1" -- VBUS
+  "2" -- GND
 }
 
 C12 = fp.C_0805_2012Metric_Pad1_18x1_45mm_HandSolder_2 {
   displayValue = "10u"
   at = (25.765mm, 14.525mm)
   rotation = 180deg
-  pins { "1": n3V7, "2": GND }
+  "1" -- n3V7
+  "2" -- GND
 }
 
 C13 = fp.C_0402_1005Metric_Pad0_74x0_62mm_HandSolder_2 {
   displayValue = "1u"
   at = (23.185mm, 10.875mm)
   rotation = 90deg
-  pins { "1": VBUS, "2": GND }
+  "1" -- VBUS
+  "2" -- GND
 }
 
 D1 = fp.SOT5x3_DYA_TEX_M {
   displayValue = "ESD321"
   at = (19.5233mm, 12.4999mm)
   rotation = 90deg
-  pins { "1": GND, "2": CONN_D_2 }
+  "1" -- GND
+  "2" -- CONN_D_2
 }
 
 D2 = fp.SOT5x3_DYA_TEX_M {
   displayValue = "ESD321"
   at = (19.5234mm, 17.5601mm)
   rotation = 270deg
-  pins { "1": GND, "2": CONN_D }
+  "1" -- GND
+  "2" -- CONN_D
 }
 
 J1 = fp.USB_B_OST_USB_B1HSxx_Horizontal {
   displayValue = "USB_B"
   at = (16.25mm, 11.205mm)
   rotation = 180deg
-  pins { "1": VUSB_CONN, "2": CONN_D_2, "3": CONN_D, "4": GND, "5": CGND }
+  "1" -- VUSB_CONN
+  "2" -- CONN_D_2
+  "3" -- CONN_D
+  "4" -- GND
+  "5" -- CGND
 }
 
 J2 = fp.PinHeader_1x04_P2_54mm_Vertical {
   displayValue = "Conn_01x04_Pin"
   at = (34.345mm, 4.255mm)
   rotation = 90deg
-  pins { "1": VBUS, "2": GND, "3": VOUTL, "4": VOUTR }
+  "1" -- VBUS
+  "2" -- GND
+  "3" -- VOUTL
+  "4" -- VOUTR
 }
 
 J3 = fp.PinHeader_1x04_P2_54mm_Vertical {
   displayValue = "Conn_01x04_Pin"
   at = (34.345mm, 22.035mm)
   rotation = 90deg
-  pins { "1": HID0, "2": HID1, "3": HID2, "4": n_SSPND }
+  "1" -- HID0
+  "2" -- HID1
+  "3" -- HID2
+  "4" -- n_SSPND
 }
 
 R1 = fp.R_0402_1005Metric_Pad0_72x0_64mm_HandSolder {
   displayValue = "22R"
   at = (32.135mm, 17.385mm)
-  pins { "1": CONN_D, "2": USB_D }
+  "1" -- CONN_D
+  "2" -- USB_D
 }
 
 R2 = fp.R_0402_1005Metric_Pad0_72x0_64mm_HandSolder {
   displayValue = "22R"
   at = (32.135mm, 16.295mm)
-  pins { "1": CONN_D_2, "2": USB_D_2 }
+  "1" -- CONN_D_2
+  "2" -- USB_D_2
 }
 
 R3 = fp.R_0402_1005Metric_Pad0_72x0_64mm_HandSolder {
   displayValue = "1k5"
   at = (32.168mm, 7.759mm)
   rotation = 180deg
-  pins { "1": VINR, "2": GND }
+  "1" -- VINR
+  "2" -- GND
 }
 
 R4 = fp.R_0402_1005Metric_Pad0_72x0_64mm_HandSolder {
   displayValue = "1k5"
   at = (32.168mm, 6.649mm)
   rotation = 180deg
-  pins { "1": VINL, "2": GND }
+  "1" -- VINL
+  "2" -- GND
 }
 
 R5 = fp.R_0402_1005Metric_Pad0_72x0_64mm_HandSolder {
   displayValue = "1M"
   at = (44.745mm, 12.005mm)
   rotation = 90deg
-  pins { "1": XTO, "2": XTI }
+  "1" -- XTO
+  "2" -- XTI
 }
 
 R6 = fp.R_0402_1005Metric_Pad0_72x0_64mm_HandSolder {
   displayValue = "1k5"
   at = (32.135mm, 18.505mm)
   rotation = 180deg
-  pins { "1": VDDI, "2": CONN_D }
+  "1" -- VDDI
+  "2" -- CONN_D
 }
 
 R7 = fp.R_0402_1005Metric_Pad0_72x0_64mm_HandSolder {
   displayValue = "DNP"
   at = (11.925mm, 23.635mm)
-  pins { "1": CGND, "2": GND }
+  "1" -- CGND
+  "2" -- GND
 }
 
 R8 = fp.R_0603_1608Metric_Pad0_98x0_95mm_HandSolder {
   displayValue = "2.2"
   at = (19.305mm, 8.335mm)
   rotation = 270deg
-  pins { "1": VUSB_CONN, "2": VBUS }
+  "1" -- VUSB_CONN
+  "2" -- VBUS
 }
 
 R9 = fp.R_0402_1005Metric_Pad0_72x0_64mm_HandSolder {
   displayValue = "10k"
   at = (25.885mm, 7.775mm)
   rotation = 180deg
-  pins { "1": ADJ, "2": GND }
+  "1" -- ADJ
+  "2" -- GND
 }
 
 R10 = fp.R_0402_1005Metric_Pad0_72x0_64mm_HandSolder {
   displayValue = "10k"
   at = (28.605mm, 11.315mm)
   rotation = 270deg
-  pins { "1": n3V7, "2": ADJ }
+  "1" -- n3V7
+  "2" -- ADJ
 }
 
 R11 = fp.R_0402_1005Metric_Pad0_72x0_64mm_HandSolder {
   displayValue = "10k"
   at = (25.885mm, 8.955mm)
   rotation = 180deg
-  pins { "1": ADJ, "2": GND }
+  "1" -- ADJ
+  "2" -- GND
 }
 
 TP1 = fp.TestPoint_Pad_D1_0mm {
   displayValue = "TestPoint"
   at = (28.955mm, 14.425mm)
-  pins { "1": n3V7 }
+  "1" -- n3V7
 }
 
 TP2 = fp.TestPoint_Pad_D1_0mm {
   displayValue = "TestPoint"
   at = (20.775mm, 5.725mm)
-  pins { "1": VBUS }
+  "1" -- VBUS
 }
 
 U1 = fp.SSOP_28_5_3x10_2mm_P0_65mm {
   displayValue = "PCM2906C"
   at = (38.165mm, 12.755mm)
-  pins {
-    "1": USB_D,
-    "2": USB_D_2,
-    "3": VBUS,
-    "4": GND,
-    "5": HID0,
-    "6": HID1,
-    "7": HID2,
-    "8": VDDI,
-    "9": VDDI,
-    "10": n3V7,
-    "11": GND,
-    "12": VINL,
-    "13": VINR,
-    "14": VCOM,
-    "15": VOUTR,
-    "16": VOUTL,
-    "17": VCCP1I,
-    "18": GND,
-    "19": VCCP2I,
-    "20": XTO,
-    "21": XTI,
-    "22": GND,
-    "23": VCCXI,
-    "24": unconnected_U1_DIN_Pad24,
-    "25": unconnected_U1_DOUT_Pad25,
-    "26": GND,
-    "27": VDDI,
-    "28": n_SSPND,
-  }
+
+  "1" -- USB_D
+  "2" -- USB_D_2
+  "3" -- VBUS
+  "4" -- GND
+  "5" -- HID0
+  "6" -- HID1
+  "7" -- HID2
+  "8" -- VDDI
+  "9" -- VDDI
+  "10" -- n3V7
+  "11" -- GND
+  "12" -- VINL
+  "13" -- VINR
+  "14" -- VCOM
+  "15" -- VOUTR
+  "16" -- VOUTL
+  "17" -- VCCP1I
+  "18" -- GND
+  "19" -- VCCP2I
+  "20" -- XTO
+  "21" -- XTI
+  "22" -- GND
+  "23" -- VCCXI
+  "24" -- unconnected_U1_DIN_Pad24
+  "25" -- unconnected_U1_DOUT_Pad25
+  "26" -- GND
+  "27" -- VDDI
+  "28" -- n_SSPND
 }
 
 U2 = fp.SOT_23_5 {
   displayValue = "SPX3819M5-L"
   at = (25.855mm, 11.35mm)
-  pins { "1": VBUS, "2": GND, "3": VBUS, "4": ADJ, "5": n3V7 }
+  "1" -- VBUS
+  "2" -- GND
+  "3" -- VBUS
+  "4" -- ADJ
+  "5" -- n3V7
 }
 
 Y1 = fp.XTAL_ABM8_12_000MHZ_12_B1U_T {
   displayValue = "12MHz"
   at = (47.24mm, 11.745mm)
   rotation = 180deg
-  pins { "1": XTO, "2": GND, "3": XTI, "4": GND }
+  "1" -- XTO
+  "2" -- GND
+  "3" -- XTI
+  "4" -- GND
 }
 
 n3V7Pour = Pour {

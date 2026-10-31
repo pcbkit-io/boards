@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // A000005 (Arduino): Arduino Nano (classic, ATmega328P, 5 V, 16 MHz) plugged into two 15-pin
 // female headers 0.6" apart, pins named as its silkscreen; the courtyard is the Nano's 18 x 43.2
@@ -45,100 +45,100 @@ part Part = device(
   mpn = "A000005",
   manufacturer = "Arduino",
   pinout = {
-    D1: "1",
-    D0: "2",
-    RESET: ["3", "28"],
-    GND: ["4", "29"],
-    D2: "5",
-    D3: "6",
-    D4: "7",
-    D5: "8",
-    D6: "9",
-    D7: "10",
-    D8: "11",
-    D9: "12",
-    D10: "13",
-    D11: "14",
-    D12: "15",
-    D13: "16",
-    P3V3: "17",
-    AREF: "18",
-    A0: "19",
-    A1: "20",
-    A2: "21",
-    A3: "22",
-    A4: "23",
-    A5: "24",
-    A6: "25",
-    A7: "26",
-    P5V: "27",
-    VIN: "30",
+    D1 = "1"
+    D0 = "2"
+    RESET = ["3", "28"]
+    GND = ["4", "29"]
+    D2 = "5"
+    D3 = "6"
+    D4 = "7"
+    D5 = "8"
+    D6 = "9"
+    D7 = "10"
+    D8 = "11"
+    D9 = "12"
+    D10 = "13"
+    D11 = "14"
+    D12 = "15"
+    D13 = "16"
+    P3V3 = "17"
+    AREF = "18"
+    A0 = "19"
+    A1 = "20"
+    A2 = "21"
+    A3 = "22"
+    A4 = "23"
+    A5 = "24"
+    A6 = "25"
+    A7 = "26"
+    P5V = "27"
+    VIN = "30"
   },
   pinTypes = {
-    D1: io.bidirectional(),
-    D0: io.bidirectional(),
-    RESET: io.input(pull = .up),
-    GND: .ground,
-    D2: io.bidirectional(),
-    D3: io.bidirectional(),
-    D4: io.bidirectional(),
-    D5: io.bidirectional(),
-    D6: io.bidirectional(),
-    D7: io.bidirectional(),
-    D8: io.bidirectional(),
-    D9: io.bidirectional(),
-    D10: io.bidirectional(),
-    D11: io.bidirectional(),
-    D12: io.bidirectional(),
-    D13: io.bidirectional(),
-    P3V3: io.powerOut(3.3V),
-    AREF: .passive,
-    A0: io.bidirectional(),
-    A1: io.bidirectional(),
-    A2: io.bidirectional(),
-    A3: io.bidirectional(),
-    A4: io.bidirectional(),
-    A5: io.bidirectional(),
-    A6: .passive,
-    A7: .passive,
-    P5V: io.powerOut(5V),
-    VIN: .passive,
+    D1 = io.bidirectional()
+    D0 = io.bidirectional()
+    RESET = io.input(pull = .up)
+    GND = .ground
+    D2 = io.bidirectional()
+    D3 = io.bidirectional()
+    D4 = io.bidirectional()
+    D5 = io.bidirectional()
+    D6 = io.bidirectional()
+    D7 = io.bidirectional()
+    D8 = io.bidirectional()
+    D9 = io.bidirectional()
+    D10 = io.bidirectional()
+    D11 = io.bidirectional()
+    D12 = io.bidirectional()
+    D13 = io.bidirectional()
+    P3V3 = io.powerOut(3.3V)
+    AREF = .passive
+    A0 = io.bidirectional()
+    A1 = io.bidirectional()
+    A2 = io.bidirectional()
+    A3 = io.bidirectional()
+    A4 = io.bidirectional()
+    A5 = io.bidirectional()
+    A6 = .passive
+    A7 = .passive
+    P5V = io.powerOut(5V)
+    VIN = .passive
   },
 ) with {
   fields {
-    Status: "checked",
-    PinoutSource: "Arduino Nano product reference manual (A000005), §5 connector pinout figure and tables (pin 27 5V, pin 30 VIN), §6 mechanical drawing",
-    Datasheet: "https://docs.arduino.cc/resources/datasheets/A000005-datasheet.pdf",
+    Status = "checked"
+    PinoutSource = "Arduino Nano product reference manual (A000005), §5 connector pinout figure and tables (pin 27 5V, pin 30 VIN), §6 mechanical drawing"
+    Datasheet = "https://docs.arduino.cc/resources/datasheets/A000005-datasheet.pdf"
   }
   simulation = SimulationParameters {
     behavior = Behavior {
       model = "atmega328p"
       ports = {
-        "ADC6": ["25"],
-        "ADC7": ["26"],
-        "PB0": ["11"],
-        "PB1": ["12"],
-        "PB2": ["13"],
-        "PB3": ["14"],
-        "PB4": ["15"],
-        "PB5": ["16"],
-        "PC0": ["19"],
-        "PC1": ["20"],
-        "PC2": ["21"],
-        "PC3": ["22"],
-        "PC4": ["23"],
-        "PC5": ["24"],
-        "PD0": ["2"],
-        "PD1": ["1"],
-        "PD2": ["5"],
-        "PD3": ["6"],
-        "PD4": ["7"],
-        "PD5": ["8"],
-        "PD6": ["9"],
-        "PD7": ["10"],
-        "power": ["27", "29"],
+        "ADC6" = ["25"]
+        "ADC7" = ["26"]
+        "PB0" = ["11"]
+        "PB1" = ["12"]
+        "PB2" = ["13"]
+        "PB3" = ["14"]
+        "PB4" = ["15"]
+        "PB5" = ["16"]
+        "PC0" = ["19"]
+        "PC1" = ["20"]
+        "PC2" = ["21"]
+        "PC3" = ["22"]
+        "PC4" = ["23"]
+        "PC5" = ["24"]
+        "PD0" = ["2"]
+        "PD1" = ["1"]
+        "PD2" = ["5"]
+        "PD3" = ["6"]
+        "PD4" = ["7"]
+        "PD5" = ["8"]
+        "PD6" = ["9"]
+        "PD7" = ["10"]
+        "power" = ["27", "29"]
       }
-      parameters = { "clock_hz": 16000000 }
+      parameters = { "clock_hz" = 16000000 }
       height = 18.6mm
     }
     parameters = []

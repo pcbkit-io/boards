@@ -1,16 +1,24 @@
-pcbkit 1
-use "parts/ARDUINO_NANO.pcbkit" as ARDUINO_NANO
-use "parts/MAX7219_7SEG_MODULE.pcbkit" as MAX7219_7SEG_MODULE
+pcbkit 2
+use ./parts/ARDUINO_NANO as ARDUINO_NANO
+use ./parts/MAX7219_7SEG_MODULE as MAX7219_7SEG_MODULE
 // A reaction timer: start lights, a random wait, one button and a MAX7219 for the result.
 net V5, GND, MOSI, SCK, LOAD, PRESS, RED, ORANGE, GREEN, RED_K, ORANGE_K, GREEN_K
 // The parts every lab board shares: a light (an LED from its pin through 1 kΩ, `.green` to
 // `.white`), a key (a tactile switch to ground, the pin's pull-up on; in the lab the keyboard key
 // named), a knob (a 10 kΩ pot between 5 V and ground into an ADC pin) and the FTDI header.
-fn light(color: LedColor): Part = led(package = "1206", color = color) with {
-  simulation = SimulationParameters { behavior = Behavior { model = "indicator"; ports = { input: ["2"] }; parameters = { color: labColorIndex(color), milliamps: 3 } } }
+fn light(color: LedColor) -> Part = led(package = "1206", color = color) with {
+  simulation = SimulationParameters {
+    behavior = Behavior {
+      model = "indicator"
+      ports = { input = ["2"] }
+      parameters = { color = labColorIndex(color), milliamps = 3 }
+    }
+  }
 }
-fn key(code: String): Part = button("6x6") with {
-  simulation = SimulationParameters { behavior = Behavior { model = "button"; ports = { output: ["1"] }; key = code } }
+fn key(code: String) -> Part = button("6x6") with {
+  simulation = SimulationParameters {
+    behavior = Behavior { model = "button", ports = { output = ["1"] }, key = code }
+  }
 }
 
 board = Board {
@@ -22,40 +30,73 @@ board = Board {
 // The processor: an Arduino Nano on two 15-pin sockets on the back, flashed over its USB (its
 // bootloader); the program in firmware/ is plain C for its ATmega328P.
 U1 = ARDUINO_NANO.Part with {
-  simulation = ARDUINO_NANO.Part.simulation with { behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" } }
+  simulation = ARDUINO_NANO.Part.simulation with {
+    behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" }
+  }
 } {
   at = (46mm, 40mm)
   rotation = 90deg
   side = .bottom
-  pins { P5V: V5, GND: GND, D11: MOSI, D13: SCK, D10: LOAD, D2: PRESS, D5: RED, D6: ORANGE, D7: GREEN }
+  P5V -- V5
+  GND -- GND
+  D11 -- MOSI
+  D13 -- SCK
+  D10 -- LOAD
+  D2 -- PRESS
+  D5 -- RED
+  D6 -- ORANGE
+  D7 -- GREEN
 }
 display = MAX7219_7SEG_MODULE.Part {
   at = (46mm, 62mm)
-  pins { VCC: V5, GND: GND, DIN: MOSI, CS: LOAD, CLK: SCK }
+  VCC -- V5
+  GND -- GND
+  DIN -- MOSI
+  CS -- LOAD
+  CLK -- SCK
 }
 red = light(.red) {
   at = (36mm, 44mm)
-  pins { A: RED, K: RED_K }
+  A -- RED
+  K -- RED_K
 }
-redR = res(1kohm, package = "0603") { place = [soft(near(red, max = 4mm))]; pins { a: RED_K, b: GND } }
+redR = res(1kohm, package = "0603") {
+  place = [soft(near(red, max = 4mm))]
+  a -- RED_K
+  b -- GND
+}
 orange = light(.orange) {
   at = (46mm, 44mm)
-  pins { A: ORANGE, K: ORANGE_K }
+  A -- ORANGE
+  K -- ORANGE_K
 }
-orangeR = res(1kohm, package = "0603") { place = [soft(near(orange, max = 4mm))]; pins { a: ORANGE_K, b: GND } }
+orangeR = res(1kohm, package = "0603") {
+  place = [soft(near(orange, max = 4mm))]
+  a -- ORANGE_K
+  b -- GND
+}
 green = light(.green) {
   at = (56mm, 44mm)
-  pins { A: GREEN, K: GREEN_K }
+  A -- GREEN
+  K -- GREEN_K
 }
-greenR = res(1kohm, package = "0603") { place = [soft(near(green, max = 4mm))]; pins { a: GREEN_K, b: GND } }
+greenR = res(1kohm, package = "0603") {
+  place = [soft(near(green, max = 4mm))]
+  a -- GREEN_K
+  b -- GND
+}
 pushbutton = key("Space") {
   at = (46mm, 24mm)
-  pins { a: PRESS, b: GND }
+  a -- PRESS
+  b -- GND
 }
 gnd = pour(net = GND, layers = [Cu.top, Cu.bottom]) {}
-holes = MountingHoles(screw = "M2", corners = [.bottomLeft, .topLeft, .topRight]) {}
+holes = MountingHoles {
+  screw = "M2"
+  corners = [.bottomLeft, .topLeft, .topRight]
+}
 // A target round the button.
-target = map([9mm, 11.5mm], fn(r) -> [
+target = map([9mm, 11.5mm], r => [
   Arc { center = (46mm, 24mm), radius = r, start = 0deg, angle = 180deg, width = 0.3mm },
   Arc { center = (46mm, 24mm), radius = r, start = 180deg, angle = 180deg, width = 0.3mm },
 ])

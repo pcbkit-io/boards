@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // The parts of the Delta-S02 (Элара, Чебоксары, 1993) as Elara built it: Soviet chips in their
 // metric packages (2.5 mm pitch), each with its datasheet function, which is also what runs when
@@ -11,20 +11,20 @@ part KR1533LN1 = device(
   prefix = "DD",
   mpn = "КР1533ЛН1",
   pinout = {
-    A1: "1",
-    Y1: "2",
-    A2: "3",
-    Y2: "4",
-    A3: "5",
-    Y3: "6",
-    GND: "7",
-    Y4: "8",
-    A4: "9",
-    Y5: "10",
-    A5: "11",
-    Y6: "12",
-    A6: "13",
-    VCC: "14",
+    A1 = "1"
+    Y1 = "2"
+    A2 = "3"
+    Y2 = "4"
+    A3 = "5"
+    Y3 = "6"
+    GND = "7"
+    Y4 = "8"
+    A4 = "9"
+    Y5 = "10"
+    A5 = "11"
+    Y6 = "12"
+    A6 = "13"
+    VCC = "14"
   },
 ) with { simulation = SimulationParameters { behavior = Behavior { model = "KR1533LN1" } } }
 
@@ -34,20 +34,20 @@ part KR1533LA3 = device(
   prefix = "DD",
   mpn = "КР1533ЛА3",
   pinout = {
-    A1: "1",
-    B1: "2",
-    Y1: "3",
-    A2: "4",
-    B2: "5",
-    Y2: "6",
-    GND: "7",
-    Y3: "8",
-    A3: "9",
-    B3: "10",
-    Y4: "11",
-    A4: "12",
-    B4: "13",
-    VCC: "14",
+    A1 = "1"
+    B1 = "2"
+    Y1 = "3"
+    A2 = "4"
+    B2 = "5"
+    Y2 = "6"
+    GND = "7"
+    Y3 = "8"
+    A3 = "9"
+    B3 = "10"
+    Y4 = "11"
+    A4 = "12"
+    B4 = "13"
+    VCC = "14"
   },
 ) with { simulation = SimulationParameters { behavior = Behavior { model = "KR1533LA3" } } }
 
@@ -57,20 +57,20 @@ part KR1533LA4 = device(
   prefix = "DD",
   mpn = "КР1533ЛА4",
   pinout = {
-    A1: "1",
-    B1: "2",
-    A2: "3",
-    B2: "4",
-    C2: "5",
-    Y2: "6",
-    GND: "7",
-    Y3: "8",
-    A3: "9",
-    B3: "10",
-    C3: "11",
-    Y1: "12",
-    C1: "13",
-    VCC: "14",
+    A1 = "1"
+    B1 = "2"
+    A2 = "3"
+    B2 = "4"
+    C2 = "5"
+    Y2 = "6"
+    GND = "7"
+    Y3 = "8"
+    A3 = "9"
+    B3 = "10"
+    C3 = "11"
+    Y1 = "12"
+    C1 = "13"
+    VCC = "14"
   },
 ) with { simulation = SimulationParameters { behavior = Behavior { model = "KR1533LA4" } } }
 
@@ -80,20 +80,20 @@ part KR1533LI1 = device(
   prefix = "DD",
   mpn = "КР1533ЛИ1",
   pinout = {
-    A1: "1",
-    B1: "2",
-    Y1: "3",
-    A2: "4",
-    B2: "5",
-    Y2: "6",
-    GND: "7",
-    Y3: "8",
-    A3: "9",
-    B3: "10",
-    Y4: "11",
-    A4: "12",
-    B4: "13",
-    VCC: "14",
+    A1 = "1"
+    B1 = "2"
+    Y1 = "3"
+    A2 = "4"
+    B2 = "5"
+    Y2 = "6"
+    GND = "7"
+    Y3 = "8"
+    A3 = "9"
+    B3 = "10"
+    Y4 = "11"
+    A4 = "12"
+    B4 = "13"
+    VCC = "14"
   },
 ) with { simulation = SimulationParameters { behavior = Behavior { model = "KR1533LI1" } } }
 
@@ -103,20 +103,20 @@ part KR1533LL1 = device(
   prefix = "DD",
   mpn = "КР1533ЛЛ1",
   pinout = {
-    A1: "1",
-    B1: "2",
-    Y1: "3",
-    A2: "4",
-    B2: "5",
-    Y2: "6",
-    GND: "7",
-    Y3: "8",
-    A3: "9",
-    B3: "10",
-    Y4: "11",
-    A4: "12",
-    B4: "13",
-    VCC: "14",
+    A1 = "1"
+    B1 = "2"
+    Y1 = "3"
+    A2 = "4"
+    B2 = "5"
+    Y2 = "6"
+    GND = "7"
+    Y3 = "8"
+    A3 = "9"
+    B3 = "10"
+    Y4 = "11"
+    A4 = "12"
+    B4 = "13"
+    VCC = "14"
   },
 ) with { simulation = SimulationParameters { behavior = Behavior { model = "KR1533LL1" } } }
 
@@ -126,20 +126,20 @@ part KR1533LP5 = device(
   prefix = "DD",
   mpn = "КР1533ЛП5",
   pinout = {
-    A1: "1",
-    B1: "2",
-    Y1: "3",
-    A2: "4",
-    B2: "5",
-    Y2: "6",
-    GND: "7",
-    Y3: "8",
-    A3: "9",
-    B3: "10",
-    Y4: "11",
-    A4: "12",
-    B4: "13",
-    VCC: "14",
+    A1 = "1"
+    B1 = "2"
+    Y1 = "3"
+    A2 = "4"
+    B2 = "5"
+    Y2 = "6"
+    GND = "7"
+    Y3 = "8"
+    A3 = "9"
+    B3 = "10"
+    Y4 = "11"
+    A4 = "12"
+    B4 = "13"
+    VCC = "14"
   },
 ) with { simulation = SimulationParameters { behavior = Behavior { model = "KR1533LP5" } } }
 
@@ -149,20 +149,20 @@ part KR1533TM2 = device(
   prefix = "DD",
   mpn = "КР1533ТМ2",
   pinout = {
-    CLR1: "1",
-    D1: "2",
-    CLK1: "3",
-    PRE1: "4",
-    Q1: "5",
-    QN1: "6",
-    GND: "7",
-    QN2: "8",
-    Q2: "9",
-    PRE2: "10",
-    CLK2: "11",
-    D2: "12",
-    CLR2: "13",
-    VCC: "14",
+    CLR1 = "1"
+    D1 = "2"
+    CLK1 = "3"
+    PRE1 = "4"
+    Q1 = "5"
+    QN1 = "6"
+    GND = "7"
+    QN2 = "8"
+    Q2 = "9"
+    PRE2 = "10"
+    CLK2 = "11"
+    D2 = "12"
+    CLR2 = "13"
+    VCC = "14"
   },
 ) with { simulation = SimulationParameters { behavior = Behavior { model = "KR1533TM2" } } }
 
@@ -172,22 +172,22 @@ part KR1533IE7 = device(
   prefix = "DD",
   mpn = "КР1533ИЕ7",
   pinout = {
-    B: "1",
-    QB: "2",
-    QA: "3",
-    DOWN: "4",
-    UP: "5",
-    QC: "6",
-    QD: "7",
-    GND: "8",
-    D: "9",
-    C: "10",
-    LOAD: "11",
-    CO: "12",
-    BO: "13",
-    CLR: "14",
-    A: "15",
-    VCC: "16",
+    B = "1"
+    QB = "2"
+    QA = "3"
+    DOWN = "4"
+    UP = "5"
+    QC = "6"
+    QD = "7"
+    GND = "8"
+    D = "9"
+    C = "10"
+    LOAD = "11"
+    CO = "12"
+    BO = "13"
+    CLR = "14"
+    A = "15"
+    VCC = "16"
   },
 ) with { simulation = SimulationParameters { behavior = Behavior { model = "KR1533IE7" } } }
 
@@ -197,22 +197,22 @@ part KR1533KP11A = device(
   prefix = "DD",
   mpn = "КР1533КП11А",
   pinout = {
-    S: "1",
-    A1: "2",
-    B1: "3",
-    Y1: "4",
-    A2: "5",
-    B2: "6",
-    Y2: "7",
-    GND: "8",
-    Y3: "9",
-    B3: "10",
-    A3: "11",
-    Y4: "12",
-    B4: "13",
-    A4: "14",
-    OE: "15",
-    VCC: "16",
+    S = "1"
+    A1 = "2"
+    B1 = "3"
+    Y1 = "4"
+    A2 = "5"
+    B2 = "6"
+    Y2 = "7"
+    GND = "8"
+    Y3 = "9"
+    B3 = "10"
+    A3 = "11"
+    Y4 = "12"
+    B4 = "13"
+    A4 = "14"
+    OE = "15"
+    VCC = "16"
   },
 ) with { simulation = SimulationParameters { behavior = Behavior { model = "KR1533KP11A" } } }
 
@@ -222,22 +222,22 @@ part KR1533KP13 = device(
   prefix = "DD",
   mpn = "КР1533КП13",
   pinout = {
-    B2: "1",
-    A2: "2",
-    A1: "3",
-    B1: "4",
-    C2: "5",
-    D2: "6",
-    D1: "7",
-    GND: "8",
-    C1: "9",
-    WS: "10",
-    CLK: "11",
-    QD: "12",
-    QC: "13",
-    QB: "14",
-    QA: "15",
-    VCC: "16",
+    B2 = "1"
+    A2 = "2"
+    A1 = "3"
+    B1 = "4"
+    C2 = "5"
+    D2 = "6"
+    D1 = "7"
+    GND = "8"
+    C1 = "9"
+    WS = "10"
+    CLK = "11"
+    QD = "12"
+    QC = "13"
+    QB = "14"
+    QA = "15"
+    VCC = "16"
   },
 ) with { simulation = SimulationParameters { behavior = Behavior { model = "KR1533KP13" } } }
 
@@ -247,20 +247,20 @@ part K555IR16 = device(
   prefix = "DD",
   mpn = "К555ИР16",
   pinout = {
-    SER: "1",
-    A: "2",
-    B: "3",
-    C: "4",
-    D: "5",
-    MODE: "6",
-    GND: "7",
-    OC: "8",
-    CLK: "9",
-    QD: "10",
-    QC: "11",
-    QB: "12",
-    QA: "13",
-    VCC: "14",
+    SER = "1"
+    A = "2"
+    B = "3"
+    C = "4"
+    D = "5"
+    MODE = "6"
+    GND = "7"
+    OC = "8"
+    CLK = "9"
+    QD = "10"
+    QC = "11"
+    QB = "12"
+    QA = "13"
+    VCC = "14"
   },
 ) with { simulation = SimulationParameters { behavior = Behavior { model = "K555IR16" } } }
 
@@ -270,26 +270,26 @@ part KR1533IR22 = device(
   prefix = "DD",
   mpn = "КР1533ИР22",
   pinout = {
-    OE: "1",
-    Q0: "2",
-    D0: "3",
-    D1: "4",
-    Q1: "5",
-    Q2: "6",
-    D2: "7",
-    D3: "8",
-    Q3: "9",
-    GND: "10",
-    LE: "11",
-    Q4: "12",
-    D4: "13",
-    D5: "14",
-    Q5: "15",
-    Q6: "16",
-    D6: "17",
-    D7: "18",
-    Q7: "19",
-    VCC: "20",
+    OE = "1"
+    Q0 = "2"
+    D0 = "3"
+    D1 = "4"
+    Q1 = "5"
+    Q2 = "6"
+    D2 = "7"
+    D3 = "8"
+    Q3 = "9"
+    GND = "10"
+    LE = "11"
+    Q4 = "12"
+    D4 = "13"
+    D5 = "14"
+    Q5 = "15"
+    Q6 = "16"
+    D6 = "17"
+    D7 = "18"
+    Q7 = "19"
+    VCC = "20"
   },
 ) with { simulation = SimulationParameters { behavior = Behavior { model = "KR1533IR22" } } }
 
@@ -299,26 +299,26 @@ part KR1533AP6 = device(
   prefix = "DD",
   mpn = "КР1533АП6",
   pinout = {
-    DIR: "1",
-    A1: "2",
-    A2: "3",
-    A3: "4",
-    A4: "5",
-    A5: "6",
-    A6: "7",
-    A7: "8",
-    A8: "9",
-    GND: "10",
-    B8: "11",
-    B7: "12",
-    B6: "13",
-    B5: "14",
-    B4: "15",
-    B3: "16",
-    B2: "17",
-    B1: "18",
-    OE: "19",
-    VCC: "20",
+    DIR = "1"
+    A1 = "2"
+    A2 = "3"
+    A3 = "4"
+    A4 = "5"
+    A5 = "6"
+    A6 = "7"
+    A7 = "8"
+    A8 = "9"
+    GND = "10"
+    B8 = "11"
+    B7 = "12"
+    B6 = "13"
+    B5 = "14"
+    B4 = "15"
+    B3 = "16"
+    B2 = "17"
+    B1 = "18"
+    OE = "19"
+    VCC = "20"
   },
 ) with { simulation = SimulationParameters { behavior = Behavior { model = "KR1533AP6" } } }
 
@@ -328,21 +328,21 @@ part KR565RU5V = device(
   prefix = "DD",
   mpn = "КР565РУ5В",
   pinout = {
-    DIN: "2",
-    WE: "3",
-    RAS: "4",
-    A0: "5",
-    A2: "6",
-    A1: "7",
-    VCC: "8",
-    A7: "9",
-    A5: "10",
-    A4: "11",
-    A3: "12",
-    A6: "13",
-    DOUT: "14",
-    CAS: "15",
-    GND: "16",
+    DIN = "2"
+    WE = "3"
+    RAS = "4"
+    A0 = "5"
+    A2 = "6"
+    A1 = "7"
+    VCC = "8"
+    A7 = "9"
+    A5 = "10"
+    A4 = "11"
+    A3 = "12"
+    A6 = "13"
+    DOUT = "14"
+    CAS = "15"
+    GND = "16"
   },
 ) with { simulation = SimulationParameters { behavior = Behavior { model = "KR565RU5V" } } }
 
@@ -352,79 +352,79 @@ part KM573RF8A = device(
   prefix = "DD",
   mpn = "КМ573РФ8А",
   pinout = {
-    VPP: "1",
-    A12: "2",
-    A7: "3",
-    A6: "4",
-    A5: "5",
-    A4: "6",
-    A3: "7",
-    A2: "8",
-    A1: "9",
-    A0: "10",
-    O0: "11",
-    O1: "12",
-    O2: "13",
-    GND: "14",
-    O3: "15",
-    O4: "16",
-    O5: "17",
-    O6: "18",
-    O7: "19",
-    CE: "20",
-    A10: "21",
-    OE: "22",
-    A11: "23",
-    A9: "24",
-    A8: "25",
-    A13: "26",
-    PGM: "27",
-    VCC: "28",
+    VPP = "1"
+    A12 = "2"
+    A7 = "3"
+    A6 = "4"
+    A5 = "5"
+    A4 = "6"
+    A3 = "7"
+    A2 = "8"
+    A1 = "9"
+    A0 = "10"
+    O0 = "11"
+    O1 = "12"
+    O2 = "13"
+    GND = "14"
+    O3 = "15"
+    O4 = "16"
+    O5 = "17"
+    O6 = "18"
+    O7 = "19"
+    CE = "20"
+    A10 = "21"
+    OE = "22"
+    A11 = "23"
+    A9 = "24"
+    A8 = "25"
+    A13 = "26"
+    PGM = "27"
+    VCC = "28"
   },
 ) with { simulation = SimulationParameters { behavior = Behavior { model = "KM573RF8A" } } }
 
 /// Z80A: Z80 CPU, 4 MHz (КР1858ВМ1 class).
 part Z80 = device(footprint = dip(40, 15mm, pitch = 2.5mm), prefix = "DD", mpn = "Z80A", pinout = {
-  A11: "1",
-  A12: "2",
-  A13: "3",
-  A14: "4",
-  A15: "5",
-  CLK: "6",
-  D4: "7",
-  D3: "8",
-  D5: "9",
-  D6: "10",
-  VCC: "11",
-  D2: "12",
-  D7: "13",
-  D0: "14",
-  D1: "15",
-  INT: "16",
-  NMI: "17",
-  HALT: "18",
-  MREQ: "19",
-  IORQ: "20",
-  RD: "21",
-  WR: "22",
-  BUSACK: "23",
-  WAIT: "24",
-  BUSRQ: "25",
-  RESET: "26",
-  M1: "27",
-  RFSH: "28",
-  GND: "29",
-  A0: "30",
-  A1: "31",
-  A2: "32",
-  A3: "33",
-  A4: "34",
-  A5: "35",
-  A6: "36",
-  A7: "37",
-  A8: "38",
-  A9: "39",
-  A10: "40",
+  A11 = "1"
+  A12 = "2"
+  A13 = "3"
+  A14 = "4"
+  A15 = "5"
+  CLK = "6"
+  D4 = "7"
+  D3 = "8"
+  D5 = "9"
+  D6 = "10"
+  VCC = "11"
+  D2 = "12"
+  D7 = "13"
+  D0 = "14"
+  D1 = "15"
+  INT = "16"
+  NMI = "17"
+  HALT = "18"
+  MREQ = "19"
+  IORQ = "20"
+  RD = "21"
+  WR = "22"
+  BUSACK = "23"
+  WAIT = "24"
+  BUSRQ = "25"
+  RESET = "26"
+  M1 = "27"
+  RFSH = "28"
+  GND = "29"
+  A0 = "30"
+  A1 = "31"
+  A2 = "32"
+  A3 = "33"
+  A4 = "34"
+  A5 = "35"
+  A6 = "36"
+  A7 = "37"
+  A8 = "38"
+  A9 = "39"
+  A10 = "40"
 }) with { simulation = SimulationParameters { behavior = Behavior { model = "Z80" } } }
 
 /// К554СА3А: voltage comparator, open-collector output (LM311 class).
@@ -432,13 +432,22 @@ part K554SA3A = device(
   footprint = dip(14, 7.5mm, pitch = 2.5mm),
   prefix = "DD",
   mpn = "К554СА3А",
-  pinout = { GND: "2", INP: "3", INN: "4", VEE: "6", BAL: "7", STB: "8", OUT: "9", VCC: "11" },
+  pinout = {
+    GND = "2"
+    INP = "3"
+    INN = "4"
+    VEE = "6"
+    BAL = "7"
+    STB = "8"
+    OUT = "9"
+    VCC = "11"
+  },
 ) with { simulation = SimulationParameters { behavior = Behavior { model = "K554SA3A" } } }
 
 // --- Footprints of the Soviet passives and connectors ------------------------------------------
 
 /// Two through-hole pads `pitch` apart along X (pin 1 square at -X).
-fn pair(pitch: Length, drill: Length = 0.8mm, pad: Length = 1.6mm): List<Pad> = [
+fn pair(pitch: Length, drill: Length = 0.8mm, pad: Length = 1.6mm) -> List[Pad] = [
   thtPad("1", (clean(-pitch / 2), 0mm), drill, (pad, pad), square = true),
   thtPad("2", (clean(pitch / 2), 0mm), drill, (pad, pad)),
 ]
@@ -451,7 +460,7 @@ fn row(
   pad: Length = 1.6mm,
   y: Length = 0mm,
   first: Int = 1,
-): List<Pad> = map(range(0, count), fn(k) -> thtPad(
+) -> List[Pad] = map(range(0, count), k => thtPad(
   "\(first + k)",
   (clean((k - (count - 1) / 2) * pitch), y),
   drill,
@@ -460,7 +469,7 @@ fn row(
 ))
 
 /// МЛТ-0,125: a metal-film resistor lying between holes `pitch` apart, 2.2 x 6 mm, red lacquer.
-fn mlt(pitch: Length = 10mm): Footprint = Footprint {
+fn mlt(pitch: Length = 10mm) -> Footprint = Footprint {
   let shape3d = body.axial(pitch, 6mm, 2.2mm, "#9c3b2e")
   name = "R_MLT-0.125_P\(fmt(pitch))mm"
   description = "МЛТ-0,125 resistor, lying, holes \(fmt(pitch)) mm apart"
@@ -472,7 +481,7 @@ fn mlt(pitch: Length = 10mm): Footprint = Footprint {
 }
 
 /// КД522Б: a glass diode (DO-35 class) lying between holes `pitch` apart, cathode at -X.
-fn kd522(pitch: Length = 7.5mm): Footprint = Footprint {
+fn kd522(pitch: Length = 7.5mm) -> Footprint = Footprint {
   let shape3d = body.diode(pitch, "DO-35")
   name = "D_KD522_P\(fmt(pitch))mm"
   description = "КД522Б diode, glass, lying, holes \(fmt(pitch)) mm apart"
@@ -489,7 +498,7 @@ fn km(
   width: Length = 6mm,
   color: String = "#b85c24",
   depth: Length = 2.6mm,
-): Footprint = Footprint {
+) -> Footprint = Footprint {
   let shape3d = [
     solid.box((width, depth, 5mm), at = (0mm, 0mm, 0.8mm), radius = 0.6mm, color = color),
   ]
@@ -503,7 +512,7 @@ fn km(
 }
 
 /// A capacitor under a chip between its rows (КМ-6, flat), across its diagonal.
-fn kmUnder(): Footprint = Footprint {
+fn kmUnder() -> Footprint = Footprint {
   let shape3d = [
     solid.box((4.5mm, 2.4mm, 0.5mm), at = (0mm, 0mm, 0.1mm), radius = 0.4mm, color = "#b85c24"),
   ]
@@ -523,7 +532,7 @@ fn k50(
   height: Length,
   pitch: Length,
   sleeve: String = "#2a4f8c",
-): Footprint = Footprint {
+) -> Footprint = Footprint {
   let shape3d = [
     solid.cylinder(diameter, height, at = (0mm, 0mm, 0.5mm), color = sleeve),
     solid.cylinder(
@@ -542,7 +551,7 @@ fn k50(
 }
 
 /// КТ-26: a small plastic transistor (TO-92 class), three leads in a row 2.5 mm apart.
-fn kt26(): Footprint = Footprint {
+fn kt26() -> Footprint = Footprint {
   let shape3d = [solid.cylinder(4.8mm, 4.6mm, at = (0mm, 0mm, 3mm), color = "#202022")]
   name = "KT-26"
   description = "КТ-26 transistor (КТ3102БМ), leads E B C 2.5 mm apart"
@@ -553,7 +562,7 @@ fn kt26(): Footprint = Footprint {
 }
 
 /// A crystal in an HC-49/U can standing on leads 4.88 mm apart.
-fn hc49(): Footprint = Footprint {
+fn hc49() -> Footprint = Footprint {
   let shape3d = [
     solid.box((11mm, 4.6mm, 13.2mm), at = (0mm, 0mm, 0.3mm), radius = 2.2mm, material = .metal),
   ]
@@ -566,7 +575,7 @@ fn hc49(): Footprint = Footprint {
 }
 
 /// ЗП-3: a piezo sounder, a 31 mm disc in its housing.
-fn zp3(): Footprint = Footprint {
+fn zp3() -> Footprint = Footprint {
   let shape3d = [
     solid.cylinder(31mm, 7mm, color = "#2b2b2c"),
     solid.cylinder(4mm, 0.2mm, at = (0mm, 0mm, 7mm), color = "#111111"),
@@ -581,7 +590,7 @@ fn zp3(): Footprint = Footprint {
 
 /// The RF output's cable: a coaxial cable soldered to two pads (core and braid), to the
 /// САТ-Г aerial socket on the case.
-fn coaxPads(): Footprint = Footprint {
+fn coaxPads() -> Footprint = Footprint {
   let shape3d = [solid.cylinder(5mm, 3mm, at = (0mm, 0mm, 0mm), color = "#1c1c1e")]
   name = "Cable_Coax_Pads"
   description = "Pads of a coaxial cable to the САТ-Г aerial socket"
@@ -592,7 +601,7 @@ fn coaxPads(): Footprint = Footprint {
 }
 
 /// КМ1-1: a push button, two leads 5 mm apart.
-fn km1(): Footprint = Footprint {
+fn km1() -> Footprint = Footprint {
   let shape3d = [
     solid.box((8mm, 8mm, 7mm), color = "#26262a"),
     solid.cylinder(3.5mm, 5mm, at = (0mm, 0mm, 7mm), color = "#7a2a24"),
@@ -606,7 +615,7 @@ fn km1(): Footprint = Footprint {
 }
 
 /// СП3: a trimming resistor with a shaft, three leads 2.5 mm apart.
-fn sp3(): Footprint = Footprint {
+fn sp3() -> Footprint = Footprint {
   let shape3d = [
     solid.box((10mm, 6mm, 10mm), color = "#3a3326"),
     solid.cylinder(4mm, 12mm, at = (0mm, 0mm, 10mm), material = .metal),
@@ -620,7 +629,7 @@ fn sp3(): Footprint = Footprint {
 }
 
 /// НР1-4-9: a resistor network, ten leads in a row 2.5 mm apart (pin 1 the common one).
-fn hr1(count: Int = 10): Footprint = Footprint {
+fn hr1(count: Int = 10) -> Footprint = Footprint {
   let len = clean(count * 2.5mm)
   let shape3d = [
     solid.box((len, 2.6mm, 7mm), at = (0mm, 0mm, 0.5mm), radius = 0.3mm, color = "#3b2a22"),
@@ -634,7 +643,7 @@ fn hr1(count: Int = 10): Footprint = Footprint {
 }
 
 /// ДМ: a choke lying between holes `pitch` apart.
-fn dm(pitch: Length = 12.5mm): Footprint = Footprint {
+fn dm(pitch: Length = 12.5mm) -> Footprint = Footprint {
   let shape3d = body.axial(pitch, 9mm, 3.5mm, "#3e6b3a")
   name = "L_DM_P\(fmt(pitch))mm"
   description = "ДМ choke, lying, holes \(fmt(pitch)) mm apart"
@@ -645,7 +654,7 @@ fn dm(pitch: Length = 12.5mm): Footprint = Footprint {
 }
 
 /// ОНП-СГ-83 / a keyboard's flat-cable socket: `count` contacts in a row 2.5 mm apart.
-fn onp(count: Int = 12): Footprint = Footprint {
+fn onp(count: Int = 12) -> Footprint = Footprint {
   let len = clean(count * 2.5mm + 3mm)
   let shape3d = [solid.box((len, 6mm, 8mm), radius = 0.4mm, color = "#e9e4d6")]
   name = "Socket_ONP-SG-83_1x\(count)"
@@ -658,7 +667,7 @@ fn onp(count: Int = 12): Footprint = Footprint {
 
 /// ОНЦ-ВГ: a DIN socket for the back panel, opening at +Y (the board's edge): its contacts on an
 /// arc behind the opening, its two shield lugs at the sides.
-fn onc(pins: Int = 5): Footprint = Footprint {
+fn onc(pins: Int = 5) -> Footprint = Footprint {
   let shape3d = [
     solid.box((17.5mm, 18mm, 13mm), color = "#141416"),
     solid.box((15mm, 0.6mm, 15mm), at = (0mm, 9mm, -1mm), radius = 7mm, material = .metal),
@@ -680,7 +689,7 @@ fn onc(pins: Int = 5): Footprint = Footprint {
   // Its opening stands at the board's edge, through the back panel.
   overhang = true
   pads = concat(
-    map(range(0, pins), fn(k) -> thtPad("\(k + 1)", arc[k], 1mm, (1.8mm, 1.8mm), square = k == 0)),
+    map(range(0, pins), k => thtPad("\(k + 1)", arc[k], 1mm, (1.8mm, 1.8mm), square = k == 0)),
     [
       thtPad("S1", (-7.5mm, 4mm), 1.5mm, (2.6mm, 2.6mm)),
       thtPad("S2", (7.5mm, 4mm), 1.5mm, (2.6mm, 2.6mm)),
@@ -692,7 +701,7 @@ fn onc(pins: Int = 5): Footprint = Footprint {
 }
 
 /// The RF modulator's screen: a tinned can over its parts, soldered by four tabs.
-fn modulatorCan(size: Tuple<Length, Length>): Footprint = Footprint {
+fn modulatorCan(size: Tuple[Length, Length]) -> Footprint = Footprint {
   let shape3d = [solid.box((size[0], size[1], 14mm), radius = 0.8mm, material = .tin)]
   name = "Shield_Can_\(fmt(size[0]))x\(fmt(size[1]))mm"
   // Over the modulator's parts: they are under it.
@@ -710,12 +719,12 @@ fn modulatorCan(size: Tuple<Length, Length>): Footprint = Footprint {
 }
 
 /// СНП59-64: the system connector, two rows of 32 contacts 2.5 mm apart, along Y.
-fn snp59(): Footprint = Footprint {
+fn snp59() -> Footprint = Footprint {
   let shape3d = [solid.box((7mm, 84mm, 10mm), radius = 0.5mm, color = "#6b5a3c")]
   name = "Connector_SNP59-64_2x32"
   description = "СНП59-64 system connector, 2 x 32 contacts 2.5 mm apart"
   pads = concat(
-    map(range(0, 32), fn(k) -> thtPad(
+    map(range(0, 32), k => thtPad(
       "A\(k + 1)",
       (-1.25mm, clean((15.5 - k) * 2.5mm)),
       0.9mm,
@@ -724,7 +733,7 @@ fn snp59(): Footprint = Footprint {
     )),
     map(
       range(0, 32),
-      fn(k) -> thtPad("B\(k + 1)", (1.25mm, clean((15.5 - k) * 2.5mm)), 0.9mm, (1.6mm, 1.6mm)),
+      k => thtPad("B\(k + 1)", (1.25mm, clean((15.5 - k) * 2.5mm)), 0.9mm, (1.6mm, 1.6mm)),
     ),
   )
   body = centered(7mm, 84mm)
@@ -735,7 +744,7 @@ fn snp59(): Footprint = Footprint {
 // --- The Soviet passives as parts -------------------------------------------------------------
 
 /// An МЛТ-0,125 resistor.
-fn mltResistor(value: Resistance, pitch: Length = 10mm): Part = res(value) with {
+fn mltResistor(value: Resistance, pitch: Length = 10mm) -> Part = res(value) with {
   footprint = mlt(pitch)
 }
 /// A КМ ceramic capacitor standing.
@@ -744,11 +753,11 @@ fn kmCap(
   pitch: Length = 5mm,
   width: Length = 6mm,
   depth: Length = 2.6mm,
-): Part = cap(value) with { footprint = km(pitch, width, depth = depth) }
+) -> Part = cap(value) with { footprint = km(pitch, width, depth = depth) }
 /// A КМ-6 capacitor flat under a chip (decoupling across its supply pins).
-fn underCap(value: Capacitance = 100nF): Part = cap(value) with { footprint = kmUnder() }
+fn underCap(value: Capacitance = 100nF) -> Part = cap(value) with { footprint = kmUnder() }
 /// A К50-35 electrolytic capacitor.
-fn k50Cap(value: Capacitance, diameter: Length, height: Length, pitch: Length): Part = cap(
+fn k50Cap(value: Capacitance, diameter: Length, height: Length, pitch: Length) -> Part = cap(
   value,
 ) with { footprint = k50(diameter, height, pitch) }
 /// A КД522Б diode (anode A, cathode K).
@@ -757,7 +766,7 @@ part KD522B = device(
   kind = .diode,
   prefix = "VD",
   mpn = "КД522Б",
-  pinout = { K: "1", A: "2" },
+  pinout = { K = "1", A = "2" },
 )
 /// A КС119А stabistor (anode A, cathode K).
 part KS119A = device(
@@ -765,7 +774,7 @@ part KS119A = device(
   kind = .diode,
   prefix = "VD",
   mpn = "КС119А",
-  pinout = { K: "1", A: "2" },
+  pinout = { K = "1", A = "2" },
 )
 /// КТ3102БМ: an NPN transistor (E, B, C in a row).
 part KT3102BM = device(
@@ -773,7 +782,7 @@ part KT3102BM = device(
   kind = .transistor,
   prefix = "VT",
   mpn = "КТ3102БМ",
-  pinout = { E: "1", B: "2", C: "3" },
+  pinout = { E = "1", B = "2", C = "3" },
 )
 /// КТ316БМ: an NPN UHF transistor (the modulator's oscillator).
 part KT316BM = device(
@@ -781,7 +790,7 @@ part KT316BM = device(
   kind = .transistor,
   prefix = "VT",
   mpn = "КТ316БМ",
-  pinout = { E: "1", B: "2", C: "3" },
+  pinout = { E = "1", B = "2", C = "3" },
 )
 /// The 14 MHz crystal.
 part Crystal14 = device(
@@ -790,81 +799,85 @@ part Crystal14 = device(
   kind = .crystal,
   prefix = "BQ",
   mpn = "РК169 14 МГц",
-  pinout = { X1: "1", X2: "2" },
+  pinout = { X1 = "1", X2 = "2" },
 )
 /// ЗП-3 piezo sounder.
-part ZP3 = device(footprint = zp3(), prefix = "HA", mpn = "ЗП-3", pinout = { P1: "1", P2: "2" })
+part ZP3 = device(footprint = zp3(), prefix = "HA", mpn = "ЗП-3", pinout = { P1 = "1", P2 = "2" })
 /// КМ1-1 reset button.
 part CoaxOut = device(
   footprint = coaxPads(),
   prefix = "XS",
   mpn = "РК-75 к гнезду САТ-Г",
-  pinout = { SIG: "1", GND: "2" },
+  pinout = { SIG = "1", GND = "2" },
 )
 
-part KM11 = device(footprint = km1(), prefix = "SB", mpn = "КМ1-1", pinout = { P1: "1", P2: "2" })
+part KM11 = device(footprint = km1(), prefix = "SB", mpn = "КМ1-1", pinout = { P1 = "1", P2 = "2" })
 /// СП3 22 kΩ trimming resistor (ends 1, 3; wiper 2).
 part SP3 = device(
   footprint = sp3(),
   prefix = "R",
   mpn = "СП3-38б 22 кОм",
-  pinout = { E1: "1", W: "2", E2: "3" },
+  pinout = { E1 = "1", W = "2", E2 = "3" },
 )
 /// НР1-4-9 10 kΩ resistor network: pin 1 common, 2–10 the nine resistors' other ends.
 part HR1 = device(footprint = hr1(), prefix = "DR", mpn = "НР1-4-9 10 кОм", pinout = {
-  COM: "1",
-  R1: "2",
-  R2: "3",
-  R3: "4",
-  R4: "5",
-  R5: "6",
-  R6: "7",
-  R7: "8",
-  R8: "9",
-  R9: "10",
+  COM = "1"
+  R1 = "2"
+  R2 = "3"
+  R3 = "4"
+  R4 = "5"
+  R5 = "6"
+  R6 = "7"
+  R7 = "8"
+  R8 = "9"
+  R9 = "10"
 })
 /// ДМ-0,2 100 µH choke.
 part DM02 = device(
   footprint = dm(),
   prefix = "L",
   mpn = "ДМ-0,2 100 мкГн",
-  pinout = { P1: "1", P2: "2" },
+  pinout = { P1 = "1", P2 = "2" },
 )
 /// The keyboard's flat-cable socket, twelve contacts.
 part ONP12 = device(footprint = onp(), prefix = "XS", mpn = "ОНП-СГ-83-12", pinout = {
-  C1: "1",
-  C2: "2",
-  C3: "3",
-  C4: "4",
-  C5: "5",
-  C6: "6",
-  C7: "7",
-  C8: "8",
-  C9: "9",
-  C10: "10",
-  C11: "11",
-  C12: "12",
+  C1 = "1"
+  C2 = "2"
+  C3 = "3"
+  C4 = "4"
+  C5 = "5"
+  C6 = "6"
+  C7 = "7"
+  C8 = "8"
+  C9 = "9"
+  C10 = "10"
+  C11 = "11"
+  C12 = "12"
 })
 /// A five-contact DIN socket (ОНЦ-ВГ-4-5/16-Р).
 part ONC5 = device(
   footprint = onc(5),
   prefix = "XS",
   mpn = "ОНЦ-ВГ-4-5/16-Р",
-  pinout = { C1: "1", C2: "2", C3: "3", C4: "4", C5: "5", S: ["S1", "S2"] },
+  pinout = { C1 = "1", C2 = "2", C3 = "3", C4 = "4", C5 = "5", S = ["S1", "S2"] },
 )
 /// A seven-contact DIN socket (ОНЦ-ВГ-11-7/16-Р).
-part ONC7 = device(
-  footprint = onc(7),
-  prefix = "XS",
-  mpn = "ОНЦ-ВГ-11-7/16-Р",
-  pinout = { C1: "1", C2: "2", C3: "3", C4: "4", C5: "5", C6: "6", C7: "7", S: ["S1", "S2"] },
-)
+part ONC7 = device(footprint = onc(7), prefix = "XS", mpn = "ОНЦ-ВГ-11-7/16-Р", pinout = {
+  C1 = "1"
+  C2 = "2"
+  C3 = "3"
+  C4 = "4"
+  C5 = "5"
+  C6 = "6"
+  C7 = "7"
+  S = ["S1", "S2"]
+})
 /// The RF modulator's can.
 part ModulatorCan = device(
   footprint = modulatorCan((35.5mm, 36.5mm)),
   prefix = "E",
   mpn = "Экран модулятора",
-  pinout = { GND: ["1", "2", "3", "4"] },
+  pinout = { GND = ["1", "2", "3", "4"] },
 )
 /// The modulator's coil: 7 turns of ПЭТВ-2 0.535 on 6.5 mm.
 part Coil7 = device(
@@ -877,7 +890,7 @@ part Coil7 = device(
   },
   prefix = "L",
   mpn = "7 вит. ПЭТВ-2 0,535",
-  pinout = { P1: "1", P2: "2" },
+  pinout = { P1 = "1", P2 = "2" },
 )
 /// СНП59-64 system connector.
 part SNP59 = device(footprint = snp59(), prefix = "XP", mpn = "СНП59-64/94-11В-23-2")

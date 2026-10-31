@@ -1,20 +1,32 @@
-pcbkit 1
-use "parts/ARDUINO_NANO.pcbkit" as ARDUINO_NANO
-use "parts/PTV09A_4020F_B103.pcbkit" as PTV09A_4020F_B103
-use "parts/SERVO_HEADER.pcbkit" as SERVO_HEADER
+pcbkit 2
+use ./parts/ARDUINO_NANO as ARDUINO_NANO
+use ./parts/PTV09A_4020F_B103 as PTV09A_4020F_B103
+use ./parts/SERVO_HEADER as SERVO_HEADER
 // Three servos driven by one timer interrupt; three knobs teach a motion that the device replays.
 net V5, GND, KNOB0, KNOB1, KNOB2, SERVO0, SERVO1, SERVO2, TEACH, REC, PLAY, REC_K, PLAY_K, VSERVO
 // The parts every lab board shares: a light (an LED from its pin through 1 kΩ, `.green` to
 // `.white`), a key (a tactile switch to ground, the pin's pull-up on; in the lab the keyboard key
 // named), a knob (a 10 kΩ pot between 5 V and ground into an ADC pin) and the FTDI header.
-fn light(color: LedColor): Part = led(package = "1206", color = color) with {
-  simulation = SimulationParameters { behavior = Behavior { model = "indicator"; ports = { input: ["2"] }; parameters = { color: labColorIndex(color), milliamps: 3 } } }
+fn light(color: LedColor) -> Part = led(package = "1206", color = color) with {
+  simulation = SimulationParameters {
+    behavior = Behavior {
+      model = "indicator"
+      ports = { input = ["2"] }
+      parameters = { color = labColorIndex(color), milliamps = 3 }
+    }
+  }
 }
-fn key(code: String): Part = button("6x6") with {
-  simulation = SimulationParameters { behavior = Behavior { model = "button"; ports = { output: ["1"] }; key = code } }
+fn key(code: String) -> Part = button("6x6") with {
+  simulation = SimulationParameters {
+    behavior = Behavior { model = "button", ports = { output = ["1"] }, key = code }
+  }
 }
-fn knob(position: Number): Part = PTV09A_4020F_B103.Part with {
-  simulation = PTV09A_4020F_B103.Part.simulation with { behavior = PTV09A_4020F_B103.Part.simulation.behavior with { parameters = { position: position, volts: 5, ohms: 10000 } } }
+fn knob(position: Number) -> Part = PTV09A_4020F_B103.Part with {
+  simulation = PTV09A_4020F_B103.Part.simulation with {
+    behavior = PTV09A_4020F_B103.Part.simulation.behavior with {
+      parameters = { position = position, volts = 5, ohms = 10000 }
+    }
+  }
 }
 
 board = Board {
@@ -27,65 +39,112 @@ board = Board {
 // The processor: an Arduino Nano on two 15-pin sockets on the back, flashed over its USB (its
 // bootloader); the program in firmware/ is plain C for its ATmega328P.
 U1 = ARDUINO_NANO.Part with {
-  simulation = ARDUINO_NANO.Part.simulation with { behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" } }
+  simulation = ARDUINO_NANO.Part.simulation with {
+    behavior = ARDUINO_NANO.Part.simulation.behavior with { firmware = "firmware" }
+  }
 } {
   at = (35mm, 28mm)
   rotation = 90deg
   side = .bottom
-  pins { P5V: V5, GND: GND, A0: KNOB0, A1: KNOB1, A2: KNOB2, D5: SERVO0, D6: SERVO1, D7: SERVO2, D2: TEACH, D3: REC, D4: PLAY }
+  P5V -- V5
+  GND -- GND
+  A0 -- KNOB0
+  A1 -- KNOB1
+  A2 -- KNOB2
+  D5 -- SERVO0
+  D6 -- SERVO1
+  D7 -- SERVO2
+  D2 -- TEACH
+  D3 -- REC
+  D4 -- PLAY
 }
 servo0 = SERVO_HEADER.Part {
   at = (18mm, 68mm)
-  pins { GND: GND, VPLUS: VSERVO, SIG: SERVO0 }
+  GND -- GND
+  VPLUS -- VSERVO
+  SIG -- SERVO0
 }
 servo1 = SERVO_HEADER.Part {
   at = (52mm, 68mm)
-  pins { GND: GND, VPLUS: VSERVO, SIG: SERVO1 }
+  GND -- GND
+  VPLUS -- VSERVO
+  SIG -- SERVO1
 }
 servo2 = SERVO_HEADER.Part {
   at = (86mm, 68mm)
-  pins { GND: GND, VPLUS: VSERVO, SIG: SERVO2 }
+  GND -- GND
+  VPLUS -- VSERVO
+  SIG -- SERVO2
 }
 knob0 = knob(0.2) {
   at = (18mm, 46mm)
-  pins { CCW: GND, W: KNOB0, CW: V5, MP: GND }
+  CCW -- GND
+  W -- KNOB0
+  CW -- V5
+  MP -- GND
 }
 knob1 = knob(0.5) {
   at = (52mm, 46mm)
-  pins { CCW: GND, W: KNOB1, CW: V5, MP: GND }
+  CCW -- GND
+  W -- KNOB1
+  CW -- V5
+  MP -- GND
 }
 knob2 = knob(0.8) {
   at = (86mm, 46mm)
-  pins { CCW: GND, W: KNOB2, CW: V5, MP: GND }
+  CCW -- GND
+  W -- KNOB2
+  CW -- V5
+  MP -- GND
 }
 teach = key("Space") {
   at = (70mm, 28mm)
-  pins { a: TEACH, b: GND }
+  a -- TEACH
+  b -- GND
 }
 rec = light(.red) {
   at = (81mm, 28mm)
-  pins { A: REC, K: REC_K }
+  A -- REC
+  K -- REC_K
 }
-recR = res(1kohm, package = "0603") { place = [soft(near(rec, max = 4mm))]; pins { a: REC_K, b: GND } }
+recR = res(1kohm, package = "0603") {
+  place = [soft(near(rec, max = 4mm))]
+  a -- REC_K
+  b -- GND
+}
 play = light(.green) {
   at = (90mm, 28mm)
-  pins { A: PLAY, K: PLAY_K }
+  A -- PLAY
+  K -- PLAY_K
 }
-playR = res(1kohm, package = "0603") { place = [soft(near(play, max = 4mm))]; pins { a: PLAY_K, b: GND } }
+playR = res(1kohm, package = "0603") {
+  place = [soft(near(play, max = 4mm))]
+  a -- PLAY_K
+  b -- GND
+}
 // The servos' own supply: 5 V up to 2 A on a screw terminal (three moving servos draw more than
 // a USB port gives), its bulk capacitor at the terminal; the Nano runs from its USB.
 J4 = device(footprint = terminalBlock(2), displayValue = "5 V 2 A") {
   at = (52mm, 12mm)
-  pins { "1": VSERVO, "2": GND }
-  pinTypes { "1": io.powerOut(5V) }
+  "1" -- VSERVO
+  "2" -- GND
+  pinTypes { "1" = io.powerOut(5V) }
 }
-C1 = cap(100uF, package = "1210", ratedVoltage = 10V) { place = [soft(near(J4, max = 8mm))]; pins { a: VSERVO, b: GND } }
-supplyLabel = Text { text = "SERVO 5V"; at = (52mm, 4mm); size = 1mm }
+C1 = cap(100uF, package = "1210", ratedVoltage = 10V) {
+  place = [soft(near(J4, max = 8mm))]
+  a -- VSERVO
+  b -- GND
+}
+supplyLabel = Text {
+  text = "SERVO 5V"
+  at = (52mm, 4mm)
+  size = 1mm
+}
 gnd = pour(net = GND, layers = [Cu.top, Cu.bottom]) {}
-holes = MountingHoles(screw = "M2") {}
+holes = MountingHoles { screw = "M2" }
 labels = map(
   range(0, 3),
-  fn(i) -> Text { text = "SERVO \(i + 1)", at = (clean(18mm + i * 34mm), 38mm), size = 1.1mm },
+  i => Text { text = "SERVO \(i + 1)", at = (clean(18mm + i * 34mm), 38mm), size = 1.1mm },
 )
 teachLabel = Text {
   text = "TEACH"

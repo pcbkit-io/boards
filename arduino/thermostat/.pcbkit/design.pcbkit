@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // A room thermostat on an Arduino Nano that turns a radiator valve: an SHT31 reads the room, a
 // PI controller opens the valve (a servo on the header, 0 to 90°) as far as the room is below the
@@ -6,10 +6,10 @@ pcbkit 1
 // shows the temperature large, the target, the valve's opening and the humidity. Power: the Nano's
 // USB, which also feeds the servo.
 
-use "parts/ARDUINO_NANO.pcbkit" as ARDUINO_NANO
-use "parts/SSD1306_OLED_I2C.pcbkit" as SSD1306_OLED_I2C
-use "parts/SHT31_DIS.pcbkit" as SHT31_DIS
-use "parts/SERVO_HEADER.pcbkit" as SERVO_HEADER
+use ./parts/ARDUINO_NANO as ARDUINO_NANO
+use ./parts/SSD1306_OLED_I2C as SSD1306_OLED_I2C
+use ./parts/SHT31_DIS as SHT31_DIS
+use ./parts/SERVO_HEADER as SERVO_HEADER
 
 net V5 { voltage = 5V }
 net GND { voltage = 0V }
@@ -30,25 +30,42 @@ NANO = ARDUINO_NANO.Part with {
 } {
   at = (24mm, 12mm)
   rotation = 90deg
-  pins { P5V: V5, GND: GND, A4: SDA, A5: SCL, D2: MINUS, D3: PLUS, D8: HEAT, D9: VALVE }
+  P5V -- V5
+  GND -- GND
+  A4 -- SDA
+  A5 -- SCL
+  D2 -- MINUS
+  D3 -- PLUS
+  D8 -- HEAT
+  D9 -- VALVE
 }
 
 DS1 = SSD1306_OLED_I2C.Part {
   at = (68mm, 51.4mm)
-  pins { GND: GND, VCC: V5, SCL: SCL, SDA: SDA }
+  GND -- GND
+  VCC -- V5
+  SCL -- SCL
+  SDA -- SDA
 }
 
 // The sensor on its tab beyond the slot, away from the Nano's and the servo's warmth.
 U1 = SHT31_DIS.Part {
   at = (86mm, 14mm)
-  pins { VDD: V5, VSS: GND, SDA: SDA, SCL: SCL, nRESET: V5, ALERT: .nc }
+  VDD -- V5
+  VSS -- GND
+  SDA -- SDA
+  SCL -- SCL
+  nRESET -- V5
+  ALERT -- .nc
 }
-U1Support = SHT31_DIS.Support(U1) {}
+U1Support = SHT31_DIS.Support { chip = U1 }
 
 // The valve's servo plugs in here (an SG90 turning a radiator's thermostatic head).
 J1 = SERVO_HEADER.Part {
   at = (50mm, 30mm)
-  pins { GND: GND, VPLUS: V5, SIG: VALVE }
+  GND -- GND
+  VPLUS -- V5
+  SIG -- VALVE
 }
 valveLabel = Text {
   text = "VALVE"
@@ -57,21 +74,24 @@ valveLabel = Text {
 }
 C1 = cap(100uF, package = "1206", ratedVoltage = 10V) {
   place = [soft(near(J1, max = 6mm))]
-  pins { a: V5, b: GND }
+  a -- V5
+  b -- GND
 }
 
-fn key(code: String): Part = button("6x6") with {
+fn key(code: String) -> Part = button("6x6") with {
   simulation = SimulationParameters {
-    behavior = Behavior { model = "button", ports = { output: ["1"] }, key = code }
+    behavior = Behavior { model = "button", ports = { output = ["1"] }, key = code }
   }
 }
 SW1 = key("Minus") {
   at = (8mm, 42mm)
-  pins { a: MINUS, b: GND }
+  a -- MINUS
+  b -- GND
 }
 SW2 = key("Equal") {
   at = (22mm, 42mm)
-  pins { a: PLUS, b: GND }
+  a -- PLUS
+  b -- GND
 }
 minusLabel = Text {
   text = "-"
@@ -88,17 +108,19 @@ D1 = led(package = "0805", color = .red) with {
   simulation = SimulationParameters {
     behavior = Behavior {
       model = "indicator"
-      ports = { input: ["2"] }
-      parameters = { color: 2, milliamps: 3 }
+      ports = { input = ["2"] }
+      parameters = { color = 2, milliamps = 3 }
     }
   }
 } {
   at = (36mm, 42mm)
-  pins { A: HEAT, K: HEAT_K }
+  A -- HEAT
+  K -- HEAT_K
 }
 R1 = res(1kohm, package = "0603") {
   place = [soft(near(D1, max = 4mm))]
-  pins { a: HEAT_K, b: GND }
+  a -- HEAT_K
+  b -- GND
 }
 heatLabel = Text {
   text = "HEAT"

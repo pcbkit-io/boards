@@ -37,7 +37,7 @@
     },
     "page": "lcdwiki MSP2008: pins 1 GND, 2 VCC (3.3 V), 3 SCL, 4 SDA, 5 RES, 6 DC, 7 CS, 8 BLK; size picture: PCB 36.48 x 61.12 mm, header row 2.50 mm from the top edge, first pin 9.35 mm from the left (centred)"
   },
-  "footprint": "moduleSocket(\"TFT_2.0in_ST7789_Socket_1x08_P2.54mm\", socketRow(1, 8, (-8.89mm, 0mm), (2.54mm, 0mm)), box((-18.24mm, -58.62mm), (18.24mm, 2.5mm)), description = \"2.0 inch ST7789 IPS module on a 1x8 female header along its top edge, the display facing up over -Y: GND, VCC, SCL, SDA, RES, DC, CS, BLK left to right\", parts = 3mm, color = \"#1d3f8c\", module = displayPanel(box((-18mm, -53.96mm), (18mm, -2.16mm)), box((-15.3mm, -45.76mm), (15.3mm, -4.96mm)), 2.45mm, glass = 0.5mm, tape = 0.3mm))",
+  "footprint": "moduleSocket(\n\"TFT_2.0in_ST7789_Socket_1x08_P2.54mm\",\nsocketRow(1, 8, (-8.89mm, 0mm), (2.54mm, 0mm)),\nbox((-18.24mm, -58.62mm), (18.24mm, 2.5mm)),\ndescription = \"2.0 inch ST7789 IPS module on a 1x8 female header along its top edge, the display facing up over -Y: GND, VCC, SCL, SDA, RES, DC, CS, BLK left to right\",\nparts = 3mm,\ncolor = \"#1d3f8c\",\nmodule = displayPanel(\n  box((-18mm, -53.96mm), (18mm, -2.16mm)),\n  box((-15.3mm, -45.76mm), (15.3mm, -4.96mm)),\n  2.45mm,\n  glass = 0.5mm,\n  tape = 0.3mm,\n),\n)",
   "pins": [
     {
       "number": "1",

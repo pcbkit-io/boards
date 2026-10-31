@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // ULN2003AD (Texas Instruments): ULN2003A seven-channel Darlington array (open collector, 500 mA,
 // 50 V, flyback diodes), for relays and steppers, SOIC-16
@@ -31,46 +31,46 @@ part Part = device(
   mpn = "ULN2003AD",
   manufacturer = "Texas Instruments",
   pinout = {
-    IN1: "1",
-    IN2: "2",
-    IN3: "3",
-    IN4: "4",
-    IN5: "5",
-    IN6: "6",
-    IN7: "7",
-    GND: "8",
-    COM: "9",
-    OUT7: "10",
-    OUT6: "11",
-    OUT5: "12",
-    OUT4: "13",
-    OUT3: "14",
-    OUT2: "15",
-    OUT1: "16",
+    IN1 = "1"
+    IN2 = "2"
+    IN3 = "3"
+    IN4 = "4"
+    IN5 = "5"
+    IN6 = "6"
+    IN7 = "7"
+    GND = "8"
+    COM = "9"
+    OUT7 = "10"
+    OUT6 = "11"
+    OUT5 = "12"
+    OUT4 = "13"
+    OUT3 = "14"
+    OUT2 = "15"
+    OUT1 = "16"
   },
   pinTypes = {
-    IN1: io.input(max = 30V, pull = .down),
-    IN2: io.input(max = 30V, pull = .down),
-    IN3: io.input(max = 30V, pull = .down),
-    IN4: io.input(max = 30V, pull = .down),
-    IN5: io.input(max = 30V, pull = .down),
-    IN6: io.input(max = 30V, pull = .down),
-    IN7: io.input(max = 30V, pull = .down),
-    GND: .ground,
-    COM: .passive,
-    OUT7: .passive,
-    OUT6: .passive,
-    OUT5: .passive,
-    OUT4: .passive,
-    OUT3: .passive,
-    OUT2: .passive,
-    OUT1: .passive,
+    IN1 = io.input(max = 30V, pull = .down)
+    IN2 = io.input(max = 30V, pull = .down)
+    IN3 = io.input(max = 30V, pull = .down)
+    IN4 = io.input(max = 30V, pull = .down)
+    IN5 = io.input(max = 30V, pull = .down)
+    IN6 = io.input(max = 30V, pull = .down)
+    IN7 = io.input(max = 30V, pull = .down)
+    GND = .ground
+    COM = .passive
+    OUT7 = .passive
+    OUT6 = .passive
+    OUT5 = .passive
+    OUT4 = .passive
+    OUT3 = .passive
+    OUT2 = .passive
+    OUT1 = .passive
   },
 ) with {
   fields {
-    Status: "checked",
-    PinoutSource: "TI ULN2003A datasheet SLRS027T: figure 4-1 / table 4-1 pin functions (D, N packages), 5.1 absolute maximum ratings",
-    Datasheet: "https://www.ti.com/lit/ds/symlink/uln2003a.pdf",
+    Status = "checked"
+    PinoutSource = "TI ULN2003A datasheet SLRS027T: figure 4-1 / table 4-1 pin functions (D, N packages), 5.1 absolute maximum ratings"
+    Datasheet = "https://www.ti.com/lit/ds/symlink/uln2003a.pdf"
   }
   simulation = SimulationParameters {
     parameters = [

@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // ESP32-P4NRW32 (Espressif Systems): Dual-core RISC-V 400 MHz application processor (chip revision
 // v1.x) with 32 MB in-package PSRAM, MIPI-DSI and CSI (2 lanes each), USB 2.0 high speed, SD/MMC,
@@ -10,7 +10,7 @@ pcbkit 1
 // Footprint: the datasheet's land pattern
 // This file may be used, changed and shared without conditions, with the board or alone.
 
-use "W25Q128JVSIQ.pcbkit" as W25Q128JVSIQ
+use ./W25Q128JVSIQ as W25Q128JVSIQ
 
 // Note: Chip revision v1.x parts (ESP32-P4NRW32) are end of life; their successors
 // (ESP32-P4NRW32X, revision v3.x) need images built for v3.
@@ -142,286 +142,286 @@ part Part = device(
   mpn = "ESP32-P4NRW32",
   manufacturer = "Espressif Systems",
   pinout = {
-    GPIO1: "1",
-    GPIO2: "2",
-    GPIO3: "3",
-    GPIO4: "4",
-    GPIO5: "5",
-    GPIO6: "6",
-    GPIO7: "7",
-    GPIO8: "8",
-    VDD_LP: "9",
-    GPIO9: "10",
-    GPIO10: "11",
-    GPIO11: "12",
-    GPIO12: "13",
-    GPIO13: "14",
-    GPIO14: "15",
-    GPIO15: "16",
-    GPIO16: "17",
-    GPIO17: "18",
-    GPIO18: "19",
-    GPIO19: "20",
-    VDD_IO_0: "21",
-    GPIO20: "22",
-    GPIO21: "23",
-    GPIO22: "24",
-    GPIO23: "25",
-    VDD_HP_0: "26",
-    FLASH_CS: "27",
-    FLASH_Q: "28",
-    FLASH_WP: "29",
-    VDD_FLASHIO: "30",
-    FLASH_HOLD: "31",
-    FLASH_CK: "32",
-    FLASH_D: "33",
-    DSI_REXT: "34",
-    DSI_DATAP1: "35",
-    DSI_DATAN1: "36",
-    DSI_CLKN: "37",
-    DSI_CLKP: "38",
-    DSI_DATAP0: "39",
-    DSI_DATAN0: "40",
-    VDD_MIPI_DPHY: "41",
-    CSI_DATAN0: "42",
-    CSI_DATAP0: "43",
-    CSI_CLKP: "44",
-    CSI_CLKN: "45",
-    CSI_DATAN1: "46",
-    CSI_DATAP1: "47",
-    CSI_REXT: "48",
-    USB_DM: "49",
-    USB_DP: "50",
-    VDD_USBPHY: "51",
-    GPIO24: "52",
-    GPIO25: "53",
-    NC: "54",
-    GPIO26: "55",
-    GPIO27: "56",
-    GPIO28: "57",
-    GPIO29: "58",
-    VDD_PSRAM_0: "59",
-    GPIO30: "60",
-    GPIO31: "61",
-    VDD_IO_4: "62",
-    GPIO32: "63",
-    GPIO33: "64",
-    GPIO34: "65",
-    GPIO35: "66",
-    VDD_PSRAM_1: "67",
-    GPIO36: "68",
-    GPIO37: "69",
-    GPIO38: "70",
-    VDDO_FLASH: "71",
-    VDDO_PSRAM: "72",
-    VDDO_3: "73",
-    VDDO_4: "74",
-    VDD_LDO: "75",
-    VDD_HP_2: "76",
-    VDD_DCDCC: "77",
-    FB_DCDC: "78",
-    EN_DCDC: "79",
-    GPIO39: "80",
-    GPIO40: "81",
-    GPIO41: "82",
-    GPIO42: "83",
-    GPIO43: "84",
-    VDD_IO_5: "85",
-    GPIO44: "86",
-    GPIO45: "87",
-    GPIO46: "88",
-    GPIO47: "89",
-    GPIO48: "90",
-    VDD_HP_3: "91",
-    GPIO49: "92",
-    GPIO50: "93",
-    GPIO51: "94",
-    GPIO52: "95",
-    VDD_IO_6: "96",
-    GPIO53: "97",
-    GPIO54: "98",
-    XTAL_N: "99",
-    XTAL_P: "100",
-    VDD_ANA: "101",
-    VDD_BAT: "102",
-    CHIP_PU: "103",
-    GPIO0: "104",
-    GND: "105",
+    GPIO1 = "1"
+    GPIO2 = "2"
+    GPIO3 = "3"
+    GPIO4 = "4"
+    GPIO5 = "5"
+    GPIO6 = "6"
+    GPIO7 = "7"
+    GPIO8 = "8"
+    VDD_LP = "9"
+    GPIO9 = "10"
+    GPIO10 = "11"
+    GPIO11 = "12"
+    GPIO12 = "13"
+    GPIO13 = "14"
+    GPIO14 = "15"
+    GPIO15 = "16"
+    GPIO16 = "17"
+    GPIO17 = "18"
+    GPIO18 = "19"
+    GPIO19 = "20"
+    VDD_IO_0 = "21"
+    GPIO20 = "22"
+    GPIO21 = "23"
+    GPIO22 = "24"
+    GPIO23 = "25"
+    VDD_HP_0 = "26"
+    FLASH_CS = "27"
+    FLASH_Q = "28"
+    FLASH_WP = "29"
+    VDD_FLASHIO = "30"
+    FLASH_HOLD = "31"
+    FLASH_CK = "32"
+    FLASH_D = "33"
+    DSI_REXT = "34"
+    DSI_DATAP1 = "35"
+    DSI_DATAN1 = "36"
+    DSI_CLKN = "37"
+    DSI_CLKP = "38"
+    DSI_DATAP0 = "39"
+    DSI_DATAN0 = "40"
+    VDD_MIPI_DPHY = "41"
+    CSI_DATAN0 = "42"
+    CSI_DATAP0 = "43"
+    CSI_CLKP = "44"
+    CSI_CLKN = "45"
+    CSI_DATAN1 = "46"
+    CSI_DATAP1 = "47"
+    CSI_REXT = "48"
+    USB_DM = "49"
+    USB_DP = "50"
+    VDD_USBPHY = "51"
+    GPIO24 = "52"
+    GPIO25 = "53"
+    NC = "54"
+    GPIO26 = "55"
+    GPIO27 = "56"
+    GPIO28 = "57"
+    GPIO29 = "58"
+    VDD_PSRAM_0 = "59"
+    GPIO30 = "60"
+    GPIO31 = "61"
+    VDD_IO_4 = "62"
+    GPIO32 = "63"
+    GPIO33 = "64"
+    GPIO34 = "65"
+    GPIO35 = "66"
+    VDD_PSRAM_1 = "67"
+    GPIO36 = "68"
+    GPIO37 = "69"
+    GPIO38 = "70"
+    VDDO_FLASH = "71"
+    VDDO_PSRAM = "72"
+    VDDO_3 = "73"
+    VDDO_4 = "74"
+    VDD_LDO = "75"
+    VDD_HP_2 = "76"
+    VDD_DCDCC = "77"
+    FB_DCDC = "78"
+    EN_DCDC = "79"
+    GPIO39 = "80"
+    GPIO40 = "81"
+    GPIO41 = "82"
+    GPIO42 = "83"
+    GPIO43 = "84"
+    VDD_IO_5 = "85"
+    GPIO44 = "86"
+    GPIO45 = "87"
+    GPIO46 = "88"
+    GPIO47 = "89"
+    GPIO48 = "90"
+    VDD_HP_3 = "91"
+    GPIO49 = "92"
+    GPIO50 = "93"
+    GPIO51 = "94"
+    GPIO52 = "95"
+    VDD_IO_6 = "96"
+    GPIO53 = "97"
+    GPIO54 = "98"
+    XTAL_N = "99"
+    XTAL_P = "100"
+    VDD_ANA = "101"
+    VDD_BAT = "102"
+    CHIP_PU = "103"
+    GPIO0 = "104"
+    GND = "105"
   },
   pinTypes = {
-    GPIO1: io.bidirectional(),
-    GPIO2: io.bidirectional(),
-    GPIO3: io.bidirectional(),
-    GPIO4: io.bidirectional(),
-    GPIO5: io.bidirectional(),
-    GPIO6: io.bidirectional(),
-    GPIO7: io.bidirectional(),
-    GPIO8: io.bidirectional(),
-    VDD_LP: io.powerIn(),
-    GPIO9: io.bidirectional(),
-    GPIO10: io.bidirectional(),
-    GPIO11: io.bidirectional(),
-    GPIO12: io.bidirectional(),
-    GPIO13: io.bidirectional(),
-    GPIO14: io.bidirectional(),
-    GPIO15: io.bidirectional(),
-    GPIO16: io.bidirectional(),
-    GPIO17: io.bidirectional(),
-    GPIO18: io.bidirectional(),
-    GPIO19: io.bidirectional(),
-    VDD_IO_0: io.powerIn(),
-    GPIO20: io.bidirectional(),
-    GPIO21: io.bidirectional(),
-    GPIO22: io.bidirectional(),
-    GPIO23: io.bidirectional(),
-    VDD_HP_0: io.powerIn(min = 0.99V, max = 1.3V),
-    FLASH_CS: .output,
-    FLASH_Q: io.bidirectional(),
-    FLASH_WP: io.bidirectional(),
-    VDD_FLASHIO: io.powerIn(),
-    FLASH_HOLD: io.bidirectional(),
-    FLASH_CK: .output,
-    FLASH_D: io.bidirectional(),
-    DSI_REXT: .passive,
-    DSI_DATAP1: io.bidirectional(),
-    DSI_DATAN1: io.bidirectional(),
-    DSI_CLKN: io.bidirectional(),
-    DSI_CLKP: io.bidirectional(),
-    DSI_DATAP0: io.bidirectional(),
-    DSI_DATAN0: io.bidirectional(),
-    VDD_MIPI_DPHY: io.powerIn(),
-    CSI_DATAN0: io.bidirectional(),
-    CSI_DATAP0: io.bidirectional(),
-    CSI_CLKP: io.bidirectional(),
-    CSI_CLKN: io.bidirectional(),
-    CSI_DATAN1: io.bidirectional(),
-    CSI_DATAP1: io.bidirectional(),
-    CSI_REXT: .passive,
-    USB_DM: io.bidirectional(),
-    USB_DP: io.bidirectional(),
-    VDD_USBPHY: io.powerIn(),
-    GPIO24: io.bidirectional(),
-    GPIO25: io.bidirectional(),
-    NC: .nc,
-    GPIO26: io.bidirectional(),
-    GPIO27: io.bidirectional(),
-    GPIO28: io.bidirectional(),
-    GPIO29: io.bidirectional(),
-    VDD_PSRAM_0: io.powerIn(),
-    GPIO30: io.bidirectional(),
-    GPIO31: io.bidirectional(),
-    VDD_IO_4: io.powerIn(),
-    GPIO32: io.bidirectional(),
-    GPIO33: io.bidirectional(),
-    GPIO34: io.bidirectional(),
-    GPIO35: io.bidirectional(),
-    VDD_PSRAM_1: io.powerIn(),
-    GPIO36: io.bidirectional(),
-    GPIO37: io.bidirectional(),
-    GPIO38: io.bidirectional(),
-    VDDO_FLASH: .powerOut,
-    VDDO_PSRAM: .powerOut,
-    VDDO_3: .powerOut,
-    VDDO_4: .powerOut,
-    VDD_LDO: io.powerIn(),
-    VDD_HP_2: io.powerIn(),
-    VDD_DCDCC: io.powerIn(),
-    FB_DCDC: .passive,
-    EN_DCDC: .output,
-    GPIO39: io.bidirectional(),
-    GPIO40: io.bidirectional(),
-    GPIO41: io.bidirectional(),
-    GPIO42: io.bidirectional(),
-    GPIO43: io.bidirectional(),
-    VDD_IO_5: io.powerIn(),
-    GPIO44: io.bidirectional(),
-    GPIO45: io.bidirectional(),
-    GPIO46: io.bidirectional(),
-    GPIO47: io.bidirectional(),
-    GPIO48: io.bidirectional(),
-    VDD_HP_3: io.powerIn(),
-    GPIO49: io.bidirectional(),
-    GPIO50: io.bidirectional(),
-    GPIO51: io.bidirectional(),
-    GPIO52: io.bidirectional(),
-    VDD_IO_6: io.powerIn(),
-    GPIO53: io.bidirectional(),
-    GPIO54: io.bidirectional(),
-    XTAL_N: .passive,
-    XTAL_P: .passive,
-    VDD_ANA: io.powerIn(),
-    VDD_BAT: io.powerIn(),
-    CHIP_PU: io.input(),
-    GPIO0: io.bidirectional(),
-    GND: .ground,
+    GPIO1 = io.bidirectional()
+    GPIO2 = io.bidirectional()
+    GPIO3 = io.bidirectional()
+    GPIO4 = io.bidirectional()
+    GPIO5 = io.bidirectional()
+    GPIO6 = io.bidirectional()
+    GPIO7 = io.bidirectional()
+    GPIO8 = io.bidirectional()
+    VDD_LP = io.powerIn()
+    GPIO9 = io.bidirectional()
+    GPIO10 = io.bidirectional()
+    GPIO11 = io.bidirectional()
+    GPIO12 = io.bidirectional()
+    GPIO13 = io.bidirectional()
+    GPIO14 = io.bidirectional()
+    GPIO15 = io.bidirectional()
+    GPIO16 = io.bidirectional()
+    GPIO17 = io.bidirectional()
+    GPIO18 = io.bidirectional()
+    GPIO19 = io.bidirectional()
+    VDD_IO_0 = io.powerIn()
+    GPIO20 = io.bidirectional()
+    GPIO21 = io.bidirectional()
+    GPIO22 = io.bidirectional()
+    GPIO23 = io.bidirectional()
+    VDD_HP_0 = io.powerIn(min = 0.99V, max = 1.3V)
+    FLASH_CS = .output
+    FLASH_Q = io.bidirectional()
+    FLASH_WP = io.bidirectional()
+    VDD_FLASHIO = io.powerIn()
+    FLASH_HOLD = io.bidirectional()
+    FLASH_CK = .output
+    FLASH_D = io.bidirectional()
+    DSI_REXT = .passive
+    DSI_DATAP1 = io.bidirectional()
+    DSI_DATAN1 = io.bidirectional()
+    DSI_CLKN = io.bidirectional()
+    DSI_CLKP = io.bidirectional()
+    DSI_DATAP0 = io.bidirectional()
+    DSI_DATAN0 = io.bidirectional()
+    VDD_MIPI_DPHY = io.powerIn()
+    CSI_DATAN0 = io.bidirectional()
+    CSI_DATAP0 = io.bidirectional()
+    CSI_CLKP = io.bidirectional()
+    CSI_CLKN = io.bidirectional()
+    CSI_DATAN1 = io.bidirectional()
+    CSI_DATAP1 = io.bidirectional()
+    CSI_REXT = .passive
+    USB_DM = io.bidirectional()
+    USB_DP = io.bidirectional()
+    VDD_USBPHY = io.powerIn()
+    GPIO24 = io.bidirectional()
+    GPIO25 = io.bidirectional()
+    NC = .nc
+    GPIO26 = io.bidirectional()
+    GPIO27 = io.bidirectional()
+    GPIO28 = io.bidirectional()
+    GPIO29 = io.bidirectional()
+    VDD_PSRAM_0 = io.powerIn()
+    GPIO30 = io.bidirectional()
+    GPIO31 = io.bidirectional()
+    VDD_IO_4 = io.powerIn()
+    GPIO32 = io.bidirectional()
+    GPIO33 = io.bidirectional()
+    GPIO34 = io.bidirectional()
+    GPIO35 = io.bidirectional()
+    VDD_PSRAM_1 = io.powerIn()
+    GPIO36 = io.bidirectional()
+    GPIO37 = io.bidirectional()
+    GPIO38 = io.bidirectional()
+    VDDO_FLASH = .powerOut
+    VDDO_PSRAM = .powerOut
+    VDDO_3 = .powerOut
+    VDDO_4 = .powerOut
+    VDD_LDO = io.powerIn()
+    VDD_HP_2 = io.powerIn()
+    VDD_DCDCC = io.powerIn()
+    FB_DCDC = .passive
+    EN_DCDC = .output
+    GPIO39 = io.bidirectional()
+    GPIO40 = io.bidirectional()
+    GPIO41 = io.bidirectional()
+    GPIO42 = io.bidirectional()
+    GPIO43 = io.bidirectional()
+    VDD_IO_5 = io.powerIn()
+    GPIO44 = io.bidirectional()
+    GPIO45 = io.bidirectional()
+    GPIO46 = io.bidirectional()
+    GPIO47 = io.bidirectional()
+    GPIO48 = io.bidirectional()
+    VDD_HP_3 = io.powerIn()
+    GPIO49 = io.bidirectional()
+    GPIO50 = io.bidirectional()
+    GPIO51 = io.bidirectional()
+    GPIO52 = io.bidirectional()
+    VDD_IO_6 = io.powerIn()
+    GPIO53 = io.bidirectional()
+    GPIO54 = io.bidirectional()
+    XTAL_N = .passive
+    XTAL_P = .passive
+    VDD_ANA = io.powerIn()
+    VDD_BAT = io.powerIn()
+    CHIP_PU = io.input()
+    GPIO0 = io.bidirectional()
+    GND = .ground
   },
 ) with {
   fields {
-    Status: "checked",
-    PinoutSource: "Espressif ESP32-P4 Series Datasheet v1.2 (chip revision v1.3), Table 2-1 Pin Overview",
-    Datasheet: "https://documentation.espressif.com/esp32-p4-chip-revision-v1.3_datasheet_en.pdf",
+    Status = "checked"
+    PinoutSource = "Espressif ESP32-P4 Series Datasheet v1.2 (chip revision v1.3), Table 2-1 Pin Overview"
+    Datasheet = "https://documentation.espressif.com/esp32-p4-chip-revision-v1.3_datasheet_en.pdf"
   }
   simulation = SimulationParameters {
     behavior = Behavior {
       model = "esp32p4"
       ports = {
-        "GPIO0": ["104"],
-        "GPIO1": ["1"],
-        "GPIO10": ["11"],
-        "GPIO11": ["12"],
-        "GPIO12": ["13"],
-        "GPIO13": ["14"],
-        "GPIO14": ["15"],
-        "GPIO15": ["16"],
-        "GPIO16": ["17"],
-        "GPIO17": ["18"],
-        "GPIO18": ["19"],
-        "GPIO19": ["20"],
-        "GPIO2": ["2"],
-        "GPIO20": ["22"],
-        "GPIO21": ["23"],
-        "GPIO22": ["24"],
-        "GPIO23": ["25"],
-        "GPIO24": ["52"],
-        "GPIO25": ["53"],
-        "GPIO26": ["55"],
-        "GPIO27": ["56"],
-        "GPIO28": ["57"],
-        "GPIO29": ["58"],
-        "GPIO3": ["3"],
-        "GPIO30": ["60"],
-        "GPIO31": ["61"],
-        "GPIO32": ["63"],
-        "GPIO33": ["64"],
-        "GPIO34": ["65"],
-        "GPIO35": ["66"],
-        "GPIO36": ["68"],
-        "GPIO37": ["69"],
-        "GPIO38": ["70"],
-        "GPIO39": ["80"],
-        "GPIO4": ["4"],
-        "GPIO40": ["81"],
-        "GPIO41": ["82"],
-        "GPIO42": ["83"],
-        "GPIO43": ["84"],
-        "GPIO44": ["86"],
-        "GPIO45": ["87"],
-        "GPIO46": ["88"],
-        "GPIO47": ["89"],
-        "GPIO48": ["90"],
-        "GPIO49": ["92"],
-        "GPIO5": ["5"],
-        "GPIO50": ["93"],
-        "GPIO51": ["94"],
-        "GPIO52": ["95"],
-        "GPIO53": ["97"],
-        "GPIO54": ["98"],
-        "GPIO6": ["6"],
-        "GPIO7": ["7"],
-        "GPIO8": ["8"],
-        "GPIO9": ["10"],
-        "dsi": ["38"],
-        "power": ["21", "105"],
+        "GPIO0" = ["104"]
+        "GPIO1" = ["1"]
+        "GPIO10" = ["11"]
+        "GPIO11" = ["12"]
+        "GPIO12" = ["13"]
+        "GPIO13" = ["14"]
+        "GPIO14" = ["15"]
+        "GPIO15" = ["16"]
+        "GPIO16" = ["17"]
+        "GPIO17" = ["18"]
+        "GPIO18" = ["19"]
+        "GPIO19" = ["20"]
+        "GPIO2" = ["2"]
+        "GPIO20" = ["22"]
+        "GPIO21" = ["23"]
+        "GPIO22" = ["24"]
+        "GPIO23" = ["25"]
+        "GPIO24" = ["52"]
+        "GPIO25" = ["53"]
+        "GPIO26" = ["55"]
+        "GPIO27" = ["56"]
+        "GPIO28" = ["57"]
+        "GPIO29" = ["58"]
+        "GPIO3" = ["3"]
+        "GPIO30" = ["60"]
+        "GPIO31" = ["61"]
+        "GPIO32" = ["63"]
+        "GPIO33" = ["64"]
+        "GPIO34" = ["65"]
+        "GPIO35" = ["66"]
+        "GPIO36" = ["68"]
+        "GPIO37" = ["69"]
+        "GPIO38" = ["70"]
+        "GPIO39" = ["80"]
+        "GPIO4" = ["4"]
+        "GPIO40" = ["81"]
+        "GPIO41" = ["82"]
+        "GPIO42" = ["83"]
+        "GPIO43" = ["84"]
+        "GPIO44" = ["86"]
+        "GPIO45" = ["87"]
+        "GPIO46" = ["88"]
+        "GPIO47" = ["89"]
+        "GPIO48" = ["90"]
+        "GPIO49" = ["92"]
+        "GPIO5" = ["5"]
+        "GPIO50" = ["93"]
+        "GPIO51" = ["94"]
+        "GPIO52" = ["95"]
+        "GPIO53" = ["97"]
+        "GPIO54" = ["98"]
+        "GPIO6" = ["6"]
+        "GPIO7" = ["7"]
+        "GPIO8" = ["8"]
+        "GPIO9" = ["10"]
+        "dsi" = ["38"]
+        "power" = ["21", "105"]
       }
       parameters = {}
       height = 0.85mm
@@ -445,153 +445,186 @@ let Y1Crystal = crystal(40MHz, load = crystalLoad(10pF), package = "3225")
 ///
 /// - Route DSI and CSI lanes as 100 ohm differential pairs, the clock lane matched to its data
 /// lanes; keep the 40 MHz crystal next to XTAL_P/N.
-block Support(
+block Support {
   /// The ESP32-P4NRW32 this circuit serves (`ESP32_P4NRW32.Support(U1)`).
-  chip: Any,
-) {
+  chip: Any
+
   /// one per 3.3 V supply pin
   C_3V3_21 = cap(100nF, package = "0402", ratedVoltage = 3.3V) {
     place = [soft(near(chip["21"], max = 2mm), weight = 2)]
-    pins { a: chip["21"], b: chip.pin.GND }
+    a -- chip["21"]
+    b -- chip.pin.GND
   }
   C_IO4 = cap(100nF, package = "0402") {
     place = [soft(near(chip.pin.VDD_IO_4, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VDD_IO_4, b: chip.pin.GND }
+    a -- chip.pin.VDD_IO_4
+    b -- chip.pin.GND
   }
   C_IO5 = cap(100nF, package = "0402") {
     place = [soft(near(chip.pin.VDD_IO_5, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VDD_IO_5, b: chip.pin.GND }
+    a -- chip.pin.VDD_IO_5
+    b -- chip.pin.GND
   }
   C_IO6 = cap(100nF, package = "0402") {
     place = [soft(near(chip.pin.VDD_IO_6, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VDD_IO_6, b: chip.pin.GND }
+    a -- chip.pin.VDD_IO_6
+    b -- chip.pin.GND
   }
   C_LP = cap(100nF, package = "0402") {
     place = [soft(near(chip.pin.VDD_LP, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VDD_LP, b: chip.pin.GND }
+    a -- chip.pin.VDD_LP
+    b -- chip.pin.GND
   }
   C_BAT = cap(100nF, package = "0402") {
     place = [soft(near(chip.pin.VDD_BAT, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VDD_BAT, b: chip.pin.GND }
+    a -- chip.pin.VDD_BAT
+    b -- chip.pin.GND
   }
   C_ANA = cap(10uF, package = "0805") {
     place = [soft(near(chip.pin.VDD_ANA, max = 4mm), weight = 2)]
-    pins { a: chip.pin.VDD_ANA, b: chip.pin.GND }
+    a -- chip.pin.VDD_ANA
+    b -- chip.pin.GND
   }
   C_ANA2 = cap(100nF, package = "0402") {
     place = [soft(near(chip.pin.VDD_ANA, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VDD_ANA, b: chip.pin.GND }
+    a -- chip.pin.VDD_ANA
+    b -- chip.pin.GND
   }
   C_LDO = cap(10uF, package = "0805") {
     place = [soft(near(chip.pin.VDD_LDO, max = 4mm), weight = 2)]
-    pins { a: chip.pin.VDD_LDO, b: chip.pin.GND }
+    a -- chip.pin.VDD_LDO
+    b -- chip.pin.GND
   }
   C_DCDCC = cap(100nF, package = "0402") {
     place = [soft(near(chip.pin.VDD_DCDCC, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VDD_DCDCC, b: chip.pin.GND }
+    a -- chip.pin.VDD_DCDCC
+    b -- chip.pin.GND
   }
   C_USB = cap(100nF, package = "0402") {
     place = [soft(near(chip.pin.VDD_USBPHY, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VDD_USBPHY, b: chip.pin.GND }
+    a -- chip.pin.VDD_USBPHY
+    b -- chip.pin.GND
   }
   C_FLASHIO = cap(100nF, package = "0402") {
     place = [soft(near(chip.pin.VDD_FLASHIO, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VDD_FLASHIO, b: chip.pin.GND }
+    a -- chip.pin.VDD_FLASHIO
+    b -- chip.pin.GND
   }
   C_HP0 = cap(10uF, package = "0805") {
     place = [soft(near(chip.pin.VDD_HP_0, max = 4mm), weight = 2)]
-    pins { a: chip.pin.VDD_HP_0, b: chip.pin.GND }
+    a -- chip.pin.VDD_HP_0
+    b -- chip.pin.GND
   }
   C_HP0B = cap(100nF, package = "0402") {
     place = [soft(near(chip.pin.VDD_HP_0, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VDD_HP_0, b: chip.pin.GND }
+    a -- chip.pin.VDD_HP_0
+    b -- chip.pin.GND
   }
   C_HP2 = cap(100nF, package = "0402") {
     place = [soft(near(chip.pin.VDD_HP_2, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VDD_HP_2, b: chip.pin.GND }
+    a -- chip.pin.VDD_HP_2
+    b -- chip.pin.GND
   }
   C_HP3 = cap(100nF, package = "0402") {
     place = [soft(near(chip.pin.VDD_HP_3, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VDD_HP_3, b: chip.pin.GND }
+    a -- chip.pin.VDD_HP_3
+    b -- chip.pin.GND
   }
   C_PSRAM0 = cap(100nF, package = "0402") {
     place = [soft(near(chip.pin.VDD_PSRAM_0, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VDD_PSRAM_0, b: chip.pin.GND }
+    a -- chip.pin.VDD_PSRAM_0
+    b -- chip.pin.GND
   }
   C_PSRAM1 = cap(100nF, package = "0402") {
     place = [soft(near(chip.pin.VDD_PSRAM_1, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VDD_PSRAM_1, b: chip.pin.GND }
+    a -- chip.pin.VDD_PSRAM_1
+    b -- chip.pin.GND
   }
   C_DPHY = cap(100nF, package = "0402") {
     place = [soft(near(chip.pin.VDD_MIPI_DPHY, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VDD_MIPI_DPHY, b: chip.pin.GND }
+    a -- chip.pin.VDD_MIPI_DPHY
+    b -- chip.pin.GND
   }
   C_VO1 = cap(1uF, package = "0402") {
     place = [soft(near(chip.pin.VDDO_FLASH, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VDDO_FLASH, b: chip.pin.GND }
+    a -- chip.pin.VDDO_FLASH
+    b -- chip.pin.GND
   }
   C_VO2 = cap(1uF, package = "0402") {
     place = [soft(near(chip.pin.VDDO_PSRAM, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VDDO_PSRAM, b: chip.pin.GND }
+    a -- chip.pin.VDDO_PSRAM
+    b -- chip.pin.GND
   }
   C_VO3 = cap(1uF, package = "0402") {
     place = [soft(near(chip.pin.VDDO_3, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VDDO_3, b: chip.pin.GND }
+    a -- chip.pin.VDDO_3
+    b -- chip.pin.GND
   }
   C_VO4 = cap(1uF, package = "0402") {
     place = [soft(near(chip.pin.VDDO_4, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VDDO_4, b: chip.pin.GND }
+    a -- chip.pin.VDDO_4
+    b -- chip.pin.GND
   }
-  connect(chip.pin.VDDO_PSRAM, chip.pin.VDD_PSRAM_0)
-  connect(chip.pin.VDDO_PSRAM, chip.pin.VDD_PSRAM_1)
-  connect(chip.pin.VDDO_3, chip.pin.VDD_MIPI_DPHY)
-  connect(chip.pin.VDD_HP_0, chip.pin.VDD_HP_2)
-  connect(chip.pin.VDD_HP_0, chip.pin.VDD_HP_3)
+  chip.pin.VDDO_PSRAM -- chip.pin.VDD_PSRAM_0
+  chip.pin.VDDO_PSRAM -- chip.pin.VDD_PSRAM_1
+  chip.pin.VDDO_3 -- chip.pin.VDD_MIPI_DPHY
+  chip.pin.VDD_HP_0 -- chip.pin.VDD_HP_2
+  chip.pin.VDD_HP_0 -- chip.pin.VDD_HP_3
   /// ±10 ppm, CL 10 pF
   Y1 = Y1Crystal {
     place = [soft(near(chip, max = 4mm), weight = 2)]
-    pins { X1: chip.pin.XTAL_P, X2: chip.pin.XTAL_N, GND: chip.pin.GND }
+    X1 -- chip.pin.XTAL_P
+    X2 -- chip.pin.XTAL_N
+    GND -- chip.pin.GND
   }
   Y1_C1 = cap(loadCapacitor(crystalLoad(10pF), stray = 3pF), package = "0402") {
     place = [soft(near(Y1.pin.X1, max = 2.5mm), weight = 2)]
-    pins { a: chip.pin.XTAL_P, b: chip.pin.GND }
+    a -- chip.pin.XTAL_P
+    b -- chip.pin.GND
   }
   Y1_C2 = cap(loadCapacitor(crystalLoad(10pF), stray = 3pF), package = "0402") {
     place = [soft(near(Y1.pin.X2, max = 2.5mm), weight = 2)]
-    pins { a: chip.pin.XTAL_N, b: chip.pin.GND }
+    a -- chip.pin.XTAL_N
+    b -- chip.pin.GND
   }
   R_PU = res(10kohm, package = "0402") {
     place = [soft(near(chip.pin.CHIP_PU, max = 5mm), weight = 1)]
-    pins { a: chip.pin.CHIP_PU, b: chip.pin.VDD_ANA }
+    a -- chip.pin.CHIP_PU
+    b -- chip.pin.VDD_ANA
   }
   /// RC delay: CHIP_PU rises after the supplies
   C_PU = cap(1uF, package = "0402") {
     place = [soft(near(chip.pin.CHIP_PU, max = 2mm), weight = 2)]
-    pins { a: chip.pin.CHIP_PU, b: chip.pin.GND }
+    a -- chip.pin.CHIP_PU
+    b -- chip.pin.GND
   }
   /// 1%
-  R_DSI = res(2kohm, package = "0402", tolerance = 1pct) {
+  R_DSI = res(2kohm, package = "0402", tolerance = 1%) {
     place = [soft(near(chip.pin.DSI_REXT, max = 5mm), weight = 1)]
-    pins { a: chip.pin.DSI_REXT, b: chip.pin.GND }
+    a -- chip.pin.DSI_REXT
+    b -- chip.pin.GND
   }
   /// 1%
-  R_CSI = res(2kohm, package = "0402", tolerance = 1pct) {
+  R_CSI = res(2kohm, package = "0402", tolerance = 1%) {
     place = [soft(near(chip.pin.CSI_REXT, max = 5mm), weight = 1)]
-    pins { a: chip.pin.CSI_REXT, b: chip.pin.GND }
+    a -- chip.pin.CSI_REXT
+    b -- chip.pin.GND
   }
   /// 16 MiB quad SPI NOR flash, 3.3 V
   U_FLASH = W25Q128JVSIQ.Part {
     place = [soft(near(chip, max = 8mm), weight = 1)]
-    pins {
-      nCS: chip.pin.FLASH_CS,
-      nHOLD: chip.pin.FLASH_HOLD,
-      nWP: chip.pin.FLASH_WP,
-      CLK: chip.pin.FLASH_CK,
-      DI: chip.pin.FLASH_D,
-      DO: chip.pin.FLASH_Q,
-      GND: chip.pin.GND,
-      VCC: chip.pin.VDD_FLASHIO,
-    }
+
+    nCS -- chip.pin.FLASH_CS
+    nHOLD -- chip.pin.FLASH_HOLD
+    nWP -- chip.pin.FLASH_WP
+    CLK -- chip.pin.FLASH_CK
+    DI -- chip.pin.FLASH_D
+    DO -- chip.pin.FLASH_Q
+    GND -- chip.pin.GND
+    VCC -- chip.pin.VDD_FLASHIO
   }
-  U_FLASH_support = W25Q128JVSIQ.Support(U_FLASH, ioPullUps = false) {}
+  U_FLASH_support = W25Q128JVSIQ.Support {
+    chip = U_FLASH
+    ioPullUps = false
+  }
 }

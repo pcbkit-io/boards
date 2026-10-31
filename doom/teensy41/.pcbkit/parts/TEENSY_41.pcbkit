@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // TEENSY41 (PJRC): Teensy 4.1 (NXP i.MX RT1062 Cortex-M7 600 MHz, 1 MB RAM, 8 MB flash, PSRAM
 // pads, microSD) on two 24-pin female headers 0.6" apart; pins named as its card (D0-D41, VIN,
@@ -20,169 +20,189 @@ pcbkit 1
 
 /// TEENSY41 — Teensy 4.1 (NXP i.MX RT1062 Cortex-M7 600 MHz, 1 MB RAM, 8 MB flash, PSRAM pads,
 /// microSD) on two 24-pin female headers 0.6" apart; pins named as its card (D0-D41, VIN, 3V3, GND)
-part Part = device(footprint = moduleSocket("Teensy41_Socket_2x24_P2.54mm_W15.24mm", concat(
-  socketRow(1, 24, (-29.21mm, -7.62mm), (2.54mm, 0mm)),
-  socketRow(25, 24, (-29.21mm, 7.62mm), (2.54mm, 0mm)),
-), box(
-  (-31.5mm, -9mm),
-  (30.5mm, 9mm),
-), description = "Teensy 4.1 on two 1x24 female headers 15.24 mm apart, the USB end at -X: pins 1-24 the bottom row from the USB end (GND, 0-12, 3.3V, 24-32), 25-48 the top row from the USB end (VIN, GND, 3.3V, 23-13, GND, 41-33)", board = 1.6mm, color = "#2e7d32", module = [
-  solid.shell((7.5mm, 5.6mm, 2.6mm), wall = 0.25mm, at = (-28.9mm, 0mm, 0mm), radius = 0.3mm) with {
-    rotate = (0deg, 0deg, 90deg)
+part Part = device(
+  footprint = moduleSocket(
+    "Teensy41_Socket_2x24_P2.54mm_W15.24mm",
+    concat(
+      socketRow(1, 24, (-29.21mm, -7.62mm), (2.54mm, 0mm)),
+      socketRow(25, 24, (-29.21mm, 7.62mm), (2.54mm, 0mm)),
+    ),
+    box((-31.5mm, -9mm), (30.5mm, 9mm)),
+    description = "Teensy 4.1 on two 1x24 female headers 15.24 mm apart, the USB end at -X: pins 1-24 the bottom row from the USB end (GND, 0-12, 3.3V, 24-32), 25-48 the top row from the USB end (VIN, GND, 3.3V, 23-13, GND, 41-33)",
+    board = 1.6mm,
+    color = "#2e7d32",
+    module = [
+      solid.shell(
+        (7.5mm, 5.6mm, 2.6mm),
+        wall = 0.25mm,
+        at = (-28.9mm, 0mm, 0mm),
+        radius = 0.3mm,
+      ) with { rotate = (0deg, 0deg, 90deg) },
+      solid.box((10mm, 10mm, 1.2mm), at = (-8mm, 0mm, 0mm), radius = 0.1mm, material = .epoxy),
+      solid.box((6mm, 5mm, 0.8mm), at = (4.5mm, -2.5mm, 0mm), radius = 0.05mm, material = .epoxy),
+      solid.box((3mm, 3mm, 0.9mm), at = (-19mm, -4mm, 0mm), radius = 0.05mm, material = .epoxy),
+      solid.box(
+        (3.2mm, 2.5mm, 0.8mm),
+        at = (-0.5mm, 5.5mm, 0mm),
+        radius = 0.1mm,
+        material = .metal,
+      ),
+      solid.box((4.2mm, 3.2mm, 1.6mm), at = (16mm, 4.5mm, 0mm), material = .whitePlastic),
+      solid.box((12mm, 13.5mm, 1.9mm), at = (24.6mm, 0mm, 0mm), radius = 0.2mm, material = .metal),
+    ],
+  ),
+  prefix = "U",
+  mpn = "TEENSY41",
+  manufacturer = "PJRC",
+  pinout = {
+    GND = ["1", "26", "39"]
+    D0 = "2"
+    D1 = "3"
+    D2 = "4"
+    D3 = "5"
+    D4 = "6"
+    D5 = "7"
+    D6 = "8"
+    D7 = "9"
+    D8 = "10"
+    D9 = "11"
+    D10 = "12"
+    D11 = "13"
+    D12 = "14"
+    P3V3 = ["15", "27"]
+    D24 = "16"
+    D25 = "17"
+    D26 = "18"
+    D27 = "19"
+    D28 = "20"
+    D29 = "21"
+    D30 = "22"
+    D31 = "23"
+    D32 = "24"
+    VIN = "25"
+    D23 = "28"
+    D22 = "29"
+    D21 = "30"
+    D20 = "31"
+    D19 = "32"
+    D18 = "33"
+    D17 = "34"
+    D16 = "35"
+    D15 = "36"
+    D14 = "37"
+    D13 = "38"
+    D41 = "40"
+    D40 = "41"
+    D39 = "42"
+    D38 = "43"
+    D37 = "44"
+    D36 = "45"
+    D35 = "46"
+    D34 = "47"
+    D33 = "48"
   },
-  solid.box((10mm, 10mm, 1.2mm), at = (-8mm, 0mm, 0mm), radius = 0.1mm, material = .epoxy),
-  solid.box((6mm, 5mm, 0.8mm), at = (4.5mm, -2.5mm, 0mm), radius = 0.05mm, material = .epoxy),
-  solid.box((3mm, 3mm, 0.9mm), at = (-19mm, -4mm, 0mm), radius = 0.05mm, material = .epoxy),
-  solid.box((3.2mm, 2.5mm, 0.8mm), at = (-0.5mm, 5.5mm, 0mm), radius = 0.1mm, material = .metal),
-  solid.box((4.2mm, 3.2mm, 1.6mm), at = (16mm, 4.5mm, 0mm), material = .whitePlastic),
-  solid.box((12mm, 13.5mm, 1.9mm), at = (24.6mm, 0mm, 0mm), radius = 0.2mm, material = .metal),
-]), prefix = "U", mpn = "TEENSY41", manufacturer = "PJRC", pinout = {
-  GND: ["1", "26", "39"],
-  D0: "2",
-  D1: "3",
-  D2: "4",
-  D3: "5",
-  D4: "6",
-  D5: "7",
-  D6: "8",
-  D7: "9",
-  D8: "10",
-  D9: "11",
-  D10: "12",
-  D11: "13",
-  D12: "14",
-  P3V3: ["15", "27"],
-  D24: "16",
-  D25: "17",
-  D26: "18",
-  D27: "19",
-  D28: "20",
-  D29: "21",
-  D30: "22",
-  D31: "23",
-  D32: "24",
-  VIN: "25",
-  D23: "28",
-  D22: "29",
-  D21: "30",
-  D20: "31",
-  D19: "32",
-  D18: "33",
-  D17: "34",
-  D16: "35",
-  D15: "36",
-  D14: "37",
-  D13: "38",
-  D41: "40",
-  D40: "41",
-  D39: "42",
-  D38: "43",
-  D37: "44",
-  D36: "45",
-  D35: "46",
-  D34: "47",
-  D33: "48",
-}, pinTypes = {
-  GND: .ground,
-  D0: io.bidirectional(),
-  D1: io.bidirectional(),
-  D2: io.bidirectional(),
-  D3: io.bidirectional(),
-  D4: io.bidirectional(),
-  D5: io.bidirectional(),
-  D6: io.bidirectional(),
-  D7: io.bidirectional(),
-  D8: io.bidirectional(),
-  D9: io.bidirectional(),
-  D10: io.bidirectional(),
-  D11: io.bidirectional(),
-  D12: io.bidirectional(),
-  P3V3: .powerOut,
-  D24: io.bidirectional(),
-  D25: io.bidirectional(),
-  D26: io.bidirectional(),
-  D27: io.bidirectional(),
-  D28: io.bidirectional(),
-  D29: io.bidirectional(),
-  D30: io.bidirectional(),
-  D31: io.bidirectional(),
-  D32: io.bidirectional(),
-  VIN: io.powerIn(min = 3.6V, max = 5.5V),
-  D23: io.bidirectional(),
-  D22: io.bidirectional(),
-  D21: io.bidirectional(),
-  D20: io.bidirectional(),
-  D19: io.bidirectional(),
-  D18: io.bidirectional(),
-  D17: io.bidirectional(),
-  D16: io.bidirectional(),
-  D15: io.bidirectional(),
-  D14: io.bidirectional(),
-  D13: io.bidirectional(),
-  D41: io.bidirectional(),
-  D40: io.bidirectional(),
-  D39: io.bidirectional(),
-  D38: io.bidirectional(),
-  D37: io.bidirectional(),
-  D36: io.bidirectional(),
-  D35: io.bidirectional(),
-  D34: io.bidirectional(),
-  D33: io.bidirectional(),
-}) with {
+  pinTypes = {
+    GND = .ground
+    D0 = io.bidirectional()
+    D1 = io.bidirectional()
+    D2 = io.bidirectional()
+    D3 = io.bidirectional()
+    D4 = io.bidirectional()
+    D5 = io.bidirectional()
+    D6 = io.bidirectional()
+    D7 = io.bidirectional()
+    D8 = io.bidirectional()
+    D9 = io.bidirectional()
+    D10 = io.bidirectional()
+    D11 = io.bidirectional()
+    D12 = io.bidirectional()
+    P3V3 = .powerOut
+    D24 = io.bidirectional()
+    D25 = io.bidirectional()
+    D26 = io.bidirectional()
+    D27 = io.bidirectional()
+    D28 = io.bidirectional()
+    D29 = io.bidirectional()
+    D30 = io.bidirectional()
+    D31 = io.bidirectional()
+    D32 = io.bidirectional()
+    VIN = io.powerIn(min = 3.6V, max = 5.5V)
+    D23 = io.bidirectional()
+    D22 = io.bidirectional()
+    D21 = io.bidirectional()
+    D20 = io.bidirectional()
+    D19 = io.bidirectional()
+    D18 = io.bidirectional()
+    D17 = io.bidirectional()
+    D16 = io.bidirectional()
+    D15 = io.bidirectional()
+    D14 = io.bidirectional()
+    D13 = io.bidirectional()
+    D41 = io.bidirectional()
+    D40 = io.bidirectional()
+    D39 = io.bidirectional()
+    D38 = io.bidirectional()
+    D37 = io.bidirectional()
+    D36 = io.bidirectional()
+    D35 = io.bidirectional()
+    D34 = io.bidirectional()
+    D33 = io.bidirectional()
+  },
+) with {
   fields {
-    Status: "checked",
-    PinoutSource: "PJRC Teensy 4.1 pinout card card11a_rev4_web.pdf (front): bottom row from USB GND,0..12,3.3V,24..32; top row from USB Vin,GND,3.3V,23..13,GND,41..33",
-    Datasheet: "https://www.pjrc.com/store/teensy41.html",
+    Status = "checked"
+    PinoutSource = "PJRC Teensy 4.1 pinout card card11a_rev4_web.pdf (front): bottom row from USB GND,0..12,3.3V,24..32; top row from USB Vin,GND,3.3V,23..13,GND,41..33"
+    Datasheet = "https://www.pjrc.com/store/teensy41.html"
   }
   simulation = SimulationParameters {
     behavior = Behavior {
       model = "imxrt1062"
       ports = {
-        "AD_B0_02": ["3"],
-        "AD_B0_03": ["2"],
-        "AD_B0_12": ["16"],
-        "AD_B0_13": ["17"],
-        "AD_B1_00": ["32"],
-        "AD_B1_01": ["33"],
-        "AD_B1_02": ["37"],
-        "AD_B1_03": ["36"],
-        "AD_B1_04": ["41"],
-        "AD_B1_05": ["40"],
-        "AD_B1_06": ["34"],
-        "AD_B1_07": ["35"],
-        "AD_B1_08": ["29"],
-        "AD_B1_09": ["28"],
-        "AD_B1_10": ["31"],
-        "AD_B1_11": ["30"],
-        "AD_B1_12": ["43"],
-        "AD_B1_13": ["42"],
-        "AD_B1_14": ["18"],
-        "AD_B1_15": ["19"],
-        "B0_00": ["12"],
-        "B0_01": ["14"],
-        "B0_02": ["13"],
-        "B0_03": ["38"],
-        "B0_10": ["8"],
-        "B0_11": ["11"],
-        "B0_12": ["24"],
-        "B1_00": ["10"],
-        "B1_01": ["9"],
-        "B1_02": ["45"],
-        "B1_03": ["44"],
-        "B1_12": ["46"],
-        "B1_13": ["47"],
-        "EMC_04": ["4"],
-        "EMC_05": ["5"],
-        "EMC_06": ["6"],
-        "EMC_07": ["48"],
-        "EMC_08": ["7"],
-        "EMC_31": ["21"],
-        "EMC_32": ["20"],
-        "EMC_36": ["23"],
-        "EMC_37": ["22"],
-        "power": ["27", "39"],
+        "AD_B0_02" = ["3"]
+        "AD_B0_03" = ["2"]
+        "AD_B0_12" = ["16"]
+        "AD_B0_13" = ["17"]
+        "AD_B1_00" = ["32"]
+        "AD_B1_01" = ["33"]
+        "AD_B1_02" = ["37"]
+        "AD_B1_03" = ["36"]
+        "AD_B1_04" = ["41"]
+        "AD_B1_05" = ["40"]
+        "AD_B1_06" = ["34"]
+        "AD_B1_07" = ["35"]
+        "AD_B1_08" = ["29"]
+        "AD_B1_09" = ["28"]
+        "AD_B1_10" = ["31"]
+        "AD_B1_11" = ["30"]
+        "AD_B1_12" = ["43"]
+        "AD_B1_13" = ["42"]
+        "AD_B1_14" = ["18"]
+        "AD_B1_15" = ["19"]
+        "B0_00" = ["12"]
+        "B0_01" = ["14"]
+        "B0_02" = ["13"]
+        "B0_03" = ["38"]
+        "B0_10" = ["8"]
+        "B0_11" = ["11"]
+        "B0_12" = ["24"]
+        "B1_00" = ["10"]
+        "B1_01" = ["9"]
+        "B1_02" = ["45"]
+        "B1_03" = ["44"]
+        "B1_12" = ["46"]
+        "B1_13" = ["47"]
+        "EMC_04" = ["4"]
+        "EMC_05" = ["5"]
+        "EMC_06" = ["6"]
+        "EMC_07" = ["48"]
+        "EMC_08" = ["7"]
+        "EMC_31" = ["21"]
+        "EMC_32" = ["20"]
+        "EMC_36" = ["23"]
+        "EMC_37" = ["22"]
+        "power" = ["27", "39"]
       }
-      parameters = { "flash_mib": 8 }
+      parameters = { "flash_mib" = 8 }
       height = 4.6mm
     }
     parameters = []

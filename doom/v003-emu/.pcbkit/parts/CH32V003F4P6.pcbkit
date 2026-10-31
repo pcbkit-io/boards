@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // CH32V003F4P6 (WCH (Nanjing Qinheng Microelectronics)): CH32V003 32-bit RISC-V (QingKe V2A) MCU,
 // 48 MHz, 16 KB flash, 2 KB SRAM, USART, SPI, I2C, 8-channel 10-bit ADC, op-amp, single-wire
@@ -19,55 +19,60 @@ pcbkit 1
 
 /// CH32V003F4P6 — CH32V003 32-bit RISC-V (QingKe V2A) MCU, 48 MHz, 16 KB flash, 2 KB SRAM, USART,
 /// SPI, I2C, 8-channel 10-bit ADC, op-amp, single-wire debug, 2.7-5.5 V, TSSOP-20
-part Part = device(footprint = tssop(
-  20,
-), prefix = "U", mpn = "CH32V003F4P6", manufacturer = "WCH (Nanjing Qinheng Microelectronics)", pinout = {
-  PD4: "1",
-  PD5: "2",
-  PD6: "3",
-  PD7: "4",
-  PA1: "5",
-  PA2: "6",
-  VSS: "7",
-  PD0: "8",
-  VDD: "9",
-  PC0: "10",
-  PC1: "11",
-  PC2: "12",
-  PC3: "13",
-  PC4: "14",
-  PC5: "15",
-  PC6: "16",
-  PC7: "17",
-  PD1: "18",
-  PD2: "19",
-  PD3: "20",
-}, pinTypes = {
-  PD4: io.bidirectional(),
-  PD5: io.bidirectional(),
-  PD6: io.bidirectional(),
-  PD7: io.bidirectional(),
-  PA1: io.bidirectional(),
-  PA2: io.bidirectional(),
-  VSS: .ground,
-  PD0: io.bidirectional(),
-  VDD: io.powerIn(min = 2.7V, max = 5.5V),
-  PC0: io.bidirectional(),
-  PC1: io.bidirectional(),
-  PC2: io.bidirectional(),
-  PC3: io.bidirectional(),
-  PC4: io.bidirectional(),
-  PC5: io.bidirectional(),
-  PC6: io.bidirectional(),
-  PC7: io.bidirectional(),
-  PD1: io.bidirectional(),
-  PD2: io.bidirectional(),
-  PD3: io.bidirectional(),
-}) with {
+part Part = device(
+  footprint = tssop(20),
+  prefix = "U",
+  mpn = "CH32V003F4P6",
+  manufacturer = "WCH (Nanjing Qinheng Microelectronics)",
+  pinout = {
+    PD4 = "1"
+    PD5 = "2"
+    PD6 = "3"
+    PD7 = "4"
+    PA1 = "5"
+    PA2 = "6"
+    VSS = "7"
+    PD0 = "8"
+    VDD = "9"
+    PC0 = "10"
+    PC1 = "11"
+    PC2 = "12"
+    PC3 = "13"
+    PC4 = "14"
+    PC5 = "15"
+    PC6 = "16"
+    PC7 = "17"
+    PD1 = "18"
+    PD2 = "19"
+    PD3 = "20"
+  },
+  pinTypes = {
+    PD4 = io.bidirectional()
+    PD5 = io.bidirectional()
+    PD6 = io.bidirectional()
+    PD7 = io.bidirectional()
+    PA1 = io.bidirectional()
+    PA2 = io.bidirectional()
+    VSS = .ground
+    PD0 = io.bidirectional()
+    VDD = io.powerIn(min = 2.7V, max = 5.5V)
+    PC0 = io.bidirectional()
+    PC1 = io.bidirectional()
+    PC2 = io.bidirectional()
+    PC3 = io.bidirectional()
+    PC4 = io.bidirectional()
+    PC5 = io.bidirectional()
+    PC6 = io.bidirectional()
+    PC7 = io.bidirectional()
+    PD1 = io.bidirectional()
+    PD2 = io.bidirectional()
+    PD3 = io.bidirectional()
+  },
+) with {
   fields {
-    Status: "checked",
-    PinoutSource: "WCH CH32V003 datasheet V1.8 (Chinese, from LCSC's mirror): 2.1 pin arrangement (CH32V003F4P6), 2.2 table 2-1 pin definitions, 3.1 figure 3-1, 3.2 table 3-1 absolute maximum, 3.3.1 table 3-2 operating conditions, 4.1 TSSOP20 package",
-    Datasheet: "https://www.wch-ic.com/downloads/CH32V003DS0_PDF.html",
+    Status = "checked"
+    PinoutSource = "WCH CH32V003 datasheet V1.8 (Chinese, from LCSC's mirror): 2.1 pin arrangement (CH32V003F4P6), 2.2 table 2-1 pin definitions, 3.1 figure 3-1, 3.2 table 3-1 absolute maximum, 3.3.1 table 3-2 operating conditions, 4.1 TSSOP20 package"
+    Datasheet = "https://www.wch-ic.com/downloads/CH32V003DS0_PDF.html"
   }
   simulation = SimulationParameters {
     // The chip in PCBKit's laboratory: its GPIOs by name; SPI1 and USART1 are carried by the pins
@@ -75,25 +80,25 @@ part Part = device(footprint = tssop(
     behavior = Behavior {
       model = "ch32v003"
       ports = {
-        "power": ["9", "7"],
-        "PA1": ["5"],
-        "PA2": ["6"],
-        "PC0": ["10"],
-        "PC1": ["11"],
-        "PC2": ["12"],
-        "PC3": ["13"],
-        "PC4": ["14"],
-        "PC5": ["15"],
-        "PC6": ["16"],
-        "PC7": ["17"],
-        "PD0": ["8"],
-        "PD1": ["18"],
-        "PD2": ["19"],
-        "PD3": ["20"],
-        "PD4": ["1"],
-        "PD5": ["2"],
-        "PD6": ["3"],
-        "PD7": ["4"],
+        "power" = ["9", "7"]
+        "PA1" = ["5"]
+        "PA2" = ["6"]
+        "PC0" = ["10"]
+        "PC1" = ["11"]
+        "PC2" = ["12"]
+        "PC3" = ["13"]
+        "PC4" = ["14"]
+        "PC5" = ["15"]
+        "PC6" = ["16"]
+        "PC7" = ["17"]
+        "PD0" = ["8"]
+        "PD1" = ["18"]
+        "PD2" = ["19"]
+        "PD3" = ["20"]
+        "PD4" = ["1"]
+        "PD5" = ["2"]
+        "PD6" = ["3"]
+        "PD7" = ["4"]
       }
       height = 1.2mm
     }
@@ -137,13 +142,14 @@ part Part = device(footprint = tssop(
 ///
 /// - No crystal needed: the internal 24 MHz RC (48 MHz with the PLL); a 4-25 MHz crystal goes on
 /// PA1/PA2 when timing must be precise.
-block Support(
+block Support {
   /// The CH32V003F4P6 this circuit serves (`CH32V003F4P6.Support(U1)`).
-  chip: Any,
-) {
+  chip: Any
+
   /// next to pins 9 and 7
   C1 = cap(100nF, package = "0402") {
     place = [soft(near(chip.pin.VDD, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VDD, b: chip.pin.VSS }
+    a -- chip.pin.VDD
+    b -- chip.pin.VSS
   }
 }

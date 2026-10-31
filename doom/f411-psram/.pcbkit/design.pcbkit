@@ -1,46 +1,68 @@
-pcbkit 1
+pcbkit 2
 
 // Doom device 05: an STM32F411CEU6 (Arm Cortex-M4F at 100 MHz, 128 KB SRAM, 512 KB flash; the
 // "Black Pill" chip) has too little RAM for Doom's zone heap, so an 8 MB APS6404L PSRAM sits on
 // SPI1 at 50 MHz beside a 16 MB W25Q128 holding Doom and its WAD (the F411 has no memory-mapped
 // QSPI): its firmware is a RISC-V computer built from those chips, a 64 KB cache of them in its
-// SRAM, and Doom runs on that. A 2.0" 240 x 320 ST7789 IPS on SPI2 (landscape 320 x 240), a MAX98357A I2S amplifier,
-// eight buttons, two 18650 cells in parallel it charges from its USB-C. Firmware is flashed by the
-// ROM's USB DFU through the same USB-C (hold BOOT, press RESET) or over SWD.
+// SRAM, and Doom runs on that. A 2.0" 240 x 320 ST7789 IPS on SPI2 (landscape 320 x 240), a
+// MAX98357A I2S amplifier, eight buttons, two 18650 cells in parallel it charges from its USB-C.
+// Firmware is flashed by the ROM's USB DFU through the same USB-C (hold BOOT, press RESET) or over
+// SWD.
 // Front (top): display, buttons, BOOT, RESET, switch, USB-C, charger. Back (bottom): the rest and
 // the cells.
 
-use "parts/STM32F411CEU6.pcbkit" as STM32F411CEU6
-use "parts/APS6404L_3SQR.pcbkit" as APS6404L_3SQR
-use "parts/W25Q128JVSIQ.pcbkit" as W25Q128JVSIQ
-use "parts/ST7789_TFT_2_0.pcbkit" as ST7789_TFT_2_0
-use "parts/MAX98357AETE.pcbkit" as MAX98357AETE
-use "parts/BQ24075RGT.pcbkit" as Charger
-use "parts/DW01A.pcbkit" as Protection
-use "parts/AO3401A.pcbkit" as Pfet
-use "parts/TLV75533PDBV.pcbkit" as TLV75533PDBV
-use "parts/KEYSTONE_1042.pcbkit" as KEYSTONE_1042
-use "parts/MSK12C02.pcbkit" as Slide
-use "parts/S2B_PH_K_S.pcbkit" as S2B_PH_K_S
-use "parts/PCBKIT_LOGO.pcbkit" as Logo
+use ./parts/STM32F411CEU6 as STM32F411CEU6
+use ./parts/APS6404L_3SQR as APS6404L_3SQR
+use ./parts/W25Q128JVSIQ as W25Q128JVSIQ
+use ./parts/ST7789_TFT_2_0 as ST7789_TFT_2_0
+use ./parts/MAX98357AETE as MAX98357AETE
+use ./parts/BQ24075RGT as Charger
+use ./parts/DW01A as Protection
+use ./parts/AO3401A as Pfet
+use ./parts/TLV75533PDBV as TLV75533PDBV
+use ./parts/KEYSTONE_1042 as KEYSTONE_1042
+use ./parts/MSK12C02 as Slide
+use ./parts/S2B_PH_K_S as S2B_PH_K_S
+use ./parts/PCBKIT_LOGO as Logo
 
 // Power: USB-C 5 V into the charger; its power path (SYS: the input when there is one, else the
 // cells) feeds the 3.3 V regulator and the amplifier. The two cells in parallel (1S2P, 3.0-4.2 V)
 // behind one protection circuit; the pack's minus is the board's ground.
 net VBUS { voltage = 5V }
 // SYS: the regulator's 3.3 V (MCU, memories, display, ~100 mA) and the amplifier (peaks ~500 mA).
-net SYS { voltage = 5V; current = 600mA }
-net BAT { voltage = 4.2V; current = 800mA }
-net BAT_IN { voltage = 4.2V; current = 800mA }
+net SYS {
+  voltage = 5V
+  current = 600mA
+}
+net BAT {
+  voltage = 4.2V
+  current = 800mA
+}
+net BAT_IN {
+  voltage = 4.2V
+  current = 800mA
+}
 net CELL_N { current = 800mA }
 // Each cell's + joins BAT_IN through its own resettable fuse (F1, F2): a cell put in the wrong
 // way round, or one at another charge, drives the other through the two fuses, which trip in
 // milliseconds (one cell alone carries all of it).
-net CELL1_P { voltage = 4.2V; current = 800mA }
-net CELL2_P { voltage = 4.2V; current = 800mA }
-net V3 { voltage = 3.3V; current = 100mA }
+net CELL1_P {
+  voltage = 4.2V
+  current = 800mA
+}
+net CELL2_P {
+  voltage = 4.2V
+  current = 800mA
+}
+net V3 {
+  voltage = 3.3V
+  current = 100mA
+}
 // The F411's internal core regulator's output: only its 4.7 uF capacitor (VCAP1).
-net VCAP { voltage = 1.2V; current = 25mA }
+net VCAP {
+  voltage = 1.2V
+  current = 25mA
+}
 net GND { voltage = 0V }
 // The power paths: wide tracks, vias that carry an ampere.
 powerClass = NetClass {
@@ -61,70 +83,165 @@ board = Board {
   name = "doom-05-f411-psram"
   description = "STM32F411 Cortex-M4F · 8 MB SPI PSRAM · 2.0in ST7789 · I2S amp · 2 x 18650, USB-C charging"
   outline = rect(140mm, 104mm, radius = 6mm)
-  layers = [signal(Cu.top), power(Cu.inner[1], label = "GND"), signal(Cu.inner[2]), signal(Cu.bottom)]
+  layers = [
+    signal(Cu.top),
+    plane(Cu.inner[1], label = "GND"),
+    signal(Cu.inner[2]),
+    signal(Cu.bottom),
+  ]
 }
 laboratory = Laboratory { world = "input.js" }
 
 // ---- processor (back) ------------------------------------------------------------------------
 // Its program is emu/: the RISC-V computer it builds from the PSRAM, the flash and the screen.
 U1 = STM32F411CEU6.Part with {
-  simulation = STM32F411CEU6.Part.simulation with { behavior = STM32F411CEU6.Part.simulation.behavior with {
-    firmware = "emu"
-    // The board's 25 MHz HSE crystal.
-    parameters = { "hse_hz": 25000000 }
-  } }
+  simulation = STM32F411CEU6.Part.simulation with {
+    behavior = STM32F411CEU6.Part.simulation.behavior with {
+      firmware = "emu"
+      // The board's 25 MHz HSE crystal.
+      parameters = { "hse_hz" = 25000000 }
+    }
+  }
 } {
   at = (70mm, 66mm)
   orderCode = "C60420"
   side = .bottom
-  pins {
-    VDD: V3, VSS: GND, VDDA: V3, VSSA: GND, VBAT: V3, VCAP1: VCAP, NRST: NRST, BOOT0: BOOT0,
-    PA13: SWDIO, PA14: SWCLK, PA11: DN, PA12: DP,
-    PA5: MEM_SCK, PA6: MEM_MISO, PA7: MEM_MOSI, PA4: RAM_CS, PB2: ROM_CS,
-    PB13: LCD_SCK, PB15: LCD_MOSI, PB12: LCD_CS, PB14: LCD_DC, PB1: LCD_RST, PB10: LCD_BL,
-    PB3: I2S_CK, PA15: I2S_WS, PB5: I2S_SD,
-    PA1: UP, PA2: DOWN, PA3: LEFT, PB4: RIGHT, PB6: FIRE, PB7: USE, PB8: STRAFE, PB0: MENU,
-  }
+
+  VDD -- V3
+  VSS -- GND
+  VDDA -- V3
+  VSSA -- GND
+  VBAT -- V3
+  VCAP1 -- VCAP
+  NRST -- NRST
+  BOOT0 -- BOOT0
+  PA13 -- SWDIO
+  PA14 -- SWCLK
+  PA11 -- DN
+  PA12 -- DP
+  PA5 -- MEM_SCK
+  PA6 -- MEM_MISO
+  PA7 -- MEM_MOSI
+  PA4 -- RAM_CS
+  PB2 -- ROM_CS
+  PB13 -- LCD_SCK
+  PB15 -- LCD_MOSI
+  PB12 -- LCD_CS
+  PB14 -- LCD_DC
+  PB1 -- LCD_RST
+  PB10 -- LCD_BL
+  PB3 -- I2S_CK
+  PA15 -- I2S_WS
+  PB5 -- I2S_SD
+  PA1 -- UP
+  PA2 -- DOWN
+  PA3 -- LEFT
+  PB4 -- RIGHT
+  PB6 -- FIRE
+  PB7 -- USE
+  PB8 -- STRAFE
+  PB0 -- MENU
 }
 // Decoupling per VDD pin, VCAP1, VDDA, the 25 MHz HSE (USB DFU needs it), BOOT0 pull-down.
-U1Support = STM32F411CEU6.Support(U1) { side = .bottom }
+U1Support = STM32F411CEU6.Support {
+  chip = U1
+  side = .bottom
+}
 // Each VDD pin's 100 nF and the bulk 4.7 uF right at the pins.
-override U1Support.C1_C3_24.place = [soft(near(U1["24"], max = 2mm), weight = 10)]
-override U1Support.C1_C3_36.place = [soft(near(U1["36"], max = 2mm), weight = 10)]
-override U1Support.C1_C3_48.place = [near(U1["48"], max = 2.5mm)]
-override U1Support.C4.place = [soft(near(U1.pin.VDD, max = 2mm), weight = 4)]
-override U2Support.C1.place = [soft(near(U2.pin.VDD, max = 1.5mm), weight = 4)]
-override U2Support.C2.place = [soft(near(U2.pin.VDD, max = 2mm), weight = 10)]
-override U4Support.CIN.place = [soft(near(U4.pin.IN, max = 2mm), weight = 10)]
-override U1Support.C6.place = [soft(near(U1.pin.VDDA, max = 2mm), weight = 10)]
-override U1Support.C7.place = [soft(near(U1.pin.VDDA, max = 2.5mm), weight = 4)]
+U1Support.C1_C3_24.place = [soft(near(U1["24"], max = 2mm), weight = 10)]
+U1Support.C1_C3_36.place = [soft(near(U1["36"], max = 2mm), weight = 10)]
+U1Support.C1_C3_48.place = [near(U1["48"], max = 2.5mm)]
+U1Support.C4.place = [soft(near(U1.pin.VDD, max = 2mm), weight = 4)]
+U2Support.C1.place = [soft(near(U2.pin.VDD, max = 1.5mm), weight = 4)]
+U2Support.C2.place = [soft(near(U2.pin.VDD, max = 2mm), weight = 10)]
+U4Support.CIN.place = [soft(near(U4.pin.IN, max = 2mm), weight = 10)]
+U1Support.C6.place = [soft(near(U1.pin.VDDA, max = 2mm), weight = 10)]
+U1Support.C7.place = [soft(near(U1.pin.VDDA, max = 2.5mm), weight = 4)]
 // SWD for an ST-LINK (VCC, SWDIO, SWCLK, NRST, GND).
-swd = SwdHeader(vcc = V3, gnd = GND, swdio = SWDIO, swclk = SWCLK, nrst = NRST) { side = .bottom }
+swd = SwdHeader {
+  vcc = V3
+  gnd = GND
+  swdio = SWDIO
+  swclk = SWCLK
+  nrst = NRST
+  side = .bottom
+}
 // BOOT and RESET on the front: BOOT held while RESET is pressed (or while USB is plugged in with
 // the switch on), the ROM's DFU bootloader enumerates on USB.
-SW10 = button("5.1x5.1") { orderCode = "C318884"; at = (104mm, 98mm); pins { a: BOOT0, b: V3 } }
-SW11 = button("5.1x5.1") { orderCode = "C318884"; at = (112mm, 98mm); pins { a: NRST, b: GND } }
-bootLabel = Text { text = "BOOT  RESET"; at = (108mm, 94mm); size = 1mm }
-R1 = res(10kohm, package = "0402") { orderCode = "C25744"; side = .bottom; pins { a: NRST, b: V3 } }
+SW10 = button("5.1x5.1") {
+  orderCode = "C318884"
+  at = (104mm, 98mm)
+  a -- BOOT0
+  b -- V3
+}
+SW11 = button("5.1x5.1") {
+  orderCode = "C318884"
+  at = (112mm, 98mm)
+  a -- NRST
+  b -- GND
+}
+bootLabel = Text {
+  text = "BOOT  RESET"
+  at = (108mm, 94mm)
+  size = 1mm
+}
+R1 = res(10kohm, package = "0402") {
+  orderCode = "C25744"
+  side = .bottom
+  a -- NRST
+  b -- V3
+}
 
 // ---- memory (back): PSRAM and the WAD's flash on SPI1 ------------------------------------------
-U2 = APS6404L_3SQR.Part { orderCode = "C5333729"; at = (88mm, 62mm); side = .bottom; pins { CE: RAM_CS, SIO1: MEM_MISO, SIO0: MEM_MOSI, SCLK: MEM_SCK, SIO2: V3, SIO3: V3, VDD: V3, VSS: GND } }
-U2Support = APS6404L_3SQR.Support(U2) { side = .bottom }
+U2 = APS6404L_3SQR.Part {
+  orderCode = "C5333729"
+  at = (88mm, 62mm)
+  side = .bottom
+  CE -- RAM_CS
+  SIO1 -- MEM_MISO
+  SIO0 -- MEM_MOSI
+  SCLK -- MEM_SCK
+  SIO2 -- V3
+  SIO3 -- V3
+  VDD -- V3
+  VSS -- GND
+}
+U2Support = APS6404L_3SQR.Support {
+  chip = U2
+  side = .bottom
+}
 // The flash holds the guest: doom/ built for that computer (pcbkit-virt, 8 MB of RAM), with the
 // game's data, id Software's shareware DOOM1.WAD (free to share unmodified), linked in from where
 // it is published.
 U3 = W25Q128JVSIQ.Part with {
-  simulation = W25Q128JVSIQ.Part.simulation with { behavior = W25Q128JVSIQ.Part.simulation.behavior with {
-    firmware = "doom"
-    parameters = { "ram_mib": 8 }
-    data = { "DOOM1.WAD": FirmwareData {
-      url = "https://raw.githubusercontent.com/Akbar30Bill/DOOM_wads/9b384dc68add3eb2f5eb7754654cafeeaea5103b/doom1.wad"
-      sha256 = "1d7d43be501e67d927e415e0b8f3e29c3bf33075e859721816f652a526cac771"
-      bytes = 4196020
-    } }
-  } }
-} { orderCode = "C97521"; at = (88mm, 76mm); side = .bottom; pins { nCS: ROM_CS, DO: MEM_MISO, DI: MEM_MOSI, CLK: MEM_SCK, VCC: V3, GND: GND } }
-U3Support = W25Q128JVSIQ.Support(U3) { side = .bottom }
+  simulation = W25Q128JVSIQ.Part.simulation with {
+    behavior = W25Q128JVSIQ.Part.simulation.behavior with {
+      firmware = "doom"
+      parameters = { "ram_mib" = 8 }
+      data = {
+        "DOOM1.WAD" = FirmwareData {
+          url = "https://raw.githubusercontent.com/Akbar30Bill/DOOM_wads/9b384dc68add3eb2f5eb7754654cafeeaea5103b/doom1.wad"
+          sha256 = "1d7d43be501e67d927e415e0b8f3e29c3bf33075e859721816f652a526cac771"
+          bytes = 4196020
+        }
+      }
+    }
+  }
+} {
+  orderCode = "C97521"
+  at = (88mm, 76mm)
+  side = .bottom
+  nCS -- ROM_CS
+  DO -- MEM_MISO
+  DI -- MEM_MOSI
+  CLK -- MEM_SCK
+  VCC -- V3
+  GND -- GND
+}
+U3Support = W25Q128JVSIQ.Support {
+  chip = U3
+  side = .bottom
+}
 
 // ---- display (front) ----------------------------------------------------------------------------
 DS1 = ST7789_TFT_2_0.Part {
@@ -132,7 +249,14 @@ DS1 = ST7789_TFT_2_0.Part {
   rotation = 90deg
   // The 1x8 socket it plugs into (the module: an MSP2008 2.0" ST7789 IPS, bought separately).
   orderCode = "C2905417"
-  pins { GND: GND, VCC: V3, SCL: LCD_SCK, SDA: LCD_MOSI, RES: LCD_RST, DC: LCD_DC, CS: LCD_CS, BLK: LCD_BL }
+  GND -- GND
+  VCC -- V3
+  SCL -- LCD_SCK
+  SDA -- LCD_MOSI
+  RES -- LCD_RST
+  DC -- LCD_DC
+  CS -- LCD_CS
+  BLK -- LCD_BL
 }
 
 // ---- audio (back): I2S3 -> MAX98357A -> 8 ohm speaker -------------------------------------------
@@ -140,40 +264,114 @@ U5 = MAX98357AETE.Part {
   orderCode = "C910544"
   at = (118mm, 56mm)
   side = .bottom
-  pins { BCLK: I2S_CK, LRCLK: I2S_WS, DIN: I2S_SD, VDD: SYS, GND: GND, EP: GND, GAIN_SLOT: .nc, OUTP: SPK_P, OUTN: SPK_N, NC5: .nc, NC6: .nc, NC12: .nc, NC13: .nc }
+  BCLK -- I2S_CK
+  LRCLK -- I2S_WS
+  DIN -- I2S_SD
+  VDD -- SYS
+  GND -- GND
+  EP -- GND
+  GAIN_SLOT -- .nc
+  OUTP -- SPK_P
+  OUTN -- SPK_N
+  NC5 -- .nc
+  NC6 -- .nc
+  NC12 -- .nc
+  NC13 -- .nc
 }
-U5Support = MAX98357AETE.Support(U5, vio = V3) { side = .bottom }   // 634k pull-up on SD_MODE: (L+R)/2
+U5Support = MAX98357AETE.Support {
+  chip = U5
+  vio -- V3
+  side = .bottom
+} // 634k pull-up on SD_MODE: (L+R)/2
 // The speaker's connector at the right edge, on the front (its wires leave over the edge).
-J5 = S2B_PH_K_S.Part { orderCode = "C173752"; at = (133.5mm, 24mm); rotation = 90deg; pins { C1: SPK_N, C2: SPK_P } }
+J5 = S2B_PH_K_S.Part {
+  orderCode = "C173752"
+  at = (133.5mm, 24mm)
+  rotation = 90deg
+  C1 -- SPK_N
+  C2 -- SPK_P
+}
 
 // ---- USB-C (front, top edge): charging and DFU ---------------------------------------------------
-usb = UsbC2(vbus = VBUS, gnd = GND, dp = DP, dn = DN, tvsPackage = "SOD-323") {}
-override usb.power.J.at = (70mm, 95.85mm)
-override usb.power.J.rotation = 180deg
+usb = UsbC2 {
+  vbus = VBUS
+  gnd = GND
+  dp = DP
+  dn = DN
+  tvsPackage = "SOD-323"
+}
+usb.power.J.at = (70mm, 95.85mm)
+usb.power.J.rotation = 180deg
 
 // ---- power: two 18650 cells (back), protection, charger with power path, LDO ----------------------
 // Two 18650 cells on the back, side by side along the bottom, in parallel. The holders are not
 // polarized: put each cell's + at the end the silkscreen marks.
-BT1 = KEYSTONE_1042.Part { orderCode = "C5249310"; at = (70mm, 13mm); side = .bottom; pins { C2: CELL1_P, C1: CELL_N } }
-BT2 = KEYSTONE_1042.Part { orderCode = "C5249310"; at = (70mm, 35mm); side = .bottom; pins { C2: CELL2_P, C1: CELL_N } }
+BT1 = KEYSTONE_1042.Part {
+  orderCode = "C5249310"
+  at = (70mm, 13mm)
+  side = .bottom
+  C2 -- CELL1_P
+  C1 -- CELL_N
+}
+BT2 = KEYSTONE_1042.Part {
+  orderCode = "C5249310"
+  at = (70mm, 35mm)
+  side = .bottom
+  C2 -- CELL2_P
+  C1 -- CELL_N
+}
 // Per-cell protection: a 2 A resettable fuse (16 V, 100 A interrupt) at each holder's + contact.
-F1 = fuse(2A, package = "1812", mpn = "1812L200/16GR") { orderCode = "C18198340"; side = .bottom; place = [soft(near(BT1.pin.C2, max = 20mm), weight = 3)]; pins { a: CELL1_P, b: BAT_IN } }
-F2 = fuse(2A, package = "1812", mpn = "1812L200/16GR") { orderCode = "C18198340"; side = .bottom; place = [soft(near(BT2.pin.C2, max = 20mm), weight = 3)]; pins { a: CELL2_P, b: BAT_IN } }
+F1 = fuse(2A, package = "1812", mpn = "1812L200/16GR") {
+  orderCode = "C18198340"
+  side = .bottom
+  place = [soft(near(BT1.pin.C2, max = 20mm), weight = 3)]
+  a -- CELL1_P
+  b -- BAT_IN
+}
+F2 = fuse(2A, package = "1812", mpn = "1812L200/16GR") {
+  orderCode = "C18198340"
+  side = .bottom
+  place = [soft(near(BT2.pin.C2, max = 20mm), weight = 3)]
+  a -- CELL2_P
+  b -- BAT_IN
+}
 cellMarks = [
-  Text { text = "+"; at = (23mm, 13mm); size = 2.5mm; layer = Silk.bottom },
-  Text { text = "-"; at = (117mm, 13mm); size = 2.5mm; layer = Silk.bottom },
-  Text { text = "+"; at = (23mm, 35mm); size = 2.5mm; layer = Silk.bottom },
-  Text { text = "-"; at = (117mm, 35mm); size = 2.5mm; layer = Silk.bottom },
-  Text { text = "2 x 18650 Li-ion 3.7 V"; at = (127mm, 24mm); size = 1.5mm; rotation = 90deg; layer = Silk.bottom },
+  Text { text = "+", at = (23mm, 13mm), size = 2.5mm, layer = Silk.bottom },
+  Text { text = "-", at = (117mm, 13mm), size = 2.5mm, layer = Silk.bottom },
+  Text { text = "+", at = (23mm, 35mm), size = 2.5mm, layer = Silk.bottom },
+  Text { text = "-", at = (117mm, 35mm), size = 2.5mm, layer = Silk.bottom },
+  Text {
+    text = "2 x 18650 Li-ion 3.7 V"
+    at = (127mm, 24mm)
+    size = 1.5mm
+    rotation = 90deg
+    layer = Silk.bottom
+  },
 ]
 
 // A cell put in the wrong way round: a P-MOSFET in the plus line, its gate at the cells' minus,
 // on (both ways: charging too) only when the cells are the right way round.
-reversed = ReversePolarity(vin = BAT_IN, vout = BAT, gnd = CELL_N, inputVoltage = 4.2V, current = 800mA, rdsOn = 60mohm, maxGateVoltage = 12V, fet = Pfet.Part with { orderCode = "C15127" }) {}
+reversed = ReversePolarity {
+  vin = BAT_IN
+  vout = BAT
+  gnd = CELL_N
+  inputVoltage = 4.2V
+  current = 800mA
+  rdsOn = 60mohm
+  maxGateVoltage = 12V
+  fet = Pfet.Part with { orderCode = "C15127" }
+}
 
 // Protection: over-charge 4.3 V, over-discharge 2.4 V, over-current about 3 A, in the pack's minus.
-U7 = Protection.Part { orderCode = "C351410"; pins { GND: CELL_N } }
-U7Support = Protection.Support(U7, batteryPlus = BAT, packMinus = GND) {}
+U7 = Protection.Part {
+  orderCode = "C351410"
+  GND -- CELL_N
+}
+U7Support = Protection.Support {
+  chip = U7
+  batteryPlus -- BAT
+  packMinus -- GND
+}
 
 // The charger (BQ24075, datasheet SLUS810): USB500 mode (EN1 high, EN2 low: at most 500 mA from
 // any port), 800 mA fast charge (RISET = 890 AΩ / 0.8 A), its current-based termination; SYSOFF
@@ -181,49 +379,197 @@ U7Support = Protection.Support(U7, batteryPlus = BAT, packMinus = GND) {}
 // than its longest timer. TS: 10 kΩ without an NTC.
 U6 = Charger.Part {
   at = (70mm, 30mm)
-  pins { IN: VBUS, OUT: SYS, BAT: BAT, VSS: GND, nCE: GND, EN1: SYS, EN2: GND, TMR: GND, ISET: ISET, ILIM: ILIM, SYSOFF: GND, TS: TS, nCHG: CHG_N, nPGOOD: PG_N }
+  IN -- VBUS
+  OUT -- SYS
+  BAT -- BAT
+  VSS -- GND
+  nCE -- GND
+  EN1 -- SYS
+  EN2 -- GND
+  TMR -- GND
+  ISET -- ISET
+  ILIM -- ILIM
+  SYSOFF -- GND
+  TS -- TS
+  nCHG -- CHG_N
+  nPGOOD -- PG_N
 }
-cIn = cap(1uF, package = "0603", ratedVoltage = 16V) { orderCode = "C15849"; at = (71.55mm, 33mm); rotation = 180deg; place = [near(U6.pin.IN, max = 3.5mm)]; pins { a: VBUS, b: GND } }
-cSys = cap(4.7uF, package = "0805", ratedVoltage = 10V) { orderCode = "C1779"; place = [soft(near(U6.pin.OUT, max = 4mm), weight = 2)]; pins { a: SYS, b: GND } }
-cBat = cap(4.7uF, package = "0805", ratedVoltage = 10V) { orderCode = "C1779"; place = [soft(near(U6.pin.BAT, max = 4mm), weight = 2)]; pins { a: BAT, b: GND } }
-rIset = res(1.13kohm, package = "0402", tolerance = 1pct) { orderCode = "C67014"; place = [soft(near(U6.pin.ISET, max = 5mm))]; pins { a: ISET, b: GND } }
-rIlim = res(1.18kohm, package = "0402", tolerance = 1pct) { orderCode = "C270651"; place = [soft(near(U6.pin.ILIM, max = 5mm))]; pins { a: ILIM, b: GND } }
-rTs = res(10kohm, package = "0402") { orderCode = "C25744"; place = [soft(near(U6.pin.TS, max = 5mm))]; pins { a: TS, b: GND } }
+cIn = cap(1uF, package = "0603", ratedVoltage = 16V) {
+  orderCode = "C15849"
+  at = (71.55mm, 33mm)
+  rotation = 180deg
+  place = [near(U6.pin.IN, max = 3.5mm)]
+  a -- VBUS
+  b -- GND
+}
+cSys = cap(4.7uF, package = "0805", ratedVoltage = 10V) {
+  orderCode = "C1779"
+  place = [soft(near(U6.pin.OUT, max = 4mm), weight = 2)]
+  a -- SYS
+  b -- GND
+}
+cBat = cap(4.7uF, package = "0805", ratedVoltage = 10V) {
+  orderCode = "C1779"
+  place = [soft(near(U6.pin.BAT, max = 4mm), weight = 2)]
+  a -- BAT
+  b -- GND
+}
+rIset = res(1.13kohm, package = "0402", tolerance = 1%) {
+  orderCode = "C67014"
+  place = [soft(near(U6.pin.ISET, max = 5mm))]
+  a -- ISET
+  b -- GND
+}
+rIlim = res(1.18kohm, package = "0402", tolerance = 1%) {
+  orderCode = "C270651"
+  place = [soft(near(U6.pin.ILIM, max = 5mm))]
+  a -- ILIM
+  b -- GND
+}
+rTs = res(10kohm, package = "0402") {
+  orderCode = "C25744"
+  place = [soft(near(U6.pin.TS, max = 5mm))]
+  a -- TS
+  b -- GND
+}
 // Charging (red) and USB present (green), each through 1.5 kΩ.
-ledChg = led(package = "0603", color = .red) { orderCode = "C2286"; at = (65mm, 40mm); pins { A: SYS, K: CHG_LED } }
-rChg = res(1.5kohm, package = "0402") { orderCode = "C25867"; place = [soft(near(ledChg, max = 3mm))]; pins { a: CHG_LED, b: CHG_N } }
-ledPg = led(package = "0603", color = .green) { orderCode = "C12624"; at = (75mm, 40mm); pins { A: SYS, K: PG_LED } }
-rPg = res(1.5kohm, package = "0402") { orderCode = "C25867"; place = [soft(near(ledPg, max = 3mm))]; pins { a: PG_LED, b: PG_N } }
-chargeLabel = Text { text = "CHG    USB"; at = (70mm, 43mm); size = 1mm }
+ledChg = led(package = "0603", color = .red) {
+  orderCode = "C2286"
+  at = (65mm, 40mm)
+  A -- SYS
+  K -- CHG_LED
+}
+rChg = res(1.5kohm, package = "0402") {
+  orderCode = "C25867"
+  place = [soft(near(ledChg, max = 3mm))]
+  a -- CHG_LED
+  b -- CHG_N
+}
+ledPg = led(package = "0603", color = .green) {
+  orderCode = "C12624"
+  at = (75mm, 40mm)
+  A -- SYS
+  K -- PG_LED
+}
+rPg = res(1.5kohm, package = "0402") {
+  orderCode = "C25867"
+  place = [soft(near(ledPg, max = 3mm))]
+  a -- PG_LED
+  b -- PG_N
+}
+chargeLabel = Text {
+  text = "CHG    USB"
+  at = (70mm, 43mm)
+  size = 1mm
+}
 
 // 3.3 V from SYS; the switch drives its enable (off: the cells still charge).
-U4 = TLV75533PDBV.Part { orderCode = "C404027"; at = (52mm, 54mm); side = .bottom; pins { IN: SYS, OUT: V3, GND: GND, EN: LDO_EN } }
-U4Support = TLV75533PDBV.Support(U4, alwaysOn = false) { side = .bottom }
-R2 = res(100kohm, package = "0402") { orderCode = "C25741"; side = .bottom; pins { a: LDO_EN, b: GND } }
-SW9 = Slide.Part { at = (1.9mm, 52mm); rotation = 90deg; pins { A: SYS, COM: LDO_EN, B: GND, SHELL: GND } }
-switchLabel = Text { text = "ON / OFF"; at = (6mm, 52mm); size = 1mm; rotation = 90deg }
+U4 = TLV75533PDBV.Part {
+  orderCode = "C404027"
+  at = (52mm, 54mm)
+  side = .bottom
+  IN -- SYS
+  OUT -- V3
+  GND -- GND
+  EN -- LDO_EN
+}
+U4Support = TLV75533PDBV.Support {
+  chip = U4
+  alwaysOn = false
+  side = .bottom
+}
+R2 = res(100kohm, package = "0402") {
+  orderCode = "C25741"
+  side = .bottom
+  a -- LDO_EN
+  b -- GND
+}
+SW9 = Slide.Part {
+  at = (1.9mm, 52mm)
+  rotation = 90deg
+  A -- SYS
+  COM -- LDO_EN
+  B -- GND
+  SHELL -- GND
+}
+switchLabel = Text {
+  text = "ON / OFF"
+  at = (6mm, 52mm)
+  size = 1mm
+  rotation = 90deg
+}
 
 // Bring-up: the cells, the power path, 3.3 V and ground on test pads.
-tpBat = testPoint() { at = (110mm, 44mm); pins = [BAT] }
-tpSys = testPoint() { at = (116mm, 44mm); pins = [SYS] }
-tpV3 = testPoint() { at = (122mm, 44mm); pins = [V3] }
-tpGnd = testPoint() { at = (128mm, 44mm); pins = [GND] }
-tpLabel = Text { text = "BAT SYS 3V3 GND"; at = (119mm, 40.5mm); size = 1mm }
+tpBat = testPoint() {
+  at = (110mm, 44mm)
+  pins = [BAT]
+}
+tpSys = testPoint() {
+  at = (116mm, 44mm)
+  pins = [SYS]
+}
+tpV3 = testPoint() {
+  at = (122mm, 44mm)
+  pins = [V3]
+}
+tpGnd = testPoint() {
+  at = (128mm, 44mm)
+  pins = [GND]
+}
+tpLabel = Text {
+  text = "BAT SYS 3V3 GND"
+  at = (119mm, 40.5mm)
+  size = 1mm
+}
 
 // ---- input (front) ---------------------------------------------------------------------------------
 // A tactile switch that pulls its line to ground, operated by `code` while the device runs.
-fn key(code: String): Part = button("6x6") with {
+fn key(code: String) -> Part = button("6x6") with {
   orderCode = "C221880"
-  simulation = SimulationParameters { behavior = Behavior { model = "button"; ports = { output: ["1"] }; key = code } }
+  simulation = SimulationParameters {
+    behavior = Behavior { model = "button", ports = { output = ["1"] }, key = code }
+  }
 }
-SW1 = key("ArrowUp") { at = (16mm, 82mm); pins { a: UP, b: GND } }
-SW2 = key("ArrowDown") { at = (16mm, 62mm); pins { a: DOWN, b: GND } }
-SW3 = key("ArrowLeft") { at = (6mm + 0.5mm, 72mm); pins { a: LEFT, b: GND } }
-SW4 = key("ArrowRight") { at = (25.5mm, 72mm); pins { a: RIGHT, b: GND } }
-SW5 = key("KeyF") { at = (131mm, 76mm); pins { a: FIRE, b: GND } }
-SW6 = key("Space") { at = (119mm, 66mm); pins { a: USE, b: GND } }
-SW7 = key("KeyS") { at = (119mm, 86mm); pins { a: STRAFE, b: GND } }
-SW8 = key("KeyM") { at = (131mm, 54mm); pins { a: MENU, b: GND } }
+SW1 = key("ArrowUp") {
+  at = (16mm, 82mm)
+  a -- UP
+  b -- GND
+}
+SW2 = key("ArrowDown") {
+  at = (16mm, 62mm)
+  a -- DOWN
+  b -- GND
+}
+SW3 = key("ArrowLeft") {
+  at = (6mm + 0.5mm, 72mm)
+  a -- LEFT
+  b -- GND
+}
+SW4 = key("ArrowRight") {
+  at = (25.5mm, 72mm)
+  a -- RIGHT
+  b -- GND
+}
+SW5 = key("KeyF") {
+  at = (131mm, 76mm)
+  a -- FIRE
+  b -- GND
+}
+SW6 = key("Space") {
+  at = (119mm, 66mm)
+  a -- USE
+  b -- GND
+}
+SW7 = key("KeyS") {
+  at = (119mm, 86mm)
+  a -- STRAFE
+  b -- GND
+}
+SW8 = key("KeyM") {
+  at = (131mm, 54mm)
+  a -- MENU
+  b -- GND
+}
 
 // Four M3 holes for a back plate or a case.
 H1 = hole("M3") { at = (5mm, 5mm) }
@@ -236,36 +582,36 @@ gndPour = pour(net = GND, layers = [Cu.top, Cu.inner[1], Cu.bottom]) {}
 // PCBKit's mark and pcbkit.io, where the board has room.
 logo = Logo.Part {}
 
-override reversed.Rg.orderCode = "C25741"
+reversed.Rg.orderCode = "C25741"
 
 // JLCPCB (LCSC) codes of the parts the library's blocks add.
-override U1Support.Y1.orderCode = "C70582"
-override U1Support.Y1_C1.orderCode = "C1548"
-override U1Support.Y1_C2.orderCode = "C1548"
-override U1Support.C1_C3_24.orderCode = "C1525"
-override U1Support.C1_C3_36.orderCode = "C1525"
-override U1Support.C1_C3_48.orderCode = "C1525"
-override U1Support.C4.orderCode = "C1779"
-override U1Support.C5.orderCode = "C1779"
-override U1Support.C6.orderCode = "C1525"
-override U1Support.C7.orderCode = "C52923"
-override U1Support.C8.orderCode = "C1525"
-override U1Support.R1.orderCode = "C25744"
-override U2Support.C1.orderCode = "C52923"
-override U2Support.C2.orderCode = "C1525"
-override U2Support.R1.orderCode = "C25744"
-override U3Support.C1.orderCode = "C1525"
-override U3Support.R1.orderCode = "C25744"
-override U3Support.R2.orderCode = "C25744"
-override U3Support.R3.orderCode = "C25744"
-override U4Support.CIN.orderCode = "C15849"
-override U4Support.COUT.orderCode = "C15849"
-override U5Support.C1.orderCode = "C15850"
-override U5Support.C2.orderCode = "C1525"
-override U5Support.R1.orderCode = "C270588"
-override usb.power.J.orderCode = "C165948"
-override usb.power.D.orderCode = "C502527"
-override usb.power.R1.orderCode = "C25905"
-override usb.power.R2.orderCode = "C25905"
-override usb.Esd.orderCode = "C7519"
-override swd.J.orderCode = "C492404"
+U1Support.Y1.orderCode = "C70582"
+U1Support.Y1_C1.orderCode = "C1548"
+U1Support.Y1_C2.orderCode = "C1548"
+U1Support.C1_C3_24.orderCode = "C1525"
+U1Support.C1_C3_36.orderCode = "C1525"
+U1Support.C1_C3_48.orderCode = "C1525"
+U1Support.C4.orderCode = "C1779"
+U1Support.C5.orderCode = "C1779"
+U1Support.C6.orderCode = "C1525"
+U1Support.C7.orderCode = "C52923"
+U1Support.C8.orderCode = "C1525"
+U1Support.R1.orderCode = "C25744"
+U2Support.C1.orderCode = "C52923"
+U2Support.C2.orderCode = "C1525"
+U2Support.R1.orderCode = "C25744"
+U3Support.C1.orderCode = "C1525"
+U3Support.R1.orderCode = "C25744"
+U3Support.R2.orderCode = "C25744"
+U3Support.R3.orderCode = "C25744"
+U4Support.CIN.orderCode = "C15849"
+U4Support.COUT.orderCode = "C15849"
+U5Support.C1.orderCode = "C15850"
+U5Support.C2.orderCode = "C1525"
+U5Support.R1.orderCode = "C270588"
+usb.power.J.orderCode = "C165948"
+usb.power.D.orderCode = "C502527"
+usb.power.R1.orderCode = "C25905"
+usb.power.R2.orderCode = "C25905"
+usb.Esd.orderCode = "C7519"
+swd.J.orderCode = "C492404"

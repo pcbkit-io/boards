@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // W25Q128JVSIQ (Winbond): 128 Mbit (16 MB) serial NOR flash, standard/dual/quad SPI up to 133 MHz,
 // 2.7-3.6 V, quad pins enabled from the factory (SOIC-8 208 mil)
@@ -18,40 +18,47 @@ pcbkit 1
 
 /// W25Q128JVSIQ — 128 Mbit (16 MB) serial NOR flash, standard/dual/quad SPI up to 133 MHz,
 /// 2.7-3.6 V, quad pins enabled from the factory (SOIC-8 208 mil)
-part Part = device(footprint = rows(
-  name = "SOIC-8_5.23x5.28mm_P1.27mm",
-  description = "SOIC-8 208 mil (S), 8 pins, 5.28 x 5.23 mm body, 1.27 mm pitch (from the datasheet)",
-  pitch = 1.27mm,
-  pinsY = 4,
-  spanX = tolerance(7.7mm, 8.1mm),
-  leadLength = tolerance(0.5mm, 0.8mm),
-  leadWidth = tolerance(0.35mm, 0.48mm),
-  bodyX = tolerance(5.13mm, 5.33mm),
-  bodyY = tolerance(5.18mm, 5.38mm),
-  bodyHeight = 2.16mm,
-), prefix = "U", mpn = "W25Q128JVSIQ", manufacturer = "Winbond", pinout = {
-  nCS: "1",
-  DO: "2",
-  nWP: "3",
-  GND: "4",
-  DI: "5",
-  CLK: "6",
-  nHOLD: "7",
-  VCC: "8",
-}, pinTypes = {
-  nCS: io.input(max = 3.6V),
-  DO: io.bidirectional(max = 3.6V),
-  nWP: io.bidirectional(max = 3.6V),
-  GND: .ground,
-  DI: io.bidirectional(max = 3.6V),
-  CLK: io.input(max = 3.6V),
-  nHOLD: io.bidirectional(max = 3.6V),
-  VCC: io.powerIn(min = 2.7V, max = 4.6V),
-}) with {
+part Part = device(
+  footprint = rows(
+    name = "SOIC-8_5.23x5.28mm_P1.27mm",
+    description = "SOIC-8 208 mil (S), 8 pins, 5.28 x 5.23 mm body, 1.27 mm pitch (from the datasheet)",
+    pitch = 1.27mm,
+    pinsY = 4,
+    spanX = tolerance(7.7mm, 8.1mm),
+    leadLength = tolerance(0.5mm, 0.8mm),
+    leadWidth = tolerance(0.35mm, 0.48mm),
+    bodyX = tolerance(5.13mm, 5.33mm),
+    bodyY = tolerance(5.18mm, 5.38mm),
+    bodyHeight = 2.16mm,
+  ),
+  prefix = "U",
+  mpn = "W25Q128JVSIQ",
+  manufacturer = "Winbond",
+  pinout = {
+    nCS = "1"
+    DO = "2"
+    nWP = "3"
+    GND = "4"
+    DI = "5"
+    CLK = "6"
+    nHOLD = "7"
+    VCC = "8"
+  },
+  pinTypes = {
+    nCS = io.input(max = 3.6V)
+    DO = io.bidirectional(max = 3.6V)
+    nWP = io.bidirectional(max = 3.6V)
+    GND = .ground
+    DI = io.bidirectional(max = 3.6V)
+    CLK = io.input(max = 3.6V)
+    nHOLD = io.bidirectional(max = 3.6V)
+    VCC = io.powerIn(min = 2.7V, max = 4.6V)
+  },
+) with {
   fields {
-    Status: "checked",
-    PinoutSource: "Winbond W25Q128JV datasheet revision F (2018-03-27), 3.1/3.3 pin configuration and description (SOIC 208-mil) and 10.1 package dimensions",
-    Datasheet: "https://www.winbond.com/resource-files/w25q128jv%20revf%2003272018%20plus.pdf",
+    Status = "checked"
+    PinoutSource = "Winbond W25Q128JV datasheet revision F (2018-03-27), 3.1/3.3 pin configuration and description (SOIC 208-mil) and 10.1 package dimensions"
+    Datasheet = "https://www.winbond.com/resource-files/w25q128jv%20revf%2003272018%20plus.pdf"
   }
   simulation = SimulationParameters {
     parameters = [
@@ -81,38 +88,43 @@ part Part = device(footprint = rows(
 ///
 /// - /CS must follow VCC at power-up and power-down: a pull-up keeps the flash deselected while the
 /// controller boots.
-block Support(
+block Support {
   /// The W25Q128JVSIQ this circuit serves (`W25Q128JVSIQ.Support(U1)`).
-  chip: Any,
+  chip: Any
   /// The /CS pull-up.
-  csPullUp: Bool = true,
-  /// Pull-ups on /WP and /HOLD (standard or dual SPI; `false` in quad mode, where the controller drives them).
-  ioPullUps: Bool = true,
-) {
+  csPullUp: Bool = true
+  /// Pull-ups on /WP and /HOLD (standard or dual SPI; `false` in quad mode, where the controller
+  /// drives them).
+  ioPullUps: Bool = true
+
   /// X7R
   C1 = cap(100nF, package = "0402", dielectric = .X7R) {
     place = [soft(near(chip.pin.VCC, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VCC, b: chip.pin.GND }
+    a -- chip.pin.VCC
+    b -- chip.pin.GND
   }
   /// keeps the flash deselected while the controller boots
   R1 =
     if csPullUp then res(10kohm, package = "0402") {
       place = [soft(near(chip.pin.nCS, max = 5mm), weight = 1)]
-      pins { a: chip.pin.nCS, b: chip.pin.VCC }
+      a -- chip.pin.nCS
+      b -- chip.pin.VCC
     }
     else null
   /// standard or dual SPI only
   R2 =
     if ioPullUps then res(10kohm, package = "0402") {
       place = [soft(near(chip.pin.nWP, max = 5mm), weight = 1)]
-      pins { a: chip.pin.nWP, b: chip.pin.VCC }
+      a -- chip.pin.nWP
+      b -- chip.pin.VCC
     }
     else null
   /// standard or dual SPI only
   R3 =
     if ioPullUps then res(10kohm, package = "0402") {
       place = [soft(near(chip.pin.nHOLD, max = 5mm), weight = 1)]
-      pins { a: chip.pin.nHOLD, b: chip.pin.VCC }
+      a -- chip.pin.nHOLD
+      b -- chip.pin.VCC
     }
     else null
 }

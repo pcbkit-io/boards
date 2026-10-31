@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // RP2350A (Raspberry Pi): RP2350A dual Arm Cortex-M33 / Hazard3 RISC-V MCU, 150 MHz, 520 KB SRAM,
 // external QSPI flash, USB 1.1 device/host, 3 PIO blocks (12 state machines), HSTX, 4 ADC inputs,
@@ -28,174 +28,181 @@ pcbkit 1
 /// RP2350A — RP2350A dual Arm Cortex-M33 / Hazard3 RISC-V MCU, 150 MHz, 520 KB SRAM, external
 /// QSPI flash, USB 1.1 device/host, 3 PIO blocks (12 state machines), HSTX, 4 ADC inputs, 30 GPIO,
 /// internal 1.1 V switching regulator, QFN-60 7 x 7 mm (the Raspberry Pi Pico 2's chip)
-part Part = device(footprint = rows(
-  name = "QFN-60-1EP_7x7mm_P0.4mm_EP3.4x3.4mm",
-  description = "QFN-60 7 x 7 mm, 0.4 mm pitch, 3.4 mm exposed pad, 60 pins, 7 x 7 mm body, 0.4 mm pitch (from the datasheet)",
-  pitch = 0.4mm,
-  leadType = .nolead,
-  pinsY = 15,
-  pinsX = 15,
-  spanX = tolerance(7mm, 7mm),
-  spanY = tolerance(7mm, 7mm),
-  leadLength = tolerance(0.35mm, 0.45mm),
-  leadWidth = tolerance(0.13mm, 0.23mm),
-  bodyX = tolerance(7mm, 7mm),
-  bodyY = tolerance(7mm, 7mm),
-  bodyHeight = 0.9mm,
-  exposedPad = (3.4mm, 3.4mm),
-), prefix = "U", mpn = "RP2350A", manufacturer = "Raspberry Pi", pinout = {
-  IOVDD: ["1", "11", "20", "30", "38", "45"],
-  GPIO0: "2",
-  GPIO1: "3",
-  GPIO2: "4",
-  GPIO3: "5",
-  DVDD: ["6", "23", "39"],
-  GPIO4: "7",
-  GPIO5: "8",
-  GPIO6: "9",
-  GPIO7: "10",
-  GPIO8: "12",
-  GPIO9: "13",
-  GPIO10: "14",
-  GPIO11: "15",
-  GPIO12: "16",
-  GPIO13: "17",
-  GPIO14: "18",
-  GPIO15: "19",
-  XIN: "21",
-  XOUT: "22",
-  SWCLK: "24",
-  SWDIO: "25",
-  RUN: "26",
-  GPIO16: "27",
-  GPIO17: "28",
-  GPIO18: "29",
-  GPIO19: "31",
-  GPIO20: "32",
-  GPIO21: "33",
-  GPIO22: "34",
-  GPIO23: "35",
-  GPIO24: "36",
-  GPIO25: "37",
-  GPIO26_ADC0: "40",
-  GPIO27_ADC1: "41",
-  GPIO28_ADC2: "42",
-  GPIO29_ADC3: "43",
-  ADC_AVDD: "44",
-  VREG_AVDD: "46",
-  VREG_PGND: "47",
-  VREG_LX: "48",
-  VREG_VIN: "49",
-  VREG_FB: "50",
-  USB_DM: "51",
-  USB_DP: "52",
-  USB_OTP_VDD: "53",
-  QSPI_IOVDD: "54",
-  QSPI_SD3: "55",
-  QSPI_SCLK: "56",
-  QSPI_SD0: "57",
-  QSPI_SD2: "58",
-  QSPI_SD1: "59",
-  QSPI_SS: "60",
-  GND: "61",
-}, pinTypes = {
-  IOVDD: io.powerIn(min = 1.62V, max = 3.63V),
-  GPIO0: io.bidirectional(),
-  GPIO1: io.bidirectional(),
-  GPIO2: io.bidirectional(),
-  GPIO3: io.bidirectional(),
-  DVDD: io.powerIn(min = 1.05V, max = 1.16V),
-  GPIO4: io.bidirectional(),
-  GPIO5: io.bidirectional(),
-  GPIO6: io.bidirectional(),
-  GPIO7: io.bidirectional(),
-  GPIO8: io.bidirectional(),
-  GPIO9: io.bidirectional(),
-  GPIO10: io.bidirectional(),
-  GPIO11: io.bidirectional(),
-  GPIO12: io.bidirectional(),
-  GPIO13: io.bidirectional(),
-  GPIO14: io.bidirectional(),
-  GPIO15: io.bidirectional(),
-  XIN: .passive,
-  XOUT: .passive,
-  SWCLK: io.input(pull = .up),
-  SWDIO: io.bidirectional(),
-  RUN: io.input(pull = .up),
-  GPIO16: io.bidirectional(),
-  GPIO17: io.bidirectional(),
-  GPIO18: io.bidirectional(),
-  GPIO19: io.bidirectional(),
-  GPIO20: io.bidirectional(),
-  GPIO21: io.bidirectional(),
-  GPIO22: io.bidirectional(),
-  GPIO23: io.bidirectional(),
-  GPIO24: io.bidirectional(),
-  GPIO25: io.bidirectional(),
-  GPIO26_ADC0: io.bidirectional(),
-  GPIO27_ADC1: io.bidirectional(),
-  GPIO28_ADC2: io.bidirectional(),
-  GPIO29_ADC3: io.bidirectional(),
-  ADC_AVDD: io.powerIn(min = 1.62V, max = 3.63V),
-  VREG_AVDD: io.powerIn(min = 3.135V, max = 3.63V),
-  VREG_PGND: .ground,
-  VREG_LX: .passive,
-  VREG_VIN: io.powerIn(min = 2.7V, max = 5.5V),
-  VREG_FB: .powerOut,
-  USB_DM: io.bidirectional(),
-  USB_DP: io.bidirectional(),
-  USB_OTP_VDD: io.powerIn(min = 3.135V, max = 3.63V),
-  QSPI_IOVDD: io.powerIn(min = 1.62V, max = 3.63V),
-  QSPI_SD3: io.bidirectional(),
-  QSPI_SCLK: io.bidirectional(),
-  QSPI_SD0: io.bidirectional(),
-  QSPI_SD2: io.bidirectional(),
-  QSPI_SD1: io.bidirectional(),
-  QSPI_SS: io.bidirectional(),
-  GND: .ground,
-}) with {
+part Part = device(
+  footprint = rows(
+    name = "QFN-60-1EP_7x7mm_P0.4mm_EP3.4x3.4mm",
+    description = "QFN-60 7 x 7 mm, 0.4 mm pitch, 3.4 mm exposed pad, 60 pins, 7 x 7 mm body, 0.4 mm pitch (from the datasheet)",
+    pitch = 0.4mm,
+    leadType = .nolead,
+    pinsY = 15,
+    pinsX = 15,
+    spanX = tolerance(7mm, 7mm),
+    spanY = tolerance(7mm, 7mm),
+    leadLength = tolerance(0.35mm, 0.45mm),
+    leadWidth = tolerance(0.13mm, 0.23mm),
+    bodyX = tolerance(7mm, 7mm),
+    bodyY = tolerance(7mm, 7mm),
+    bodyHeight = 0.9mm,
+    exposedPad = (3.4mm, 3.4mm),
+  ),
+  prefix = "U",
+  mpn = "RP2350A",
+  manufacturer = "Raspberry Pi",
+  pinout = {
+    IOVDD = ["1", "11", "20", "30", "38", "45"]
+    GPIO0 = "2"
+    GPIO1 = "3"
+    GPIO2 = "4"
+    GPIO3 = "5"
+    DVDD = ["6", "23", "39"]
+    GPIO4 = "7"
+    GPIO5 = "8"
+    GPIO6 = "9"
+    GPIO7 = "10"
+    GPIO8 = "12"
+    GPIO9 = "13"
+    GPIO10 = "14"
+    GPIO11 = "15"
+    GPIO12 = "16"
+    GPIO13 = "17"
+    GPIO14 = "18"
+    GPIO15 = "19"
+    XIN = "21"
+    XOUT = "22"
+    SWCLK = "24"
+    SWDIO = "25"
+    RUN = "26"
+    GPIO16 = "27"
+    GPIO17 = "28"
+    GPIO18 = "29"
+    GPIO19 = "31"
+    GPIO20 = "32"
+    GPIO21 = "33"
+    GPIO22 = "34"
+    GPIO23 = "35"
+    GPIO24 = "36"
+    GPIO25 = "37"
+    GPIO26_ADC0 = "40"
+    GPIO27_ADC1 = "41"
+    GPIO28_ADC2 = "42"
+    GPIO29_ADC3 = "43"
+    ADC_AVDD = "44"
+    VREG_AVDD = "46"
+    VREG_PGND = "47"
+    VREG_LX = "48"
+    VREG_VIN = "49"
+    VREG_FB = "50"
+    USB_DM = "51"
+    USB_DP = "52"
+    USB_OTP_VDD = "53"
+    QSPI_IOVDD = "54"
+    QSPI_SD3 = "55"
+    QSPI_SCLK = "56"
+    QSPI_SD0 = "57"
+    QSPI_SD2 = "58"
+    QSPI_SD1 = "59"
+    QSPI_SS = "60"
+    GND = "61"
+  },
+  pinTypes = {
+    IOVDD = io.powerIn(min = 1.62V, max = 3.63V)
+    GPIO0 = io.bidirectional()
+    GPIO1 = io.bidirectional()
+    GPIO2 = io.bidirectional()
+    GPIO3 = io.bidirectional()
+    DVDD = io.powerIn(min = 1.05V, max = 1.16V)
+    GPIO4 = io.bidirectional()
+    GPIO5 = io.bidirectional()
+    GPIO6 = io.bidirectional()
+    GPIO7 = io.bidirectional()
+    GPIO8 = io.bidirectional()
+    GPIO9 = io.bidirectional()
+    GPIO10 = io.bidirectional()
+    GPIO11 = io.bidirectional()
+    GPIO12 = io.bidirectional()
+    GPIO13 = io.bidirectional()
+    GPIO14 = io.bidirectional()
+    GPIO15 = io.bidirectional()
+    XIN = .passive
+    XOUT = .passive
+    SWCLK = io.input(pull = .up)
+    SWDIO = io.bidirectional()
+    RUN = io.input(pull = .up)
+    GPIO16 = io.bidirectional()
+    GPIO17 = io.bidirectional()
+    GPIO18 = io.bidirectional()
+    GPIO19 = io.bidirectional()
+    GPIO20 = io.bidirectional()
+    GPIO21 = io.bidirectional()
+    GPIO22 = io.bidirectional()
+    GPIO23 = io.bidirectional()
+    GPIO24 = io.bidirectional()
+    GPIO25 = io.bidirectional()
+    GPIO26_ADC0 = io.bidirectional()
+    GPIO27_ADC1 = io.bidirectional()
+    GPIO28_ADC2 = io.bidirectional()
+    GPIO29_ADC3 = io.bidirectional()
+    ADC_AVDD = io.powerIn(min = 1.62V, max = 3.63V)
+    VREG_AVDD = io.powerIn(min = 3.135V, max = 3.63V)
+    VREG_PGND = .ground
+    VREG_LX = .passive
+    VREG_VIN = io.powerIn(min = 2.7V, max = 5.5V)
+    VREG_FB = .powerOut
+    USB_DM = io.bidirectional()
+    USB_DP = io.bidirectional()
+    USB_OTP_VDD = io.powerIn(min = 3.135V, max = 3.63V)
+    QSPI_IOVDD = io.powerIn(min = 1.62V, max = 3.63V)
+    QSPI_SD3 = io.bidirectional()
+    QSPI_SCLK = io.bidirectional()
+    QSPI_SD0 = io.bidirectional()
+    QSPI_SD2 = io.bidirectional()
+    QSPI_SD1 = io.bidirectional()
+    QSPI_SS = io.bidirectional()
+    GND = .ground
+  },
+) with {
   fields {
-    Status: "checked",
-    PinoutSource: "Raspberry Pi RP2350 datasheet (build 06a7f75e58a1): figure 152 QFN-60 pinout (label positions read from the PDF), 1.2.2 pin descriptions, table 3 GPIO functions, 14.1 QFN-60 package dimensions, 14.9.5 table 1688 power supplies; Hardware design with RP2350 (same build): regulator, decoupling, crystal, flash and USB components",
-    Datasheet: "https://datasheets.raspberrypi.com/rp2350/rp2350-datasheet.pdf",
+    Status = "checked"
+    PinoutSource = "Raspberry Pi RP2350 datasheet (build 06a7f75e58a1): figure 152 QFN-60 pinout (label positions read from the PDF), 1.2.2 pin descriptions, table 3 GPIO functions, 14.1 QFN-60 package dimensions, 14.9.5 table 1688 power supplies; Hardware design with RP2350 (same build): regulator, decoupling, crystal, flash and USB components"
+    Datasheet = "https://datasheets.raspberrypi.com/rp2350/rp2350-datasheet.pdf"
   }
   simulation = SimulationParameters {
     behavior = Behavior {
       model = "rp2350"
       ports = {
-        "GP0": ["2"],
-        "GP1": ["3"],
-        "GP10": ["14"],
-        "GP11": ["15"],
-        "GP12": ["16"],
-        "GP13": ["17"],
-        "GP14": ["18"],
-        "GP15": ["19"],
-        "GP16": ["27"],
-        "GP17": ["28"],
-        "GP18": ["29"],
-        "GP19": ["31"],
-        "GP2": ["4"],
-        "GP20": ["32"],
-        "GP21": ["33"],
-        "GP22": ["34"],
-        "GP23": ["35"],
-        "GP24": ["36"],
-        "GP25": ["37"],
-        "GP26": ["40"],
-        "GP27": ["41"],
-        "GP28": ["42"],
-        "GP29": ["43"],
-        "GP3": ["5"],
-        "GP4": ["7"],
-        "GP5": ["8"],
-        "GP6": ["9"],
-        "GP7": ["10"],
-        "GP8": ["12"],
-        "GP9": ["13"],
-        "power": ["45", "61"],
+        "GP0" = ["2"]
+        "GP1" = ["3"]
+        "GP10" = ["14"]
+        "GP11" = ["15"]
+        "GP12" = ["16"]
+        "GP13" = ["17"]
+        "GP14" = ["18"]
+        "GP15" = ["19"]
+        "GP16" = ["27"]
+        "GP17" = ["28"]
+        "GP18" = ["29"]
+        "GP19" = ["31"]
+        "GP2" = ["4"]
+        "GP20" = ["32"]
+        "GP21" = ["33"]
+        "GP22" = ["34"]
+        "GP23" = ["35"]
+        "GP24" = ["36"]
+        "GP25" = ["37"]
+        "GP26" = ["40"]
+        "GP27" = ["41"]
+        "GP28" = ["42"]
+        "GP29" = ["43"]
+        "GP3" = ["5"]
+        "GP4" = ["7"]
+        "GP5" = ["8"]
+        "GP6" = ["9"]
+        "GP7" = ["10"]
+        "GP8" = ["12"]
+        "GP9" = ["13"]
+        "power" = ["45", "61"]
       }
-      parameters = { "gpios": 30 }
+      parameters = { "gpios" = 30 }
       height = 0.85mm
     }
     parameters = [
@@ -249,130 +256,155 @@ let Y1Crystal = crystal(12MHz, load = 10pF, package = "3225")
 ///
 /// - Also in the datasheet's circuit: U2 W25Q128JVSIQ (or any W25Q QSPI flash) between QSPI_SS and
 /// QSPI_SCLK and QSPI_SD0 and QSPI_SD1 and QSPI_SD2 and QSPI_SD3.
-block Support(
+block Support {
   /// The RP2350A this circuit serves (`RP2350A.Support(U1)`).
-  chip: Any,
+  chip: Any
   /// The board's connector D+. (`null`: its parts are left out)
-  connectorDP: Endpoint? = null,
+  connectorDP: Endpoint? = null
   /// The board's connector D-. (`null`: its parts are left out)
-  connectorDN: Endpoint? = null,
+  connectorDN: Endpoint? = null
   /// The board's BOOTSEL. (`null`: its parts are left out)
-  bootsel: Endpoint? = null,
-) {
+  bootsel: Endpoint? = null
+
   net XO
   /// in series between XOUT and the crystal
   R2 = res(1kohm, package = "0402") {
     place = [soft(near(chip.pin.XOUT, max = 5mm), weight = 1)]
-    pins { a: chip.pin.XOUT, b: XO }
+    a -- chip.pin.XOUT
+    b -- XO
   }
   /// Abracon ABM8-272-T3 (10 pF CL, ESR 50 ohm max)
   Y1 = Y1Crystal {
     place = [soft(near(chip, max = 4mm), weight = 2)]
-    pins { X1: chip.pin.XIN, X2: XO, GND: chip.pin.VREG_PGND }
+    X1 -- chip.pin.XIN
+    X2 -- XO
+    GND -- chip.pin.VREG_PGND
   }
   Y1_C1 = cap(loadCapacitor(10pF, stray = 3pF), package = "0402") {
     place = [soft(near(Y1.pin.X1, max = 2.5mm), weight = 2)]
-    pins { a: chip.pin.XIN, b: chip.pin.VREG_PGND }
+    a -- chip.pin.XIN
+    b -- chip.pin.VREG_PGND
   }
   Y1_C2 = cap(loadCapacitor(10pF, stray = 3pF), package = "0402") {
     place = [soft(near(Y1.pin.X2, max = 2.5mm), weight = 2)]
-    pins { a: XO, b: chip.pin.VREG_PGND }
+    a -- XO
+    b -- chip.pin.VREG_PGND
   }
   /// one per IOVDD pin (1, 11, 20, 30, 38, 45)
   C1_C6_1 = cap(100nF, package = "0402") {
     place = [soft(near(chip["1"], max = 2mm), weight = 2)]
-    pins { a: chip["1"], b: chip.pin.GND }
+    a -- chip["1"]
+    b -- chip.pin.GND
   }
   /// one per IOVDD pin (1, 11, 20, 30, 38, 45)
   C1_C6_11 = cap(100nF, package = "0402") {
     place = [soft(near(chip["11"], max = 2mm), weight = 2)]
-    pins { a: chip["11"], b: chip.pin.GND }
+    a -- chip["11"]
+    b -- chip.pin.GND
   }
   /// one per IOVDD pin (1, 11, 20, 30, 38, 45)
   C1_C6_20 = cap(100nF, package = "0402") {
     place = [soft(near(chip["20"], max = 2mm), weight = 2)]
-    pins { a: chip["20"], b: chip.pin.GND }
+    a -- chip["20"]
+    b -- chip.pin.GND
   }
   /// one per IOVDD pin (1, 11, 20, 30, 38, 45)
   C1_C6_30 = cap(100nF, package = "0402") {
     place = [soft(near(chip["30"], max = 2mm), weight = 2)]
-    pins { a: chip["30"], b: chip.pin.GND }
+    a -- chip["30"]
+    b -- chip.pin.GND
   }
   /// one per IOVDD pin (1, 11, 20, 30, 38, 45)
   C1_C6_38 = cap(100nF, package = "0402") {
     place = [soft(near(chip["38"], max = 2mm), weight = 2)]
-    pins { a: chip["38"], b: chip.pin.GND }
+    a -- chip["38"]
+    b -- chip.pin.GND
   }
   /// one per IOVDD pin (1, 11, 20, 30, 38, 45)
   C1_C6_45 = cap(100nF, package = "0402") {
     place = [soft(near(chip["45"], max = 2mm), weight = 2)]
-    pins { a: chip["45"], b: chip.pin.GND }
+    a -- chip["45"]
+    b -- chip.pin.GND
   }
   /// one per DVDD pin (6, 23, 39)
   C7_C9_6 = cap(100nF, package = "0402") {
     place = [soft(near(chip["6"], max = 2mm), weight = 2)]
-    pins { a: chip["6"], b: chip.pin.GND }
+    a -- chip["6"]
+    b -- chip.pin.GND
   }
   /// one per DVDD pin (6, 23, 39)
   C7_C9_23 = cap(100nF, package = "0402") {
     place = [soft(near(chip["23"], max = 2mm), weight = 2)]
-    pins { a: chip["23"], b: chip.pin.GND }
+    a -- chip["23"]
+    b -- chip.pin.GND
   }
   /// one per DVDD pin (6, 23, 39)
   C7_C9_39 = cap(100nF, package = "0402") {
     place = [soft(near(chip["39"], max = 2mm), weight = 2)]
-    pins { a: chip["39"], b: chip.pin.GND }
+    a -- chip["39"]
+    b -- chip.pin.GND
   }
   /// QSPI_IOVDD and USB_OTP_VDD (pins 53, 54) may share it
   C10 = cap(100nF, package = "0402") {
     place = [soft(near(chip.pin.QSPI_IOVDD, max = 2mm), weight = 2)]
-    pins { a: chip.pin.QSPI_IOVDD, b: chip.pin.GND }
+    a -- chip.pin.QSPI_IOVDD
+    b -- chip.pin.GND
   }
   C11 = cap(100nF, package = "0402") {
     place = [soft(near(chip.pin.ADC_AVDD, max = 2mm), weight = 2)]
-    pins { a: chip.pin.ADC_AVDD, b: chip.pin.GND }
+    a -- chip.pin.ADC_AVDD
+    b -- chip.pin.GND
   }
   /// 0402, at the pins
   C12 = cap(4.7uF, package = "0805") {
     place = [soft(near(chip.pin.VREG_VIN, max = 4mm), weight = 2)]
-    pins { a: chip.pin.VREG_VIN, b: chip.pin.VREG_PGND }
+    a -- chip.pin.VREG_VIN
+    b -- chip.pin.VREG_PGND
   }
-  /// 0806 (2016) with a polarity dot, e.g. Abracon AOTA-B201610S3R3-101-T, in the orientation of the reference layout
+  /// 0806 (2016) with a polarity dot, e.g. Abracon AOTA-B201610S3R3-101-T, in the orientation of
+  /// the reference layout
   L1 = inductor(3.3uH, package = "6") {
     place = [soft(near(chip.pin.VREG_LX, max = 5mm), weight = 1)]
-    pins { a: chip.pin.VREG_LX, b: chip.pin.VREG_FB }
+    a -- chip.pin.VREG_LX
+    b -- chip.pin.VREG_FB
   }
   /// regulator output, 0402
   C13 = cap(4.7uF, package = "0805") {
     place = [soft(near(chip.pin.VREG_FB, max = 4mm), weight = 2)]
-    pins { a: chip.pin.VREG_FB, b: chip.pin.VREG_PGND }
+    a -- chip.pin.VREG_FB
+    b -- chip.pin.VREG_PGND
   }
   /// VREG_AVDD RC filter from 3.3 V
   R1 = res(33ohm, package = "0402") {
     place = [soft(near(chip.pin.VREG_AVDD, max = 5mm), weight = 1)]
-    pins { a: chip.pin.VREG_AVDD, b: chip.pin.IOVDD }
+    a -- chip.pin.VREG_AVDD
+    b -- chip.pin.IOVDD
   }
   C14 = cap(4.7uF, package = "0805") {
     place = [soft(near(chip.pin.VREG_AVDD, max = 4mm), weight = 2)]
-    pins { a: chip.pin.VREG_AVDD, b: chip.pin.GND }
+    a -- chip.pin.VREG_AVDD
+    b -- chip.pin.GND
   }
   R3 =
     if connectorDP != null then res(27ohm, package = "0402") {
       place = [soft(near(chip.pin.USB_DP, max = 5mm), weight = 1)]
-      pins { a: chip.pin.USB_DP, b: connectorDP }
+      a -- chip.pin.USB_DP
+      b -- connectorDP
     }
     else null
   R4 =
     if connectorDN != null then res(27ohm, package = "0402") {
       place = [soft(near(chip.pin.USB_DM, max = 5mm), weight = 1)]
-      pins { a: chip.pin.USB_DM, b: connectorDN }
+      a -- chip.pin.USB_DM
+      b -- connectorDN
     }
     else null
   /// to the BOOTSEL button (to GND)
   R5 =
     if bootsel != null then res(1kohm, package = "0402") {
       place = [soft(near(chip.pin.QSPI_SS, max = 5mm), weight = 1)]
-      pins { a: chip.pin.QSPI_SS, b: bootsel }
+      a -- chip.pin.QSPI_SS
+      b -- bootsel
     }
     else null
 }

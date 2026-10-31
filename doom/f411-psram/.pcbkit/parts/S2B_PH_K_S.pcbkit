@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // S2B-PH-K-S(LF)(SN) (J.S.T. Mfg.): JST PH 2-pin header, 2.0 mm pitch, side entry (right angle),
 // through hole: the common LiPo battery connector, 2 A; contacts C1 C2 (polarity in the notes)
@@ -22,37 +22,41 @@ pcbkit 1
 
 /// S2B-PH-K-S(LF)(SN) — JST PH 2-pin header, 2.0 mm pitch, side entry (right angle), through
 /// hole: the common LiPo battery connector, 2 A; contacts C1 C2 (polarity in the notes)
-part Part = device(footprint = Footprint {
-  let ps = [
-    thtPad("1", (-1mm, 0mm), 0.75mm, (1.3mm, 1.6mm), square = true),
-    thtPad("2", (1mm, 0mm), 0.75mm, (1.3mm, 1.6mm)),
-  ]
-  let b = box((-2.95mm, -6.25mm), (2.95mm, 1.35mm))
-  name = "JST_PH_S2B-PH-K_1x02_P2.00mm_Horizontal"
-  description = "JST PH header, 2 contacts at 2.0 mm, side entry, through hole: the plug enters from -Y, the mating face 6.25 mm from the hole row (JST layout: 0.7 mm holes, housing 5.9 x 7.6 x 4.8 mm)"
-  tags = ["JST", "PH", "connector", "THT", "horizontal", "right angle"]
-  pads = ps
-  body = b
-  height = 4.8mm
-  mating = .down
-  silk = silkOf(ps, b, 0.25mm, pin1 = (-1mm, 1.1mm))
-  package = Package { family = .other; body = (5.9mm, 7.6mm); height = 4.8mm }
-  solids = concat(housing(-2.95mm, -6.25mm, 2.95mm, 1.35mm, 4.8mm, 0.6mm, "#ece7da", front = true), [
-    slab(-1.25mm, -0.25mm, 0mm, -0.75mm, 0.25mm, 2.6mm, material = .tin),
-    slab(0.75mm, -0.25mm, 0mm, 1.25mm, 0.25mm, 2.6mm, material = .tin),
-    slab(-1.25mm, -5.4mm, 2.1mm, -0.75mm, 0.25mm, 2.6mm, material = .tin),
-    slab(0.75mm, -5.4mm, 2.1mm, 1.25mm, 0.25mm, 2.6mm, material = .tin),
-  ])
-}, prefix = "J", mpn = "S2B-PH-K-S(LF)(SN)", manufacturer = "J.S.T. Mfg.", pinout = {
-  C1: "1",
-  C2: "2",
-}, pinTypes = {
-  C1: .passive,
-  C2: .passive,
-}) with {
+part Part = device(
+  footprint = Footprint {
+    let ps = [
+      thtPad("1", (-1mm, 0mm), 0.75mm, (1.3mm, 1.6mm), square = true),
+      thtPad("2", (1mm, 0mm), 0.75mm, (1.3mm, 1.6mm)),
+    ]
+    let b = box((-2.95mm, -6.25mm), (2.95mm, 1.35mm))
+    name = "JST_PH_S2B-PH-K_1x02_P2.00mm_Horizontal"
+    description = "JST PH header, 2 contacts at 2.0 mm, side entry, through hole: the plug enters from -Y, the mating face 6.25 mm from the hole row (JST layout: 0.7 mm holes, housing 5.9 x 7.6 x 4.8 mm)"
+    tags = ["JST", "PH", "connector", "THT", "horizontal", "right angle"]
+    pads = ps
+    body = b
+    height = 4.8mm
+    mating = .down
+    silk = silkOf(ps, b, 0.25mm, pin1 = (-1mm, 1.1mm))
+    package = Package { family = .other, body = (5.9mm, 7.6mm), height = 4.8mm }
+    solids = concat(
+      housing(-2.95mm, -6.25mm, 2.95mm, 1.35mm, 4.8mm, 0.6mm, "#ece7da", front = true),
+      [
+        slab(-1.25mm, -0.25mm, 0mm, -0.75mm, 0.25mm, 2.6mm, material = .tin),
+        slab(0.75mm, -0.25mm, 0mm, 1.25mm, 0.25mm, 2.6mm, material = .tin),
+        slab(-1.25mm, -5.4mm, 2.1mm, -0.75mm, 0.25mm, 2.6mm, material = .tin),
+        slab(0.75mm, -5.4mm, 2.1mm, 1.25mm, 0.25mm, 2.6mm, material = .tin),
+      ],
+    )
+  },
+  prefix = "J",
+  mpn = "S2B-PH-K-S(LF)(SN)",
+  manufacturer = "J.S.T. Mfg.",
+  pinout = { C1 = "1", C2 = "2" },
+  pinTypes = { C1 = .passive, C2 = .passive },
+) with {
   fields {
-    Status: "checked",
-    PinoutSource: "JST PH catalog: PC board layout and assembly layout (through-hole, side entry), header table (S2B-PH-K-S: A 2.0, B 5.9) and drawing (7.6 x 4.8 mm)",
-    Datasheet: "https://www.jst-mfg.com/product/pdf/eng/ePH.pdf",
+    Status = "checked"
+    PinoutSource = "JST PH catalog: PC board layout and assembly layout (through-hole, side entry), header table (S2B-PH-K-S: A 2.0, B 5.9) and drawing (7.6 x 4.8 mm)"
+    Datasheet = "https://www.jst-mfg.com/product/pdf/eng/ePH.pdf"
   }
 }

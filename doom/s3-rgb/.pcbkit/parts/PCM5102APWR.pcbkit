@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // PCM5102APWR (Texas Instruments): PCM5102A stereo audio DAC, I2S / left-justified up to 384 kHz
 // 32-bit, 2.1 Vrms ground-centred line outputs (charge pump), 112 dB, hardware controlled, 3.3 V,
@@ -15,55 +15,60 @@ pcbkit 1
 
 /// PCM5102APWR — PCM5102A stereo audio DAC, I2S / left-justified up to 384 kHz 32-bit, 2.1 Vrms
 /// ground-centred line outputs (charge pump), 112 dB, hardware controlled, 3.3 V, TSSOP-20
-part Part = device(footprint = tssop(
-  20,
-), prefix = "U", mpn = "PCM5102APWR", manufacturer = "Texas Instruments", pinout = {
-  CPVDD: "1",
-  CAPP: "2",
-  CPGND: "3",
-  CAPM: "4",
-  VNEG: "5",
-  OUTL: "6",
-  OUTR: "7",
-  AVDD: "8",
-  AGND: "9",
-  DEMP: "10",
-  FLT: "11",
-  SCK: "12",
-  BCK: "13",
-  DIN: "14",
-  LRCK: "15",
-  FMT: "16",
-  XSMT: "17",
-  LDOO: "18",
-  DGND: "19",
-  DVDD: "20",
-}, pinTypes = {
-  CPVDD: io.powerIn(min = 3.1V, max = 3.9V),
-  CAPP: .passive,
-  CPGND: .ground,
-  CAPM: .passive,
-  VNEG: .powerOut,
-  OUTL: .output,
-  OUTR: .output,
-  AVDD: io.powerIn(min = 3V, max = 3.9V),
-  AGND: .ground,
-  DEMP: io.input(max = 3.9V),
-  FLT: io.input(max = 3.9V),
-  SCK: io.input(max = 3.9V),
-  BCK: io.input(max = 3.9V),
-  DIN: io.input(max = 3.9V),
-  LRCK: io.input(max = 3.9V),
-  FMT: io.input(max = 3.9V),
-  XSMT: io.input(max = 3.9V),
-  LDOO: .powerOut,
-  DGND: .ground,
-  DVDD: io.powerIn(min = 1.65V, max = 3.9V),
-}) with {
+part Part = device(
+  footprint = tssop(20),
+  prefix = "U",
+  mpn = "PCM5102APWR",
+  manufacturer = "Texas Instruments",
+  pinout = {
+    CPVDD = "1"
+    CAPP = "2"
+    CPGND = "3"
+    CAPM = "4"
+    VNEG = "5"
+    OUTL = "6"
+    OUTR = "7"
+    AVDD = "8"
+    AGND = "9"
+    DEMP = "10"
+    FLT = "11"
+    SCK = "12"
+    BCK = "13"
+    DIN = "14"
+    LRCK = "15"
+    FMT = "16"
+    XSMT = "17"
+    LDOO = "18"
+    DGND = "19"
+    DVDD = "20"
+  },
+  pinTypes = {
+    CPVDD = io.powerIn(min = 3.1V, max = 3.9V)
+    CAPP = .passive
+    CPGND = .ground
+    CAPM = .passive
+    VNEG = .powerOut
+    OUTL = .output
+    OUTR = .output
+    AVDD = io.powerIn(min = 3V, max = 3.9V)
+    AGND = .ground
+    DEMP = io.input(max = 3.9V)
+    FLT = io.input(max = 3.9V)
+    SCK = io.input(max = 3.9V)
+    BCK = io.input(max = 3.9V)
+    DIN = io.input(max = 3.9V)
+    LRCK = io.input(max = 3.9V)
+    FMT = io.input(max = 3.9V)
+    XSMT = io.input(max = 3.9V)
+    LDOO = .powerOut
+    DGND = .ground
+    DVDD = io.powerIn(min = 1.65V, max = 3.9V)
+  },
+) with {
   fields {
-    Status: "checked",
-    PinoutSource: "PCM510xA datasheet SLAS859C: pin functions (p. 5), 8.1 absolute maximum ratings, 8.3 recommended operating conditions, Figure 33 typical application, 11.1",
-    Datasheet: "https://www.ti.com/lit/ds/symlink/pcm5102a.pdf",
+    Status = "checked"
+    PinoutSource = "PCM510xA datasheet SLAS859C: pin functions (p. 5), 8.1 absolute maximum ratings, 8.3 recommended operating conditions, Figure 33 typical application, 11.1"
+    Datasheet = "https://www.ti.com/lit/ds/symlink/pcm5102a.pdf"
   }
   simulation = SimulationParameters {
     parameters = [
@@ -135,79 +140,92 @@ part Part = device(footprint = tssop(
 /// RC on each output filters out-of-band noise.
 ///
 /// - Separate AGND and DGND near the part, joined under it on one ground plane.
-block Support(
+block Support {
   /// The PCM5102APWR this circuit serves (`PCM5102APWR.Support(U1)`).
-  chip: Any,
+  chip: Any
   /// The board's LINE_L. (`null`: its parts are left out)
-  lineL: Endpoint? = null,
+  lineL: Endpoint? = null
   /// The board's LINE_R. (`null`: its parts are left out)
-  lineR: Endpoint? = null,
-) {
+  lineR: Endpoint? = null
+
   C1 = cap(100nF, package = "0402") {
     place = [soft(near(chip.pin.AVDD, max = 2mm), weight = 2)]
-    pins { a: chip.pin.AVDD, b: chip.pin.AGND }
+    a -- chip.pin.AVDD
+    b -- chip.pin.AGND
   }
   C2 = cap(10uF, package = "0805") {
     place = [soft(near(chip.pin.AVDD, max = 4mm), weight = 2)]
-    pins { a: chip.pin.AVDD, b: chip.pin.AGND }
+    a -- chip.pin.AVDD
+    b -- chip.pin.AGND
   }
   C3 = cap(100nF, package = "0402") {
     place = [soft(near(chip.pin.CPVDD, max = 2mm), weight = 2)]
-    pins { a: chip.pin.CPVDD, b: chip.pin.CPGND }
+    a -- chip.pin.CPVDD
+    b -- chip.pin.CPGND
   }
   C4 = cap(10uF, package = "0805") {
     place = [soft(near(chip.pin.CPVDD, max = 4mm), weight = 2)]
-    pins { a: chip.pin.CPVDD, b: chip.pin.CPGND }
+    a -- chip.pin.CPVDD
+    b -- chip.pin.CPGND
   }
   C5 = cap(100nF, package = "0402") {
     place = [soft(near(chip.pin.DVDD, max = 2mm), weight = 2)]
-    pins { a: chip.pin.DVDD, b: chip.pin.DGND }
+    a -- chip.pin.DVDD
+    b -- chip.pin.DGND
   }
   C6 = cap(10uF, package = "0805") {
     place = [soft(near(chip.pin.DVDD, max = 4mm), weight = 2)]
-    pins { a: chip.pin.DVDD, b: chip.pin.DGND }
+    a -- chip.pin.DVDD
+    b -- chip.pin.DGND
   }
   /// charge pump flying capacitor
   C7 = cap(2.2uF, package = "0805") {
     place = [soft(near(chip.pin.CAPP, max = 4mm), weight = 2)]
-    pins { a: chip.pin.CAPP, b: chip.pin.CAPM }
+    a -- chip.pin.CAPP
+    b -- chip.pin.CAPM
   }
   /// negative rail decoupling
   C8 = cap(2.2uF, package = "0805") {
     place = [soft(near(chip.pin.VNEG, max = 4mm), weight = 2)]
-    pins { a: chip.pin.VNEG, b: chip.pin.AGND }
+    a -- chip.pin.VNEG
+    b -- chip.pin.AGND
   }
   /// internal LDO decoupling
   C9 = cap(100nF, package = "0402") {
     place = [soft(near(chip.pin.LDOO, max = 2mm), weight = 2)]
-    pins { a: chip.pin.LDOO, b: chip.pin.DGND }
+    a -- chip.pin.LDOO
+    b -- chip.pin.DGND
   }
   /// output RC filter, left
   R1 =
     if lineL != null then res(470ohm, package = "0402") {
       place = [soft(near(chip.pin.OUTL, max = 5mm), weight = 1)]
-      pins { a: chip.pin.OUTL, b: lineL }
+      a -- chip.pin.OUTL
+      b -- lineL
     }
     else null
   /// output RC filter, left
   C10 =
     if lineL != null then cap(2.2nF, package = "0402") {
       place = [soft(near(chip, max = 8mm), weight = 1)]
-      pins { a: lineL, b: chip.pin.AGND }
+      a -- lineL
+      b -- chip.pin.AGND
     }
     else null
   /// output RC filter, right
   R2 =
     if lineR != null then res(470ohm, package = "0402") {
       place = [soft(near(chip.pin.OUTR, max = 5mm), weight = 1)]
-      pins { a: chip.pin.OUTR, b: lineR }
+      a -- chip.pin.OUTR
+      b -- lineR
     }
     else null
   /// output RC filter, right
   C11 =
     if lineR != null then cap(2.2nF, package = "0402") {
       place = [soft(near(chip, max = 8mm), weight = 1)]
-      pins { a: lineR, b: chip.pin.AGND }
+      a -- lineR
+      b -- chip.pin.AGND
     }
     else null
 }

@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // A 7" touch-screen computer on the ESP32-P4, NucleoOS's own board: the Guition JC1060P470C's
 // circuit and its pin map, so the firmware its makers publish for that board runs here unchanged.
@@ -15,18 +15,18 @@ pcbkit 1
 // DS3231 clock for the RX-8025T (NucleoOS looks for an RX8130 at 0x14, which neither answers), an
 // electret capsule for the MEMS microphone, SY8089 converters for the TLV62569s.
 
-use "parts/ESP32_P4NRW32.pcbkit" as ESP32_P4NRW32
-use "parts/ESP32_C6_MINI_1.pcbkit" as ESP32_C6_MINI_1
-use "parts/ES8311.pcbkit" as ES8311
-use "parts/PAM8403DR.pcbkit" as PAM8403DR
-use "parts/DS3231SN.pcbkit" as DS3231SN
-use "parts/IP5306.pcbkit" as IP5306
-use "parts/SY8089AAAC.pcbkit" as SY8089AAAC
-use "parts/MT3608.pcbkit" as MT3608
-use "parts/CH340C.pcbkit" as CH340C
-use "parts/MMBT3904.pcbkit" as MMBT3904
-use "parts/DM3AT_SF_PEJM5.pcbkit" as DM3AT_SF_PEJM5
-use "parts/CR2032_HOLDER_SMD.pcbkit" as CR2032_HOLDER_SMD
+use ./parts/ESP32_P4NRW32 as ESP32_P4NRW32
+use ./parts/ESP32_C6_MINI_1 as ESP32_C6_MINI_1
+use ./parts/ES8311 as ES8311
+use ./parts/PAM8403DR as PAM8403DR
+use ./parts/DS3231SN as DS3231SN
+use ./parts/IP5306 as IP5306
+use ./parts/SY8089AAAC as SY8089AAAC
+use ./parts/MT3608 as MT3608
+use ./parts/CH340C as CH340C
+use ./parts/MMBT3904 as MMBT3904
+use ./parts/DM3AT_SF_PEJM5 as DM3AT_SF_PEJM5
+use ./parts/CR2032_HOLDER_SMD as CR2032_HOLDER_SMD
 
 // ---- nets --------------------------------------------------------------------------------------
 net VBUS {
@@ -91,12 +91,12 @@ net SD_CLK, SD_CMD, SD_D0, SD_D1, SD_D2, SD_D3
 net C6_CLK, C6_CMD, C6_D0, C6_D1, C6_D2, C6_D3, C6_EN, C6_IO2, C6_TX, C6_RX
 net TXD0, RXD0, CHIP_PU, BOOT, DTR, RTS, TTL_DP, TTL_DN, FS_DP, FS_DN, HS_DP, HS_DN, BAT_SENSE
 net RTC_BAT, KEY
-pair DSI_CLK = (DSI_CLK_P, DSI_CLK_N) { impedance = 100ohm }
-pair DSI_D0 = (DSI_D0_P, DSI_D0_N) { impedance = 100ohm }
-pair DSI_D1 = (DSI_D1_P, DSI_D1_N) { impedance = 100ohm }
-pair USB_HS = (HS_DP, HS_DN) { impedance = 90ohm }
-pair USB_FS = (FS_DP, FS_DN) { impedance = 90ohm }
-pair USB_TTL = (TTL_DP, TTL_DN) { impedance = 90ohm }
+DSI_CLK = Pair(DSI_CLK_P, DSI_CLK_N) { impedance = 100ohm }
+DSI_D0 = Pair(DSI_D0_P, DSI_D0_N) { impedance = 100ohm }
+DSI_D1 = Pair(DSI_D1_P, DSI_D1_N) { impedance = 100ohm }
+USB_HS = Pair(HS_DP, HS_DN) { impedance = 90ohm }
+USB_FS = Pair(FS_DP, FS_DN) { impedance = 90ohm }
+USB_TTL = Pair(TTL_DP, TTL_DN) { impedance = 90ohm }
 
 board = Board {
   name = "p4-touch-7"
@@ -104,10 +104,10 @@ board = Board {
   outline = rect(160mm, 96mm, radius = 3mm)
   layers = [
     signal(Cu.top),
-    power(Cu.inner[1], label = "GND"),
+    plane(Cu.inner[1], label = "GND"),
     signal(Cu.inner[2]),
     signal(Cu.inner[3]),
-    power(Cu.inner[4], label = "GND"),
+    plane(Cu.inner[4], label = "GND"),
     signal(Cu.bottom),
   ]
   // Six layers on JLCPCB's JLC06161H-3313: thin prepreg under the outer layers, so 90 and 100 ohm
@@ -152,105 +152,142 @@ p4Radio = near(U11, U1, max = 35mm)
 // ---- power: USB-C, the Li-ion cell, 5 V, 3.3 V, 1.2 V ---------------------------------------------
 // The console port takes the power (as the FS and HS ports do), the IP5306 charges the cell and
 // boosts it to 5 V for the rest; its key (S1 of its circuit) turns the board on and off.
-J1 = UsbC2(vbus = VBUS_TTL, gnd = GND, dp = TTL_DP, dn = TTL_DN, current = 500mA) {}
+J1 = UsbC2 {
+  vbus = VBUS_TTL
+  gnd = GND
+  dp = TTL_DP
+  dn = TTL_DN
+  current = 500mA
+}
 // Either device port powers the board, each through its own diode.
 D9 = diode(kind = .schottky, package = "SMA", ratedVoltage = 40V, ratedCurrent = 2A) {
-  pins { A: VBUS_TTL, K: VBUS }
+  A -- VBUS_TTL
+  K -- VBUS
   orderCode = "C8678"
 }
 D10 = diode(kind = .schottky, package = "SMA", ratedVoltage = 40V, ratedCurrent = 2A) {
-  pins { A: VBUS_FS, K: VBUS }
+  A -- VBUS_FS
+  K -- VBUS
   orderCode = "C8678"
 }
 U2 = IP5306.Part {
-  pins { VIN: VBUS, BAT: VBAT, VOUT: VSYS, GND: GND, KEY: KEY, LED1: .nc, LED2: .nc, LED3: .nc }
+  VIN -- VBUS
+  BAT -- VBAT
+  VOUT -- VSYS
+  GND -- GND
+  KEY -- KEY
+  LED1 -- .nc
+  LED2 -- .nc
+  LED3 -- .nc
   orderCode = "C181692"
 }
-U2Support = IP5306.Support(U2) {}
+U2Support = IP5306.Support { chip = U2 }
 BT1 = device(
   wireToBoard(2, pitch = 1.25mm),
-  pinout = { "1": "1", "2": "2" },
+  pinout = { "1" = "1", "2" = "2" },
   prefix = "J",
   mpn = "MX1.25-2P",
 ) {
-  pins { "1": VBAT, "2": GND }
+  "1" -- VBAT
+  "2" -- GND
   orderCode = "C7430458"
 }
 // The cell's voltage for the firmware (GPIO52): 68k over 100k.
 R1 = res(68kohm) {
-  pins { a: VBAT, b: BAT_SENSE }
+  a -- VBAT
+  b -- BAT_SENSE
   orderCode = "C23231"
 }
 R2 = res(100kohm) {
-  pins { a: BAT_SENSE, b: GND }
+  a -- BAT_SENSE
+  b -- GND
   orderCode = "C25803"
 }
 
 // 3.3 V: 0.6 V x (1 + 453k / 100k) = 3.32 V.
 U3 = SY8089AAAC.Part {
-  pins { IN: VSYS, EN: VSYS, GND: GND, FB: V3_FB }
+  IN -- VSYS
+  EN -- VSYS
+  GND -- GND
+  FB -- V3_FB
   orderCode = "C78988"
 }
 L1 = inductor(2.2uH, package = "4") {
   place = [near(U3.pin.LX, max = 8mm), soft(near(U3.pin.LX))]
-  pins { a: U3.pin.LX, b: V3 }
+  a -- U3.pin.LX
+  b -- V3
   orderCode = "C36409"
 }
 C1 = cap(22uF, package = "0805") {
   place = [near(U3.pin.IN, max = 2mm)]
-  pins { a: VSYS, b: GND }
+  a -- VSYS
+  b -- GND
   orderCode = "C45783"
 }
 C2 = cap(22uF, package = "0805") {
-  pins { a: V3, b: GND }
+  a -- V3
+  b -- GND
   orderCode = "C45783"
 }
 C3 = cap(22uF, package = "0805") {
-  pins { a: V3, b: GND }
+  a -- V3
+  b -- GND
   orderCode = "C45783"
 }
-R3 = res(453kohm, tolerance = 1pct) {
-  pins { a: V3, b: V3_FB }
+R3 = res(453kohm, tolerance = 1%) {
+  a -- V3
+  b -- V3_FB
   orderCode = "C25818"
 }
-R4 = res(100kohm, tolerance = 1pct) {
-  pins { a: V3_FB, b: GND }
+R4 = res(100kohm, tolerance = 1%) {
+  a -- V3_FB
+  b -- GND
   orderCode = "C25803"
 }
 C4 = cap(22pF) {
-  pins { a: V3, b: V3_FB }
+  a -- V3
+  b -- V3_FB
   orderCode = "C1653"
 }
 
 // 1.2 V for the P4's HP domain: its EN_DCDC turns the converter on, its FB_DCDC trims the divider.
 U4 = SY8089AAAC.Part {
-  pins { IN: V3, EN: EN_DCDC, GND: GND, FB: VHP_FB }
+  IN -- V3
+  EN -- EN_DCDC
+  GND -- GND
+  FB -- VHP_FB
   orderCode = "C78988"
 }
 L2 = inductor(2.2uH, package = "4") {
   place = [near(U4.pin.LX, max = 8mm), soft(near(U4.pin.LX))]
-  pins { a: U4.pin.LX, b: VHP }
+  a -- U4.pin.LX
+  b -- VHP
   orderCode = "C36409"
 }
 C5 = cap(10uF, package = "0603") {
   place = [near(U4.pin.IN, max = 2mm)]
-  pins { a: V3, b: GND }
+  a -- V3
+  b -- GND
   orderCode = "C19702"
 }
 C6 = cap(10uF, package = "0603") {
-  pins { a: VHP, b: GND }
+  a -- VHP
+  b -- GND
   orderCode = "C19702"
 }
-R5 = res(499kohm, tolerance = 1pct) {
-  pins { a: VHP, b: VHP_FB }
+R5 = res(499kohm, tolerance = 1%) {
+  a -- VHP
+  b -- VHP_FB
   orderCode = "C26751"
 }
-R6 = res(499kohm, tolerance = 1pct) {
-  pins { a: VHP_FB, b: GND }
+R6 = res(499kohm, tolerance = 1%) {
+  a -- VHP_FB
+  b -- GND
   orderCode = "C26751"
 }
 R7 = res(0ohm) {
-  pins { a: FB_DCDC, b: VHP_FB }
+  a -- FB_DCDC
+  b -- VHP_FB
   orderCode = "C21189"
 }
 
@@ -267,150 +304,170 @@ U1 = ESP32_P4NRW32.Part with {
     }
   }
 } {
-  pins {
-    VDD_LP: V3,
-    VDD_IO_0: V3,
-    VDD_IO_4: V3,
-    VDD_IO_5: V3,
-    VDD_IO_6: V3,
-    VDD_USBPHY: V3,
-    VDD_LDO: V3,
-    VDD_DCDCC: V3,
-    VDD_ANA: V3,
-    VDD_BAT: V3,
-    VDD_FLASHIO: V3,
-    VDD_HP_0: VHP,
-    GND: GND,
-    EN_DCDC: EN_DCDC,
-    FB_DCDC: FB_DCDC,
-    VDDO_4: SD_VDD,
-    CHIP_PU: CHIP_PU,
-    DSI_CLKP: DSI_CLK_P,
-    DSI_CLKN: DSI_CLK_N,
-    DSI_DATAP0: DSI_D0_P,
-    DSI_DATAN0: DSI_D0_N,
-    DSI_DATAP1: DSI_D1_P,
-    DSI_DATAN1: DSI_D1_N,
-    USB_DP: HS_DP,
-    USB_DM: HS_DN,
-    GPIO25: FS_DP,
-    GPIO24: FS_DN,
-    GPIO5: LCD_RST,
-    GPIO23: LCD_PWM,
-    GPIO7: SDA,
-    GPIO8: SCL,
-    GPIO21: TP_INT,
-    GPIO22: TP_RST,
-    GPIO13: I2S_MCLK,
-    GPIO12: I2S_SCLK,
-    GPIO10: I2S_LRCK,
-    GPIO9: I2S_DOUT,
-    GPIO48: I2S_DIN,
-    GPIO11: PA_EN,
-    GPIO43: SD_CLK,
-    GPIO44: SD_CMD,
-    GPIO39: SD_D0,
-    GPIO40: SD_D1,
-    GPIO41: SD_D2,
-    GPIO42: SD_D3,
-    GPIO18: C6_CLK,
-    GPIO19: C6_CMD,
-    GPIO14: C6_D0,
-    GPIO15: C6_D1,
-    GPIO16: C6_D2,
-    GPIO17: C6_D3,
-    GPIO54: C6_EN,
-    GPIO6: C6_IO2,
-    GPIO37: TXD0,
-    GPIO38: RXD0,
-    GPIO35: BOOT,
-    GPIO52: BAT_SENSE,
-  }
+  VDD_LP -- V3
+  VDD_IO_0 -- V3
+  VDD_IO_4 -- V3
+  VDD_IO_5 -- V3
+  VDD_IO_6 -- V3
+  VDD_USBPHY -- V3
+  VDD_LDO -- V3
+  VDD_DCDCC -- V3
+  VDD_ANA -- V3
+  VDD_BAT -- V3
+  VDD_FLASHIO -- V3
+  VDD_HP_0 -- VHP
+  GND -- GND
+  EN_DCDC -- EN_DCDC
+  FB_DCDC -- FB_DCDC
+  VDDO_4 -- SD_VDD
+  CHIP_PU -- CHIP_PU
+  DSI_CLKP -- DSI_CLK_P
+  DSI_CLKN -- DSI_CLK_N
+  DSI_DATAP0 -- DSI_D0_P
+  DSI_DATAN0 -- DSI_D0_N
+  DSI_DATAP1 -- DSI_D1_P
+  DSI_DATAN1 -- DSI_D1_N
+  USB_DP -- HS_DP
+  USB_DM -- HS_DN
+  GPIO25 -- FS_DP
+  GPIO24 -- FS_DN
+  GPIO5 -- LCD_RST
+  GPIO23 -- LCD_PWM
+  GPIO7 -- SDA
+  GPIO8 -- SCL
+  GPIO21 -- TP_INT
+  GPIO22 -- TP_RST
+  GPIO13 -- I2S_MCLK
+  GPIO12 -- I2S_SCLK
+  GPIO10 -- I2S_LRCK
+  GPIO9 -- I2S_DOUT
+  GPIO48 -- I2S_DIN
+  GPIO11 -- PA_EN
+  GPIO43 -- SD_CLK
+  GPIO44 -- SD_CMD
+  GPIO39 -- SD_D0
+  GPIO40 -- SD_D1
+  GPIO41 -- SD_D2
+  GPIO42 -- SD_D3
+  GPIO18 -- C6_CLK
+  GPIO19 -- C6_CMD
+  GPIO14 -- C6_D0
+  GPIO15 -- C6_D1
+  GPIO16 -- C6_D2
+  GPIO17 -- C6_D3
+  GPIO54 -- C6_EN
+  GPIO6 -- C6_IO2
+  GPIO37 -- TXD0
+  GPIO38 -- RXD0
+  GPIO35 -- BOOT
+  GPIO52 -- BAT_SENSE
+
   orderCode = "C22387510"
 }
-U1Support = ESP32_P4NRW32.Support(U1) {}
+U1Support = ESP32_P4NRW32.Support { chip = U1 }
 // The 100 nF decoupling under the chip, on the back (the panel stands 2 mm off it): the top keeps
 // the P4's fan-out free.
-override U1Support.C_3V3_21.side = .bottom
-override U1Support.C_IO4.side = .bottom
-override U1Support.C_IO5.side = .bottom
-override U1Support.C_IO6.side = .bottom
-override U1Support.C_LP.side = .bottom
-override U1Support.C_BAT.side = .bottom
-override U1Support.C_ANA2.side = .bottom
-override U1Support.C_DCDCC.side = .bottom
-override U1Support.C_USB.side = .bottom
-override U1Support.C_FLASHIO.side = .bottom
-override U1Support.C_HP0B.side = .bottom
-override U1Support.C_HP2.side = .bottom
-override U1Support.C_HP3.side = .bottom
-override U1Support.C_PSRAM0.side = .bottom
-override U1Support.C_PSRAM1.side = .bottom
-override U1Support.C_DPHY.side = .bottom
-override U1Support.C_VO1.side = .bottom
-override U1Support.C_VO2.side = .bottom
-override U1Support.C_VO3.side = .bottom
-override U1Support.C_VO4.side = .bottom
+U1Support.C_3V3_21.side = .bottom
+U1Support.C_IO4.side = .bottom
+U1Support.C_IO5.side = .bottom
+U1Support.C_IO6.side = .bottom
+U1Support.C_LP.side = .bottom
+U1Support.C_BAT.side = .bottom
+U1Support.C_ANA2.side = .bottom
+U1Support.C_DCDCC.side = .bottom
+U1Support.C_USB.side = .bottom
+U1Support.C_FLASHIO.side = .bottom
+U1Support.C_HP0B.side = .bottom
+U1Support.C_HP2.side = .bottom
+U1Support.C_HP3.side = .bottom
+U1Support.C_PSRAM0.side = .bottom
+U1Support.C_PSRAM1.side = .bottom
+U1Support.C_DPHY.side = .bottom
+U1Support.C_VO1.side = .bottom
+U1Support.C_VO2.side = .bottom
+U1Support.C_VO3.side = .bottom
+U1Support.C_VO4.side = .bottom
 // The strapping pin for the boot mode: high boots from flash, the BOOT button (or the console's
 // DTR/RTS) pulls it low for download mode.
 R8 = res(10kohm) {
-  pins { a: BOOT, b: V3 }
+  a -- BOOT
+  b -- V3
   orderCode = "C25804"
 }
 SW1 = button("4.2x3.2") {
   place = [edge(.bottom)]
-  pins { a: BOOT, b: GND }
+  a -- BOOT
+  b -- GND
   orderCode = "C116501"
 }
 SW2 = button("4.2x3.2") {
   place = [edge(.bottom)]
-  pins { a: CHIP_PU, b: GND }
+  a -- CHIP_PU
+  b -- GND
   orderCode = "C116501"
 }
 
 // ---- the console: CH340C with automatic reset and boot ------------------------------------------
 U5 = CH340C.Part {
-  pins {
-    VCC: V3,
-    V3: V3,
-    GND: GND,
-    "UD+": TTL_DP,
-    "UD-": TTL_DN,
-    TXD: RXD0,
-    RXD: TXD0,
-    "DTR#": DTR,
-    "RTS#": RTS,
-  }
+  VCC -- V3
+  V3 -- V3
+  GND -- GND
+  "UD+" -- TTL_DP
+  "UD-" -- TTL_DN
+  TXD -- RXD0
+  RXD -- TXD0
+  "DTR#" -- DTR
+  "RTS#" -- RTS
+
   orderCode = "C84681"
 }
-U5Support = CH340C.Support(U5) {}
+U5Support = CH340C.Support { chip = U5 }
 // The two-transistor auto-program circuit: DTR and RTS reach CHIP_PU and BOOT only when they
 // differ.
 Q1 = MMBT3904.Part {
-  pins { B: Q1B, E: DTR, C: CHIP_PU }
+  B -- Q1B
+  E -- DTR
+  C -- CHIP_PU
   orderCode = "C94514"
 }
 Q2 = MMBT3904.Part {
-  pins { B: Q2B, E: RTS, C: BOOT }
+  B -- Q2B
+  E -- RTS
+  C -- BOOT
   orderCode = "C94514"
 }
 R9 = res(10kohm) {
-  pins { a: RTS, b: Q1B }
+  a -- RTS
+  b -- Q1B
   orderCode = "C25804"
 }
 R10 = res(10kohm) {
-  pins { a: DTR, b: Q2B }
+  a -- DTR
+  b -- Q2B
   orderCode = "C25804"
 }
 net Q1B, Q2B
 
 // ---- the second and third USB-C: the P4's USB Serial/JTAG and its high-speed host ---------------
-J2 = UsbC2(vbus = VBUS_FS, gnd = GND, dp = FS_DP, dn = FS_DN, current = 500mA) {}
+J2 = UsbC2 {
+  vbus = VBUS_FS
+  gnd = GND
+  dp = FS_DP
+  dn = FS_DN
+  current = 500mA
+}
 // The host port is a Type-C source: Rp (56 kΩ) on its CC pins, so a device sees a host, and 5 V
 // from VSYS through a current-limited switch (SY6280, 750 mA), on whenever the board is (NucleoOS
 // drives no enable pin).
-J3 = UsbCHost(supply = VSYS, vbus = VBUS_HOST, gnd = GND, dp = HS_DP, dn = HS_DN, current = 500mA) {}
-override J3.J.place = [edge(.top, from = 125mm, to = 155mm)]
+J3 = UsbCHost {
+  supply = VSYS
+  vbus = VBUS_HOST
+  gnd = GND
+  dp = HS_DP
+  dn = HS_DN
+  current = 500mA
+}
+J3.J.place = [edge(.top, from = 125mm, to = 155mm)]
 
 // ---- the display: JD9165 panel on a 30-pin FPC, its GT911 touch on a 6-pin FPC -------------------
 // The connector numbers the panel's contacts in reverse (bottom contact): its pin 30 is the
@@ -423,38 +480,38 @@ FPC1 = device(
   manufacturer = "Hirose",
 ) {
   place = [edge(.top, from = 45mm, to = 75mm)]
-  pins {
-    "1": VCOM,
-    "2": V3,
-    "3": V3,
-    "4": LCD_RST,
-    "5": LCD_STBY,
-    "6": GND,
-    "7": DSI_D0_N,
-    "8": DSI_D0_P,
-    "9": GND,
-    "10": DSI_D1_N,
-    "11": DSI_D1_P,
-    "12": GND,
-    "13": DSI_CLK_N,
-    "14": DSI_CLK_P,
-    "15": GND,
-    "16": .nc,
-    "17": .nc,
-    "18": .nc,
-    "19": .nc,
-    "20": .nc,
-    "21": GND,
-    "22": AVDD,
-    "23": LEDK,
-    "24": LEDK,
-    "25": .nc,
-    "26": .nc,
-    "27": VGL,
-    "28": VGH,
-    "29": LEDA,
-    "30": LEDA,
-  }
+
+  "1" -- VCOM
+  "2" -- V3
+  "3" -- V3
+  "4" -- LCD_RST
+  "5" -- LCD_STBY
+  "6" -- GND
+  "7" -- DSI_D0_N
+  "8" -- DSI_D0_P
+  "9" -- GND
+  "10" -- DSI_D1_N
+  "11" -- DSI_D1_P
+  "12" -- GND
+  "13" -- DSI_CLK_N
+  "14" -- DSI_CLK_P
+  "15" -- GND
+  "16" -- .nc
+  "17" -- .nc
+  "18" -- .nc
+  "19" -- .nc
+  "20" -- .nc
+  "21" -- GND
+  "22" -- AVDD
+  "23" -- LEDK
+  "24" -- LEDK
+  "25" -- .nc
+  "26" -- .nc
+  "27" -- VGL
+  "28" -- VGH
+  "29" -- LEDA
+  "30" -- LEDA
+
   orderCode = "C506793"
 }
 FPC2 = device(
@@ -465,23 +522,32 @@ FPC2 = device(
   manufacturer = "Hirose",
 ) {
   place = [edge(.top, from = 20mm, to = 40mm)]
-  pins { "1": TP_INT, "2": TP_RST, "3": SCL, "4": SDA, "5": V3, "6": GND }
+  "1" -- TP_INT
+  "2" -- TP_RST
+  "3" -- SCL
+  "4" -- SDA
+  "5" -- V3
+  "6" -- GND
   orderCode = "C202119"
 }
 R11 = res(10kohm) {
-  pins { a: LCD_RST, b: V3 }
+  a -- LCD_RST
+  b -- V3
   orderCode = "C25804"
 }
 R12 = res(10kohm) {
-  pins { a: LCD_STBY, b: V3 }
+  a -- LCD_STBY
+  b -- V3
   orderCode = "C25804"
 }
 R13 = res(5.1kohm) {
-  pins { a: SDA, b: V3 }
+  a -- SDA
+  b -- V3
   orderCode = "C23186"
 }
 R14 = res(5.1kohm) {
-  pins { a: SCL, b: V3 }
+  a -- SCL
+  b -- V3
   orderCode = "C23186"
 }
 // The panel itself (JC1060M070N-I, 165 x 100 x 3.5 mm) on its frame's standoffs 2 mm behind the
@@ -510,8 +576,8 @@ lcdBody = Footprint {
 LCD1 = behavioralPart(
   "touch-display",
   lcdBody,
-  { power: ["FPC2.5", "FPC2.6"], video: ["FPC1.14"], i2c: ["FPC2.4", "FPC2.3"] },
-  { width: 1024, height: 600, width_mm: 154.2, height_mm: 85.9 },
+  { power = ["FPC2.5", "FPC2.6"], video = ["FPC1.14"], i2c = ["FPC2.4", "FPC2.3"] },
+  { width = 1024, height = 600, width_mm = 154.2, height_mm = 85.9 },
   5.5mm,
 ) with {
   mpn = "JC1060M070N-I"
@@ -525,95 +591,124 @@ LCD1 = behavioralPart(
 // The panel's supplies: AVDD 9.6 V from a boost, VGH and VGL from charge pumps on its switch node,
 // VCOM from AVDD.
 U6 = MT3608.Part {
-  pins { VIN: V3, EN: V3, GND: GND, SW: LCD_SW, FB: AVDD_FB, NC: .nc }
+  VIN -- V3
+  EN -- V3
+  GND -- GND
+  SW -- LCD_SW
+  FB -- AVDD_FB
+  NC -- .nc
   orderCode = "C84817"
 }
 L3 = inductor(10uH, package = "4") {
   place = [near(U6.pin.SW, max = 8mm), soft(near(U6.pin.SW))]
-  pins { a: V3, b: LCD_SW }
+  a -- V3
+  b -- LCD_SW
   orderCode = "C38117"
 }
 D1 = diode(kind = .schottky, package = "SOD-123", ratedVoltage = 30V, ratedCurrent = 1A) {
-  pins { A: LCD_SW, K: AVDD }
+  A -- LCD_SW
+  K -- AVDD
   orderCode = "C64885"
 }
 C7 = cap(10uF, package = "0805", ratedVoltage = 25V) {
-  pins { a: AVDD, b: GND }
+  a -- AVDD
+  b -- GND
   orderCode = "C15850"
 }
 C8 = cap(10uF, package = "0805") {
   place = [near(U6.pin.VIN, max = 2mm)]
-  pins { a: V3, b: GND }
+  a -- V3
+  b -- GND
   orderCode = "C15850"
 }
-R15 = res(150kohm, tolerance = 1pct) {
-  pins { a: AVDD, b: AVDD_FB }
+R15 = res(150kohm, tolerance = 1%) {
+  a -- AVDD
+  b -- AVDD_FB
   orderCode = "C22807"
 }
-R16 = res(10kohm, tolerance = 1pct) {
-  pins { a: AVDD_FB, b: GND }
+R16 = res(10kohm, tolerance = 1%) {
+  a -- AVDD_FB
+  b -- GND
   orderCode = "C25804"
 }
 // VGH: AVDD plus the switch node's swing (about 18.6 V), held at 18 V.
 C9 = cap(100nF, ratedVoltage = 25V) {
-  pins { a: LCD_SW, b: PUMP_H }
+  a -- LCD_SW
+  b -- PUMP_H
   orderCode = "C14663"
 }
 D2 = diode(kind = .schottky, package = "SOD-323", ratedVoltage = 30V, ratedCurrent = 200mA) {
-  pins { A: AVDD, K: PUMP_H }
+  A -- AVDD
+  K -- PUMP_H
   orderCode = "C397611"
 }
 D3 = diode(kind = .schottky, package = "SOD-323", ratedVoltage = 30V, ratedCurrent = 200mA) {
-  pins { A: PUMP_H, K: VGH }
+  A -- PUMP_H
+  K -- VGH
   orderCode = "C397611"
 }
 C10 = cap(1uF, ratedVoltage = 25V) {
-  pins { a: VGH, b: GND }
+  a -- VGH
+  b -- GND
   orderCode = "C15849"
 }
 D4 = diode(kind = .zener, package = "SOD-323", voltage = 18V) {
-  pins { A: GND, K: VGH }
+  A -- GND
+  K -- VGH
   orderCode = "C131823"
 }
 // VGL: the inverted swing (about -9 V), held at -6.8 V.
 C11 = cap(100nF, ratedVoltage = 25V) {
-  pins { a: LCD_SW, b: PUMP_L }
+  a -- LCD_SW
+  b -- PUMP_L
   orderCode = "C14663"
 }
 D5 = diode(kind = .schottky, package = "SOD-323", ratedVoltage = 30V, ratedCurrent = 200mA) {
-  pins { A: PUMP_L, K: GND }
+  A -- PUMP_L
+  K -- GND
   orderCode = "C397611"
 }
 D6 = diode(kind = .schottky, package = "SOD-323", ratedVoltage = 30V, ratedCurrent = 200mA) {
-  pins { A: VGL, K: PUMP_L }
+  A -- VGL
+  K -- PUMP_L
   orderCode = "C397611"
 }
 C12 = cap(1uF, ratedVoltage = 25V) {
-  pins { a: VGL, b: GND }
+  a -- VGL
+  b -- GND
   orderCode = "C15849"
 }
 D7 = diode(kind = .zener, package = "SOD-323", voltage = 6.8V) {
-  pins { A: VGL, K: GND }
+  A -- VGL
+  K -- GND
   orderCode = "C22613"
 }
 // VCOM 3.84 V (the panel asks 3.7 V ± 1 V).
-R17 = res(15kohm, tolerance = 1pct) {
-  pins { a: AVDD, b: VCOM }
+R17 = res(15kohm, tolerance = 1%) {
+  a -- AVDD
+  b -- VCOM
   orderCode = "C22809"
 }
-R18 = res(10kohm, tolerance = 1pct) {
-  pins { a: VCOM, b: GND }
+R18 = res(10kohm, tolerance = 1%) {
+  a -- VCOM
+  b -- GND
   orderCode = "C25804"
 }
 C13 = cap(1uF) {
-  pins { a: VCOM, b: GND }
+  a -- VCOM
+  b -- GND
   orderCode = "C15849"
 }
 
 // The backlight: 27 white LEDs at 180 mA from a boost whose feedback is the current sense resistor
 // (0.6 V / 3.3 ohm, through R48), switched by the P4's LEDC PWM on EN.
 U7 = MT3608.Part {
-  pins { VIN: VSYS, EN: LCD_PWM, GND: GND, SW: BL_SW, FB: BL_FB, NC: .nc }
+  VIN -- VSYS
+  EN -- LCD_PWM
+  GND -- GND
+  SW -- BL_SW
+  FB -- BL_FB
+  NC -- .nc
   orderCode = "C84817"
 }
 // Open-LED protection: with the panel unplugged (FPC1) FB would see no current and the boost
@@ -622,139 +717,158 @@ U7 = MT3608.Part {
 // series, about 9.6 V) stay far below it, and R48 carries no current then.
 D15 = diode(kind = .zener, package = "SOD-323", voltage = 18V) {
   place = [soft(near(U7.pin.FB, max = 6mm))]
-  pins { A: BL_FB, K: LEDA }
+  A -- BL_FB
+  K -- LEDA
   orderCode = "C131823"
 }
 R48 = res(1kohm) {
   place = [near(U7.pin.FB, max = 3mm)]
-  pins { a: BL_FB, b: LEDK }
+  a -- BL_FB
+  b -- LEDK
   orderCode = "C11702"
 }
 L4 = inductor(10uH, package = "4") {
   place = [near(U7.pin.SW, max = 8mm), soft(near(U7.pin.SW))]
-  pins { a: VSYS, b: BL_SW }
+  a -- VSYS
+  b -- BL_SW
   orderCode = "C38117"
 }
 D8 = diode(kind = .schottky, package = "SOD-123", ratedVoltage = 40V, ratedCurrent = 1A) {
-  pins { A: BL_SW, K: LEDA }
+  A -- BL_SW
+  K -- LEDA
   orderCode = "C64885"
 }
 C14 = cap(4.7uF, package = "0805", ratedVoltage = 35V) {
-  pins { a: LEDA, b: GND }
+  a -- LEDA
+  b -- GND
   orderCode = "C1779"
 }
 C15 = cap(10uF, package = "0805") {
   place = [near(U7.pin.VIN, max = 3mm)]
-  pins { a: VSYS, b: GND }
+  a -- VSYS
+  b -- GND
   orderCode = "C15850"
 }
-R19 = res(3.3ohm, tolerance = 1pct, package = "0805") {
-  pins { a: LEDK, b: GND }
+R19 = res(3.3ohm, tolerance = 1%, package = "0805") {
+  a -- LEDK
+  b -- GND
   orderCode = "C2889448"
 }
 R20 = res(10kohm) {
-  pins { a: LCD_PWM, b: GND }
+  a -- LCD_PWM
+  b -- GND
   orderCode = "C25804"
 }
 
 // ---- sound: the ES8311 codec, its microphone and the speaker's amplifier --------------------------
 U8 = ES8311.Part {
-  pins {
-    PVDD: V3,
-    AVDD: V3,
-    DGND: GND,
-    CCLK: SCL,
-    CDATA: SDA,
-    MCLK: I2S_MCLK,
-    SCLK: I2S_SCLK,
-    LRCK: I2S_LRCK,
-    DSDIN: I2S_DOUT,
-    ASDOUT: I2S_DIN,
-    OUTP: DAC_P,
-    OUTN: .nc,
-    MIC1P: MIC_P,
-    MIC1N: MIC_N,
-  }
+  PVDD -- V3
+  AVDD -- V3
+  DGND -- GND
+  CCLK -- SCL
+  CDATA -- SDA
+  MCLK -- I2S_MCLK
+  SCLK -- I2S_SCLK
+  LRCK -- I2S_LRCK
+  DSDIN -- I2S_DOUT
+  ASDOUT -- I2S_DIN
+  OUTP -- DAC_P
+  OUTN -- .nc
+  MIC1P -- MIC_P
+  MIC1N -- MIC_N
+
   orderCode = "C962342"
 }
-U8Support = ES8311.Support(U8) {}
+U8Support = ES8311.Support { chip = U8 }
 // An electret capsule (6 x 2.7 mm) biased from 3.3 V, AC-coupled into the codec's differential
 // input.
 MK1 = device(
   pinHeader(2),
-  pinout = { "1": "1", "2": "2" },
+  pinout = { "1" = "1", "2" = "2" },
   prefix = "MK",
   mpn = "CMEJ-0627-42-P",
   manufacturer = "CUI Devices",
 ) {
-  pins { "1": MIC_BIAS, "2": GND }
+  "1" -- MIC_BIAS
+  "2" -- GND
   orderCode = "C3273888"
 }
 R21 = res(2.2kohm) {
-  pins { a: V3, b: MIC_BIAS }
+  a -- V3
+  b -- MIC_BIAS
   orderCode = "C4190"
 }
 C16 = cap(1uF) {
-  pins { a: MIC_BIAS, b: MIC_P }
+  a -- MIC_BIAS
+  b -- MIC_P
   orderCode = "C15849"
 }
 C17 = cap(1uF) {
-  pins { a: MIC_N, b: GND }
+  a -- MIC_N
+  b -- GND
   orderCode = "C15849"
 }
 U9 = PAM8403DR.Part {
-  pins {
-    VDD: VSYS,
-    PVDD: VSYS,
-    GND: GND,
-    PGND: GND,
-    SHDN: PA_EN,
-    MUTE: VSYS,
-    "OUTL+": SPK_P,
-    "OUTL-": SPK_N,
-    "OUTR+": .nc,
-    "OUTR-": .nc,
-    NC: .nc,
-  }
+  VDD -- VSYS
+  PVDD -- VSYS
+  GND -- GND
+  PGND -- GND
+  SHDN -- PA_EN
+  MUTE -- VSYS
+  "OUTL+" -- SPK_P
+  "OUTL-" -- SPK_N
+  "OUTR+" -- .nc
+  "OUTR-" -- .nc
+  NC -- .nc
+
   orderCode = "C17337"
 }
-U9Support = PAM8403DR.Support(U9, audioL = DAC_P) {}
+U9Support = PAM8403DR.Support {
+  chip = U9
+  audioL -- DAC_P
+}
 R22 = res(10kohm) {
-  pins { a: PA_EN, b: GND }
+  a -- PA_EN
+  b -- GND
   orderCode = "C25804"
 }
 J4 = device(
   wireToBoard(2, pitch = 1.25mm),
-  pinout = { "1": "1", "2": "2" },
+  pinout = { "1" = "1", "2" = "2" },
   prefix = "J",
   mpn = "MX1.25-2P",
 ) {
-  pins { "1": SPK_P, "2": SPK_N }
+  "1" -- SPK_P
+  "2" -- SPK_N
   orderCode = "C7430458"
 }
 
 // ---- the clock --------------------------------------------------------------------------------------
 U10 = DS3231SN.Part {
-  pins {
-    VCC: V3,
-    GND: GND,
-    SDA: SDA,
-    SCL: SCL,
-    VBAT: RTC_BAT,
-    "INT/SQW": .nc,
-    RST: .nc,
-    "32kHz": .nc,
-  }
+  VCC -- V3
+  GND -- GND
+  SDA -- SDA
+  SCL -- SCL
+  VBAT -- RTC_BAT
+  "INT/SQW" -- .nc
+  RST -- .nc
+  "32kHz" -- .nc
+
   orderCode = "C722469"
 }
-U10Support = DS3231SN.Support(U10, pullUps = false) {}
+U10Support = DS3231SN.Support {
+  chip = U10
+  pullUps = false
+}
 BT2 = CR2032_HOLDER_SMD.Part {
-  pins { VBAT: RTC_BAT, GND: GND }
+  VBAT -- RTC_BAT
+  GND -- GND
   orderCode = "C964777"
 }
 C19 = cap(100nF) {
   place = [near(U10.pin.VBAT, max = 3mm)]
-  pins { a: RTC_BAT, b: GND }
+  a -- RTC_BAT
+  b -- GND
   orderCode = "C14663"
 }
 
@@ -765,7 +879,7 @@ J5 = DM3AT_SF_PEJM5.Part with {
   simulation = DM3AT_SF_PEJM5.Part.simulation with {
     behavior = Behavior {
       model = "sd-card"
-      ports = { power: ["4", "6"], clk: ["5"], cmd: ["3"], dat0: ["7"] }
+      ports = { power = ["4", "6"], clk = ["5"], cmd = ["3"], dat0 = ["7"] }
       image = FirmwareData {
         url = "https://github.com/indecenti/NucleoOS-P4/releases/download/v1.2.189/nucleoos-p4-sdcard.zip"
         sha256 = "48f9e4478e2a20cf20d689956a4f54e96903be428f35e06c6051c6c9b2aa32ad"
@@ -775,46 +889,52 @@ J5 = DM3AT_SF_PEJM5.Part with {
   }
 } {
   place = [edge(.right)]
-  pins {
-    VDD: SD_VDD,
-    VSS: GND,
-    CLK: SD_CLK,
-    CMD: SD_CMD,
-    DAT0: SD_D0,
-    DAT1: SD_D1,
-    DAT2: SD_D2,
-    CD_DAT3: SD_D3,
-    CD_A: .nc,
-    CD_B: .nc,
-    SH: GND,
-  }
+
+  VDD -- SD_VDD
+  VSS -- GND
+  CLK -- SD_CLK
+  CMD -- SD_CMD
+  DAT0 -- SD_D0
+  DAT1 -- SD_D1
+  DAT2 -- SD_D2
+  CD_DAT3 -- SD_D3
+  CD_A -- .nc
+  CD_B -- .nc
+  SH -- GND
+
   orderCode = "C114218"
 }
 C18 = cap(10uF, package = "0603") {
-  pins { a: SD_VDD, b: GND }
+  a -- SD_VDD
+  b -- GND
   orderCode = "C19702"
 }
 R23 = res(10kohm) {
-  pins { a: SD_CMD, b: SD_VDD }
+  a -- SD_CMD
+  b -- SD_VDD
   orderCode = "C25804"
 }
 R24 = res(10kohm) {
-  pins { a: SD_D0, b: SD_VDD }
+  a -- SD_D0
+  b -- SD_VDD
   orderCode = "C25804"
 }
 R25 = res(10kohm) {
-  pins { a: SD_D1, b: SD_VDD }
+  a -- SD_D1
+  b -- SD_VDD
   orderCode = "C25804"
 }
 R26 = res(10kohm) {
-  pins { a: SD_D2, b: SD_VDD }
+  a -- SD_D2
+  b -- SD_VDD
   orderCode = "C25804"
 }
 R27 = res(10kohm) {
   side = .bottom
   at = (71.3mm, 65.5mm)
   rotation = 90deg
-  pins { a: SD_D3, b: SD_VDD }
+  a -- SD_D3
+  b -- SD_VDD
   orderCode = "C25804"
 }
 
@@ -823,65 +943,80 @@ U11 = ESP32_C6_MINI_1.Part {
   // The antenna (the module's top 5.4 mm) beyond the board's top edge, as Espressif recommends.
   rotation = 0deg
   place = [edge(.top, from = 80mm, to = 120mm, overhang = 5.4mm)]
-  pins {
-    "3V3": V3,
-    GND: GND,
-    EN: C6_EN,
-    IO18: C6_CMD,
-    IO19: C6_CLK,
-    IO20: C6_D0,
-    IO21: C6_D1,
-    IO22: C6_D2,
-    IO23: C6_D3,
-    IO2: C6_IO2,
-    TXD0: C6_TX,
-    RXD0: C6_RX,
-  }
+
+  "3V3" -- V3
+  GND -- GND
+  EN -- C6_EN
+  IO18 -- C6_CMD
+  IO19 -- C6_CLK
+  IO20 -- C6_D0
+  IO21 -- C6_D1
+  IO22 -- C6_D2
+  IO23 -- C6_D3
+  IO2 -- C6_IO2
+  TXD0 -- C6_TX
+  RXD0 -- C6_RX
+
   orderCode = "C6553337"
 }
-U11Support = ESP32_C6_MINI_1.Support(U11, resetButton = false, bootButton = false) {}
+U11Support = ESP32_C6_MINI_1.Support {
+  chip = U11
+  resetButton = false
+  bootButton = false
+}
 R28 = res(51kohm) {
-  pins { a: C6_CMD, b: V3 }
+  a -- C6_CMD
+  b -- V3
   orderCode = "C23196"
 }
 R29 = res(51kohm) {
-  pins { a: C6_D0, b: V3 }
+  a -- C6_D0
+  b -- V3
   orderCode = "C23196"
 }
 R30 = res(51kohm) {
-  pins { a: C6_D1, b: V3 }
+  a -- C6_D1
+  b -- V3
   orderCode = "C23196"
 }
 R31 = res(51kohm) {
-  pins { a: C6_D2, b: V3 }
+  a -- C6_D2
+  b -- V3
   orderCode = "C23196"
 }
 R32 = res(51kohm) {
-  pins { a: C6_D3, b: V3 }
+  a -- C6_D3
+  b -- V3
   orderCode = "C23196"
 }
 // The C6's own programming header (its UART0, EN and IO9 for download mode).
 J6 = header(4) {
-  pins { "1": GND, "2": C6_TX, "3": C6_RX, "4": C6_EN }
+  "1" -- GND
+  "2" -- C6_TX
+  "3" -- C6_RX
+  "4" -- C6_EN
   orderCode = "C53055674"
 }
 
-holes = MountingHoles(screw = "M3", net = GND) {}
+holes = MountingHoles {
+  screw = "M3"
+  net = GND
+}
 
 // The USB-C ports' parts, inside their blocks: their LCSC codes.
-override J1.power.J.orderCode = "C5184243"
-override J1.power.D.orderCode = "C78401"
-override J1.power.R1.orderCode = "C25905"
-override J1.power.R2.orderCode = "C25905"
-override J1.Esd.orderCode = "C7519"
-override J2.power.J.orderCode = "C5184243"
-override J2.power.D.orderCode = "C78401"
-override J2.power.R1.orderCode = "C25905"
-override J2.power.R2.orderCode = "C25905"
-override J2.Esd.orderCode = "C7519"
-override J3.J.orderCode = "C5184243"
-override J3.D.orderCode = "C78401"
-override J3.S.orderCode = "C55136"
-override J3.Esd.orderCode = "C7519"
+J1.power.J.orderCode = "C5184243"
+J1.power.D.orderCode = "C78401"
+J1.power.R1.orderCode = "C25905"
+J1.power.R2.orderCode = "C25905"
+J1.Esd.orderCode = "C7519"
+J2.power.J.orderCode = "C5184243"
+J2.power.D.orderCode = "C78401"
+J2.power.R1.orderCode = "C25905"
+J2.power.R2.orderCode = "C25905"
+J2.Esd.orderCode = "C7519"
+J3.J.orderCode = "C5184243"
+J3.D.orderCode = "C78401"
+J3.S.orderCode = "C55136"
+J3.Esd.orderCode = "C7519"
 
-override U1Support.Y1.orderCode = "C426988"
+U1Support.Y1.orderCode = "C426988"

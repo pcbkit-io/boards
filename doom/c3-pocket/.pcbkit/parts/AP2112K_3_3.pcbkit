@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // AP2112K-3.3TRG1 (Diodes Incorporated): Linear regulator (CMOS LDO), fixed 3.3 V, 600 mA, 2.5-6 V
 // in, enable, 250 mV dropout
@@ -21,25 +21,24 @@ pcbkit 1
 
 /// AP2112K-3.3TRG1 — Linear regulator (CMOS LDO), fixed 3.3 V, 600 mA, 2.5-6 V in, enable, 250 mV
 /// dropout
-part Part = device(footprint = (sot23(5)) with {
-  models = [Model3d { path = "Package_TO_SOT_SMD:SOT-23-5" }]
-}, prefix = "U", mpn = "AP2112K-3.3TRG1", manufacturer = "Diodes Incorporated", pinout = {
-  VIN: "1",
-  GND: "2",
-  EN: "3",
-  NC: "4",
-  VOUT: "5",
-}, pinTypes = {
-  VIN: io.powerIn(min = 2.5V, max = 6.5V),
-  GND: .ground,
-  EN: io.input(max = 6.5V, pull = .down),
-  NC: .nc,
-  VOUT: io.powerOut(3.3V),
-}) with {
+part Part = device(
+  footprint = (sot23(5)) with { models = [Model3d { path = "Package_TO_SOT_SMD:SOT-23-5" }] },
+  prefix = "U",
+  mpn = "AP2112K-3.3TRG1",
+  manufacturer = "Diodes Incorporated",
+  pinout = { VIN = "1", GND = "2", EN = "3", NC = "4", VOUT = "5" },
+  pinTypes = {
+    VIN = io.powerIn(min = 2.5V, max = 6.5V)
+    GND = .ground
+    EN = io.input(max = 6.5V, pull = .down)
+    NC = .nc
+    VOUT = io.powerOut(3.3V)
+  },
+) with {
   fields {
-    Status: "checked",
-    PinoutSource: "AP2112 datasheet DS39724 Rev. 2-2, Pin descriptions (p. 2), SOT25 column",
-    Datasheet: "https://www.diodes.com/assets/Datasheets/AP2112.pdf",
+    Status = "checked"
+    PinoutSource = "AP2112 datasheet DS39724 Rev. 2-2, Pin descriptions (p. 2), SOT25 column"
+    Datasheet = "https://www.diodes.com/assets/Datasheets/AP2112.pdf"
   }
   simulation = SimulationParameters {
     parameters = [
@@ -140,21 +139,23 @@ part Part = device(footprint = (sot23(5)) with {
 /// { … }`, `U1Support = AP2112K_3_3.Support(U1) {}`.
 ///
 /// - EN to VIN for always on, or to a logic output (high above 1.5 V, low below 0.4 V).
-block Support(
+block Support {
   /// The AP2112K-3.3TRG1 this circuit serves (`AP2112K_3_3.Support(U1)`).
-  chip: Any,
+  chip: Any
   /// EN tied to VIN (`false`: drive EN from a logic output).
-  alwaysOn: Bool = true,
-) {
+  alwaysOn: Bool = true
+
   /// 10V X5R/X7R
   CIN = cap(1uF, package = "0402", ratedVoltage = 10V) {
     place = [soft(near(chip.pin.VIN, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VIN, b: chip.pin.GND }
+    a -- chip.pin.VIN
+    b -- chip.pin.GND
   }
   /// 10V X5R/X7R
   COUT = cap(1uF, package = "0402", ratedVoltage = 10V) {
     place = [soft(near(chip.pin.VOUT, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VOUT, b: chip.pin.GND }
+    a -- chip.pin.VOUT
+    b -- chip.pin.GND
   }
-  connect(chip.pin.EN, if alwaysOn then chip.pin.VIN else chip.pin.EN)
+  chip.pin.EN -- (if alwaysOn then chip.pin.VIN else chip.pin.EN)
 }

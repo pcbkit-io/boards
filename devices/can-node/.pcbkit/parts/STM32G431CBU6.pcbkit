@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // STM32G431CBU6 (STMicroelectronics): Arm Cortex-M4 MCU with FPU, 170 MHz, 128 KB flash, 32 KB
 // RAM, motor-control timers (TIM1/TIM8), 2 ADCs, op-amps, comparators, FDCAN, USB, 1.71-3.6 V
@@ -22,156 +22,156 @@ part Part = device(
   mpn = "STM32G431CBU6",
   manufacturer = "STMicroelectronics",
   pinout = {
-    VBAT: "1",
-    PC13: "2",
-    PC14: "3",
-    PC15: "4",
-    PF0: "5",
-    PF1: "6",
-    PG10: "7",
-    PA0: "8",
-    PA1: "9",
-    PA2: "10",
-    PA3: "11",
-    PA4: "12",
-    PA5: "13",
-    PA6: "14",
-    PA7: "15",
-    PC4: "16",
-    PB0: "17",
-    PB1: "18",
-    PB2: "19",
-    VREFP: "20",
-    VDDA: "21",
-    PB10: "22",
-    VDD: ["23", "35", "48"],
-    PB11: "24",
-    PB12: "25",
-    PB13: "26",
-    PB14: "27",
-    PB15: "28",
-    PC6: "29",
-    PA8: "30",
-    PA9: "31",
-    PA10: "32",
-    PA11: "33",
-    PA12: "34",
-    PA13: "36",
-    PA14: "37",
-    PA15: "38",
-    PC10: "39",
-    PC11: "40",
-    PB3: "41",
-    PB4: "42",
-    PB5: "43",
-    PB6: "44",
-    PB7: "45",
-    PB8: "46",
-    PB9: "47",
-    VSS: "49",
+    VBAT = "1"
+    PC13 = "2"
+    PC14 = "3"
+    PC15 = "4"
+    PF0 = "5"
+    PF1 = "6"
+    PG10 = "7"
+    PA0 = "8"
+    PA1 = "9"
+    PA2 = "10"
+    PA3 = "11"
+    PA4 = "12"
+    PA5 = "13"
+    PA6 = "14"
+    PA7 = "15"
+    PC4 = "16"
+    PB0 = "17"
+    PB1 = "18"
+    PB2 = "19"
+    VREFP = "20"
+    VDDA = "21"
+    PB10 = "22"
+    VDD = ["23", "35", "48"]
+    PB11 = "24"
+    PB12 = "25"
+    PB13 = "26"
+    PB14 = "27"
+    PB15 = "28"
+    PC6 = "29"
+    PA8 = "30"
+    PA9 = "31"
+    PA10 = "32"
+    PA11 = "33"
+    PA12 = "34"
+    PA13 = "36"
+    PA14 = "37"
+    PA15 = "38"
+    PC10 = "39"
+    PC11 = "40"
+    PB3 = "41"
+    PB4 = "42"
+    PB5 = "43"
+    PB6 = "44"
+    PB7 = "45"
+    PB8 = "46"
+    PB9 = "47"
+    VSS = "49"
   },
   pinTypes = {
-    VBAT: io.powerIn(),
-    PC13: io.bidirectional(),
-    PC14: io.bidirectional(),
-    PC15: io.bidirectional(),
-    PF0: io.bidirectional(),
-    PF1: io.bidirectional(),
-    PG10: io.bidirectional(),
-    PA0: io.bidirectional(),
-    PA1: io.bidirectional(),
-    PA2: io.bidirectional(),
-    PA3: io.bidirectional(),
-    PA4: io.bidirectional(),
-    PA5: io.bidirectional(),
-    PA6: io.bidirectional(),
-    PA7: io.bidirectional(),
-    PC4: io.bidirectional(),
-    PB0: io.bidirectional(),
-    PB1: io.bidirectional(),
-    PB2: io.bidirectional(),
-    VREFP: io.bidirectional(),
-    VDDA: io.powerIn(),
-    PB10: io.bidirectional(),
-    VDD: io.powerIn(),
-    PB11: io.bidirectional(),
-    PB12: io.bidirectional(),
-    PB13: io.bidirectional(),
-    PB14: io.bidirectional(),
-    PB15: io.bidirectional(),
-    PC6: io.bidirectional(),
-    PA8: io.bidirectional(),
-    PA9: io.bidirectional(),
-    PA10: io.bidirectional(),
-    PA11: io.bidirectional(),
-    PA12: io.bidirectional(),
-    PA13: io.bidirectional(),
-    PA14: io.bidirectional(),
-    PA15: io.bidirectional(),
-    PC10: io.bidirectional(),
-    PC11: io.bidirectional(),
-    PB3: io.bidirectional(),
-    PB4: io.bidirectional(),
-    PB5: io.bidirectional(),
-    PB6: io.bidirectional(),
-    PB7: io.bidirectional(),
-    PB8: io.bidirectional(),
-    PB9: io.bidirectional(),
-    VSS: .ground,
+    VBAT = io.powerIn()
+    PC13 = io.bidirectional()
+    PC14 = io.bidirectional()
+    PC15 = io.bidirectional()
+    PF0 = io.bidirectional()
+    PF1 = io.bidirectional()
+    PG10 = io.bidirectional()
+    PA0 = io.bidirectional()
+    PA1 = io.bidirectional()
+    PA2 = io.bidirectional()
+    PA3 = io.bidirectional()
+    PA4 = io.bidirectional()
+    PA5 = io.bidirectional()
+    PA6 = io.bidirectional()
+    PA7 = io.bidirectional()
+    PC4 = io.bidirectional()
+    PB0 = io.bidirectional()
+    PB1 = io.bidirectional()
+    PB2 = io.bidirectional()
+    VREFP = io.bidirectional()
+    VDDA = io.powerIn()
+    PB10 = io.bidirectional()
+    VDD = io.powerIn()
+    PB11 = io.bidirectional()
+    PB12 = io.bidirectional()
+    PB13 = io.bidirectional()
+    PB14 = io.bidirectional()
+    PB15 = io.bidirectional()
+    PC6 = io.bidirectional()
+    PA8 = io.bidirectional()
+    PA9 = io.bidirectional()
+    PA10 = io.bidirectional()
+    PA11 = io.bidirectional()
+    PA12 = io.bidirectional()
+    PA13 = io.bidirectional()
+    PA14 = io.bidirectional()
+    PA15 = io.bidirectional()
+    PC10 = io.bidirectional()
+    PC11 = io.bidirectional()
+    PB3 = io.bidirectional()
+    PB4 = io.bidirectional()
+    PB5 = io.bidirectional()
+    PB6 = io.bidirectional()
+    PB7 = io.bidirectional()
+    PB8 = io.bidirectional()
+    PB9 = io.bidirectional()
+    VSS = .ground
   },
 ) with {
   fields {
-    Status: "verified",
-    PinoutSource: "verified: STM32_open_pin_data STM32G431C(6-8-B)Ux (7d1f1514ed55); pad 49 (VSS, the exposed pad) cross-checked with the KiCad symbol STM32G431CBUx",
-    Datasheet: "https://www.st.com/resource/en/datasheet/stm32g431cb.pdf",
+    Status = "verified"
+    PinoutSource = "verified: STM32_open_pin_data STM32G431C(6-8-B)Ux (7d1f1514ed55); pad 49 (VSS, the exposed pad) cross-checked with the KiCad symbol STM32G431CBUx"
+    Datasheet = "https://www.st.com/resource/en/datasheet/stm32g431cb.pdf"
   }
   simulation = SimulationParameters {
     behavior = Behavior {
       model = "stm32g431cb"
       ports = {
-        "PA0": ["8"],
-        "PA1": ["9"],
-        "PA10": ["32"],
-        "PA11": ["33"],
-        "PA12": ["34"],
-        "PA13": ["36"],
-        "PA14": ["37"],
-        "PA15": ["38"],
-        "PA2": ["10"],
-        "PA3": ["11"],
-        "PA4": ["12"],
-        "PA5": ["13"],
-        "PA6": ["14"],
-        "PA7": ["15"],
-        "PA8": ["30"],
-        "PA9": ["31"],
-        "PB0": ["17"],
-        "PB1": ["18"],
-        "PB10": ["22"],
-        "PB11": ["24"],
-        "PB12": ["25"],
-        "PB13": ["26"],
-        "PB14": ["27"],
-        "PB15": ["28"],
-        "PB2": ["19"],
-        "PB3": ["41"],
-        "PB4": ["42"],
-        "PB5": ["43"],
-        "PB6": ["44"],
-        "PB7": ["45"],
-        "PB8": ["46"],
-        "PB9": ["47"],
-        "PC10": ["39"],
-        "PC11": ["40"],
-        "PC13": ["2"],
-        "PC14": ["3"],
-        "PC15": ["4"],
-        "PC4": ["16"],
-        "PC6": ["29"],
-        "PF0": ["5"],
-        "PF1": ["6"],
-        "PG10": ["7"],
-        "power": ["23", "49"],
+        "PA0" = ["8"]
+        "PA1" = ["9"]
+        "PA10" = ["32"]
+        "PA11" = ["33"]
+        "PA12" = ["34"]
+        "PA13" = ["36"]
+        "PA14" = ["37"]
+        "PA15" = ["38"]
+        "PA2" = ["10"]
+        "PA3" = ["11"]
+        "PA4" = ["12"]
+        "PA5" = ["13"]
+        "PA6" = ["14"]
+        "PA7" = ["15"]
+        "PA8" = ["30"]
+        "PA9" = ["31"]
+        "PB0" = ["17"]
+        "PB1" = ["18"]
+        "PB10" = ["22"]
+        "PB11" = ["24"]
+        "PB12" = ["25"]
+        "PB13" = ["26"]
+        "PB14" = ["27"]
+        "PB15" = ["28"]
+        "PB2" = ["19"]
+        "PB3" = ["41"]
+        "PB4" = ["42"]
+        "PB5" = ["43"]
+        "PB6" = ["44"]
+        "PB7" = ["45"]
+        "PB8" = ["46"]
+        "PB9" = ["47"]
+        "PC10" = ["39"]
+        "PC11" = ["40"]
+        "PC13" = ["2"]
+        "PC14" = ["3"]
+        "PC15" = ["4"]
+        "PC4" = ["16"]
+        "PC6" = ["29"]
+        "PF0" = ["5"]
+        "PF1" = ["6"]
+        "PG10" = ["7"]
+        "power" = ["23", "49"]
       }
       parameters = {}
       height = 0.55mm
@@ -186,61 +186,72 @@ part Part = device(
 ///
 /// - No crystal: the HSI16 and HSI48 (USB, trimmed by the clock recovery system) need none; an HSE
 /// crystal on PF0/PF1 is optional.
-block Support(
+block Support {
   /// The STM32G431CBU6 this circuit serves (`STM32G431CBU6.Support(U1)`).
-  chip: Any,
+  chip: Any
   /// VBAT joined to VDD (no backup battery; else 100 nF at VBAT).
-  noBattery: Bool = true,
-) {
+  noBattery: Bool = true
+
   /// one per VDD pin
   C_VDD_23 = cap(100nF, package = "0402") {
     place = [soft(near(chip["23"], max = 2mm), weight = 2)]
-    pins { a: chip["23"], b: chip.pin.VSS }
+    a -- chip["23"]
+    b -- chip.pin.VSS
   }
   /// one per VDD pin
   C_VDD_35 = cap(100nF, package = "0402") {
     place = [soft(near(chip["35"], max = 2mm), weight = 2)]
-    pins { a: chip["35"], b: chip.pin.VSS }
+    a -- chip["35"]
+    b -- chip.pin.VSS
   }
   /// one per VDD pin
   C_VDD_48 = cap(100nF, package = "0402") {
     place = [soft(near(chip["48"], max = 2mm), weight = 2)]
-    pins { a: chip["48"], b: chip.pin.VSS }
+    a -- chip["48"]
+    b -- chip.pin.VSS
   }
   C_BULK = cap(4.7uF, package = "0805") {
     place = [soft(near(chip.pin.VDD, max = 4mm), weight = 2)]
-    pins { a: chip.pin.VDD, b: chip.pin.VSS }
+    a -- chip.pin.VDD
+    b -- chip.pin.VSS
   }
   C_VBAT =
     if not noBattery then cap(100nF, package = "0402") {
       place = [soft(near(chip.pin.VBAT, max = 2mm), weight = 2)]
-      pins { a: chip.pin.VBAT, b: chip.pin.VSS }
+      a -- chip.pin.VBAT
+      b -- chip.pin.VSS
     }
     else null
-  connect(chip.pin.VBAT, if noBattery then chip.pin.VDD else chip.pin.VBAT)
+  chip.pin.VBAT -- (if noBattery then chip.pin.VDD else chip.pin.VBAT)
   C_VDDA1 = cap(10nF, package = "0402") {
     place = [soft(near(chip.pin.VDDA, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VDDA, b: chip.pin.VSS }
+    a -- chip.pin.VDDA
+    b -- chip.pin.VSS
   }
   C_VDDA2 = cap(1uF, package = "0402") {
     place = [soft(near(chip.pin.VDDA, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VDDA, b: chip.pin.VSS }
+    a -- chip.pin.VDDA
+    b -- chip.pin.VSS
   }
   C_VREF1 = cap(100nF, package = "0402") {
     place = [soft(near(chip.pin.VREFP, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VREFP, b: chip.pin.VSS }
+    a -- chip.pin.VREFP
+    b -- chip.pin.VSS
   }
   C_VREF2 = cap(1uF, package = "0402") {
     place = [soft(near(chip.pin.VREFP, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VREFP, b: chip.pin.VSS }
+    a -- chip.pin.VREFP
+    b -- chip.pin.VSS
   }
   C_NRST = cap(100nF, package = "0402") {
     place = [soft(near(chip.pin.PG10, max = 2mm), weight = 2)]
-    pins { a: chip.pin.PG10, b: chip.pin.VSS }
+    a -- chip.pin.PG10
+    b -- chip.pin.VSS
   }
   /// boots from flash
   R_BOOT0 = res(10kohm, package = "0402") {
     place = [soft(near(chip.pin.PB8, max = 5mm), weight = 1)]
-    pins { a: chip.pin.PB8, b: chip.pin.VSS }
+    a -- chip.pin.PB8
+    b -- chip.pin.VSS
   }
 }

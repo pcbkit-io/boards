@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // CH340C (WCH (Nanjing Qinheng Microelectronics)): USB 2.0 full-speed to UART bridge, internal
 // clock (no crystal), modem signals, 5 V or 3.3 V supply (SOP-16)
@@ -24,46 +24,46 @@ part Part = device(
   mpn = "CH340C",
   manufacturer = "WCH (Nanjing Qinheng Microelectronics)",
   pinout = {
-    GND: "1",
-    TXD: "2",
-    RXD: "3",
-    V3: "4",
-    UDP: "5",
-    UDN: "6",
-    NC: "7",
-    OUT_N: "8",
-    CTS_N: "9",
-    DSR_N: "10",
-    RI_N: "11",
-    DCD_N: "12",
-    DTR_N: "13",
-    RTS_N: "14",
-    R232: "15",
-    VCC: "16",
+    GND = "1"
+    TXD = "2"
+    RXD = "3"
+    V3 = "4"
+    UDP = "5"
+    UDN = "6"
+    NC = "7"
+    OUT_N = "8"
+    CTS_N = "9"
+    DSR_N = "10"
+    RI_N = "11"
+    DCD_N = "12"
+    DTR_N = "13"
+    RTS_N = "14"
+    R232 = "15"
+    VCC = "16"
   },
   pinTypes = {
-    GND: .ground,
-    TXD: .output,
-    RXD: io.input(max = 5.3V, pull = .up),
-    V3: .passive,
-    UDP: io.bidirectional(),
-    UDN: io.bidirectional(),
-    NC: .nc,
-    OUT_N: .output,
-    CTS_N: io.input(pull = .up),
-    DSR_N: io.input(pull = .up),
-    RI_N: io.input(pull = .up),
-    DCD_N: io.input(pull = .up),
-    DTR_N: .output,
-    RTS_N: .output,
-    R232: io.input(pull = .down),
-    VCC: io.powerIn(min = 3.1V, max = 6V),
+    GND = .ground
+    TXD = .output
+    RXD = io.input(max = 5.3V, pull = .up)
+    V3 = .passive
+    UDP = io.bidirectional()
+    UDN = io.bidirectional()
+    NC = .nc
+    OUT_N = .output
+    CTS_N = io.input(pull = .up)
+    DSR_N = io.input(pull = .up)
+    RI_N = io.input(pull = .up)
+    DCD_N = io.input(pull = .up)
+    DTR_N = .output
+    RTS_N = .output
+    R232 = io.input(pull = .down)
+    VCC = io.powerIn(min = 3.1V, max = 6V)
   },
 ) with {
   fields {
-    Status: "checked",
-    PinoutSource: "WCH datasheet CH340DS1 version 3D, section 4 (pins, SOP16 column), 5.1 and 6 (parameters)",
-    Datasheet: "https://www.wch-ic.com/download/file?id=79",
+    Status = "checked"
+    PinoutSource = "WCH datasheet CH340DS1 version 3D, section 4 (pins, SOP16 column), 5.1 and 6 (parameters)"
+    Datasheet = "https://www.wch-ic.com/download/file?id=79"
   }
   simulation = SimulationParameters {
     parameters = [
@@ -92,17 +92,19 @@ part Part = device(
 ///
 /// - UD+ and UD- go straight to the USB connector: the part has its USB pull-up and needs no series
 /// resistors.
-block Support(
+block Support {
   /// The CH340C this circuit serves (`CH340C.Support(U1)`).
-  chip: Any,
-) {
+  chip: Any
+
   C9 = cap(100nF, package = "0402") {
     place = [soft(near(chip.pin.VCC, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VCC, b: chip.pin.GND }
+    a -- chip.pin.VCC
+    b -- chip.pin.GND
   }
   /// at 5 V; at 3.3 V V3 joins VCC as well
   C8 = cap(100nF, package = "0402", ratedVoltage = 5V) {
     place = [soft(near(chip.pin.V3, max = 2mm), weight = 2)]
-    pins { a: chip.pin.V3, b: chip.pin.GND }
+    a -- chip.pin.V3
+    b -- chip.pin.GND
   }
 }

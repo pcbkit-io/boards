@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // FS8205A (Fortune Semiconductor): Dual N-channel MOSFET, common drain, 20 V, 6 A, 25 mohm at 4.5
 // V gate: the switch pair of one-cell battery protection
@@ -19,33 +19,34 @@ pcbkit 1
 
 /// FS8205A — Dual N-channel MOSFET, common drain, 20 V, 6 A, 25 mohm at 4.5 V gate: the switch
 /// pair of one-cell battery protection
-part Part = device(footprint = rows(
-  name = "TSSOP-8_4.4x2.93mm_P0.65mm",
-  description = "TSSOP-8, 8 pins, 2.93 x 4.4 mm body, 0.65 mm pitch (from the datasheet)",
-  pitch = 0.65mm,
-  pinsY = 4,
-  spanX = tolerance(6.2mm, 6.6mm),
-  leadLength = tolerance(0.45mm, 0.75mm),
-  leadWidth = tolerance(0.2mm, 0.28mm),
-  bodyX = tolerance(4.3mm, 4.5mm),
-  bodyY = tolerance(2.83mm, 3.03mm),
-  bodyHeight = 1.2mm,
-), prefix = "Q", mpn = "FS8205A", manufacturer = "Fortune Semiconductor", pinout = {
-  D12: ["1", "8"],
-  S1: ["2", "3"],
-  G1: "4",
-  G2: "5",
-  S2: ["6", "7"],
-}, pinTypes = {
-  D12: .passive,
-  S1: .passive,
-  G1: io.input(max = 12V),
-  G2: io.input(max = 12V),
-  S2: .passive,
-}) with {
+part Part = device(
+  footprint = rows(
+    name = "TSSOP-8_4.4x2.93mm_P0.65mm",
+    description = "TSSOP-8, 8 pins, 2.93 x 4.4 mm body, 0.65 mm pitch (from the datasheet)",
+    pitch = 0.65mm,
+    pinsY = 4,
+    spanX = tolerance(6.2mm, 6.6mm),
+    leadLength = tolerance(0.45mm, 0.75mm),
+    leadWidth = tolerance(0.2mm, 0.28mm),
+    bodyX = tolerance(4.3mm, 4.5mm),
+    bodyY = tolerance(2.83mm, 3.03mm),
+    bodyHeight = 1.2mm,
+  ),
+  prefix = "Q",
+  mpn = "FS8205A",
+  manufacturer = "Fortune Semiconductor",
+  pinout = { D12 = ["1", "8"], S1 = ["2", "3"], G1 = "4", G2 = "5", S2 = ["6", "7"] },
+  pinTypes = {
+    D12 = .passive
+    S1 = .passive
+    G1 = io.input(max = 12V)
+    G2 = io.input(max = 12V)
+    S2 = .passive
+  },
+) with {
   fields {
-    Status: "checked",
-    PinoutSource: "FS8205A datasheet Rev. 1.2, section 4 (pin assignment, TSSOP-8 top view)",
-    Datasheet: "https://atta.szlcsc.com/upload/public/pdf/source/20140228/1457706997167.pdf",
+    Status = "checked"
+    PinoutSource = "FS8205A datasheet Rev. 1.2, section 4 (pin assignment, TSSOP-8 top view)"
+    Datasheet = "https://atta.szlcsc.com/upload/public/pdf/source/20140228/1457706997167.pdf"
   }
 }

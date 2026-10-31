@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // TLV75533PDBVR (Texas Instruments): Linear regulator (LDO), fixed 3.3 V, 500 mA, 1.45-5.5 V in,
 // enable, 238 mV maximum dropout
@@ -17,25 +17,24 @@ pcbkit 1
 
 /// TLV75533PDBVR — Linear regulator (LDO), fixed 3.3 V, 500 mA, 1.45-5.5 V in, enable, 238 mV
 /// maximum dropout
-part Part = device(footprint = sot23(
-  5,
-), prefix = "U", mpn = "TLV75533PDBVR", manufacturer = "Texas Instruments", pinout = {
-  IN: "1",
-  GND: "2",
-  EN: "3",
-  NC: "4",
-  OUT: "5",
-}, pinTypes = {
-  IN: io.powerIn(min = 1.45V, max = 6V),
-  GND: .ground,
-  EN: io.input(max = 6V),
-  NC: .nc,
-  OUT: io.powerOut(3.3V),
-}) with {
+part Part = device(
+  footprint = sot23(5),
+  prefix = "U",
+  mpn = "TLV75533PDBVR",
+  manufacturer = "Texas Instruments",
+  pinout = { IN = "1", GND = "2", EN = "3", NC = "4", OUT = "5" },
+  pinTypes = {
+    IN = io.powerIn(min = 1.45V, max = 6V)
+    GND = .ground
+    EN = io.input(max = 6V)
+    NC = .nc
+    OUT = io.powerOut(3.3V)
+  },
+) with {
   fields {
-    Status: "checked",
-    PinoutSource: "TLV755P datasheet SBVS320D, Table 4-1 (pin functions), DBV column",
-    Datasheet: "https://www.ti.com/lit/ds/symlink/tlv755p.pdf",
+    Status = "checked"
+    PinoutSource = "TLV755P datasheet SBVS320D, Table 4-1 (pin functions), DBV column"
+    Datasheet = "https://www.ti.com/lit/ds/symlink/tlv755p.pdf"
   }
   simulation = SimulationParameters {
     parameters = [
@@ -136,21 +135,23 @@ part Part = device(footprint = sot23(
 /// `U1Support = TLV75533PDBV.Support(U1) {}`.
 ///
 /// - EN to IN for always on; EN must not be left floating.
-block Support(
+block Support {
   /// The TLV75533PDBVR this circuit serves (`TLV75533PDBV.Support(U1)`).
-  chip: Any,
+  chip: Any
   /// EN tied to IN (`false`: drive EN from a logic output; it must not float).
-  alwaysOn: Bool = true,
-) {
+  alwaysOn: Bool = true
+
   /// 10V X5R/X7R
   CIN = cap(1uF, package = "0603", ratedVoltage = 10V) {
     place = [soft(near(chip.pin.IN, max = 2mm), weight = 2)]
-    pins { a: chip.pin.IN, b: chip.pin.GND }
+    a -- chip.pin.IN
+    b -- chip.pin.GND
   }
   /// 10V X5R/X7R, at most 200 uF in total
   COUT = cap(1uF, package = "0603", ratedVoltage = 10V) {
     place = [soft(near(chip.pin.OUT, max = 2mm), weight = 2)]
-    pins { a: chip.pin.OUT, b: chip.pin.GND }
+    a -- chip.pin.OUT
+    b -- chip.pin.GND
   }
-  connect(chip.pin.EN, if alwaysOn then chip.pin.IN else chip.pin.EN)
+  chip.pin.EN -- (if alwaysOn then chip.pin.IN else chip.pin.EN)
 }

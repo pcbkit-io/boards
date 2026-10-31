@@ -1,4 +1,4 @@
-pcbkit 1
+pcbkit 2
 
 // IP5306 (Injoinic Technology): Power bank SoC: 2.1 A switching Li-ion charger from 5 V and a 5.1
 // V 2.1 A boost on one inductor, power path, 1-4 LED fuel gauge, push button, flashlight driver,
@@ -33,32 +33,32 @@ part Part = device(
   manufacturer = "Injoinic Technology",
   orderCode = "C181692",
   pinout = {
-    VIN: "1",
-    LED1: "2",
-    LED2: "3",
-    LED3: "4",
-    KEY: "5",
-    BAT: "6",
-    SW: "7",
-    VOUT: "8",
-    GND: "9",
+    VIN = "1"
+    LED1 = "2"
+    LED2 = "3"
+    LED3 = "4"
+    KEY = "5"
+    BAT = "6"
+    SW = "7"
+    VOUT = "8"
+    GND = "9"
   },
   pinTypes = {
-    VIN: io.powerIn(min = 4.75V, max = 5.5V),
-    LED1: .passive,
-    LED2: .passive,
-    LED3: .passive,
-    KEY: io.input(),
-    BAT: io.powerIn(min = 3V, max = 4.4V),
-    SW: .passive,
-    VOUT: io.powerOut(5.1V),
-    GND: .ground,
+    VIN = io.powerIn(min = 4.75V, max = 5.5V)
+    LED1 = .passive
+    LED2 = .passive
+    LED3 = .passive
+    KEY = io.input()
+    BAT = io.powerIn(min = 3V, max = 4.4V)
+    SW = .passive
+    VOUT = io.powerOut(5.1V)
+    GND = .ground
   },
 ) with {
   fields {
-    Status: "checked",
-    PinoutSource: "Injoinic IP5306 datasheet V1.10: pin definition (eSOP8: 1 VIN, 2 LED1, 3 LED2, 4 LED3, 5 KEY, 6 BAT, 7 SW, 8 VOUT, power pad GND), absolute maximum ratings, recommended operation conditions, electrical characteristics, package information",
-    Datasheet: "https://datasheet.lcsc.com/datasheet/pdf/309666add984eaea02a8f06d99102496.pdf",
+    Status = "checked"
+    PinoutSource = "Injoinic IP5306 datasheet V1.10: pin definition (eSOP8: 1 VIN, 2 LED1, 3 LED2, 4 LED3, 5 KEY, 6 BAT, 7 SW, 8 VOUT, power pad GND), absolute maximum ratings, recommended operation conditions, electrical characteristics, package information"
+    Datasheet = "https://datasheet.lcsc.com/datasheet/pdf/309666add984eaea02a8f06d99102496.pdf"
   }
   simulation = SimulationParameters {
     parameters = [
@@ -119,59 +119,72 @@ part Part = device(
 /// - Not placed by the support circuit, add it where the board needs it: D1_D4 4 LEDs between LED1,
 /// LED2, LED3 (25/50/75/100 % gauge: D1 and D2 antiparallel between LED1 and LED2, D3 and D4
 /// antiparallel between LED2 and LED3 (Figure 7)).
-block Support(
+block Support {
   /// The IP5306 this circuit serves (`IP5306.Support(U1)`).
-  chip: Any,
-) {
+  chip: Any
+
   net C6_P, C7_P
   /// 10V
   C1 = cap(10uF, package = "0805", ratedVoltage = 10V) {
     place = [soft(near(chip.pin.VIN, max = 4mm), weight = 2)]
-    pins { a: chip.pin.VIN, b: chip.pin.GND }
+    a -- chip.pin.VIN
+    b -- chip.pin.GND
   }
   /// with C6: damps the input
   R3 = res(2ohm, package = "0402") {
     place = [soft(near(chip.pin.VIN, max = 5mm), weight = 1)]
-    pins { a: chip.pin.VIN, b: C6_P }
+    a -- chip.pin.VIN
+    b -- C6_P
   }
   C6 = cap(10uF, package = "0805") {
     place = [soft(near(chip, max = 8mm), weight = 1)]
-    pins { a: C6_P, b: chip.pin.GND }
+    a -- C6_P
+    b -- chip.pin.GND
   }
   /// saturation above 4 A, low DCR
   L1 = inductor(1uH, package = "6", current = 4A) {
     place = [soft(near(chip.pin.SW, max = 5mm), weight = 1)]
-    pins { a: chip.pin.SW, b: chip.pin.BAT }
+    a -- chip.pin.SW
+    b -- chip.pin.BAT
   }
   /// 10V
   C2 = cap(22uF, package = "1206", ratedVoltage = 10V) {
     place = [soft(near(chip.pin.BAT, max = 4mm), weight = 2)]
-    pins { a: chip.pin.BAT, b: chip.pin.GND }
+    a -- chip.pin.BAT
+    b -- chip.pin.GND
   }
   /// with C7: damps the battery node
   R4 = res(2ohm, package = "0402") {
     place = [soft(near(chip.pin.BAT, max = 5mm), weight = 1)]
-    pins { a: chip.pin.BAT, b: C7_P }
+    a -- chip.pin.BAT
+    b -- C7_P
   }
   C7 = cap(10uF, package = "0805") {
     place = [soft(near(chip, max = 8mm), weight = 1)]
-    pins { a: C7_P, b: chip.pin.GND }
+    a -- C7_P
+    b -- chip.pin.GND
   }
   /// 10V
   C3A = cap(22uF, package = "1206", ratedVoltage = 10V) {
     place = [soft(near(chip.pin.VOUT, max = 4mm), weight = 2)]
-    pins { a: chip.pin.VOUT, b: chip.pin.GND }
+    a -- chip.pin.VOUT
+    b -- chip.pin.GND
   }
   /// 10V
   C3B = cap(22uF, package = "1206", ratedVoltage = 10V) {
     place = [soft(near(chip.pin.VOUT, max = 4mm), weight = 2)]
-    pins { a: chip.pin.VOUT, b: chip.pin.GND }
+    a -- chip.pin.VOUT
+    b -- chip.pin.GND
   }
   /// 10V
   C3C = cap(22uF, package = "1206", ratedVoltage = 10V) {
     place = [soft(near(chip.pin.VOUT, max = 4mm), weight = 2)]
-    pins { a: chip.pin.VOUT, b: chip.pin.GND }
+    a -- chip.pin.VOUT
+    b -- chip.pin.GND
   }
   /// through R1 10 kohm in the datasheet's figure
-  S1 = button("6x6") { pins { a: chip.pin.KEY, b: chip.pin.GND } }
+  S1 = button("6x6") {
+    a -- chip.pin.KEY
+    b -- chip.pin.GND
+  }
 }
