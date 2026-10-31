@@ -725,7 +725,7 @@ R48 = res(1kohm) {
   place = [near(U7.pin.FB, max = 3mm)]
   a -- BL_FB
   b -- LEDK
-  orderCode = "C11702"
+  orderCode = "C21190"
 }
 L4 = inductor(10uH, package = "4") {
   place = [near(U7.pin.SW, max = 8mm), soft(near(U7.pin.SW))]
