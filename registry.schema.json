@@ -57,6 +57,7 @@
               "frames": { "description": "Displays by component, and the pictures each must have drawn at least", "type": "object", "additionalProperties": { "type": "integer", "minimum": 1 } },
               "toggles": { "description": "Ports a program must have driven both low and high, as processor.port (U1.PB5)", "type": "array", "items": { "type": "string" } },
               "lit": { "description": "Visuals lit at the end of some phase (an indicator, a digit, a pixel, a servo driven), by component", "type": "array", "items": { "type": "string" } },
+              "responds": { "description": "Inputs its programs must answer, each: a button or switch by component (or key:Name), pressed from the run's middle phase and released at the next, must change what some later phase shows (displays, lights, servos, console text) against the same run without it", "type": "array", "items": { "type": "string" } },
               "corners": {
                 "description": "What its programs must show or do instead at a temperature where they react to it (a thermostat's heater on in the cold): a corner's expectation replaces this one there. Every board is also run at -40 and 85 \u00b0C; one with no entry for a corner must meet this expectation there.",
                 "type": "array",
