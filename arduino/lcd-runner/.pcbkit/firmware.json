@@ -1,0 +1,39 @@
+{
+  "seconds": 0.5,
+  "processors": {
+    "NANO": {
+      "program": "firmware/image.json",
+      "sha256": "e30e7f0b0ce15cec735e43f406a59cb488480ba459fbdf7aee97af9c8d9fcb5c",
+      "driven": {
+        "PB3": {
+          "low": true,
+          "high": true
+        },
+        "PB4": {
+          "low": true,
+          "high": true
+        },
+        "PD2": {
+          "low": true,
+          "high": true
+        },
+        "PD3": {
+          "low": true,
+          "high": true
+        },
+        "PD4": {
+          "low": true,
+          "high": true
+        },
+        "PD5": {
+          "low": true,
+          "high": true
+        }
+      },
+      "modes": {
+        "run": 0.5
+      },
+      "clock": 16000000.0
+    }
+  }
+}

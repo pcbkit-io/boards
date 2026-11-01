@@ -1,0 +1,21 @@
+{
+  "seconds": 0.5,
+  "processors": {
+    "NANO": {
+      "program": "firmware/image.json",
+      "sha256": "2c5d03539caf7bce35579efba602270d1bb28c45446eff388b8d238888d33a2d",
+      "driven": {},
+      "modes": {
+        "run": 0.5
+      },
+      "clock": 16000000.0,
+      "i2c": {
+        "i2c0": {
+          "sda": "SDA",
+          "scl": "SCL",
+          "hz": 400000.0
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "seconds": 0.5,
+  "processors": {
+    "U1": {
+      "program": "firmware/image.json",
+      "sha256": "87d363d9a0e19599e4908c4a619fee9ebfb13017d9ac66cf37ec05329d0b6703",
+      "driven": {
+        "PB0": {
+          "low": true,
+          "high": false
+        }
+      },
+      "modes": {
+        "idle": 0.4958336875,
+        "run": 0.0041663125
+      },
+      "clock": 16000000.0
+    }
+  }
+}

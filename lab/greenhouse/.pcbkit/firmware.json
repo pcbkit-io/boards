@@ -1,0 +1,51 @@
+{
+  "seconds": 0.5,
+  "processors": {
+    "U1": {
+      "program": "firmware/image.json",
+      "sha256": "729c702256421ed3b57ed272680af83313bda50a43a28a11d5aa1fb7ee18f21a",
+      "driven": {
+        "PB1": {
+          "low": true,
+          "high": true
+        },
+        "PB2": {
+          "low": true,
+          "high": true
+        },
+        "PB3": {
+          "low": true,
+          "high": false
+        },
+        "PB5": {
+          "low": true,
+          "high": false
+        },
+        "PD5": {
+          "low": true,
+          "high": false
+        },
+        "PD6": {
+          "low": true,
+          "high": true
+        },
+        "PD7": {
+          "low": true,
+          "high": false
+        }
+      },
+      "modes": {
+        "idle": 0.4927235625,
+        "run": 0.0072764375
+      },
+      "clock": 16000000.0,
+      "i2c": {
+        "i2c0": {
+          "sda": "SDA",
+          "scl": "SCL",
+          "hz": 100000.0
+        }
+      }
+    }
+  }
+}

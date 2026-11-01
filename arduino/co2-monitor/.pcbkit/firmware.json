@@ -1,0 +1,34 @@
+{
+  "seconds": 0.5,
+  "processors": {
+    "NANO": {
+      "program": "firmware/image.json",
+      "sha256": "742208d744544f37c29d532b8cbf2f1c172668012da166aee410e35bc5a2594f",
+      "driven": {
+        "PD5": {
+          "low": true,
+          "high": false
+        },
+        "PD6": {
+          "low": true,
+          "high": false
+        },
+        "PD7": {
+          "low": true,
+          "high": false
+        }
+      },
+      "modes": {
+        "run": 0.5
+      },
+      "clock": 16000000.0,
+      "i2c": {
+        "i2c0": {
+          "sda": "SDA",
+          "scl": "SCL",
+          "hz": 400000.0
+        }
+      }
+    }
+  }
+}
