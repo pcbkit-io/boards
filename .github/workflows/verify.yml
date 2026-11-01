@@ -9,7 +9,6 @@ on:
 permissions:
   contents: read
   pull-requests: write
-  security-events: write
 concurrency:
   group: verify-${{ github.ref }}
   cancel-in-progress: true
@@ -24,4 +23,3 @@ jobs:
           projects: "*/*"
           require: ready
           policy: report
-          sarif: true
