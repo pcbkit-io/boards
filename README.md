@@ -1,5 +1,7 @@
 # PCBKit boards
 
+[![verify](https://github.com/pcbkit-io/boards/actions/workflows/verify.yml/badge.svg)](https://github.com/pcbkit-io/boards/actions/workflows/verify.yml)
+
 Circuit boards designed in [PCBKit](https://pcbkit.io), each a complete project you can open, run
 and order. Every board is a PCBKit project (a KiCad project with its `.pcbkit/` design); a board
 with a processor carries its program, which PCBKit builds in your browser and runs on a
@@ -34,6 +36,19 @@ folder and an entry, then publish.
 **Every interactive board is a real board**: it runs in the app, and it can be ordered from a
 fab as it is and flashed after assembly (a USB bootloader or a programming header), so the image
 that runs in the app runs on the board.
+
+## Checked on every change
+
+Every push and pull request runs each board through PCBKit's pre-production gate
+([pcbkit-io/verify](https://github.com/pcbkit-io/verify), [`.github/workflows/verify.yml`](.github/workflows/verify.yml)).
+The run's summary lists the boards worst first: the level each is verified to (language, wiring,
+ratings, intent, layout, ready), its errors, warnings and unconfirmed findings, and how much of the
+board each level judged; under it, per board, a checklist and its findings with links into the
+board. A pull request gets one comment with what it changed on each board it touches; findings
+also show in code scanning. The gate runs in report mode: it shows every board as it is and never
+blocks a change, so the badge above says the boards were checked, not that they all pass. Some
+boards report errors today; the [latest run](https://github.com/pcbkit-io/boards/actions/workflows/verify.yml)
+names them. Check one yourself with `pcbkit check` in its folder.
 
 ## Licences
 
