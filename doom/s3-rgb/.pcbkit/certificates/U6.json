@@ -1,0 +1,317 @@
+{
+ "format": "part@1",
+ "part": {
+  "code": "C485517",
+  "mpn": "TLV75733PDBVR",
+  "maker": "Texas Instruments",
+  "variant": {
+   "value": "SOT-23",
+   "page": 25,
+   "text": "TLV75733PDBVR"
+  }
+ },
+ "datasheet": {
+  "url": "https://www.ti.com/lit/ds/symlink/tlv757p.pdf",
+  "file": "tlv757p.pdf",
+  "sha256": "239d1f1e9bce270377e9af29bd06a5f99fe45f489878612d249d88cf9f2dd7a1",
+  "pages": 41,
+  "text": "pdftotext 24.02",
+  "revision": "SBVS322C"
+ },
+ "pins": {
+  "table": {
+   "page": 3,
+   "at": "pin table read by pinread.py",
+   "pad_x": [
+    143.8,
+    146.8
+   ]
+  },
+  "rows": [
+   {
+    "pad": "1",
+    "name": "IN",
+    "function": "power-in",
+    "page": 3,
+    "bbox": [
+     0.0,
+     394.4,
+     5000.0,
+     542.7
+    ],
+    "pad_x": [
+     143.8,
+     146.8
+    ],
+    "name_x": [
+     59.9,
+     70.8
+    ],
+    "text": "Input pin. A capacitor with a value of 1µF or larger is required from this IN 1 1 6 I pin to ground.(1) See the Input and Output Capacitor Selection section for more information."
+   },
+   {
+    "pad": "2",
+    "name": "GND",
+    "function": "ground",
+    "page": 3,
+    "bbox": [
+     0.0,
+     394.4,
+     5000.0,
+     542.7
+    ],
+    "pad_x": [
+     143.8,
+     146.8
+    ],
+    "name_x": [
+     59.9,
+     70.8
+    ],
+    "text": "GND 2 2 3 — Ground pin."
+   },
+   {
+    "pad": "3",
+    "name": "EN",
+    "function": "input",
+    "page": 3,
+    "bbox": [
+     0.0,
+     394.4,
+     5000.0,
+     542.7
+    ],
+    "pad_x": [
+     143.8,
+     146.8
+    ],
+    "name_x": [
+     59.9,
+     70.8
+    ],
+    "text": "Enable pin. Drive EN greater than VHI to turn on the regulator. Drive EN EN 3 3 4 I less than VLO to place the LDO into shutdown mode.",
+    "must": "driven"
+   },
+   {
+    "pad": "4",
+    "name": "NC",
+    "function": "no-connect",
+    "page": 3,
+    "bbox": [
+     0.0,
+     394.4,
+     5000.0,
+     542.7
+    ],
+    "pad_x": [
+     143.8,
+     146.8
+    ],
+    "name_x": [
+     59.9,
+     70.8
+    ],
+    "text": "NC 4 4 2, 5 — No internal connection."
+   },
+   {
+    "pad": "5",
+    "name": "OUT",
+    "function": "power-out",
+    "page": 3,
+    "bbox": [
+     0.0,
+     394.4,
+     5000.0,
+     542.7
+    ],
+    "pad_x": [
+     143.8,
+     146.8
+    ],
+    "name_x": [
+     59.9,
+     70.8
+    ],
+    "text": "Regulated output voltage pin. A capacitor with a value of 1µF or larger OUT 5 5 1 O is required from this pin to ground.(1) See the Input and Output Capacitor Selection section for more information."
+   }
+  ],
+  "reader": "pinread@1"
+ },
+ "package": {
+  "drawing": {
+   "page": 34,
+   "at": "DBV0005A package outline",
+   "text": "DBV0005A SOT-23 - 1.45 mm max height"
+  },
+  "kind": "gullwing2",
+  "count": 5,
+  "sides": {
+   "left": [
+    "1",
+    "2",
+    "3"
+   ],
+   "right": [
+    "4",
+    "",
+    "5"
+   ]
+  },
+  "dims": {
+   "pitch": {
+    "nom": 0.95,
+    "text": "2X 0.95"
+   },
+   "span": {
+    "min": 2.6,
+    "max": 3.0,
+    "text": [
+     "3.0",
+     "2.6"
+    ]
+   },
+   "lead_width": {
+    "min": 0.3,
+    "max": 0.5,
+    "text": "0.5 5X 0.3"
+   },
+   "lead_length": {
+    "min": 0.3,
+    "max": 0.6,
+    "text": "TYP 0.6 0 TYP SEATING PLANE 0.3"
+   },
+   "body": {
+    "d": {
+     "min": 2.75,
+     "max": 3.05,
+     "text": "3.05 2.75"
+    },
+    "e": {
+     "min": 1.45,
+     "max": 1.75,
+     "text": [
+      "1.75",
+      "1.45"
+     ]
+    }
+   }
+  },
+  "pin1": {
+   "corner": "top-left",
+   "direction": "ccw",
+   "text": "PIN 1 INDEX AREA"
+  },
+  "recommended_land": {
+   "page": 35,
+   "at": "Example board layout",
+   "text": "5X (1.1)"
+  }
+ },
+ "board": {
+  "footprint": "SOT-23-5",
+  "side": "bottom",
+  "pads": [
+   {
+    "number": "1",
+    "at": [
+     1.1375,
+     0.95
+    ],
+    "size": [
+     1.325,
+     0.6
+    ],
+    "rotation": 0.0,
+    "shape": "roundrect",
+    "type": "smd"
+   },
+   {
+    "number": "2",
+    "at": [
+     1.1375,
+     -0.0
+    ],
+    "size": [
+     1.325,
+     0.6
+    ],
+    "rotation": 0.0,
+    "shape": "roundrect",
+    "type": "smd"
+   },
+   {
+    "number": "3",
+    "at": [
+     1.1375,
+     -0.95
+    ],
+    "size": [
+     1.325,
+     0.6
+    ],
+    "rotation": 0.0,
+    "shape": "roundrect",
+    "type": "smd"
+   },
+   {
+    "number": "4",
+    "at": [
+     -1.1375,
+     -0.95
+    ],
+    "size": [
+     1.325,
+     0.6
+    ],
+    "rotation": 0.0,
+    "shape": "roundrect",
+    "type": "smd"
+   },
+   {
+    "number": "5",
+    "at": [
+     -1.1375,
+     0.95
+    ],
+    "size": [
+     1.325,
+     0.6
+    ],
+    "rotation": 0.0,
+    "shape": "roundrect",
+    "type": "smd"
+   }
+  ],
+  "symbol_pins": {
+   "1": "IN",
+   "2": "GND",
+   "3": "EN",
+   "4": "NC",
+   "5": "OUT"
+  },
+  "nets": {
+   "1": "SYS",
+   "2": "GND",
+   "3": "LDO_EN",
+   "4": "",
+   "5": "V3"
+  },
+  "fields": {
+   "Reference": "U6",
+   "Value": "TLV75733PDBVR",
+   "Datasheet": "https://www.ti.com/lit/ds/symlink/tlv757p.pdf",
+   "Description": "Linear regulator (LDO), fixed 3.3 V, 1 A, 1.45-5.5 V in, enable, 425 mV maximum dropout at 1 A",
+   "LCSC Part #": "C485517",
+   "MPN": "TLV75733PDBVR",
+   "Manufacturer": "Texas Instruments",
+   "PinoutSource": "TLV757P datasheet SBVS322C, Table 4-1 (pin functions), DBV column",
+   "Sheet": "TLV75733PDBV",
+   "Status": "checked",
+   "pcbkit": "U6",
+   "pcbkit-need": "444c89fc4b2b"
+  },
+  "file": "doom-09-s3-rgb.kicad_pcb",
+  "order": "C485517",
+  "ref": "U6"
+ }
+}

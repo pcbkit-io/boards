@@ -1,0 +1,10 @@
+[
+ {
+  "file": ".pcbkit/certificates/U4.json",
+  "sha256": "bb0006a4b9bfdd2a5a6730dba80d9df046a1555b35dc658266243121fbeb0859",
+  "code": "C485517",
+  "verdict": "certified",
+  "refuted": null,
+  "checker": "certcheck 1.0"
+ }
+]

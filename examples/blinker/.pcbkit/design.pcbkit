@@ -4,7 +4,9 @@ pcbkit 2
 // plated mounting hole in each corner. No board, no positions: the engine places the parts
 // (into the `.kicad_pcb`), the holes in the corners, and sizes the rounded outline around them.
 
-net VCC, GND, TRIG, DIS, OUT, LEDK
+// Powered with 5 V on J1 (the 555 runs from 4.5 V; R3 sets the LED's current for 5 V).
+net VCC { voltage = 5V }
+net GND, TRIG, DIS, OUT, LEDK
 
 part NE555: Part {
   footprint = soic(8)

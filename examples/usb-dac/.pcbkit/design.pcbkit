@@ -389,8 +389,10 @@ D2 = fp.SOT5x3_DYA_TEX_M {
   "2" -- CONN_D
 }
 
+// On Shore's USB-B1HSxx, the receptacle its footprint is drawn for (the white USB-B1HSW6).
 J1 = fp.USB_B_OST_USB_B1HSxx_Horizontal {
   displayValue = "USB_B"
+  orderCode = "C3198024"
   at = (16.25mm, 11.205mm)
   rotation = 180deg
   "1" -- VUSB_CONN
@@ -466,8 +468,10 @@ R6 = fp.R_0402_1005Metric_Pad0_72x0_64mm_HandSolder {
   "2" -- CONN_D
 }
 
+// Not fitted: the original's value is DNP (a place to join the shield's ground to GND).
 R7 = fp.R_0402_1005Metric_Pad0_72x0_64mm_HandSolder {
   displayValue = "DNP"
+  fitted = false
   at = (11.925mm, 23.635mm)
   "1" -- CGND
   "2" -- GND
