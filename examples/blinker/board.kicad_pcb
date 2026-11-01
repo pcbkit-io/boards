@@ -232,7 +232,6 @@
   (gr_line (start 101 200) (end 126 200) (stroke (width 0.1) (type solid)) (layer "Edge.Cuts"))
   (segment (start 110.25 179.425) (end 112.25 179.425) (width 0.25) (layer "F.Cu") (net 1))
   (segment (start 112.25 179.425) (end 111.365 180.31) (width 0.25) (layer "F.Cu") (net 1))
-  (segment (start 111.365 180.31) (end 111.365 183.525) (width 0.25) (layer "F.Cu") (net 1))
   (segment (start 110.5375 192.25) (end 110.675 192.3875) (width 0.25) (layer "F.Cu") (net 3))
   (segment (start 110.675 192.3875) (end 110.675 194.5) (width 0.25) (layer "F.Cu") (net 3))
   (segment (start 116.05 183.25) (end 114.9125 182.1125) (width 0.25) (layer "F.Cu") (net 5))
