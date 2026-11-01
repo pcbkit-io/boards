@@ -1,0 +1,26 @@
+# Every board of the library through PCBKit's gate (github.com/pcbkit-io/verify), in report mode:
+# the run's summary shows each board's level, findings and coverage; the job never fails on them.
+name: verify
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+  pull-requests: write
+  security-events: write
+concurrency:
+  group: verify-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  boards:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pcbkit-io/verify@dev-multi
+        with:
+          projects: "*/*"
+          require: ready
+          policy: report
+          sarif: true
