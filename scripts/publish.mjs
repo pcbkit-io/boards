@@ -65,21 +65,13 @@ function texts(dir) {
   walk(dir)
   return found.sort((a, b) => a.path.localeCompare(b.path))
 }
-/** The files of a folder the app reads from GitHub (as PCBKit's import takes them), with their sizes. */
+/** The files of a folder the app reads from GitHub (as PCBKit's import takes them), with their
+ *  sizes: those the commit has (`git ls-files`), never what a run left on this disk (the tool's
+ *  `.pcbkit/cache/`, which GitHub does not serve). */
 const WANTED = /\.(kicad_pcb|kicad_pro|kicad_dru|kicad_sch|pcbkit|md|json|c|cpp|ino|h|hpp|S|hex|txt|csv|svg|kicad_mod|kicad_sym|js)$|(^|\/)(\.gitignore|pre-commit)$/
-const BACKUP = /(^|\/)(\.git|node_modules|target|[^/]*-backups)(\/|$)|(^|\/)(_autosave-[^/]*|~[^/]*\.lck|[^/]*-bak|[^/]*\.bak|[^/]*~|\._[^/]*)$/
 function listed(dir) {
-  const found = []
-  const walk = (d) => {
-    for (const n of readdirSync(d).sort()) {
-      const p = join(d, n), rel = relative(dir, p)
-      if (BACKUP.test(rel)) continue
-      if (statSync(p).isDirectory()) walk(p)
-      else if (WANTED.test(rel)) found.push({ path: rel, bytes: statSync(p).size })
-    }
-  }
-  walk(dir)
-  return found
+  return execFileSync('git', ['-C', dir, 'ls-files', '-z', '--', '.'], { encoding: 'utf8' }).split('\0').filter((rel) => rel && WANTED.test(rel)).sort()
+    .map((rel) => ({ path: rel, bytes: statSync(join(dir, rel)).size }))
 }
 const pcbkit = (dir, ...a) => {
   try { return JSON.parse(execFileSync(bin, ['-C', dir, ...a], { encoding: 'utf8', maxBuffer: 1 << 28 })) }
