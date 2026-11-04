@@ -1,0 +1,59 @@
+pcbkit 2
+// The board as built: written by PCBKit's tools (ADR 0118). Lengths in mm, angles in degrees.
+layers = 2
+components = {
+  U1 = { at = (35, 35), rotation = 90, side = .bottom, footprint = "Arduino_Nano_Socket_2x15_P2.54mm_W15.24mm", nets = { "4" = "GND", "5" = "BUTTON", "10" = "OVERRIDE", "12" = "SERVO", "19" = "ANALOG", "27" = "V5", "29" = "GND" }, fields = { "LCSC Part #" = "C19189484", "pcbkit-need" = "dbbcbe6d615b" } }
+  dial = { at = (16, 15), footprint = "Potentiometer_Bourns_PTV09A-4_Vertical", nets = { "1" = "GND", "2" = "ANALOG", "3" = "V5", "MP" = "GND" }, fields = { "LCSC Part #" = "C5848782", "pcbkit-need" = "90b011ee2b74" } }
+  override = { at = (16, 56), footprint = "LED_1206_3216Metric", nets = { "1" = "OVERRIDE_K", "2" = "OVERRIDE" }, fields = { "LCSC Part #" = "C3646937", "MPN" = "XL-3216UGC-FB", "Manufacturer" = "XINGLIGHT", "pcbkit-need" = "f9dfa03b7f5d MPN Manufacturer" } }
+  overrideR = { at = (13.75, 54), rotation = 180, footprint = "R_0603_1608Metric", nets = { "1" = "GND", "2" = "OVERRIDE_K" }, fields = { "LCSC Part #" = "C21190", "MPN" = "0603WAF1001T5E", "Manufacturer" = "UNI-ROYAL(Uniroyal Elec)", "pcbkit-need" = "02d78dfd10f6 MPN Manufacturer" } }
+  pushbutton = { at = (30, 60), footprint = "SW_Tactile_SPST_6x6mm_SMD", nets = { "1" = "BUTTON", "2" = "GND" }, fields = { "DesignMPN" = "PTS645SM43SMTR92 LFS", "LCSC Part #" = "C221880", "MPN" = "PTS645SM43SMTR92LFS", "pcbkit-need" = "0ab57f512204 MPN DesignMPN" } }
+  servo = { at = (59, 28), footprint = "PinHeader_1x03_P2.54mm_Vertical", nets = { "1" = "GND", "2" = "V5", "3" = "SERVO" }, fields = { "DesignMPN" = "RC servo header, 1 x 3 pins, 2.54 mm", "DesignManufacturer" = "generic", "LCSC Part #" = "C429954", "MPN" = "12251103CNG0S115001", "Manufacturer" = "JILN", "pcbkit-need" = "5aaa41eef0dc MPN DesignMPN Manufacturer DesignManufacturer" } }
+}
+tracks = [
+  { net = "OVERRIDE_K", layer = "F.Cu", width = 0.25, points = [(14.6, 56), (12.925, 54.325)] },
+  { net = "OVERRIDE_K", layer = "F.Cu", width = 0.25, points = [(12.925, 54.325), (12.925, 54)] },
+  { net = "OVERRIDE", layer = "F.Cu", width = 0.25, points = [(29.92, 27.38), (21, 36.3)] },
+  { net = "OVERRIDE", layer = "F.Cu", width = 0.25, points = [(21, 36.3), (21, 52)] },
+  { net = "OVERRIDE", layer = "F.Cu", width = 0.25, points = [(21, 52), (17.4, 55.6)] },
+  { net = "OVERRIDE", layer = "F.Cu", width = 0.25, points = [(17.4, 55.6), (17.4, 56)] },
+  { net = "SERVO", layer = "F.Cu", width = 0.25, points = [(24.84, 27.38), (26.76, 25.46)] },
+  { net = "SERVO", layer = "F.Cu", width = 0.25, points = [(26.76, 25.46), (59, 25.46)] },
+  { net = "BUTTON", layer = "F.Cu", width = 0.25, points = [(42.62, 27.38), (33.8, 36.2)] },
+  { net = "BUTTON", layer = "F.Cu", width = 0.25, points = [(33.8, 36.2), (33.8, 56)] },
+  { net = "BUTTON", layer = "F.Cu", width = 0.25, points = [(33.8, 56), (32.8, 57)] },
+  { net = "BUTTON", layer = "F.Cu", width = 0.25, points = [(32.8, 57), (32.8, 61.2)] },
+  { net = "BUTTON", layer = "F.Cu", width = 0.25, points = [(32.8, 61.2), (33.85, 62.25)] },
+  { net = "BUTTON", layer = "F.Cu", width = 0.25, points = [(33.85, 62.25), (33.975, 62.25)] },
+  { net = "GND", layer = "F.Cu", width = 0.25, points = [(21.3, 22), (10.7, 22)] },
+  { net = "V5", layer = "F.Cu", width = 0.25, points = [(45.16, 42.62), (45.16, 41.84)] },
+  { net = "V5", layer = "F.Cu", width = 0.25, points = [(45.16, 41.84), (59, 28)] },
+  { net = "V5", layer = "B.Cu", width = 0.25, points = [(45.16, 42.62), (31.2, 28.66)] },
+  { net = "V5", layer = "B.Cu", width = 0.25, points = [(31.2, 28.66), (31.2, 26.8)] },
+  { net = "V5", layer = "B.Cu", width = 0.25, points = [(31.2, 26.8), (19.4, 15)] },
+  { net = "V5", layer = "B.Cu", width = 0.25, points = [(19.4, 15), (18.5, 15)] },
+  { net = "ANALOG", layer = "B.Cu", width = 0.25, points = [(24.84, 42.62), (16, 33.78)] },
+  { net = "ANALOG", layer = "B.Cu", width = 0.25, points = [(16, 33.78), (16, 15)] },
+  { net = "GND", layer = "B.Cu", width = 0.25, points = [(46, 27.4), (48.4, 29.8)] },
+  { net = "GND", layer = "B.Cu", width = 0.25, points = [(48.4, 29.8), (50.4, 29.8)] },
+  { net = "GND", layer = "B.Cu", width = 0.25, points = [(50.4, 29.8), (58.2, 29.8)] },
+  { net = "GND", layer = "B.Cu", width = 0.25, points = [(50.4, 29.8), (50.24, 29.96)] },
+  { net = "GND", layer = "B.Cu", width = 0.25, points = [(50.24, 29.96), (50.24, 42.62)] },
+  { net = "GND", layer = "F.Cu", width = 0.25, points = [(50.24, 42.62), (35.11, 57.75)] },
+  { net = "GND", layer = "F.Cu", width = 0.25, points = [(35.11, 57.75), (33.975, 57.75)] },
+  { net = "GND", layer = "F.Cu", width = 0.25, points = [(26.025, 57.75), (17.15, 57.75)] },
+  { net = "GND", layer = "F.Cu", width = 0.25, points = [(17.15, 57.75), (15.6, 56.2)] },
+  { net = "GND", layer = "F.Cu", width = 0.25, points = [(15.6, 56.2), (15.6, 55.025)] },
+  { net = "GND", layer = "F.Cu", width = 0.25, points = [(15.6, 55.025), (14.575, 54)] },
+  { net = "GND", layer = "F.Cu", width = 0.25, points = [(45.16, 27.38), (43.78, 26)] },
+  { net = "GND", layer = "F.Cu", width = 0.25, points = [(43.78, 26), (29.6, 26)] },
+  { net = "GND", layer = "F.Cu", width = 0.25, points = [(29.6, 26), (28.6, 27)] },
+  { net = "GND", layer = "F.Cu", width = 0.25, points = [(28.6, 27), (28.6, 28)] },
+  { net = "GND", layer = "F.Cu", width = 0.25, points = [(28.6, 28), (28, 28.6)] },
+  { net = "GND", layer = "F.Cu", width = 0.25, points = [(28, 28.6), (24.2, 28.6)] },
+  { net = "GND", layer = "F.Cu", width = 0.25, points = [(24.2, 28.6), (23.6, 28)] },
+  { net = "GND", layer = "F.Cu", width = 0.25, points = [(23.6, 28), (23.6, 25.2)] },
+  { net = "GND", layer = "F.Cu", width = 0.25, points = [(23.6, 25.2), (21.3, 22.9)] },
+  { net = "GND", layer = "F.Cu", width = 0.25, points = [(21.3, 22.9), (21.3, 22)] },
+  { net = "GND", layer = "B.Cu", width = 0.25, points = [(10.7, 22), (13.5, 19.2)] },
+  { net = "GND", layer = "B.Cu", width = 0.25, points = [(13.5, 19.2), (13.5, 15)] },
+]

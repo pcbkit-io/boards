@@ -1,0 +1,40 @@
+pcbkit 2
+// The board as built: written by PCBKit's tools (ADR 0118). Lengths in mm, angles in degrees.
+layers = 2
+components = {
+  DS1 = { at = (45, 64), footprint = "OLED_0.96in_I2C_Socket_1x04_P2.54mm", nets = { "1" = "GND", "2" = "V5", "3" = "SCL", "4" = "SDA" } }
+  H1 = { at = (6, 64), footprint = "MountingHole_3.2mm_M3" }
+  H2 = { at = (84, 64), footprint = "MountingHole_3.2mm_M3" }
+  NANO = { at = (45, 22), rotation = 90, side = .bottom, footprint = "Arduino_Nano_Socket_2x15_P2.54mm_W15.24mm", nets = { "4" = "GND", "5" = "WIPE", "19" = "X", "20" = "Y", "23" = "SDA", "24" = "SCL", "27" = "V5", "29" = "GND" }, fields = { "LCSC Part #" = "C19189484", "pcbkit-need" = "dbbcbe6d615b" } }
+  RV1 = { at = (12, 12), footprint = "Potentiometer_Bourns_PTV09A-4_Vertical", nets = { "1" = "GND", "2" = "X", "3" = "V5", "MP" = "GND" }, fields = { "LCSC Part #" = "C5848782", "pcbkit-need" = "90b011ee2b74" } }
+  RV2 = { at = (78, 12), footprint = "Potentiometer_Bourns_PTV09A-4_Vertical", nets = { "1" = "GND", "2" = "Y", "3" = "V5", "MP" = "GND" }, fields = { "LCSC Part #" = "C5848782", "pcbkit-need" = "90b011ee2b74" } }
+  SW1 = { at = (45, 8), footprint = "SW_Tactile_SPST_6x6mm_SMD", nets = { "1" = "WIPE", "2" = "GND" }, fields = { "DesignMPN" = "PTS645SM43SMTR92 LFS", "LCSC Part #" = "C221880", "MPN" = "PTS645SM43SMTR92LFS", "pcbkit-need" = "0ab57f512204 MPN DesignMPN" } }
+}
+tracks = [
+  { net = "GND", layer = "F.Cu", width = 0.25, points = [(55.16, 14.38), (53.975596, 15.564404)] },
+  { net = "X", layer = "B.Cu", width = 0.25, points = [(34.84, 29.62), (34.02, 29.62)] },
+  { net = "X", layer = "B.Cu", width = 0.25, points = [(34.02, 29.62), (17.8, 13.4)] },
+  { net = "X", layer = "B.Cu", width = 0.25, points = [(17.8, 13.4), (13.4, 13.4)] },
+  { net = "X", layer = "B.Cu", width = 0.25, points = [(13.4, 13.4), (12, 12)] },
+  { net = "SCL", layer = "F.Cu", width = 0.25, points = [(46.27, 64), (47.54, 62.73)] },
+  { net = "SCL", layer = "F.Cu", width = 0.25, points = [(47.54, 62.73), (47.54, 29.62)] },
+  { net = "V5", layer = "B.Cu", width = 0.25, points = [(43.73, 64), (55.16, 52.57)] },
+  { net = "V5", layer = "B.Cu", width = 0.25, points = [(55.16, 52.57), (55.16, 29.62)] },
+  { net = "V5", layer = "B.Cu", width = 0.25, points = [(55.16, 29.62), (70.78, 14)] },
+  { net = "V5", layer = "B.Cu", width = 0.25, points = [(70.78, 14), (78.2, 14)] },
+  { net = "V5", layer = "B.Cu", width = 0.25, points = [(78.2, 14), (80.2, 12)] },
+  { net = "V5", layer = "B.Cu", width = 0.25, points = [(80.2, 12), (80.5, 12)] },
+  { net = "V5", layer = "B.Cu", width = 0.25, points = [(55.16, 29.62), (41.14, 15.6)] },
+  { net = "V5", layer = "B.Cu", width = 0.25, points = [(41.14, 15.6), (20.8, 15.6)] },
+  { net = "V5", layer = "B.Cu", width = 0.25, points = [(20.8, 15.6), (17.2, 12)] },
+  { net = "V5", layer = "B.Cu", width = 0.25, points = [(17.2, 12), (14.5, 12)] },
+  { net = "WIPE", layer = "F.Cu", width = 0.25, points = [(52.62, 14.38), (48.975, 10.735)] },
+  { net = "WIPE", layer = "F.Cu", width = 0.25, points = [(48.975, 10.735), (48.975, 10.25)] },
+  { net = "Y", layer = "F.Cu", width = 0.25, points = [(37.38, 29.62), (50.8, 16.2)] },
+  { net = "Y", layer = "F.Cu", width = 0.25, points = [(50.8, 16.2), (73.8, 16.2)] },
+  { net = "Y", layer = "F.Cu", width = 0.25, points = [(73.8, 16.2), (78, 12)] },
+  { net = "SDA", layer = "F.Cu", width = 0.25, points = [(48.81, 64), (48.81, 29.21)] },
+  { net = "SDA", layer = "F.Cu", width = 0.25, points = [(48.81, 29.21), (48, 28.4)] },
+  { net = "SDA", layer = "F.Cu", width = 0.25, points = [(48, 28.4), (46.22, 28.4)] },
+  { net = "SDA", layer = "F.Cu", width = 0.25, points = [(46.22, 28.4), (45, 29.62)] },
+]

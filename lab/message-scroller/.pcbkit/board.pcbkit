@@ -1,0 +1,46 @@
+pcbkit 2
+// The board as built: written by PCBKit's tools (ADR 0118). Lengths in mm, angles in degrees.
+layers = 2
+components = {
+  H1 = { at = (3.622, 3.622), path = "holes/holes[0]", footprint = "MountingHole_2.2mm_M2_Pad" }
+  H2 = { at = (88.378, 3.622), path = "holes/holes[1]", footprint = "MountingHole_2.2mm_M2_Pad" }
+  U1 = { at = (46, 29), rotation = 90, side = .bottom, footprint = "Arduino_Nano_Socket_2x15_P2.54mm_W15.24mm", nets = { "1" = "TX", "2" = "RX", "4" = "GND", "13" = "LOAD", "14" = "MOSI", "16" = "SCK", "19" = "SPEED", "27" = "V5", "29" = "GND" }, fields = { "LCSC Part #" = "C19189484", "pcbkit-need" = "dbbcbe6d615b" } }
+  console = { at = (16, 29), footprint = "PinHeader_1x06_P2.54mm_Vertical", nets = { "1" = "GND", "3" = "V5", "4" = "RX", "5" = "TX" }, fields = { "LCSC Part #" = "C5383115", "MPN" = "2541WV-06P", "Manufacturer" = "HanElectricity", "pcbkit-need" = "cd3c9da26c3b MPN Manufacturer" } }
+  display = { at = (46, 60), footprint = "MAX7219_8digit_Module_Socket_1x05_P2.54mm", nets = { "1" = "V5", "2" = "GND", "3" = "MOSI", "4" = "LOAD", "5" = "SCK" } }
+  speed = { at = (76, 30), footprint = "Potentiometer_Bourns_PTV09A-4_Vertical", nets = { "1" = "GND", "2" = "SPEED", "3" = "V5", "MP" = "GND" }, fields = { "LCSC Part #" = "C5848782", "pcbkit-need" = "90b011ee2b74" } }
+}
+tracks = [
+  { net = "LOAD", layer = "B.Cu", width = 0.25, points = [(33.3, 21.38), (29.49, 25.19)] },
+  { net = "LOAD", layer = "B.Cu", width = 0.25, points = [(29.49, 25.19), (29.49, 37.043333)] },
+  { net = "LOAD", layer = "B.Cu", width = 0.25, points = [(29.49, 37.043333), (9.073333, 57.46)] },
+  { net = "LOAD", layer = "B.Cu", width = 0.25, points = [(9.073333, 57.46), (7.4, 57.46)] },
+  { net = "MOSI", layer = "B.Cu", width = 0.25, points = [(30.76, 21.38), (17.848333, 34.291667)] },
+  { net = "MOSI", layer = "B.Cu", width = 0.25, points = [(17.848333, 34.291667), (17.848333, 37.043333)] },
+  { net = "MOSI", layer = "B.Cu", width = 0.25, points = [(17.848333, 37.043333), (6.206667, 48.685)] },
+  { net = "MOSI", layer = "B.Cu", width = 0.25, points = [(6.206667, 48.685), (6.206667, 58.421667)] },
+  { net = "MOSI", layer = "B.Cu", width = 0.25, points = [(6.206667, 58.421667), (7.4, 59.615)] },
+  { net = "MOSI", layer = "B.Cu", width = 0.25, points = [(7.4, 59.615), (7.4, 60)] },
+  { net = "RX", layer = "F.Cu", width = 0.25, points = [(61.24, 21.38), (54.89, 27.73)] },
+  { net = "RX", layer = "F.Cu", width = 0.25, points = [(54.89, 27.73), (16, 27.73)] },
+  { net = "SCK", layer = "B.Cu", width = 0.25, points = [(28.22, 36.62), (9.92, 54.92)] },
+  { net = "SCK", layer = "B.Cu", width = 0.25, points = [(9.92, 54.92), (7.4, 54.92)] },
+  { net = "SPEED", layer = "B.Cu", width = 0.25, points = [(35.84, 36.62), (40.496667, 31.963333)] },
+  { net = "SPEED", layer = "B.Cu", width = 0.25, points = [(40.496667, 31.963333), (73.94, 31.963333)] },
+  { net = "SPEED", layer = "B.Cu", width = 0.25, points = [(73.94, 31.963333), (75.903333, 30)] },
+  { net = "SPEED", layer = "B.Cu", width = 0.25, points = [(75.903333, 30), (76, 30)] },
+  { net = "TX", layer = "B.Cu", width = 0.25, points = [(63.78, 21.38), (61.875, 19.475)] },
+  { net = "TX", layer = "B.Cu", width = 0.25, points = [(61.875, 19.475), (22.293333, 19.475)] },
+  { net = "TX", layer = "B.Cu", width = 0.25, points = [(22.293333, 19.475), (16.578333, 25.19)] },
+  { net = "TX", layer = "B.Cu", width = 0.25, points = [(16.578333, 25.19), (16, 25.19)] },
+  { net = "V5", layer = "F.Cu", width = 0.25, points = [(56.16, 36.62), (60.816667, 31.963333)] },
+  { net = "V5", layer = "F.Cu", width = 0.25, points = [(60.816667, 31.963333), (76.268333, 31.963333)] },
+  { net = "V5", layer = "F.Cu", width = 0.25, points = [(76.268333, 31.963333), (78.231667, 30)] },
+  { net = "V5", layer = "F.Cu", width = 0.25, points = [(78.231667, 30), (78.5, 30)] },
+  { net = "V5", layer = "F.Cu", width = 0.25, points = [(56.16, 36.62), (49.81, 30.27)] },
+  { net = "V5", layer = "F.Cu", width = 0.25, points = [(49.81, 30.27), (16, 30.27)] },
+  { net = "V5", layer = "F.Cu", width = 0.25, points = [(16, 30.27), (10.651667, 35.618333)] },
+  { net = "V5", layer = "F.Cu", width = 0.25, points = [(10.651667, 35.618333), (10.651667, 61.808333)] },
+  { net = "V5", layer = "F.Cu", width = 0.25, points = [(10.651667, 61.808333), (7.4, 65.06)] },
+  { net = "V5", layer = "F.Cu", width = 0.25, points = [(7.4, 65.06), (7.4, 65.08)] },
+  { net = "GND", layer = "B.Cu", width = 0.25, points = [(56.16, 21.38), (54.975596, 20.195596)] },
+]

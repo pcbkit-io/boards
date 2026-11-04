@@ -58,8 +58,8 @@ function texts(dir) {
   const walk = (d) => {
     for (const n of readdirSync(d).sort()) {
       const p = join(d, n)
-      if (statSync(p).isDirectory()) { if (!['node_modules', 'target', '.git'].includes(n)) walk(p) }
-      else if (/\.(pcbkit|md|c|cpp|ino|h|hpp|S|hex|json|js|txt|kicad_pcb|kicad_pro|kicad_dru)$/.test(n)) found.push({ path: relative(dir, p), text: readFileSync(p, 'utf8') })
+      if (statSync(p).isDirectory()) { if (!['node_modules', 'target', '.git', 'cache'].includes(n)) walk(p) }
+      else if (/\.(pcbkit|md|c|cpp|ino|h|hpp|S|hex|json|js|txt)$/.test(n)) found.push({ path: relative(dir, p), text: readFileSync(p, 'utf8') })
     }
   }
   walk(dir)

@@ -1,12 +1,13 @@
 # The board format
 
-A PCBKit project is a KiCad project with a `.pcbkit/` folder. KiCad's files hold the board as built
-(where every part is, the copper, the fills); `.pcbkit/design.pcbkit` holds what you and your agent
-add — the circuit in code, its intent, the rules KiCad has no words for. Open any KiCad project and
-keep working in it; open the same files in KiCad at any time. This document is the reference for
+A PCBKit project is its `.pcbkit/` folder, every file in the PCBKit language: `design.pcbkit`
+holds what you and your agent write — the circuit in code, its intent, its rules — and
+`board.pcbkit` the board as the tools built it (where every part is, the copper). KiCad and the
+other EDA tools are an import and an export: `pcbkit import` turns their boards into these files,
+`project.export { format: "kicad" }` writes a KiCad project from them. This document is the reference for
 those files; the language (syntax, types, units, evaluation) is
 [`language.md`](language.md), and the standard library — every type, field, block and footprint,
-with a doc comment on each — is PCBKit too (`lang.search`, `lang.describe`; `pcbkit lsp` in an
+with a doc comment on each — is PCBKit too (`help.search`, `help.describe`; `pcbkit lsp` in an
 editor).
 
 Every example in a ```` ```pcbkit ```` block that starts with `// file:` is a complete file and is
@@ -16,47 +17,130 @@ evaluated by the tests (`crates/pcbkit-core/tests/format_doc.rs`), so the exampl
 
 | File | Written by | Holds |
 |---|---|---|
-| `<name>.kicad_pcb` | the tools, KiCad | the board as built: footprints and where they are, tracks, vias, pours and their fills, the outline, the nets on each pad, the orderable part chosen for each footprint. The router, the placer, `fill`, `pcbkit parts` and every move write here, in place: what they do not change stays byte for byte |
-| `<name>.kicad_pro`, `<name>.kicad_dru`, `*.kicad_sch` | KiCad (and the tools, for a new board) | KiCad's project: net classes, rules, severities, the schematic |
-| `.pcbkit/design.pcbkit` | people, agents | the design: nets with their voltages and currents, parts by what they must be, components and their connections, blocks, placement rules, pours, net classes, rules, routing settings — whatever the project adds to the KiCad board |
-| `.pcbkit/blocks/*.pcbkit`, `.pcbkit/parts/` | people, agents, `parts.create` | modules the design uses (`use "blocks/power.pcbkit" as power`; paths are relative to the file that uses them) |
-| `.pcbkit/footprints.pcbkit` | `parts.use` (a library footprint), people, agents | the project's own footprints (`use "footprints.pcbkit" as fp`) |
-| `.pcbkit/comments.pcbkit` | the web app, agents (`comments.*`) | comments on the board, their threads and status (below) |
+| `.pcbkit/design.pcbkit` | people, agents | the design: nets with their voltages and currents, parts by what they must be, components and their connections, blocks, placement rules, pours, net classes, rules, the stack, the outline, routing settings |
+| `.pcbkit/board.pcbkit` | the tools | the board as built (below): where each component is, the nets on its pads, the orderable part chosen for it, the tracks, vias and fixed copper. The router, the placer, `pcbkit parts`, `board.*` and every build write it |
+| `.pcbkit/blocks/*.pcbkit`, `.pcbkit/parts/` | people, agents, `parts.create` | modules the design uses (`use ./blocks/power as power`; paths are relative to the file that uses them) |
+| `.pcbkit/footprints.pcbkit` | `parts.use` (a library footprint), people, agents | the project's own footprints (`use ./footprints as fp`) |
+| `.pcbkit/comments.pcbkit` | the web app, agents (`project.comment`, `project.reply`) | comments on the board, their threads and status (below) |
+| `.pcbkit/orders/<digest>/` | `project.order` | one record per Gerber archive handed to a fab (`record.json`, `order@1`) and that archive itself, byte for byte: the parts it orders, their certificates, the tool's versions, every hand-over with the fab's reading. `project.order { reorder: "<digest>" }` sends that archive again |
+| `.pcbkit/certificates/*.json` | certificate producers, certcheck (`verdicts.json`) | the ordered parts' certificates (`part@1`) and certcheck's verdicts of them: a refuted part stops `project.order` |
 | `.pcbkit/FORMAT.md`, `AGENTS.md`, `CLAUDE.md`, `.githooks/pre-commit` | `init` | this document; how an agent works here; the hook that runs `pcbkit check` before a commit |
 
-`.pcbkit/cache/` is the tools' cache (git-ignored). There are no other generated files.
+`.pcbkit/cache/` is the tools' cache (git-ignored): the pours' fills, computed from the copper and
+the rules when the project is read and kept by the hash of what they depend on (fills are never
+in git). There are no other generated files.
 
 **What lives where.** Every fact has one home:
 
-- **Where things are is the KiCad board's.** Positions, copper and fills are physical: the tools
-  write them into the `.kicad_pcb`, and so does KiCad. A component the design gives `at` is pinned
-  there (moved in KiCad, `check` warns `placement-differs`: the design's position wins and the
-  next write puts it back); without `at` it stays wherever the placer, `board.move` or a person in
-  KiCad put it. `board.move` of a part without `at` moves it in the `.kicad_pcb`; `place.pin`
-  writes the positions into the design as `at`.
-- **What the design states is the design's.** A component, net, pour, class, rule or outline the
-  design defines is written into the KiCad files by the tools (a footprint carries the property
-  `pcbkit` with its path in the design; the design's drawings are the KiCad group `pcbkit`) and
-  rewritten with every command that changes the design (`files.write`, `files.edit`, `board.*`,
-  the jobs); a design edited outside the tools reaches them with the next such command. A name the design defines that the KiCad board also has
-  (`U1 = …`) takes that part over.
-- **Everything else is the KiCad board's**, read as it is: a KiCad project opened in PCBKit starts
-  with an empty design (`pcbkit 1`) and is the board exactly as KiCad has it. Nets of the KiCad
-  board are the design's by name (`net GND`, `net V3 named "+3V3"`).
-- The board's fields (outline, layers, thickness, fabrication), the rules, the routing settings
-  and the default net class are the KiCad board's unless the design states them, field by field,
-  whether the design made the KiCad board or it was opened.
+- **What the board is is the design's.** Every part, net, pour, class, rule, the stack and the
+  outline are stated in `design.pcbkit` (and the modules it uses); `board.pcbkit` holds no intent.
+- **Where things are is `board.pcbkit`'s.** Positions, the copper and the nets on the pads as
+  built are physical: the tools write them there. A component the design gives `at` is pinned
+  there; without `at` it stays wherever the placer or `board.move` put it. `board.move` of a part
+  without `at` moves it in `board.pcbkit` and locks it there (`locked = true`): every later
+  placement keeps a locked part, the engine's parts it stands on move instead (`place --all` too);
+  `board.pin` writes the positions into the design as `at`. A component `board.pcbkit` does not
+  name is unplaced: the next build places it.
+- **`board.pcbkit` is the tools' file.** `design.write` and `design.edit` refuse it unless given
+  `generated: true`; change the board with `board.*`, builds and routing. A hand edit is read like
+  any change.
 
-`pcbkit check` reads the project and prints one JSON report (`check.run`); `pcbkit show` describes
-the board's objects (`model.get`); `pcbkit fmt` puts the sources in the canonical layout.
+### The board as built (`.pcbkit/board.pcbkit`)
+
+The file is PCBKit's data subset (literals only, read without evaluation, like
+`comments.pcbkit`). Lengths are in mm and angles in degrees, without units:
+
+```text
+pcbkit 2
+// The board as built: written by PCBKit's tools (ADR 0118). Lengths in mm, angles in degrees.
+layers = 4
+components = {
+  R1 = { at = (10.5, 3), rotation = 90, side = .bottom, path = "usb/R", footprint = "R_0603", nets = { "1" = "GND", "2" = "VBUS" } },
+}
+tracks = [
+  { net = "GND", layer = "F.Cu", width = 0.25, points = [(1, 2), (3, 4)] },
+]
+vias = [
+  { net = "GND", at = (3, 4), diameter = 0.6, drill = 0.3 },
+]
+```
+
+- `components`, by refdes: `at`, `rotation`, `side`, `locked`; `path`, the component's entity
+  path in the design where it is not the refdes; its `footprint` name; the `nets` of its pads as
+  built (the router's pin assignment included); the `fields` the parts choice wrote (`LCSC Part
+  #`, `MPN`, `Manufacturer`, `pcbkit-need`).
+- `layers = N` where the design leaves `layers = .auto`; `texts`: the positions of the board texts
+  the engine placed.
+- `tracks` (`net`, `layer`, `width`, `points`, `arc`: the middle point of an arc), `vias` (`net`,
+  `at`, `diameter`, `drill`, `span`, `micro`, `unusedLayers`), `copper` (fixed copper polygons).
+  Copper a person made (an imported board's) says `by = .person`: a build completes the routing
+  around it and never redoes it; copper a person locked says `locked = true`: a change of the
+  parts never rips it up.
+- `from = "kicad"` on a board imported from another tool.
+
+**A KiCad board** becomes a project: `pcbkit import x.kicad_pcb` (`project.import`, a drop or
+Import in the web app; `pcbkit init` in a directory holding a KiCad board) writes it as the
+project's files — its components on their own footprints in `.pcbkit/footprints.pcbkit`, its
+nets, classes, rules, stack, outline, pours, keepouts and art in `design.pcbkit`, the positions
+and copper in `board.pcbkit` (`by = .person`, `from = "kicad"`). The answer lists what the files
+leave out (`left_out`: drawings on user layers, dimensions, groups, the title block, …). Edits
+made in KiCad afterwards come back only through another import. `project.export { format:
+"kicad" }` writes a KiCad project from the model (KiCad 8's format; KiCad 10's where footprints
+have jumper pads). A directory of KiCad files without `.pcbkit/design.pcbkit` (a repository
+`pcbkit check` or the CI gate runs on, a GitHub repository the app opens) is imported in memory
+for that run and checks and renders as KiCad has it; the first change written makes it a project.
+
+**A KiCad schematic** becomes the design: `pcbkit import` of a project's `.kicad_pro` or root
+`.kicad_sch` (`project.import { format: "kicad-schematic" }`) writes the circuit its sheets draw
+into `.pcbkit/design.pcbkit` — each symbol a component of its part (a resistor or capacitor of a
+value as `res`/`cap` with its package, tolerance, rating, MPN and order code; any other symbol a
+`part X: Part { … }` with its pins by name and their electrical types), nets under the schematic's names
+(the board's, over a board), not-fitted parts `fitted = false` — and the footprints it names
+into `.pcbkit/footprints.pcbkit`, as the board has them, else the project's libraries
+(`fp-lib-table`), else KiCad's own. The design's netlist is KiCad's (`kicad-cli sch export
+netlist`). With the project's board the board's parts keep where they are (`board.pcbkit`; those the
+engine would move, an edge connector over the edge, are pinned with `at`); without one the
+hierarchical sheets are blocks (a block per sheet file, called once per sheet; a file used by
+several sheets takes its references as `refs`), the project's board setup, net classes (with
+their nets) and custom rules are the design's `rules`, `NetClass`es and `interop`, and `pcbkit
+route` places and routes a new board. `--relayout` (`relayout: true`) lays the project out anew
+over its board's settings: the design states the board's outline, copper stack, thickness,
+fabrication (copper weights, dielectric) and planes, pins its connectors, switches and mounting
+holes where the board has them, and the build places and routes the rest.
+
+**An Altium or EasyEDA schematic** becomes the design the same way: `pcbkit import` of an Altium
+project's `.PrjPcb` (`project.import { format: "altium-schematic" }`: its SchDocs, over its
+PcbDoc's footprints) or of an EasyEDA Standard `schematic-*.json` (`easyeda-schematic`: the
+folder's sheets, over its one board), `pcbkit import x.epro --relayout` of an EasyEDA Pro project
+(`easyeda-schematic` given the project: its board's schematic, over that board), or a drop of the
+project's folder or zip onto the web app. Their sheets connect as their editors connect them
+(wires, junctions, net labels, power ports, ports and sheet entries by the project's net scope,
+buses and harnesses member by member, harnesses along their harness lines, Altium's pin maps and
+repeated sheets as one channel each, `R1_CH1`).
+
+**Boards of other tools** become a project the same way: `pcbkit import FILE` (or
+`project.import`, or a drop onto the web app) reads an Eagle `.brd`, an Altium `.PcbDoc` (binary
+or ASCII) or an EasyEDA board (Standard: its `.json`; Pro: its `.epro` project, the largest of its
+boards) and writes it as the project's files, as a KiCad board above. The schematics beside the
+board name its pads' pins (their names and electrical types): Eagle's `.sch` of the board's name, the SchDocs of the
+Altium project (`.PrjPcb`) or folder, EasyEDA Standard's `schematic-*.json` beside its
+`pcb-*.json` (OSHWLab's export of a project), an EasyEDA Pro project's own symbols. An EasyEDA
+part's order codes become its component's `fields` in `board.pcbkit` (`LCSC Part #`, `MPN`, `Manufacturer`), from
+the board or, where it has none, its schematic. Another router works on the board through Specctra: `pcbkit export
+--format dsn` writes the design file it reads (Freerouting: `-de pcb.dsn -do pcb.ses`), and
+`pcbkit import pcb.ses` puts its routing on this project's board. `pcbkit export --format
+ipc2581` writes the whole board as one IPC-2581C file for fabs and assembly services that take it.
+
+`pcbkit check` reads the project and prints one JSON report (`design.check`); `pcbkit show` describes
+the board's objects (`board.get`); `pcbkit fmt` puts the sources in the canonical layout.
 
 ### Comments (`.pcbkit/comments.pcbkit`)
 
 The person and agents leave comments on the board: a note pinned to an object (`on`: `comp:U1`,
 `pad:U1.3`, `net:GND`, `track:3`, …), a point (`at`) or an area (`area`: two corners), with a
 thread of replies and a status: `.open` (to do), `.resolved` (done), `.dismissed` (not done, the
-thread says why). The web app's Comment tool (`C`) and the commands `comments.list`, `comments.add`,
-`comments.reply` (also the status) and `comments.remove` write them; each change is a journal
+thread says why). The web app's Comment tool (`C`) and the commands `project.comments`, `project.comment`,
+`project.reply` (also the status) and `project.uncomment` write them; each change is a journal
 event (`comment.added`, `comment.replied`, `comment.status`, `comment.removed`), so an agent can
 wait for the person's next comment. A comment on an object that has moved shows at the object.
 The file is data (literals only) and is committed with the board; the
@@ -64,7 +148,7 @@ design never reads it. Times are UTC.
 
 ```pcbkit
 // file: comments-demo/.pcbkit/comments.pcbkit
-pcbkit 1
+pcbkit 2
 
 comments = [
   Comment {
@@ -109,8 +193,14 @@ comments = [
   pin 9 at `(1.27mm, 10.16mm)` (`rotation = 90deg` turns pin 1 to −X); connectors (Footprints, below).
 - **Copper layers** are values: `Cu.top`, `Cu.inner[1]` … `Cu.inner[30]`, `Cu.bottom` (KiCad's
   `F.Cu`, `In1.Cu`, `B.Cu`).
-- **Nets are declared** and referred to by name: `net GND`, `net V3 named "+3V3"` (the export name
-  differs from the name in the source). A string is never a net: `pins { a: "GND" }` is an error.
+- **Nets are declared** and referred to by name: `net GND`, `net V3V3 { name = "+3V3" }` (the export name
+  differs from the name in the source). A string is never a net: `a -- "GND"` is an error.
+  Name nets as a schematic does: the exports carry the names, and KiCad, the fab's and
+  every reviewer's tools read a net's role from its name. A rail's name says its voltage
+  (`V3V3`, `V5V`, `V1V8`, `VCORE_1V1`, `VBUS`, `VBAT`, `GND`; the electrical rules warn,
+  `erc-rail-name`); a signal's says its interface and function (`I2C_SDA`, `USB_DP`, `UART_TX`,
+  `SPI_MOSI`, `CSI_D0_P`, `PCIE_TX0_P`, `ETH_TX_P`), with the instance where there are several
+  (`CAM0_CSI_D0_P`, `I2C1_SCL`).
 - **Enum values** start with a dot: `.bottom`, `.solid`, `.tracks`.
 - **Names:** a component's name is its refdes (`R7 = …`); give a refdes that is not a name with
   `refdes = "U$1"`.
@@ -134,7 +224,7 @@ board = Board {
   cutouts = [circle((4mm, 4mm), 1.6mm)]
   thickness = 1.6mm              // default
   layers = [signal(Cu.top), power(Cu.inner[1], label = "GND"), power(Cu.inner[2]), signal(Cu.bottom)]
-  fab { finish = .enig; mask = .black }   // how it is made (below); defaults: green, HASL
+  fab { finish = .enig; mask = .black }   // how it is made (below); defaults: matte black, plated edges, HASL
 }
 ```
 
@@ -155,11 +245,39 @@ Each piece is a board of its own wherever copper is concerned: § Several boards
 smallest rectangle around the courtyards of every component, grown by `margin` (2mm), its
 corners on multiples of `grid` (1mm), rounded by `radius` (1mm: half the margin, so the arc
 stays in the band the margin keeps clear, even beside a part on an edge): `auto(margin = 3mm,
-radius = 2mm)`, `auto(radius = 0mm)` for square corners. Its edges run through the faces of the
+radius = 2mm)`, `auto(radius = 0mm)` for square corners. A size the person names is a
+requirement: `auto(max = (60mm, 40mm))` keeps the board at most 60 × 40 mm (smaller where the parts
+allow; the plan says before the build when they cannot fit, `plan-size`), and `rect(60mm, 40mm)`
+fixes it (an enclosure's, a HAT's: then put the parts that reach it on its edges). Its edges run through the faces of the
 parts on an edge or in a corner (`edge(…)`, `corner(…)`, below; mounting holes:
-`MountingHoles()`). A board placed wholly by the engine starts at the origin.
+`MountingHoles {}`). A board placed wholly by the engine starts at the origin. An outline the
+design does not state stays the engine's: it is sized again around the parts at every build (an
+imported board's outline is written into the design).
 
-`layers`: the copper stack, top to bottom (empty: `Cu.top`, `Cu.bottom`). `signal(l)`,
+`device` says what the board is built into (ADR 0074; none: a bare board):
+
+```pcbkit
+board = Board { device = Device { form = .handheld, height = 10mm, depth = 6mm } }
+```
+
+`form` is `.handheld`, `.wearable`, `.wall` or `.desk` (default); `face` the side people look at
+and press (`.top`, default); `height` the room the enclosure leaves over the face, `depth`
+behind the back (`null`: no limit). For the parts whose source gives no side or rule of their
+own, the face rules become placement rules: displays and buttons on the face, a display centred
+on the board (`soft(area(.center))`), connectors that mate along the board (USB, jacks,
+terminal blocks) on an edge facing out (`soft(edge())`), a battery behind the board on a
+handheld or a wearable; mounting holes keep to the corners (`MountingHoles {}`). The check says
+which part stands taller than the room on its side (`device-height`). A display's place is its
+picture's (`area(…)`, `placement.where`; `board.get` gives its glass and active area). A service
+button (BOOT, RESET: its net reaches a processor's pin that is none of its program's, or a strap
+pin) keeps 12 mm from the person's buttons.
+
+`assembly`: the sides the parts go on. `.auto` (default): one-sided where they fit (an automatic
+outline grows instead; on a given one, small parts the top has no room for go on the back);
+`.top`: every part on the top (`assembly-side` reports one the source puts on the back); `.both`:
+small parts also go behind the pins they serve. A part on a differential pair keeps its side.
+
+`layers`: the copper stack, top to bottom; left out (`.auto`) the engine chooses 2, 4 or 6 layers by what routes (§ Routing, ADR 0082), `[]` is `Cu.top`, `Cu.bottom`. `signal(l)`,
 `power(l)` (a plane: pours and vias, not routed unless `routing.layers` names it), `mixed(l)`;
 `label` is the name people use. Geometry: `rect(w, h)` (lower-left corner at the origin;
 `rect(w, h, radius = 1.5mm)` rounds its corners, 9 points per quarter circle),
@@ -175,11 +293,11 @@ has nothing to do with this one is a project of its own.
 
 ```pcbkit
 // file: rc-car/.pcbkit/design.pcbkit
-pcbkit 1
+pcbkit 2
 // A radio-controlled car: the transmitter (piece 1) and the receiver (piece 2). Each has its
-// own battery, regulator and radio module; GND, VBAT and V3 are joined on each piece only.
+// own battery, regulator and radio module; GND, VBAT and V3V3 are joined on each piece only.
 net VBAT { voltage = 5V }
-net V3, GND, CE, CSN, SCK, MOSI, MISO, STEER, THROTTLE, SERVO, MOTOR
+net V3V3, GND, CE, CSN, SCK, MOSI, MISO, STEER, THROTTLE, SERVO, MOTOR
 
 board = Board {
   name = "rc-car"
@@ -191,19 +309,29 @@ board = Board {
 
 // The transmitter: a battery, a 3.3 V regulator, the radio module, the controller's header
 // and the joystick.
-txPower = Ldo(vin = VBAT, vout = V3, gnd = GND, inputVoltage = 5V) {}
+txPower = Ldo {
+  vin -- VBAT
+  vout -- V3V3
+  gnd -- GND
+  inputVoltage = 5V
+}
 J1 = header(2) { pins = [VBAT, GND] }
-J2 = header(7) { pins = [GND, V3, CE, CSN, SCK, MOSI, MISO] }
-J3 = header(9) { pins = [V3, GND, CE, CSN, SCK, MOSI, MISO, STEER, THROTTLE] }
-J4 = header(4) { pins = [V3, STEER, THROTTLE, GND] }
+J2 = header(7) { pins = [GND, V3V3, CE, CSN, SCK, MOSI, MISO] }
+J3 = header(9) { pins = [V3V3, GND, CE, CSN, SCK, MOSI, MISO, STEER, THROTTLE] }
+J4 = header(4) { pins = [V3V3, STEER, THROTTLE, GND] }
 transmitter = inside(board.outline[0], parts = [txPower, J1, J2, J3, J4])
 
 // The receiver: a battery, a regulator, the radio module, the controller's header, the
 // steering servo and the motor's speed controller.
-rxPower = Ldo(vin = VBAT, vout = V3, gnd = GND, inputVoltage = 5V) {}
+rxPower = Ldo {
+  vin -- VBAT
+  vout -- V3V3
+  gnd -- GND
+  inputVoltage = 5V
+}
 J5 = header(2) { pins = [VBAT, GND] }
-J6 = header(7) { pins = [GND, V3, CE, CSN, SCK, MOSI, MISO] }
-J7 = header(9) { pins = [V3, GND, CE, CSN, SCK, MOSI, MISO, SERVO, MOTOR] }
+J6 = header(7) { pins = [GND, V3V3, CE, CSN, SCK, MOSI, MISO] }
+J7 = header(9) { pins = [V3V3, GND, CE, CSN, SCK, MOSI, MISO, SERVO, MOTOR] }
 J8 = header(3) { pins = [SERVO, VBAT, GND] }
 J9 = header(3) { pins = [MOTOR, VBAT, GND] }
 receiver = inside(board.outline[1], parts = [rxPower, J5, J6, J7, J8, J9])
@@ -219,49 +347,48 @@ block instances at once with a rule bound in the design (`receiver = inside(boar
 parts = [J5, rxPower])`); parts joined to them follow. A net carried from piece to piece
 needs a connector on each (a cable): `net-across-pieces` warns where a piece has none.
 
-A KiCad board joins a project as its next piece with `import.run { format: "kicad", mode: "piece" }` (in the web app: drop it onto
-the open project and choose Add as another board): it goes beside the outline with a 5 mm gap,
-into the project's KiCad board as KiCad's — its parts, copper, pours and drawings where they now
-lie, its nets under a namespace (`rx/GND`), refdes the project has renumbered, its net classes
-kept under the namespace. The design gets the piece alone: `outline` grows by the board's
-outline (`translated(polygon(…), (65mm, 0mm))`) where the design states it; otherwise the KiCad
-board's outline grows. Nothing of the board is written as PCBKit: its parts are KiCad's, moved,
-routed and checked like any other.
+A KiCad board joins a project as its next piece with `project.import { format: "kicad", mode: "piece" }` (in the web app: drop it onto
+the open project and choose Add as another board): it goes beside the outline with a 5 mm gap
+and joins the project's files — its components, its nets under a namespace (`rx/GND`), its net
+classes under the namespace, its pours and art in the design, refdes the project has renumbered;
+its positions and copper in `board.pcbkit` — and the design's `outline` grows by the board's
+outline (`translated(polygon(…), (65mm, 0mm))`). Its parts are then moved, routed and checked
+like any other.
 
 ### Fabrication
 
 How the board is made — what a fab's order form asks for — is the board's `fab` (a
 `Fabrication`); the thickness is the board's own `thickness`. Every field has a default, so a
-design that says nothing is a green FR-4 board with white silkscreen and lead-free HASL:
+new design that says nothing is a matte black FR-4 board with plated edges, white silkscreen and
+ENIG (an imported board's stackup is written into the design):
 
 | Field | Default | Values |
 |---|---|---|
+| `shop` | `.jlcpcb` | the fab that makes it: `.jlcpcb`, `.pcbway`, `.oshpark`, `.aisler`, `.nextpcb`. The vias follow its published minimums for the board's copper (a rule `fab: via ring` on the vias, in the `.kicad_dru` too; at 2 oz or more the larger of its via ring and plated hole ring: JLCPCB 0.254 mm), so the router's smallest via is one it makes; another shop: build again. Its standard stack is the one an empty `dielectric` means |
 | `material` | `.fr4` | `.fr4`, `.aluminium`, `.flex` |
-| `mask` | `.green` | solder mask colour: `.green`, `.matteGreen`, `.red`, `.yellow`, `.blue`, `.purple`, `.white`, `.black`, `.matteBlack`, `.grey`, `.orange`, `.pink`, `.clear` (see-through: the copper and laminate show); `.none`: no solder mask (bare copper under the finish, the silkscreen on the laminate) |
+| `mask` | `.matteBlack` | solder mask colour: `.green`, `.matteGreen`, `.red`, `.yellow`, `.blue`, `.purple`, `.white`, `.black`, `.matteBlack`, `.grey`, `.orange`, `.pink`, `.clear` (see-through: the copper and laminate show); `.none`: no solder mask (bare copper under the finish, the silkscreen on the laminate) |
 | `silk` | `.white` | silkscreen colour: `.white`, `.black`, `.yellow` |
-| `finish` | `.haslLeadFree` | `.haslLeadFree`, `.hasl` (leaded), `.enig`, `.enepig`, `.osp`, `.immersionSilver`, `.immersionTin`, `.hardGold` |
+| `finish` | `.enig` | `.haslLeadFree`, `.hasl` (leaded: neither with plated edges, which are ENIG treated; `project.fabrication` turning them on makes the finish ENIG), `.enig`, `.enepig`, `.osp`, `.immersionSilver`, `.immersionTin`, `.hardGold` |
 | `outerCopper`, `innerCopper` | `35um` | copper thickness (35um is 1 oz, 70um 2 oz) |
-| `copper` | `[]` | each copper layer's thickness, top to bottom, where the layers differ from `outerCopper` and `innerCopper` (heavier power planes): written into the KiCad stackup, used by the analysis; empty: those two |
+| `copper` | `[]` | each copper layer's thickness, top to bottom, where the layers differ from `outerCopper` and `innerCopper` (heavier power planes): written into the KiCad export's stackup, used by the analysis; empty: those two |
 | `viaFill` | `.none` | what fills the vias: `.none`, `.plugged`, `.epoxyFilled`, `.copperFilled` (capped). Whether the mask covers them (tenting) is the rules' `mask { viaOpenings = true }` |
-| `goldFingers`, `edgePlating`, `castellated` | `false` | bevelled hard-gold edge fingers; copper plated over the board edge (its walls and a thin rim on both faces, finished with ENIG whatever `finish` says; copper drawn along the plated edges connects to it); plated half holes |
+| `goldFingers`, `edgePlating`, `castellated` | `false`, `true`, `false` | bevelled hard-gold edge fingers; copper plated over the board edge (its walls and a thin rim on both faces, ENIG treated: no HASL with them; copper drawn along the plated edges connects to it); plated half holes |
 | `orderMark` | `.fab` | the fab's order number: `.fab` (where it likes), `.none`, `.specified` (where the silkscreen says), `.barcode` |
 | `coverlay`, `stiffener`, `transparentFlex` | `.yellow`, `.none`, `false` | flex boards: `.yellow`, `.black`, `.white`; `.none`, `.polyimide`, `.fr4`, `.steel`; a see-through substrate |
 | `tg` | `null` | FR-4's glass transition temperature (`130degC`, `150degC`, `170degC`, …): higher for lead-free reflow of thick or many-layer boards; `null`: the fab's standard |
 | `impedance` | `false` | controlled impedance: the fab holds the traces' impedance to the stackup's |
-| `dielectric` | `[]` | the dielectric between the copper layers, top to bottom (`[0.2104mm, 1.065mm, 0.2104mm]`); empty: the fabs' standard stack (a two-layer board's core, 7628 prepreg under the outer layers of a multilayer one); written into the KiCad stackup |
-| `permittivity` | `4.4` | the dielectric's relative permittivity |
+| `dielectric` | `[]` | the dielectric between the copper layers, top to bottom (`[0.2104mm, 1.065mm, 0.2104mm]`); empty: the fab's standard stack — with `shop = .jlcpcb` JLCPCB's for the board's layers, thickness and copper (4 to 20 layers, its first stack-up template), else a two-layer board's core, 0.2104 mm of 7628 prepreg under the outer layers of a multilayer one, the rest of the thickness shared inside; written into the KiCad export's stackup |
+| `permittivity` | `4.4` | the dielectric's relative permittivity; over JLCPCB's standard stack each prepreg and core has its own (JLCPCB's published 7628 4.4, 3313 4.1, 1080 3.91, 2116 4.16, core 4.6) |
 
-The 3D view shows it. The KiCad board carries it in its stackup, field by field: every command
-that changes the design writes the fields it gives into the board's stackup and `thickness` (a
-board without a stackup gets one), each setting in place and the rest of the file as it was; the
-fields it leaves out are the stackup's (colours, copper, dielectric, finish, edge connector,
-castellated pads, edge plating, a polyimide or aluminium dielectric; KiCad has no matte mask, via
-filling, order mark, coverlay or stiffener, so those are only ever the design's). The web app's
-fabrication panel and agents change it with the command `fab.options`, which edits the design
+The 3D view shows it. The KiCad export writes it into the board's stackup and `thickness`
+(colours, copper, dielectric, finish, edge connector, castellated pads, edge plating, a polyimide
+or aluminium dielectric; KiCad has no matte mask, via filling, order mark, coverlay or stiffener,
+so those stay the design's alone); importing a KiCad board reads its stackup into the design. The web app's
+fabrication panel and agents change it with the command `project.fabrication`, which edits the design
 (only the options given; its `vias`: `tented` or `untented` sets the rules' `mask.viaOpenings`, a
 filling `viaFill`).
 
-**Fabrication files.** `pcbkit export` (the command `export.run { format: "fab" }`, the
+**Fabrication files.** `pcbkit export` (the command `project.export { format: "fab" }`, the
 web app's Export) writes what a fab and an assembly service need, from the board as checked: Gerber X2
 files per layer (every copper layer with its pads, tracks, vias and pour fills; solder mask
 openings; silkscreen; paste; the outline with its cutouts; protel extensions `.gtl`, `.g1`…,
@@ -276,7 +403,7 @@ The BOM has a line per part (value, footprint, orderable code in the column `LCS
 quantity) with its designators. The code is, first, the component's `orderCode` (its part's
 otherwise); else a part-number field of the component's own (`LCSC Part #`, `LCSC`, `LCSC Part`,
 `partNumber`: imported boards carry them); else the part `parts.select` chose, recorded on its
-footprint in the `.kicad_pcb`, while what it was chosen to meet is unchanged (a stale choice gives
+component in `board.pcbkit`, while what it was chosen to meet is unchanged (a stale choice gives
 no code). The MPN likewise: the component's own `MPN` field, else the chosen part's. Mounting holes,
 test points and fiducials (by their resolved `kind`), components with nothing to solder (no
 through pads, no pads with paste) and those with a field `dnp` / `exclude_from_bom` set to true
@@ -290,7 +417,7 @@ SOT-223, SOT-89 and SOT-353/363 by 180°; QFN, DFN, QFP, SOIC, SOP, SSOP, TSSOP,
 polarised capacitors, micro USB and WS2812B LEDs by 180°; turned the other way on the bottom).
 A component's fields `fab.rotation` (degrees, replacing its family's correction; `0` for none)
 and `fab.offset` (`"x, y"` in mm, in the footprint's frame: the point placed) override it:
-`fields { "fab.rotation": "90" }`.
+`fields { "fab.rotation" = "90" }`.
 
 ### Silkscreen
 
@@ -315,7 +442,7 @@ print `${…}` variables as KiCad does: a part's `${REFERENCE}`, `${VALUE}`, fie
 Drawings bound in the design (alone or in lists) are the board's. A board's `Text` without `at`
 goes where the engine finds room for it once the parts are placed, clear of their courtyards,
 silkscreen and pads and of the edge (lower and nearer the middle where that is equal), and is
-written into the KiCad board, where it then stays: "write my name on it" is
+written into `board.pcbkit` (`texts`), where it then stays: "write my name on it" is
 `name = Text { text = "Alex"; size = 1.5mm }`. A label of a part names it with `near`:
 `inLabel = Text { text = "IN 12-36V"; near = J1 }` goes to the free place nearest that part's
 courtyard, again whenever the part moves (a connector's input, a switch's ON). In a footprint a
@@ -344,6 +471,12 @@ with `valueText` (replacing the footprint's `${value}`). KiCad's `${REFERENCE}` 
 print the same. KiCad imports keep the footprints' silkscreen and the board's, and a visible
 reference or value on silk as the component's `reference` / `valueText`.
 
+A component that does not place its reference itself gets it where a designer prints one: one
+size on the board (the footprints' most common; the smallest `rules.silk` allows where a quarter
+of the references find no room at it), above a part whose reference reads across the board, left
+of one whose reference reads up it, else on the other sides, never on a pad, a courtyard, other
+silkscreen or near the edge; where no place is free the reference is not printed.
+
 `check` warns (KiCad's severities; `rules.severity` changes them) about silk on a pad's solder
 mask opening (`silk-over-copper`, closer than `rules.silk.clearance`), text across or beyond the
 board edge (`silk-edge-clearance`, `rules.silk.toEdge`; the fabrication files clip all silk to the
@@ -356,30 +489,35 @@ part's outline or reference (`silk-overlap`: neither would read).
 
 ```pcbkit
 net GND
-net V3 named "+3V3"            // the export name differs from the source name
+net V3V3 { name = "+3V3" }     // the export name differs from the source name
 net USB_DP, USB_DN             // several at once
+net CAM_D0_P, CAM_D0_N, CAM_CK_P, CAM_CK_N
 net CLK { layers = [Cu.top] }  // a net's own layers (∩ its class's and the router's)
 net VIN { voltage = 12V }      // a declared supply (from a connector): the electrical rules
 net VMOT { current = 3A }      // the peak current it carries: the router widens its tracks on each layer (IPC-2221)
 net SHIELD { role = .ground }  // what it is, where its pins do not say (.ground, .supply, .signal)
-bus LED[4]                     // LED[0] … LED[3], exported as LED0 … LED3
-pair USB = (USB_DP, USB_DN) { impedance = 90ohm }  // a differential pair of two existing nets
+net LED[4]                     // LED[0] … LED[3], exported as LED0 … LED3
+// A differential pair of two existing nets:
+usb = Pair { name = "USB", p = USB_DP, n = USB_DN, impedance = 90ohm }
+// Several alike:
+csi = [Pair { name = commonPrefix(a.name, b.name), p = a, n = b, impedance = 100ohm } for (a, b) in [(CAM_D0_P, CAM_D0_N), (CAM_CK_P, CAM_CK_N)]]
 ```
 
 What a net leaves out is resolved (ADR 0020): its role from its pins (a ground pin makes a
 ground, a power pin a supply), its voltage from a power output or a block's port on it, the
 current from the blocks designed for it, and last from its name (`GND`, `+3V3`, `VBUS`); a pair
-from KiCad's naming (`USB_DP` and `USB_DN`). The router routes a pair as two coupled tracks (its
+from KiCad's naming (`USB_DP` and `USB_DN`). The router routes a pair the design asks to couple (a
+declared `Pair`, an `impedance`, a pair rule or a class of its own; not one found by name alone) as two coupled tracks (its
 class's `diffPairWidth` wide, `diffPairGap` apart, or the gap that gives its `impedance` with
-tracks that wide over the board's stack, IPC-2141), vias side by side, uncoupled only from the pads
+tracks that wide over the board's stack, field-solved), vias side by side, uncoupled only from the pads
 to the coupled section, the lengths matched by a meander on the shorter track (`docs/router.md`,
 Differential pairs). `pcbkit show` gives each net's `role`, `voltage`,
 `current`, `pair` and where each comes from (`why`). A block reads what a net states
 (`vout.voltage`, `null` where it states nothing).
 
-A pin may also be joined to another pin (`pins { a: U1.pin.SDA }`): the pins are one net, named
+A pin may also be joined to another pin (`a -- U1.SDA`): the pins are one net, named
 after the net either already has, else `Net-(R1-2)` after its first pin. Two different declared
-nets joined through pins are a `short`, unless joined on purpose with `connect(A, B)`.
+nets joined through pins are a `short`, unless joined on purpose with `A -- B` in the design.
 
 ### Parts and components
 
@@ -392,31 +530,35 @@ part C100n = cap(100nF, package = "0603")
 C1 = C100n {
   at = (20mm, 10mm)
   rotation = 90deg
-  pins { a: V3, b: GND }
+  a -- V3V3
+  b -- GND
 }
 ```
 
 Library parts: `cap(value, package = "0603", tolerance, voltage, dielectric)` (a chip size, or an
 SMD electrolytic can, `"D8xL10"`: `electrolyticSizes`), `res(value,
 package, tolerance, power)` (pins `a`, `b`), `led(package, color)` (pins `A`, `K`), `header(n,
-rows = 1, pitch = 2.54mm)` (pins in order), `hole("M3", plated = false)`, `testPoint(diameter =
+rows = 1, pitch = 2.54mm)` (pins in order), `wireConnector(n, pitch = 2mm, rightAngle, smd)` (a
+cable's connector: JST PH at 2.0 mm, XH at 2.5, GH at 1.25, SH at 1.0; pins in order), `hole("M3", plated = false)` (unplated: no copper of any net on either face under the screw's washer), `testPoint(diameter =
 1.5mm, drill = null)`. `cap`, `res`, `led`, `inductor`, `ferrite` and `diode` also take `mpn` and
 `manufacturer`: the exact part to buy (with a spec, the MPN narrows the choice to it;
 `parts.search` reads the big makers' passive part numbers into these calls:
-`GRM188R71H104KA93D` is `cap(100nF, package = "0603", tolerance = 10pct, ratedVoltage = 50V,
-dielectric = .X7R, mpn = "GRM188R71H104KA93D", manufacturer = "Murata")`). Any footprint makes a part with `device(footprint = soic(8), pinout = {…},
-pinOrder = […], mpn = …, prefix = "U", kind = .ic, category, params)`; `kind` says what the part
+`GRM188R71H104KA93D` is `cap(100nF, package = "0603", tolerance = 10%, ratedVoltage = 50V,
+dielectric = .X7R, mpn = "GRM188R71H104KA93D", manufacturer = "Murata")`). Any footprint makes a part with `Part { footprint = soic(8); pinout = {…};
+pinOrder = […]; mpn = …; prefix = "U"; kind = .ic; spec = … }`; `kind` says what the part
 is (`.resistor`, `.connector`, `.module`, …: the schematic's symbol, the 3D body, the rules read
 it; without it the spec's category, the registry sheet the part matches, else its refdes and
 footprint say); a footprint
 used directly as a factory (`U1 = qfn(24) {…}`) is a part without a pinout (pins by number).
-Specialise a part's data with `with`: `part Sensor = device(footprint = soic(8)) with { pinout { GND:
-"4", SDA: "5" } }`.
+Specialise a part's data with `with`: `part Sensor: Part { footprint = soic(8) } with { pinout { GND =
+"4", SDA = "5" } }`.
 
 `Part`: `footprint`, `value` (`100nF`; printed as the BOM value), `displayValue` (text printed
-instead: `"LM358"`), `pinout` (`{ VCC: "8", GND: ["4", "9"] }`: one logical pin may have several
-pads), `pinOrder` (pad numbers for positional `pins = […]`), `mpn`, `manufacturer`, `fields`
-(`{ Supplier: "…" }`), `prefix` (refdes letters of repeated components), `spec` (what the
+instead: `"LM358"`), `pinout` (`{ VCC = "8", GND = ["4", "9"] }`: one logical pin may have several
+pads), `aliases` (`{ SWDIO = "SWD" }`: another name a design may write for a pin, the name a
+registry gave it before its datasheet's or a second maker's; the pad and every answer carry the
+pin's own name), `pinOrder` (pad numbers for positional `pins = […]`), `mpn`, `manufacturer`, `fields`
+(`{ Supplier = "…" }`), `prefix` (refdes letters of repeated components), `spec` (what the
 orderable part must meet: Orderable parts, below), `orderCode` (the orderable code it is pinned
 to), `marking` (what its body carries: Markings, below).
 
@@ -425,8 +567,9 @@ Component fields:
 | Field | Default | |
 |---|---|---|
 | `at` | `null` | the footprint origin, `(x, y)`; `null`: the engine places it (below) |
-| `rotation` | `null` | counter-clockwise; `null`: the engine turns it when it places it (among the rotations its rules allow), and a part given `at` keeps the rotation the KiCad board has |
-| `side` | `.top` | `.bottom` mirrors the footprint |
+| `rotation` | `null` | counter-clockwise; `null`: the engine turns it when it places it (among the rotations its rules allow), and a part given `at` keeps the rotation `board.pcbkit` has |
+| `side` | none: the top | `.bottom` mirrors the footprint; without `side`, on a given outline where the top has no room, the engine puts a small surface-mount part (up to 8 pads, no edge or corner rule, none on a differential pair) on the bottom and records it in `board.pcbkit`, unless the board is assembled on the top alone (`Board.assembly`) |
+| `mount` | the part's | how a module is held, where its footprint offers several (`moduleSocket`): `.soldered` on its own header, `.socket` in female headers, `.flush` flat on its castellated lands (`U1 = xiao.XIAO_ESP32C3 { mount = .flush }`): the part file stays as it is |
 | `pins` | `{}` | connections, below |
 | `place` | the part's | placement rules (below) |
 | `swaps`, `pinChoices` | none | pins whose nets the router may trade (Connections, below) |
@@ -475,62 +618,79 @@ readable size are left out from the last.
 component with `at` stays where it is given. The engine keeps courtyards apart, inside the board
 and the areas of `inside(…)` rules, puts each part near the pins it connects to (a decoupling
 capacitor next to the power pin it shares nets with), follows every placement rule (below), puts
-parts with `corner(…)` (`MountingHoles()`) in their corners and sends other parts without
+parts with `corner(…)` (`MountingHoles {}`) in their corners and sends other parts without
 connections to the corners.
-`pcbkit place` (`build.run { only: "place" }`, or the placing of `pcbkit route` and `build.run`) writes its choices into the KiCad board; recorded
+`pcbkit place` (`design.run { only: "place" }`, or the placing of `pcbkit route` and `design.run`) writes its choices into `board.pcbkit`; recorded
 positions are kept, so a new part does not move the others (`pcbkit place --all` places
-them all anew), except a recorded position that no longer fits (a part given `at` on it, a
+them all anew but the locked ones), except a recorded position that no longer fits (a part given `at` on it, a
 larger footprint, a smaller outline: `check` warns `placement-stale`), which `place` (and the
 placement of `route`, `build`) chooses anew. Until recorded, they are computed for each evaluation
 and `check` warns `placement-not-recorded` ("not placed yet") instead of judging their placement
 rules. On a fixed outline `no-room` says what takes the room and where a part of that size still
-fits (`side = .bottom`, outside its `inside(…)` area). Any `at` in the source wins; the command `place.pin` writes the
-engine's positions into the source. Giving a placed part only `at` (`override usb.J.at = (…)`,
+fits (`side = .bottom`, outside its `inside(…)` area). Any `at` in the source wins; the command `board.pin` writes the
+engine's positions into the source. Giving a placed part only `at` (`usb.J.at = (…)`,
 `board.move`) moves it without turning it: it keeps the rotation the engine recorded for it until
 the source gives a `rotation` (`place --all` forgets it). For a part with `edge(.any)` the edge is
 the one its mating side faces, and `place-edge` says which rotation it has and which one faces
-the nearest other edge. `placer = Placer { spacing = 0.5mm; grid = 0.25mm }`: the
+the nearest other edge. Repeated cells (a block used several times, a block's parts made per
+index, a power stage's half bridges) are placed as identical copies in a row, one cell's
+arrangement copied at one pitch (ADR 0086); small parts of one footprint near each other line up
+on rows and columns and turn alike. `placer = Placer { spacing = 0.5mm; grid = 0.25mm }`: the
 gap left between courtyards and silkscreen (room for tracks) and the grid of the positions;
 where a part fits nowhere so, the engine lets its courtyard touch the others' (a crowded board;
 the fabrication files then cut silk off the pads). The board's own silkscreen (`Text`s, drawings:
 pin labels, a title) is kept clear the same way, on its side (drilled pads on both): parts go over
 its drawings only where they fit nowhere else, never with their courtyard over one of its texts. A part with an `edge` rule on a fixed outline goes on its
 edge or nowhere (`no-room` names what takes the edge), never beyond it or inside the board.
-Parts that placing moves leave their copper behind: it rips up the stale copper as routing does
-(the nets left unconnected, dangling or in a check issue), refills the pours and says so
-(`ripped_up`); building again routes those nets.
+The copper follows the parts. Whatever changes a part's pads (placing, `board.move`, a drag, an
+edit of the source moving, turning or flipping it, another footprint, another net on a pin,
+the design file changed outside the app), the copper of other nets in their way is taken out,
+the tracks and vias the change leaves joining nothing are cut back to where they still join
+(a junction, a via, a pad), the pours around are refilled, all in the same undoable change; its
+answer says what (`copper`: the parts, the pieces ripped, the nets now unrouted). Building
+(`build: true`, `design.run`) routes only those connections again. Copper a person locked
+(`locked = true` in `board.pcbkit`) is kept and listed as a conflict instead.
 
 ```pcbkit
 // file: quick/.pcbkit/design.pcbkit
-pcbkit 1
+pcbkit 2
 
 // Parts and connections only: no board, no positions.
 net VCC, GND, SIG
 
 J1 = header(3) { pins = [VCC, SIG, GND] }
-U1 = device(footprint = sot23(5), pinout = { IN: "1", GND: "2", OUT: "5" }) {
-  pins { IN: SIG, GND: GND, OUT: VCC }
+U1 = Part {
+  footprint = sot23(5)
+  pinout = { IN = "1", GND = "2", OUT = "5" }
+} {
+  IN -- SIG
+  GND -- GND
+  OUT -- VCC
 }
-C1 = cap(100nF) { pins { a: VCC, b: GND } }
+C1 = cap(100nF) {
+  a -- VCC
+  b -- GND
+}
 R1 = res(10kohm) {
   rotation = 90deg // kept: the engine only moves it
-  pins { a: VCC, b: SIG }
+  a -- VCC
+  b -- SIG
 }
 ```
 
-Placed, the KiCad board holds where each part went; the design stays as it is.
+Placed, `board.pcbkit` holds where each part went; the design stays as it is.
 
 **Placement rules.** Say what matters instead of coordinates: a component lists rules in
 `place = […]`; a part gives defaults every component of it follows (a component's rule
 replaces the part's of the same kind; `free()` drops them all); rules about several components
 are bound in the design or a block like any other value (`ports = row([J2, J3, J4])`,
-`c1AtU1 = near(C1, U1, max = 3mm)`: a rule about the first component). This is the one way to
-state placement intent: there is no other constraint syntax. The engine places the components without `at` so that every rule
+`c1AtU1 = near(C1, U1, max = 3mm)`: a rule about the first component), the one way to state
+placement intent. The engine places the components without `at` so that every rule
 holds and the preferences are as good as it can make them; `check` verifies every rule on every
 component, placed by hand or not, and reports each broken one with its own code, the rule as
 written and its line ("J1: `edge(.bottom)` (.pcbkit/design.pcbkit:12:3) does not hold: …"). Rules are
-requirements; `soft(rule, weight = 2)` makes one a preference (`soft(near(x))` without `max` minimises the distance; a hard `near` needs
-its `max`).
+requirements; `soft(rule, weight = 2)` makes one a preference (`soft(near(x))` without `max` minimises the distance; a hard `near(x)` without `max`
+keeps PCBKit's distance, as `max = ?`).
 A component given `at` is fixed: the rules judge it, the engine does not move it. Each kind of
 rule is a type of its own with its own fields (`edge(…)` is an `EdgeRule`, `row(…)` a `RowRule`;
 all of them `PlaceRule`s), so a mistake is reported where the rule is written: `near(3mm)` is a
@@ -539,19 +699,19 @@ names the field a row does not have.
 
 | Rule | Holds when | Code |
 |---|---|---|
-| `edge(.bottom)` (`.top`, `.left`, `.right`, `.any`; `from`, `to`: the span along the edge from its left or bottom end; `overhang`) | the courtyard meets that edge, or sits as far inside as its pads need to keep `copperToEdge` (up to 0.5 mm further in); a footprint with a `mating` side faces out of the board, so the rotation follows; with `overhang` (a Length: `edge(.top, overhang = 6mm)`) the body reaches that far beyond the edge (and may: no `courtyard-outside-board`), the pads still `copperToEdge` inside. `place-edge` says which way to move the part and by how much | `place-edge` |
+| `edge(.bottom)` (`.top`, `.left`, `.right`, `.any`; `from`, `to`: the span along the edge from its left or bottom end; `overhang`) | the courtyard meets that edge, or sits as far inside as its pads need to keep `copperToEdge` (up to 0.5 mm further in); a footprint with a `mating` side faces out of the board, so the rotation follows; with `overhang` (a Length: `edge(.top, overhang = 6mm)`) the body reaches that far beyond the edge (and may: no `courtyard-outside-board`), the pads still `copperToEdge` inside. `place-edge` says how far to move it | `place-edge` |
 | `corner(.topLeft)` (`.topRight`, `.bottomLeft`, `.bottomRight`, `.any`; `inset`) | the courtyard meets both edges of that corner (with `inset`, a Length, sits that far inside both), as far inside as the pads need to keep `copperToEdge` (up to 0.5 mm further in); in a rounded corner it moves in along the diagonal as far as the arc needs to keep the courtyard on the board and the pads `copperToEdge` from it. On a given outline: that corner of its box. `place-corner` says where to move the part | `place-corner` |
-| `area(.topRight)` (`.topLeft`, `.top`, `.left`, `.center`, `.right`, `.bottomLeft`, `.bottom`, `.bottomRight`) | the courtyard's centre lies in that ninth of the board's box (its third across and its third up), as a person says "the encoder in the top right", "the LED in the middle"; it need not touch an edge, so a mounting hole may hold the corner itself. With an automatic outline the engine places so that it holds on the outline it then sizes. `place-area` says where the part is and which way to move it | `place-area` |
+| `area(.topRight)` (`.topLeft`, `.top`, `.left`, `.center`, `.right`, `.bottomLeft`, `.bottom`, `.bottomRight`) | the courtyard's centre (a display's: its picture's) lies in that part of the board's box (a corner's or the middle ninth; an edge's name: its whole third), as a person says "the LED in the top right"; it need not touch an edge, so a mounting hole may hold the corner itself. With an automatic outline the engine places so that it holds on the outline it then sizes. `place-area` says where the part is and which way to move it | `place-area` |
 | `facing(.up)` (`.down`, `.left`, `.right`, `.outward`, `.inward`) | the footprint's `mating` side points that way (`.outward`: out of its edge) | `place-facing` |
 | `rotations([0deg, 180deg])`, `parallel(U1)`, `rotatedAs(J2)` | the rotation is one of these; turned like U1 or half a turn from it; exactly like J2 | `place-rotation` |
 | `inside(area)`, `outside(area)` | the courtyard lies inside / clear of the area: a polygon, a `box(…)`, a keepout or rule area, `edgeBand(5mm)` (along the board's edges), `around(U1, 3mm)`; bound in the design, the components it lists (`inside(area, parts = [J5, rx])`) | `place-inside`, `place-outside` |
-| `near(U1.pin.VDD, max = 2mm)`, `near(U1, max = 1mm)`, `far(U1, min = 5mm)`; in the design `near(C1, U1, max = 3mm)`, `far(U1, Q1, min = 10mm)` (about the first) | its pads on the pin's net are that close to the pin (decoupling); courtyards that close / that far apart (a part near another may touch it); a hard `near` needs `max` (without it an error); `soft(near(U1))` minimises the distance | `place-near`, `place-far` |
+| `near(U1.VDD)` (PCBKit's distance: the part's role's, never closer than the two courtyards let its pads come), `near(U1.VDD, max = 2mm)`, `near(U1, max = 1mm)`, `far(U1, min = 5mm)`; in the design `near(C1, U1, max = 3mm)`, `far(U1, Q1, min = 10mm)` (about the first) | its pads on the pin's net are that close to the pin (decoupling); courtyards that close / that far apart (a part near another may touch it); a hard `near` without `max` keeps PCBKit's distance; `soft(near(U1))` minimises the distance | `place-near`, `place-far` |
 | `row([J2, J3, J4], pitch = 16mm)`, `column([…], evenly = true)` (in the design) | centres on one line, in this order (left to right, bottom to top), `pitch` apart or with equal gaps | `place-row` |
 | `grid([D1, D2, …, D9], columns = 3, pitch = 8mm)` (`pitchX`, `pitchY`, `evenly`; in the design) | a grid in reading order (left to right, rows from the top): a `row` per row and a `column` per column; rows and columns that share parts are placed as one piece | `place-row` |
-| `together([U1, Y1, C8], max = 8mm)`, `mirror(LED1, LED2, axis = .x)` (in the design) | no two courtyards further apart than `max` (as `near`); mirror images about the board's middle | `place-together`, `place-mirror` |
+| `together([U1, Y1, C8], max = 8mm)`, `mirror(LED1, LED2, axis = .x)`, `loop([C1.a, U1.VIN, U1.GND, C1.b], maxArea = 4mm2)` (in the design) | no two courtyards further apart than `max` (as `near`); mirror images about the board's middle; the current loop through the pins at most `maxArea` | `place-together`, `place-mirror`, `place-loop` |
 
-A block instance takes rules for all its components: `power = Ldo(vin = VIN, vout = V3, gnd =
-GND) { place = [area(.bottomLeft)] }` is as if each of its components listed `area(.bottomLeft)`;
+A block instance takes rules for all its components: `power = Ldo { vin -- VIN, vout -- V3V3, gnd -- GND,
+place = [area(.bottomLeft)] }` is as if each of its components listed `area(.bottomLeft)`;
 a component's own rule of a kind (and a nested instance's) replaces the instance's of that kind.
 Rules about several components (`row`, `together`, …) are bound in the design, never in a `place`.
 
@@ -570,7 +730,7 @@ beyond its pads.
 
 ```pcbkit
 // file: hub/.pcbkit/design.pcbkit
-pcbkit 1
+pcbkit 2
 
 // A USB hub's ports: the upstream connector on the top edge, the downstream ones on the bottom
 // edge in an even row, facing out; the decoupling capacitor at its supply pin; the power LED in
@@ -588,35 +748,58 @@ let socket = Footprint {
   mating = .down // the plug enters from below
 }
 
-part UsbA = device(footprint = socket, prefix = "J", pinout = { V: "1", D: "2", G: "3" }) with {
+part UsbA: Part {
+  footprint = socket
+  prefix = "J"
+  pinout = { V = "1", D = "2", G = "3" }
   place = [edge(.any)] // every USB-A of this design sits on an edge, facing out
 }
 
-U1 = soic(14) { pins { "1": UP, "2": P1, "3": P2, "4": P3, "7": GND, "14": VBUS } }
+U1 = soic(14) {
+  "1" -- UP
+  "2" -- P1
+  "3" -- P2
+  "4" -- P3
+  "7" -- GND
+  "14" -- VBUS
+}
 C1 = cap(100nF, package = "0402") {
   place = [near(U1["14"], max = 2mm)]
-  pins { a: VBUS, b: GND }
+  a -- VBUS
+  b -- GND
 }
 J1 = UsbA {
   place = [edge(.top)]
-  pins { V: VBUS, D: UP, G: GND }
+  V -- VBUS
+  D -- UP
+  G -- GND
 }
 J2 = UsbA {
   place = [edge(.bottom)]
-  pins { V: VBUS, D: P1, G: GND }
+  V -- VBUS
+  D -- P1
+  G -- GND
 }
 J3 = UsbA {
   place = [edge(.bottom)]
-  pins { V: VBUS, D: P2, G: GND }
+  V -- VBUS
+  D -- P2
+  G -- GND
 }
 J4 = UsbA {
   place = [edge(.bottom)]
-  pins { V: VBUS, D: P3, G: GND }
+  V -- VBUS
+  D -- P3
+  G -- GND
 }
-R1 = res(1kohm) { pins { a: VBUS, b: LED } }
+R1 = res(1kohm) {
+  a -- VBUS
+  b -- LED
+}
 D1 = led() {
   place = [area(.topRight)]
-  pins { A: LED, K: GND }
+  A -- LED
+  K -- GND
 }
 H1 = hole("M3") {}
 
@@ -624,19 +807,21 @@ ports = row([J2, J3, J4], evenly = true)
 ```
 
 
-**Connections.** `pins` maps a pin to a net, another pin, or `.nc` (deliberately not connected).
-A key that is a name is a logical pin of the part's pinout (`SDA: SDA`); a string or number is a
-pad number (`"25": GND`, `4: SCL`, `"MP#2": GND`). A part with a `pinOrder` (connectors,
-two-terminal parts) also takes a list: `pins = [VCC, SDA, SCL, GND]`. Pins not listed are not
-connected. Errors name the pin: "U1 has no pin `SDAA` (did you mean `SDA`?)", "the footprint has
-no pad "3"". A pin of a component is `U1.pin.SDA` (logical) or `U1[4]`, `U1["A1"]` (pad number).
+**Pins and connections.** In a component's body `pin -- X` connects a pin to a net, another pin,
+or `.nc` (deliberately not connected). A name is a logical pin of the part's pinout (`SDA --
+SDA`: the pin, then the module's net); a string is a pad number (`"25" -- GND`, `"MP#2" -- GND`).
+A part with a `pinOrder` (connectors, two-terminal parts) also takes a list: `pins = [VCC, SDA,
+SCL, GND]`. Pins not connected are not connected. Errors name the pin: "U1 has no pin `SDAA`
+(did you mean `SDA`?)", "the footprint has no pad "3"". A pin of a component is `U1.SDA`
+(logical; also `U1.pin.SDA`) or `U1["A1"]` (pad number), and connects from anywhere in the design
+(`U1.SDA -- SDA`).
 
 Pins the router may give other nets are the component's `swaps` and `pinChoices`:
 
 ```pcbkit
 U3 = sram {
   swaps = [swap(slots = [["10"], ["9"], ["8"], ["7"]], needs = .none, name = "address")]
-  pinChoices { "10": pinChoice(allowed = ["10", "11", "29"]) }
+  pinChoices { "10" = pinChoice(allowed = ["10", "11", "29"]) }
 }
 ```
 
@@ -650,15 +835,15 @@ net twice, or nets of different classes (`swap-not-allowed`); a net's pin must b
 choices (`pin-option-default`).
 
 **Orderable parts.** A part says what the part to buy must meet; `parts.select` picks a real,
-orderable one from the assembler's catalog and records it on the components' footprints in the
-`.kicad_pcb`. Every part of the standard library that is bought says what: `res`, `cap`, `led`,
+orderable one from the assembler's catalog and records it on the components in
+`board.pcbkit`. Every part of the standard library that is bought says what: `res`, `cap`, `led`,
 `inductor` (its value, body and `current`), `diode` (its kind, package, a Zener's or TVS
 diode's voltage, `ratedVoltage`, `ratedCurrent`), `fuse` (a PTC's hold current), `crystal` (its
 frequency and load) carry a `spec`, the rest of their arguments add to it; the parts drawn for
 one connector or chip carry that part's `mpn` (`usbC`: GCT USB4105-GF-A, `esdArray`: USBLC6-2SC6, `mosfet`: AO3400A / AO3401A, the blocks' regulators and
-bridge), which an `mpn` argument replaces. `device(…, spec = Spec { category = .regulator;
-params = {…} })` gives any part one; a `device` with an `mpn` and no `spec` is bought by its
-MPN; a resistor, capacitor or inductor a `device` gives only a `value` is bought by that value
+bridge), which an `mpn` argument replaces. `Part { …; spec = Spec { category = .regulator;
+params = {…} } }` gives any part one; a `Part` with an `mpn` and no `spec` is bought by its
+MPN; a resistor, capacitor or inductor a `Part` gives only a `value` is bought by that value
 in its footprint's package. A part number is the part's, not a component's: `board.set` does
 not set one (give the part its `mpn`, or pin a code with `parts.select { pin }`). What kind of
 part a spec asks for is the part's `kind` (`res` is a `.resistor`), unless the spec narrows it
@@ -667,8 +852,8 @@ to a catalog category the kinds do not have.
 | `Spec` field | Means |
 |---|---|
 | `category` | a catalog category narrower than the part's `kind`: `.regulator`, `.oscillator`; a diode's `.schottky`, `.zener`, `.tvs`, `.rectifier` (`null`: the kind) |
-| `value` | a nominal (`10kohm`: that value, any tolerance), or a range the part's whole tolerance band must lie in: `10kohm +/- 1pct`, `tolerance(9kohm, 11kohm)` (a plain ratio after an electrical quantity is relative) |
-| `tolerance` | the widest tolerance accepted (`1pct`) |
+| `value` | a nominal (`10kohm`: that value, any tolerance), or a range the part's whole tolerance band must lie in: `10kohm ± 1%`, `tolerance(9kohm, 11kohm)` (a plain ratio after an electrical quantity is relative) |
+| `tolerance` | the widest tolerance accepted (`1%`) |
 | `package` | the catalog's package (`"0603"`, `"SOT-23-5"`); `null`: the footprint's |
 | `ratedVoltage`, `ratedCurrent`, `ratedPower` | ratings the part must reach at least (`16V`, `0.1W`) |
 | `dielectric` | a ceramic capacitor's: `.C0G`, `.X8R`, `.X7R`, `.X7S`, `.X6S`, `.X5R`, `.Y5V`; this one or a more stable one |
@@ -689,67 +874,81 @@ named by its `mpn`, and for a common part the part numbers that meet it by const
 chip resistor's or ceramic capacitor's series that spells its value, a stocked chip LED, the
 shielded power inductors, Schottky, rectifier, Zener and TVS diodes, PTC fuses and SMD crystals
 of the common series); their offers are judged like any other. The values such series come in
-are the standard library's: `ptcHolds` (`ptcHold` rounds a current up to one), `tvsStandoffs`
+are the standard library's: `ptcHolds` (`ptcHold` rounds a current up to one), `fuseRatings`
+(`fuseRating`, one-time fuses), `tvsStandoffs`
 (`tvsStandoff`), `crystalLoads` (`crystalLoad`: the nearest); the blocks size their parts by
-them. A plug-in module on female headers (`moduleSocket`: a
-development board, a display) is assembled as its sockets: its BOM line is the female headers,
+them. A plug-in module in female headers (`moduleSocket(…, mount = .socket)`: a
+development board, a stepper driver) is assembled as its sockets: its BOM line is the female headers,
 one per row (`orderCode` on the component pins the header's code), and the fabrication README
-lists the module itself, bought separately and plugged in by hand. A straight 2.54 mm pin header
-(`header`, a `device` on `pinHeader`, a registry connector named by what plugs into it) is
-bought as one of Sullins' PRPC breakaway headers of its rows and pins, a 5 mm screw terminal of
-2 to 4 positions (`terminalBlock`) as Phoenix Contact's MKDS 1,5.
+lists the module itself, bought separately and plugged in by hand. A ready-made module soldered on
+its header (the default mount) or flush is bought by its own code (the Arduino Nano's); one whose
+part names no code the fab stocks (a 0.96" SSD1306 OLED module, a MAX7219 display) is no BOM line
+and no part the order misses: the README lists it with the sockets' modules, bought separately and
+soldered by hand. A pin header, a female header
+or a screw terminal (`header`, a `Part` on `pinHeader`, `pinSocket` or `terminalBlock`, a
+registry connector named by what plugs into it, a KiCad board's
+`PinHeader_1x04_P2.54mm_Vertical`) is bought by its build: the assembler's part of that category
+with its rows and pins (`1x4P`), pitch and mounting (straight: through hole; angled: right angle).
 
 ```pcbkit
 // file: sourced/.pcbkit/design.pcbkit
-pcbkit 1
+pcbkit 2
 
 // Requirements instead of part numbers: `pcbkit parts` picks the orderable parts.
-net V5, V3, GND, LED
+net V5V, V3V3, GND, LED
 
-part R1k = res(1kohm, tolerance = 1pct, ratedPower = 0.1W)
+part R1k = res(1kohm, tolerance = 1%, ratedPower = 0.1W)
 part Decoupling = cap(100nF, ratedVoltage = 16V, dielectric = .X7R, package = "0402")
 
-U1 = device(
-  footprint = sot23(5),
-  kind = .ic,
+U1 = Part {
+  footprint = sot23(5)
+  kind = .ic
   spec = Spec {
     category = .regulator
-    params = { "Output Voltage": 3.3V, "Output Current": tolerance(300mA, 3A) }
-  },
-  pinout = { IN: "1", GND: "2", OUT: "5" },
-) {
+    params = { "Output Voltage" = 3.3V, "Output Current" = tolerance(300mA, 3A) }
+  }
+  pinout = { IN = "1", GND = "2", OUT = "5" }
+} {
   at = (10mm, 10mm)
-  pins { IN: V5, GND: GND, OUT: V3 }
+  IN -- V5V
+  GND -- GND
+  OUT -- V3V3
 }
 C1 = Decoupling {
   at = (6mm, 10mm)
-  pins { a: V5, b: GND }
+  a -- V5V
+  b -- GND
 }
 C2 = Decoupling {
   at = (14mm, 10mm)
-  pins { a: V3, b: GND }
+  a -- V3V3
+  b -- GND
 }
-C3 = cap(10uF +/- 20pct, ratedVoltage = 10V, package = "0805") {
+C3 = cap(10uF ± 20%, ratedVoltage = 10V, package = "0805") {
   at = (14mm, 14mm)
-  pins { a: V3, b: GND }
+  a -- V3V3
+  b -- GND
 }
 R1 = R1k {
   at = (18mm, 10mm)
-  pins { a: V3, b: LED }
+  a -- V3V3
+  b -- LED
 }
 D1 = led(color = .green) {
   at = (22mm, 10mm)
-  pins { A: LED, K: GND }
+  A -- LED
+  K -- GND
 }
 J1 = header(3) {
   at = (2mm, 10mm)
   orderCode = "T60001"
-  pins = [V5, GND, V3]
+  pins = [V5V, GND, V3V3]
 }
 ```
 
-The choice is recorded where KiCad, BOM tools and assembly services read it: as properties of
-each component's footprint in the `.kicad_pcb`: the code (`LCSC Part #`), the part's `MPN` and
+The choice is recorded in each component's `fields` in `board.pcbkit` (and exported as the
+footprint's properties, where KiCad, BOM tools and assembly services read it): the code (`LCSC
+Part #`), the part's `MPN` and
 `Manufacturer` (where the component has none of its own) and `pcbkit-need`, a hash of what the
 part was chosen to meet (a changed need makes the choice stale) followed by the fields the choice
 added. Stock, price and why each part won are in the answer of `pcbkit parts` (`parts.select`),
@@ -757,19 +956,19 @@ not in the repository: they are of the day. C1 of the example above, chosen from
 test catalog (`fixtures/parts/catalog.json`):
 
 ```text
-(footprint "Capacitor_SMD:C_0402_1005Metric" (layer "F.Cu")
-  …
-  (property "LCSC Part #" "T20001" (at 0 0 0) (layer "F.Fab") (hide yes) (effects (font (size 1 1))))
-  (property "MPN" "EXC0402-100nF-X7R-16V" (at 0 0 0) (layer "F.Fab") (hide yes) (effects (font (size 1 1))))
-  (property "Manufacturer" "Example Passives" (at 0 0 0) (layer "F.Fab") (hide yes) (effects (font (size 1 1))))
-  (property "pcbkit-need" "8bcbdea5d4a0 MPN Manufacturer" (at 0 0 0) (layer "F.Fab") (hide yes) (effects (font (size 1 1))))
-  …
-)
+C1 = { at = …, footprint = "C_0402_1005Metric", nets = { … }, fields = { "LCSC Part #" = "T20001", "MPN" = "EXC0402-100nF-X7R-16V", "Manufacturer" = "Example Passives", "pcbkit-need" = "8bcbdea5d4a0 MPN Manufacturer" } },
 ```
 
-`check` judges the choices once a part is chosen: a component without a part (`part-missing`)
-and a choice made for another need (`part-stale`), both warnings. Commands: `parts.select`,
-`parts.alternatives` (the ranked offers for a component, with why each ranks where it does),
+`check` judges the choices once a part is chosen: a component without a part (`order-part-missing`),
+a choice made for another need (`order-part-stale`), a choice the catalogue had too few of
+(`stock-short`) and a code the catalogue loaded now has too few of for one board (`order-stock`):
+warnings while the board is being built, errors at the ready level once it is placed and routed
+(a board whose parts cannot be bought is not ready). A part of the project's own sheet
+(`.pcbkit/parts/<id>.json`) is ready only with its pin map verified: it agrees with the registry's
+sheet of the part or its certified part certificate, or the part maker confirmed it pin for pin and
+the table is still the one it sealed (`provenance.pins.seal`); else `order-pinout`. A pin map that
+one of those contradicts (a swap of pins both name) is `pin-map`, an error. Commands: `parts.select`,
+`parts.alternatives` (the ranked offers for a component, with why each ranks where it does, and the hosted library's drop-in substitutes for a part named by its number),
 `parts.select { pin }` (writes `orderCode` into the source), `parts.bom` (the bill of materials, priced from
 the offers loaded).
 
@@ -781,10 +980,11 @@ with the pins they apply to, the support circuit, the 3D body as `solids` or a l
 judges it on its own: the pin table against the package's pin count, the dimensions against
 each other, the land pattern against the leads it is for and against the IPC-7351B footprint,
 the ratings; it compiles and evaluates the part. `parts.create` writes `parts/<Name>.json` (the
-sheet) and `parts/<Name>.pcbkit` (the module: `part Part = device(…)` with the footprint — a
+sheet) and `parts/<Name>.pcbkit` (the module: `part <Id>: Part { … }` with the footprint — a
 standard generator's call from the dimensions or the package's name, else the land pattern as
 pads — the pinout, `pinTypes` with the ratings as limits, `fields { Status, Datasheet }`) and
-adds `use "parts/<Name>.pcbkit" as <Name>` to the design; components are `<Name>.Part { … }`.
+adds `use ./parts/<Name> as <Name>` to the design; components are `<Name>.<Name> { … }` (the
+module's part is named by its id).
 `parts.use` does the same for a part of the registry. Status: `verified` (the pins confirmed by
 an independent source), `checked` (every check passes), `draft` (written with errors, `draft:
 true`): `check` warns `part-draft` for components of a draft part.
@@ -819,7 +1019,7 @@ compilation and model-to-source export even when `parameters` is empty.
 `support` (parts between the chip's pins — decoupling at each supply pin, bulk capacitors,
 pull-ups, a crystal with its load capacitors, series resistors, reset and boot buttons, other
 registry parts — and connections such as a strap to ground) compiles into the module's block
-`Support(chip, …)`. Each part is held next to the pin it serves by a soft rule (a 100 nF
+`Support { chip = U1, … }`. Each part is held next to the pin it serves by a soft rule (a 100 nF
 within 2 mm of its pad, one per pad with `each`); a crystal is the standard `Crystal` block,
 its load capacitors computed from the crystal's CL and the stray capacitance; nets of the board
 the circuit reaches beyond the chip's pins (a regulator's output, the USB connector's D+) are
@@ -829,54 +1029,60 @@ component and its support circuit to the design (`support: false`: the module al
 
 ```pcbkit
 // file: support/.pcbkit/parts/Ldo.pcbkit
-pcbkit 1
+pcbkit 2
 
 /// A 3.3 V LDO in SOT-23-5 (as a part sheet compiles it, shortened).
-part Part = device(
-  footprint = sot23(5),
-  prefix = "U",
-  pinout = { VIN: "1", GND: "2", EN: "3", NC: "4", VOUT: "5" },
+part Ldo: Part {
+  footprint = sot23(5)
+  prefix = "U"
+  pinout = { VIN = "1", GND = "2", EN = "3", NC = "4", VOUT = "5" }
   pinTypes = {
-    VIN: io.powerIn(min = 2.5V, max = 6.5V),
-    GND: .ground,
-    EN: io.input(max = 6.5V),
-    NC: .nc,
-    VOUT: io.powerOut(3.3V),
-  },
-)
+    VIN = io.powerIn(min = 2.5V, max = 6.5V)
+    GND = .ground
+    EN = io.input(max = 6.5V)
+    NC = .nc
+    VOUT = io.powerOut(3.3V)
+  }
+}
 
 /// Its datasheet's circuit: 1 µF at the input and the output, EN tied to VIN.
-block Support(
-  chip: Any,
+block Support {
+  chip: Any
   /// EN tied to VIN (`false`: drive EN from a logic output).
-  alwaysOn: Bool = true,
-) {
+  alwaysOn: Bool = true
+
   CIN = cap(1uF, package = "0402", ratedVoltage = 10V) {
     place = [soft(near(chip.pin.VIN, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VIN, b: chip.pin.GND }
+    a -- chip.pin.VIN
+    b -- chip.pin.GND
   }
   COUT = cap(1uF, package = "0402", ratedVoltage = 10V) {
     place = [soft(near(chip.pin.VOUT, max = 2mm), weight = 2)]
-    pins { a: chip.pin.VOUT, b: chip.pin.GND }
+    a -- chip.pin.VOUT
+    b -- chip.pin.GND
   }
-  connect(chip.pin.EN, if alwaysOn then chip.pin.VIN else chip.pin.EN)
+  chip.pin.EN -- (if alwaysOn then chip.pin.VIN else chip.pin.EN)
 }
 ```
 
 ```pcbkit
 // file: support/.pcbkit/design.pcbkit
-pcbkit 1
-use "parts/Ldo.pcbkit" as Ldo
+pcbkit 2
+use ./parts/Ldo as Ldo
 
 net VIN { voltage = 5V }
-net V3, GND
+net V3V3, GND
 
 board = Board { name = "support" }
 
-U1 = Ldo.Part { pins { VIN: VIN, GND: GND, VOUT: V3 } }
+U1 = Ldo.Ldo {
+  VIN -- VIN
+  GND -- GND
+  VOUT -- V3V3
+}
 // The capacitors join whatever U1's pins are connected to.
-U1Support = Ldo.Support(U1) {}
-J1 = header(3) { pins = [VIN, V3, GND] }
+U1Support = Ldo.Support { chip = U1 }
+J1 = header(3) { pins = [VIN, V3V3, GND] }
 ```
 
 A pin is named by its refdes and pad number, `U1.3`, in reports. Several pads may share a
@@ -890,10 +1096,11 @@ types its pins with `pinTypes` (logical pin or pad number → type) and `pinType
 pins); a component may change its own with `pinTypes`. The types (`std/electrical.pcbkit`):
 `.passive`, `.input`, `.output`, `.bidirectional`, `.openDrain`, `.powerIn`, `.powerOut`,
 `.ground`, `.nc` (not connected inside the part) and `.unspecified` (not judged: the default of
-`device(…)`; `cap`, `res`, `led`, `header`, `hole` and `testPoint` are `.passive`). With voltages:
+`Part { … }`; `cap`, `res`, `led`, `header`, `hole` and `testPoint` are `.passive`). With voltages:
 `io.powerIn(min = 2.7V, max = 5.5V)`, `io.powerOut(3.3V, current = 300mA)`, `io.input(max = 3.6V)`
 (the most it tolerates), `io.output(3.3V)` (its high level), `io.bidirectional(3.3V, max = 3.6V)`,
-`io.openDrain(max = 5.5V)`. An input the part pulls up or down inside (an unused modem input, a
+`io.openDrain(max = 5.5V)`. An input with a clamp (`io.input(max = 3.8V, clamp = 300uA)`, a sheet's
+`limits { i(CFG1) <= 300uA }`) takes a pull-up above its `max` up to that current (model `clamp`, A). An input the part pulls up or down inside (an unused modem input, a
 reset with its own pull-up) is `io.input(pull = .up)` / `io.input(pull = .down)`: it may stay
 open, and a pull-up inside holds an open-drain line. A strapping pin, sampled when the part leaves reset
 (an ESP32's boot-mode GPIOs), says the level it needs: `io.bidirectional(pull = .up, strap =
@@ -912,31 +1119,61 @@ is fed through a generic connector (a header, a terminal block), the pin type wh
 itself is a source (a USB receptacle's `VBUS`, a battery holder). Both are sources to the
 electrical rules. The net's resolved voltage is its declared one, else its power outputs' (and
 blocks' power ports'), else what its name says (ADR 0020); where a declared voltage and a source
-on the net disagree, `check` reports `erc-voltage`.
+on the net disagree, `check` reports `type-sources`. **A nominal is not a range** (ADR 0104): a
+supply from off the board varies, so state what it stays in, `net VIN { voltage = 24V ± 10% }` (or
+`tolerance(9V, 16V)`); the judgements of its highest (a TVS's stand-off, a part's maximum) read the
+stated range, and without one they know only the nominal and say what they assumed.
+
+**What a connector mates with** (ADR 0111) is its `mate`: the cable, module or board on its other
+side, as the types of the pins that meet its own (`mate = mates.ftdi3v3`, or `mate = Mate { name =
+"the Peltier module's leads", pins { "1" = io.powerIn(max = 15V), "2" = .ground } }`; `pitch` where
+its contacts' pitch is fixed). The mate's pins are typed pins on the connector's nets: a plug wired
+the other way round puts the mate's ground on a supply (`type-ground`), TX on TX is two drivers
+(`type-drivers`), RX on RX a net nothing drives (`erc-floating-input`), a land at another pitch
+than its mate's is `type-mate`; each at the connector's line. The model keeps it as the
+component's `mate` (`name`, `pins` by pad, `pitch`). **What a capacitor decouples** is its `decouples`
+(`C3 = cap(100nF) { decouples = U1.VDD }`): it is placed next to that pin (an implied preference at
+the role's 2 mm); with no connections of its own its `a` joins that pin and its `b` the part's
+ground pin (its pin typed `.ground`, else one named `GND` or `VSS`); wired by hand it must be
+across the pin's net and a ground, else `type-decouples` at the line that wired it elsewhere; the model keeps it as `decouples` (`ref`,
+`pads`).
 
 ```pcbkit
 // file: erc/.pcbkit/design.pcbkit
-pcbkit 1
+pcbkit 2
 
 // A sensor on a 3.3 V regulator; the I2C pull-ups go to 3.3 V, within what its pins tolerate.
 net VIN { voltage = 5V }
-net V3, GND, SDA, SCL
+net V3V3, GND, SDA, SCL
 
-part Sensor = device(
-  footprint = soic(8),
-  pinout = { VDD: "8", GND: "4", SDA: "5", SCL: "6", NC: "2" },
+part Sensor: Part {
+  footprint = soic(8)
+  pinout = { VDD = "8", GND = "4", SDA = "5", SCL = "6", NC = "2" }
   pinTypes = {
-    VDD: io.powerIn(min = 1.7V, max = 3.6V),
-    GND: .ground,
-    SDA: io.openDrain(max = 3.6V),
-    SCL: io.input(max = 3.6V),
-    NC: .nc,
-  },
-)
+    VDD = io.powerIn(min = 1.7V, max = 3.6V)
+    GND = .ground
+    SDA = io.openDrain(max = 3.6V)
+    SCL = io.input(max = 3.6V)
+    NC = .nc
+  }
+}
 
-U1 = Sensor { pins { VDD: V3, GND: GND, SDA: SDA, SCL: SCL } }
-ldo = Ldo(vin = VIN, vout = V3, gnd = GND) {}
-pullups = I2cPullups(sda = SDA, scl = SCL, vcc = V3) {}
+U1 = Sensor {
+  VDD -- V3V3
+  GND -- GND
+  SDA -- SDA
+  SCL -- SCL
+}
+ldo = Ldo {
+  vin -- VIN
+  vout -- V3V3
+  gnd -- GND
+}
+pullups = I2cPullups {
+  sda -- SDA
+  scl -- SCL
+  vcc -- V3V3
+}
 J1 = header(4) { pins = [VIN, GND, SDA, SCL] }
 ```
 
@@ -944,26 +1181,42 @@ The rules, on typed pins only (an untyped design, an imported board, has nothing
 
 | Code | Finds |
 |---|---|
-| `erc-output-conflict` | outputs or power outputs of two parts on one net |
+| `type-drivers` | outputs or power outputs of two parts on one net (the type checker, ADR 0104: at the connection written last; a proof where every pin type is the design's) |
 | `erc-no-source` | a net feeding power inputs with no power output, ground pin, declared voltage, or resistor or diode from a supplied net on it |
 | `erc-floating-input` | an input or power input not connected, or a net of inputs only (inputs with a `pull` inside the part may stay open) |
-| `erc-no-pullup` | open-drain pins on a net without a resistor to a supply (and no push-pull output) |
-| `erc-voltage` | sources at different voltages on one net (power outputs, ground pins, the declared voltage); a pin whose `max` the net's highest level exceeds (a supply, an output's level, a pull-up's supply); a power input below its `min`; a ground pin on a supply |
-| `erc-nc-connected` | a `.nc` pin wired to a net |
+| `type-pullup` | open-drain pins on a net without a resistor to a supply (and no push-pull output) |
+| `type-sources` | sources at different voltages on one net (power outputs, ground pins, the declared voltage) |
+| `type-limit` | a pin whose `max` the net's highest level exceeds (a supply, the top of the net's stated range, an output's level, a pull-up's supply: through its resistor, beyond the pin's `clamp` current; with no clamp stated, a pull-up from the part's own supply is unconfirmed); a switch's gate or base beyond its limit from its source |
+| `type-operating` | a power input below its `min` (the bottom of the net's stated range where it states one) |
+| `type-ground` | a ground pin on a supply, a supply pin on a ground |
+| `type-nc` | a `.nc` pin wired to a net (the type checker, at the connection) |
+| `type-current` | a net's stated current above what a part it flows through carries continuously, with its class's derating: a fuse (75 %), a PTC (its hold current), a diode, an inductor or ferrite, a connector's contacts (the part's rating, else its family's), a power switch's drain (at the connection to the net) |
+| `type-voltage` | the voltage on a part's terminals above its rating: a capacitor's rated voltage (and its class's derating), a power switch's drain-source or collector-emitter rating with its margin (1.25 ×, twice in a bridge), a TVS whose breakdown its rail reaches, a supply pin above its recommended range; the voltage is the top of the net's stated range (`voltage = 24V ± 10%`), else its nominal |
+| `type-clamp` | a TVS's clamp (its sheet's clamping voltage, else the SMxJ row for its stand-off: 9.2 V at 5 V) above the absolute maximum of a supply pin it guards (a USB TVS before a 6 V regulator) |
+| `type-mate` | a connector's land whose pitch is not its `mate`'s (ADR 0111) |
+| `type-decouples` | a capacitor's stated pin (`decouples = U1.VDD`, ADR 0111) not across that pin's net and a ground (the decoupled part's ground pins' nets, or a ground net): on the other side of a diode, on an input |
 | `erc-single-pin` | a net that reaches one pin (a warning) |
-| `erc-logic-level` | an input that reads high only above its threshold (VIH, a voltage or a share of its own supply) driven by an output of a lower level (a warning) |
+| `type-level` | an input that reads high only above its threshold (VIH, a voltage or a share of its own supply) driven by an output of a lower level (a warning) |
 | `erc-decoupling` | a supply that powers chips (`U…` parts with active pins) has fewer capacitors to ground than chips: one 100 nF next to each chip's supply pin (a warning) |
 | `erc-crystal-load` | a crystal (a `crystal` footprint or part, a `Y…` part) whose pin has no capacitor to ground; oscillators (a supply pin) and three-pin resonators are left alone (a warning) |
 | `erc-reset-pull` | a reset or enable input (`RESET`, `NRST`, `RST`, `RUN`, `EN`, `CHIP_EN`, …) without a `pull` inside the part, on a net with neither a resistor to a supply or ground nor a driver: a button or a capacitor alone (a warning) |
 | `erc-usb-cc` | a USB Type-C receptacle (pins `CC1`, `CC2`; `VBUS` not a power input) whose CC pin has no 5.1 kΩ (4.1–6.1 kΩ) to ground and no chip that handles it (a warning) |
 | `erc-usb-cc-tied` | a USB Type-C receptacle's `CC1` and `CC2` on one net |
 | `erc-i2c-address` | two parts sharing two signal nets (a bus) at one I2C address: their field `I2cAddress` (from the part sheet's `i2cAddress`) with the address pins as tied (to ground, a supply, or through a resistor) |
+| `erc-supply-peak` | a part whose sheet asks its supply for a peak current ("current the supply must deliver": a Wi-Fi module's 500 mA) on a rail whose source's rating does not cover it and the rail's other loads (a warning) |
 | `erc-overload` | a rail whose loads (power inputs' `current`, blocks' ports) draw more (by over 2 %) than its source's rating (a power output's `current`, a regulator block's port) — the power flow of the analysis (a warning) |
-| `erc-strapping` | a pin with a `strap` level pulled the other way (a resistor, a tie, a pull inside another part), or held at none (no `pull` of its own toward it) (a warning) |
+| `wiring-strap` | a part's configuration pins (its sheet's strap tables, or pins with a `strap` level) wired for a mode that sets something other than what the design declares (a USB PD sink requesting 28 V on a net declared 20 V: an error), not in the part's normal mode (an ESP32 that does not boot from its flash), or wired as no row of the table (warnings) |
+| `wiring-feedback` | a regulator whose sheet states the voltage it holds its feedback pin at (a reference, or a fixed variant's output) and whose divider then sets an output whose whole enclosure over the parts' tolerances misses the voltage the design states on that net by more than 10 % (only the part's own sheet; a fixed 3.3 V buck under a 100k/44.2k divider: 10.9 V; the message gives the enclosure over the tolerances and the rail's parts it overstresses), or a feedback pin on ground |
+| `wiring-enable` | a regulator or load switch (a part with an output or a switch node) whose enable (`EN`, `nEN`, `EN_N`, …) is held inactive in every power state where its supply is there: below 0.3 V, or an active-low one above 0.7 × its supply (a VBUS switch whose enable only a pull-up holds) |
+| `wiring-backpower` | a USB device port's VBUS (Micro-B, Mini-B, B, or a Type-C receptacle with the sink's 5.1 kΩ on both CC pins) that the board itself holds above 0.8 V with nothing plugged in (a diode from the board's 5 V into the debug port's VBUS; a host port built with a sink's Rd) (a warning) |
+| `wiring-flyback` | a relay's coil (a part of category `relay`, its pins `COIL…`) switched by a transistor with no diode across it, or the diode's cathode on the switched side (it shorts the supply as the transistor turns on); a coil driven by a chip or from a connector is not judged |
+| `wiring-support` | a capacitor the part's sheet's datasheet circuit (`support`) puts between two of its own non-ground pins (a switcher's bootstrap, a charge pump's flying capacitor), not behind an option, missing between those pins' nets |
+| `wiring-pin-load` | a pin with more or less capacitance or resistance to ground than its sheet's `loads` allow (a hub's filter pin with 1 µF where 0.1 µF is the most, a regulator's output without its minimum capacitor) |
+| `wiring-contract` | a pin against what its sheet's pin row says, compiled into fixed templates: left open where it says "do not leave open", not tied where it says "must be tied to GND", joined where it says "do not connect", grounded where it says "do not connect to GND", without the capacitor or resistor it asks for ("4.7-47 uF to VSS"), fed outside the supply range it states; a sentence no template fits is not judged |
 
 Each is reported with the file, line and column of the component (a block's component: where the
 block is used), at the component's place on the board, and follows `rules.severity`
-(`severity { "erc-single-pin": .error }`).
+(`severity { "erc-single-pin" = .error }`).
 
 ### Current and heat (the analysis)
 
@@ -976,51 +1229,170 @@ what the pins' types say, and three more things where they are known:
   the rating its part must meet, `res(ratedPower = …)`); without it, what its block computes (an
   LDO's (Vin − Vout) · I, a buck's losses, an LED and its resistor), a resistor's V² / R between
   two supplies, or a part's V · I from what it draws;
-- a block's ports (`port output = io.powerOut(3.3V, current = 150mA, net = vout)`): what a
+- a block's ports (`output: Port = io.powerOut(3.3V, current = 150mA, net = vout)`): what a
   regulator gives and what a stage draws, for the power flow from the inputs to the loads.
 
 ```pcbkit
 // file: heat/.pcbkit/design.pcbkit
-pcbkit 1
+pcbkit 2
 
 // A motor driver: 3 A through its supply, about 1.2 W in the driver, an LDO for its logic.
 net VMOT {
   voltage = 12V
   current = 3A
 }
-net V5, GND, IN1, IN2
+net V5V, GND, IN1, IN2
 
-part Driver = device(
-  footprint = soic(8),
-  pinout = { VM: "1", GND: "4", VCC: "8", IN1: "2", IN2: "3", OUT1: "6", OUT2: "7" },
+part Driver: Part {
+  footprint = soic(8)
+  pinout = { VM = "1", GND = "4", VCC = "8", IN1 = "2", IN2 = "3", OUT1 = "6", OUT2 = "7" }
   pinTypes = {
-    VM: io.powerIn(max = 18V, current = 3A),
-    GND: .ground,
-    VCC: io.powerIn(min = 4.5V, max = 5.5V, current = 5mA),
-    IN1: io.input(max = 5.5V),
-    IN2: io.input(max = 5.5V),
-  },
-)
+    VM = io.powerIn(max = 18V, current = 3A)
+    GND = .ground
+    VCC = io.powerIn(min = 4.5V, max = 5.5V, current = 5mA)
+    IN1 = io.input(max = 5.5V)
+    IN2 = io.input(max = 5.5V)
+  }
+}
 
 U1 = Driver {
-  pins { VM: VMOT, GND: GND, VCC: V5, IN1: IN1, IN2: IN2 }
+  VM -- VMOT
+  GND -- GND
+  VCC -- V5V
+  IN1 -- IN1
+  IN2 -- IN2
   dissipation = 1.2W
 }
 C1 = cap(10uF, package = "1206") {
-  place = [near(U1.pin.VM, max = 2mm)]
-  pins { a: VMOT, b: GND }
+  place = [near(U1.VM, max = 2mm)]
+  a -- VMOT
+  b -- GND
 }
-ldo = Ldo(
-  vin = VMOT,
-  vout = V5,
-  gnd = GND,
-  outputVoltage = 5V,
-  inputVoltage = 12V,
-  current = 20mA,
-  dropout = 1V,
-  regulator = ldoSot23(5V, maxInputVoltage = 18V),
-) {}
+ldo = Ldo {
+  vin -- VMOT
+  vout -- V5V
+  gnd -- GND
+  outputVoltage = 5V
+  inputVoltage = 12V
+  current = 20mA
+  dropout = 1V
+  regulator = ldoSot23(5V, maxInputVoltage = 18V)
+}
 J1 = header(4) { pins = [VMOT, GND, IN1, IN2] }
+```
+
+### Scenarios: what the person asked (the intent level)
+
+A design states what the board must do in the person's own numbers: a `Scenario` (std
+`intent.pcbkit`) carries their words (`asked`), the supplies on its nets (`Supply`: the range a
+supply holds for seconds or longer, a `surge` on top, `reversed`, a source's `shortCircuit`
+current, the most capacitance it allows at attach, a battery's discharge `cutoff`), the loads at
+its connectors' pins or on nets (`Load`) and whether the board must `.work` in it (every part in
+its recommended range and derated ratings) or only `.survive` it (a fault: absolute maxima, the
+protection doing its job). `environment(kind, net)` gives a standard's scenarios on one net:
+
+| `Environment` | Scenarios (standard, clause) |
+|---|---|
+| `.automotive12V` | running 9–16 V, a car battery shorting with 200 A or more (ISO 16750-2 §4.2 code C); a 24 V jump start for 60 s (§4.3.1.2); a load dump suppressed to 35 V for 40–400 ms through 0.5–4 Ω (§4.6.4 test B); the battery reversed, 14 V for 60 s (§4.7) |
+| `.usbDevice` | VBUS 4.75–5.25 V, at most 10 µF at attach (USB 2.0 §7.2.1, §7.2.4.1) |
+| `.industrial24V` | 19.2–30 V (IEC 61131-2 §5.2) |
+| `.liionCell`, `.liionPack` (`cells = 3`) | 3.0–4.2 V a cell, the board cutting the cell off at 3.0 V unless it protects itself (`protected = true`) |
+
+```pcbkit
+// file: scenarios/.pcbkit/design.pcbkit
+pcbkit 2
+
+// A 5 V LED strip's power path, sized for what the person asked: their supply and their strip
+// at full white as a scenario.
+net VIN {
+  voltage = 5V
+  current = 9.5A
+}
+net GND
+
+J1 = screwTerminal(2) { pins = [VIN, GND] }
+J2 = screwTerminal(2) { pins = [VIN, GND] }
+C1 = cap(1000uF, package = "D10xL10", ratedVoltage = 10V) {
+  a -- VIN
+  b -- GND
+}
+
+full = Scenario {
+  asked = "a 5 V 10 A supply; 150 WS2812B at full white"
+  supplies = [Supply { net = VIN, min = 4.75V, max = 5.25V }]
+  loads = [Load { at = J2["1"], current = 9A }]
+}
+```
+
+`check` runs every scenario through the ratings (the intent level, `intent-*` codes, each
+finding naming its scenario and the person's words): a scenario's loads flow back to the source
+through every series part and replace the nets' declared currents where they say more
+(`intent-current`; a net that states less than a load is a lowered requirement, `intent-load`); a
+quantity a part's sheet sets from the parts on its pins (a driver's current limit, an amplifier's
+power into the load's `resistance`; `docs/parts.md` § Set quantities) against the loads on those
+pins (`intent-limit`); a
+supply's level reaches every net one fuse, ferrite, diode or pass stage on (`intent-voltage`: a
+pin's absolute maximum, a capacitor's rated voltage, a TVS's breakdown, in `.work` the parts'
+recommended ranges); a surge is clamped by the TVS on its rail (`intent-clamp`: what it guards,
+`intent-power`: the energy it absorbs); a reversed supply must stop at a blocker
+(`intent-reverse`); and the environment's obligations hold (`intent-inrush`: the capacitance at
+attach, `intent-battery-cutoff`, `intent-fuse-breaking`). A limit no part states is unchecked,
+never an error.
+
+A finding the design keeps is waived with its reason, which the check's summary lists
+(`· 1 waived (J1 intent-current: "…")`), so the person reads it:
+
+```pcbkit
+@allow(.intentCurrent, "the strip runs at most 6 A: WLED's current limit, agreed with the person")
+J1 = header(2)
+```
+
+A waiver is written on the member whose findings it waives (a component, a net, a block
+instance) and names the finding's code (`.typeCurrent` or `"type-current"`); one that waives
+nothing is a warning (`allow-unused`).
+
+### Mains and high voltage: creepage and clearance
+
+A supply above the SELV limits (60 V DC, 30 V r.m.s.) makes its nets hazardous, and so are the
+nets a fuse, a switch or a relay's contact joins to them; an AC supply (`ac = true`, `min` and
+`max` r.m.s.) above 50 V is the mains. Their copper needs the spacing IEC 60664-1 asks at their
+working voltage (`safety-*`, the layout level): creepage over the board's surface from Table F.5
+(F.4 in edition 2), reinforced twice the basic and never under the clearance; the clearance
+through air (mains only) from the rated impulse voltage (Table F.1) and Table F.2, reinforced one
+step higher, ×1.14–3.02 above 2000 m. The scenario says where the board lives (`altitude`,
+`pollution` 1–3, `overvoltage` `.I`–`.IV`); unstated: pollution degree 2, category II, material
+group IIIb (a laminate whose CTI is not stated), up to 2000 m. A 230 V supply is the 250 V row:
+2.5 mm basic, 5.0 mm reinforced. A slot or a bare hole at least the groove width X (1 mm at
+pollution degree 2) across the path makes it longer: such a path is not judged.
+
+- A mounting hole whose footprint names its screw (`hole("M3")`) holds metal: the thread in the
+  hole and a head on one side (M3: at least 5.3 mm). Hazardous copper closer to it than
+  reinforced creepage is a warning (`safety-creepage`): the screw is presumed metal and people may
+  touch it; an earthed one needs basic. A nylon screw is a waiver.
+- An `Insulation` the design states holds its `primary` nets' copper from its `secondary` nets'
+  by its `grade` (`.reinforced` by default, `.basic`): a shorter gap is an error
+  (`safety-creepage`; across a slot, the air: `safety-clearance`).
+
+```pcbkit
+// file: mains/.pcbkit/design.pcbkit
+pcbkit 2
+
+// A 230 V lamp's terminals beside a 5 V board's: the mains side kept from the SELV side.
+net L, N, V5, GND
+
+J1 = screwTerminal(2) { pins = [L, N] }
+J2 = screwTerminal(2) { pins = [L, N] }
+J3 = screwTerminal(2) { pins = [V5, GND] }
+J4 = header(2) { pins = [V5, GND] }
+
+mains = Scenario {
+  asked = "a 230 V lamp on the board"
+  supplies = [Supply { net = L, min = 207V, max = 253V, ac = true }]
+}
+barrier = Insulation {
+  primary = [L, N]
+  secondary = [V5, GND]
+}
 ```
 
 ### Net classes
@@ -1035,30 +1407,41 @@ powerClass = NetClass {
   layers = [] // copper layers the class may use (empty: any)
   diffPairGap = null // gap inside a differential pair (null: from its impedance, else clearance)
   diffPairWidth = null // each track of a pair (null: from its impedance, else trackWidth)
-  nets = [GND, V3, USB, glob("VBUS*")] // nets, pairs, name patterns (`*`, `?`)
+  nets = [GND, V3V3, USB, glob("VBUS*")] // nets, pairs, name patterns (`*`, `?`)
   default = false // the class of every other net (KiCad's `Default`)
 }
 ```
 
 Controlled impedance is the net's or the pair's, not a class's: `net ANT { impedance = 50ohm }`
-(a 50 Ω RF line) and `pair USB = (DP, DN) { impedance = 90ohm }`. The router gives the line the
-microstrip width the board's stack has for it (Wheeler) and the pair the width and gap that give
-its differential impedance (IPC-2141; at the class's `diffPairGap`, else its clearance, never
+(a 50 Ω RF line) and `usb = Pair { name = "USB", p = DP, n = DN, impedance = 90ohm }`. The router gives the line, on
+each layer, the width that gives its impedance there and the pair the width and gap that give its
+differential impedance (at the class's `diffPairGap`, else its clearance, never
 wider than the class's track width so the pads stay reachable; a class's `diffPairWidth` and
-`diffPairGap` win where given). The stack is read in one place, the resolved board's (`layers =
-.auto`: the KiCad board's once placed): the fab's first `dielectric`, else a two-layer board's core (its
-thickness less the copper), else 0.2104 mm of 7628 prepreg; the fab's `permittivity` and
-`outerCopper`. `calc.run { kind: "impedance" }` shows the same numbers on the open board.
+`diffPairGap` win where given): on an outer layer a microstrip under the solder mask, inside a
+stripline between its reference planes; beside a ground pour on its own layer a grounded coplanar
+line (the pour's gap from it). A layer's references are the nearest planes above and
+below it — layers typed `power`, and layers a ground or supply pour covers a quarter of the board
+on — or, with none on either side, its neighbouring layers; signal layers in between are
+dielectric to it. The stack is read in one place, the resolved board's (`layers = .auto`: `board.pcbkit`'s
+once placed): the fab's `dielectric`, else the fab's standard stack — JLCPCB's for
+the board's layers, thickness and copper (`shop = .jlcpcb`, the default; each prepreg and core with
+JLCPCB's published permittivity) — else a two-layer board's core (its thickness less the copper
+and masks), else 0.2104 mm of 7628 prepreg under each outer layer and the rest of the thickness
+shared by the inner gaps; the fab's `permittivity` and copper. Both are solved by a
+2D field solver (within 0.23 % of an external FEM, `docs/analysis.md`), and `analysis.calc { kind: "impedance" }` shows the same numbers on the open board. A pair's `riseTime`
+(`Pair { name = "USB", p = DP, n = DN, impedance = 90ohm, riseTime = 4ns }`) says how fast its edges are: shorter
+than about a sixth of an edge's way (100 mm for USB full speed's 4 ns, 12 mm for high speed's
+500 ps) it is electrically short and `check` asks no impedance of it; `UsbC2` gives full speed's
+unless `highSpeed`.
 Widths are for the outer layers over the plane below; order with `fab { impedance = true }` and
 the fab trims them to its stack.
 
 The class of a net: the class that lists it, else the class (first by name) one of whose
 patterns matches, else the default class (the class `default` with the values above always
 exists). A net listed by two classes is an error. Which layers a net may use: `routing.layers`
-∩ its class's `layers` ∩ its own `layers`. The KiCad project (`.kicad_pro`) follows the classes
-and the rules with every change the tools write: the default class is KiCad's `Default` (what
-no class claims, such as a pad without a net, takes its clearance there as here), each net is
-assigned its class, and what KiCad keeps besides (a class's colours, other settings) stays.
+∩ its class's `layers` ∩ its own `layers`. The KiCad export (`.kicad_pro`) writes the classes and
+the rules: the default class is KiCad's `Default` (what no class claims, such as a pad without a
+net, takes its clearance there as here), and each net is assigned its class.
 
 ### Keepouts, rule areas and pours
 
@@ -1092,10 +1475,12 @@ groundPlane = pour(net = GND, layers = [Cu.inner[1], Cu.bottom]) {
 `Pour`: `name`, `net`, `layers`, `outline` (`.auto`, the default: the board's outline; on a board of several pieces, their box: the fill keeps to the pieces), `priority` (0; higher fills first), `connect`,
 `clearance` (the larger of it and the net classes' applies), `minThickness` (0.25mm),
 `thermalGap`, `thermalSpoke` (0.5mm), `cutouts`, `smoothing` (`Smoothing { kind = .fillet;
-radius = 0.5mm }` or `.chamfer`: the outline's outer corners rounded or cut first), `islands`
-(`.remove`, `.keep`, `.removeSmall`: under `minIslandArea`, 10mm2). `pcbkit fill` (and
-`route`) fill the pour around the copper the way KiCad fills a zone; a pour (or layer) without
-no fill in the KiCad board yet has none:
+radius = 0.5mm }` or `.chamfer`: the outline's outer corners rounded or cut first), `hatch`
+(`Hatch { width = 0.5mm; gap = 1mm }`, also `angle`, `smoothing` 0–3 with `smoothingValue`,
+`minHoleArea` 0.3: a hatched fill, see below), `islands`
+(`.remove`, `.keep`, `.removeSmall`: under `minIslandArea`, 10mm2). A pour is filled around the
+copper the way KiCad fills a zone whenever the board is read (no step to run; the fills are
+cached in `.pcbkit/cache/fills/`, never stored in git). The fill is:
 
 - the outline (smoothed, minus cutouts and areas that forbid pours) within the board, less the
   edge clearance (non-plated slots count as edge), less foreign copper and holes grown by their
@@ -1116,8 +1501,18 @@ no fill in the KiCad board yet has none:
   reaches no pad, as `islands` says, unless no piece of the pour on that layer reaches one (then
   the layer stays, less what other pours of its net, of no lower priority, fill there);
 - then, as KiCad 10 refills: a pour under one that lost islands fills the space they leave, and a
-  pour under a higher one of its net gives way to that one's fill rather than its outline;
-  repeated until the fills settle (8 rounds at most);
+  pour under a higher one of its net gives way to that one's fill rather than its outline, and
+  so does a pour to an overlapping one of its net and priority before it (a tie of priorities
+  goes to the earlier pour in the design, for any two pours: KiCad's goes to the greater zone
+  id, and the export writes ids in that order); repeated until the fills settle (8 rounds at
+  most);
+- a hatched pour (KiCad's hatch pattern) is filled as KiCad 10 fills one: rings as wide as the
+  spokes round its thermal reliefs, the vias of its net joined like its pads (a relief with its
+  ring and spokes along the axes where pads join by reliefs, else solid), and, while the fill is
+  shrunk by half its minimum width, square holes `gap` wide on a grid of `width` + `gap` in
+  KiCad's coordinates (the board's KiCad origin), turned by `angle`, clipped to the fill shrunk
+  by the web; holes cut to under `minHoleArea` of a whole one and holes that would enclose a
+  ring, foreign copper's clearance or a solid via stay filled;
 - teardrops (KiCad's `$teardrop…` zones) are left empty: KiCad rebuilds them when it refills;
   with `routing.teardrops` the router draws its own (`$teardrop_padvia$`, where a track leaves a
   pad or via of its net wider than it: from across the pad, at most 2 mm, to the track's width at
@@ -1173,11 +1568,11 @@ rules = Rules {
   copperToEdge = 0.3mm // `edge-clearance` (outline and cutouts)
   courtyardMargin = 0.25mm
   minSpokes = 2 // `thermal-spokes` (an error; 0: unchecked)
-  vias { minDiameter = 0.45mm, minDrill = 0.2mm, minAnnular = 0mm } // 0: unset
-  holes { clearance = 0.25mm, toHole = 0.25mm } // `hole-clearance`, `hole-to-hole`
+  vias { minDiameter = 0.45mm, minDrill = 0.2mm, minAnnular = 0mm, microMinDiameter = 0.2mm, microMinDrill = 0.1mm } // 0: unset; micro…: KiCad's microvias
+  holes { clearance = 0.25mm, toHole = 0.25mm } // 0.25mm, 0mm (unset); `hole-clearance` (pours keep it from unplated holes too), `hole-to-hole`
   mask { expansion = 0mm, minWidth = 0mm, toCopper = 0mm, viaOpenings = false } // `solder-mask-bridge`
   silk { minTextHeight = 0.8mm, minTextThickness = 0.08mm, clearance = 0mm, toEdge = 0mm }
-  severity { "courtyard-overlap": .warning } // .error, .warning, .ignore by code
+  severity { "courtyard-overlap" = .warning } // .error, .warning, .ignore by code
 }
 ```
 
@@ -1193,24 +1588,24 @@ keeps out of openings that are not its pads' own (`docs/router.md`).
 **Design rules** say where limits apply with a typed selector:
 
 ```pcbkit
-rule UsbOuter {
+UsbOuter = Rule {
   select = copper(pair = USB, on = .outer)
-  limits {
-    trackWidth: limit(min = 0.2mm, target = 0.2mm),
-    diffPairGap: limit(min = 0.15mm, max = 0.2mm),
+  limits = {
+    trackWidth = limit(min = 0.2mm, target = 0.2mm)
+    diffPairGap = limit(min = 0.15mm, max = 0.2mm)
   }
 }
 
-rule EdgeBase {
+EdgeBase = Rule {
   select = copper()
-  limits { edgeClearance: limit(min = 1.5mm) }
+  limits = { edgeClearance = limit(min = 1.5mm) }
 }
 
-rule PlatedGround {
+PlatedGround = Rule {
   select = copper(net = GND)
   replaces = [EdgeBase.limits.edgeClearance]
   reason = "GND joins the plated board edge"
-  limits { edgeClearance: limit(min = 0mm) }
+  limits = { edgeClearance = limit(min = 0mm) }
 }
 ```
 
@@ -1259,13 +1654,13 @@ the later wins, as in KiCad), in `interop.kicad.rules`:
 interop = Interop {
   kicad = KicadData {
     origin = (100mm, -80mm) // KiCad coordinates of our origin
-    settings { "min_resolved_spokes": 2 }
+    settings { "min_resolved_spokes" = 2 }
     rules = [
       KicadRule {
         name = "USB"
         layer = "outer"
         condition = "A.inDiffPair('USB_D')"
-        constraints { "track_width": limit(min = 0.2mm) }
+        constraints { "track_width" = limit(min = 0.2mm) }
       },
     ]
   }
@@ -1279,7 +1674,7 @@ routing = Routing {
   engine = .pathfinder     // .straight: one straight track per connection (tests)
   angles = .octilinear     // .any: shortcuts at any angle
   layers = .auto           // every layer but power planes; .all: every layer; or a list
-  timeLimit = 60s
+  timeLimit = 60s           // stated: the build's budget; unstated: sized by the board (0.6 s a connection, 60 to 180 s)
   viaCost = 2.5mm          // track the router would rather add than place a via
   bendCost = 0.03mm        // … than bend 45°
   freedoms = .always       // .always: the footprints' swap groups; .declared: also swaps and
@@ -1290,8 +1685,10 @@ routing = Routing {
 
 ### Checks
 
-`assert(condition, "message")` / `warn(…)` check anything at evaluation (`distance(C1, U1) <= 6mm`
-between two placed components' origins, a computed value). Where parts go is said with placement
+`require condition "message"` (a warning under `@severity(.warning)`) checks anything at
+evaluation (`distance(C1, U1) <= 6mm` between two placed components' origins, a computed value);
+what the board must do in the person's numbers is a scenario (above), what it keeps against a
+finding an `@allow(…)`. Where parts go is said with placement
 rules (Parts and components, above), which the engine follows and `check` verifies.
 
 ## 4. Footprints
@@ -1312,8 +1709,11 @@ rules (Parts and components, above), which the engine follows and `check` verifi
   `powerInductor(5)`, `powerInductorRect(7mm, 6.6mm, 3mm)`, `crystalSmd("5032")`, `rows(…)` (any
   dual-row or quad package from datasheet dimensions, with tolerances `6mm +/- 0.2mm`,
   `tolerance(0.4mm, 1.27mm)`), `pinHeader(5, rows = 2)` (`rightAngle = true`),
-  `pinSocket(6)`, `moduleSocket(name, pads, outline)` (a plug-in module on female headers:
-  `socketRow(first, count, from, step)` per row, the module's outline as courtyard; `spacer =
+  `pinSocket(6)`, `moduleSocket(name, pads, outline)` (a module on its header pins:
+  `socketRow(first, count, from, step)` per row, `outline` its board; `mount` how it is held
+  (ADR 0074): `.soldered` (default) on its own header soldered in, `.socket` in female headers,
+  `.flush` flat, castellated: on the maker's lands where it gives `land` (across and along its row) and `landShift` (their centre out from the pins); the footprint carries itself under each (`Footprint.mounts`), so a component chooses (`mount = .flush`); raised, its courtyard is its pins' rows and the room under its board a
+  keepout with `below`, its `seat` the underside of its board; `spacer =
   2.5mm` its own header's plastic under its board, `pins = true` the header's pins soldered
   through it, `radius` its corners; `module = […]` the solids its board carries, heights from the
   board's top: its chip, its USB connector, a display: `displayPanel(outline, active, thickness,
@@ -1331,7 +1731,8 @@ rules (Parts and components, above), which the engine follows and `check` verifi
   in 3D): `to("TO-220")` (`"TO-220F"`, `"TO-220-5"`, `"TO-247"`, `"TO-92"`, `"TO-126"`, standing),
   `wireToBoard(4, 2mm)` (shrouded, polarized wire-to-board headers at 1.0, 1.25, 1.5, 2.0, 2.5 and
   2.54 mm; `rightAngle = true`, `smd = true` with two `MP` mounting pads), `boxHeader(10)` (IDC,
-  2.54 or 1.27 mm), `fpc(10, pitch = 0.5mm)` (FFC/FPC, right angle or vertical, `MP` anchors),
+  2.54 or 1.27 mm), `fpc(10, pitch = 0.5mm)` (FFC/FPC, right angle or vertical, `MP` anchors), `df40(100)` (Hirose
+  DF40 board-to-board, 0.4 mm),
   `terminalBlock(2, pitch = 5mm)` (2.54, 3.5, 3.81, 5.0, 5.08, 7.5 mm), `usbMicroB()`, `usbA()`,
   `dcJack()` (5.5 x 2.1 mm). Mounting pads of connectors are numbered `MP`; a connector says
   where its plug enters (`mating`).
@@ -1339,7 +1740,7 @@ rules (Parts and components, above), which the engine follows and `check` verifi
   `boxHeader` (so `header(n)`) at the centre of the pin field (pin 1 at `(−(rows − 1) / 2 ·
   pitch, (n − 1) / 2 · pitch)`, the top left); `wireToBoard`, `fpc`, `terminalBlock`, `usbMicroB`,
   `usbA` and `usbC()` at the middle of their row of contacts (the mounting pads `MP` and the
-  body around it); `dcJack` at its centre pin; `to(…)` at the middle lead. `model.list { kind:
+  body around it); `dcJack` at its centre pin; `to(…)` at the middle lead. `board.list { kind:
   "components" }` gives each component's `bounds` on the board.
 - **Catalog**: `catalog["SOIC-8_3.9x4.9mm_P1.27mm"]`; `pcbkit footprints [--query soic]
   [--png dir]` lists it.
@@ -1355,10 +1756,18 @@ rules (Parts and components, above), which the engine follows and `check` verifi
   them, the KiCad export writes them back, viewers load them), `solids` (the 3D body as simple
   solids, drawn where no library model loads instead of the body guessed from `package`: a part
   without a model file — a connector, a switch — looks like itself; below), `bridges`, `swapGroups`, `graphics`,
-  `silk` (its silkscreen, above), `overhang` (an edge connector: it may hang over the board edge),
-  `keepouts` (areas other copper and parts keep out of, below).
+  `silk` (its silkscreen, above), `drawings` (every other drawing, each on its `layer`: the
+  fabrication drawing `Fab.top`, the user layers `User.drawings`, `User.comments`, `User.eco1`,
+  `User.custom[1]`, a cutout the part needs `EdgeCuts`, adhesive `Adhesive.top`; written into the
+  files, not checked), `properties` (its fields beyond reference and value: `{ "Datasheet":
+  "https://…" }`), `attributes` (`FootprintAttributes { mount = .smd; excludeFromBom = true }`,
+  also `excludeFromPlacement`, `boardOnly`, `allowMissingCourtyard`), `overhang` (an edge
+  connector: it may hang over the board edge), `keepouts` (areas other copper and parts keep out
+  of, below).
 
-`Pad`: `number`, `shape` (`shape.round(d)`, `shape.rect(w, h)`, `shape.roundRect(w, h, r)`,
+`Pad`: `number`, `also` (the pad's other contact numbers: a USB-C receptacle's `A4` that is also
+`B9`; one pad, which a pin naming any of its numbers takes whole; KiCad's file draws it once per
+number and the import reads such pads back as one; `[]`), `shape` (`shape.round(d)`, `shape.rect(w, h)`, `shape.roundRect(w, h, r)`,
 `shape.oval(w, h)`; size `0mm` only for a drilled pad: a plated hole without a ring), `at`, `rotation`, `kind` (`.smd` | `.tht` | `.npth`), `layer` (SMD, default
 `Cu.top`), `drill` (THT/NPTH), `maskExpansion` (0.05mm; 0 = the board's `rules.mask.expansion`),
 `paste` (default: SMD), `pasteMargin` (the paste opening grows by it, negative: smaller; 0mm),
@@ -1368,8 +1777,9 @@ radius = r }]`, one point = circle, two = capsule), `offset` (where the copper i
 to `at`, the hole, in the pad's frame; KiCad's drill offset), `clearance` (the pad's own clearance
 to other nets and to its hole, replacing the rules but not the board minimums; `null`), `slot`
 (an oval hole: its size along the pad's X and Y, `drill` the smaller; `null` = round; milled, so
-`hole-to-hole` leaves it out, as KiCad does), `inner` (whether a hole is on the inner layers too;
-`false` for KiCad's `F&B.Cu` holes), `unusedLayers` (a through pad's copper: `.keep`, `.remove`,
+`hole-to-hole` leaves it out, as KiCad does), `holeCopper` (the copper layers a non-plated hole is
+on: `.all`, KiCad's `*.Cu`; `.outer`, `F&B.Cu`; `.none`, a peg with only its mask, which copper
+checks pass by as KiCad's do while fills and routes keep clear of its hole), `unusedLayers` (a through pad's copper: `.keep`, `.remove`,
 `.removeInner`, as a via's), `pour` (how the pad joins pours of its net where it differs from the
 pour: `PadPour { connect = .solid; thermalGap = 0.3mm; thermalSpoke = 0.4mm; spokeAngle = 45deg }`,
 each `null` the pour's; `spokeAngle` defaults to 45° for round pads, 0° for the others; `null`),
@@ -1390,7 +1800,8 @@ and the clearance its layout guidelines ask for, a sensor's opening. `FootprintK
 `outline` in the footprint's frame (`cutouts` holes in it), `layers` on the footprint's side as a
 pad's `layer` (`[Cu.top]`: its own side; empty, the default: every copper layer), `forbid` (default
 `[.tracks, .vias, .pours]`: no copper; `.footprints` keeps other components' courtyards out,
-`.pads` is kept for KiCad). They move, turn and flip with the component: `check` reports tracks,
+`.pads` is kept for KiCad; with `.footprints`, `below = 2.2mm` lets parts no taller than that stand
+inside: the room under a raised module, ADR 0074). They move, turn and flip with the component: `check` reports tracks,
 vias and other parts inside (`keepout`), the router routes around them, pour fills leave them
 empty, and the KiCad export writes them as the footprint's rule areas (the import reads them
 back).
@@ -1405,8 +1816,12 @@ Two properties say how pins relate inside the part:
 - `swapGroups`: pins that may trade nets without consequences off the board, so the router may
   choose (`routing.freedoms`). A group lists `slots`: a slot is one pin, or pins that move
   together (a gate's inputs and output). The library declares the two ends of resistors and
-  capacitors. Parts of an imported KiCad board have none: their schematic owns their pins' nets
+  capacitors. Parts of an imported board have none: their schematic owns their pins' nets
   (KiCad's "Update PCB from Schematic" would undo a swap); a design that allows one declares it.
+  A part a requirement holds at a pin (`near(U1.pin.VCC, max = 2mm)`) trades only onto pads
+  within the distance, and `check` judges the rule on the pins in effect. A trade `board.pcbkit`
+  already has stays when the design later rules it out (a net since named as a pair's, a pour
+  added): the board opens as it was routed, and the router moves nothing further.
 
 ```pcbkit
 bridges = [["1", "2"], ["3", "4"]] // 4-pad push button
@@ -1429,34 +1844,48 @@ pads = ballGrid(ball, origin = (-1.2mm, 1.2mm), pitch = (0.8mm, 0.8mm), cols = 4
 A block is a parametric piece of a board with its own names and its own frame:
 
 ```pcbkit
-block LedChannel(input: Net, ground: Net) {
+block LedChannel {
+  input: Net
+  ground: Net
+
   net cathode // a local net: channels[3]/cathode
 
   R = res(1kohm, package = "0603") {
     at = (0mm, 0mm) // in the block's frame
-    pins { a: input, b: cathode }
+    a -- input
+    b -- cathode
   }
   D = led(package = "0603") {
     at = (0mm, 3mm)
-    pins { A: cathode, K: ground }
+    A -- cathode
+    K -- ground
   }
 }
 
-channels = { for (i in 1..=4) { [i]: LedChannel(LED[i - 1], GND) { at = (6mm * i, 20mm) } } }
+channels = {
+  for i in 1..4 {
+    [i] = LedChannel {
+      input -- LED[i - 1]
+      ground -- GND
+      at = (6mm * i, 20mm)
+    }
+  }
+}
 ```
 
 Parameters do not capture names of the design by coincidence: shared nets are passed in.
 `channels` is a map with stable keys, so the third resistor is `channels[3]/R` whatever the
-source order; its refdes is given once (`R3`, from the part's `prefix`) and kept by the KiCad
-board (its footprint's `pcbkit` property names the path), so it stays when channels are added or
+source order; its refdes is given once (`R3`, from the part's `prefix`) and kept by
+`board.pcbkit` (its component's `path` names the entity), so it stays when channels are added or
 removed. A block instance's
-`at`, `rotation`, `side` place its frame. `port name = value` exports an endpoint;
+`at`, `rotation`, `side` place its frame. `name: Port = value` exports an endpoint;
 `instance.parts` lists its components (for rules: `pairsWithin(leftDriver.parts)`).
 
-To change one instance without changing the block, `override channels[3].R.at = (0mm, 2mm)`
-(coordinates stay the block's). One override per address; one that names nothing is an error.
+To change one instance without changing the block, define the setting by path:
+`channels[3].R.at = (0mm, 2mm)` (coordinates stay the block's). One definition per address; one
+that names nothing is an error, so is one of a setting the block itself defines.
 
-Modules: `use "blocks/power.pcbkit" as power` makes the public names of another file available as
+Modules: `use ./blocks/power as power` makes the public names of another file available as
 `power.Regulator`; `let` names stay private to their module. Components of a module are part of
 the board only when the design binds them (or instances that contain them).
 
@@ -1464,21 +1893,31 @@ the board only when the design binds them (or instances that contain them).
 
 The standard library has proven blocks to compose a board from instead of drawing the circuit
 (the catalogue, with every parameter and equation: `docs/blocks.md` of the tool; agents:
-`lang.search { kind: "block" }`, `lang.describe`): `Ldo`, `Buck`, `ReversePolarity`, `InputFuse` (power),
+`help.search { kind: "block" }`, `help.describe`): `Ldo`, `Buck`, `ReversePolarity`, `InputFuse` (power),
 `UsbCPower`, `UsbC2`, `UsbUart` (USB), `Crystal`, `McuSupport`, `SwdHeader`, `EspSupport`
 (around a microcontroller or an ESP32 module), `I2cPullups`, `LedIndicator`, `Button`,
 `Divider`, `LevelShifter`, `TestPoints`, `UartHeader`, `QwiicPort` (Qwiic / STEMMA QT),
-`AddressableLeds`, `MountingHoles` (a plated M3 hole in each corner; `screw`, `plated`,
+`AddressableLeds`, `MountingHoles` (a plated hole in each corner, M2 to M3 by the board's size; `screw`, `plated`,
 `corners`, `net = GND` to ground them), `RaspberryPiHat` (the 40-pin header and the four M2.5
-holes where the HAT specification puts them, on `outline = raspberryPiHatOutline()`; GPIOs by
-BCM name: `gpio = { GPIO2: SDA }`). The blocks share one vocabulary: `vin`, `vout`, `vcc` and `gnd`
+holes where the HAT specification puts them, on a board whose outline is the HAT's, `board = Board { outline = raspberryPiHatOutline() }`; GPIOs by
+BCM name: `signals = { GPIO2 = SDA }`; the check holds the board to that outline), `RaspberryPiCamera` (the 15- or 22-way MIPI CSI-2 camera
+connector, its lanes 100 Ω pairs), `ComputeModule` (a Compute Module 4 or 5: its two DF40
+connectors and four holes where the module's are, other parts kept from under it; every other pin
+by the datasheet's signal name: `signals = { PCIe_TX_P = PCIE_TX_P, CAM1_D0_P = CAM_D0_P }`, the
+pairs declared), `M2KeyM` (an M.2 key M socket for an NVMe SSD or PCIe card, its standoff at
+the card's `length`, the card's area kept free), `MikroBus` (a Click board socket), `PmodPort`
+(Digilent Pmod host port), `ArduinoUnoShield` (the Uno R3's headers and holes, on `board = Board { outline =
+arduinoUnoOutline() }`), `FeatherWing` (Adafruit Feather's strips and holes, on `board = Board { outline =
+featherOutline() }`), `ArmJtag` (the 20-pin JTAG/SWD box header). Blocks that put their parts
+where a standard does take `{ at = (x, y) }` to sit on the board. Standard connectors take nets by the standard's signal names; name the nets by
+the interface too (`CAM_D0_P`, `PCIE_TX_P`, `I2C_SDA`). The blocks share one vocabulary: `vin`, `vout`, `vcc` and `gnd`
 are nets (signals such as a crystal's `xin` may be a net or the pin itself); voltages are `…Voltage` (`outputVoltage`, `inputVoltage`, `supplyVoltage`) and default to
-what the net states (`net V3 { voltage = 3.3V }` gives `Ldo(vin = V5, vout = V3, gnd = GND)` its
+what the net states (`net V3V3 { voltage = 3.3V }` gives `Ldo { vin -- V5V, vout -- V3V3, gnd -- GND }` its
 3.3 V), a load to the net's `current`; packages are `package`, or `<role>Package` where a block has
-two kinds of part (`Button(buttonPackage = "4.2x3.2")`, `UsbC2(tvsPackage = "SOD-323")`,
-`tvsPackage = null`: none); shares are in `pct` (`Buck(ripple = 20pct)`). A block that takes a part (`Ldo(regulator = …)`, `Buck(converter
-= …)`, `UsbUart(bridge = …)`) connects it by the usual names of its pins (`pinAliases`: `VIN` or
-`IN`, `VOUT` or `OUT`, `UD+` or `UDP`, …). Each takes its nets as arguments and sizes its parts from its other
+two kinds of part (`Button { buttonPackage = "4.2x3.2", … }`, `UsbC2 { tvsPackage = "SOD-323", … }`,
+`tvsPackage = null`: none); shares are in `%` (`Buck { ripple = 20%, … }`). A block that takes a part (`Ldo { regulator = …, … }`, `Buck { converter
+= …, … }`, `UsbUart { bridge = …, … }`) connects it by the usual names of its pins (`pinAliases`: `VIN` or
+`IN`, `VOUT` or `OUT`, `UD+` or `UDP`, …). Each takes its nets as ports (`vin -- VBUS`) and sizes its parts from its other
 parameters (an LED's resistor from the supply, forward voltage and current; a crystal's load
 capacitors; I2C pull-ups from the bus capacitance and speed; a buck converter's inductor and
 feedback divider), says where its parts go (soft rules: a decoupling capacitor next to its pin),
@@ -1489,22 +1928,40 @@ values are readable: `ldo.dissipation`, `status.resistance`.
 
 ```pcbkit
 // file: blocks/.pcbkit/design.pcbkit
-pcbkit 1
+pcbkit 2
 
 // USB-C power, a 3.3 V regulator, a status LED and an I2C bus: the blocks size and place the
 // parts.
-net VBUS, V3, GND, LED, SDA, SCL
+net VBUS, V3V3, GND, LED, SDA, SCL
 
-usb = UsbCPower(vbus = VBUS, gnd = GND) {}
-ldo = Ldo(vin = VBUS, vout = V3, gnd = GND, current = 100mA) {}
-status = LedIndicator(signal = V3, gnd = GND, color = .green, current = 1mA) {}
-i2c = I2cPullups(sda = SDA, scl = SCL, vcc = V3, speed = 100kHz) {}
-J1 = header(4) { pins = [V3, GND, SDA, SCL] }
-holes = MountingHoles() {}
+usb = UsbCPower {
+  vbus -- VBUS
+  gnd -- GND
+}
+ldo = Ldo {
+  vin -- VBUS
+  vout -- V3V3
+  gnd -- GND
+  current = 100mA
+}
+status = LedIndicator {
+  signal -- V3V3
+  gnd -- GND
+  color = .green
+  current = 1mA
+}
+i2c = I2cPullups {
+  sda -- SDA
+  scl -- SCL
+  vcc -- V3V3
+  speed = 100kHz
+}
+J1 = header(4) { pins = [V3V3, GND, SDA, SCL] }
+holes = MountingHoles {}
 ```
 
-Parts inside a block are the library's to edit only through an `override`
-(`override ldo.Cout.at = (2mm, 0mm)`); a block's net class is named after its path
+Parts inside a block are the library's to change only by path from the design
+(`ldo.Cout.at = (2mm, 0mm)`); a block's net class is named after its path
 (`buck/switchNode`).
 
 ## 6. Pin assignment
@@ -1513,9 +1970,9 @@ Where `routing.freedoms` allows it, `pcbkit route` may give the pins of a swap g
 footprint's `swapGroups`, a component's `swaps`) each other's nets, and move a net to another of
 its `pinChoices`: it chooses pins while it negotiates and then trades slots, tuples too, and
 re-routes their nets (`freedoms = .none`: every pin keeps its net). The nets in
-effect are the KiCad board's: the pads carry them, and where they differ from the design's `pins`
+effect are `board.pcbkit`'s: its components' `nets` carry them, and where they differ from the design's `pins`
 within the freedoms, they are the assignment; where they do not fit the freedoms (the design
-changed a pin), the design's nets win. `check` verifies them; `export.run { format: "kicad" }` adds
+changed a pin), the design's nets win. `check` verifies them; `project.export { format: "kicad" }` adds
 `<name>-assign.csv` (component, pin, declared net, assigned net, what else must change: the
 swap's `needs`) for firmware and schematic.
 
@@ -1539,34 +1996,79 @@ evaluate reports each mistake with its code, file, line and column, for example:
 | a syntax error | `syntax` | `expected `=`, `+=`, `{` or `:` after the name, found …` |
 
 The checks after evaluation have their own codes: `clearance`, `short`, `edge-clearance`,
-`outside-board`, `keepout`, `courtyard-overlap`, `track-width`, `via-size`, `hole-size`,
+`outside-board`, `keepout`, `courtyard-overlap`, `pth-inside-courtyard` and
+`npth-inside-courtyard` (a pad's plated or non-plated hole touching another part's courtyard on
+either side of the board, as KiCad's `pth_inside_courtyard` / `npth_inside_courtyard`: something
+passes through the hole; vias are not checked; a courtyard rule with a negative minimum between
+the two parts waives it), `track-width`, `via-size`, `hole-size`,
 `annular-ring`, `hole-clearance`, `hole-to-hole`, `solder-mask-bridge`, `thermal-spokes`,
-`layer-not-allowed`, `diff-pair-gap` (a coupled piece of a pair outside its `diffPairGap` rule's
-range), `diff-pair-uncoupled` (more of a pair uncoupled than its `diffPairUncoupled` rule allows),
-`skew` (a net shorter than the longest of its `skew` rule's nets by more than the rule's maximum),
+`layer-not-allowed`, `pour-stale` (a pour whose saved fill is not what the rules and copper make now, as KiCad's "zone fills out of date": a rule changed since it was filled; a build refills it), `diff-pair-gap` (a coupled piece of a pair outside its `diffPairGap` rule's
+range), `diff-pair-uncoupled` (more of a pair uncoupled than its `diffPairUncoupled` rule allows; a
+declared pair without a rule: its interface's standard, USB 2.0's D+/D− up to a sixth of their
+edges' way and beyond it where its lines apart are not 90 Ω ±15 %; any pair with an impedance
+coupled over less than half its length, its lines apart missing it, saying its coupled share, its
+skew and how far apart its ends are: an error, a warning where it is electrically short),
+`skew` (a net shorter than the longest of its `skew` rule's nets by more than the rule's maximum;
+a USB 2.0 pair without a rule: the 100 ps of USB 2.0 §7.1.3),
 `diff-pair-impedance` (a warning: a pair whose `impedance` its routed tracks miss by more than a
-tenth, by IPC-2141 over the outer layers' coupled pieces; the report's `pairs` give each pair as
+tenth, field-solved over the outer layers' coupled pieces; the report's `pairs` give each pair as
 routed: lengths, skew, coupled and uncoupled length, impedance and target),
-`track-current` (a warning: a net's tracks, a millimetre or longer, narrower than its stated `current`
+`pour-overlap` (a warning: pours of two nets over the same area of a layer at the same priority:
+one fills and the other gets what is left), `track-current` (a warning: a net's tracks narrower than its stated `current`
 needs on their layer for a 10 °C rise by IPC-2221: inner copper and thin copper need more than the
-outer layers' 35 µm; the router routes each layer at that width and necks only at pins),
-`track-width-class` (a warning: tracks narrower than the class the design gives their net),
+outer layers' 35 µm; the router routes each layer at that width and necks only at pins, and keeps
+the current off layers that need over 1.5 times the narrowest one's width: inside, in thin copper;
+a track carries what the parts beyond it draw, not always the net's current: a branch to a
+decoupling capacitor or a divider is not held to it, and a track beside the pour or wider copper
+that carries the current between its connectors, regulators and loads carries at most its share
+(the net's copper solved as resistors); a neck, a narrow run short enough that its copper carries
+its heat to the wider copper at its ends within 5 °C (`I²ρL²/8kA²`, its length outside its pads, at most 3.5 mm),
+is not held to it),
+`via-current` and `pour-current` (warnings: a via, or a pour where its current passes away from
+the pads it enters at, whose share of a net's stated current rises over 20 °C by IPC-2221, the
+net's copper solved with its pours as sheets and its vias as barrels),
+the verifier's
+layout level (warnings): `layout-antenna` (a radio's antenna keepout away from the edge, or its
+open end facing more board), `layout-antenna-metal` (a mounting hole's ring or screw head in an
+antenna keepout), `layout-kelvin` (a current-sense amplifier's or driver's sense line sharing copper
+the measured current flows in: the share of the shunt it adds), `layout-current` (a supply or a
+converter's switch node with no stated current whose copper cannot carry what its parts give it),
+`layout-hardware-clearance` (a mounting screw inside an isolation a custom `clearance` rule keeps
+around a class),
 `track-dangling`, `via-dangling`, `swap-not-allowed`, `pin-option-default`, `silk-over-copper`, `silk-edge-clearance`, `silk-overlap`,
-`text-height`, `text-thickness`, `courtyard-outside-board`, `pad-order` (a footprint's pad numbers do
-not go round the package one way: two rows swapped end to end put pins on each other's pads), the electrical rules' `erc-…` codes
-(§3), `warn` (a `warn(…)` of the design or of a block it uses), `no-room` (the engine found no place
+`text-height`, `text-thickness`, `courtyard-outside-board`, the electrical rules' `erc-…` codes
+(§3), `warn` (a `@severity(.warning) require` of the design or of a block it uses), `no-room` (the engine found no place
 for a component on a fixed outline, with what takes the room and where there is some),
-`placement-not-recorded`, `placement-stale` (warnings), the parts warnings
-`part-missing`, `part-unresolved`, `part-stale`, `part-stock`, `part-package` (§3), the placement rules'
+`placement-not-recorded`, `placement-stale`, `board-oversized` (warnings; the last: a stated
+outline its parts fill to under 15 %, where people's boards are 31–53 %), the parts warnings
+`order-part-missing`, `order-part-stale`, `stock-short`, `order-stock`, `order-pinout` (errors once built), `part-package` (§3), the placement rules'
 `place-…` codes (§3), … (`severity` changes how each is reported;
 a rule's own `severity` applies to what it decides). Copper across the board edge is an
 `edge-clearance` violation even at `copperToEdge = 0mm`; copper wholly outside, away from the
-edge, is `outside-board`. Courtyards may overlap by less than 10 µm. A net is complete when its
+edge, is `outside-board` (a graphic wholly outside is not: it is cut away). Courtyards may overlap by less than 10 µm. A net is complete when its
 pins and every piece of its copper are joined (a track or via of the net joined to none of its
 pins is a missing connection too, as KiCad counts it); a track or via joins a fill of its net
 only 5 µm deep or more (a pad on a touch). Imported boards get KiCad's severities: `hole-to-hole`
 is a warning unless the project says otherwise, and what KiCad does not check (`outside-board`,
-`courtyard-too-small`, `pad-overlap`) is a warning.
+`courtyard-too-small`, `pad-overlap`) is a warning. A footprint's relations to itself are its
+library's: on a board only pads of two different nets overlapping (`pad-overlap`) speak, never its
+numbering or overlapping pads of one net or none; the size and layer plan (`plan-size`,
+`plan-layers`) is advice before a build and is not said on a routed board.
+
+A rule speaks at its severity only once a blind round on boards it was never tuned on has cleared
+it (ADR 0097): until then its findings are **unconfirmed**, listed under their own heading
+(`severity: "unconfirmed"`, the rule's own severity in `probation`; `design.check` counts them
+under `unconfirmed`). They fail no level, and they are never silent: the check line counts them
+("2 unconfirmed findings (plan-ground, wiring-reverse)", never "0 warnings" while there are any),
+the answers name the first of them with what to do, and the verdict line ends
+"· N unconfirmed findings". This covers the verifier's codes (`rating-`, `wiring-`, `intent-`,
+`layout-`, `polarity-`, `mating-`, `firmware-`, `seq-`, `domain-`, `safety-`, `ready-`, `erc-`,
+`plan-`, `thermal-junction`) and `track-current`, `via-current`, `pour-current`,
+`pour-overlap`, `net-across-pieces`, and the geometry codes whose parity with KiCad's DRC is not
+measured yet (`track-dangling`, `via-dangling`, `silk-edge-clearance`, `silk-over-copper`,
+`silk-overlap`); the KiCad-parity checks, the design's
+integrity and the language speak as they are. Check an unconfirmed finding against the part's
+datasheet and fix it when it is real.
 
 Where no rule says, `check` still warns about what a fab cannot make: a ring of copper around a
 through hole or via narrower than 0.1 mm (KiCad's default minimum annular width; an oval pad
@@ -1585,7 +2087,7 @@ A minimal board:
 
 ```pcbkit
 // file: minimal/.pcbkit/design.pcbkit
-pcbkit 1
+pcbkit 2
 
 net VCC, GND
 
@@ -1602,7 +2104,8 @@ J1 = header(2) {
 C1 = cap(100nF, package = "0603") {
   at = (20mm, 10mm)
   rotation = 90deg
-  pins { a: VCC, b: GND }
+  a -- VCC
+  b -- GND
 }
 ```
 
@@ -1610,13 +2113,13 @@ Four layers with planes, classes, a pair, a pour, a keepout and rules:
 
 ```pcbkit
 // file: four-layer/.pcbkit/design.pcbkit
-pcbkit 1
+pcbkit 2
 
 net GND
-net V3 named "+3V3"
+net V3V3 { name = "+3V3" }
 net USB_DP, USB_DN
 net SENSE { layers = [Cu.top] }
-pair USB = (USB_DP, USB_DN)
+USB = Pair(USB_DP, USB_DN)
 
 board = Board {
   name = "four-layer"
@@ -1624,8 +2127,8 @@ board = Board {
   cutouts = [circle((4mm, 4mm), 1.6mm)]
   layers = [
     signal(Cu.top),
-    power(Cu.inner[1], label = "GND"),
-    power(Cu.inner[2], label = "3V3"),
+    plane(Cu.inner[1], label = "GND"),
+    plane(Cu.inner[2], label = "3V3"),
     signal(Cu.bottom),
   ]
 }
@@ -1633,7 +2136,7 @@ board = Board {
 powerClass = NetClass {
   name = "power"
   trackWidth = 0.5mm
-  nets = [GND, V3, glob("VBUS*")]
+  nets = [GND, V3V3, glob("VBUS*")]
 }
 usbClass = NetClass {
   name = "usb"
@@ -1647,18 +2150,27 @@ part C100n = cap(100nF, package = "0402")
 
 U1 = qfn(24) {
   at = (25mm, 20mm)
-  pins { "1": USB.p, "2": USB.n, "3": SENSE, "12": V3, "25": GND }
+  "1" -- USB.p
+  "2" -- USB.n
+  "3" -- SENSE
+  "12" -- V3V3
+  "25" -- GND
 }
 
 decoupling = {
-  for ((i, x) in enumerate([21mm, 29mm])) {
-    [i]: C100n { at = (x, 25mm), rotation = 90deg, pins { a: V3, b: GND } },
+  for (i, x) in enumerate([21mm, 29mm]) {
+    [i] = C100n {
+      at = (x, 25mm)
+      rotation = 90deg
+      a -- V3V3
+      b -- GND
+    }
   }
 }
 
 H1 = hole("M3", plated = true) {
   at = (46mm, 36mm)
-  pins { "1": GND }
+  "1" -- GND
 }
 
 antenna = Keepout {
@@ -1678,20 +2190,20 @@ rules = Rules {
   copperToEdge = 0.3mm
   vias { minDiameter = 0.45mm, minDrill = 0.2mm }
   holes { clearance = 0.25mm, toHole = 0.25mm }
-  severity { "courtyard-overlap": .warning }
+  severity { "courtyard-overlap" = .warning }
 }
 
-rule UsbOuter {
+UsbOuter = Rule {
   select = copper(pair = USB, on = .outer)
-  limits {
-    trackWidth: limit(min = 0.2mm, target = 0.2mm),
-    diffPairGap: limit(min = 0.15mm, max = 0.2mm),
+  limits = {
+    trackWidth = limit(min = 0.2mm, target = 0.2mm)
+    diffPairGap = limit(min = 0.15mm, max = 0.2mm)
   }
 }
 
-rule EdgeGround {
+EdgeGround = Rule {
   select = copper(net = GND)
-  limits { edgeClearance: limit(min = 0mm) }
+  limits = { edgeClearance = limit(min = 0mm) }
 }
 ```
 
@@ -1699,33 +2211,38 @@ Blocks in their own module, a repeated channel, pins the router may trade:
 
 ```pcbkit
 // file: leds/.pcbkit/blocks/leds.pcbkit
-pcbkit 1
+pcbkit 2
 
 /// One LED channel: a resistor and an LED, in the block's own frame.
-block LedChannel(input: Net, ground: Net) {
+block LedChannel {
+  input: Net
+  ground: Net
+
   net cathode
 
   R = res(1kohm, package = "0603") {
     at = (0mm, 0mm)
     rotation = 90deg
-    pins { a: input, b: cathode }
+    a -- input
+    b -- cathode
   }
   D = led(package = "0603", color = .red) {
     at = (0mm, 3mm)
     rotation = 90deg
-    pins { A: cathode, K: ground }
+    A -- cathode
+    K -- ground
   }
 }
 ```
 
 ```pcbkit
 // file: leds/.pcbkit/design.pcbkit
-pcbkit 1
+pcbkit 2
 
-use "blocks/leds.pcbkit" as leds
+use ./blocks/leds as leds
 
 net GND
-bus LED[4]
+net LED[4]
 
 board = Board {
   name = "leds"
@@ -1735,14 +2252,24 @@ routing = Routing { freedoms = .declared }
 
 U1 = soic(8) {
   at = (12mm, 10mm)
-  pins { "1": LED[0], "2": LED[1], "3": LED[2], "4": GND, "7": LED[3] }
+  "1" -- LED[0]
+  "2" -- LED[1]
+  "3" -- LED[2]
+  "4" -- GND
+  "7" -- LED[3]
   // GPIOs: the firmware may drive any channel from pins 1–3; LED3 may move to pin 6 or 8.
   swaps = [swap(slots = [["1"], ["2"], ["3"]], name = "channels")]
-  pinChoices { "7": pinChoice(allowed = ["7", "6", "8"]) }
+  pinChoices { "7" = pinChoice(allowed = ["7", "6", "8"]) }
 }
 
 channels = {
-  for (i in 1..=4) { [i]: leds.LedChannel(LED[i - 1], GND) { at = (6mm + 6mm * i, 20mm) } }
+  for i in 1..4 {
+    [i] = leds.LedChannel {
+      input -- LED[i - 1]
+      ground -- GND
+      at = (6mm + 6mm * i, 20mm)
+    }
+  }
 }
 ```
 
@@ -1750,7 +2277,7 @@ A board with its fabrication and silkscreen, an edge connector and its own refer
 
 ```pcbkit
 // file: fab-silk/.pcbkit/design.pcbkit
-pcbkit 1
+pcbkit 2
 
 net VBUS, GND, D_P, D_N
 
@@ -1776,12 +2303,13 @@ let usbEdge = Footprint {
 
 J1 = usbEdge {
   at = (15mm, 17mm)
-  pins = { "1": VBUS, "2": D_N, "3": D_P, "4": GND }
+  pins = { "1" = VBUS, "2" = D_N, "3" = D_P, "4" = GND }
 }
 
 C1 = cap(100nF, package = "0603") {
   at = (15mm, 9mm)
-  pins { a: VBUS, b: GND }
+  a -- VBUS
+  b -- GND
   reference = Text { text = "${refdes}", at = (-2.2mm, 0mm), size = 0.8mm, thickness = 0.12mm }
 }
 
@@ -1798,7 +2326,7 @@ and a 3D model of KiCad's library by name:
 
 ```pcbkit
 // file: library/.pcbkit/footprints.pcbkit
-pcbkit 1
+pcbkit 2
 
 SOIC_8_3_9x4_9mm_P1_27mm = Footprint {
   name = "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm"
@@ -1825,9 +2353,9 @@ SOIC_8_3_9x4_9mm_P1_27mm = Footprint {
 
 ```pcbkit
 // file: library/.pcbkit/design.pcbkit
-pcbkit 1
+pcbkit 2
 
-use "footprints.pcbkit" as fp
+use ./footprints as fp
 
 net VCC, GND, SDA
 
@@ -1838,30 +2366,35 @@ board = Board {
 
 U1 = fp.SOIC_8_3_9x4_9mm_P1_27mm {
   at = (10mm, 7.5mm)
-  pins { "8": VCC, "4": GND, "5": SDA }
+  "8" -- VCC
+  "4" -- GND
+  "5" -- SDA
 }
 
 // The library's own footprint, with KiCad's 0603 model by name.
 R1 = res(4.7kohm, package = "0603") {
   at = (4mm, 7.5mm)
   rotation = 90deg
-  pins { a: VCC, b: SDA }
+  a -- VCC
+  b -- SDA
   models = [Model3d { path = "Resistor_SMD:R_0603_1608Metric" }]
 }
 ```
 
 A footprint's 3D body from its mechanical drawing, as `solids` (`Solid`: `shape` `.box` |
 `.cylinder` (axis Z) | `.cylinderX` | `.cylinderY` | `.print` (no body: ink on the plane of
-`at`, a module's silkscreen), `size` (X, Y, Z), `at` the centre of its
+`at`, a module's silkscreen) | `.prism` (its `outline`, X across and Z up, drawn along Y over
+`size.y`, less its `hole`: a bent lead's profile, a connector's mouth), `size` (X, Y, Z), `at` the centre of its
 bottom face in the footprint's frame with Z up from the board, `radius` the edges' rounding,
 `rotate` about X, Y, Z, `material` `.plastic` (black) | `.whitePlastic` | `.metal` | `.gold` |
 `.tin` | `.copper` | `.epoxy` | `.ceramic` | `.rubber` | `.glass` | `.led` | `.screen` (a display's
-cover glass over the colour it shows when off), `color` a hex colour instead of the material's, `hollow` a wall thickness: a tube open along Y, a connector's shell,
+cover glass over the colour it shows when off) | `.mask` (a module's solder mask, glossy, in its
+`color`) | `.fr4` (a board's laminate edge) | `.solder` (a joint, freshly reflowed), `color` a hex colour instead of the material's, `hollow` a wall thickness: a tube open along Y, a connector's shell,
 `top` the top face's size: a box narrowing upwards, a keycap or a knob; a cylinder's top diameter
 in `top.x`, a cone; `text` lines printed on its top face, at most `textSize` high, in `ink`: a
 chip's part number; a footprint whose solids print text carries no marking derived from its part).
-`solid.box`, `solid.cylinder`, `solid.shell`, `solid.print(["D13"], (w, h), at = …)` and `frustum`
-build them. The
+`solid.box`, `solid.cylinder`, `solid.shell`, `solid.print(["D13"], (w, h), at = …)`,
+`solid.prism([(0mm, 0mm), (1mm, 0mm), (0mm, 1mm)], 2mm)` and `frustum` build them. The
 standard USB-C receptacle and the tactile switches carry theirs (`usbC()`, `button()`), and
 `body` (`std/bodies.pcbkit`) has the bodies of whole parts, each in its own frame:
 `body.keyswitch(kind = .mx, units = 1.25)` (a switch with its keycap; `.choc`, `.alps`, `.ulp`), `body.stabilizer(span)`,
@@ -1884,7 +2417,7 @@ such body).
 
 ```pcbkit
 // file: solids/.pcbkit/design.pcbkit
-pcbkit 1
+pcbkit 2
 
 // A two-pin 5 mm terminal block: a green housing, two screw heads, the wire entries.
 block5mm = Footprint {
@@ -1921,12 +2454,14 @@ board = Board {
 
 J1 = block5mm {
   at = (10mm, 7.5mm)
-  pins { "1": A, "2": B }
+  "1" -- A
+  "2" -- B
 }
 
 R1 = res(1kohm, package = "0603") {
   at = (10mm, 2mm)
-  pins { a: A, b: B }
+  a -- A
+  b -- B
 }
 ```
 
@@ -1934,7 +2469,7 @@ Markings derived from the parts (`103`, `01C`) and given by the design:
 
 ```pcbkit
 // file: markings/.pcbkit/design.pcbkit
-pcbkit 1
+pcbkit 2
 
 net VCC, GND, OUT
 
@@ -1945,24 +2480,32 @@ board = Board {
 
 R1 = res(10kohm, package = "0805") {
   at = (6mm, 14mm)
-  pins { a: VCC, b: OUT }
+  a -- VCC
+  b -- OUT
 }
 
-R2 = res(10kohm, package = "0603", tolerance = 1pct) {
+R2 = res(10kohm, package = "0603", tolerance = 1%) {
   at = (6mm, 6mm)
-  pins { a: OUT, b: GND }
+  a -- OUT
+  b -- GND
 }
 
-U1 = device(footprint = soic(8), mpn = "LM358DR") {
+U1 = Part {
+  footprint = soic(8)
+  mpn = "LM358DR"
+} {
   at = (18mm, 10mm)
   marking = Marking { lines = ["LM358", "TI 2231"] }
-  pins { "4": GND, "8": VCC, "3": OUT }
+  "4" -- GND
+  "8" -- VCC
+  "3" -- OUT
 }
 
 C1 = cap(100nF, package = "0603") {
   at = (26mm, 10mm)
   rotation = 90deg
-  pins { a: VCC, b: GND }
+  a -- VCC
+  b -- GND
 }
 ```
 
@@ -1978,25 +2521,26 @@ to let the engine place it (`pcbkit place`), or give it.
 net I2C_SDA
 R7 = res(4.7kohm, package = "0402") {
   at = (31.5mm, 12mm)
-  pins { a: V3, b: I2C_SDA }
+  a -- V3V3
+  b -- I2C_SDA
 }
 ```
 
-**Compose from blocks:** look for a block before drawing a circuit (`lang.search { kind: "block" }`; in the
+**Compose from blocks:** look for a block before drawing a circuit (`help.search { kind: "block" }`; in the
 tool's repository `docs/blocks.md`), declare the nets it joins, and call it with them; give the
-parameters that matter (`voltage`, `current`) and read what it computed (`lang.describe`).
+parameters that matter (`voltage`, `current`) and read what it computed (`help.describe`).
 
 ```pcbkit
 net V12 { voltage = 12V }
-net V5, GND
-buck = Buck(
-  vin = V12,
-  vout = V5,
-  gnd = GND,
-  outputVoltage = 5V,
-  inputVoltage = 12V,
-  current = 2A,
-) {}
+net V5V, GND
+buck = Buck {
+  vin -- V12
+  vout -- V5V
+  gnd -- GND
+  outputVoltage = 5V
+  inputVoltage = 12V
+  current = 2A
+}
 ```
 
 **Reconnect a pin:** change one entry of the component: `SDA: SCL` instead of `SDA: SDA`. Remove
@@ -2008,16 +2552,16 @@ the entry to leave the pin unconnected; write `.nc` to say it stays unconnected 
 bottomGround = pour(net = GND, layers = [Cu.bottom]) {}   // the whole board; or `{ outline = … }`
 ```
 
-then `pcbkit fill` (or `pcbkit route`) to fill it.
+it is filled the next time the board is read (no step to run); `pcbkit route` routes around it.
 
-**Give nets a class:** `powerClass = NetClass { name = "power"; trackWidth = 0.5mm; nets = [V5, GND] }`
+**Give nets a class:** `powerClass = NetClass { name = "power"; trackWidth = 0.5mm; nets = [V5V, GND] }`
 (a design's names hide the library's: do not call a class `power` if the board uses `power(…)`).
 
 **Keep a net or a class off a layer:** `net CLK { layers = [Cu.top] }` or the class's `layers`;
 keep everything off a layer: `routing = Routing { layers = [Cu.top, Cu.bottom] }`; a local keepout:
 a `Keepout { forbid = [.tracks, .vias]; layers = […]; outline = … }`.
 
-**Keep where the engine put a component:** `pcbkit call place.pin '{"ids": ["U1"]}'` (no
+**Keep where the engine put a component:** `pcbkit call board.pin '{"ids": ["U1"]}'` (no
 `ids`: all of them) writes the positions into the source.
 
 **Move a component:** edit its `at` and `rotation` (and `side`). Its placement rules still hold
@@ -2039,11 +2583,18 @@ lists the models). The types, in `std/parts.pcbkit` and `std/behavior.pcbkit`:
   overrides its part's): `model`, `ports` (physical pad numbers in protocol order: power
   `[positive, ground]`, I²C `[SDA, SCL]`, SPI `[MOSI, SCK]`, one pad for a single signal),
   `parameters`, `height` (above the mounting plane), a processor's `firmware` (the project folder
-  of its program), the binary files it is linked with (`data: Map<String, FirmwareData>`,
+  of its program), the binary files it is linked with (`data: Map[String, FirmwareData]`,
   `FirmwareData { url; sha256; bytes }`: fetched and checked when the program is built), or in
   place of a folder the image its makers published (`image: FirmwareData?`: their release's flash
   image from offset 0, fetched and checked when the device opens, never stored in the project) and a
-  button's `key` (the `KeyboardEvent.code` that operates it).
+  button's `key` (the `KeyboardEvent.code` that operates it). A microSD socket holds a card with
+  the behavior `sd-card` (`ports = { clk = [pad], cmd = [pad], dat0 = [pad] }`, the socket's pads):
+  its `image` is what the card holds, its files as a zip archive (they become a FAT32 volume) or a
+  raw image of the card, and the card runs in the slot of the processor those pads reach (an
+  ESP32-P4's slot 0: GPIO43, GPIO44, GPIO39). A board of logic chips (ADR 0043) has a cassette in
+  its `tape-player` (`image`, a `.tap` file) and may name the board as that cassette leaves it once
+  loaded (`state: FirmwareData?`, saved by `lab.checkpoint` on this very board and ROM): the app
+  resumes it with `lab.resume` instead of playing the tape.
 - Orderable parts run as they are: registry parts with a behavior (`lab.catalog`'s `parts` per
   model: `ARDUINO_NANO`, `RP2040`, `RP2350A`, `ESP32_WROOM_32E`, `ESP32_S3_WROOM_1`,
   `STM32G431CBU6`, `STM32F103C8T6`, `SN65HVD230`, `SSD1306_OLED_I2C`, `ST7789_TFT_2_0`, `SHT31_DIS`,
@@ -2059,14 +2610,17 @@ lists the models). The types, in `std/parts.pcbkit` and `std/behavior.pcbkit`:
   ratio unit: `600ppm`).
 
 ```pcbkit
-pcbkit 1
-net V5, GND, FIRE, VIDEO
+pcbkit 2
+net V5V, GND, FIRE, VIDEO
 board = Board { outline = rect(120mm, 80mm) }
-U1 = labComputer({ power: ["1", "2"], GP0: ["3"], video0: ["4"] }, firmware = "game") {
-  pins { "1": V5, "2": GND, "3": FIRE, "4": VIDEO }
+U1 = labComputer({ power = ["1", "2"], GP0 = ["3"], video0 = ["4"] }, firmware = "game") {
+  "1" -- V5V
+  "2" -- GND
+  "3" -- FIRE
+  "4" -- VIDEO
 }
-screen = labScreen(320, 200, 64mm, 40mm) { pins = [V5, GND, VIDEO] }
-fire = labButton(key = "KeyF") { pins = [V5, GND, FIRE] }
+screen = labScreen(320, 200, 64mm, 40mm) { pins = [V5V, GND, VIDEO] }
+fire = labButton(key = "KeyF") { pins = [V5V, GND, FIRE] }
 laboratory = Laboratory {
   world = "sim/world.js"
   step = 1ms

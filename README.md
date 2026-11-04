@@ -3,7 +3,8 @@
 [![verify](https://github.com/pcbkit-io/boards/actions/workflows/verify.yml/badge.svg)](https://github.com/pcbkit-io/boards/actions/workflows/verify.yml)
 
 Circuit boards designed in [PCBKit](https://pcbkit.io), each a complete project you can open, run
-and order. Every board is a PCBKit project (a KiCad project with its `.pcbkit/` design); a board
+and order. Every board is a PCBKit project (its `.pcbkit/` folder: the design and the board as built,
+exported to KiCad on demand); a board
 with a processor carries its program, which PCBKit builds in your browser and runs on a
 simulation of its chips: the same image you flash onto the ordered board.
 

@@ -1,0 +1,60 @@
+pcbkit 2
+// The board as built: written by PCBKit's tools (ADR 0118). Lengths in mm, angles in degrees.
+layers = 2
+components = {
+  C1 = { at = (87, 10.25), rotation = 270, path = "U1Support/C1", footprint = "C_0402_1005Metric", nets = { "1" = "V5", "2" = "GND" }, fields = { "LCSC Part #" = "C1525", "MPN" = "CL05B104KO5NNNC", "Manufacturer" = "Samsung Electro-Mechanics", "pcbkit-need" = "a8413709d7eb MPN Manufacturer" } }
+  DS1 = { at = (68, 51.4), footprint = "OLED_0.96in_I2C_Socket_1x04_P2.54mm", nets = { "1" = "GND", "2" = "V5", "3" = "SCL", "4" = "SDA" } }
+  H1 = { at = (4, 52), footprint = "MountingHole_3.2mm_M3" }
+  H2 = { at = (50, 4), footprint = "MountingHole_3.2mm_M3" }
+  H3 = { at = (86, 4), footprint = "MountingHole_3.2mm_M3" }
+  H4 = { at = (86, 52), footprint = "MountingHole_3.2mm_M3" }
+  NANO = { at = (24, 12), rotation = 90, footprint = "Arduino_Nano_Socket_2x15_P2.54mm_W15.24mm", nets = { "4" = "GND", "5" = "PAGE", "23" = "SDA", "24" = "SCL", "27" = "V5", "29" = "GND" }, fields = { "LCSC Part #" = "C19189484", "pcbkit-need" = "dbbcbe6d615b" } }
+  R1 = { at = (83, 14.5), rotation = 180, path = "U1Support/RP1", footprint = "R_0402_1005Metric", nets = { "1" = "SDA", "2" = "V5" }, fields = { "LCSC Part #" = "C25744", "MPN" = "0402WGF1002TCE", "Manufacturer" = "UNI-ROYAL(Uniroyal Elec)", "pcbkit-need" = "f3981dda3558 MPN Manufacturer" } }
+  R2 = { at = (84.25, 10.75), rotation = 180, path = "U1Support/RP2", footprint = "R_0402_1005Metric", nets = { "1" = "V5", "2" = "SCL" }, fields = { "LCSC Part #" = "C25744", "MPN" = "0402WGF1002TCE", "Manufacturer" = "UNI-ROYAL(Uniroyal Elec)", "pcbkit-need" = "f3981dda3558 MPN Manufacturer" } }
+  SW1 = { at = (38, 40), footprint = "SW_Tactile_SPST_6x6mm_SMD", nets = { "1" = "PAGE", "2" = "GND" }, fields = { "DesignMPN" = "PTS645SM43SMTR92 LFS", "LCSC Part #" = "C221880", "MPN" = "PTS645SM43SMTR92LFS", "pcbkit-need" = "0ab57f512204 MPN DesignMPN" } }
+  U1 = { at = (86, 14), footprint = "DFN-8-1EP_2.5x2.5mm_P0.5mm_EP1.1x1.8mm", nets = { "1" = "SDA", "2" = "GND", "4" = "SCL", "5" = "V5", "6" = "V5", "7" = "GND", "8" = "GND", "9" = "GND" }, fields = { "DesignMPN" = "SHT31-DIS-B2.5kS", "LCSC Part #" = "C77361", "MPN" = "SHT30-DIS-B2.5KS", "pcbkit-need" = "0e4ce0fa1ea3 MPN DesignMPN" } }
+}
+tracks = [
+  { net = "PAGE", layer = "F.Cu", width = 0.25, points = [(31.62, 19.62), (31.62, 39.845)] },
+  { net = "PAGE", layer = "F.Cu", width = 0.25, points = [(31.62, 39.845), (34.025, 42.25)] },
+  { net = "SCL", layer = "B.Cu", width = 0.25, points = [(69.27, 51.7), (83.6, 37.37)] },
+  { net = "SCL", layer = "B.Cu", width = 0.25, points = [(83.6, 37.37), (83.6, 11)] },
+  { net = "SCL", layer = "F.Cu", width = 0.25, points = [(83.74, 10.75), (84.7875, 11.7975)] },
+  { net = "SCL", layer = "F.Cu", width = 0.25, points = [(84.7875, 11.7975), (84.7875, 13.25)] },
+  { net = "SCL", layer = "B.Cu", width = 0.25, points = [(69.27, 51.7), (38, 20.43)] },
+  { net = "SCL", layer = "B.Cu", width = 0.25, points = [(38, 20.43), (38, 16.6)] },
+  { net = "SCL", layer = "B.Cu", width = 0.25, points = [(38, 16.6), (26.54, 5.14)] },
+  { net = "SCL", layer = "B.Cu", width = 0.25, points = [(26.54, 5.14), (26.54, 4.38)] },
+  { net = "V5", layer = "F.Cu", width = 0.25, points = [(87, 10.73), (86.98, 10.75)] },
+  { net = "V5", layer = "F.Cu", width = 0.25, points = [(86.98, 10.75), (84.76, 10.75)] },
+  { net = "V5", layer = "F.Cu", width = 0.25, points = [(87, 10.73), (87.2125, 10.9425)] },
+  { net = "V5", layer = "F.Cu", width = 0.25, points = [(87.2125, 10.9425), (87.2125, 13.25)] },
+  { net = "V5", layer = "F.Cu", width = 0.25, points = [(87.2125, 13.25), (87.2, 13.2625)] },
+  { net = "V5", layer = "F.Cu", width = 0.25, points = [(87.2, 13.2625), (87.2, 13.6)] },
+  { net = "V5", layer = "F.Cu", width = 0.25, points = [(87.2, 13.6), (87.2125, 13.6125)] },
+  { net = "V5", layer = "F.Cu", width = 0.25, points = [(87.2125, 13.6125), (87.2125, 13.75)] },
+  { net = "V5", layer = "F.Cu", width = 0.25, points = [(84.76, 10.75), (84.01, 10)] },
+  { net = "V5", layer = "F.Cu", width = 0.25, points = [(84.01, 10), (83.4, 10)] },
+  { net = "V5", layer = "F.Cu", width = 0.25, points = [(83.4, 10), (82.49, 10.91)] },
+  { net = "V5", layer = "F.Cu", width = 0.25, points = [(82.49, 10.91), (82.49, 14.5)] },
+  { net = "V5", layer = "F.Cu", width = 0.25, points = [(82.4, 14.8), (82.4, 32.6)] },
+  { net = "V5", layer = "F.Cu", width = 0.25, points = [(82.4, 32.6), (67.2, 47.8)] },
+  { net = "V5", layer = "F.Cu", width = 0.25, points = [(67.2, 47.8), (67.2, 51)] },
+  { net = "V5", layer = "F.Cu", width = 0.25, points = [(72.6, 42.4), (34.58, 4.38)] },
+  { net = "V5", layer = "F.Cu", width = 0.25, points = [(34.58, 4.38), (34.16, 4.38)] },
+  { net = "SDA", layer = "F.Cu", width = 0.25, points = [(71.81, 51.4), (84.7875, 38.4225)] },
+  { net = "SDA", layer = "F.Cu", width = 0.25, points = [(84.7875, 38.4225), (84.7875, 14.75)] },
+  { net = "SDA", layer = "F.Cu", width = 0.25, points = [(84.7875, 14.75), (83.76, 14.75)] },
+  { net = "SDA", layer = "F.Cu", width = 0.25, points = [(83.76, 14.75), (83.51, 14.5)] },
+  { net = "SDA", layer = "F.Cu", width = 0.25, points = [(71.81, 51.4), (70.61, 52.6)] },
+  { net = "SDA", layer = "F.Cu", width = 0.25, points = [(70.61, 52.6), (66.2, 52.6)] },
+  { net = "SDA", layer = "F.Cu", width = 0.25, points = [(66.2, 52.6), (65.4, 51.8)] },
+  { net = "SDA", layer = "F.Cu", width = 0.25, points = [(65.4, 51.8), (65.4, 50)] },
+  { net = "SDA", layer = "F.Cu", width = 0.25, points = [(65.4, 50), (35.4, 20)] },
+  { net = "SDA", layer = "F.Cu", width = 0.25, points = [(35.4, 20), (35.4, 16.4)] },
+  { net = "SDA", layer = "F.Cu", width = 0.25, points = [(35.4, 16.4), (24, 5)] },
+  { net = "SDA", layer = "F.Cu", width = 0.25, points = [(24, 5), (24, 4.38)] },
+]
+vias = [
+  { net = "SCL", at = (83.6, 11), diameter = 0.6, drill = 0.3 },
+]

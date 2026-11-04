@@ -1,0 +1,130 @@
+pcbkit 2
+// The board as built: written by PCBKit's tools (ADR 0118). Lengths in mm, angles in degrees.
+layers = 2
+components = {
+  U1 = { at = (40, 30), rotation = 90, side = .bottom, footprint = "Arduino_Nano_Socket_2x15_P2.54mm_W15.24mm", nets = { "1" = "L1", "2" = "L0", "4" = "GND", "5" = "L2", "6" = "L3", "7" = "L4", "8" = "L5", "9" = "L6", "10" = "L7", "11" = "L8", "12" = "L9", "13" = "L10", "14" = "L11", "19" = "SPEED", "20" = "MODE", "27" = "V5", "29" = "GND" }, fields = { "LCSC Part #" = "C19189484", "pcbkit-need" = "dbbcbe6d615b" } }
+  led0 = { at = (40, 72), footprint = "LED_1206_3216Metric", nets = { "1" = "L0_K", "2" = "L0" }, fields = { "LCSC Part #" = "C3646937", "MPN" = "XL-3216UGC-FB", "Manufacturer" = "XINGLIGHT", "pcbkit-need" = "f9dfa03b7f5d MPN Manufacturer" } }
+  led0R = { at = (37.75, 70), rotation = 180, footprint = "R_0603_1608Metric", nets = { "1" = "L0_K", "2" = "GND" }, fields = { "LCSC Part #" = "C21190", "MPN" = "0603WAF1001T5E", "Manufacturer" = "UNI-ROYAL(Uniroyal Elec)", "pcbkit-need" = "02d78dfd10f6 MPN Manufacturer" } }
+  led1 = { at = (56, 67.712813), rotation = 330, footprint = "LED_1206_3216Metric", nets = { "1" = "L1_K", "2" = "L1" }, fields = { "LCSC Part #" = "C3646937", "MPN" = "XL-3216UGC-FB", "Manufacturer" = "XINGLIGHT", "pcbkit-need" = "f9dfa03b7f5d MPN Manufacturer" } }
+  led1R = { at = (52.5, 69.25), rotation = 90, footprint = "R_0603_1608Metric", nets = { "1" = "L1_K", "2" = "GND" }, fields = { "LCSC Part #" = "C21190", "MPN" = "0603WAF1001T5E", "Manufacturer" = "UNI-ROYAL(Uniroyal Elec)", "pcbkit-need" = "02d78dfd10f6 MPN Manufacturer" } }
+  led2 = { at = (67.712813, 56), rotation = 300, footprint = "LED_1206_3216Metric", nets = { "1" = "L2_K", "2" = "L2" }, fields = { "LCSC Part #" = "C3646937", "MPN" = "XL-3216UGC-FB", "Manufacturer" = "XINGLIGHT", "pcbkit-need" = "f9dfa03b7f5d MPN Manufacturer" } }
+  led2R = { at = (63.5, 57.25), rotation = 180, footprint = "R_0603_1608Metric", nets = { "1" = "L2_K", "2" = "GND" }, fields = { "LCSC Part #" = "C21190", "MPN" = "0603WAF1001T5E", "Manufacturer" = "UNI-ROYAL(Uniroyal Elec)", "pcbkit-need" = "02d78dfd10f6 MPN Manufacturer" } }
+  led3 = { at = (72, 40), rotation = 270, footprint = "LED_1206_3216Metric", nets = { "1" = "L3_K", "2" = "L3" }, fields = { "LCSC Part #" = "C3646937", "MPN" = "XL-3216UGC-FB", "Manufacturer" = "XINGLIGHT", "pcbkit-need" = "f9dfa03b7f5d MPN Manufacturer" } }
+  led3R = { at = (72.75, 43.25), footprint = "R_0603_1608Metric", nets = { "1" = "L3_K", "2" = "GND" }, fields = { "LCSC Part #" = "C21190", "MPN" = "0603WAF1001T5E", "Manufacturer" = "UNI-ROYAL(Uniroyal Elec)", "pcbkit-need" = "02d78dfd10f6 MPN Manufacturer" } }
+  led4 = { at = (67.712813, 24), rotation = 240, footprint = "LED_1206_3216Metric", nets = { "1" = "L4_K", "2" = "L4" }, fields = { "LCSC Part #" = "C965823", "MPN" = "XL-3216UOC", "Manufacturer" = "XINGLIGHT", "pcbkit-need" = "77a61d1bbe60 MPN Manufacturer" } }
+  led4R = { at = (69.25, 27.5), footprint = "R_0603_1608Metric", nets = { "1" = "L4_K", "2" = "GND" }, fields = { "LCSC Part #" = "C21190", "MPN" = "0603WAF1001T5E", "Manufacturer" = "UNI-ROYAL(Uniroyal Elec)", "pcbkit-need" = "02d78dfd10f6 MPN Manufacturer" } }
+  led5 = { at = (56, 12.287187), rotation = 210, footprint = "LED_1206_3216Metric", nets = { "1" = "L5_K", "2" = "L5" }, fields = { "LCSC Part #" = "C965823", "MPN" = "XL-3216UOC", "Manufacturer" = "XINGLIGHT", "pcbkit-need" = "77a61d1bbe60 MPN Manufacturer" } }
+  led5R = { at = (58, 15.25), footprint = "R_0603_1608Metric", nets = { "1" = "L5_K", "2" = "GND" }, fields = { "LCSC Part #" = "C21190", "MPN" = "0603WAF1001T5E", "Manufacturer" = "UNI-ROYAL(Uniroyal Elec)", "pcbkit-need" = "02d78dfd10f6 MPN Manufacturer" } }
+  led6 = { at = (40, 8), rotation = 180, footprint = "LED_1206_3216Metric", nets = { "1" = "L6_K", "2" = "L6" }, fields = { "LCSC Part #" = "C965823", "MPN" = "XL-3216UOC", "Manufacturer" = "XINGLIGHT", "pcbkit-need" = "77a61d1bbe60 MPN Manufacturer" } }
+  led6R = { at = (42.25, 10), footprint = "R_0603_1608Metric", nets = { "1" = "L6_K", "2" = "GND" }, fields = { "LCSC Part #" = "C21190", "MPN" = "0603WAF1001T5E", "Manufacturer" = "UNI-ROYAL(Uniroyal Elec)", "pcbkit-need" = "02d78dfd10f6 MPN Manufacturer" } }
+  led7 = { at = (24, 12.287187), rotation = 150, footprint = "LED_1206_3216Metric", nets = { "1" = "L7_K", "2" = "L7" }, fields = { "LCSC Part #" = "C965823", "MPN" = "XL-3216UOC", "Manufacturer" = "XINGLIGHT", "pcbkit-need" = "77a61d1bbe60 MPN Manufacturer" } }
+  led7R = { at = (27.5, 10.75), rotation = 270, footprint = "R_0603_1608Metric", nets = { "1" = "L7_K", "2" = "GND" }, fields = { "LCSC Part #" = "C21190", "MPN" = "0603WAF1001T5E", "Manufacturer" = "UNI-ROYAL(Uniroyal Elec)", "pcbkit-need" = "02d78dfd10f6 MPN Manufacturer" } }
+  led8 = { at = (12.287187, 24), rotation = 120, footprint = "LED_1206_3216Metric", nets = { "1" = "L8_K", "2" = "L8" }, fields = { "LCSC Part #" = "C2827254", "MPN" = "P2-1206RTCS2-0.9T-F", "Manufacturer" = "TUOZHAN", "pcbkit-need" = "eb437e109b21 MPN Manufacturer" } }
+  led8R = { at = (12.25, 20.5), rotation = 180, footprint = "R_0603_1608Metric", nets = { "1" = "L8_K", "2" = "GND" }, fields = { "LCSC Part #" = "C21190", "MPN" = "0603WAF1001T5E", "Manufacturer" = "UNI-ROYAL(Uniroyal Elec)", "pcbkit-need" = "02d78dfd10f6 MPN Manufacturer" } }
+  led9 = { at = (8, 40), rotation = 90, footprint = "LED_1206_3216Metric", nets = { "1" = "L9_K", "2" = "L9" }, fields = { "LCSC Part #" = "C2827254", "MPN" = "P2-1206RTCS2-0.9T-F", "Manufacturer" = "TUOZHAN", "pcbkit-need" = "eb437e109b21 MPN Manufacturer" } }
+  led9R = { at = (7.25, 36.75), rotation = 180, footprint = "R_0603_1608Metric", nets = { "1" = "L9_K", "2" = "GND" }, fields = { "LCSC Part #" = "C21190", "MPN" = "0603WAF1001T5E", "Manufacturer" = "UNI-ROYAL(Uniroyal Elec)", "pcbkit-need" = "02d78dfd10f6 MPN Manufacturer" } }
+  led10 = { at = (12.287187, 56), rotation = 60, footprint = "LED_1206_3216Metric", nets = { "1" = "L10_K", "2" = "L10" }, fields = { "LCSC Part #" = "C2827254", "MPN" = "P2-1206RTCS2-0.9T-F", "Manufacturer" = "TUOZHAN", "pcbkit-need" = "eb437e109b21 MPN Manufacturer" } }
+  led10R = { at = (10.75, 52.5), rotation = 180, footprint = "R_0603_1608Metric", nets = { "1" = "L10_K", "2" = "GND" }, fields = { "LCSC Part #" = "C21190", "MPN" = "0603WAF1001T5E", "Manufacturer" = "UNI-ROYAL(Uniroyal Elec)", "pcbkit-need" = "02d78dfd10f6 MPN Manufacturer" } }
+  led11 = { at = (24, 67.712813), rotation = 30, footprint = "LED_1206_3216Metric", nets = { "1" = "L11_K", "2" = "L11" }, fields = { "LCSC Part #" = "C2827254", "MPN" = "P2-1206RTCS2-0.9T-F", "Manufacturer" = "TUOZHAN", "pcbkit-need" = "eb437e109b21 MPN Manufacturer" } }
+  led11R = { at = (22, 64.75), rotation = 180, footprint = "R_0603_1608Metric", nets = { "1" = "L11_K", "2" = "GND" }, fields = { "LCSC Part #" = "C21190", "MPN" = "0603WAF1001T5E", "Manufacturer" = "UNI-ROYAL(Uniroyal Elec)", "pcbkit-need" = "02d78dfd10f6 MPN Manufacturer" } }
+  "mode" = { at = (53, 48), footprint = "SW_Tactile_SPST_6x6mm_SMD", nets = { "1" = "MODE", "2" = "GND" }, fields = { "DesignMPN" = "PTS645SM43SMTR92 LFS", "LCSC Part #" = "C221880", "MPN" = "PTS645SM43SMTR92LFS", "pcbkit-need" = "0ab57f512204 MPN DesignMPN" } }
+  speed = { at = (27, 48), footprint = "Potentiometer_Bourns_PTV09A-4_Vertical", nets = { "1" = "GND", "2" = "SPEED", "3" = "V5", "MP" = "GND" }, fields = { "LCSC Part #" = "C5848782", "pcbkit-need" = "90b011ee2b74" } }
+}
+tracks = [
+  { net = "L0", layer = "F.Cu", width = 0.25, points = [(55.24, 22.38), (51.4, 26.22)] },
+  { net = "L0", layer = "F.Cu", width = 0.25, points = [(51.4, 26.22), (51.4, 61.6)] },
+  { net = "L0", layer = "F.Cu", width = 0.25, points = [(51.4, 61.6), (41.4, 71.6)] },
+  { net = "L0", layer = "F.Cu", width = 0.25, points = [(41.4, 71.6), (41.4, 72)] },
+  { net = "L0_K", layer = "F.Cu", width = 0.25, points = [(38.6, 72), (38.575, 71.975)] },
+  { net = "L0_K", layer = "F.Cu", width = 0.25, points = [(38.575, 71.975), (38.575, 70)] },
+  { net = "L1", layer = "F.Cu", width = 0.25, points = [(57.78, 22.38), (56.4, 23.76)] },
+  { net = "L1", layer = "F.Cu", width = 0.25, points = [(56.4, 23.76), (56.4, 37.188434)] },
+  { net = "L1", layer = "F.Cu", width = 0.1875, points = [(56.4, 37.188434), (56.4, 37.934458)] },
+  { net = "L1", layer = "F.Cu", width = 0.25, points = [(56.4, 37.934458), (56.4, 44.4)] },
+  { net = "L1", layer = "F.Cu", width = 0.25, points = [(56.4, 44.4), (55.8, 45)] },
+  { net = "L1", layer = "F.Cu", width = 0.25, points = [(55.8, 45), (55.8, 65)] },
+  { net = "L1", layer = "F.Cu", width = 0.25, points = [(55.8, 65), (57.212436, 66.412436)] },
+  { net = "L1", layer = "F.Cu", width = 0.25, points = [(57.212436, 66.412436), (57.212436, 67.012813)] },
+  { net = "L10", layer = "F.Cu", width = 0.25, points = [(27.3, 22.38), (26.08, 23.6)] },
+  { net = "L10", layer = "F.Cu", width = 0.25, points = [(26.08, 23.6), (25, 23.6)] },
+  { net = "L10", layer = "F.Cu", width = 0.25, points = [(25, 23.6), (12.987187, 35.612813)] },
+  { net = "L10", layer = "F.Cu", width = 0.25, points = [(12.987187, 35.612813), (12.987187, 57.212436)] },
+  { net = "L10_K", layer = "F.Cu", width = 0.25, points = [(11.587187, 54.787564), (11.575, 54.775377)] },
+  { net = "L10_K", layer = "F.Cu", width = 0.25, points = [(11.575, 54.775377), (11.575, 52.5)] },
+  { net = "L11", layer = "B.Cu", width = 0.25, points = [(24.76, 22.38), (24.8, 22.42)] },
+  { net = "L11", layer = "B.Cu", width = 0.25, points = [(24.8, 22.42), (24.8, 25.4)] },
+  { net = "L11", layer = "F.Cu", width = 0.25, points = [(24.8, 25.4), (26, 26.6)] },
+  { net = "L11", layer = "F.Cu", width = 0.25, points = [(26, 26.6), (26, 47.2)] },
+  { net = "L11", layer = "F.Cu", width = 0.25, points = [(26, 47.2), (25.8, 47.4)] },
+  { net = "L11", layer = "F.Cu", width = 0.25, points = [(25.8, 47.4), (25.8, 47.6475)] },
+  { net = "L11", layer = "F.Cu", width = 0.1875, points = [(25.8, 47.6475), (25.8, 48.39)] },
+  { net = "L11", layer = "F.Cu", width = 0.25, points = [(25.8, 48.39), (25.8, 67.2)] },
+  { net = "L11", layer = "F.Cu", width = 0.25, points = [(25.8, 67.2), (25.212436, 67.787564)] },
+  { net = "L11", layer = "F.Cu", width = 0.25, points = [(25.212436, 67.787564), (25.212436, 68.412813)] },
+  { net = "L11_K", layer = "F.Cu", width = 0.25, points = [(22.787564, 67.012813), (22.825, 66.975377)] },
+  { net = "L11_K", layer = "F.Cu", width = 0.25, points = [(22.825, 66.975377), (22.825, 64.75)] },
+  { net = "L1_K", layer = "F.Cu", width = 0.25, points = [(54.787564, 68.412813), (54.775377, 68.425)] },
+  { net = "L1_K", layer = "F.Cu", width = 0.25, points = [(54.775377, 68.425), (52.5, 68.425)] },
+  { net = "L2", layer = "B.Cu", width = 0.25, points = [(47.62, 22.38), (68, 42.76)] },
+  { net = "L2", layer = "B.Cu", width = 0.25, points = [(68, 42.76), (68, 44.2)] },
+  { net = "L2", layer = "F.Cu", width = 0.25, points = [(68, 44.2), (68.412813, 44.612813)] },
+  { net = "L2", layer = "F.Cu", width = 0.25, points = [(68.412813, 44.612813), (68.412813, 54.787564)] },
+  { net = "L2_K", layer = "F.Cu", width = 0.25, points = [(67.012813, 57.212436), (66.975249, 57.25)] },
+  { net = "L2_K", layer = "F.Cu", width = 0.25, points = [(66.975249, 57.25), (64.325, 57.25)] },
+  { net = "L3", layer = "B.Cu", width = 0.25, points = [(45.08, 22.38), (60.9, 38.2)] },
+  { net = "L3", layer = "B.Cu", width = 0.25, points = [(60.9, 38.2), (61.8, 38.2)] },
+  { net = "L3", layer = "F.Cu", width = 0.25, points = [(61.8, 38.2), (62.2, 38.6)] },
+  { net = "L3", layer = "F.Cu", width = 0.25, points = [(62.2, 38.6), (72, 38.6)] },
+  { net = "L3_K", layer = "F.Cu", width = 0.25, points = [(72, 41.4), (71.925, 41.475)] },
+  { net = "L3_K", layer = "F.Cu", width = 0.25, points = [(71.925, 41.475), (71.925, 43.25)] },
+  { net = "L4", layer = "F.Cu", width = 0.25, points = [(42.54, 22.38), (44.52, 20.4)] },
+  { net = "L4", layer = "F.Cu", width = 0.25, points = [(44.52, 20.4), (64, 20.4)] },
+  { net = "L4", layer = "F.Cu", width = 0.25, points = [(64, 20.4), (66.387564, 22.787564)] },
+  { net = "L4", layer = "F.Cu", width = 0.25, points = [(66.387564, 22.787564), (67.012813, 22.787564)] },
+  { net = "L4_K", layer = "F.Cu", width = 0.25, points = [(68.412813, 25.212436), (68.425, 25.224623)] },
+  { net = "L4_K", layer = "F.Cu", width = 0.25, points = [(68.425, 25.224623), (68.425, 27.5)] },
+  { net = "L5", layer = "F.Cu", width = 0.25, points = [(40, 22.38), (50.792813, 11.587187)] },
+  { net = "L5", layer = "F.Cu", width = 0.25, points = [(50.792813, 11.587187), (54.787564, 11.587187)] },
+  { net = "L5_K", layer = "F.Cu", width = 0.25, points = [(57.212436, 12.987187), (57.175, 13.024623)] },
+  { net = "L5_K", layer = "F.Cu", width = 0.25, points = [(57.175, 13.024623), (57.175, 15.25)] },
+  { net = "L6", layer = "F.Cu", width = 0.25, points = [(37.46, 22.38), (38.6, 21.24)] },
+  { net = "L6", layer = "F.Cu", width = 0.25, points = [(38.6, 21.24), (38.6, 8)] },
+  { net = "L6_K", layer = "F.Cu", width = 0.25, points = [(41.4, 8), (41.425, 8.025)] },
+  { net = "L6_K", layer = "F.Cu", width = 0.25, points = [(41.425, 8.025), (41.425, 10)] },
+  { net = "L7", layer = "F.Cu", width = 0.25, points = [(34.92, 22.38), (25.527187, 12.987187)] },
+  { net = "L7", layer = "F.Cu", width = 0.25, points = [(25.527187, 12.987187), (22.787564, 12.987187)] },
+  { net = "L7_K", layer = "F.Cu", width = 0.25, points = [(25.212436, 11.587187), (25.224623, 11.575)] },
+  { net = "L7_K", layer = "F.Cu", width = 0.25, points = [(25.224623, 11.575), (27.5, 11.575)] },
+  { net = "L8", layer = "F.Cu", width = 0.25, points = [(32.38, 22.38), (31.2, 21.2)] },
+  { net = "L8", layer = "F.Cu", width = 0.25, points = [(31.2, 21.2), (29.966667, 21.2)] },
+  { net = "L8", layer = "F.Cu", width = 0.1875, points = [(29.966667, 21.2), (29.72, 21.2)] },
+  { net = "L8", layer = "F.Cu", width = 0.25, points = [(29.72, 21.2), (27.5, 21.2)] },
+  { net = "L8", layer = "F.Cu", width = 0.1875, points = [(27.5, 21.2), (27.253333, 21.2)] },
+  { net = "L8", layer = "F.Cu", width = 0.25, points = [(27.253333, 21.2), (25.033333, 21.2)] },
+  { net = "L8", layer = "F.Cu", width = 0.1875, points = [(25.033333, 21.2), (24.54, 21.2)] },
+  { net = "L8", layer = "F.Cu", width = 0.25, points = [(24.54, 21.2), (22.32, 21.2)] },
+  { net = "L8", layer = "F.Cu", width = 0.1875, points = [(22.32, 21.2), (22.073333, 21.2)] },
+  { net = "L8", layer = "F.Cu", width = 0.25, points = [(22.073333, 21.2), (16.4, 21.2)] },
+  { net = "L8", layer = "F.Cu", width = 0.25, points = [(16.4, 21.2), (12.387564, 25.212436)] },
+  { net = "L8", layer = "F.Cu", width = 0.25, points = [(12.387564, 25.212436), (11.587187, 25.212436)] },
+  { net = "L8_K", layer = "F.Cu", width = 0.25, points = [(12.987187, 22.787564), (13.075, 22.699751)] },
+  { net = "L8_K", layer = "F.Cu", width = 0.25, points = [(13.075, 22.699751), (13.075, 20.5)] },
+  { net = "L9", layer = "B.Cu", width = 0.25, points = [(29.84, 22.38), (11.22, 41)] },
+  { net = "L9", layer = "B.Cu", width = 0.25, points = [(11.22, 41), (9.8, 41)] },
+  { net = "L9", layer = "F.Cu", width = 0.25, points = [(9.8, 41), (9.4, 41.4)] },
+  { net = "L9", layer = "F.Cu", width = 0.25, points = [(9.4, 41.4), (8, 41.4)] },
+  { net = "L9_K", layer = "F.Cu", width = 0.25, points = [(8, 38.6), (8.075, 38.525)] },
+  { net = "L9_K", layer = "F.Cu", width = 0.25, points = [(8.075, 38.525), (8.075, 36.75)] },
+  { net = "MODE", layer = "F.Cu", width = 0.25, points = [(32.38, 37.62), (45.01, 50.25)] },
+  { net = "MODE", layer = "F.Cu", width = 0.25, points = [(45.01, 50.25), (49.025, 50.25)] },
+  { net = "SPEED", layer = "B.Cu", width = 0.25, points = [(29.84, 37.62), (27, 40.46)] },
+  { net = "SPEED", layer = "B.Cu", width = 0.25, points = [(27, 40.46), (27, 48)] },
+  { net = "V5", layer = "B.Cu", width = 0.25, points = [(50.16, 37.62), (39.78, 48)] },
+  { net = "V5", layer = "B.Cu", width = 0.25, points = [(39.78, 48), (29.5, 48)] },
+]
+vias = [
+  { net = "L11", at = (24.8, 25.4), diameter = 0.6, drill = 0.3 },
+  { net = "L2", at = (68, 44.2), diameter = 0.6, drill = 0.3 },
+  { net = "L3", at = (61.8, 38.2), diameter = 0.6, drill = 0.3 },
+  { net = "L9", at = (9.8, 41), diameter = 0.6, drill = 0.3 },
+]

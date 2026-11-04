@@ -1,0 +1,70 @@
+pcbkit 2
+// The board as built: written by PCBKit's tools (ADR 0118). Lengths in mm, angles in degrees.
+layers = 2
+components = {
+  C1 = { at = (17, 16.75), footprint = "C_0805_2012Metric", nets = { "1" = "TRIG", "2" = "GND" }, fields = { "LCSC Part #" = "C15850", "MPN" = "CL21A106KAYNNNE", "Manufacturer" = "Samsung Electro Mechanics", "pcbkit-need" = "a8c907816db1 MPN Manufacturer" } }
+  C2 = { at = (13.25, 9), rotation = 180, footprint = "C_0603_1608Metric", nets = { "1" = "VCC", "2" = "GND" }, fields = { "LCSC Part #" = "C14663", "MPN" = "CC0603KRX7R9BB104", "Manufacturer" = "YAGEO", "pcbkit-need" = "8b728515c591 MPN Manufacturer" } }
+  D1 = { at = (9.75, 7.75), footprint = "LED_0603_1608Metric", nets = { "1" = "GND", "2" = "LEDK" }, fields = { "LCSC Part #" = "C2286", "MPN" = "KT-0603R", "Manufacturer" = "Hubei KENTO Elec", "pcbkit-need" = "0e3735e21846 MPN Manufacturer" } }
+  H1 = { at = (2.743, 2.743), path = "holes/holes[0]", footprint = "MountingHole_2.2mm_M2_Pad" }
+  H2 = { at = (24.257, 2.743), path = "holes/holes[1]", footprint = "MountingHole_2.2mm_M2_Pad" }
+  H3 = { at = (24.257, 20.257), path = "holes/holes[2]", footprint = "MountingHole_2.2mm_M2_Pad" }
+  H4 = { at = (2.743, 20.257), path = "holes/holes[3]", footprint = "MountingHole_2.2mm_M2_Pad" }
+  J1 = { at = (16.75, 12.25), rotation = 180, footprint = "PinHeader_1x02_P2.54mm_Vertical", nets = { "1" = "VCC", "2" = "GND" }, fields = { "LCSC Part #" = "C358684", "MPN" = "MTP125-1102S1", "Manufacturer" = "MINTRON", "pcbkit-need" = "e89ca4e0fa5d MPN Manufacturer" } }
+  R1 = { at = (10.25, 19.75), rotation = 90, footprint = "R_0603_1608Metric", nets = { "1" = "VCC", "2" = "DIS" }, fields = { "LCSC Part #" = "C21190", "MPN" = "0603WAF1001T5E", "Manufacturer" = "UNI ROYAL Uniroyal Elec", "pcbkit-need" = "02d78dfd10f6 MPN Manufacturer" } }
+  R2 = { at = (12.25, 19.75), rotation = 270, footprint = "R_0603_1608Metric", nets = { "1" = "DIS", "2" = "TRIG" }, fields = { "LCSC Part #" = "C25804", "MPN" = "0603WAF1002T5E", "Manufacturer" = "UNI ROYAL Uniroyal Elec", "pcbkit-need" = "dcccc1ed6988 MPN Manufacturer" } }
+  R3 = { at = (11.5, 5.5), rotation = 180, footprint = "R_0603_1608Metric", nets = { "1" = "OUT", "2" = "LEDK" }, fields = { "LCSC Part #" = "C23138", "MPN" = "0603WAF3300T5E", "Manufacturer" = "UNI ROYAL Uniroyal Elec", "pcbkit-need" = "c037995ebaed MPN Manufacturer" } }
+  U1 = { at = (12, 14), rotation = 90, footprint = "SOIC-8_3.9x4.9mm_P1.27mm", nets = { "1" = "GND", "2" = "TRIG", "3" = "OUT", "4" = "VCC", "6" = "TRIG", "7" = "DIS", "8" = "VCC" }, fields = { "LCSC Part #" = "C7593", "pcbkit-need" = "0042c0ac09cd" } }
+}
+tracks = [
+  { net = "DIS", layer = "F.Cu", width = 0.25, points = [(10.25, 20.575), (12.25, 20.575)] },
+  { net = "DIS", layer = "F.Cu", width = 0.25, points = [(12.25, 20.575), (11.365, 19.69)] },
+  { net = "DIS", layer = "F.Cu", width = 0.25, points = [(11.365, 19.69), (11.365, 16.475)] },
+  { net = "LEDK", layer = "F.Cu", width = 0.25, points = [(10.5375, 7.75), (10.675, 7.6125)] },
+  { net = "LEDK", layer = "F.Cu", width = 0.25, points = [(10.675, 7.6125), (10.675, 5.5)] },
+  { net = "TRIG", layer = "F.Cu", width = 0.25, points = [(16.05, 16.75), (14.9125, 17.8875)] },
+  { net = "TRIG", layer = "F.Cu", width = 0.25, points = [(14.9125, 17.8875), (13.275, 17.8875)] },
+  { net = "TRIG", layer = "F.Cu", width = 0.25, points = [(13.275, 17.8875), (12.635, 17.2475)] },
+  { net = "TRIG", layer = "F.Cu", width = 0.25, points = [(12.635, 17.2475), (12.635, 16.475)] },
+  { net = "TRIG", layer = "F.Cu", width = 0.25, points = [(13.275, 17.8875), (12.25, 18.9125)] },
+  { net = "TRIG", layer = "F.Cu", width = 0.25, points = [(12.25, 18.9125), (12.25, 18.925)] },
+  { net = "TRIG", layer = "F.Cu", width = 0.25, points = [(12.25, 18.925), (13.1625, 19.8375)] },
+  { net = "TRIG", layer = "F.Cu", width = 0.25, points = [(13.1625, 19.8375), (13.1625, 20.925)] },
+  { net = "TRIG", layer = "F.Cu", width = 0.25, points = [(13.1625, 20.925), (12.7125, 21.375)] },
+  { net = "TRIG", layer = "F.Cu", width = 0.25, points = [(12.7125, 21.375), (9.7875, 21.375)] },
+  { net = "TRIG", layer = "F.Cu", width = 0.25, points = [(9.7875, 21.375), (9.3375, 20.925)] },
+  { net = "TRIG", layer = "F.Cu", width = 0.25, points = [(9.3375, 20.925), (9.3375, 14.4)] },
+  { net = "TRIG", layer = "F.Cu", width = 0.25, points = [(9.3375, 14.4), (11.365, 12.3725)] },
+  { net = "TRIG", layer = "F.Cu", width = 0.25, points = [(11.365, 12.3725), (11.365, 11.525)] },
+  { net = "GND", layer = "F.Cu", width = 0.25, points = [(17.95, 16.75), (16.75, 15.55)] },
+  { net = "GND", layer = "F.Cu", width = 0.25, points = [(16.75, 15.55), (16.75, 13.52)] },
+  { net = "GND", layer = "F.Cu", width = 0.25, points = [(16.75, 13.52), (18, 12.27)] },
+  { net = "GND", layer = "F.Cu", width = 0.25, points = [(18, 12.27), (18, 10.0125)] },
+  { net = "GND", layer = "F.Cu", width = 0.25, points = [(18, 10.0125), (16.0875, 8.1)] },
+  { net = "GND", layer = "F.Cu", width = 0.25, points = [(16.0875, 8.1), (13.3875, 8.1)] },
+  { net = "GND", layer = "F.Cu", width = 0.25, points = [(13.3875, 8.1), (12.4875, 9)] },
+  { net = "GND", layer = "F.Cu", width = 0.25, points = [(12.4875, 9), (12.475, 9)] },
+  { net = "GND", layer = "F.Cu", width = 0.25, points = [(13.3875, 8.1), (13.3875, 5.2875)] },
+  { net = "GND", layer = "F.Cu", width = 0.25, points = [(13.3875, 5.2875), (12.7125, 4.6125)] },
+  { net = "GND", layer = "F.Cu", width = 0.25, points = [(12.7125, 4.6125), (10.2375, 4.6125)] },
+  { net = "GND", layer = "F.Cu", width = 0.25, points = [(10.2375, 4.6125), (9.225, 5.625)] },
+  { net = "GND", layer = "F.Cu", width = 0.25, points = [(9.225, 5.625), (8.9625, 5.8875)] },
+  { net = "GND", layer = "F.Cu", width = 0.25, points = [(8.9625, 5.8875), (8.9625, 7.75)] },
+  { net = "GND", layer = "F.Cu", width = 0.25, points = [(8.9625, 7.75), (8.9625, 10.3925)] },
+  { net = "GND", layer = "F.Cu", width = 0.25, points = [(8.9625, 10.3925), (10.095, 11.525)] },
+  { net = "OUT", layer = "F.Cu", width = 0.25, points = [(12.325, 5.5), (11.5875, 6.2375)] },
+  { net = "OUT", layer = "F.Cu", width = 0.25, points = [(11.5875, 6.2375), (11.5875, 10.125)] },
+  { net = "OUT", layer = "F.Cu", width = 0.25, points = [(11.5875, 10.125), (11.8125, 10.125)] },
+  { net = "OUT", layer = "F.Cu", width = 0.25, points = [(11.8125, 10.125), (12.375, 10.6875)] },
+  { net = "OUT", layer = "F.Cu", width = 0.25, points = [(12.375, 10.6875), (12.635, 10.9475)] },
+  { net = "OUT", layer = "F.Cu", width = 0.25, points = [(12.635, 10.9475), (12.635, 11.525)] },
+  { net = "VCC", layer = "F.Cu", width = 0.25, points = [(14.025, 9), (16.005, 10.98)] },
+  { net = "VCC", layer = "F.Cu", width = 0.25, points = [(16.005, 10.98), (16.75, 10.98)] },
+  { net = "VCC", layer = "F.Cu", width = 0.25, points = [(14.025, 9), (13.905, 9.12)] },
+  { net = "VCC", layer = "F.Cu", width = 0.25, points = [(13.905, 9.12), (13.905, 11.525)] },
+  { net = "VCC", layer = "F.Cu", width = 0.25, points = [(13.905, 11.525), (13.905, 12.0825)] },
+  { net = "VCC", layer = "F.Cu", width = 0.25, points = [(13.905, 12.0825), (10.35, 15.6375)] },
+  { net = "VCC", layer = "F.Cu", width = 0.25, points = [(10.35, 15.6375), (10.095, 15.8925)] },
+  { net = "VCC", layer = "F.Cu", width = 0.25, points = [(10.095, 15.8925), (10.095, 16.475)] },
+  { net = "VCC", layer = "F.Cu", width = 0.25, points = [(10.095, 16.475), (10.25, 16.63)] },
+  { net = "VCC", layer = "F.Cu", width = 0.25, points = [(10.25, 16.63), (10.25, 18.925)] },
+]

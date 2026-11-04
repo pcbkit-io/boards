@@ -1,0 +1,168 @@
+pcbkit 2
+// The board as built: written by PCBKit's tools (ADR 0118). Lengths in mm, angles in degrees.
+layers = 2
+components = {
+  C1 = { at = (22.5, 11.25), rotation = 180, path = "U2Support/CIN", footprint = "C_0805_2012Metric", nets = { "1" = "VBUS", "2" = "GND" }, fields = { "LCSC Part #" = "C2857993", "MPN" = "0805B475K100NT", "Manufacturer" = "FH (Guangdong Fenghua Advanced Tech)", "pcbkit-need" = "3c52264092a4 MPN Manufacturer" } }
+  C2 = { at = (21.25, 16.25), rotation = 90, path = "U2Support/COUT", footprint = "C_0805_2012Metric", nets = { "1" = "BAT", "2" = "GND" }, fields = { "LCSC Part #" = "C2857993", "MPN" = "0805B475K100NT", "Manufacturer" = "FH (Guangdong Fenghua Advanced Tech)", "pcbkit-need" = "3c52264092a4 MPN Manufacturer" } }
+  C3 = { at = (32.75, 26.5), rotation = 180, path = "U3Support/CIN", footprint = "C_1206_3216Metric", nets = { "1" = "VSW", "2" = "GND" }, fields = { "LCSC Part #" = "C12891", "MPN" = "CL31A226KAHNNNE", "Manufacturer" = "Samsung Electro-Mechanics", "pcbkit-need" = "6052334f5c08 MPN Manufacturer" } }
+  C4 = { at = (41.5, 31.5), rotation = 270, path = "U3Support/COUT", footprint = "C_1206_3216Metric", nets = { "1" = "V5", "2" = "GND" }, fields = { "LCSC Part #" = "C12891", "MPN" = "CL31A226KAHNNNE", "Manufacturer" = "Samsung Electro-Mechanics", "pcbkit-need" = "adc30c424192 MPN Manufacturer" } }
+  D1 = { at = (16, 10.25), rotation = 270, path = "usb/D", footprint = "D_SMA", nets = { "1" = "VBUS", "2" = "GND" }, fields = { "LCSC Part #" = "C19077523", "MPN" = "SMAJ5.0A", "Manufacturer" = "hongjiacheng", "pcbkit-need" = "570861679e6f MPN Manufacturer" } }
+  D2 = { at = (25, 18.25), rotation = 270, path = "U2Support/LED1", footprint = "LED_0603_1608Metric", nets = { "1" = "U2Support/LED_K", "2" = "VBUS" }, fields = { "LCSC Part #" = "C2286", "MPN" = "KT-0603R", "Manufacturer" = "Hubei KENTO Elec", "pcbkit-need" = "ebf30b69333b MPN Manufacturer" } }
+  D3 = { at = (38, 26.25), rotation = 180, path = "U3Support/D", footprint = "D_SOD-123", nets = { "1" = "V5", "2" = "Net-(D3-2)" }, fields = { "DesignMPN" = "Schottky", "LCSC Part #" = "C8598", "MPN" = "B5819W SL", "Manufacturer" = "Jiangsu Changjing Electronics Technology Co., Ltd.", "pcbkit-need" = "8004ac6ab3bf MPN DesignMPN Manufacturer" } }
+  DS1 = { at = (60, 57.4), footprint = "OLED_0.96in_I2C_Socket_1x04_P2.54mm", nets = { "1" = "GND", "2" = "V5", "3" = "SCL", "4" = "SDA" } }
+  H1 = { at = (5, 5), footprint = "MountingHole_3.2mm_M3" }
+  H2 = { at = (115, 5), footprint = "MountingHole_3.2mm_M3" }
+  H3 = { at = (5, 59), footprint = "MountingHole_3.2mm_M3" }
+  H4 = { at = (115, 59), footprint = "MountingHole_3.2mm_M3" }
+  J1 = { at = (8.15, 13), rotation = 270, path = "usb/J", footprint = "USB_C_Receptacle_USB2.0_16P", nets = { "A1" = "GND", "A4" = "VBUS", "A5" = "usb/cc1", "B1" = "GND", "B4" = "VBUS", "B5" = "usb/cc2", "S1" = "GND" }, fields = { "LCSC Part #" = "C3020560", "pcbkit-need" = "c658386b6906" } }
+  J2 = { at = (24.5, 15.25), rotation = 180, side = .bottom, footprint = "JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical", nets = { "1" = "BAT", "2" = "GND" }, fields = { "LCSC Part #" = "C131337", "pcbkit-need" = "c8a62345c29f" } }
+  L1 = { at = (34, 35.25), rotation = 90, path = "U3Support/L", footprint = "L_Power_6x6mm", nets = { "1" = "VSW", "2" = "Net-(D3-2)" }, fields = { "LCSC Part #" = "C51018513", "MPN" = "GDNR6045-4R7MTF", "Manufacturer" = "GUDIAN(固电)", "pcbkit-need" = "43512747f650 MPN Manufacturer" } }
+  NANO = { at = (60, 20), rotation = 90, side = .bottom, footprint = "Arduino_Nano_Socket_2x15_P2.54mm_W15.24mm", nets = { "4" = "GND", "5" = "LEFT_UP", "6" = "LEFT_DOWN", "7" = "RIGHT_UP", "8" = "RIGHT_DOWN", "23" = "SDA", "24" = "SCL", "27" = "V5", "29" = "GND" }, fields = { "LCSC Part #" = "C19189484", "pcbkit-need" = "dbbcbe6d615b" } }
+  Q1 = { at = (26.25, 30.25), footprint = "SOT-23", nets = { "1" = "GATE", "2" = "BAT", "3" = "VSW" }, fields = { "LCSC Part #" = "C15127", "pcbkit-need" = "787f2aee5e4f" } }
+  R1 = { at = (12, 13.75), rotation = 270, path = "usb/R1", footprint = "R_0402_1005Metric", nets = { "1" = "usb/cc1", "2" = "GND" }, fields = { "LCSC Part #" = "C25905", "MPN" = "0402WGF5101TCE", "Manufacturer" = "UNI-ROYAL(Uniroyal Elec)", "pcbkit-need" = "664aeb543bb6 MPN Manufacturer" } }
+  R2 = { at = (12, 10.75), rotation = 270, path = "usb/R2", footprint = "R_0402_1005Metric", nets = { "1" = "usb/cc2", "2" = "GND" }, fields = { "LCSC Part #" = "C25905", "MPN" = "0402WGF5101TCE", "Manufacturer" = "UNI-ROYAL(Uniroyal Elec)", "pcbkit-need" = "664aeb543bb6 MPN Manufacturer" } }
+  R3 = { at = (25.25, 11.25), rotation = 270, path = "U2Support/RPROG", footprint = "R_0402_1005Metric", nets = { "1" = "Net-(R3-1)", "2" = "GND" }, fields = { "LCSC Part #" = "C4109", "MPN" = "0402WGF2001TCE", "Manufacturer" = "UNI-ROYAL(Uniroyal Elec)", "pcbkit-need" = "93727aab6b32 MPN Manufacturer" } }
+  R4 = { at = (28, 12), rotation = 270, path = "U2Support/RLED", footprint = "R_0402_1005Metric", nets = { "1" = "U2Support/LED_K", "2" = "Net-(R4-2)" }, fields = { "LCSC Part #" = "C25117", "MPN" = "0402WGF4700TCE", "Manufacturer" = "UNI-ROYAL(Uniroyal Elec)", "pcbkit-need" = "c10dd3eb250d MPN Manufacturer" } }
+  R5 = { at = (38.75, 30.25), rotation = 180, path = "U3Support/R1", footprint = "R_0402_1005Metric", nets = { "1" = "V5", "2" = "Net-(R5-2)" }, fields = { "LCSC Part #" = "C364833", "MPN" = "HPCR0402F110KK9", "Manufacturer" = "RESI", "pcbkit-need" = "6c73f45056db MPN Manufacturer" } }
+  R6 = { at = (38.75, 31.75), path = "U3Support/R2", footprint = "R_0402_1005Metric", nets = { "1" = "Net-(R5-2)", "2" = "GND" }, fields = { "LCSC Part #" = "C25756", "MPN" = "0402WGF1502TCE", "Manufacturer" = "UNI-ROYAL(Uniroyal Elec)", "pcbkit-need" = "99d4cd8c5026 MPN Manufacturer" } }
+  SW1 = { at = (14, 44), footprint = "SW_Tactile_SPST_6x6mm_SMD", nets = { "1" = "LEFT_UP", "2" = "GND" }, fields = { "DesignMPN" = "PTS645SM43SMTR92 LFS", "LCSC Part #" = "C221880", "MPN" = "PTS645SM43SMTR92LFS", "pcbkit-need" = "0ab57f512204 MPN DesignMPN" } }
+  SW2 = { at = (14, 22), footprint = "SW_Tactile_SPST_6x6mm_SMD", nets = { "1" = "LEFT_DOWN", "2" = "GND" }, fields = { "DesignMPN" = "PTS645SM43SMTR92 LFS", "LCSC Part #" = "C221880", "MPN" = "PTS645SM43SMTR92LFS", "pcbkit-need" = "0ab57f512204 MPN DesignMPN" } }
+  SW3 = { at = (106, 44), footprint = "SW_Tactile_SPST_6x6mm_SMD", nets = { "1" = "RIGHT_UP", "2" = "GND" }, fields = { "DesignMPN" = "PTS645SM43SMTR92 LFS", "LCSC Part #" = "C221880", "MPN" = "PTS645SM43SMTR92LFS", "pcbkit-need" = "0ab57f512204 MPN DesignMPN" } }
+  SW4 = { at = (106, 22), footprint = "SW_Tactile_SPST_6x6mm_SMD", nets = { "1" = "RIGHT_DOWN", "2" = "GND" }, fields = { "DesignMPN" = "PTS645SM43SMTR92 LFS", "LCSC Part #" = "C221880", "MPN" = "PTS645SM43SMTR92LFS", "pcbkit-need" = "0ab57f512204 MPN DesignMPN" } }
+  SW5 = { at = (1.9, 32), rotation = 90, footprint = "SW_Slide_SPDT_Shouhan_MSK12C02", nets = { "1" = "GND", "2" = "GATE", "4" = "GND" }, fields = { "LCSC Part #" = "C431540", "pcbkit-need" = "a35b38e1d2cc" } }
+  U2 = { at = (26.25, 8.5), rotation = 180, footprint = "SOT-23-5", nets = { "1" = "Net-(R4-2)", "2" = "GND", "3" = "BAT", "4" = "VBUS", "5" = "Net-(R3-1)" }, fields = { "LCSC Part #" = "C424093", "pcbkit-need" = "f839a8f95c50" } }
+  U3 = { at = (35.25, 29.75), rotation = 90, footprint = "SOT-23-6", nets = { "1" = "Net-(D3-2)", "2" = "GND", "3" = "Net-(R5-2)", "4" = "VSW", "5" = "VSW" }, fields = { "LCSC Part #" = "C84817", "pcbkit-need" = "930a888485a5" } }
+  rGate = { at = (22.25, 30.25), rotation = 270, footprint = "R_0603_1608Metric", nets = { "1" = "GATE", "2" = "BAT" }, fields = { "LCSC Part #" = "C25803", "MPN" = "0603WAF1003T5E", "Manufacturer" = "UNI-ROYAL(Uniroyal Elec)", "pcbkit-need" = "6b9a507e67cd MPN Manufacturer" } }
+}
+texts = { cellLabel = (60, 7.5) }
+tracks = [
+  { net = "BAT", layer = "F.Cu", width = 0.25, points = [(21.25, 15.3), (21.3, 15.25)] },
+  { net = "BAT", layer = "F.Cu", width = 0.25, points = [(21.3, 15.25), (23.5, 15.25)] },
+  { net = "BAT", layer = "B.Cu", width = 0.25, points = [(23.5, 15.25), (26.8, 11.95)] },
+  { net = "BAT", layer = "B.Cu", width = 0.25, points = [(26.8, 11.95), (26.8, 11.8)] },
+  { net = "BAT", layer = "F.Cu", width = 0.1875, points = [(26.8, 11.8), (27.3875, 11.2125)] },
+  { net = "BAT", layer = "F.Cu", width = 0.1875, points = [(27.3875, 11.2125), (27.3875, 10.992188)] },
+  { net = "BAT", layer = "F.Cu", width = 0.25, points = [(27.3875, 10.992188), (27.3875, 9.45)] },
+  { net = "BAT", layer = "B.Cu", width = 0.25, points = [(23.5, 15.25), (24.8, 16.55)] },
+  { net = "BAT", layer = "B.Cu", width = 0.25, points = [(24.8, 16.55), (24.8, 28)] },
+  { net = "BAT", layer = "F.Cu", width = 0.25, points = [(24.8, 28), (25.325, 28.525)] },
+  { net = "BAT", layer = "F.Cu", width = 0.25, points = [(25.325, 28.525), (25.325, 29.3)] },
+  { net = "BAT", layer = "F.Cu", width = 0.25, points = [(25.325, 29.3), (25.2, 29.425)] },
+  { net = "BAT", layer = "F.Cu", width = 0.25, points = [(25.2, 29.425), (22.25, 29.425)] },
+  { net = "GATE", layer = "F.Cu", width = 0.25, points = [(25.325, 31.2), (25.2, 31.075)] },
+  { net = "GATE", layer = "F.Cu", width = 0.25, points = [(25.2, 31.075), (22.25, 31.075)] },
+  { net = "GATE", layer = "F.Cu", width = 0.25, points = [(22.25, 31.075), (22.075, 31.25)] },
+  { net = "GATE", layer = "F.Cu", width = 0.25, points = [(22.075, 31.25), (3.85, 31.25)] },
+  { net = "LEFT_DOWN", layer = "F.Cu", width = 0.25, points = [(65.08, 12.38), (53.21, 24.25)] },
+  { net = "LEFT_DOWN", layer = "F.Cu", width = 0.25, points = [(53.21, 24.25), (17.975, 24.25)] },
+  { net = "LEFT_UP", layer = "F.Cu", width = 0.25, points = [(67.62, 12.38), (53.6, 26.4)] },
+  { net = "LEFT_UP", layer = "F.Cu", width = 0.25, points = [(53.6, 26.4), (52, 26.4)] },
+  { net = "LEFT_UP", layer = "F.Cu", width = 0.25, points = [(52, 26.4), (51.833333, 26.566667)] },
+  { net = "LEFT_UP", layer = "F.Cu", width = 0.15, points = [(51.833333, 26.566667), (51.333333, 27.066667)] },
+  { net = "LEFT_UP", layer = "F.Cu", width = 0.1875, points = [(51.333333, 27.066667), (51, 27.4)] },
+  { net = "LEFT_UP", layer = "F.Cu", width = 0.1875, points = [(51, 27.4), (51, 28)] },
+  { net = "LEFT_UP", layer = "F.Cu", width = 0.25, points = [(51, 28), (51, 28.2)] },
+  { net = "LEFT_UP", layer = "F.Cu", width = 0.25, points = [(51, 28.2), (32.95, 46.25)] },
+  { net = "LEFT_UP", layer = "F.Cu", width = 0.25, points = [(32.95, 46.25), (17.975, 46.25)] },
+  { net = "Net-(D3-2)", layer = "F.Cu", width = 0.25, points = [(36.35, 26.25), (35.4, 27.2)] },
+  { net = "Net-(D3-2)", layer = "F.Cu", width = 0.25, points = [(35.4, 27.2), (35.4, 27.4)] },
+  { net = "Net-(D3-2)", layer = "B.Cu", width = 0.25, points = [(35.4, 27.4), (34.8, 28)] },
+  { net = "Net-(D3-2)", layer = "B.Cu", width = 0.25, points = [(34.8, 28), (34.4, 28)] },
+  { net = "Net-(D3-2)", layer = "F.Cu", width = 0.25, points = [(34.3, 28.6125), (34.3, 29.3)] },
+  { net = "Net-(D3-2)", layer = "F.Cu", width = 0.25, points = [(34.3, 29.3), (34.8, 29.8)] },
+  { net = "Net-(D3-2)", layer = "F.Cu", width = 0.25, points = [(34.8, 29.8), (36.4, 29.8)] },
+  { net = "Net-(D3-2)", layer = "F.Cu", width = 0.1875, points = [(36.4, 29.8), (36.566667, 29.966667)] },
+  { net = "Net-(D3-2)", layer = "F.Cu", width = 0.15, points = [(36.566667, 29.966667), (36.733333, 30.133333)] },
+  { net = "Net-(D3-2)", layer = "F.Cu", width = 0.1875, points = [(36.733333, 30.133333), (36.9, 30.3)] },
+  { net = "Net-(D3-2)", layer = "F.Cu", width = 0.25, points = [(36.9, 30.3), (37.4, 30.8)] },
+  { net = "Net-(D3-2)", layer = "F.Cu", width = 0.25, points = [(37.4, 30.8), (37.4, 34.1)] },
+  { net = "Net-(D3-2)", layer = "F.Cu", width = 0.25, points = [(37.4, 34.1), (34, 37.5)] },
+  { net = "Net-(R3-1)", layer = "F.Cu", width = 0.25, points = [(25.25, 11.76), (26.2, 10.81)] },
+  { net = "Net-(R3-1)", layer = "F.Cu", width = 0.25, points = [(26.2, 10.81), (26.2, 8.4)] },
+  { net = "Net-(R3-1)", layer = "F.Cu", width = 0.25, points = [(26.2, 8.4), (25.35, 7.55)] },
+  { net = "Net-(R3-1)", layer = "F.Cu", width = 0.25, points = [(25.35, 7.55), (25.1125, 7.55)] },
+  { net = "Net-(R4-2)", layer = "F.Cu", width = 0.25, points = [(28, 11.49), (28.2, 11.29)] },
+  { net = "Net-(R4-2)", layer = "F.Cu", width = 0.25, points = [(28.2, 11.29), (28.2, 11.2)] },
+  { net = "Net-(R4-2)", layer = "F.Cu", width = 0.25, points = [(28.2, 11.2), (28.4, 11)] },
+  { net = "Net-(R4-2)", layer = "F.Cu", width = 0.25, points = [(28.4, 11), (28.4, 8)] },
+  { net = "Net-(R4-2)", layer = "F.Cu", width = 0.25, points = [(28.4, 8), (27.95, 7.55)] },
+  { net = "Net-(R4-2)", layer = "F.Cu", width = 0.25, points = [(27.95, 7.55), (27.3875, 7.55)] },
+  { net = "Net-(R5-2)", layer = "F.Cu", width = 0.25, points = [(38.24, 30.25), (38.24, 31.75)] },
+  { net = "Net-(R5-2)", layer = "F.Cu", width = 0.25, points = [(38.24, 30.25), (36.6025, 28.6125)] },
+  { net = "Net-(R5-2)", layer = "F.Cu", width = 0.25, points = [(36.6025, 28.6125), (36.2, 28.6125)] },
+  { net = "RIGHT_DOWN", layer = "F.Cu", width = 0.25, points = [(60, 12.38), (61.98, 10.4)] },
+  { net = "RIGHT_DOWN", layer = "F.Cu", width = 0.25, points = [(61.98, 10.4), (88.2, 10.4)] },
+  { net = "RIGHT_DOWN", layer = "F.Cu", width = 0.25, points = [(88.2, 10.4), (102.025, 24.225)] },
+  { net = "RIGHT_DOWN", layer = "F.Cu", width = 0.25, points = [(102.025, 24.225), (102.025, 24.25)] },
+  { net = "RIGHT_UP", layer = "B.Cu", width = 0.25, points = [(62.54, 12.38), (76.56, 26.4)] },
+  { net = "RIGHT_UP", layer = "B.Cu", width = 0.25, points = [(76.56, 26.4), (79, 26.4)] },
+  { net = "RIGHT_UP", layer = "F.Cu", width = 0.25, points = [(79, 26.4), (98.85, 46.25)] },
+  { net = "RIGHT_UP", layer = "F.Cu", width = 0.25, points = [(98.85, 46.25), (102.025, 46.25)] },
+  { net = "SCL", layer = "F.Cu", width = 0.25, points = [(61.27, 57.4), (61.4, 57.27)] },
+  { net = "SCL", layer = "F.Cu", width = 0.25, points = [(61.4, 57.27), (61.4, 31.4)] },
+  { net = "SCL", layer = "B.Cu", width = 0.25, points = [(61.4, 31.4), (62.54, 30.26)] },
+  { net = "SCL", layer = "B.Cu", width = 0.25, points = [(62.54, 30.26), (62.54, 27.62)] },
+  { net = "SDA", layer = "B.Cu", width = 0.25, points = [(63.81, 57.4), (60, 53.59)] },
+  { net = "SDA", layer = "B.Cu", width = 0.25, points = [(60, 53.59), (60, 27.62)] },
+  { net = "U2Support/LED_K", layer = "F.Cu", width = 0.25, points = [(25, 19.0375), (27.8, 16.2375)] },
+  { net = "U2Support/LED_K", layer = "F.Cu", width = 0.25, points = [(27.8, 16.2375), (27.8, 12.8)] },
+  { net = "U2Support/LED_K", layer = "F.Cu", width = 0.25, points = [(27.8, 12.8), (28, 12.6)] },
+  { net = "U2Support/LED_K", layer = "F.Cu", width = 0.25, points = [(28, 12.6), (28, 12.51)] },
+  { net = "V5", layer = "F.Cu", width = 0.25, points = [(41.5, 32.975), (39.26, 30.735)] },
+  { net = "V5", layer = "F.Cu", width = 0.25, points = [(39.26, 30.735), (39.26, 30.25)] },
+  { net = "V5", layer = "F.Cu", width = 0.25, points = [(39.26, 30.25), (39.65, 29.86)] },
+  { net = "V5", layer = "F.Cu", width = 0.25, points = [(39.65, 29.86), (39.65, 26.25)] },
+  { net = "V5", layer = "F.Cu", width = 0.25, points = [(39.65, 26.25), (39.8, 26.4)] },
+  { net = "V5", layer = "F.Cu", width = 0.25, points = [(39.8, 26.4), (50.8, 26.4)] },
+  { net = "V5", layer = "B.Cu", width = 0.25, points = [(68.94, 26.4), (70.16, 27.62)] },
+  { net = "V5", layer = "B.Cu", width = 0.25, points = [(58.73, 26.47), (58.73, 57.4)] },
+  { net = "VBUS", layer = "F.Cu", width = 0.25, points = [(23.45, 11.25), (25.1125, 9.5875)] },
+  { net = "VBUS", layer = "F.Cu", width = 0.25, points = [(25.1125, 9.5875), (25.1125, 9.45)] },
+  { net = "VBUS", layer = "F.Cu", width = 0.25, points = [(23.45, 11.25), (22.3, 12.4)] },
+  { net = "VBUS", layer = "F.Cu", width = 0.25, points = [(22.3, 12.4), (16.15, 12.4)] },
+  { net = "VBUS", layer = "F.Cu", width = 0.25, points = [(16.15, 12.4), (16, 12.25)] },
+  { net = "VBUS", layer = "F.Cu", width = 0.25, points = [(16, 12.25), (12.85, 15.4)] },
+  { net = "VBUS", layer = "F.Cu", width = 0.25, points = [(12.85, 15.4), (8.15, 15.4)] },
+  { net = "VBUS", layer = "F.Cu", width = 0.25, points = [(8.15, 15.4), (7.6, 15.4)] },
+  { net = "VBUS", layer = "F.Cu", width = 0.25, points = [(7.6, 15.4), (7.2, 15)] },
+  { net = "VBUS", layer = "F.Cu", width = 0.25, points = [(7.2, 15), (7.2, 11)] },
+  { net = "VBUS", layer = "F.Cu", width = 0.25, points = [(7.2, 11), (7.6, 10.6)] },
+  { net = "VBUS", layer = "F.Cu", width = 0.25, points = [(7.6, 10.6), (8.15, 10.6)] },
+  { net = "VBUS", layer = "F.Cu", width = 0.25, points = [(23.45, 11.25), (27.2, 15)] },
+  { net = "VBUS", layer = "F.Cu", width = 0.25, points = [(27.2, 15), (27.2, 15.8)] },
+  { net = "VBUS", layer = "F.Cu", width = 0.25, points = [(27.2, 15.8), (25.5375, 17.4625)] },
+  { net = "VBUS", layer = "F.Cu", width = 0.25, points = [(25.5375, 17.4625), (25, 17.4625)] },
+  { net = "VSW", layer = "F.Cu", width = 0.25, points = [(34.225, 26.5), (33.2, 27.525)] },
+  { net = "VSW", layer = "F.Cu", width = 0.25, points = [(33.2, 27.525), (33.2, 32.2)] },
+  { net = "VSW", layer = "F.Cu", width = 0.25, points = [(33.2, 32.2), (34, 33)] },
+  { net = "VSW", layer = "F.Cu", width = 0.25, points = [(36, 32.2), (36, 32)] },
+  { net = "VSW", layer = "F.Cu", width = 0.25, points = [(36, 32), (35.8, 31.8)] },
+  { net = "VSW", layer = "F.Cu", width = 0.25, points = [(35.8, 31.8), (35.8, 31.6)] },
+  { net = "VSW", layer = "F.Cu", width = 0.25, points = [(35.8, 31.6), (36, 31.4)] },
+  { net = "VSW", layer = "F.Cu", width = 0.25, points = [(35.8, 31.6), (35.25, 31.05)] },
+  { net = "VSW", layer = "F.Cu", width = 0.25, points = [(35.25, 31.05), (35.25, 30.8875)] },
+  { net = "VSW", layer = "F.Cu", width = 0.25, points = [(34, 33), (31.25, 30.25)] },
+  { net = "VSW", layer = "F.Cu", width = 0.25, points = [(31.25, 30.25), (27.175, 30.25)] },
+  { net = "usb/cc1", layer = "F.Cu", width = 0.25, points = [(9, 14.2), (9.06, 14.26)] },
+  { net = "usb/cc1", layer = "F.Cu", width = 0.25, points = [(9.06, 14.26), (12, 14.26)] },
+  { net = "usb/cc1", layer = "F.Cu", width = 0.1875, points = [(8.15, 14.25), (8.2, 14.2)] },
+  { net = "usb/cc1", layer = "F.Cu", width = 0.1875, points = [(8.2, 14.2), (9, 14.2)] },
+  { net = "usb/cc2", layer = "F.Cu", width = 0.25, points = [(9, 11.2), (9.06, 11.26)] },
+  { net = "usb/cc2", layer = "F.Cu", width = 0.25, points = [(9.06, 11.26), (12, 11.26)] },
+  { net = "usb/cc2", layer = "F.Cu", width = 0.1875, points = [(8.15, 11.25), (8.2, 11.2)] },
+  { net = "usb/cc2", layer = "F.Cu", width = 0.1875, points = [(8.2, 11.2), (9, 11.2)] },
+  { net = "V5", layer = "B.Cu", width = 0.25, points = [(50.8, 26.4), (58.73, 26.4)] },
+  { net = "V5", layer = "B.Cu", width = 0.25, points = [(58.73, 26.4), (68.94, 26.4)] },
+  { net = "V5", layer = "B.Cu", width = 0.25, points = [(58.73, 26.47), (58.73, 26.4)] },
+]
+vias = [
+  { net = "BAT", at = (26.8, 11.8), diameter = 0.6, drill = 0.3 },
+  { net = "BAT", at = (24.8, 28), diameter = 0.6, drill = 0.3 },
+  { net = "Net-(D3-2)", at = (35.4, 27.4), diameter = 0.6, drill = 0.3 },
+  { net = "Net-(D3-2)", at = (34.4, 28), diameter = 0.6, drill = 0.3 },
+  { net = "RIGHT_UP", at = (79, 26.4), diameter = 0.6, drill = 0.3 },
+  { net = "SCL", at = (61.4, 31.4), diameter = 0.6, drill = 0.3 },
+  { net = "V5", at = (50.8, 26.4), diameter = 0.6, drill = 0.3 },
+  { net = "GND", at = (25, 10.6), diameter = 0.6, drill = 0.3 },
+  { net = "GND", at = (35.2, 28.6), diameter = 0.6, drill = 0.3 },
+]

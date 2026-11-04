@@ -2,7 +2,7 @@ pcbkit 2
 
 // A 555 LED blinker written as a minimal agent writes it: parts and connections only, and a
 // plated mounting hole in each corner. No board, no positions: the engine places the parts
-// (into the `.kicad_pcb`), the holes in the corners, and sizes the rounded outline around them.
+// (into `.pcbkit/board.pcbkit`), the holes in the corners, and sizes the rounded outline around them.
 
 // Powered with 5 V on J1 (the 555 runs from 4.5 V; R3 sets the LED's current for 5 V).
 net VCC { voltage = 5V }
