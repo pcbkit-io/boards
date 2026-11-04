@@ -10,6 +10,7 @@ part KR1533LN1: Part {
   footprint = dip(14, 7.5mm, pitch = 2.5mm)
   prefix = "DD"
   mpn = "КР1533ЛН1"
+  orderedElsewhere = "Soviet stock: radio markets and surplus dealers"
   pinout = {
     A1 = "1"
     Y1 = "2"
@@ -34,6 +35,7 @@ part KR1533LA3: Part {
   footprint = dip(14, 7.5mm, pitch = 2.5mm)
   prefix = "DD"
   mpn = "КР1533ЛА3"
+  orderedElsewhere = "Soviet stock: radio markets and surplus dealers"
   pinout = {
     A1 = "1"
     B1 = "2"
@@ -58,6 +60,7 @@ part KR1533LA4: Part {
   footprint = dip(14, 7.5mm, pitch = 2.5mm)
   prefix = "DD"
   mpn = "КР1533ЛА4"
+  orderedElsewhere = "Soviet stock: radio markets and surplus dealers"
   pinout = {
     A1 = "1"
     B1 = "2"
@@ -82,6 +85,7 @@ part KR1533LI1: Part {
   footprint = dip(14, 7.5mm, pitch = 2.5mm)
   prefix = "DD"
   mpn = "КР1533ЛИ1"
+  orderedElsewhere = "Soviet stock: radio markets and surplus dealers"
   pinout = {
     A1 = "1"
     B1 = "2"
@@ -106,6 +110,7 @@ part KR1533LL1: Part {
   footprint = dip(14, 7.5mm, pitch = 2.5mm)
   prefix = "DD"
   mpn = "КР1533ЛЛ1"
+  orderedElsewhere = "Soviet stock: radio markets and surplus dealers"
   pinout = {
     A1 = "1"
     B1 = "2"
@@ -130,6 +135,7 @@ part KR1533LP5: Part {
   footprint = dip(14, 7.5mm, pitch = 2.5mm)
   prefix = "DD"
   mpn = "КР1533ЛП5"
+  orderedElsewhere = "Soviet stock: radio markets and surplus dealers"
   pinout = {
     A1 = "1"
     B1 = "2"
@@ -154,6 +160,7 @@ part KR1533TM2: Part {
   footprint = dip(14, 7.5mm, pitch = 2.5mm)
   prefix = "DD"
   mpn = "КР1533ТМ2"
+  orderedElsewhere = "Soviet stock: radio markets and surplus dealers"
   pinout = {
     CLR1 = "1"
     D1 = "2"
@@ -178,6 +185,7 @@ part KR1533IE7: Part {
   footprint = dip(16, 7.5mm, pitch = 2.5mm)
   prefix = "DD"
   mpn = "КР1533ИЕ7"
+  orderedElsewhere = "Soviet stock: radio markets and surplus dealers"
   pinout = {
     B = "1"
     QB = "2"
@@ -204,6 +212,7 @@ part KR1533KP11A: Part {
   footprint = dip(16, 7.5mm, pitch = 2.5mm)
   prefix = "DD"
   mpn = "КР1533КП11А"
+  orderedElsewhere = "Soviet stock: radio markets and surplus dealers"
   pinout = {
     S = "1"
     A1 = "2"
@@ -230,6 +239,7 @@ part KR1533KP13: Part {
   footprint = dip(16, 7.5mm, pitch = 2.5mm)
   prefix = "DD"
   mpn = "КР1533КП13"
+  orderedElsewhere = "Soviet stock: radio markets and surplus dealers"
   pinout = {
     B2 = "1"
     A2 = "2"
@@ -256,6 +266,7 @@ part K555IR16: Part {
   footprint = dip(14, 7.5mm, pitch = 2.5mm)
   prefix = "DD"
   mpn = "К555ИР16"
+  orderedElsewhere = "Soviet stock: radio markets and surplus dealers"
   pinout = {
     SER = "1"
     A = "2"
@@ -280,6 +291,7 @@ part KR1533IR22: Part {
   footprint = dip(20, 7.5mm, pitch = 2.5mm)
   prefix = "DD"
   mpn = "КР1533ИР22"
+  orderedElsewhere = "Soviet stock: radio markets and surplus dealers"
   pinout = {
     OE = "1"
     Q0 = "2"
@@ -310,6 +322,7 @@ part KR1533AP6: Part {
   footprint = dip(20, 7.5mm, pitch = 2.5mm)
   prefix = "DD"
   mpn = "КР1533АП6"
+  orderedElsewhere = "Soviet stock: radio markets and surplus dealers"
   pinout = {
     DIR = "1"
     A1 = "2"
@@ -340,6 +353,7 @@ part KR565RU5V: Part {
   footprint = dip(16, 7.5mm, pitch = 2.5mm)
   prefix = "DD"
   mpn = "КР565РУ5В"
+  orderedElsewhere = "Soviet stock: radio markets and surplus dealers"
   pinout = {
     DIN = "2"
     WE = "3"
@@ -365,6 +379,7 @@ part KM573RF8A: Part {
   footprint = dip(28, 15mm, pitch = 2.5mm)
   prefix = "DD"
   mpn = "КМ573РФ8А"
+  orderedElsewhere = "Soviet stock: radio markets and surplus dealers"
   pinout = {
     VPP = "1"
     A12 = "2"
@@ -403,6 +418,7 @@ part Z80: Part {
   footprint = dip(40, 15mm, pitch = 2.5mm)
   prefix = "DD"
   mpn = "Z80A"
+  orderedElsewhere = "Soviet stock: radio markets and surplus dealers"
   pinout = {
     A11 = "1"
     A12 = "2"
@@ -453,6 +469,7 @@ part K554SA3A: Part {
   footprint = dip(14, 7.5mm, pitch = 2.5mm)
   prefix = "DD"
   mpn = "К554СА3А"
+  orderedElsewhere = "Soviet stock: radio markets and surplus dealers"
   pinout = {
     GND = "2"
     INP = "3"
@@ -788,6 +805,7 @@ part KD522B: Part {
   kind = .diode
   prefix = "VD"
   mpn = "КД522Б"
+  orderedElsewhere = "Soviet stock: radio markets and surplus dealers"
   pinout = { K = "1", A = "2" }
 }
 /// A КС119А stabistor (anode A, cathode K).
@@ -796,6 +814,7 @@ part KS119A: Part {
   kind = .diode
   prefix = "VD"
   mpn = "КС119А"
+  orderedElsewhere = "Soviet stock: radio markets and surplus dealers"
   pinout = { K = "1", A = "2" }
 }
 /// КТ3102БМ: an NPN transistor (E, B, C in a row).
@@ -804,6 +823,7 @@ part KT3102BM: Part {
   kind = .transistor
   prefix = "VT"
   mpn = "КТ3102БМ"
+  orderedElsewhere = "Soviet stock: radio markets and surplus dealers"
   pinout = { E = "1", B = "2", C = "3" }
 }
 /// КТ316БМ: an NPN UHF transistor (the modulator's oscillator).
@@ -812,6 +832,7 @@ part KT316BM: Part {
   kind = .transistor
   prefix = "VT"
   mpn = "КТ316БМ"
+  orderedElsewhere = "Soviet stock: radio markets and surplus dealers"
   pinout = { E = "1", B = "2", C = "3" }
 }
 /// The 14 MHz crystal.
@@ -821,6 +842,7 @@ part Crystal14: Part {
   kind = .crystal
   prefix = "BQ"
   mpn = "РК169 14 МГц"
+  orderedElsewhere = "Soviet stock: radio markets and surplus dealers"
   pinout = { X1 = "1", X2 = "2" }
 }
 /// ЗП-3 piezo sounder.
@@ -828,6 +850,7 @@ part ZP3: Part {
   footprint = zp3()
   prefix = "HA"
   mpn = "ЗП-3"
+  orderedElsewhere = "Soviet stock: radio markets and surplus dealers"
   pinout = { P1 = "1", P2 = "2" }
 }
 /// КМ1-1 reset button.
@@ -835,6 +858,7 @@ part CoaxOut: Part {
   footprint = coaxPads()
   prefix = "XS"
   mpn = "РК-75 к гнезду САТ-Г"
+  orderedElsewhere = "Soviet stock: radio markets and surplus dealers"
   pinout = { SIG = "1", GND = "2" }
 }
 
@@ -842,6 +866,7 @@ part KM11: Part {
   footprint = km1()
   prefix = "SB"
   mpn = "КМ1-1"
+  orderedElsewhere = "Soviet stock: radio markets and surplus dealers"
   pinout = { P1 = "1", P2 = "2" }
 }
 /// СП3 22 kΩ trimming resistor (ends 1, 3; wiper 2).
@@ -849,6 +874,7 @@ part SP3: Part {
   footprint = sp3()
   prefix = "R"
   mpn = "СП3-38б 22 кОм"
+  orderedElsewhere = "Soviet stock: radio markets and surplus dealers"
   pinout = { E1 = "1", W = "2", E2 = "3" }
 }
 /// НР1-4-9 10 kΩ resistor network: pin 1 common, 2–10 the nine resistors' other ends.
@@ -856,6 +882,7 @@ part HR1: Part {
   footprint = hr1()
   prefix = "DR"
   mpn = "НР1-4-9 10 кОм"
+  orderedElsewhere = "Soviet stock: radio markets and surplus dealers"
   pinout = {
     COM = "1"
     R1 = "2"
@@ -874,6 +901,7 @@ part DM02: Part {
   footprint = dm()
   prefix = "L"
   mpn = "ДМ-0,2 100 мкГн"
+  orderedElsewhere = "Soviet stock: radio markets and surplus dealers"
   pinout = { P1 = "1", P2 = "2" }
 }
 /// The keyboard's flat-cable socket, twelve contacts.
@@ -881,6 +909,7 @@ part ONP12: Part {
   footprint = onp()
   prefix = "XS"
   mpn = "ОНП-СГ-83-12"
+  orderedElsewhere = "Soviet stock: radio markets and surplus dealers"
   pinout = {
     C1 = "1"
     C2 = "2"
@@ -901,6 +930,7 @@ part ONC5: Part {
   footprint = onc(5)
   prefix = "XS"
   mpn = "ОНЦ-ВГ-4-5/16-Р"
+  orderedElsewhere = "Soviet stock: radio markets and surplus dealers"
   pinout = { C1 = "1", C2 = "2", C3 = "3", C4 = "4", C5 = "5", S = ["S1", "S2"] }
 }
 /// A seven-contact DIN socket (ОНЦ-ВГ-11-7/16-Р).
@@ -908,6 +938,7 @@ part ONC7: Part {
   footprint = onc(7)
   prefix = "XS"
   mpn = "ОНЦ-ВГ-11-7/16-Р"
+  orderedElsewhere = "Soviet stock: radio markets and surplus dealers"
   pinout = {
     C1 = "1"
     C2 = "2"
@@ -924,6 +955,7 @@ part ModulatorCan: Part {
   footprint = modulatorCan((35.5mm, 36.5mm))
   prefix = "E"
   mpn = "Экран модулятора"
+  orderedElsewhere = "a tin can bent to the factory drawing, or one from a scrapped Delta"
   pinout = { GND = ["1", "2", "3", "4"] }
 }
 /// The modulator's coil: 7 turns of ПЭТВ-2 0.535 on 6.5 mm.
@@ -937,6 +969,7 @@ part Coil7: Part {
   }
   prefix = "L"
   mpn = "7 вит. ПЭТВ-2 0,535"
+  orderedElsewhere = "wound by hand: 7 turns of ПЭТВ-2 0.535 mm wire on a 6.5 mm former"
   pinout = { P1 = "1", P2 = "2" }
 }
 /// СНП59-64 system connector.
@@ -944,4 +977,5 @@ part SNP59: Part {
   footprint = snp59()
   prefix = "XP"
   mpn = "СНП59-64/94-11В-23-2"
+  orderedElsewhere = "Soviet stock: radio markets and surplus dealers"
 }

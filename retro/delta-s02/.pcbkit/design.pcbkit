@@ -1628,6 +1628,7 @@ C33 = soviet.underCap(100nF) {
 
 // The supply's reservoir.
 C32 = soviet.k50Cap(470uF, 10mm, 20mm, 5mm) {
+  orderedElsewhere = "a К50-35 470 µF can (10 × 20 mm), Soviet stock: no stocked part has its size"
   at = (167.77mm, 116.77mm)
   "1" -- P5V
   "2" -- GND
