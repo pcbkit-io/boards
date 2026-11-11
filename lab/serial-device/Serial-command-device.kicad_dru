@@ -1,0 +1,4 @@
+(version 1)
+(rule "NanoOverConsole"
+	(constraint courtyard_clearance (min -100mm))
+	(condition "(A.Reference == 'U1') && (B.Reference == 'console')"))

@@ -1,0 +1,19 @@
+# What the board cannot say of the device it is: programs, their data, models' parameters, keys.
+# docs: https://pcbkit.dev (the kicad-boards skill, reference/device.md)
+processors: 
+  U1: 
+    firmware: doom
+    data: 
+      DOOM1.WHX: { url: "https://raw.githubusercontent.com/kilograham/rp2040-doom/29a453c980918a03e40fc8b69b024e7a3bdb5dc2/doom1.whx", sha256: "87ea79020578fa2e72fc204f67ff2ce45bd73a266a369670da7a019028b0d893", bytes: 1800344 }
+parts: 
+  DS1: 
+    parameters: { height_mm: 35.04, offset_x_mm: 0, offset_y_mm: 28.98, width_mm: 28.03 }
+keys: 
+  ArrowUp: SW1
+  ArrowDown: SW2
+  ArrowLeft: SW3
+  ArrowRight: SW4
+  KeyF: SW5
+  Space: SW6
+  Enter: SW7
+  KeyM: SW8

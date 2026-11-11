@@ -1,0 +1,20 @@
+# What the board cannot say of the device it is: programs, their data, models' parameters, keys.
+# docs: https://pcbkit.dev (the kicad-boards skill, reference/device.md)
+processors: 
+  U1: { firmware: emu }
+parts: 
+  U3: 
+    firmware: doom
+    data: 
+      DOOM1.WAD: { url: "https://raw.githubusercontent.com/Akbar30Bill/DOOM_wads/9b384dc68add3eb2f5eb7754654cafeeaea5103b/doom1.wad", sha256: "1d7d43be501e67d927e415e0b8f3e29c3bf33075e859721816f652a526cac771", bytes: 4196020 }
+  DS1: 
+    parameters: { width_mm: 17.3, height_mm: 30.2, offset_x_mm: -21.6, offset_y_mm: 0, rotation: 270 }
+keys: 
+  ArrowUp: SW1
+  ArrowDown: SW2
+  ArrowLeft: SW3
+  ArrowRight: SW4
+  KeyF: SW5
+  Space: SW6
+  KeyS: SW7
+  KeyM: SW8

@@ -1,0 +1,4 @@
+(version 1)
+(rule "CapsUnderChips"
+	(constraint courtyard_clearance (min -100mm))
+	(condition "(((((((((((((((((((A.Reference == 'C1') || (A.Reference == 'C8')) || (A.Reference == 'C9')) || (A.Reference == 'C10')) || (A.Reference == 'C11')) || (A.Reference == 'C14')) || (A.Reference == 'C15')) || (A.Reference == 'C16')) || (A.Reference == 'C17')) || (A.Reference == 'C22')) || (A.Reference == 'C23')) || (A.Reference == 'C24')) || (A.Reference == 'C25')) || (A.Reference == 'C26')) || (A.Reference == 'C27')) || (A.Reference == 'C28')) || (A.Reference == 'C29')) || (A.Reference == 'C30')) || (A.Reference == 'C33')) && (B.Reference == 'DD*')"))

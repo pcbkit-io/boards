@@ -1,2 +1,7 @@
 .publish/
 **/.pcbkit/cache/
+# What a build and a run leave beside a program (PCBKit's `device build` and `device run`).
+**/.build/
+**/.pio/
+**/firmware/build/
+**/.pcbkit/device/

@@ -1,0 +1,16 @@
+# What the board cannot say of the device it is: programs, their data, models' parameters, keys.
+# docs: https://pcbkit.dev (the kicad-boards skill, reference/device.md)
+processors: 
+  NANO: 
+    parameters: { clock_hz: 16000000 }
+    firmware: firmware
+parts: 
+  DS1: 
+    parameters: { address: 60, height_mm: 10.86, offset_x_mm: 0, offset_y_mm: -13.4, width_mm: 21.74 }
+  U1: 
+    parameters: { address: 68 }
+  J1: 
+    parameters: { maximum_us: 2400, minimum_us: 544 }
+keys: 
+  Minus: SW1
+  Equal: SW2

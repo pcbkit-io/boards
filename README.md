@@ -2,13 +2,18 @@
 
 [![verify](https://github.com/pcbkit-io/boards/actions/workflows/verify.yml/badge.svg)](https://github.com/pcbkit-io/boards/actions/workflows/verify.yml)
 
-Circuit boards designed in [PCBKit](https://pcbkit.io), each a complete project you can open, run
-and order. Every board is a PCBKit project (its `.pcbkit/` folder: the design and the board as built,
-exported to KiCad on demand); a board
-with a processor carries its program, which PCBKit builds in your browser and runs on a
-simulation of its chips: the same image you flash onto the ordered board.
+Circuit boards as plain KiCad projects, each one you can open in [PCBKit](https://pcbkit.dev),
+run as the device it is, and order. This branch (`kicad`) is the boards in PCBKit's current
+form: the KiCad files are the design; a board with a processor carries its program beside it
+(`firmware/`, or the folder its `.pcbkit/device.yaml` names) and PCBKit builds it and runs the
+image on its models of the board's chips, wired as the board's copper wires them: the same image
+you flash onto the ordered board.
 
-Open them all at **https://app.pcbkit.io/github/pcbkit-io/boards**, or one folder at a time.
+What a board cannot say itself is in its `.pcbkit/device.yaml`: the program's folder where it is
+not `firmware`, files the program is built with and the repository does not hold (the Doom
+boards' `DOOM1.WAD`, by address and SHA-256), a bare panel's size, the keys that work its
+buttons. `pcbkit device plan` in a board's folder says what was recognised and how it is wired;
+`pcbkit device build` and `pcbkit device run --seconds 5` build and run it.
 
 | Folder | What is in it |
 |---|---|
