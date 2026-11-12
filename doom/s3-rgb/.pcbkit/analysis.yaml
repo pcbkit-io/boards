@@ -1,0 +1,10 @@
+# What the analyses are told of this device (the kicad-boards skill, reference/analysis.md).
+# The heat each part sheds while the handheld plays on USB with its cells charging, the warmest
+# it runs (README, "Power": the estimates there).
+ambient: 25 # °C
+parts:
+  U1: { power: 0.40 } # ESP32-S3 with PSRAM streaming the panel: 120 mA at 3.3 V
+  U7: { power: 0.55 } # BQ24075 charging in USB500 mode: (5 - 3.9 V) x 0.5 A
+  U6: { power: 0.30 } # TLV75733 fed from USB: the README's 0.3 W
+  U8: { power: 0.18 } # MT3608 driving the backlight: 15 % of its 1.2 W in
+  U5: { power: 0.06 } # PAM8403 at a moderate volume

@@ -3671,31 +3671,61 @@
  "stages": [
   {
    "name": "Together",
-   "text": "The device, closed."
+   "text": "The device, closed.",
+   "parts": []
   },
   {
    "name": "Step 6",
-   "text": "Four screws from the back. Stop when a head seats: more torque only pulls the insert."
+   "text": "Four screws from the back. Stop when a head seats: more torque only pulls the insert.",
+   "parts": [
+    "screw H1",
+    "screw H2",
+    "screw H3",
+    "screw H4"
+   ]
   },
   {
    "name": "Step 5",
-   "text": "Lower the back shell on: the module's antenna goes into the pocket at the top edge."
+   "text": "Lower the back shell on: the module's antenna goes into the pocket at the top edge.",
+   "parts": [
+    "back"
+   ]
   },
   {
    "name": "Step 4",
-   "text": "Lower the board onto the posts, panel down: the on/off lever and the USB-C socket slide into their openings. Then put the cells in, plus towards the + on the board."
+   "text": "Lower the board onto the posts, panel down: the on/off lever and the USB-C socket slide into their openings. Then put the cells in, plus towards the + on the board.",
+   "parts": []
   },
   {
    "name": "Step 3",
-   "text": "Drop the ten caps into their holes, stems down."
+   "text": "Drop the ten caps into their holes, stems down.",
+   "parts": [
+    "cap SW1",
+    "cap SW2",
+    "cap SW3",
+    "cap SW4",
+    "cap SW5",
+    "cap SW6",
+    "cap SW7",
+    "cap SW8",
+    "cap SW9",
+    "cap SW10"
+   ]
   },
   {
    "name": "Step 2",
-   "text": "Press the four inserts into the posts with a soldering iron (220 \u00b0C for PETG), flush with the posts' ends."
+   "text": "Press the four inserts into the posts with a soldering iron (220 \u00b0C for PETG), flush with the posts' ends.",
+   "parts": [
+    "insert H1",
+    "insert H2",
+    "insert H3",
+    "insert H4"
+   ]
   },
   {
    "name": "Laid out",
-   "text": "Every part on one plane: what is printed lies as it prints."
+   "text": "Every part on one plane: what is printed lies as it prints.",
+   "parts": []
   }
  ],
  "hardware": [
