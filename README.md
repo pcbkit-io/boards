@@ -1,10 +1,7 @@
 # PCBKit boards
 
-[![verify](https://github.com/pcbkit-io/boards/actions/workflows/verify.yml/badge.svg)](https://github.com/pcbkit-io/boards/actions/workflows/verify.yml)
-
-Circuit boards as plain KiCad projects, each one you can open in [PCBKit](https://pcbkit.dev),
-run as the device it is, and order. This branch (`kicad`) is the boards in PCBKit's current
-form: the KiCad files are the design; a board with a processor carries its program beside it
+Circuit boards as plain KiCad projects, each one you can open in [PCBKit](https://pcbkit.io),
+run as the device it is, and order. The KiCad files are the design; a board with a processor carries its program beside it
 (`firmware/`, or the folder its `.pcbkit/device.yaml` names) and PCBKit builds it and runs the
 image on its models of the board's chips, wired as the board's copper wires them: the same image
 you flash onto the ordered board.
@@ -43,18 +40,10 @@ folder and an entry, then publish.
 fab as it is and flashed after assembly (a USB bootloader or a programming header), so the image
 that runs in the app runs on the board.
 
-## Checked on every change
+## Checking a board
 
-Every push and pull request runs each board through PCBKit's pre-production gate
-([pcbkit-io/verify](https://github.com/pcbkit-io/verify), [`.github/workflows/verify.yml`](.github/workflows/verify.yml)).
-The run's summary lists the boards worst first: the level each is verified to (language, wiring,
-ratings, intent, layout, ready), its errors, warnings and unconfirmed findings, and how much of the
-board each level judged; under it, per board, a checklist and its findings with links into the
-board. A pull request gets one comment with what it changed on each board it touches; findings
-also show in code scanning. The gate runs in report mode: it shows every board as it is and never
-blocks a change, so the badge above says the boards were checked, not that they all pass. Some
-boards report errors today; the [latest run](https://github.com/pcbkit-io/boards/actions/workflows/verify.yml)
-names them. Check one yourself with `pcbkit check` in its folder.
+`pcbkit check` in a board's folder runs KiCad's own electrical and design rule checks on it and
+says what they found (the command comes with [PCBKit's plugin](https://github.com/pcbkit-io/agent-plugin)).
 
 ## Licences
 
