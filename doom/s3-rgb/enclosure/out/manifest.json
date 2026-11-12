@@ -16,7 +16,7 @@
    "density": 1.27,
    "conductivity": 0.2,
    "limit": 70,
-   "limit_text": "softens: a part under load starts to give",
+   "limit_text": "softens: a part under load starts to give way",
    "finish": "fdm"
   },
   "black steel": {
@@ -36,7 +36,7 @@
    "density": 0.75,
    "conductivity": 0.1,
    "limit": 90,
-   "limit_text": "its glue lets go",
+   "limit_text": "lets go: its glue gives",
    "finish": "foam"
   },
   "glass": {
@@ -50,7 +50,7 @@
    "density": 2.8,
    "conductivity": 3.0,
    "limit": 45,
-   "limit_text": "must not be charged warmer (60 \u00b0C in use)",
+   "limit_text": "must not be charged (60 \u00b0C while it is used)",
    "finish": "wrap"
   },
   "plastic": {
@@ -58,7 +58,7 @@
    "density": 1.05,
    "conductivity": 0.2,
    "limit": 85,
-   "limit_text": "softens: a part under load starts to give",
+   "limit_text": "softens: a part under load starts to give way",
    "finish": "moulded"
   }
  },
@@ -89,7 +89,15 @@
     92.05,
     11.5
    ],
-   "supports": false
+   "supports": false,
+   "print": {
+    "up": [
+     0.0,
+     0.0,
+     -1.0
+    ],
+    "layer": 0.2
+   }
   },
   {
    "id": "back",
@@ -109,7 +117,15 @@
     92.05,
     24.7
    ],
-   "supports": true
+   "supports": true,
+   "print": {
+    "up": [
+     0.0,
+     0.0,
+     -1.0
+    ],
+    "layer": 0.2
+   }
   },
   {
    "id": "cap",
@@ -129,7 +145,15 @@
     9.8,
     6.9
    ],
-   "supports": false
+   "supports": false,
+   "print": {
+    "up": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "layer": 0.2
+   }
   },
   {
    "id": "insert",
@@ -140,7 +164,7 @@
    "finish": "brass",
    "glb": "insert.glb",
    "count": 4,
-   "mass": 0.57,
+   "mass": 0.51,
    "hardware": {
     "id": "insert-m3x5.7",
     "name": "M3 heat-set insert, 5.7 long",
@@ -156,7 +180,7 @@
    "finish": "oxide",
    "glb": "screw.glb",
    "count": 4,
-   "mass": 1.11,
+   "mass": 1.05,
    "hardware": {
     "id": "screw-m3x10-socket",
     "name": "M3 \u00d7 10 socket head cap screw (ISO 4762)",
@@ -178,6 +202,7 @@
     67.2,
     2.95
    ],
+   "ref": "DS1",
    "screen": {
     "x": [
      43.48,

@@ -28,7 +28,7 @@ USB_Z = 1.63  # the USB-C shell's axis above the board front
 board.set_height("DS1", 0)  # the panel's footprint is only its connector's place
 board.set_height("L1", 3.0)  # Sunlord SWPA4030S
 TAPE = 3.0  # the foam tape under the panel
-board.add("panel", box(PANEL[0], PANEL[2], PANEL[1], PANEL[3], TAPE, PANEL_TOP), material="glass", screen=ACTIVE)
+board.add("panel", box(PANEL[0], PANEL[2], PANEL[1], PANEL[3], TAPE, PANEL_TOP), material="glass", screen=ACTIVE, ref="DS1")
 # (the tape as a frame under the panel's rim, 6 mm wide: where it is on the unit is the builder's)
 board.add(
     "panel tape",
