@@ -27,15 +27,22 @@ USB_Z = 1.63  # the USB-C shell's axis above the board front
 
 board.set_height("DS1", 0)  # the panel's footprint is only its connector's place
 board.set_height("L1", 3.0)  # Sunlord SWPA4030S
-board.add("panel", box(PANEL[0], PANEL[2], PANEL[1], PANEL[3], 0.0, PANEL_TOP))
+TAPE = 3.0  # the foam tape under the panel
+board.add("panel", box(PANEL[0], PANEL[2], PANEL[1], PANEL[3], TAPE, PANEL_TOP), material="glass", screen=ACTIVE)
+# (the tape as a frame under the panel's rim, 6 mm wide: where it is on the unit is the builder's)
+board.add(
+    "panel tape",
+    box(PANEL[0], PANEL[2], PANEL[1], PANEL[3], 0.0, TAPE) - box(PANEL[0] + 6, PANEL[2] - 6, PANEL[1] + 6, PANEL[3] - 6, -1, TAPE + 1),
+    material="foam tape",
+)
 for ref in ("BT1", "BT2"):
     holder = board[ref]
     # a protected 18650: 19 mm across, 70 long, lying along x
-    board.add(f"cell in {ref}", Pos(holder.x, holder.y, -(T + CELL_TOP - 9.5)) * Plane.YZ.location * cyl(0, 0, 9.5, -35, 35))
+    board.add(f"cell in {ref}", Pos(holder.x, holder.y, -(T + CELL_TOP - 9.5)) * Plane.YZ.location * cyl(0, 0, 9.5, -35, 35), material="li-ion cell")
 slide = board["SW11"]
 SLIDE_BODY_X = slide.x - 1.4
 LEVER_TIP = SLIDE_BODY_X - LEVER
-board.add("SW11 lever", box(LEVER_TIP, SLIDE_BODY_X, slide.y - 1.45, slide.y + 1.45, 0.2, 1.2))
+board.add("SW11 lever", box(LEVER_TIP, SLIDE_BODY_X, slide.y - 1.45, slide.y + 1.45, 0.2, 1.2), colour="#1c1c1e")
 
 # ---- hardware ----
 screw = hardware.screw("M3x10")

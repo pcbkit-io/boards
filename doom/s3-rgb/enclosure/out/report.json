@@ -76,13 +76,13 @@
   {
    "ok": true,
    "group": "The parts",
-   "text": "every board part has a known height (111 solids)",
+   "text": "every board part has a known height (112 solids)",
    "names": []
   },
   {
    "ok": true,
    "group": "Nothing is inside anything else",
-   "text": "20 placed parts against 111 board solids: largest overlap 0.0000 mm3",
+   "text": "20 placed parts against 112 board solids: largest overlap 0.0000 mm3",
    "names": []
   },
   {
@@ -94,7 +94,7 @@
   {
    "ok": true,
    "group": "Clearances (the smallest gaps, mm)",
-   "text": "no printed part is closer than 0.1 mm to a board part's courtyard (222 near pairs)",
+   "text": "no printed part is closer than 0.1 mm to a board part's courtyard (223 near pairs)",
    "names": []
   },
   {
