@@ -1,0 +1,326 @@
+{
+ "ok": true,
+ "findings": [
+  {
+   "ok": true,
+   "group": "The parts",
+   "text": "front: one closed solid, 187.8 x 92.1 x 11.5 mm as it prints, 34.9 cm3",
+   "names": [
+    "front"
+   ]
+  },
+  {
+   "ok": true,
+   "group": "The parts",
+   "text": "front: fits the printer's 256 x 256 x 256 mm",
+   "names": [
+    "front"
+   ]
+  },
+  {
+   "ok": true,
+   "group": "The parts",
+   "text": "front: its surface is one closed skin a slicer can fill",
+   "names": [
+    "front"
+   ]
+  },
+  {
+   "ok": true,
+   "group": "The parts",
+   "text": "back: one closed solid, 187.8 x 92.1 x 24.7 mm as it prints, 60.0 cm3",
+   "names": [
+    "back"
+   ]
+  },
+  {
+   "ok": true,
+   "group": "The parts",
+   "text": "back: fits the printer's 256 x 256 x 256 mm",
+   "names": [
+    "back"
+   ]
+  },
+  {
+   "ok": true,
+   "group": "The parts",
+   "text": "back: its surface is one closed skin a slicer can fill",
+   "names": [
+    "back"
+   ]
+  },
+  {
+   "ok": true,
+   "group": "The parts",
+   "text": "cap: one closed solid, 9.8 x 9.8 x 6.9 mm as it prints, 0.4 cm3, x 10",
+   "names": [
+    "cap"
+   ]
+  },
+  {
+   "ok": true,
+   "group": "The parts",
+   "text": "cap: fits the printer's 256 x 256 x 256 mm",
+   "names": [
+    "cap"
+   ]
+  },
+  {
+   "ok": true,
+   "group": "The parts",
+   "text": "cap: its surface is one closed skin a slicer can fill",
+   "names": [
+    "cap"
+   ]
+  },
+  {
+   "ok": true,
+   "group": "The parts",
+   "text": "every board part has a known height (111 solids)",
+   "names": []
+  },
+  {
+   "ok": true,
+   "group": "Nothing is inside anything else",
+   "text": "20 placed parts against 111 board solids: largest overlap 0.0000 mm3",
+   "names": []
+  },
+  {
+   "ok": true,
+   "group": "Nothing is inside anything else",
+   "text": "placed parts against each other (19 near pairs): largest overlap 0.0000 mm3",
+   "names": []
+  },
+  {
+   "ok": true,
+   "group": "Clearances (the smallest gaps, mm)",
+   "text": "no printed part is closer than 0.1 mm to a board part's courtyard (222 near pairs)",
+   "names": []
+  },
+  {
+   "ok": true,
+   "group": "Clearances (the smallest gaps, mm)",
+   "text": "the board rests on back, front",
+   "names": []
+  },
+  {
+   "ok": true,
+   "group": "Things that must reach outside",
+   "text": "the largest USB-C plug body (12.35 x 6.5 mm) reaches J3 from the +y side",
+   "names": [
+    "J3 plug"
+   ]
+  },
+  {
+   "ok": true,
+   "group": "Things that must reach outside",
+   "text": "nothing covers the display's picture (95.04 x 53.86 mm)",
+   "names": [
+    "the display picture"
+   ]
+  },
+  {
+   "ok": true,
+   "group": "Things that must reach outside",
+   "text": "a clear 1.8 mm path from ledChg to the outside",
+   "names": [
+    "ledChg light"
+   ]
+  },
+  {
+   "ok": true,
+   "group": "Things that must reach outside",
+   "text": "a clear 1.8 mm path from ledPg to the outside",
+   "names": [
+    "ledPg light"
+   ]
+  },
+  {
+   "ok": true,
+   "group": "Things that must reach outside",
+   "text": "a 2.4 mm pin reaches SW12 from outside",
+   "names": [
+    "SW12 pin"
+   ]
+  },
+  {
+   "ok": true,
+   "group": "Things that must reach outside",
+   "text": "a 2.4 mm pin reaches SW13 from outside",
+   "names": [
+    "SW13 pin"
+   ]
+  },
+  {
+   "ok": true,
+   "group": "Things that must reach outside",
+   "text": "a nail reaches the on/off lever straight from the left side",
+   "names": [
+    "on/off lever"
+   ]
+  },
+  {
+   "ok": true,
+   "group": "Buttons",
+   "text": "every cap rests on its button (the largest gap 0.00 mm, cap SW9)",
+   "names": [
+    "cap SW9"
+   ]
+  },
+  {
+   "ok": true,
+   "group": "Buttons",
+   "text": "every cap has 0.3 mm of free way above its button, so a short stack never holds one down",
+   "names": [
+    "cap SW9"
+   ]
+  },
+  {
+   "ok": true,
+   "group": "Buttons",
+   "text": "pressed by their buttons' travel the caps touch nothing else",
+   "names": [
+    "cap SW9"
+   ]
+  },
+  {
+   "ok": true,
+   "group": "Buttons",
+   "text": "the tightest cap has 0.30 mm round it (cap SW8; a moving fit here needs 0.3 mm)",
+   "names": [
+    "cap SW8"
+   ]
+  },
+  {
+   "ok": true,
+   "group": "Screws, inserts, nuts",
+   "text": "4 x M3 heat-set insert, 5.7 long: each has its 4.0 mm hole, 5.7 deep",
+   "names": [
+    "insert H1",
+    "insert H2",
+    "insert H3",
+    "insert H4"
+   ]
+  },
+  {
+   "ok": true,
+   "group": "Screws, inserts, nuts",
+   "text": "4 x M3 heat-set insert, 5.7 long: each has plastic round it (100 % of a 1.2 mm wall)",
+   "names": [
+    "insert H1",
+    "insert H2",
+    "insert H3",
+    "insert H4"
+   ]
+  },
+  {
+   "ok": true,
+   "group": "Screws, inserts, nuts",
+   "text": "4 x M3 heat-set insert, 5.7 long: each can be pressed in",
+   "names": [
+    "insert H1",
+    "insert H2",
+    "insert H3",
+    "insert H4"
+   ]
+  },
+  {
+   "ok": true,
+   "group": "Screws, inserts, nuts",
+   "text": "4 x M3 \u00d7 10 socket head cap screw (ISO 4762): each has a hole all along it",
+   "names": [
+    "screw H1",
+    "screw H2",
+    "screw H3",
+    "screw H4"
+   ]
+  },
+  {
+   "ok": true,
+   "group": "Screws, inserts, nuts",
+   "text": "4 x M3 \u00d7 10 socket head cap screw (ISO 4762): each has 4.2 mm of thread in its insert (at least 3.0)",
+   "names": [
+    "screw H1",
+    "screw H2",
+    "screw H3",
+    "screw H4"
+   ]
+  },
+  {
+   "ok": true,
+   "group": "Screws, inserts, nuts",
+   "text": "4 x M3 \u00d7 10 socket head cap screw (ISO 4762): each sits with its head on its seat",
+   "names": [
+    "screw H1",
+    "screw H2",
+    "screw H3",
+    "screw H4"
+   ]
+  },
+  {
+   "ok": true,
+   "group": "Screws, inserts, nuts",
+   "text": "4 x M3 \u00d7 10 socket head cap screw (ISO 4762): each gets in from outside, with its driver",
+   "names": [
+    "screw H1",
+    "screw H2",
+    "screw H3",
+    "screw H4"
+   ]
+  },
+  {
+   "ok": true,
+   "group": "It goes together",
+   "text": "step 1, front: Lay the front shell face down.",
+   "names": [
+    "front"
+   ]
+  },
+  {
+   "ok": true,
+   "group": "It goes together",
+   "text": "step 2, insert: goes in straight (it would come off towards the back). Press the four inserts into the posts with a soldering iron (220 \u00b0C for PETG), flush with the posts' ends.",
+   "names": [
+    "insert"
+   ]
+  },
+  {
+   "ok": true,
+   "group": "It goes together",
+   "text": "step 3, cap: goes in straight (it would come off towards the back). Drop the ten caps into their holes, stems down.",
+   "names": [
+    "cap"
+   ]
+  },
+  {
+   "ok": true,
+   "group": "It goes together",
+   "text": "step 4, board: goes in straight (it would come off towards the back). Lower the board onto the posts, panel down: the on/off lever and the USB-C socket slide into their openings. Then put the cells in, plus towards the + on the board.",
+   "names": [
+    "board"
+   ]
+  },
+  {
+   "ok": true,
+   "group": "It goes together",
+   "text": "step 5, back: goes in straight (it would come off towards the back). Lower the back shell on: the module's antenna goes into the pocket at the top edge.",
+   "names": [
+    "back"
+   ]
+  },
+  {
+   "ok": true,
+   "group": "It goes together",
+   "text": "step 6, screw: goes in straight (it would come off towards the back). Four screws from the back. Stop when a head seats: more torque only pulls the insert.",
+   "names": [
+    "screw"
+   ]
+  },
+  {
+   "ok": true,
+   "group": "It goes together",
+   "text": "every part has its step",
+   "names": []
+  }
+ ]
+}
